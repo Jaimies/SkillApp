@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.example.timeo.CalendarFragment"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.timeo.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.example.timeo.StatsFragment"
+        android:label="fragment_stats"
+        tools:layout="@layout/fragment_stats" />
+    <fragment
+        android:id="@+id/addActivityFragment"
+        android:name="com.example.timeo.AddActivityFragment"
+        android:label="fragment_add_activity"
+        tools:layout="@layout/fragment_add_activity" />
+    <fragment
+        android:id="@+id/recordActivityFragment"
+        android:name="com.example.timeo.RecordActivityFragment"
+        android:label="fragment_record_activity"
+        tools:layout="@layout/fragment_record_activity" />
+</navigation>

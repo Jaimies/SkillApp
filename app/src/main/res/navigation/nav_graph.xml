@@ -14,7 +14,14 @@
         android:id="@+id/homeFragment"
         android:name="com.example.timeo.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/viewRecordActivityFragment"
+            app:destination="@id/recordActivityFragment" />
+        <action
+            android:id="@+id/viewAddActivityFragment"
+            app:destination="@id/addActivityFragment" />
+    </fragment>
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.example.timeo.StatsFragment"

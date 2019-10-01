@@ -3,6 +3,8 @@ package com.example.timeo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -21,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         bottomNav.setupWithNavController(navController)
 
+        setSupportActionBar(toolbar)
+        toolbar.setupWithNavController(navController)
+
         NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
@@ -30,6 +35,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.action_bar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.addActivityFragment -> {
+                navController.navigate(R.id.viewAddActivityFragment)
+            }
+
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
+
         return true
     }
 }

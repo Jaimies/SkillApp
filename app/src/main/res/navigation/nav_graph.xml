@@ -21,6 +21,9 @@
         <action
             android:id="@+id/viewAddActivityFragment"
             app:destination="@id/addActivityFragment" />
+        <action
+            android:id="@+id/viewLogs"
+            app:destination="@id/showLogsFragment" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
@@ -37,4 +40,9 @@
         android:name="com.example.timeo.RecordActivityFragment"
         android:label="fragment_record_activity"
         tools:layout="@layout/fragment_record_activity" />
+    <fragment
+        android:id="@+id/showLogsFragment"
+        android:name="com.example.timeo.ShowLogsFragment"
+        android:label="fragment_show_logs"
+        tools:layout="@layout/fragment_show_logs" />
 </navigation>

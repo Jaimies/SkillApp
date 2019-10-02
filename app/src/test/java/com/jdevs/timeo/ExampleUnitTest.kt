@@ -1,4 +1,4 @@
-package com.example.timeo
+package com.jdevs.timeo
 
 import org.junit.Test
 

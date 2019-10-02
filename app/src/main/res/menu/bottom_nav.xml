@@ -9,8 +9,8 @@
     />
 
     <item
-        android:id="@+id/calendarFragment"
-        android:title="Calendar"
+        android:id="@+id/taskListFragment"
+        android:title="TaskList"
         android:icon="@drawable/ic_today"
         />
 

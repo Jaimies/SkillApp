@@ -6,43 +6,45 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/calendarFragment"
-        android:name="com.jdevs.timeo.CalendarFragment"
-        android:label="fragment_calendar"
-        tools:layout="@layout/fragment_calendar" />
-    <fragment
         android:id="@+id/homeFragment"
         android:name="com.jdevs.timeo.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        android:label="Timeo - home "
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/viewRecordActivityFragment"
             app:destination="@id/recordActivityFragment" />
-        <action
-            android:id="@+id/viewAddActivityFragment"
-            app:destination="@id/addActivityFragment" />
-        <action
-            android:id="@+id/viewLogs"
-            app:destination="@id/showLogsFragment" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.jdevs.timeo.StatsFragment"
-        android:label="fragment_stats"
-        tools:layout="@layout/fragment_stats" />
+        android:label="Stats"
+        tools:layout="@layout/fragment_stats" >
+        <action
+            android:id="@+id/viewAchievements"
+            app:destination="@id/showAchievementsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addActivityFragment"
         android:name="com.jdevs.timeo.AddActivityFragment"
-        android:label="fragment_add_activity"
+        android:label="Add Activity"
         tools:layout="@layout/fragment_add_activity" />
     <fragment
         android:id="@+id/recordActivityFragment"
         android:name="com.jdevs.timeo.RecordActivityFragment"
-        android:label="fragment_record_activity"
+        android:label="Record Activity "
         tools:layout="@layout/fragment_record_activity" />
     <fragment
-        android:id="@+id/showLogsFragment"
-        android:name="com.jdevs.timeo.ShowLogsFragment"
-        android:label="fragment_show_logs"
-        tools:layout="@layout/fragment_show_logs" />
+        android:id="@+id/showHistoryFragment"
+        android:name="com.jdevs.timeo.ShowHistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_show_history" />
+    <fragment
+        android:id="@+id/taskListFragment"
+        android:name="com.jdevs.timeo.TaskListFragment"
+        android:label="List of tasks"
+        tools:layout="@layout/fragment_list_tasks" />
+    <fragment
+        android:id="@+id/showAchievementsFragment"
+        android:name="com.jdevs.timeo.ShowAchievementsFragment"
+        android:label="My achievements" />
 </navigation>

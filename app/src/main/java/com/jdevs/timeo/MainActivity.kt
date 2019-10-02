@@ -1,5 +1,6 @@
 package com.jdevs.timeo
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration
             .Builder(
                 R.id.homeFragment,
-                R.id.calendarFragment,
+                R.id.taskListFragment,
                 R.id.statsFragment)
             .build()
 
@@ -37,13 +38,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         when (item.itemId) {
             R.id.addActivity -> {
-                navController.navigate(R.id.viewAddActivityFragment)
+                navController.navigate(R.id.addActivityFragment)
             }
 
-            R.id.showLogs -> {
-                navController.navigate(R.id.viewLogs)
+            R.id.showHistory -> {
+                navController.navigate(R.id.showHistoryFragment)
+            }
+
+            R.id.showAchievements -> {
+                navController.navigate(R.id.viewAchievements)
+            }
+
+            R.id.shareAchievements -> {
+                val sendIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "Those are my achievements. What do you think?")
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
             }
 
             else -> {

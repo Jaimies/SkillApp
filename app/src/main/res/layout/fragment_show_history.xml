@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowLogsFragment">
+    tools:context=".ShowHistoryFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:text="Show logs" />
+        android:text="Show history" />
 
 </FrameLayout>

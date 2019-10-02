@@ -11,6 +11,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:text="Stats" />
+        android:text="My achievements" />
 
 </FrameLayout>

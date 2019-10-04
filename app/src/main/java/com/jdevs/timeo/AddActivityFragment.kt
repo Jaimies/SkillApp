@@ -1,13 +1,9 @@
 package com.jdevs.timeo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.EditText
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class AddActivityFragment : FragmentWithActionBarNavigation() {
     private lateinit var title : EditText
@@ -19,11 +15,11 @@ class AddActivityFragment : FragmentWithActionBarNavigation() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        records = Data(context)
-
         val view =  inflater.inflate(R.layout.fragment_add_activity, container, false)
-        title = view.findViewById(R.id.title)
-        icon  = view.findViewById(R.id.icon)
+
+        records = Data(context)
+        title   = view.findViewById(R.id.title)
+        icon    = view.findViewById(R.id.icon)
 
         // Inflate the layout for this fragment
         return view
@@ -40,7 +36,7 @@ class AddActivityFragment : FragmentWithActionBarNavigation() {
                     val title = title.text.toString()
                     val icon = icon.text.toString()
 
-                    records.addActivity(title, icon)
+                    records.createActivity(title, icon)
 
                     findNavController().navigate(R.id.homeFragment)
                 }

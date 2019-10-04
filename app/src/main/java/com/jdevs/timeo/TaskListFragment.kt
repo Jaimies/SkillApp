@@ -2,7 +2,7 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 
 class TaskListFragment : FragmentWithActionBarNavigation() {
     private lateinit var records : Data
@@ -11,9 +11,11 @@ class TaskListFragment : FragmentWithActionBarNavigation() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view = inflater.inflate(R.layout.fragment_task_list, container, false)
+
         records = Data(context)
-        val view = inflater.inflate(R.layout.fragment_list_tasks, container, false)
-        records.addActivitiesToElement(R.id.activities, view)
+        records.addActivitiesToElement(R.id.activities, view, findNavController())
+
         return view
     }
 

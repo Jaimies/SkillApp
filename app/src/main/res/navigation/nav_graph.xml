@@ -13,6 +13,9 @@
         <action
             android:id="@+id/viewRecordActivityFragment"
             app:destination="@id/recordActivityFragment" />
+        <action
+            android:id="@+id/viewCreateActivityFragment"
+            app:destination="@id/addActivityFragment" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
@@ -42,9 +45,14 @@
         android:id="@+id/taskListFragment"
         android:name="com.jdevs.timeo.TaskListFragment"
         android:label="List of tasks"
-        tools:layout="@layout/fragment_list_tasks" />
+        tools:layout="@layout/fragment_task_list" />
     <fragment
         android:id="@+id/showAchievementsFragment"
         android:name="com.jdevs.timeo.ShowAchievementsFragment"
         android:label="My achievements" />
+    <fragment
+        android:id="@+id/showActivityFragment"
+        android:name="com.jdevs.timeo.ShowActivityFragment"
+        android:label="fragment_show_activity"
+        tools:layout="@layout/fragment_show_activity" />
 </navigation>

@@ -9,13 +9,15 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.navigation.findNavController
 
 class HomeFragment : FragmentWithActionBarNavigation() {
+    private lateinit var records : Data
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        records = Data(context)
         val view =  inflater.inflate(R.layout.fragment_home, container, false)
 
-        Data().addActivitiesToElement(context, R.id.layout_activities, view)
+        records.addActivitiesToElement(R.id.activities, view)
 
         // Inflate the layout for this fragment
         return view

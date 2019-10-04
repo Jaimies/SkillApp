@@ -1,27 +1,26 @@
 package com.jdevs.timeo
 
-import android.app.PendingIntent.getActivity
 import android.content.Context
+import android.graphics.Typeface
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.core.content.ContextCompat
+import android.widget.*
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.TextViewCompat
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.w3c.dom.Text
 import java.io.File
 import java.io.FileOutputStream
 
-open class Data {
+open class Data(private val context: Context?) {
     private val gson  = Gson()
     private val filename = "record.json"
+    private var shownActivities = ArrayList<LinearLayout>()
 
-    fun addActivity(context : Context?, name: String, icon: String) {
+    fun addActivity(name: String, icon: String) {
         val activity = Activity(name, icon)
-        val activities = listActivities(context)
+        val activities = listActivities()
         activities.add(0, activity)
 
         val jsonData = gson.toJson(activities)
@@ -37,7 +36,7 @@ open class Data {
         }
     }
 
-    private fun listActivities(context: Context?) : ArrayList<Activity> {
+    private fun listActivities() : ArrayList<Activity> {
         var text = "[]"
 
         try {
@@ -60,54 +59,79 @@ open class Data {
         return ArrayList()
     }
 
-    fun addActivitiesToElement(context: Context?, parentId: Int, view: View) {
-        val activities = listActivities(context)
-        val layout = view.findViewById<RelativeLayout>(parentId)
+    fun addActivitiesToElement(parentId: Int, view: View) {
+        val activities = listActivities()
+        val layout = view.findViewById<LinearLayout>(parentId)
 
-        val shownActivities = ArrayList<TextView>()
-
-        for (item in activities.indices) {
-            val textView = TextView(context)
-            textView.text = activities[item].name
-
-            val id = View.generateViewId()
-            textView.id = id
-
-            val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            params.setMargins(0, 0, 0, 15)
-
-            if (shownActivities.count() > 0) {
-                val prevId = shownActivities.last().id
-                params.addRule(RelativeLayout.BELOW, prevId)
-
-            }
-
-            textView.layoutParams = params
-
-            layout.addView(textView)
-            shownActivities.add(textView)
+        for (activity in activities) {
+            createElement(activity.name, layout)
         }
     }
 
-    fun createElement(context: Context?, title: String, finalParent: RelativeLayout) {
-        val parent = LinearLayout(context)
+    private fun createElement(title: String, finalParent: LinearLayout) {
+        val parent            = LinearLayout(context)
 
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        parent.layoutParams = params
-        parent.orientation = LinearLayout.HORIZONTAL
+        val parentParams      =
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                height   = context!!.resources.getDimensionPixelSize(R.dimen.activity_height)
+                setMargins(0, 0, 0, 25)
+            }
 
-        parent.background = ResourcesCompat.getDrawable(context!!.resources, R.drawable.border_left, null)
+        parent.apply {
+            layoutParams   = parentParams
+            orientation    = LinearLayout.HORIZONTAL
+            setBackgroundResource(R.drawable.border_left)
+            id = View.generateViewId()
+        }
 
-        val textView = TextView(context)
-        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+//        Create TextView
+        val textView          = TextView(context)
+        val textViewParams    = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT)
+        textViewParams.setMargins(60, 0, 15, 0)
 
-        layoutParams.setMargins(15, 0, 15, 0)
-        textView.layoutParams = layoutParams
-        textView.text = title
+        textView.apply {
+            layoutParams = textViewParams
+            gravity      = Gravity.CENTER
+            text         = title
+        }
 
-        parent.addView(textView)
+        TextViewCompat.setTextAppearance(textView, R.style.TextAppearance_MaterialComponents_Headline5)
+        textView.typeface     = Typeface.DEFAULT_BOLD
+
+//        Add image button
+        val imageButton = ImageButton(context)
+        val imageButtonParams =
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                gravity = Gravity.END or Gravity.CENTER_VERTICAL
+                setMargins(0, 0, 30, 0)
+            }
+
+        imageButton.apply {
+            setBackgroundResource(R.drawable.background_corners_4dp)
+            layoutParams = imageButtonParams
+            setOnClickListener {
+                Toast.makeText(context, "Recording activity", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        val imageButtonLayout = LinearLayout(context)
+        val imageButtonLayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+
+        imageButtonLayout.apply {
+            layoutParams = imageButtonLayoutParams
+            gravity = Gravity.END
+            addView(imageButton)
+        }
+
+
+        parent.apply {
+            addView(textView)
+            addView(imageButtonLayout)
+        }
 
         finalParent.addView(parent)
+
+        shownActivities.add(parent)
     }
 }
 

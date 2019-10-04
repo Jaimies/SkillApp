@@ -6,50 +6,8 @@
     android:id="@+id/main_list_tasks"
     tools:context=".TaskListFragment">
 
-    <RelativeLayout
-        android:id="@+id/layout_activities"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:gravity="start"
-        android:orientation="horizontal"
-        android:background="@drawable/border_left">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="60dp"
-            android:gravity="center_vertical"
-            android:text="Programming"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:gravity="end">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/background_corners_4dp"
-                android:gravity="end"
-                tools:ignore="ContentDescription" />
-        </LinearLayout>
-    </LinearLayout>
+    <include
+        layout="@layout/activities_list_container"
+        android:id="@+id/includedLayout" />
 
 </RelativeLayout>

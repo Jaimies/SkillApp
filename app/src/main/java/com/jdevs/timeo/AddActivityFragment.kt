@@ -13,10 +13,14 @@ class AddActivityFragment : FragmentWithActionBarNavigation() {
     private lateinit var title : EditText
     private lateinit var icon  : EditText
 
+    private lateinit var records : Data
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        records = Data(context)
+
         val view =  inflater.inflate(R.layout.fragment_add_activity, container, false)
         title = view.findViewById(R.id.title)
         icon  = view.findViewById(R.id.icon)
@@ -36,7 +40,7 @@ class AddActivityFragment : FragmentWithActionBarNavigation() {
                     val title = title.text.toString()
                     val icon = icon.text.toString()
 
-                    Data().addActivity(context, title, icon)
+                    records.addActivity(title, icon)
 
                     findNavController().navigate(R.id.homeFragment)
                 }

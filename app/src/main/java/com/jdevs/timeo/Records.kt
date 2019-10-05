@@ -73,6 +73,7 @@ open class Data(private val context: Context?) {
         val currentTime = Calendar.getInstance().time
 
         listActivities()
+//        TODO: Implement something like auto_increment in SQL
         val activity   = Activity(activities.count(), name, icon, currentTime)
         activities.add(0, activity)
 
@@ -120,17 +121,20 @@ open class Data(private val context: Context?) {
         val layout = view.findViewById<LinearLayout>(parentId)
         val parent = view.findViewById<ConstraintLayout>(R.id.activity_container)
 
+
         if (records.count() == 0) {
             createNoActivitiesElement(parent)
             return
         }
 
-        for (record in records) {
-//          TODO: find needed activity by id, not index
-            val relatedActivity = activities[record.activityId - 1]
+        for (index in records.indices) {
+            val relatedActivity = findActivityById(activities, records[index].activityId)
 
-            val minutes = convertMinsToTime(record.minutes)
-            createRecordElement(relatedActivity.name, minutes,layout)
+
+            val isOdd = index.rem(2) == 0
+
+            val minutes = convertMinsToTime(records[index].minutes)
+            createRecordElement(relatedActivity!!.name, minutes, layout, isOdd)
         }
     }
 
@@ -156,12 +160,11 @@ open class Data(private val context: Context?) {
 
 
 //    Methods about Record elements
-    private fun createRecordElement(title: String, time: String, finalParent: LinearLayout) {
-        val parent = createRecordParent()
+    private fun createRecordElement(title: String, time: String, finalParent: LinearLayout, isOdd: Boolean = false) {
+        val parent = createRecordParent(isOdd)
 
         val textView = createRecordTextView(title)
         val timeLabel = createRecordTimeLabel(time)
-
 
         parent.apply {
             addView(textView)
@@ -172,21 +175,23 @@ open class Data(private val context: Context?) {
     }
 
 
-
-    private fun createRecordParent() : LinearLayout{
+    private fun createRecordParent(isOdd : Boolean = false) : LinearLayout{
         val parent                 = LinearLayout(context)
 
         val parentParams           =
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-                setMargins(0, 0, 0, 25)
                 height             = context!!.resources.getDimensionPixelSize(R.dimen.record_height)
             }
+
+        val bgColorId = if(isOdd) R.color.colorListOdd else R.color.colorListEven
+        val bgColor   = ContextCompat.getColor(context!!, bgColorId)
 
         parent.apply {
             layoutParams           = parentParams
             orientation            = LinearLayout.HORIZONTAL
             gravity                = Gravity.CENTER_VERTICAL
 
+            setBackgroundColor(bgColor)
             id = View.generateViewId()
         }
 
@@ -194,12 +199,11 @@ open class Data(private val context: Context?) {
     }
 
 
-
     private fun createRecordTextView(title : String) :  TextView{
         //        Create TextView
         val textView               = TextView(context)
         val textViewParams         = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT)
-        textViewParams.setMargins(60, 0, 15, 0)
+        textViewParams.setMargins(120, 0, 15, 0)
         TextViewCompat.setTextAppearance(textView, R.style.TextAppearance_MaterialComponents_Headline6)
 
         textView.apply {
@@ -217,7 +221,7 @@ open class Data(private val context: Context?) {
         //        Create TextView
         val textView               = TextView(context)
         val params                 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
-        params.setMargins(60, 0, 30, 0)
+        params.setMargins(60, 0, 45, 0)
 
         textView.apply {
             layoutParams           = params
@@ -385,6 +389,16 @@ open class Data(private val context: Context?) {
         val hoursString = if(hours > 0) "${hours}h " else ""
 
         return "${hoursString}${mins}m"
+    }
+
+    private fun findActivityById(list : ArrayList<Activity>, id : Int) : Activity? {
+        for (item in list) {
+            if(item.id == id) {
+                return item
+            }
+        }
+
+        return null
     }
 }
 

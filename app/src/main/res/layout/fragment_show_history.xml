@@ -9,7 +9,7 @@
         android:id="@+id/historyContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
 <!--        <TextView-->
 <!--            android:id="@+id/textView"-->

@@ -73,8 +73,8 @@ open class Data(private val context: Context?) {
         val currentTime = Calendar.getInstance().time
 
         listActivities()
-//        TODO: Implement something like auto_increment in SQL
-        val activity   = Activity(activities.count(), name, icon, currentTime)
+        val newId = findBiggestId(activities) + 1
+        val activity   = Activity(newId, name, icon, currentTime)
         activities.add(0, activity)
 
         val jsonData   = gson.toJson(activities)
@@ -95,7 +95,8 @@ open class Data(private val context: Context?) {
         val currentDate = Calendar.getInstance().time
 
         listRecords()
-        val record     = Record(activities.count(), activityId, currentDate, minutes)
+        val newId = findBiggestId(activities) + 1
+        val record     = Record(newId, activityId, currentDate, minutes)
         records.add(0, record)
 
         val jsonData   = gson.toJson(activities)
@@ -290,13 +291,15 @@ open class Data(private val context: Context?) {
         val textViewParams         = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT)
 
-        textViewParams.setMargins(60, 0, 15, 0)
+        textViewParams.setMargins(35, 0, 15, 0)
         TextViewCompat.setTextAppearance(textView, R.style.TextAppearance_MaterialComponents_Headline5)
+
+        val textTitle = if(title.length < 28) title else title.substring(0, 28) + "..."
 
         textView.apply {
             layoutParams           = textViewParams
             gravity                = Gravity.CENTER
-            text                   = title
+            text                   = textTitle
             typeface               = Typeface.DEFAULT_BOLD
         }
 
@@ -391,6 +394,7 @@ open class Data(private val context: Context?) {
         return "${hoursString}${mins}m"
     }
 
+
     private fun findActivityById(list : ArrayList<Activity>, id : Int) : Activity? {
         for (item in list) {
             if(item.id == id) {
@@ -399,6 +403,24 @@ open class Data(private val context: Context?) {
         }
 
         return null
+    }
+
+
+    private fun <T>findBiggestId(list : ArrayList<T>) : Int {
+        var biggest = 0
+        for (item in list) {
+            if((item is Activity) && item.id > biggest) {
+                biggest = item.id
+                continue
+            }
+
+            if((item is Record) && item.id > biggest) {
+                biggest = item.id
+                continue
+            }
+        }
+
+        return biggest
     }
 }
 

@@ -28,28 +28,10 @@ open class Data(private val context: Context?) {
     private var activities = ArrayList<Activity>()
     private var records    = ArrayList<Record>()
 
-    fun createActivity(name: String, icon: String) {
-        val currentTime = Calendar.getInstance().time
-
-        listActivities()
-        val activity   = Activity(activities.count(), name, icon, currentTime)
-        activities.add(0, activity)
-
-        val jsonData   = gson.toJson(activities)
-
-        val fileOutputStream: FileOutputStream?
-        try {
-            fileOutputStream = context?.openFileOutput(activitiesFilename, Context.MODE_PRIVATE)
-            fileOutputStream?.bufferedWriter().use {out->
-                out?.write(jsonData)
-            }
-        } catch (e: Throwable){
-            e.printStackTrace()
-        }
-    }
 
 
 
+//    Listing elements
     private fun list(type : Type, filename : String): ArrayList<Any> {
         var text = "[]"
 
@@ -71,10 +53,12 @@ open class Data(private val context: Context?) {
         return ArrayList()
     }
 
+
     private fun listActivities() {
         val type = object : TypeToken<ArrayList<Activity>>() {}.type
         activities = (list(type, activitiesFilename)) as ArrayList<Activity>
     }
+
 
     private fun listRecords() {
         val type = object : TypeToken<ArrayList<Record>>() {}.type
@@ -83,98 +67,27 @@ open class Data(private val context: Context?) {
 
 
 
-    fun addActivitiesToElement(parentId: Int, view: View, navController: NavController) {
+
+    //    Methods, creating records / activities
+    fun createActivity(name: String, icon: String) {
+        val currentTime = Calendar.getInstance().time
+
         listActivities()
+        val activity   = Activity(activities.count(), name, icon, currentTime)
+        activities.add(0, activity)
 
-        val layout = view.findViewById<LinearLayout>(parentId)
-        val parent = view.findViewById<ConstraintLayout>(R.id.activity_container)
+        val jsonData   = gson.toJson(activities)
 
-        if (activities.count() == 0) {
-            createNoActivitiesElement(parent)
-            return
-        }
-
-        for (activity in activities) {
-            createActivityElement(activity.name, layout, navController)
-        }
-    }
-
-
-
-    private fun createActivityElement(title: String, finalParent: LinearLayout, navController: NavController) {
-        val parent = createActivityParent()
-
-//        Create TextView
-        val textView               = createActivityTextView(title)
-        val imageButtonLayout      = createActivityImageView(navController)
-
-        parent.apply {
-            addView(textView)
-            addView(imageButtonLayout)
-        }
-
-        finalParent.addView(parent)
-    }
-
-    private fun createRecordElement(title: String, time: String, finalParent: LinearLayout) {
-        val parent = createRecordParent()
-
-        val textView = createRecordTextView(title)
-        val timeLabel = createRecordTimeLabel(time)
-
-
-        parent.apply {
-            addView(textView)
-            addView(timeLabel)
-        }
-
-        finalParent.addView(parent)
-    }
-
-    private fun createNoActivitiesElement(parent: ConstraintLayout) {
-        val linearLayout = LinearLayout(context)
-
-        linearLayout.apply {
-            orientation = LinearLayout.VERTICAL
-            gravity = Gravity.CENTER
-
-            val params = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
-            params.apply {
-                topToTop = parent.id
-                rightToRight= parent.id
-                bottomToBottom= parent.id
-                leftToLeft= parent.id
-                width = ConstraintLayout.LayoutParams.MATCH_PARENT
-                height = ConstraintLayout.LayoutParams.MATCH_PARENT
+        val fileOutputStream: FileOutputStream?
+        try {
+            fileOutputStream = context?.openFileOutput(activitiesFilename, Context.MODE_PRIVATE)
+            fileOutputStream?.bufferedWriter().use {out->
+                out?.write(jsonData)
             }
-
-            layoutParams = params
+        } catch (e: Throwable){
+            e.printStackTrace()
         }
-
-        val textView = TextView(context)
-
-        textView.apply {
-            text = "No activities yet.."
-            gravity = Gravity.CENTER_HORIZONTAL
-        }
-
-        val button = MaterialButton(context)
-
-        button.apply{
-            text = "Tap to add a task"
-            layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
-            setOnClickListener(Navigation.createNavigateOnClickListener(R.id.viewCreateActivityFragment))
-        }
-
-        linearLayout.apply {
-            addView(textView)
-            addView(button)
-        }
-
-        TextViewCompat.setTextAppearance(textView, R.style.TextAppearance_MaterialComponents_Headline5)
-        parent.addView(linearLayout)
     }
-
 
 
     fun createRecord (activityId: Int, minutes: Int) {
@@ -197,6 +110,10 @@ open class Data(private val context: Context?) {
         }
     }
 
+
+
+
+//    Methods about adding elements to view
     fun addRecordsToView(parentId: Int, view: View) {
         listRecords()
         listActivities()
@@ -218,20 +135,63 @@ open class Data(private val context: Context?) {
     }
 
 
+    fun addActivitiesToView(parentId: Int, view: View, navController: NavController) {
+        listActivities()
 
+        val layout = view.findViewById<LinearLayout>(parentId)
+        val parent = view.findViewById<ConstraintLayout>(R.id.activity_container)
 
-    private fun convertMinsToTime(minutes: Int) : String {
-        val hours = minutes.div(60)
-        val mins  = minutes.rem(60)
+        if (activities.count() == 0) {
+            createNoActivitiesElement(parent)
+            return
+        }
 
-        var hoursString = if(hours > 0) "${hours}h " else ""
-
-        return "${hoursString}${mins}m"
+        for (activity in activities) {
+            createActivityElement(activity.name, layout, navController)
+        }
     }
 
 
 
 
+
+//    Methods about Record elements
+    private fun createRecordElement(title: String, time: String, finalParent: LinearLayout) {
+        val parent = createRecordParent()
+
+        val textView = createRecordTextView(title)
+        val timeLabel = createRecordTimeLabel(time)
+
+
+        parent.apply {
+            addView(textView)
+            addView(timeLabel)
+        }
+
+        finalParent.addView(parent)
+    }
+
+
+
+    private fun createRecordParent() : LinearLayout{
+        val parent                 = LinearLayout(context)
+
+        val parentParams           =
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                setMargins(0, 0, 0, 25)
+                height             = context!!.resources.getDimensionPixelSize(R.dimen.record_height)
+            }
+
+        parent.apply {
+            layoutParams           = parentParams
+            orientation            = LinearLayout.HORIZONTAL
+            gravity                = Gravity.CENTER_VERTICAL
+
+            id = View.generateViewId()
+        }
+
+        return parent
+    }
 
 
 
@@ -253,42 +213,52 @@ open class Data(private val context: Context?) {
     }
 
 
-    private fun createRecordTimeLabel(time: String) : TextView {
+    private fun createRecordTimeLabel(time: String) : LinearLayout {
         //        Create TextView
         val textView               = TextView(context)
-        val params         = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT)
-        params.setMargins(60, 0, 15, 0)
+        val params                 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+        params.setMargins(60, 0, 30, 0)
 
         textView.apply {
             layoutParams           = params
-            gravity                = Gravity.END
+            gravity                = Gravity.END or Gravity.CENTER_VERTICAL
             text                   = time
             setTextColor(ContextCompat.getColor(context, R.color.colorBlue))
         }
 
-        return textView
-    }
+        val linearLayout = LinearLayout(context)
+        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
 
 
-    private fun createRecordParent() : LinearLayout{
-        val parent                 = LinearLayout(context)
-
-        val parentParams           =
-            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-                setMargins(0, 0, 0, 25)
-            }
-
-        parent.apply {
-            layoutParams           = parentParams
-            orientation            = LinearLayout.HORIZONTAL
-            id = View.generateViewId()
+        linearLayout.apply {
+            this.layoutParams = layoutParams
+            addView(textView)
         }
 
-        return parent
+
+
+        return linearLayout
     }
 
 
 
+
+
+//    Methods about activity elements
+    private fun createActivityElement(title: String, finalParent: LinearLayout, navController: NavController) {
+        val parent = createActivityParent()
+
+//        Create TextView
+        val textView               = createActivityTextView(title)
+        val imageButtonLayout      = createActivityImageView(navController)
+
+        parent.apply {
+            addView(textView)
+            addView(imageButtonLayout)
+        }
+
+        finalParent.addView(parent)
+    }
 
 
     private fun createActivityParent() : LinearLayout {
@@ -357,6 +327,64 @@ open class Data(private val context: Context?) {
         }
 
         return imageButtonLayout
+    }
+
+
+    private fun createNoActivitiesElement(parent: ConstraintLayout) {
+        val linearLayout = LinearLayout(context)
+
+        linearLayout.apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER
+
+            val params = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
+            params.apply {
+                topToTop = parent.id
+                rightToRight= parent.id
+                bottomToBottom= parent.id
+                leftToLeft= parent.id
+                width = ConstraintLayout.LayoutParams.MATCH_PARENT
+                height = ConstraintLayout.LayoutParams.MATCH_PARENT
+            }
+
+            layoutParams = params
+        }
+
+        val textView = TextView(context)
+
+        textView.apply {
+            text = "No activities yet.."
+            gravity = Gravity.CENTER_HORIZONTAL
+        }
+
+        val button = MaterialButton(context)
+
+        button.apply{
+            text = "Tap to add a task"
+            layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+            setOnClickListener(Navigation.createNavigateOnClickListener(R.id.viewCreateActivityFragment))
+        }
+
+        linearLayout.apply {
+            addView(textView)
+            addView(button)
+        }
+
+        TextViewCompat.setTextAppearance(textView, R.style.TextAppearance_MaterialComponents_Headline5)
+        parent.addView(linearLayout)
+    }
+
+
+
+
+    //  General methods
+    private fun convertMinsToTime(minutes: Int) : String {
+        val hours = minutes.div(60)
+        val mins  = minutes.rem(60)
+
+        val hoursString = if(hours > 0) "${hours}h " else ""
+
+        return "${hoursString}${mins}m"
     }
 }
 

@@ -2,7 +2,6 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 
 class HomeFragment : FragmentWithActionBarNavigation() {
@@ -14,7 +13,7 @@ class HomeFragment : FragmentWithActionBarNavigation() {
         val view =  inflater.inflate(R.layout.fragment_home, container, false)
 
         records = Data(context)
-        records.addActivitiesToElement(R.id.activities, view, findNavController())
+        records.addActivitiesToView(R.id.activities, view, findNavController())
 
         // Inflate the layout for this fragment
         return view

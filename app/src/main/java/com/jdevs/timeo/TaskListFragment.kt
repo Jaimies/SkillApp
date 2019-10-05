@@ -14,7 +14,7 @@ class TaskListFragment : FragmentWithActionBarNavigation() {
         val view = inflater.inflate(R.layout.fragment_task_list, container, false)
 
         records = Data(context)
-        records.addActivitiesToElement(R.id.activities, view, findNavController())
+        records.addActivitiesToView(R.id.activities, view, findNavController())
 
         return view
     }

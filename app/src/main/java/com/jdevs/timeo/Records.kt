@@ -1,7 +1,10 @@
 package com.jdevs.timeo
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -18,6 +21,7 @@ import java.io.FileOutputStream
 import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 open class Data(private val context: Context?) {
 
@@ -319,8 +323,7 @@ open class Data(private val context: Context?) {
             setBackgroundResource(R.drawable.background_corners_4dp)
             layoutParams           = imageButtonParams
             setOnClickListener {
-//                createRecord(activities)
-                navController.navigate(R.id.recordActivityFragment)
+                showRecordDialog()
             }
         }
 
@@ -379,6 +382,25 @@ open class Data(private val context: Context?) {
 
         TextViewCompat.setTextAppearance(textView, R.style.TextAppearance_MaterialComponents_Headline5)
         parent.addView(linearLayout)
+    }
+
+
+
+
+    private fun showRecordDialog() {
+        val dialog = Dialog(context!!)
+        dialog.setContentView(R.layout.fragment_record_activity_dialog)
+
+        val screenDimensions = ScreenManager.getScreenDimensions(context)
+
+        val dialogWidth  = (screenDimensions.first  * 0.85).roundToInt()
+        val dialogHeight = (screenDimensions.second * 0.50).roundToInt()
+
+        val window = dialog.window
+        window!!.setLayout(dialogWidth, dialogHeight)
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.show()
     }
 
 

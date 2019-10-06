@@ -11,9 +11,6 @@
         android:label="Timeo - home "
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/viewRecordActivityFragment"
-            app:destination="@id/recordActivityFragment" />
-        <action
             android:id="@+id/viewCreateActivityFragment"
             app:destination="@id/addActivityFragment" />
     </fragment>
@@ -31,11 +28,6 @@
         android:name="com.jdevs.timeo.AddActivityFragment"
         android:label="Add Activity"
         tools:layout="@layout/fragment_add_activity" />
-    <fragment
-        android:id="@+id/recordActivityFragment"
-        android:name="com.jdevs.timeo.RecordActivityFragment"
-        android:label="Record Activity "
-        tools:layout="@layout/fragment_record_activity" />
     <fragment
         android:id="@+id/showHistoryFragment"
         android:name="com.jdevs.timeo.ShowHistoryFragment"

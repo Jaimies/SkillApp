@@ -2,8 +2,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/window_background</item>
+        <item name="android:colorAccent">#FFFFFFFF</item>
     </style>
 
 </resources>

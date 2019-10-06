@@ -1,8 +1,12 @@
 package com.jdevs.timeo
 
+import android.app.Dialog
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import android.widget.LinearLayout
 import androidx.navigation.fragment.findNavController
+import kotlin.math.roundToInt
 
 class HomeFragment : FragmentWithActionBarNavigation() {
     private lateinit var records : Data
@@ -18,8 +22,6 @@ class HomeFragment : FragmentWithActionBarNavigation() {
         records.addActivitiesToView(R.id.activities, view, findNavController())
 
         dateHandler = DateHandler(R.id.topbar, R.id.topbar_dayInMonth, R.id.topbar_weekday, R.id.topbar_monthAndYear, view)
-
-        dateHandler.handleTime()
 
         // Inflate the layout for this fragment
         return view

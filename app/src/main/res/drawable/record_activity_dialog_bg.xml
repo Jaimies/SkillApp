@@ -6,5 +6,5 @@
         android:color="#FFEEEEEE"/>
 
     <corners
-        android:radius="@dimen/record_dialog_corner_radius"/>
+        android:radius="@dimen/record_activity_dialog_corner_radius"/>
 </shape>

@@ -1,16 +1,22 @@
 package com.jdevs.timeo
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.*
+import androidx.recyclerview.widget.RecyclerView
 
-class TaskListFragment : FragmentWithActionBarNavigation() {
+class TaskListFragment : FragmentWithActivitiesListRecyclerView() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_task_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_task_list, container, false)
+
+        val activitiesRecyclerView = view.findViewById<RecyclerView>(R.id.activitiesRecyclerView)
+
+        addItemsToRecyclerView(activitiesRecyclerView)
+
+        return view
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

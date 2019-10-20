@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowHistoryFragment">
+    tools:context=".HistoryFragment">
 
-    <LinearLayout
-        android:id="@+id/historyContainer"
+    <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        layout="@layout/partial_records_list"
+
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"/>
 </FrameLayout>

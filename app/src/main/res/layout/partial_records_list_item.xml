@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/records_list_item_height">
+
+    <TextView
+        android:id="@+id/activityNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recorded activity name"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+</LinearLayout>

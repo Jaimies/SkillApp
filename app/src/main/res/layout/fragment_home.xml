@@ -7,12 +7,22 @@
     tools:context=".HomeFragment">
 
     <include
-        layout="@layout/topbar_datetime"/>
+        android:id="@+id/topbarLayout"
+        layout="@layout/partial_topbar_datetime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
+        layout="@layout/partial_activities_list"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        layout="@layout/activities_list_container"
-        app:layout_constraintTop_toBottomOf="@id/topbar"
-        android:id="@+id/activity_container" />
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topbarLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

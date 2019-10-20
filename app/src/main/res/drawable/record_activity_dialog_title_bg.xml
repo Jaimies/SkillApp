@@ -6,6 +6,6 @@
         android:color="#FFCCCCCC"/>
 
     <corners
-        android:topLeftRadius="@dimen/record_dialog_corner_radius"
-        android:topRightRadius="@dimen/record_dialog_corner_radius"/>
+        android:topLeftRadius="@dimen/record_activity_dialog_corner_radius"
+        android:topRightRadius="@dimen/record_activity_dialog_corner_radius"/>
 </shape>

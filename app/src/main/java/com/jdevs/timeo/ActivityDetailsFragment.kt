@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 
 
-class ShowActivityFragment : Fragment() {
+class ActivityDetailsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_show_activity, container, false)
+        return inflater.inflate(R.layout.fragment_activity_details, container, false)
     }
 
 

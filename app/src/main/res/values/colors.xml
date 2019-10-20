@@ -6,4 +6,5 @@
     <color name="colorBlue">#0C818A</color>
     <color name="colorListOdd">#00000000</color>
     <color name="colorListEven">#FFDDDDDD</color>
+    <color name="colorWindowBackground">#FFF2F2F2</color>
 </resources>

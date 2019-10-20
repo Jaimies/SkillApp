@@ -30,9 +30,9 @@
         tools:layout="@layout/fragment_add_activity" />
     <fragment
         android:id="@+id/showHistoryFragment"
-        android:name="com.jdevs.timeo.ShowHistoryFragment"
+        android:name="com.jdevs.timeo.HistoryFragment"
         android:label="History"
-        tools:layout="@layout/fragment_show_history" />
+        tools:layout="@layout/fragment_history" />
     <fragment
         android:id="@+id/taskListFragment"
         android:name="com.jdevs.timeo.TaskListFragment"
@@ -40,11 +40,11 @@
         tools:layout="@layout/fragment_task_list" />
     <fragment
         android:id="@+id/showAchievementsFragment"
-        android:name="com.jdevs.timeo.ShowAchievementsFragment"
+        android:name="com.jdevs.timeo.AchievementsFragment"
         android:label="My achievements" />
     <fragment
         android:id="@+id/showActivityFragment"
-        android:name="com.jdevs.timeo.ShowActivityFragment"
+        android:name="com.jdevs.timeo.ActivityDetailsFragment"
         android:label="fragment_show_activity"
-        tools:layout="@layout/fragment_show_activity" />
+        tools:layout="@layout/fragment_activity_details" />
 </navigation>

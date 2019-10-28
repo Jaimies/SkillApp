@@ -25,9 +25,9 @@
     </fragment>
     <fragment
         android:id="@+id/addActivityFragment"
-        android:name="com.jdevs.timeo.AddActivityFragment"
+        android:name="com.jdevs.timeo.CreateActivityFragment"
         android:label="Add Activity"
-        tools:layout="@layout/fragment_add_activity" />
+        tools:layout="@layout/fragment_create_activity" />
     <fragment
         android:id="@+id/showHistoryFragment"
         android:name="com.jdevs.timeo.HistoryFragment"
@@ -47,4 +47,9 @@
         android:name="com.jdevs.timeo.ActivityDetailsFragment"
         android:label="fragment_show_activity"
         tools:layout="@layout/fragment_activity_details" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.jdevs.timeo.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

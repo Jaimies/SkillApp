@@ -2,7 +2,6 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 
 class StatsFragment : FragmentWithActionBarNavigation() {
 

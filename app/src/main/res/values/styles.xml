@@ -1,8 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:windowBackground">@color/colorWindowBackground</item>
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+
+    </style>
+
+    <style name="LoginTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+
     </style>
 
 </resources>

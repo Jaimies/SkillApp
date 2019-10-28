@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/topbarLayout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/timebar_height"
-    android:background="#FFFFFFFF"
     android:gravity="center_vertical"
+    android:background="@color/design_default_color_primary"
     android:orientation="horizontal"
     app:layout_constraintTop_toTopOf="parent">
 
@@ -18,7 +19,7 @@
         android:layout_marginStart="20dp"
         android:layout_gravity="center_vertical"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-        android:textColor="@android:color/primary_text_light"
+        tools:text="28"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -33,7 +34,7 @@
             android:layout_height="wrap_content"
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
-            android:textColor="@android:color/primary_text_light"
+            tools:text="Wednesday"
             android:textStyle="bold" />
 
         <TextClock
@@ -42,7 +43,7 @@
             android:layout_height="wrap_content"
             android:format12Hour="MM/yyyy"
             android:format24Hour="MM/yyyy"
-            android:textColor="@android:color/primary_text_light"
+            tools:text="09/2019"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -59,7 +60,7 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             android:format12Hour="h:mm"
             android:format24Hour="hh:mm"
-            android:textColor="@android:color/primary_text_light" />
+            tools:text="08:40" />
     </LinearLayout>
 
 </LinearLayout>

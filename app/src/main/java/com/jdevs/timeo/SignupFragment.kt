@@ -2,6 +2,7 @@ package com.jdevs.timeo
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -11,31 +12,29 @@ import android.text.Spanned
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fragment_login.view.*
-import kotlinx.android.synthetic.main.fragment_login.view.emailEditText
-import kotlinx.android.synthetic.main.fragment_login.view.emailTextInputLayout
-import kotlinx.android.synthetic.main.fragment_login.view.loginButton
-import kotlinx.android.synthetic.main.fragment_login.view.passwordEditText
-import kotlinx.android.synthetic.main.fragment_login.view.passwordTextInputLayout
+import com.google.firebase.auth.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
+import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class SignupFragment : Fragment(),
-    View.OnClickListener {
+    View.OnClickListener,
+    View.OnKeyListener,
+    OnCompleteListener<AuthResult> {
 
     private lateinit var auth: FirebaseAuth
 
@@ -45,8 +44,13 @@ class SignupFragment : Fragment(),
     private lateinit var passwordTextInputLayout : TextInputLayout
     private lateinit var passwordEditText: TextInputEditText
 
-    private lateinit var loginButton: Button
+    private lateinit var signupButton: Button
     private lateinit var loginTextView : TextView
+
+    private lateinit var spinningProgressBar : FrameLayout
+
+    private lateinit var mainLayout : LinearLayout
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,9 +73,13 @@ class SignupFragment : Fragment(),
         emailEditText = view.emailEditText
 
         passwordTextInputLayout = view.passwordTextInputLayout
-        passwordEditText = view.passwordEditText
+        passwordEditText = view.passwordEditText.apply {
 
-        loginButton = view.loginButton.apply {
+            setOnKeyListener(this@SignupFragment)
+
+        }
+
+        signupButton = view.loginButton.apply {
 
             setOnClickListener(this@SignupFragment)
 
@@ -79,55 +87,31 @@ class SignupFragment : Fragment(),
 
         loginTextView = view.loginTextView
 
-        val signupText = loginTextView.text
+        mainLayout = view.mainLayout
 
-        val notClickedString = SpannableString(signupText)
+        spinningProgressBar = view.spinningProgressBar
 
-        notClickedString.setSpan(
-            ForegroundColorSpan(ContextCompat.getColor(context!!, android.R.color.holo_blue_dark)),
-            0,
-            notClickedString.length,
-            0
-        )
 
-        loginTextView.setText(notClickedString, TextView.BufferType.SPANNABLE)
 
-        val clickedString = SpannableString(notClickedString)
-        clickedString.setSpan(
-            ForegroundColorSpan(Color.BLUE), 0, notClickedString.length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        )
 
-        loginTextView.apply {
-
-            setOnTouchListener { v, event ->
-
-                when (event.action) {
-
-                    MotionEvent.ACTION_DOWN -> this@SignupFragment.loginTextView.text = clickedString
-
-                    MotionEvent.ACTION_UP -> {
-
-                        this@SignupFragment.loginTextView.setText(notClickedString, TextView.BufferType.SPANNABLE)
-                        v.performClick()
-
-                    }
-
-                    MotionEvent.ACTION_CANCEL -> signupTextView.setText(
-
-                        notClickedString,
-                        TextView.BufferType.SPANNABLE
-
-                    )
-
-                }
-
-                true
-            }
+        loginTextView = view.loginTextView.apply {
 
             setOnClickListener {
 
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+
+            }
+
+        }
+
+        makeTextViewClickable()
+
+
+        view.rootView.apply {
+
+            setOnClickListener {
+
+                hideKeyboard(activity!!)
 
             }
 
@@ -154,7 +138,7 @@ class SignupFragment : Fragment(),
 
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(view: View?) {
 
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
@@ -221,9 +205,92 @@ class SignupFragment : Fragment(),
         }
 
 
-        signIn(email, password)
+        signUp(email, password)
 
     }
+
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+
+        if((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) && event.action == KeyEvent.ACTION_DOWN) {
+
+            onClick(v)
+
+        }
+
+        return false
+
+    }
+
+
+    override fun onComplete(task: Task<AuthResult>) {
+
+        spinningProgressBar.apply{
+
+            visibility = View.INVISIBLE
+
+            alpha = 0.0f
+
+        }
+
+        mainLayout.apply {
+
+            alpha  = 1.0f
+
+        }
+
+        signupButton.apply {
+
+            isEnabled = true
+
+        }
+
+        if(task.isSuccessful) {
+
+            gotoMainActivity()
+
+            return
+
+        }
+
+        if(task.exception == null) {
+
+            return
+
+        }
+
+
+        when(task.exception) {
+
+            is FirebaseAuthWeakPasswordException -> {
+
+                setError(passwordTextInputLayout, passwordEditText, "The password is too weak")
+
+            }
+
+            is FirebaseAuthUserCollisionException -> {
+
+                setError(emailTextInputLayout, emailEditText, "User with that email already exists")
+
+            }
+
+            is FirebaseAuthInvalidCredentialsException -> {
+
+                setError(emailTextInputLayout, emailEditText, "Email is invalid")
+
+            }
+
+            else -> {
+
+                Log.w(TAG, "Failed to sign up", task.exception)
+
+                Toast.makeText(context, "Failed to sign in", Toast.LENGTH_LONG).show()
+
+            }
+
+        }
+
+    }
+
 
 
 
@@ -258,7 +325,7 @@ class SignupFragment : Fragment(),
 
         }
 
-        setError(passwordTextInputLayout, error)
+        setError(passwordTextInputLayout, passwordEditText, error)
 
     }
 
@@ -279,13 +346,13 @@ class SignupFragment : Fragment(),
 
         }
 
-        setError(emailTextInputLayout, error)
+        setError(emailTextInputLayout, emailEditText, error)
 
     }
 
 
 
-    private fun setError(inputLayout: TextInputLayout, error : String) {
+    private fun setError(inputLayout: TextInputLayout, editText: EditText, error : String) {
 
         if(inputLayout != emailTextInputLayout) {
 
@@ -301,6 +368,13 @@ class SignupFragment : Fragment(),
 
         inputLayout.error = error
 
+        editText.apply {
+
+            requestFocus()
+            setSelection(this.length())
+
+        }
+
     }
 
     private fun removeErrorMessage(inputLayout: TextInputLayout) {
@@ -315,24 +389,37 @@ class SignupFragment : Fragment(),
 
     }
 
-    private fun signIn(email: String, password: String) {
+    private fun signUp(email: String, password: String) {
 
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
+            .addOnCompleteListener(this)
 
-                if(task.isSuccessful) {
 
-                    Log.i(TAG, "Successfully logged in")
+        spinningProgressBar.apply{
 
-                    gotoMainActivity()
+            visibility = View.VISIBLE
 
-                } else if(task.exception != null) {
+            alpha = 1.0f
 
-                    Log.w(TAG, "Failed to sign up", task.exception)
+        }
 
-                }
+        mainLayout.apply {
 
-            }
+            alpha  = 0.5f
+
+        }
+
+        signupButton.apply {
+
+            isEnabled = false
+
+        }
+
+        if(activity != null){
+
+            hideKeyboard(activity!!)
+
+        }
 
     }
 
@@ -390,6 +477,79 @@ class SignupFragment : Fragment(),
 
         }
 
+
+        private fun hideKeyboard(activity : FragmentActivity) {
+
+            val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
+            //Find the currently focused view, so we can grab the correct window token from it.
+            var view = activity.currentFocus
+
+            //If no view currently has focus, create a new one, just so we can grab a window token from it
+            if (view == null) {
+
+                view = View(activity)
+
+            }
+
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+
+        }
+
+
+    }
+
+    private fun makeTextViewClickable() {
+
+        val signupText = loginTextView.text
+
+        val notClickedString = SpannableString(signupText)
+
+        notClickedString.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(context!!, android.R.color.holo_blue_dark)),
+            0,
+            notClickedString.length,
+            0
+        )
+
+        loginTextView.setText(notClickedString, TextView.BufferType.SPANNABLE)
+
+        val clickedString = SpannableString(notClickedString)
+        clickedString.setSpan(
+            ForegroundColorSpan(Color.BLUE), 0, notClickedString.length,
+            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+
+
+
+        loginTextView.apply {
+
+            setOnTouchListener { v, event ->
+
+                when (event.action) {
+
+                    MotionEvent.ACTION_DOWN -> this@SignupFragment.loginTextView.text = clickedString
+
+                    MotionEvent.ACTION_UP -> {
+
+                        this@SignupFragment.loginTextView.setText(notClickedString, TextView.BufferType.SPANNABLE)
+                        v.performClick()
+
+                    }
+
+                    MotionEvent.ACTION_CANCEL -> this@SignupFragment.loginTextView.setText(
+
+                        notClickedString,
+                        TextView.BufferType.SPANNABLE
+
+                    )
+
+                }
+
+                true
+            }
+
+        }
 
     }
 

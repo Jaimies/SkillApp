@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rootView"
     tools:context=".LoginFragment">
 
     <LinearLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/default_margin"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin">
@@ -54,7 +53,7 @@
                 android:layout_marginTop="@dimen/default_margin"
                 android:inputType="textPassword"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="Autofill" />
+                tools:ignore="Autofill"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -71,13 +70,25 @@
                 android:text="Sign up or"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_marginEnd="@dimen/default_margin"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:focusable="false"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Log in"/>
+                android:text="Log in"
+                android:focusable="true"/>
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/googleSignInButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
+
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        layout="@layout/partial_circular_loader"/>
+
+</FrameLayout>

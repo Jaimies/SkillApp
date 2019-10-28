@@ -20,15 +20,18 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
@@ -51,6 +54,8 @@ class LoginFragment : Fragment(),
 
     private lateinit var auth: FirebaseAuth
 
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+
     private lateinit var emailTextInputLayout : TextInputLayout
     private lateinit var emailEditText: TextInputEditText
 
@@ -63,6 +68,36 @@ class LoginFragment : Fragment(),
     private lateinit var spinningProgressBar : FrameLayout
 
     private lateinit var mainLayout : LinearLayout
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RC_SIGN_IN) {
+
+            hideLoader()
+
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+
+                // Google Sign In was successful, authenticate with Firebase
+
+                val account = task.getResult(ApiException::class.java)
+
+                firebaseAuthWithGoogle(account!!)
+
+            } catch (e: ApiException) {
+
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e)
+                // ...
+
+            }
+
+        }
+
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,6 +166,25 @@ class LoginFragment : Fragment(),
 
         }
 
+        view.setPadding(0, 0, 0, 0)
+        view.rootView.setPadding(0, 0, 0, 0)
+
+        val googleSignInOptions = GoogleSignInOptions.Builder()
+            .requestIdToken(getString(R.string.google_oauth_key))
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
+
+        view.googleSignInButton.apply {
+
+            setOnClickListener {
+
+                showGoogleSignInIntent()
+
+            }
+
+        }
 
 
         // Inflate the layout for this fragment
@@ -178,25 +232,7 @@ class LoginFragment : Fragment(),
 
     override fun onComplete(task: Task<AuthResult>) {
 
-        spinningProgressBar.apply {
-
-            visibility = View.INVISIBLE
-
-            alpha = 0.0f
-
-        }
-
-        mainLayout.apply {
-
-            alpha  = 1.0f
-
-        }
-
-        loginButton.apply {
-
-            isEnabled = true
-
-        }
+        hideLoader()
 
 
         if(task.isSuccessful) {
@@ -238,7 +274,7 @@ class LoginFragment : Fragment(),
 
                 Log.w(TAG, "Failed to sign in", task.exception)
 
-                Toast.makeText(context, "Failed to sign in", Toast.LENGTH_LONG).show()
+                Snackbar.make(view!!.rootView, "Failed to sign in", Snackbar.LENGTH_LONG).show()
 
             }
 
@@ -257,6 +293,47 @@ class LoginFragment : Fragment(),
         }
 
         return false
+
+    }
+
+
+
+    private fun showGoogleSignInIntent() {
+
+        showLoader()
+
+        val signInIntent = mGoogleSignInClient.signInIntent
+
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+
+    }
+
+
+
+
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+
+        showLoader()
+
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+
+                if(task.isSuccessful) {
+
+                    gotoMainActivity()
+
+                } else {
+
+                    hideLoader()
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Snackbar.make(view!!.rootView, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+
+                }
+
+            }
 
     }
 
@@ -396,6 +473,18 @@ class LoginFragment : Fragment(),
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this)
 
+        showLoader()
+
+        if(activity != null){
+
+            hideKeyboard(activity!!)
+
+        }
+
+    }
+
+    private fun showLoader() {
+
         spinningProgressBar.apply{
 
             visibility = View.VISIBLE
@@ -416,9 +505,27 @@ class LoginFragment : Fragment(),
 
         }
 
-        if(activity != null){
+    }
 
-            hideKeyboard(activity!!)
+    private fun hideLoader() {
+
+        spinningProgressBar.apply {
+
+            visibility = View.INVISIBLE
+
+            alpha = 0.0f
+
+        }
+
+        mainLayout.apply {
+
+            alpha  = 1.0f
+
+        }
+
+        loginButton.apply {
+
+            isEnabled = true
 
         }
 
@@ -426,6 +533,8 @@ class LoginFragment : Fragment(),
 
 
     companion object {
+
+        const val RC_SIGN_IN = 101
 
         private fun isEmailValid(email: CharSequence): Boolean {
 

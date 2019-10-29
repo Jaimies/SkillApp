@@ -3,6 +3,7 @@ package com.jdevs.timeo
 import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.model.FragmentWithActivitiesListRecyclerView
 
 class TaskListFragment : FragmentWithActivitiesListRecyclerView() {
     override fun onCreateView(

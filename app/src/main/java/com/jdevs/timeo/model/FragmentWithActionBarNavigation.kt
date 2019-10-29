@@ -1,4 +1,4 @@
-package com.jdevs.timeo
+package com.jdevs.timeo.model
 
 import android.os.Bundle
 import android.view.Menu

@@ -2,7 +2,6 @@ package com.jdevs.timeo
 
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -14,24 +13,22 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.*
+import com.jdevs.timeo.helpers.KeyboardHelper
+import com.jdevs.timeo.model.LoaderFragment
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
-/**
- * A simple [Fragment] subclass.
- */
-class SignupFragment : Fragment(),
+
+
+class SignupFragment : LoaderFragment(),
     View.OnClickListener,
     View.OnKeyListener,
     OnCompleteListener<AuthResult> {
@@ -111,7 +108,7 @@ class SignupFragment : Fragment(),
 
             setOnClickListener {
 
-                hideKeyboard(activity!!)
+                hideKeyboard(activity)
 
             }
 
@@ -140,70 +137,20 @@ class SignupFragment : Fragment(),
 
     override fun onClick(view: View?) {
 
+        if(!validateInput(emailTextInputLayout, emailEditText, ::validateEmailString, ::showEmailError)) {
+
+            return
+
+        }
+
+        if(!validateInput(passwordTextInputLayout, passwordEditText, ::validatePasswordString, ::showPasswordError)) {
+
+            return
+
+        }
+
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
-
-
-        val emailValidationResult = validateEmailString(email)
-
-        if(emailValidationResult != RESULT_VALID) {
-
-            showEmailError(emailValidationResult)
-
-            emailEditText.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {}
-
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                    if(validateEmailString(s.toString()) != emailValidationResult) {
-
-                        removeErrorMessage(emailTextInputLayout)
-
-                        emailEditText.removeTextChangedListener(this)
-
-                    }
-
-                }
-
-
-            })
-
-            return
-
-        }
-
-
-        val passwordValidationResult = validatePasswordString(password)
-
-        if(passwordValidationResult != RESULT_VALID) {
-            showPasswordError(passwordValidationResult)
-
-            passwordEditText.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {}
-
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                    if(validatePasswordString(s.toString()) != passwordValidationResult) {
-
-                        passwordTextInputLayout.error = ""
-
-                        passwordEditText.removeTextChangedListener(this)
-
-                    }
-
-                }
-
-
-            })
-
-            return
-
-        }
-
 
         signUp(email, password)
 
@@ -224,25 +171,7 @@ class SignupFragment : Fragment(),
 
     override fun onComplete(task: Task<AuthResult>) {
 
-        spinningProgressBar.apply{
-
-            visibility = View.INVISIBLE
-
-            alpha = 0.0f
-
-        }
-
-        mainLayout.apply {
-
-            alpha  = 1.0f
-
-        }
-
-        signupButton.apply {
-
-            isEnabled = true
-
-        }
+        hideLoader()
 
         if(task.isSuccessful) {
 
@@ -294,6 +223,54 @@ class SignupFragment : Fragment(),
 
 
 
+    private fun validateInput(
+        textInputLayout: TextInputLayout,
+        editText: EditText,
+        validator: (String) -> Int,
+        errorHandler : (Int) -> Unit
+    ) : Boolean{
+
+        val value = editText.text.toString()
+
+        val validationResult = validator(value)
+
+        if(validationResult != RESULT_VALID) {
+
+            errorHandler(validationResult)
+
+            editText.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable?) {}
+
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                    if(validator(s.toString()) != validationResult) {
+
+                        textInputLayout.error = ""
+
+                        editText.removeTextChangedListener(this)
+
+                    }
+
+                }
+
+            })
+
+            return false
+
+        }
+
+        return true
+
+    }
+
+
+
+
 
     private fun gotoMainActivity() {
 
@@ -304,6 +281,7 @@ class SignupFragment : Fragment(),
         activity?.finish()
 
     }
+
 
 
     private fun showPasswordError(result : Int) {
@@ -329,6 +307,9 @@ class SignupFragment : Fragment(),
 
     }
 
+
+
+
     private fun showEmailError(result : Int) {
 
         if(result == RESULT_VALID) {
@@ -349,6 +330,7 @@ class SignupFragment : Fragment(),
         setError(emailTextInputLayout, emailEditText, error)
 
     }
+
 
 
 
@@ -377,6 +359,7 @@ class SignupFragment : Fragment(),
 
     }
 
+
     private fun removeErrorMessage(inputLayout: TextInputLayout) {
 
         inputLayout.apply {
@@ -389,115 +372,29 @@ class SignupFragment : Fragment(),
 
     }
 
+    private fun showLoader() {
+
+        super.showLoader(spinningProgressBar, mainLayout, signupButton)
+
+    }
+
+    private fun hideLoader() {
+
+        super.hideLoader(spinningProgressBar, mainLayout, signupButton)
+
+    }
+
+
     private fun signUp(email: String, password: String) {
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this)
 
-
-        spinningProgressBar.apply{
-
-            visibility = View.VISIBLE
-
-            alpha = 1.0f
-
-        }
-
-        mainLayout.apply {
-
-            alpha  = 0.5f
-
-        }
-
-        signupButton.apply {
-
-            isEnabled = false
-
-        }
-
-        if(activity != null){
-
-            hideKeyboard(activity!!)
-
-        }
+        showLoader()
 
     }
 
 
-    companion object {
-
-        private fun validatePasswordString(password : String) : Int {
-
-            if(password.isEmpty()) {
-
-                return ERROR_EMPTY
-
-            }
-
-            if(password.length < 6) {
-
-                return ERROR_TOO_SHORT
-
-            }
-
-            if(password.length > 25) {
-
-                return ERROR_TOO_LONG
-
-            }
-
-            return RESULT_VALID
-
-        }
-
-
-        private fun validateEmailString(email : String) : Int {
-
-
-            if(email.isEmpty()) {
-
-                return ERROR_EMPTY
-
-            }
-
-            if(!isEmailValid(email)) {
-
-                return ERROR_INVALID
-
-            }
-
-            return RESULT_VALID
-
-        }
-
-
-        private fun isEmailValid(email: CharSequence): Boolean {
-
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-        }
-
-
-        private fun hideKeyboard(activity : FragmentActivity) {
-
-            val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-
-            //Find the currently focused view, so we can grab the correct window token from it.
-            var view = activity.currentFocus
-
-            //If no view currently has focus, create a new one, just so we can grab a window token from it
-            if (view == null) {
-
-                view = View(activity)
-
-            }
-
-            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-
-        }
-
-
-    }
 
     private fun makeTextViewClickable() {
 
@@ -553,5 +450,62 @@ class SignupFragment : Fragment(),
 
     }
 
+
+
+
+
+    companion object : KeyboardHelper() {
+
+        private fun validatePasswordString(password : String) : Int {
+
+            if(password.isEmpty()) {
+
+                return ERROR_EMPTY
+
+            }
+
+            if(password.length < 6) {
+
+                return ERROR_TOO_SHORT
+
+            }
+
+            if(password.length > 25) {
+
+                return ERROR_TOO_LONG
+
+            }
+
+            return RESULT_VALID
+
+        }
+
+
+        private fun validateEmailString(email : String) : Int {
+
+
+            if(email.isEmpty()) {
+
+                return ERROR_EMPTY
+
+            }
+
+            if(!isEmailValid(email)) {
+
+                return ERROR_INVALID
+
+            }
+
+            return RESULT_VALID
+
+        }
+
+
+        private fun isEmailValid(email: CharSequence): Boolean {
+
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+        }
+    }
 
 }

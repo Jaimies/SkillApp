@@ -2,7 +2,6 @@ package com.jdevs.timeo
 
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -14,11 +13,8 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -32,6 +28,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
+import com.jdevs.timeo.helpers.KeyboardHelper
+import com.jdevs.timeo.model.LoaderFragment
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
@@ -47,7 +45,7 @@ const val ERROR_TOO_LONG = 1224
 const val RESULT_VALID = 1222
 
 
-class LoginFragment : Fragment(),
+class LoginFragment : LoaderFragment(),
     View.OnClickListener,
     View.OnKeyListener,
     OnCompleteListener<AuthResult> {
@@ -99,19 +97,12 @@ class LoginFragment : Fragment(),
 
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
 
-        if(auth.currentUser != null) {
-
-            gotoMainActivity()
-
-        }
     }
-
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -160,14 +151,11 @@ class LoginFragment : Fragment(),
 
             setOnClickListener {
 
-                hideKeyboard(activity!!)
+                hideKeyboard(activity)
 
             }
 
         }
-
-        view.setPadding(0, 0, 0, 0)
-        view.rootView.setPadding(0, 0, 0, 0)
 
         val googleSignInOptions = GoogleSignInOptions.Builder()
             .requestIdToken(getString(R.string.google_oauth_key))
@@ -475,88 +463,28 @@ class LoginFragment : Fragment(),
 
         showLoader()
 
-        if(activity != null){
-
-            hideKeyboard(activity!!)
-
-        }
-
     }
 
     private fun showLoader() {
 
-        spinningProgressBar.apply{
-
-            visibility = View.VISIBLE
-
-            alpha = 1.0f
-
-        }
-
-        mainLayout.apply {
-
-            alpha  = 0.5f
-
-        }
-
-        loginButton.apply {
-
-            isEnabled = false
-
-        }
+        super.showLoader(spinningProgressBar, mainLayout, loginButton)
 
     }
 
     private fun hideLoader() {
 
-        spinningProgressBar.apply {
-
-            visibility = View.INVISIBLE
-
-            alpha = 0.0f
-
-        }
-
-        mainLayout.apply {
-
-            alpha  = 1.0f
-
-        }
-
-        loginButton.apply {
-
-            isEnabled = true
-
-        }
+        super.hideLoader(spinningProgressBar, mainLayout, loginButton)
 
     }
 
 
-    companion object {
+    companion object : KeyboardHelper() {
 
         const val RC_SIGN_IN = 101
 
         private fun isEmailValid(email: CharSequence): Boolean {
 
             return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-        }
-
-        private fun hideKeyboard(activity : FragmentActivity) {
-
-            val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-
-            //Find the currently focused view, so we can grab the correct window token from it.
-            var view = activity.currentFocus
-
-            //If no view currently has focus, create a new one, just so we can grab a window token from it
-            if (view == null) {
-
-                view = View(activity)
-
-            }
-
-            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
         }
 

@@ -1,7 +1,8 @@
-package com.jdevs.timeo
+package com.jdevs.timeo.model
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.ActivitiesListAdapter
 
 open class FragmentWithActivitiesListRecyclerView : FragmentWithActionBarNavigation() {
 

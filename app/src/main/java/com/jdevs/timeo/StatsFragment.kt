@@ -2,9 +2,9 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.*
-import com.jdevs.timeo.model.FragmentWithActionBarNavigation
+import com.jdevs.timeo.model.ActionBarFragment
 
-class StatsFragment : FragmentWithActionBarNavigation() {
+class StatsFragment : ActionBarFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -11,12 +11,13 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.jdevs.timeo.model.Activity
-import com.jdevs.timeo.model.LoaderFragment
+import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.helpers.KeyboardHelper
+import com.jdevs.timeo.model.ActionBarFragment
 import kotlinx.android.synthetic.main.fragment_create_activity.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
-class CreateActivityFragment : LoaderFragment() {
+class CreateActivityFragment : ActionBarFragment() {
 
     private lateinit var titleTextInputLayout: TextInputLayout
     private lateinit var titleEditText : EditText
@@ -82,20 +83,16 @@ class CreateActivityFragment : LoaderFragment() {
 
                     val icon = iconEditText.text.toString()
 
-                    val activity = Activity(title, icon)
+                    val activity = TimeoActivity(title, icon)
 
-                    showLoader()
+                    findNavController().navigate(R.id.homeFragment)
+
+                    hideKeyboard(getActivity())
 
                     mActivities.add(activity)
-                        .addOnCompleteListener { task ->
+                        .addOnCompleteListener(getActivity() as android.app.Activity) { task ->
 
-                            hideLoader()
-
-                            if(task.isSuccessful) {
-
-                                findNavController().navigate(R.id.homeFragment)
-
-                            } else {
+                            if (!task.isSuccessful) {
 
                                 Log.w("Create activity", "Failed to save activity", task.exception)
 
@@ -117,17 +114,6 @@ class CreateActivityFragment : LoaderFragment() {
 
     }
 
-    private fun showLoader() {
-
-        super.showLoader(spinningProgressBar, mainLayout, null)
-
-    }
-
-    private fun hideLoader() {
-
-        super.hideLoader(spinningProgressBar, mainLayout, null)
-
-    }
 
     private fun validateInput() : Boolean {
 
@@ -149,4 +135,7 @@ class CreateActivityFragment : LoaderFragment() {
 
         return true
     }
+
+
+    companion object : KeyboardHelper()
 }

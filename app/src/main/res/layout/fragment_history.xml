@@ -8,9 +8,5 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/partial_records_list"
-
-        android:layout_marginTop="@dimen/default_margin"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"/>
+        layout="@layout/partial_records_list"/>
 </FrameLayout>

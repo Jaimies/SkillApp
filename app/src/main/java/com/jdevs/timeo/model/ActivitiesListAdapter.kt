@@ -1,4 +1,4 @@
-package com.jdevs.timeo
+package com.jdevs.timeo.model
 
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.R
+import com.jdevs.timeo.data.TimeoActivity
 import kotlinx.android.synthetic.main.partial_activities_list_item.view.*
 
-class ActivitiesListAdapter(private val dataset: Array<String>) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
+class ActivitiesListAdapter(private val dataset: Array<TimeoActivity>) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
 
     class ViewHolder(val layout: LinearLayout) : RecyclerView.ViewHolder(layout)
 
@@ -28,7 +30,7 @@ class ActivitiesListAdapter(private val dataset: Array<String>) : RecyclerView.A
         holder.layout.apply {
 
             run {
-                val colorId = when (position.rem(6)) {
+                val colorId = when (position.rem(4)) {
 
                     0 -> android.R.color.holo_red_dark
                     1 -> android.R.color.holo_green_dark
@@ -53,7 +55,7 @@ class ActivitiesListAdapter(private val dataset: Array<String>) : RecyclerView.A
 
             listItemTitle.apply {
 
-                text = dataset[position]
+                text = dataset[position].title
 
             }
         }

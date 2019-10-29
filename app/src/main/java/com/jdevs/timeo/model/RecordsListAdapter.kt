@@ -1,10 +1,11 @@
-package com.jdevs.timeo
+package com.jdevs.timeo.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.R
 import kotlinx.android.synthetic.main.partial_records_list_item.view.*
 
 class RecordsListAdapter(private val dataset: Array<Pair<String, Int>>) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {

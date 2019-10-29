@@ -3,11 +3,10 @@ package com.jdevs.timeo.helpers
 import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.FragmentActivity
 
 open class KeyboardHelper {
 
-    fun hideKeyboard(activity : FragmentActivity?) {
+    fun hideKeyboard(activity : Activity?) {
 
         if(activity == null) {
 

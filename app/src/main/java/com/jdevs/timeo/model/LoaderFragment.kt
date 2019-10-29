@@ -4,9 +4,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
 import com.jdevs.timeo.helpers.KeyboardHelper
 
-open class LoaderFragment : FragmentWithActionBarNavigation() {
+open class LoaderFragment : Fragment() {
 
     open fun showLoader(spinningProgressBar : FrameLayout, mainLayout : LinearLayout, button : Button? = null) {
 

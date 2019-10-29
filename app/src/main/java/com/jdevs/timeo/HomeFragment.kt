@@ -2,13 +2,10 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.*
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.jdevs.timeo.model.FragmentWithActivitiesListRecyclerView
+import com.jdevs.timeo.model.ActivitiesListFragment
+import kotlinx.android.synthetic.main.partial_activities_list.view.*
 
-class HomeFragment : FragmentWithActivitiesListRecyclerView() {
-
-    private lateinit var auth: FirebaseAuth
+class HomeFragment : ActivitiesListFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -16,9 +13,8 @@ class HomeFragment : FragmentWithActivitiesListRecyclerView() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val activitiesRecyclerView = view.findViewById<RecyclerView>(R.id.activitiesRecyclerView)
 
-        addItemsToRecyclerView(activitiesRecyclerView)
+        initializeRecyclerView(view.activitiesRecyclerView)
 
 
         // Inflate the layout for this fragment
@@ -27,5 +23,9 @@ class HomeFragment : FragmentWithActivitiesListRecyclerView() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         addOptionsMenu(menu, inflater, R.menu.action_bar_main)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 }

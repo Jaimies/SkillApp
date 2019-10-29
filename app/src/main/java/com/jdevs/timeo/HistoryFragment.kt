@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.model.FragmentWithActionBarNavigation
+import com.jdevs.timeo.model.ActionBarFragment
+import com.jdevs.timeo.model.RecordsListAdapter
 
 
-class HistoryFragment : FragmentWithActionBarNavigation() {
+class HistoryFragment : ActionBarFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +33,16 @@ class HistoryFragment : FragmentWithActionBarNavigation() {
 
         val viewManager = LinearLayoutManager(context)
 
-        val viewAdapter = RecordsListAdapter(arrayOf(Pair("Activity 1", 25), Pair("Activity 2", 25), Pair("Activity 1", 25), Pair("Activity 2", 25), Pair("Activity 1", 25), Pair("Activity 2", 25)))
+        val viewAdapter = RecordsListAdapter(
+            arrayOf(
+                Pair("TimeoActivity 1", 25),
+                Pair("TimeoActivity 2", 25),
+                Pair("TimeoActivity 1", 25),
+                Pair("TimeoActivity 2", 25),
+                Pair("TimeoActivity 1", 25),
+                Pair("TimeoActivity 2", 25)
+            )
+        )
 
 
         recyclerView.apply {

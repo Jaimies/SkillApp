@@ -2,11 +2,15 @@ package com.jdevs.timeo.models
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.LinearLayout
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.jdevs.timeo.R
 import com.jdevs.timeo.TAG
 import com.jdevs.timeo.data.TimeoActivity
 
@@ -18,7 +22,10 @@ open class ActivitiesListFragment : ActionBarFragment() {
     private lateinit var mActivitiesRef : Query
 
     private lateinit var mViewAdapter : ActivitiesListAdapter
-    private lateinit var mRecyclerView: RecyclerView
+    lateinit var mRecyclerView: RecyclerView
+
+    lateinit var mCreateNewActivityView : LinearLayout
+    lateinit var mCreateNewActivityButton : MaterialButton
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,17 +44,48 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
     }
 
+
     override fun onStart() {
         super.onStart()
 
 
         mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
-            if(querySnapshot != null && !querySnapshot.isEmpty) {
+            if(querySnapshot != null) {
+
+                if(querySnapshot.isEmpty) {
+
+                    if(::mCreateNewActivityView.isInitialized) {
+
+                        mCreateNewActivityView.visibility = View.VISIBLE
+
+
+                        if(::mCreateNewActivityButton.isInitialized) {
+
+                            mCreateNewActivityButton.apply {
+
+                                setOnClickListener {
+
+                                    findNavController().navigate(R.id.action_showCreateActivityFragment)
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    return@addSnapshotListener
+
+                }
+
 
                 val activities = querySnapshot.documents
 
                 mActivities.clear()
+
+
 
                 for(activity in activities) {
 
@@ -99,12 +137,6 @@ open class ActivitiesListFragment : ActionBarFragment() {
             adapter = mViewAdapter
 
         }
-
-    }
-
-    fun initializeRecyclerView(recyclerView: RecyclerView) {
-
-        mRecyclerView = recyclerView
 
     }
 

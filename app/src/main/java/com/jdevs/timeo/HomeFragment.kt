@@ -16,7 +16,11 @@ class HomeFragment : ActivitiesListFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        initializeRecyclerView(view.activitiesRecyclerView)
+        mRecyclerView = view.activitiesRecyclerView
+
+        mCreateNewActivityView = view.createNewActivityView
+
+        mCreateNewActivityButton = view.createNewActivityButton
 
 
         activity?.apply {

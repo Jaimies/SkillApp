@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/createActivityFragment"
         android:name="com.jdevs.timeo.CreateActivityFragment"
-        android:label="Add Activity"
+        android:label="Create Activity"
         tools:layout="@layout/fragment_create_activity" />
     <fragment
         android:id="@+id/historyFragment"

@@ -15,8 +15,11 @@ class TaskListFragment : ActivitiesListFragment() {
         val view = inflater.inflate(R.layout.fragment_task_list, container, false)
 
 
-        initializeRecyclerView(view.activitiesRecyclerView)
+        mRecyclerView = view.activitiesRecyclerView
 
+        mCreateNewActivityView = view.createNewActivityView
+
+        mCreateNewActivityButton = view.createNewActivityButton
 
         return view
 

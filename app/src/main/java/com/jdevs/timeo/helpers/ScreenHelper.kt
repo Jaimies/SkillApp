@@ -5,15 +5,25 @@ import android.content.Context.WINDOW_SERVICE
 import android.util.DisplayMetrics
 import android.view.WindowManager
 
-class ScreenHelper {
+open class ScreenHelper {
     companion object {
-        fun getScreenDimensions(context: Context?) : Pair<Int, Int> {
-            val displayMetrics = DisplayMetrics()
-            (context!!.getSystemService(WINDOW_SERVICE) as WindowManager)
-                .defaultDisplay
-                .apply { getMetrics(displayMetrics) }
+        fun getDimensions(context: Context) : DisplayMetrics {
 
-            return Pair(displayMetrics.widthPixels, displayMetrics.heightPixels)
+            val displayMetrics = DisplayMetrics()
+
+
+            val windowService = context.getSystemService(WINDOW_SERVICE) as WindowManager
+
+
+            windowService.defaultDisplay.apply {
+
+                getMetrics(displayMetrics)
+
+            }
+
+
+            return displayMetrics
+
         }
     }
 }

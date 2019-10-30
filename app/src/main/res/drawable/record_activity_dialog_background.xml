@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <solid
-        android:color="#FFEEEEEE"/>
+        android:color="@color/design_default_color_primary_dark"/>
 
     <corners
         android:radius="@dimen/record_activity_dialog_corner_radius"/>

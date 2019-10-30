@@ -2,33 +2,30 @@ package com.jdevs.timeo
 
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
-import android.text.SpannableString
-import android.text.Spanned
 import android.text.TextWatcher
-import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.*
-import com.jdevs.timeo.helpers.KeyboardHelper
-import com.jdevs.timeo.model.LoaderFragment
+import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
+import com.jdevs.timeo.models.AuthenticationFragment
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
 
 
-class SignupFragment : LoaderFragment(),
+class SignupFragment : AuthenticationFragment(),
     View.OnClickListener,
     View.OnKeyListener,
     OnCompleteListener<AuthResult> {
@@ -63,6 +60,9 @@ class SignupFragment : LoaderFragment(),
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        super.onCreateView(inflater, container, savedInstanceState)
+
 
         val view = inflater.inflate(R.layout.fragment_signup, container, false)
 
@@ -99,9 +99,9 @@ class SignupFragment : LoaderFragment(),
 
             }
 
+            makeTextViewClickable(this)
         }
 
-        makeTextViewClickable()
 
 
         view.rootView.apply {
@@ -129,7 +129,7 @@ class SignupFragment : LoaderFragment(),
 
         if(user != null) {
 
-            gotoMainActivity()
+            returnToMainActivity()
 
         }
 
@@ -175,7 +175,7 @@ class SignupFragment : LoaderFragment(),
 
         if(task.isSuccessful) {
 
-            gotoMainActivity()
+            goToMainActivity()
 
             return
 
@@ -270,15 +270,9 @@ class SignupFragment : LoaderFragment(),
 
 
 
+    private fun goToMainActivity() {
 
-
-    private fun gotoMainActivity() {
-
-        val intent = Intent(activity, MainActivity::class.java)
-
-        startActivity(intent)
-
-        activity?.finish()
+        findNavController().navigate(R.id.action_signupFragment_to_homeFragment)
 
     }
 
@@ -396,65 +390,9 @@ class SignupFragment : LoaderFragment(),
 
 
 
-    private fun makeTextViewClickable() {
-
-        val signupText = loginTextView.text
-
-        val notClickedString = SpannableString(signupText)
-
-        notClickedString.setSpan(
-            ForegroundColorSpan(ContextCompat.getColor(context!!, android.R.color.holo_blue_dark)),
-            0,
-            notClickedString.length,
-            0
-        )
-
-        loginTextView.setText(notClickedString, TextView.BufferType.SPANNABLE)
-
-        val clickedString = SpannableString(notClickedString)
-        clickedString.setSpan(
-            ForegroundColorSpan(Color.BLUE), 0, notClickedString.length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        )
 
 
-
-        loginTextView.apply {
-
-            setOnTouchListener { v, event ->
-
-                when (event.action) {
-
-                    MotionEvent.ACTION_DOWN -> this@SignupFragment.loginTextView.text = clickedString
-
-                    MotionEvent.ACTION_UP -> {
-
-                        this@SignupFragment.loginTextView.setText(notClickedString, TextView.BufferType.SPANNABLE)
-                        v.performClick()
-
-                    }
-
-                    MotionEvent.ACTION_CANCEL -> this@SignupFragment.loginTextView.setText(
-
-                        notClickedString,
-                        TextView.BufferType.SPANNABLE
-
-                    )
-
-                }
-
-                true
-            }
-
-        }
-
-    }
-
-
-
-
-
-    companion object : KeyboardHelper() {
+    companion object {
 
         private fun validatePasswordString(password : String) : Int {
 

@@ -1,11 +1,11 @@
-package com.jdevs.timeo.model
+package com.jdevs.timeo.models
 
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.jdevs.timeo.TAG
 import com.jdevs.timeo.data.TimeoActivity
 
@@ -14,7 +14,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
     private val mFirestore = FirebaseFirestore.getInstance()
     private val mActivities = ArrayList<TimeoActivity>()
 
-    private lateinit var mActivitiesRef : CollectionReference
+    private lateinit var mActivitiesRef : Query
 
     private lateinit var mViewAdapter : ActivitiesListAdapter
     private lateinit var mRecyclerView: RecyclerView
@@ -23,13 +23,22 @@ open class ActivitiesListFragment : ActionBarFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mActivitiesRef = mFirestore.collection("users/${auth.currentUser!!.uid}/activities")
+        val user = auth.currentUser
 
+        if(user != null) {
+
+            mActivitiesRef = mFirestore
+                .collection("users/${user.uid}/activities")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .limit(20)
+
+        }
 
     }
 
     override fun onStart() {
         super.onStart()
+
 
         mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 

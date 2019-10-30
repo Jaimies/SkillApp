@@ -3,18 +3,16 @@ package com.jdevs.timeo
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
-import android.text.SpannableString
-import android.text.Spanned
 import android.text.TextWatcher
-import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -28,8 +26,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
-import com.jdevs.timeo.helpers.KeyboardHelper
-import com.jdevs.timeo.model.LoaderFragment
+import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
+import com.jdevs.timeo.models.AuthenticationFragment
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
@@ -45,7 +43,7 @@ const val ERROR_TOO_LONG = 1224
 const val RESULT_VALID = 1222
 
 
-class LoginFragment : LoaderFragment(),
+class LoginFragment : AuthenticationFragment(),
     View.OnClickListener,
     View.OnKeyListener,
     OnCompleteListener<AuthResult> {
@@ -102,6 +100,15 @@ class LoginFragment : LoaderFragment(),
 
         auth = FirebaseAuth.getInstance()
 
+        val user = auth.currentUser
+
+        if(user != null) {
+
+            returnToMainActivity()
+
+        }
+
+
     }
 
 
@@ -110,6 +117,17 @@ class LoginFragment : LoaderFragment(),
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        super.onCreateView(inflater, container, savedInstanceState)
+
+
+
+        activity?.apply{
+
+            actionBar?.setDisplayHomeAsUpEnabled(false)
+
+        }
 
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
@@ -137,9 +155,10 @@ class LoginFragment : LoaderFragment(),
                 findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
 
             }
+
+            makeTextViewClickable(this)
         }
 
-        makeTextViewClickable()
 
 
         mainLayout = view.mainLayout
@@ -225,7 +244,7 @@ class LoginFragment : LoaderFragment(),
 
         if(task.isSuccessful) {
 
-            gotoMainActivity()
+            returnToMainActivity()
 
             return
 
@@ -308,13 +327,14 @@ class LoginFragment : LoaderFragment(),
         auth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
 
+                hideLoader()
+
                 if(task.isSuccessful) {
 
-                    gotoMainActivity()
+                    goToMainActivity()
 
                 } else {
 
-                    hideLoader()
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     Snackbar.make(view!!.rootView, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
@@ -326,72 +346,9 @@ class LoginFragment : LoaderFragment(),
     }
 
 
+    private fun goToMainActivity() {
 
-
-    private fun makeTextViewClickable() {
-
-        val signupText = signupTextView.text
-
-        val notClickedString = SpannableString(signupText)
-
-        notClickedString.setSpan(
-            ForegroundColorSpan(ContextCompat.getColor(context!!, android.R.color.holo_blue_dark)),
-            0,
-            notClickedString.length,
-            0
-        )
-
-        signupTextView.setText(notClickedString, TextView.BufferType.SPANNABLE)
-
-        val clickedString = SpannableString(notClickedString)
-        clickedString.setSpan(
-            ForegroundColorSpan(Color.BLUE), 0, notClickedString.length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        )
-
-
-
-        signupTextView.apply {
-
-            setOnTouchListener { v, event ->
-
-                when (event.action) {
-
-                    MotionEvent.ACTION_DOWN -> signupTextView.text = clickedString
-
-                    MotionEvent.ACTION_UP -> {
-
-                        signupTextView.setText(notClickedString, TextView.BufferType.SPANNABLE)
-                        v.performClick()
-
-                    }
-
-                    MotionEvent.ACTION_CANCEL -> signupTextView.setText(
-
-                        notClickedString,
-                        TextView.BufferType.SPANNABLE
-
-                    )
-
-                }
-
-                true
-            }
-
-        }
-
-    }
-
-
-
-
-    private fun gotoMainActivity() {
-
-        val intent = Intent(activity, MainActivity::class.java)
-
-        startActivity(intent)
-
-        activity?.finish()
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 
     }
 
@@ -478,7 +435,7 @@ class LoginFragment : LoaderFragment(),
     }
 
 
-    companion object : KeyboardHelper() {
+    companion object {
 
         const val RC_SIGN_IN = 101
 

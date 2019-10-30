@@ -1,5 +1,6 @@
 package com.jdevs.timeo
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -12,8 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.helpers.KeyboardHelper
-import com.jdevs.timeo.model.ActionBarFragment
+import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
+import com.jdevs.timeo.models.ActionBarFragment
 import kotlinx.android.synthetic.main.fragment_create_activity.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
@@ -28,9 +29,10 @@ class CreateActivityFragment : ActionBarFragment() {
     private lateinit var spinningProgressBar: FrameLayout
     private lateinit var mainLayout : LinearLayout
 
-    private lateinit var mFirebaseInstance: FirebaseFirestore
+    private val mFirebaseInstance =  FirebaseFirestore.getInstance()
+    private val mAuth = FirebaseAuth.getInstance()
+
     private lateinit var mActivities : CollectionReference
-    private lateinit var mAuth : FirebaseAuth
 
 
     override fun onCreateView(
@@ -55,15 +57,72 @@ class CreateActivityFragment : ActionBarFragment() {
         mainLayout = view.mainLayout
 
 
-        mAuth = FirebaseAuth.getInstance()
+        view.rootView.apply {
 
-        mFirebaseInstance = FirebaseFirestore.getInstance()
+            setOnClickListener {
 
-        mActivities = mFirebaseInstance.collection("users/${mAuth.uid}/activities")
+                hideKeyboard(activity)
+
+            }
+
+        }
 
 
         // Inflate the layout for this fragment
         return view
+    }
+
+    private fun validateInput() : Boolean {
+
+        if (titleEditText.text.isEmpty()) {
+
+            titleTextInputLayout.error = "Title cannot be empty"
+
+            return false
+
+        }
+
+        if(titleEditText.text.length < 3) {
+
+            titleTextInputLayout.error = "Title must be at least two characters long"
+
+            return false
+
+        }
+
+        if(titleEditText.text.length >= 100) {
+
+            titleTextInputLayout.error = "Title length must not exceed 100 characters"
+
+            return false
+
+        }
+
+        if (iconEditText.text.isEmpty()) {
+
+            iconTextInputLayout.error = "Icon cannot be empty"
+
+            return false
+
+        }
+
+        if(iconEditText.text.length < 3) {
+
+            iconTextInputLayout.error = "Icon must be at least three characters long"
+
+            return false
+
+        }
+
+        if(iconEditText.text.length > 100) {
+
+            iconTextInputLayout.error = "Icon length must not exceed 100 characters"
+
+            return false
+
+        }
+
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -71,6 +130,7 @@ class CreateActivityFragment : ActionBarFragment() {
         addOptionsMenu(menu, inflater, R.menu.action_bar_add_activity)
 
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -83,22 +143,27 @@ class CreateActivityFragment : ActionBarFragment() {
 
                     val icon = iconEditText.text.toString()
 
-                    val activity = TimeoActivity(title, icon)
+                    val timeoActivity = TimeoActivity(title, icon)
 
-                    findNavController().navigate(R.id.homeFragment)
+                    mActivities = mFirebaseInstance.collection("users/${mAuth.currentUser!!.uid}/activities")
 
-                    hideKeyboard(getActivity())
+                    mActivities.add(timeoActivity)
+                        .addOnFailureListener (activity as Activity) { firebaseException ->
 
-                    mActivities.add(activity)
-                        .addOnCompleteListener(getActivity() as android.app.Activity) { task ->
-
-                            if (!task.isSuccessful) {
-
-                                Log.w("Create activity", "Failed to save activity", task.exception)
-
-                            }
+                            Log.w("Create activity", "Failed to save activity", firebaseException)
 
                         }
+
+
+                    findNavController().apply {
+
+                        navigate(R.id.homeFragment)
+                        findNavController().popBackStack(R.id.createActivityFragment, true)
+
+                    }
+
+                    hideKeyboard(activity)
+
                 }
 
             }
@@ -113,29 +178,4 @@ class CreateActivityFragment : ActionBarFragment() {
         return true
 
     }
-
-
-    private fun validateInput() : Boolean {
-
-        if (titleEditText.text.isEmpty()) {
-
-            titleTextInputLayout.error = "Title cannot be empty"
-
-            return false
-
-        }
-
-        if (iconEditText.text.isEmpty()) {
-
-            iconTextInputLayout.error = "Icon cannot be empty"
-
-            return false
-
-        }
-
-        return true
-    }
-
-
-    companion object : KeyboardHelper()
 }

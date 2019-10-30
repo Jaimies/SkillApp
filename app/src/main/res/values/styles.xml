@@ -5,8 +5,4 @@
 
     </style>
 
-    <style name="LoginTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-
-    </style>
-
 </resources>

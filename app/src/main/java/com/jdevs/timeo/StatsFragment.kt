@@ -2,7 +2,7 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.*
-import com.jdevs.timeo.model.ActionBarFragment
+import com.jdevs.timeo.models.ActionBarFragment
 
 class StatsFragment : ActionBarFragment() {
 

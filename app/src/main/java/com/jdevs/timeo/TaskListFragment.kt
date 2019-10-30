@@ -2,7 +2,7 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.*
-import com.jdevs.timeo.model.ActivitiesListFragment
+import com.jdevs.timeo.models.ActivitiesListFragment
 import kotlinx.android.synthetic.main.partial_activities_list.view.*
 
 class TaskListFragment : ActivitiesListFragment() {

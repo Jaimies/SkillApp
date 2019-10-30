@@ -1,16 +1,36 @@
-package com.jdevs.timeo.model
+package com.jdevs.timeo.models
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
+import com.jdevs.timeo.data.TimeoRecord
 import kotlinx.android.synthetic.main.partial_records_list_item.view.*
 
-class RecordsListAdapter(private val dataset: Array<Pair<String, Int>>) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
+class RecordsListAdapter(private val dataset: Array<TimeoRecord>) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
 
-    class ViewHolder(val layout: LinearLayout) : RecyclerView.ViewHolder(layout)
+    inner class ViewHolder(val layout: LinearLayout) : RecyclerView.ViewHolder(layout),
+        View.OnLongClickListener {
+
+        init {
+
+            layout.setOnLongClickListener(this)
+
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+
+            Snackbar.make(v!!, "Deleted the item", Snackbar.LENGTH_LONG).show()
+
+            return true
+
+        }
+
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,14 +53,13 @@ class RecordsListAdapter(private val dataset: Array<Pair<String, Int>>) : Recycl
 
             activityNameTextView.apply {
 
-                text = dataset[position].first
-
+                text = dataset[position].title
 
             }
 
             workTimeTextView.apply {
 
-                val timeMinutes = dataset[position].second
+                val timeMinutes = dataset[position].workingTime
 
                 val hours = timeMinutes.div(60)
                 val minutes = timeMinutes.rem(60)
@@ -49,7 +68,7 @@ class RecordsListAdapter(private val dataset: Array<Pair<String, Int>>) : Recycl
 
                 if(hours != 0) {
 
-                    timeString += "${hours}h"
+                    timeString += "${hours}h "
 
                 }
 

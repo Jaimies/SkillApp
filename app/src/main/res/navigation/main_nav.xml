@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -12,7 +12,10 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/viewCreateActivityFragment"
-            app:destination="@id/addActivityFragment" />
+            app:destination="@id/createActivityFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment"/>
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
@@ -24,7 +27,7 @@
             app:destination="@id/showAchievementsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addActivityFragment"
+        android:id="@+id/createActivityFragment"
         android:name="com.jdevs.timeo.CreateActivityFragment"
         android:label="Add Activity"
         tools:layout="@layout/fragment_create_activity" />
@@ -50,6 +53,36 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.jdevs.timeo.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        android:label="Login"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.jdevs.timeo.SignupFragment"
+        android:label="Sign up">
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_signupFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/signupFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
 </navigation>

@@ -73,19 +73,19 @@ class MainActivity : AppCompatActivity(),
 
             R.id.addActivity -> {
 
-                navController.navigate(R.id.createActivityFragment)
+                navController.navigate(R.id.action_showCreateActivityFragment)
 
             }
 
-            R.id.showHistory -> {
+            R.id.historyFragment -> {
 
-                navController.navigate(R.id.showHistoryFragment)
+                navController.navigate(R.id.action_showHistory)
 
             }
 
             R.id.showAchievements -> {
 
-                navController.navigate(R.id.viewAchievements)
+                navController.navigate(R.id.showAchievements)
 
             }
 

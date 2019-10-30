@@ -22,8 +22,24 @@
             app:destination="@id/activityDetailsFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_showHistory"
+            app:destination="@id/historyFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_showCreateActivityFragment"
+            app:destination="@id/createActivityFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
@@ -31,8 +47,12 @@
         android:label="Stats"
         tools:layout="@layout/fragment_stats" >
         <action
-            android:id="@+id/viewAchievements"
-            app:destination="@id/showAchievementsFragment" />
+            android:id="@+id/showAchievements"
+            app:destination="@id/achievementsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/createActivityFragment"
@@ -40,7 +60,7 @@
         android:label="Add Activity"
         tools:layout="@layout/fragment_create_activity" />
     <fragment
-        android:id="@+id/showHistoryFragment"
+        android:id="@+id/historyFragment"
         android:name="com.jdevs.timeo.HistoryFragment"
         android:label="History"
         tools:layout="@layout/fragment_history" />
@@ -53,10 +73,28 @@
             android:id="@+id/action_showActivityDetails"
             app:destination="@id/activityDetailsFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_showHistory"
+            app:destination="@id/historyFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_showCreateActivityFragment"
+            app:destination="@id/createActivityFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/showAchievementsFragment"
+        android:id="@+id/achievementsFragment"
         android:name="com.jdevs.timeo.AchievementsFragment"
         android:label="My achievements" />
     <fragment
@@ -76,14 +114,16 @@
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -93,13 +133,15 @@
             android:id="@+id/action_signupFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_signupFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/signupFragment"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
 </navigation>

@@ -42,7 +42,8 @@ class MainActivity : AppCompatActivity(),
                     R.id.loginFragment,
                     R.id.signupFragment
 
-                ).build()
+                )
+                .build()
 
 
             setSupportActionBar(topActionBar)

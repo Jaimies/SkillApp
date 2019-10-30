@@ -10,7 +10,6 @@ class HomeFragment : ActivitiesListFragment() {
 
     private lateinit var mBottomNavView : BottomNavigationView
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

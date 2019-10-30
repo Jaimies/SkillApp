@@ -16,6 +16,14 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment"/>
+
+        <action
+            android:id="@+id/action_showActivityDetails"
+            app:destination="@id/activityDetailsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
@@ -40,16 +48,25 @@
         android:id="@+id/taskListFragment"
         android:name="com.jdevs.timeo.TaskListFragment"
         android:label="List of tasks"
-        tools:layout="@layout/fragment_task_list" />
+        tools:layout="@layout/fragment_task_list">
+        <action
+            android:id="@+id/action_showActivityDetails"
+            app:destination="@id/activityDetailsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
     <fragment
         android:id="@+id/showAchievementsFragment"
         android:name="com.jdevs.timeo.AchievementsFragment"
         android:label="My achievements" />
     <fragment
-        android:id="@+id/showActivityFragment"
+        android:id="@+id/activityDetailsFragment"
         android:name="com.jdevs.timeo.ActivityDetailsFragment"
-        android:label="fragment_show_activity"
-        tools:layout="@layout/fragment_activity_details" />
+        android:label="Activity details"
+        tools:layout="@layout/fragment_activity_details" >
+        <argument app:argType="string"
+            android:name="title"/>
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.jdevs.timeo.LoginFragment"

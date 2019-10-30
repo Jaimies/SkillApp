@@ -1,17 +1,30 @@
 package com.jdevs.timeo.models
 
+import android.content.Context
+import android.content.DialogInterface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.CollectionReference
 import com.jdevs.timeo.R
+import com.jdevs.timeo.TAG
 import com.jdevs.timeo.data.TimeoRecord
 import kotlinx.android.synthetic.main.partial_records_list_item.view.*
 
-class RecordsListAdapter(private val dataset: Array<TimeoRecord>) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
+class RecordsListAdapter(
+
+    private val dataset: Array<TimeoRecord>,
+    private val mRecordsCollection : CollectionReference,
+    private val mItemIds : ArrayList<String>,
+    private val context : Context
+
+) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
 
     inner class ViewHolder(val layout: LinearLayout) : RecyclerView.ViewHolder(layout),
         View.OnLongClickListener {
@@ -22,9 +35,34 @@ class RecordsListAdapter(private val dataset: Array<TimeoRecord>) : RecyclerView
 
         }
 
-        override fun onLongClick(v: View?): Boolean {
+        override fun onLongClick(v: View): Boolean {
 
-            Snackbar.make(v!!, "Deleted the item", Snackbar.LENGTH_LONG).show()
+            val dialog = AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.ic_delete)
+                .setTitle("Are you sure?")
+                .setMessage("Are you sure you want to delete this record?")
+                .setPositiveButton("Yes") { _: DialogInterface, _: Int ->
+
+                    val documentId = mItemIds[adapterPosition]
+
+                    mRecordsCollection
+                        .document(documentId)
+                        .delete()
+                        .addOnFailureListener { firebaseFirestoreException ->
+
+                            Log.w(TAG, "Failed to delete data from Firestore", firebaseFirestoreException)
+
+                        }
+
+
+                    Snackbar.make(v, "Item deleted", Snackbar.LENGTH_LONG).show()
+
+                }
+                .setNegativeButton("No", null)
+
+
+            dialog.show()
+
 
             return true
 
@@ -33,10 +71,12 @@ class RecordsListAdapter(private val dataset: Array<TimeoRecord>) : RecyclerView
     }
 
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val layout = LayoutInflater.from(parent.context)
             .inflate(R.layout.partial_records_list_item, parent, false) as LinearLayout
+
 
         return ViewHolder(layout)
 

@@ -5,18 +5,65 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.HomeFragmentDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.RecordActivityDialog
+import com.jdevs.timeo.TaskListFragmentDirections
 import com.jdevs.timeo.data.TimeoActivity
 import kotlinx.android.synthetic.main.partial_activities_list_item.view.*
 
-class ActivitiesListAdapter(private val dataset: Array<TimeoActivity>) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
+class ActivitiesListAdapter(
+    private val dataset: Array<TimeoActivity>,
+    private val navController: NavController
+) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
 
-    class ViewHolder(val layout: LinearLayout) : RecyclerView.ViewHolder(layout)
+    inner class ViewHolder(val layout: LinearLayout) : RecyclerView.ViewHolder(layout),
+        View.OnClickListener{
+
+        init {
+
+            layout.setOnClickListener(this)
+
+        }
+
+
+        override fun onClick(v: View?) {
+
+            try {
+
+                navController.currentDestination?.apply {
+
+                    val title = dataset[adapterPosition].title
+
+                    try {
+
+                        val action = HomeFragmentDirections
+                            .actionShowActivityDetails(title)
+
+                        navController.navigate(action)
+
+                    } catch (e : IllegalArgumentException) {
+
+                        val action = TaskListFragmentDirections
+                            .actionShowActivityDetails(title)
+
+                        navController.navigate(action)
+
+                    }
+
+                }
+
+            } catch (e : Exception) {}
+
+        }
+
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

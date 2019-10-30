@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.TimeoRecord
@@ -20,8 +21,10 @@ class HistoryFragment : ActionBarFragment() {
 
     private val mFirestore = FirebaseFirestore.getInstance()
     private val mRecords = ArrayList<TimeoRecord>()
+    private val mItemIds = ArrayList<String>()
 
-    private lateinit var mActivitiesRef : Query
+    private lateinit var mRecordsCollection : CollectionReference
+    private lateinit var mRecordsSorted: Query
 
     private lateinit var mViewAdapter : RecordsListAdapter
     private lateinit var mRecyclerView: RecyclerView
@@ -35,8 +38,9 @@ class HistoryFragment : ActionBarFragment() {
 
         if(user != null) {
 
-            mActivitiesRef = mFirestore
-                .collection("users/${user.uid}/records")
+            mRecordsCollection = mFirestore.collection("users/${user.uid}/records")
+
+            mRecordsSorted = mRecordsCollection
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .limit(30)
 
@@ -65,13 +69,14 @@ class HistoryFragment : ActionBarFragment() {
         super.onStart()
 
 
-        mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+        mRecordsSorted.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
             if(querySnapshot != null && !querySnapshot.isEmpty) {
 
                 val records = querySnapshot.documents
 
                 mRecords.clear()
+                mItemIds.clear()
 
                 for(record in records) {
 
@@ -83,6 +88,7 @@ class HistoryFragment : ActionBarFragment() {
                         if(timeoRecord != null) {
 
                             mRecords.add(timeoRecord)
+                            mItemIds.add(record.id)
 
                         }
 
@@ -108,8 +114,7 @@ class HistoryFragment : ActionBarFragment() {
 
         val viewManager = LinearLayoutManager(context)
 
-        mViewAdapter = RecordsListAdapter(mRecords.toTypedArray())
-
+        mViewAdapter = RecordsListAdapter(mRecords.toTypedArray(), mRecordsCollection, mItemIds, context!!)
 
         mRecyclerView.apply {
 

@@ -2,6 +2,7 @@ package com.jdevs.timeo.models
 
 import android.os.Bundle
 import android.util.Log
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -88,7 +89,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
         val viewManager = LinearLayoutManager(context)
 
-        mViewAdapter = ActivitiesListAdapter(mActivities.toTypedArray())
+        mViewAdapter = ActivitiesListAdapter(mActivities.toTypedArray(), findNavController())
 
 
         mRecyclerView.apply {

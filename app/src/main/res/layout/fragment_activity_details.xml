@@ -6,11 +6,12 @@
     tools:context=".ActivityDetailsFragment">
 
     <TextView
+        android:id="@+id/mainTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:text="Show activity" />
+        android:text="Show activity"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
 
 </FrameLayout>

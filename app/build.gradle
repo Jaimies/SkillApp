@@ -11,6 +11,14 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'io.fabric'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/home/alex/StudioProjects/Timeo/signing.jks')
+            storePassword 'PASSWORD'
+            keyAlias = 'KEY_ALIAS'
+            keyPassword 'PASSWORD'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -25,7 +33,9 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     kotlinOptions {

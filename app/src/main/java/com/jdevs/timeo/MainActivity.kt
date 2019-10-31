@@ -2,6 +2,7 @@ package com.jdevs.timeo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -15,11 +16,17 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
 
     private lateinit var navController : NavController
+
+    private lateinit var mDrawableToggle : ActionBarDrawerToggle
+
+    private var mToolBarNavigationListenerIsRegistered = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,19 +54,39 @@ class MainActivity : AppCompatActivity(),
 
 
             setSupportActionBar(topActionBar)
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-            val toggle = ActionBarDrawerToggle(
+            mDrawableToggle = object : ActionBarDrawerToggle(
                 this@MainActivity,
                 drawerLayout,
                 topActionBar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
-            )
+            ) {
 
-            drawerLayout.addDrawerListener(toggle)
-            toggle.syncState()
-            toggle.syncState()
+                override fun onDrawerClosed(drawerView: View) {
+                    super.onDrawerClosed(drawerView)
+                    invalidateOptionsMenu()
+                    syncState()
+                }
 
+                override fun onDrawerOpened(drawerView: View) {
+                    super.onDrawerOpened(drawerView)
+                    invalidateOptionsMenu()
+                    syncState()
+                }
+
+            }
+
+            mDrawableToggle.setToolbarNavigationClickListener {
+
+                Log.i(TAG, "Button was pressed")
+
+                onBackPressed()
+
+            }
+
+            drawerLayout.addDrawerListener(mDrawableToggle)
 
             NavigationUI.setupActionBarWithNavController(
                 this@MainActivity,
@@ -68,6 +95,8 @@ class MainActivity : AppCompatActivity(),
             )
 
             navView.setupWithNavController(this)
+
+            enableButton(true)
 
         }
 
@@ -80,6 +109,33 @@ class MainActivity : AppCompatActivity(),
 
     }
 
+    private fun enableButton(enable: Boolean) {
+
+        if(!::mDrawableToggle.isInitialized) {
+
+            return
+
+        }
+
+        if (enable) {
+            mDrawableToggle.isDrawerIndicatorEnabled = false
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            if (!mToolBarNavigationListenerIsRegistered) {
+                mDrawableToggle.setToolbarNavigationClickListener {
+                    onBackPressed()
+                }
+
+                mToolBarNavigationListenerIsRegistered = true
+            }
+
+        } else {
+            supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+            mDrawableToggle.isDrawerIndicatorEnabled = true
+            mDrawableToggle.toolbarNavigationClickListener = null
+            mToolBarNavigationListenerIsRegistered = false
+        }
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -88,6 +144,12 @@ class MainActivity : AppCompatActivity(),
             R.id.addActivity -> {
 
                 navController.navigate(R.id.action_showCreateActivityFragment)
+
+            }
+
+            android.R.id.home -> {
+
+                navController.navigateUp()
 
             }
 
@@ -132,6 +194,7 @@ class MainActivity : AppCompatActivity(),
     }
 
 
+
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
 
         val id = destination.id
@@ -150,9 +213,13 @@ class MainActivity : AppCompatActivity(),
 
             bottomNavView.visibility = View.GONE
 
+            enableButton(true)
+
         } else {
 
             bottomNavView.visibility = View.VISIBLE
+
+            enableButton(false)
 
         }
 

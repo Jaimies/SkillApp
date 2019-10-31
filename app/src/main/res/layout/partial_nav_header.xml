@@ -12,6 +12,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Timeo"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline1" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2" />
 
 </LinearLayout>

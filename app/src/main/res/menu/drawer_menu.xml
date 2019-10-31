@@ -1,34 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/viewAccount"
-            android:icon="@drawable/ic_account"
-            android:title="Account" />
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
 
-        <item
-            android:id="@+id/viewAccount2"
-            android:icon="@drawable/ic_account"
-            android:title="Account" />
+    <item
+        android:id="@+id/taskListFragment"
+        android:icon="@drawable/ic_list"
+        android:title="Task list" />
 
-        <item
-            android:id="@+id/viewAccount3"
-            android:icon="@drawable/ic_account"
-            android:title="Account" />
-    </group>
-
-    <item android:title="System">
-        <menu>
-            <item
-                android:id="@+id/viewSettings"
-                android:icon="@drawable/ic_settings"
-                android:title="Settings" />
-
-            <item
-                android:id="@+id/viewHelp"
-                android:icon="@drawable/ic_help"
-                android:title="Help" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/statsFragment"
+        android:icon="@drawable/ic_graph"
+        android:title="Stats" />
 
 </menu>

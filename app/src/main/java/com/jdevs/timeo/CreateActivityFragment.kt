@@ -1,6 +1,5 @@
 package com.jdevs.timeo
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -10,7 +9,6 @@ import android.widget.LinearLayout
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
@@ -29,9 +27,7 @@ class CreateActivityFragment : ActionBarFragment() {
     private lateinit var spinningProgressBar: FrameLayout
     private lateinit var mainLayout : LinearLayout
 
-    private val mFirebaseInstance =  FirebaseFirestore.getInstance()
-
-    private lateinit var mActivities : CollectionReference
+    private val mFirestore =  FirebaseFirestore.getInstance()
 
     private val args : CreateActivityFragmentArgs by navArgs()
 
@@ -74,6 +70,16 @@ class CreateActivityFragment : ActionBarFragment() {
             title = if(args.editActivity) "Edit activity" else "Create activity"
 
         }
+
+        if(args.editActivity) {
+
+
+            titleEditText.setText(args.activityTitle)
+
+            iconEditText.setText(args.activityIcon)
+
+        }
+
 
 
         // Inflate the layout for this fragment
@@ -152,21 +158,36 @@ class CreateActivityFragment : ActionBarFragment() {
 
                 val timeoActivity = TimeoActivity(title, icon)
 
-                mActivities = mFirebaseInstance.collection("users/${mAuth.currentUser!!.uid}/activities")
+                if(args.editActivity) {
 
-                mActivities.add(timeoActivity)
-                    .addOnFailureListener (activity as Activity) { firebaseException ->
+                    val activityRef = mFirestore.document("/users/${mUser.uid}/activities/${args.activityId}")
+
+                    activityRef.update("title", title, "icon", icon).addOnFailureListener { firebaseException ->
 
                         Log.w("Create activity", "Failed to save activity", firebaseException)
 
                     }
 
+                    val directions = CreateActivityFragmentDirections.actionReturnToActivityDetails(title, icon, args.activityId)
 
-                findNavController().apply {
+                    findNavController().navigate(directions)
 
-                    navigate(R.id.homeFragment)
-                    popBackStack(R.id.createActivityFragment, true)
+                } else {
 
+                    val activities = mFirestore.collection("users/${mUser.uid}/activities")
+
+                    activities.add(timeoActivity)
+                        .addOnFailureListener { firebaseException ->
+
+                            Log.w("Create activity", "Failed to save activity", firebaseException)
+
+                        }
+
+                    findNavController().apply {
+
+                        popBackStack(R.id.createActivityFragment, true)
+
+                    }
                 }
 
                 hideKeyboard(activity)

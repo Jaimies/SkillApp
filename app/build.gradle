@@ -46,7 +46,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
-    implementation 'com.google.firebase:firebase-mAuth:19.1.0'
+    implementation 'com.google.firebase:firebase-auth:19.1.0'
 
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -59,7 +59,8 @@ dependencies {
 
     implementation "com.google.android.material:material:$material_version"
 
-    implementation 'com.google.android.gms:play-services-mAuth:17.0.0'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
 
     implementation 'com.android.support:multidex:1.0.3'
 

@@ -20,7 +20,8 @@ import kotlinx.android.synthetic.main.partial_activities_list_item.view.*
 
 class ActivitiesListAdapter(
     private val dataset: Array<TimeoActivity>,
-    private val navController: NavController
+    private val navController: NavController,
+    private val mItemIds : ArrayList<String>
 ) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
 
     inner class ViewHolder(val layout: LinearLayout) : RecyclerView.ViewHolder(layout),
@@ -40,18 +41,21 @@ class ActivitiesListAdapter(
                 navController.currentDestination?.apply {
 
                     val title = dataset[adapterPosition].title
+                    val icon = dataset[adapterPosition].icon
+
+                    val activityId = mItemIds[adapterPosition]
 
                     try {
 
                         val action = HomeFragmentDirections
-                            .actionShowActivityDetails(title)
+                            .actionShowActivityDetails(title, icon,  activityId)
 
                         navController.navigate(action)
 
                     } catch (e : IllegalArgumentException) {
 
                         val action = TaskListFragmentDirections
-                            .actionShowActivityDetails(title)
+                            .actionShowActivityDetails(title, icon, activityId)
 
                         navController.navigate(action)
 

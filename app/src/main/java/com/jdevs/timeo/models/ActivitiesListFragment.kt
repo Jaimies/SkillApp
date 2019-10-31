@@ -18,6 +18,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
     private val mFirestore = FirebaseFirestore.getInstance()
     private val mActivities = ArrayList<TimeoActivity>()
+    private val mItemIds = ArrayList<String>()
 
     private lateinit var mActivitiesRef : Query
 
@@ -78,6 +79,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
                 val activities = querySnapshot.documents
 
                 mActivities.clear()
+                mItemIds.clear()
 
 
 
@@ -91,6 +93,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
                         if(timeoActivity != null) {
 
                             mActivities.add(timeoActivity)
+                            mItemIds.add(activity.id)
 
                         }
 
@@ -121,7 +124,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
         val viewManager = LinearLayoutManager(context)
 
-        mViewAdapter = ActivitiesListAdapter(mActivities.toTypedArray(), findNavController())
+        mViewAdapter = ActivitiesListAdapter(mActivities.toTypedArray(), findNavController(), mItemIds)
 
 
         mRecyclerView.apply {

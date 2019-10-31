@@ -22,7 +22,7 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
         view.mainTextView.apply {
 
-            text = args.title
+            text = args.activityTitle
 
         }
 
@@ -42,7 +42,7 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
         return if(item.itemId == R.id.editActivity) {
 
-            val directions= ActivityDetailsFragmentDirections.actionEditActivity(true)
+            val directions= ActivityDetailsFragmentDirections.actionEditActivity(true, args.activityId, args.activityTitle, args.activityIcon)
 
             findNavController().navigate(directions)
 

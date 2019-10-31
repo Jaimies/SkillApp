@@ -67,20 +67,27 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
                 }
 
+
+                mActivities.clear()
+                mItemIds.clear()
+
+
                 if(querySnapshot.isEmpty) {
 
-                        createNewActivityView.visibility = View.VISIBLE
+                    createNewActivityView.visibility = View.VISIBLE
 
-                        createNewActivityButton.apply {
+                    createNewActivityButton.apply {
 
-                            setOnClickListener {
+                        setOnClickListener {
 
-                                findNavController().navigate(R.id.action_showCreateActivityFragment)
-
-                            }
-
+                            findNavController().navigate(R.id.action_showCreateActivityFragment)
 
                         }
+
+
+                    }
+
+                    refreshRecyclerView(recyclerView)
 
                     return@addSnapshotListener
 
@@ -88,11 +95,6 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
 
                 val activities = querySnapshot.documents
-
-                mActivities.clear()
-                mItemIds.clear()
-
-
 
                 for(activity in activities) {
 

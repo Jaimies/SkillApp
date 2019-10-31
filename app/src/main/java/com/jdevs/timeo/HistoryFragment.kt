@@ -96,9 +96,15 @@ class HistoryFragment : ActionBarFragment() {
                 }
 
 
+                mRecords.clear()
+                mItemIds.clear()
+
+
                 if(querySnapshot.isEmpty) {
 
                     mCreateNewActivityTextView.visibility = View.VISIBLE
+
+                    refreshRecyclerView()
 
                     return@addSnapshotListener
 
@@ -106,9 +112,6 @@ class HistoryFragment : ActionBarFragment() {
 
 
                 val records = querySnapshot.documents
-
-                mRecords.clear()
-                mItemIds.clear()
 
                 for(record in records) {
 

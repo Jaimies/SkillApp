@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var navController : NavController
 
-    private lateinit var mDrawableToggle : ActionBarDrawerToggle
+    private lateinit var mToggle : ActionBarDrawerToggle
 
     private var mToolBarNavigationListenerIsRegistered = false
 
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(),
             setSupportActionBar(topActionBar)
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-            mDrawableToggle = object : ActionBarDrawerToggle(
+            mToggle = object : ActionBarDrawerToggle(
                 this@MainActivity,
                 drawerLayout,
                 topActionBar,
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(),
 
             }
 
-            mDrawableToggle.setToolbarNavigationClickListener {
+            mToggle.setToolbarNavigationClickListener {
 
                 Log.i(TAG, "Button was pressed")
 
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity(),
 
             }
 
-            drawerLayout.addDrawerListener(mDrawableToggle)
+            drawerLayout.addDrawerListener(mToggle)
 
             NavigationUI.setupActionBarWithNavController(
                 this@MainActivity,
@@ -111,28 +111,42 @@ class MainActivity : AppCompatActivity(),
 
     private fun enableButton(enable: Boolean) {
 
-        if(!::mDrawableToggle.isInitialized) {
+        if(!::mToggle.isInitialized) {
 
             return
 
         }
 
         if (enable) {
-            mDrawableToggle.isDrawerIndicatorEnabled = false
+
+            mToggle.isDrawerIndicatorEnabled = false
+
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+
             if (!mToolBarNavigationListenerIsRegistered) {
-                mDrawableToggle.setToolbarNavigationClickListener {
+
+                mToggle.setToolbarNavigationClickListener {
+
                     onBackPressed()
+
                 }
 
                 mToolBarNavigationListenerIsRegistered = true
+
             }
 
         } else {
+
+            mToggle.isDrawerIndicatorEnabled = true
+
             supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-            mDrawableToggle.isDrawerIndicatorEnabled = true
-            mDrawableToggle.toolbarNavigationClickListener = null
+
+
+            mToggle.toolbarNavigationClickListener = null
+
             mToolBarNavigationListenerIsRegistered = false
+
         }
     }
 

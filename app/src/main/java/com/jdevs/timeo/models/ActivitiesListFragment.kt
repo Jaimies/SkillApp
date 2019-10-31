@@ -3,6 +3,7 @@ package com.jdevs.timeo.models
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,10 +24,6 @@ open class ActivitiesListFragment : ActionBarFragment() {
     private lateinit var mActivitiesRef : Query
 
     private lateinit var mViewAdapter : ActivitiesListAdapter
-    lateinit var mRecyclerView: RecyclerView
-
-    lateinit var mCreateNewActivityView : LinearLayout
-    lateinit var mCreateNewActivityButton : MaterialButton
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,34 +37,47 @@ open class ActivitiesListFragment : ActionBarFragment() {
     }
 
 
-    fun setupActivityListener(recyclerView: RecyclerView) {
+    fun setupActivityListener(
+        recyclerView: RecyclerView,
+        loaderLayout : FrameLayout,
+        createNewActivityView : LinearLayout,
+        createNewActivityButton : MaterialButton
+    ) {
+
+        loaderLayout.apply {
+
+            visibility  = View.VISIBLE
+
+        }
 
         mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
             if(querySnapshot != null) {
 
+                loaderLayout.apply {
+
+                    if(visibility != View.GONE) {
+
+                        visibility  = View.GONE
+
+                    }
+
+                }
+
                 if(querySnapshot.isEmpty) {
 
-                    if(::mCreateNewActivityView.isInitialized) {
+                        createNewActivityView.visibility = View.VISIBLE
 
-                        mCreateNewActivityView.visibility = View.VISIBLE
+                        createNewActivityButton.apply {
 
+                            setOnClickListener {
 
-                        if(::mCreateNewActivityButton.isInitialized) {
-
-                            mCreateNewActivityButton.apply {
-
-                                setOnClickListener {
-
-                                    findNavController().navigate(R.id.action_showCreateActivityFragment)
-
-                                }
+                                findNavController().navigate(R.id.action_showCreateActivityFragment)
 
                             }
 
-                        }
 
-                    }
+                        }
 
                     return@addSnapshotListener
 

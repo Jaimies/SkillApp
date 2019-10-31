@@ -49,8 +49,6 @@ open class AuthenticationFragment : Fragment() {
 
             visibility = View.VISIBLE
 
-            alpha = 1.0f
-
         }
 
         mainLayout.apply {
@@ -71,9 +69,7 @@ open class AuthenticationFragment : Fragment() {
 
         spinningProgressBar.apply {
 
-            visibility = View.INVISIBLE
-
-            alpha = 0.0f
+            visibility = View.GONE
 
         }
 

@@ -2,15 +2,14 @@ package com.jdevs.timeo
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.jdevs.timeo.models.AuthFragment
+import com.jdevs.timeo.models.ActionBarFragment
 import kotlinx.android.synthetic.main.fragment_activity_details.view.*
 
 
-class ActivityDetailsFragment : AuthFragment() {
+class ActivityDetailsFragment : ActionBarFragment() {
 
     private val args : ActivityDetailsFragmentArgs by navArgs()
 
@@ -31,5 +30,30 @@ class ActivityDetailsFragment : AuthFragment() {
         return view
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        addOptionsMenu(menu, inflater, R.menu.action_bar_activity_details)
+
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return if(item.itemId == R.id.editActivity) {
+
+            val directions= ActivityDetailsFragmentDirections.actionEditActivity(true)
+
+            findNavController().navigate(directions)
+
+            true
+
+
+        } else {
+
+            super.onOptionsItemSelected(item)
+
+        }
+    }
 
 }

@@ -22,7 +22,7 @@ class RecordsListAdapter(
     private val dataset: Array<TimeoRecord>,
     private val mRecordsCollection : CollectionReference,
     private val mItemIds : ArrayList<String>,
-    private val context : Context
+    private val context : Context?
 
 ) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
 
@@ -36,6 +36,12 @@ class RecordsListAdapter(
         }
 
         override fun onLongClick(v: View): Boolean {
+
+            if(context == null) {
+
+                return true
+
+            }
 
             val dialog = AlertDialog.Builder(context)
                 .setIcon(android.R.drawable.ic_delete)

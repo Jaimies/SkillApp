@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.CollectionReference
@@ -28,6 +29,8 @@ class HistoryFragment : ActionBarFragment() {
 
     private lateinit var mViewAdapter : RecordsListAdapter
     private lateinit var mRecyclerView: RecyclerView
+
+    private lateinit var mCreateNewActivityTextView: TextView
 
 
 
@@ -58,6 +61,8 @@ class HistoryFragment : ActionBarFragment() {
 
         mRecyclerView  = view.recordsRecyclerView
 
+        mCreateNewActivityTextView = view.createNewActivityTextView
+
         // Inflate the layout for this fragment
         return view
 
@@ -71,7 +76,17 @@ class HistoryFragment : ActionBarFragment() {
 
         mRecordsSorted.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
-            if(querySnapshot != null && !querySnapshot.isEmpty) {
+            if(querySnapshot != null) {
+
+
+                if(querySnapshot.isEmpty) {
+
+                    mCreateNewActivityTextView.visibility = View.VISIBLE
+
+                    return@addSnapshotListener
+
+                }
+
 
                 val records = querySnapshot.documents
 
@@ -114,7 +129,12 @@ class HistoryFragment : ActionBarFragment() {
 
         val viewManager = LinearLayoutManager(context)
 
-        mViewAdapter = RecordsListAdapter(mRecords.toTypedArray(), mRecordsCollection, mItemIds, context!!)
+        mViewAdapter = RecordsListAdapter(
+            mRecords.toTypedArray(),
+            mRecordsCollection,
+            mItemIds,
+            context
+        )
 
         mRecyclerView.apply {
 

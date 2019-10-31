@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -33,6 +34,8 @@ class CreateActivityFragment : ActionBarFragment() {
     private val mAuth = FirebaseAuth.getInstance()
 
     private lateinit var mActivities : CollectionReference
+
+    private val args : CreateActivityFragmentArgs by navArgs()
 
 
     override fun onCreateView(
@@ -67,6 +70,11 @@ class CreateActivityFragment : ActionBarFragment() {
 
         }
 
+        (requireActivity() as MainActivity).supportActionBar?.apply{
+
+            title = if(args.editActivity) "Edit activity" else "Create activity"
+
+        }
 
         // Inflate the layout for this fragment
         return view
@@ -127,52 +135,48 @@ class CreateActivityFragment : ActionBarFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        addOptionsMenu(menu, inflater, R.menu.action_bar_add_activity)
+        addOptionsMenu(menu, inflater, R.menu.action_bar_create_activity)
 
     }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId) {
-            R.id.doneAddingActivity -> {
+        if (item.itemId == R.id.doneAddingActivity) {
 
-                if(validateInput()) {
+            if(validateInput()) {
 
-                    val title = titleEditText.text.toString()
+                val title = titleEditText.text.toString()
 
-                    val icon = iconEditText.text.toString()
+                val icon = iconEditText.text.toString()
 
-                    val timeoActivity = TimeoActivity(title, icon)
+                val timeoActivity = TimeoActivity(title, icon)
 
-                    mActivities = mFirebaseInstance.collection("users/${mAuth.currentUser!!.uid}/activities")
+                mActivities = mFirebaseInstance.collection("users/${mAuth.currentUser!!.uid}/activities")
 
-                    mActivities.add(timeoActivity)
-                        .addOnFailureListener (activity as Activity) { firebaseException ->
+                mActivities.add(timeoActivity)
+                    .addOnFailureListener (activity as Activity) { firebaseException ->
 
-                            Log.w("Create activity", "Failed to save activity", firebaseException)
-
-                        }
-
-
-                    findNavController().apply {
-
-                        navigate(R.id.homeFragment)
-                        findNavController().popBackStack(R.id.createActivityFragment, true)
+                        Log.w("Create activity", "Failed to save activity", firebaseException)
 
                     }
 
-                    hideKeyboard(activity)
+
+                findNavController().apply {
+
+                    navigate(R.id.homeFragment)
+                    popBackStack(R.id.createActivityFragment, true)
 
                 }
 
-            }
-
-            else -> {
-
-                return super.onOptionsItemSelected(item)
+                hideKeyboard(activity)
 
             }
+
+        } else {
+
+            return super.onOptionsItemSelected(item)
+
         }
 
         return true

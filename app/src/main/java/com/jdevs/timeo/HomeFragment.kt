@@ -44,4 +44,5 @@ class HomeFragment : ActivitiesListFragment() {
         addOptionsMenu(menu, inflater, R.menu.action_bar_main)
 
     }
+
 }

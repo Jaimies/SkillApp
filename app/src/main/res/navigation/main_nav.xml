@@ -57,8 +57,12 @@
     <fragment
         android:id="@+id/createActivityFragment"
         android:name="com.jdevs.timeo.CreateActivityFragment"
-        android:label="Create Activity"
-        tools:layout="@layout/fragment_create_activity" />
+        tools:layout="@layout/fragment_create_activity">
+        <argument
+            android:name="editActivity"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.jdevs.timeo.HistoryFragment"
@@ -104,6 +108,13 @@
         tools:layout="@layout/fragment_activity_details" >
         <argument app:argType="string"
             android:name="title"/>
+        <action
+            android:id="@+id/action_editActivity"
+            app:destination="@id/createActivityFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

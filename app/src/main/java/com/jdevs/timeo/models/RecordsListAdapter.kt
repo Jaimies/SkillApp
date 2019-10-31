@@ -61,7 +61,7 @@ class RecordsListAdapter(
                         }
 
 
-                    Snackbar.make(v, "Item deleted", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(v, "Record deleted", Snackbar.LENGTH_LONG).show()
 
                 }
                 .setNegativeButton("No", null)

@@ -96,7 +96,7 @@ class ActivitiesListAdapter(
 
                 setOnClickListener {
 
-                    val dialog = RecordActivityDialog(context, dataset[position].title)
+                    val dialog = RecordActivityDialog(context, dataset[position].title, mItemIds[position])
 
                     dialog.show()
 

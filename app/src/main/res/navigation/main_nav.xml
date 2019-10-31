@@ -64,11 +64,17 @@
             app:argType="boolean" />
 
         <argument app:argType="string"
-            android:name="activityId"/>
+            android:name="activityId"
+            android:defaultValue="@null"
+            app:nullable="true"/>
         <argument app:argType="string"
-            android:name="activityTitle" />
+            android:name="activityTitle"
+            android:defaultValue="@null"
+            app:nullable="true" />
         <argument app:argType="string"
-            android:name="activityIcon" />
+            android:name="activityIcon"
+            android:defaultValue="@null"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_returnToActivityDetails"
             app:destination="@id/activityDetailsFragment"
@@ -78,6 +84,15 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/activityDetailsFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_returnToHomeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/activityDetailsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"

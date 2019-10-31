@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.dialog_record_activity.*
 import kotlin.math.roundToInt
 
 
-class RecordActivityDialog(context: Context, private val activityName : String) : Dialog(context),
+class RecordActivityDialog(context: Context, private val activityName : String, private val activityId : String) : Dialog(context),
     View.OnFocusChangeListener {
 
 
@@ -137,7 +137,7 @@ class RecordActivityDialog(context: Context, private val activityName : String) 
         val time = hours * 60 + minutes
 
 
-        val timeoRecord = TimeoRecord(activityName, time)
+        val timeoRecord = TimeoRecord(activityName, time, activityId)
 
         mRecords = mFirebaseInstance.collection("/users/${mAuth.currentUser!!.uid}/records")
 

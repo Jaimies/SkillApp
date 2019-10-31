@@ -43,7 +43,12 @@ class TaskListFragment : ActivitiesListFragment() {
 
         super.onStart()
 
-        setupActivityListener(mRecyclerView, mLoader, mCreateNewActivityView, mCreateNewActivityButton)
+        setupActivityListener(
+            mRecyclerView,
+            mLoader,
+            mCreateNewActivityView,
+            mCreateNewActivityButton
+        )
 
     }
 

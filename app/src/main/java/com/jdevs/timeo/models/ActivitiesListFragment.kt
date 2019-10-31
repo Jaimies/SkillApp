@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TAG
@@ -25,6 +26,8 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
     private lateinit var mViewAdapter : ActivitiesListAdapter
 
+    private lateinit var mSnapshotListener : ListenerRegistration
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +42,9 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
     fun setupActivityListener(
         recyclerView: RecyclerView,
-        loaderLayout : FrameLayout,
-        createNewActivityView : LinearLayout,
-        createNewActivityButton : MaterialButton
+        loaderLayout: FrameLayout,
+        createNewActivityView: LinearLayout,
+        createNewActivityButton: MaterialButton
     ) {
 
         loaderLayout.apply {
@@ -50,7 +53,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
         }
 
-        mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+        mSnapshotListener = mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
             if(querySnapshot != null) {
 
@@ -119,6 +122,14 @@ open class ActivitiesListFragment : ActionBarFragment() {
             }
 
         }
+
+    }
+
+    override fun onPause() {
+
+        super.onPause()
+
+        mSnapshotListener.remove()
 
     }
 

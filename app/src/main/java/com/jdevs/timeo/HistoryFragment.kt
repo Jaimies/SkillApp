@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.RecordsListAdapter
+import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 import kotlinx.android.synthetic.main.partial_records_list.view.*
 
 
@@ -31,6 +33,8 @@ class HistoryFragment : ActionBarFragment() {
     private lateinit var mRecyclerView: RecyclerView
 
     private lateinit var mCreateNewActivityTextView: TextView
+
+    private lateinit var mLoader : FrameLayout
 
 
 
@@ -58,6 +62,8 @@ class HistoryFragment : ActionBarFragment() {
 
         mCreateNewActivityTextView = view.createNewActivityTextView
 
+        mLoader = view.spinningProgressBar
+
         // Inflate the layout for this fragment
         return view
 
@@ -68,10 +74,26 @@ class HistoryFragment : ActionBarFragment() {
     override fun onStart() {
         super.onStart()
 
+        mLoader.apply {
 
-        mRecordsSorted.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            visibility = View.VISIBLE
+
+        }
+
+
+        mRecordsSorted.addSnapshotListener(requireActivity()) { querySnapshot, firebaseFirestoreException ->
 
             if(querySnapshot != null) {
+
+                mLoader.apply {
+
+                    if(visibility != View.GONE) {
+
+                        visibility  = View.GONE
+
+                    }
+
+                }
 
 
                 if(querySnapshot.isEmpty) {

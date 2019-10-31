@@ -45,7 +45,12 @@ class HomeFragment : ActivitiesListFragment() {
     override fun onStart() {
         super.onStart()
 
-        setupActivityListener(mRecyclerView, mLoader, mCreateNewActivityView, mCreateNewActivityButton)
+        setupActivityListener(
+            mRecyclerView,
+            mLoader,
+            mCreateNewActivityView,
+            mCreateNewActivityButton
+        )
 
     }
 

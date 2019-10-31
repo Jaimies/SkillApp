@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseUser
 import com.jdevs.timeo.R
 
 open class AuthFragment : Fragment() {
 
-    lateinit var auth : FirebaseAuth
+    lateinit var mAuth : FirebaseAuth
+
+    lateinit var mUser : FirebaseUser
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,13 +20,10 @@ open class AuthFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
 
-        auth = FirebaseAuth.getInstance()
+        mAuth = FirebaseAuth.getInstance()
 
-        if(auth.currentUser == null) {
-
-            throw FirebaseAuthException("Anauthorized access", "User does not have permissions to use this fragment")
-
-        }
+        mUser = mAuth.currentUser
+            ?: throw FirebaseAuthException("Unauthorized access", "User does not have permissions to use this fragment")
 
     }
 

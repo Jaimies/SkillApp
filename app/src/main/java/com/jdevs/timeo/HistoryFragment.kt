@@ -37,17 +37,12 @@ class HistoryFragment : ActionBarFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val user = auth.currentUser
+        mRecordsCollection = mFirestore.collection("users/${mUser.uid}/records")
 
-        if(user != null) {
+        mRecordsSorted = mRecordsCollection
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .limit(30)
 
-            mRecordsCollection = mFirestore.collection("users/${user.uid}/records")
-
-            mRecordsSorted = mRecordsCollection
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .limit(30)
-
-        }
 
     }
 

@@ -10,7 +10,6 @@ import android.widget.LinearLayout
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoActivity
@@ -31,7 +30,6 @@ class CreateActivityFragment : ActionBarFragment() {
     private lateinit var mainLayout : LinearLayout
 
     private val mFirebaseInstance =  FirebaseFirestore.getInstance()
-    private val mAuth = FirebaseAuth.getInstance()
 
     private lateinit var mActivities : CollectionReference
 
@@ -70,11 +68,13 @@ class CreateActivityFragment : ActionBarFragment() {
 
         }
 
+
         (requireActivity() as MainActivity).supportActionBar?.apply{
 
             title = if(args.editActivity) "Edit activity" else "Create activity"
 
         }
+
 
         // Inflate the layout for this fragment
         return view

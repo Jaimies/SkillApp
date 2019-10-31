@@ -31,16 +31,10 @@ open class ActivitiesListFragment : ActionBarFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val user = auth.currentUser
-
-        if(user != null) {
-
-            mActivitiesRef = mFirestore
-                .collection("users/${user.uid}/activities")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .limit(20)
-
-        }
+        mActivitiesRef = mFirestore
+            .collection("users/${mUser.uid}/activities")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .limit(20)
 
     }
 

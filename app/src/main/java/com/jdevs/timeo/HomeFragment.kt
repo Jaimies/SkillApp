@@ -65,7 +65,7 @@ class HomeFragment : ActivitiesListFragment() {
 
         activity?.apply {
 
-            mBottomNavView = findViewById(R.id.bottomNavigationView)
+            mBottomNavView = findViewById(R.id.bottomNavView)
 
             if(mBottomNavView.visibility != View.VISIBLE) {
 

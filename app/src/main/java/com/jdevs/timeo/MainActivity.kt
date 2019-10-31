@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
@@ -30,23 +32,33 @@ class MainActivity : AppCompatActivity(),
 
             addOnDestinationChangedListener(this@MainActivity)
 
-            bottomNavigationView.setupWithNavController(this)
+            bottomNavView.setupWithNavController(this)
 
 
-            val appBarConfiguration = AppBarConfiguration
-                .Builder(
+            val mainDestinations = setOf(
+                R.id.homeFragment,
+                R.id.taskListFragment,
+                R.id.statsFragment,
+                R.id.loginFragment,
+                R.id.signupFragment
+            )
 
-                    R.id.homeFragment,
-                    R.id.taskListFragment,
-                    R.id.statsFragment,
-                    R.id.loginFragment,
-                    R.id.signupFragment
-
-                )
-                .build()
+            val appBarConfiguration = AppBarConfiguration(mainDestinations, drawerLayout)
 
 
             setSupportActionBar(topActionBar)
+
+            val toggle = ActionBarDrawerToggle(
+                this@MainActivity,
+                drawerLayout,
+                topActionBar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+            )
+
+            drawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+            toggle.syncState()
 
 
             NavigationUI.setupActionBarWithNavController(
@@ -54,6 +66,8 @@ class MainActivity : AppCompatActivity(),
                 this,
                 appBarConfiguration
             )
+
+            navView.setupWithNavController(this)
 
         }
 
@@ -134,13 +148,27 @@ class MainActivity : AppCompatActivity(),
 
         if(!mainFragmentIds.contains(id)) {
 
-            bottomNavigationView.visibility = View.GONE
+            bottomNavView.visibility = View.GONE
 
         } else {
 
-            bottomNavigationView.visibility = View.VISIBLE
+            bottomNavView.visibility = View.VISIBLE
 
         }
+
+    }
+
+    override fun onBackPressed() {
+
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+
+            drawerLayout.closeDrawer(GravityCompat.START)
+
+            return
+
+        }
+
+        super.onBackPressed()
 
     }
 }

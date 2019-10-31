@@ -31,7 +31,7 @@ open class AuthenticationFragment : Fragment() {
 
         activity?.apply {
 
-            val bottomNavView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            val bottomNavView = findViewById<BottomNavigationView>(R.id.bottomNavView)
 
             bottomNavView.visibility = View.GONE
 

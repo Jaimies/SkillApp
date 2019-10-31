@@ -40,9 +40,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
     }
 
 
-    override fun onStart() {
-        super.onStart()
-
+    fun setupActivityListener(recyclerView: RecyclerView) {
 
         mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
@@ -101,7 +99,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
                 }
 
-                refreshRecyclerView()
+                refreshRecyclerView(recyclerView)
 
 
             } else if(firebaseFirestoreException != null) {
@@ -111,23 +109,19 @@ open class ActivitiesListFragment : ActionBarFragment() {
             }
 
         }
+
     }
 
 
-    private fun refreshRecyclerView() {
 
-        if(!::mRecyclerView.isInitialized) {
-
-            return
-
-        }
+    private fun refreshRecyclerView(recyclerView: RecyclerView) {
 
         val viewManager = LinearLayoutManager(context)
 
         mViewAdapter = ActivitiesListAdapter(mActivities.toTypedArray(), findNavController(), mItemIds)
 
 
-        mRecyclerView.apply {
+        recyclerView.apply {
 
             layoutManager = viewManager
 

@@ -39,6 +39,14 @@ class HomeFragment : ActivitiesListFragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        setupActivityListener(mRecyclerView)
+
+    }
+
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
         addOptionsMenu(menu, inflater, R.menu.action_bar_main)

@@ -34,4 +34,7 @@
             android:layout_height="wrap_content"
             android:text="Create an activity"/>
     </LinearLayout>
+
+    <include
+        layout="@layout/partial_circular_loader"/>
 </FrameLayout>

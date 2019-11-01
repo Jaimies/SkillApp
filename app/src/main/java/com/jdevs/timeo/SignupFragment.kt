@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.*
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.AuthenticationFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
@@ -96,6 +97,7 @@ class SignupFragment : AuthenticationFragment(),
             setOnClickListener {
 
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+                requireActivity().toolbar.navigationIcon = null
 
             }
 
@@ -113,8 +115,6 @@ class SignupFragment : AuthenticationFragment(),
             }
 
         }
-
-//        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
 
         // Inflate the layout for this fragment
         return view

@@ -28,6 +28,7 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.AuthenticationFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
@@ -108,8 +109,6 @@ class LoginFragment : AuthenticationFragment(),
 
         }
 
-//        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-
 
     }
 
@@ -122,14 +121,6 @@ class LoginFragment : AuthenticationFragment(),
 
 
         super.onCreateView(inflater, container, savedInstanceState)
-
-
-
-        activity?.apply{
-
-            actionBar?.setDisplayHomeAsUpEnabled(false)
-
-        }
 
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
@@ -155,6 +146,7 @@ class LoginFragment : AuthenticationFragment(),
             setOnClickListener {
 
                 findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+                requireActivity().toolbar.navigationIcon = null
 
             }
 

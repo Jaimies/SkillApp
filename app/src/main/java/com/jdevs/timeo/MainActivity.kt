@@ -2,31 +2,24 @@ package com.jdevs.timeo
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
-
-
-    private lateinit var navController : NavController
-
-    private lateinit var mToggle : ActionBarDrawerToggle
-
-    private var mToolBarNavigationListenerIsRegistered = false
 
     private val mainDestinations = setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment)
 
@@ -35,125 +28,65 @@ class MainActivity : AppCompatActivity(),
     private val nonBackArrowedDestinations = loginDestinations.union(mainDestinations)
 
 
+    private lateinit var navController : NavController
+
+    private lateinit var appBarConfiguration : AppBarConfiguration
+
+    private lateinit var mToggle: ActionBarDrawerToggle
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment).apply {
+        setSupportActionBar(toolbar)
 
-            addOnDestinationChangedListener(this@MainActivity)
+        navController = findNavController(R.id.nav_host_fragment)
 
-            bottomNavView.setupWithNavController(this)
-
-            val appBarConfiguration = AppBarConfiguration(
-                nonBackArrowedDestinations,
-                drawerLayout
-            )
+        navController.addOnDestinationChangedListener(this)
 
 
-            setSupportActionBar(toolbar)
-            supportActionBar?.apply {
+        appBarConfiguration = AppBarConfiguration(nonBackArrowedDestinations, drawerLayout)
 
-                setDisplayHomeAsUpEnabled(false)
-                setDefaultDisplayHomeAsUpEnabled(false)
-                setHomeButtonEnabled(false)
+        mToggle = object : ActionBarDrawerToggle(
+            this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        ) {
 
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+                syncState()
             }
 
-            mToggle = object : ActionBarDrawerToggle(
-                this@MainActivity,
-                drawerLayout,
-                toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-            ) {
 
-                override fun onDrawerClosed(drawerView: View) {
-                    super.onDrawerClosed(drawerView)
-                    invalidateOptionsMenu()
-                    syncState()
-                }
-
-                override fun onDrawerOpened(drawerView: View) {
-                    super.onDrawerOpened(drawerView)
-                    invalidateOptionsMenu()
-                    syncState()
-                }
-
+            override fun onDrawerClosed(drawerView: View) {
+                super.onDrawerClosed(drawerView)
+                syncState()
             }
-
-            mToggle.setToolbarNavigationClickListener {
-
-                Log.i(TAG, "Button was pressed")
-
-                onBackPressed()
-
-            }
-
-            drawerLayout.addDrawerListener(mToggle)
-
-            NavigationUI.setupActionBarWithNavController(
-                this@MainActivity,
-                this,
-                appBarConfiguration
-            )
-
-            navView.setupWithNavController(this)
-
-            enableButton(true)
 
         }
 
+        drawerLayout.addDrawerListener(mToggle)
+        mToggle.syncState()
+
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+
+        navView.setupWithNavController(navController)
+
+        bottomNavView.setupWithNavController(navController)
+
+        toolbar.navigationIcon = null
 
     }
 
     override fun onSupportNavigateUp(): Boolean {
 
-        return NavigationUI.navigateUp(navController, null)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 
-    }
-
-    private fun enableButton(enable: Boolean) {
-
-        if(!::mToggle.isInitialized) {
-
-            return
-
-        }
-
-        if (enable) {
-
-            mToggle.isDrawerIndicatorEnabled = false
-
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-
-            if (!mToolBarNavigationListenerIsRegistered) {
-
-                mToggle.setToolbarNavigationClickListener {
-
-                    onBackPressed()
-
-                }
-
-                mToolBarNavigationListenerIsRegistered = true
-
-            }
-
-        } else {
-
-            mToggle.isDrawerIndicatorEnabled = true
-
-            supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-
-
-            mToggle.toolbarNavigationClickListener = null
-
-            mToolBarNavigationListenerIsRegistered = false
-
-        }
     }
 
 
@@ -164,12 +97,6 @@ class MainActivity : AppCompatActivity(),
             R.id.addActivity -> {
 
                 navController.navigate(R.id.action_showCreateActivityFragment)
-
-            }
-
-            android.R.id.home -> {
-
-                navController.navigateUp()
 
             }
 
@@ -201,15 +128,9 @@ class MainActivity : AppCompatActivity(),
 
                 startActivity(shareIntent)
             }
-
-            else -> {
-
-                return super.onOptionsItemSelected(item)
-
-            }
         }
 
-        return true
+        return false
 
     }
 
@@ -219,30 +140,19 @@ class MainActivity : AppCompatActivity(),
 
         val id = destination.id
 
+        if (mainDestinations.contains(id)) {
 
-        when {
+            bottomNavView.visibility = View.VISIBLE
 
-            mainDestinations.contains(id) -> {
-
-                bottomNavView.visibility = View.VISIBLE
-
-                enableButton(false)
-
-            }
-
-            loginDestinations.contains(id) -> {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
 
+        } else {
 
-            }
+            bottomNavView.visibility = View.GONE
 
-            else -> {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
-                bottomNavView.visibility = View.GONE
-
-                enableButton(true)
-
-            }
         }
 
     }

@@ -28,6 +28,12 @@ class MainActivity : AppCompatActivity(),
 
     private var mToolBarNavigationListenerIsRegistered = false
 
+    private val mainDestinations = setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment)
+
+    private val loginDestinations = setOf(R.id.loginFragment, R.id.signupFragment)
+
+    private val nonBackArrowedDestinations = loginDestinations.union(mainDestinations)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,25 +47,25 @@ class MainActivity : AppCompatActivity(),
 
             bottomNavView.setupWithNavController(this)
 
-
-            val mainDestinations = setOf(
-                R.id.homeFragment,
-                R.id.taskListFragment,
-                R.id.statsFragment,
-                R.id.loginFragment,
-                R.id.signupFragment
+            val appBarConfiguration = AppBarConfiguration(
+                nonBackArrowedDestinations,
+                drawerLayout
             )
 
-            val appBarConfiguration = AppBarConfiguration(mainDestinations, drawerLayout)
 
+            setSupportActionBar(toolbar)
+            supportActionBar?.apply {
 
-            setSupportActionBar(topActionBar)
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                setDisplayHomeAsUpEnabled(false)
+                setDefaultDisplayHomeAsUpEnabled(false)
+                setHomeButtonEnabled(false)
+
+            }
 
             mToggle = object : ActionBarDrawerToggle(
                 this@MainActivity,
                 drawerLayout,
-                topActionBar,
+                toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
             ) {
@@ -213,28 +219,30 @@ class MainActivity : AppCompatActivity(),
 
         val id = destination.id
 
-        val mainFragmentIds = arrayOf(
 
-            R.id.homeFragment,
-            R.id.taskListFragment,
-            R.id.statsFragment
+        when {
 
-        )
+            mainDestinations.contains(id) -> {
+
+                bottomNavView.visibility = View.VISIBLE
+
+                enableButton(false)
+
+            }
+
+            loginDestinations.contains(id) -> {
 
 
 
-        if(!mainFragmentIds.contains(id)) {
+            }
 
-            bottomNavView.visibility = View.GONE
+            else -> {
 
-            enableButton(true)
+                bottomNavView.visibility = View.GONE
 
-        } else {
+                enableButton(true)
 
-            bottomNavView.visibility = View.VISIBLE
-
-            enableButton(false)
-
+            }
         }
 
     }

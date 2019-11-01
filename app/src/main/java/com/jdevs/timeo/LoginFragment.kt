@@ -108,6 +108,8 @@ class LoginFragment : AuthenticationFragment(),
 
         }
 
+//        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+
 
     }
 

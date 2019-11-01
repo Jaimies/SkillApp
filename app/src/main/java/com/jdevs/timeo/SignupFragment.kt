@@ -114,6 +114,8 @@ class SignupFragment : AuthenticationFragment(),
 
         }
 
+//        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+
         // Inflate the layout for this fragment
         return view
     }

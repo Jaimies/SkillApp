@@ -159,14 +159,14 @@
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"/>
@@ -178,16 +178,16 @@
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_signupFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
             app:popUpTo="@id/signupFragment"
             app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_signupFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 </navigation>

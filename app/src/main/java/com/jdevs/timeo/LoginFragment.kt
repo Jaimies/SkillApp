@@ -88,7 +88,7 @@ class LoginFragment : AuthenticationFragment(),
 
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
-                // ...
+                Snackbar.make(view!!, "Failed to sign in with Google", Snackbar.LENGTH_LONG).show()
 
             }
 

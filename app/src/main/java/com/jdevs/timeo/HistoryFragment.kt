@@ -156,6 +156,8 @@ class HistoryFragment : ActionBarFragment() {
             mRecords.toTypedArray(),
             mRecordsCollection,
             mItemIds,
+            mRecords,
+            mUser!!.uid,
             context
         )
 

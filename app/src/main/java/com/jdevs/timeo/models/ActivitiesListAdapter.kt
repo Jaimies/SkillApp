@@ -108,8 +108,7 @@ class ActivitiesListAdapter(
                         RecordActivityDialog(
                             context,
                             dataset[position].title,
-                            mItemIds[position],
-                            dataset[position].totalTime
+                            mItemIds[position]
                         )
 
                     dialog.show()

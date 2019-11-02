@@ -11,6 +11,7 @@ import android.widget.EditText
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.helpers.ScreenHelper.Companion.getDimensions
@@ -22,8 +23,7 @@ import kotlin.math.roundToInt
 class RecordActivityDialog(
     context: Context,
     private val activityName: String,
-    private val activityId: String,
-    private val activityTotalTime: Int
+    private val activityId: String
 ) : Dialog(context),
     View.OnFocusChangeListener,
     OnFailureListener {
@@ -155,7 +155,7 @@ class RecordActivityDialog(
 
         records.add(timeoRecord).addOnFailureListener(this)
 
-        activityRef.update("totalTime", activityTotalTime + time).addOnFailureListener(this)
+        activityRef.update("totalTime", FieldValue.increment(time.toLong())).addOnFailureListener(this)
 
     }
 

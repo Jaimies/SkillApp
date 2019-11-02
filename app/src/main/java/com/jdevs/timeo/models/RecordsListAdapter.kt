@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TAG
 import com.jdevs.timeo.data.TimeoRecord
@@ -24,6 +26,8 @@ class RecordsListAdapter(
     private val dataset: Array<TimeoRecord>,
     private val mRecordsCollection: CollectionReference,
     private val mItemIds: ArrayList<String>,
+    private val mRecords: ArrayList<TimeoRecord>,
+    private val userId: String,
     private val context: Context?
 
 ) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
@@ -83,6 +87,14 @@ class RecordsListAdapter(
                 .document(documentId)
                 .delete()
                 .addOnFailureListener(this)
+
+            val activity = FirebaseFirestore.getInstance()
+                .document("/users/${userId}/activities/${mRecords[adapterPosition].activityId}")
+
+            val workingTime= mRecords[adapterPosition].workingTime.toLong()
+
+
+            activity.update("totalTime", FieldValue.increment(-workingTime))
 
 
             Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_LONG).show()

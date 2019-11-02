@@ -7,7 +7,7 @@ import android.graphics.drawable.LayerDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,14 +18,15 @@ import com.jdevs.timeo.TaskListFragmentDirections
 import com.jdevs.timeo.data.TimeoActivity
 import kotlinx.android.synthetic.main.partial_activities_list_item.view.*
 
+
 class ActivitiesListAdapter(
     private val dataset: Array<TimeoActivity>,
     private val navController: NavController,
-    private val mItemIds : ArrayList<String>
+    private val mItemIds: ArrayList<String>
 ) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val layout: LinearLayout) : RecyclerView.ViewHolder(layout),
-        View.OnClickListener{
+    inner class ViewHolder(val layout: ConstraintLayout) : RecyclerView.ViewHolder(layout),
+        View.OnClickListener {
 
         init {
 
@@ -48,11 +49,11 @@ class ActivitiesListAdapter(
                     try {
 
                         val action = HomeFragmentDirections
-                            .actionShowActivityDetails(title, icon,  activityId)
+                            .actionShowActivityDetails(title, icon, activityId)
 
                         navController.navigate(action)
 
-                    } catch (e : IllegalArgumentException) {
+                    } catch (e: IllegalArgumentException) {
 
                         val action = TaskListFragmentDirections
                             .actionShowActivityDetails(title, icon, activityId)
@@ -63,7 +64,8 @@ class ActivitiesListAdapter(
 
                 }
 
-            } catch (e : Exception) {}
+            } catch (e: Exception) {
+            }
 
         }
 
@@ -73,7 +75,11 @@ class ActivitiesListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val layout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.partial_activities_list_item, parent, false) as LinearLayout
+            .inflate(
+                R.layout.partial_activities_list_item,
+                parent,
+                false
+            ) as ConstraintLayout
 
         return ViewHolder(layout)
 
@@ -83,7 +89,12 @@ class ActivitiesListAdapter(
 
         holder.layout.apply {
 
-            reColorView(position, rootView.background.current, plusButton.background.current, context)
+            reColorView(
+                position,
+                rootView.background.current,
+                plusButton.background.current,
+                context
+            )
 
 
             listItemTitle.apply {
@@ -96,7 +107,8 @@ class ActivitiesListAdapter(
 
                 setOnClickListener {
 
-                    val dialog = RecordActivityDialog(context, dataset[position].title, mItemIds[position])
+                    val dialog =
+                        RecordActivityDialog(context, dataset[position].title, mItemIds[position])
 
                     dialog.show()
 
@@ -111,9 +123,12 @@ class ActivitiesListAdapter(
     override fun getItemCount() = dataset.size
 
 
-
-
-    private fun reColorView(position: Int, parentDrawable : Drawable, plusButtonDrawable : Drawable, context : Context) {
+    private fun reColorView(
+        position: Int,
+        parentDrawable: Drawable,
+        plusButtonDrawable: Drawable,
+        context: Context
+    ) {
 
         val colorId = when (position.rem(4)) {
 
@@ -131,7 +146,8 @@ class ActivitiesListAdapter(
         val plusBackground = plusButtonDrawable as LayerDrawable
 
         val borderLeft = parentBackground.findDrawableByLayerId(R.id.borderLeft) as GradientDrawable
-        val plusBackgroundItem = plusBackground.findDrawableByLayerId(R.id.plusBackground) as GradientDrawable
+        val plusBackgroundItem =
+            plusBackground.findDrawableByLayerId(R.id.plusBackground) as GradientDrawable
 
         borderLeft.setColor(color)
         plusBackgroundItem.setColor(color)

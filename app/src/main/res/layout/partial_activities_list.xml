@@ -18,23 +18,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="There is nothing here yet"/>
+            android:text="There is nothing here yet" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/createNewActivityButton"
-            android:layout_marginTop="@dimen/default_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create an activity"/>
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="Create an activity" />
     </LinearLayout>
 
-    <include
-        layout="@layout/partial_circular_loader"/>
+    <include layout="@layout/partial_circular_loader" />
 </FrameLayout>

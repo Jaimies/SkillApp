@@ -315,7 +315,7 @@ class LoginFragment : AuthenticationFragment(),
 
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    Snackbar.make(view!!.rootView, "Authentication Failed.", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(view!!.rootView, "Authentication Failed", Snackbar.LENGTH_SHORT)
                         .show()
 
                 }

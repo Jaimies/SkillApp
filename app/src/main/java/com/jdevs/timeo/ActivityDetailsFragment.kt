@@ -23,7 +23,6 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
         view.mainTextView.text = args.timeoActivity.title
 
-
         view.totalTimeTextView.apply {
 
             val hours = TimeHelper.minsToHours(args.timeoActivity.totalTime)

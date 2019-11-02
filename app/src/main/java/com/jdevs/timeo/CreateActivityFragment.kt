@@ -8,6 +8,7 @@ import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,7 +18,8 @@ import com.jdevs.timeo.models.ActionBarFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_create_activity.view.*
 
-class CreateActivityFragment : ActionBarFragment() {
+class CreateActivityFragment : ActionBarFragment(),
+    OnFailureListener {
 
     private lateinit var mActivityRef: DocumentReference
 
@@ -73,16 +75,18 @@ class CreateActivityFragment : ActionBarFragment() {
         }
 
 
-//        val items = listOf("Activity name 1", "Activity name 2")
-//
-//        val arrayAdapter =
-//            ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, items)
-//
-//        view.childOfSpinner.adapter = arrayAdapter
-
-
         // Inflate the layout for this fragment
         return view
+    }
+
+    override fun onFailure(firebaseException: Exception) {
+
+        Log.w(
+            TAG,
+            "Failed to save data to Firestore",
+            firebaseException
+        )
+
     }
 
     private fun validateInput(): Boolean {
@@ -171,20 +175,17 @@ class CreateActivityFragment : ActionBarFragment() {
 
                 val title = view!!.titleEditText.text.toString()
 
-                val icon = view!!.titleEditText.text.toString()
-
-                val timeoActivity = TimeoActivity(title, icon, 0)
+                val icon = view!!.iconEditText.text.toString()
 
                 if (args.editActivity) {
 
+                    val timeoActivity = args.timeoActivity ?: return false
+
+                    timeoActivity.title = title
+                    timeoActivity.icon = icon
+
                     mActivityRef.update("title", title, "icon", icon)
-                        .addOnFailureListener { firebaseException ->
-
-                            Log.w("Create activity", "Failed to save activity", firebaseException)
-
-                            Snackbar.make(view!!, "Failed to update activity", Snackbar.LENGTH_LONG)
-
-                        }
+                        .addOnFailureListener(this)
 
                     val directions = CreateActivityFragmentDirections
                         .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")
@@ -195,14 +196,10 @@ class CreateActivityFragment : ActionBarFragment() {
 
                     val activities = mFirestore.collection("users/${mUser.uid}/activities")
 
+                    val timeoActivity = TimeoActivity(title, icon)
+
                     activities.add(timeoActivity)
-                        .addOnFailureListener { firebaseException ->
-
-                            Log.w("Create activity", "Failed to create activity", firebaseException)
-
-                            Snackbar.make(view!!, "Failed to create activity", Snackbar.LENGTH_LONG)
-
-                        }
+                        .addOnFailureListener(this)
 
                     findNavController().apply {
 
@@ -236,15 +233,7 @@ class CreateActivityFragment : ActionBarFragment() {
 
                 mActivityRef
                     .delete()
-                    .addOnFailureListener { firebaseFirestoreException ->
-
-                        Log.w(
-                            TAG,
-                            "Failed to delete data from Firestore",
-                            firebaseFirestoreException
-                        )
-
-                    }
+                    .addOnFailureListener(this)
 
 
                 Snackbar.make(view, "Activity deleted", Snackbar.LENGTH_LONG).show()

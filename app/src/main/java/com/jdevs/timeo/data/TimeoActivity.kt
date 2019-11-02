@@ -10,8 +10,8 @@ import java.util.*
 @Keep
 @Parcelize
 data class TimeoActivity(
-    val title: String = "",
-    val icon: String = "",
+    var title: String = "",
+    var icon: String = "",
     var totalTime: Int = -1,
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
 ) : Parcelable {

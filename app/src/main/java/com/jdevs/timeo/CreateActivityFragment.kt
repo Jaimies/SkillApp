@@ -1,29 +1,23 @@
 package com.jdevs.timeo
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.ActionBarFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_create_activity.view.*
 
 class CreateActivityFragment : ActionBarFragment() {
-
-    private lateinit var titleTextInputLayout: TextInputLayout
-    private lateinit var titleEditText: EditText
-
-    private lateinit var iconTextInputLayout: TextInputLayout
-    private lateinit var iconEditText: EditText
 
     private lateinit var mActivityRef: DocumentReference
 
@@ -37,45 +31,27 @@ class CreateActivityFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        if (mUser == null) {
-
-            return null
-
-        }
-
         val view = inflater.inflate(R.layout.fragment_create_activity, container, false)
 
-        titleEditText = view.titleEditText
 
-        titleTextInputLayout = view.titleTextInputLayout
+        view.rootView.setOnClickListener {
 
-
-        iconEditText = view.iconEditText
-
-        iconTextInputLayout = view.iconTextInputLayout
-
-
-        view.rootView.apply {
-
-            setOnClickListener {
-
-                hideKeyboard(activity)
-
-            }
+            hideKeyboard(activity)
 
         }
 
 
-        (requireActivity() as MainActivity).supportActionBar?.apply {
+        requireActivity().toolbar.apply {
 
             title = if (args.editActivity) "Edit activity" else "Create activity"
 
         }
 
+
         if (args.editActivity) {
 
-            mActivityRef = mFirestore.document("/users/${mUser.uid}/activities/${args.activityId}")
-
+            mActivityRef =
+                mFirestore.document("/users/${mUser!!.uid}/activities/${args.activityId}")
 
             view.deleteButton.apply {
 
@@ -83,46 +59,26 @@ class CreateActivityFragment : ActionBarFragment() {
 
                 setOnClickListener {
 
-                    val dialog = AlertDialog.Builder(context)
-                        .setIcon(android.R.drawable.ic_delete)
-                        .setTitle("Are you sure?")
-                        .setMessage("Are you sure you want to delete this record?")
-                        .setPositiveButton("Yes") { _: DialogInterface, _: Int ->
-
-                            mActivityRef
-                                .delete()
-                                .addOnFailureListener { firebaseFirestoreException ->
-
-                                    Log.w(
-                                        TAG,
-                                        "Failed to delete data from Firestore",
-                                        firebaseFirestoreException
-                                    )
-
-                                }
-
-
-                            Snackbar.make(view, "Activity deleted", Snackbar.LENGTH_LONG).show()
-
-                            findNavController().navigate(R.id.action_returnToHomeFragment)
-
-                        }
-                        .setNegativeButton("No", null)
-
-
-                    dialog.show()
-
+                    showDeleteDialog(view, context)
 
                 }
 
             }
 
 
-            titleEditText.setText(args.activityTitle)
+            view.titleEditText.setText(args.timeoActivity?.title)
 
-            iconEditText.setText(args.activityIcon)
+            view.iconEditText.setText(args.timeoActivity?.icon)
 
         }
+
+
+//        val items = listOf("Activity name 1", "Activity name 2")
+//
+//        val arrayAdapter =
+//            ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, items)
+//
+//        view.childOfSpinner.adapter = arrayAdapter
 
 
         // Inflate the layout for this fragment
@@ -131,51 +87,63 @@ class CreateActivityFragment : ActionBarFragment() {
 
     private fun validateInput(): Boolean {
 
-        if (titleEditText.text.isEmpty()) {
+        val titleText = view!!.titleEditText.text ?: return false
+        val iconText = view!!.iconEditText.text ?: return false
 
-            titleTextInputLayout.error = "Title cannot be empty"
+        view!!.titleTextInputLayout.apply {
 
-            return false
+            if (titleText.isEmpty()) {
 
-        }
+                error = "Title cannot be empty"
 
-        if (titleEditText.text.length < 3) {
+                return false
 
-            titleTextInputLayout.error = "Title must be at least two characters long"
+            }
 
-            return false
+            if (titleText.length < 3) {
 
-        }
+                error = "Title must be at least two characters long"
 
-        if (titleEditText.text.length >= 100) {
+                return false
 
-            titleTextInputLayout.error = "Title length must not exceed 100 characters"
+            }
 
-            return false
+            if (titleText.length >= 100) {
 
-        }
+                error = "Title length must not exceed 100 characters"
 
-        if (iconEditText.text.isEmpty()) {
+                return false
 
-            iconTextInputLayout.error = "Icon cannot be empty"
-
-            return false
-
-        }
-
-        if (iconEditText.text.length < 3) {
-
-            iconTextInputLayout.error = "Icon must be at least three characters long"
-
-            return false
+            }
 
         }
 
-        if (iconEditText.text.length > 100) {
 
-            iconTextInputLayout.error = "Icon length must not exceed 100 characters"
+        view!!.iconTextInputLayout.apply {
 
-            return false
+            if (iconText.isEmpty()) {
+
+                error = "Icon cannot be empty"
+
+                return false
+
+            }
+
+            if (iconText.length < 3) {
+
+                error = "Icon must be at least three characters long"
+
+                return false
+
+            }
+
+            if (iconText.length > 100) {
+
+                error = "Icon length must not exceed 100 characters"
+
+                return false
+
+            }
 
         }
 
@@ -201,11 +169,11 @@ class CreateActivityFragment : ActionBarFragment() {
 
             if (validateInput()) {
 
-                val title = titleEditText.text.toString()
+                val title = view!!.titleEditText.text.toString()
 
-                val icon = iconEditText.text.toString()
+                val icon = view!!.titleEditText.text.toString()
 
-                val timeoActivity = TimeoActivity(title, icon)
+                val timeoActivity = TimeoActivity(title, icon, 0)
 
                 if (args.editActivity) {
 
@@ -214,10 +182,12 @@ class CreateActivityFragment : ActionBarFragment() {
 
                             Log.w("Create activity", "Failed to save activity", firebaseException)
 
+                            Snackbar.make(view!!, "Failed to update activity", Snackbar.LENGTH_LONG)
+
                         }
 
                     val directions = CreateActivityFragmentDirections
-                        .actionReturnToActivityDetails(title, icon, args.activityId ?: "")
+                        .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")
 
                     findNavController().navigate(directions)
 
@@ -228,7 +198,9 @@ class CreateActivityFragment : ActionBarFragment() {
                     activities.add(timeoActivity)
                         .addOnFailureListener { firebaseException ->
 
-                            Log.w("Create activity", "Failed to save activity", firebaseException)
+                            Log.w("Create activity", "Failed to create activity", firebaseException)
+
+                            Snackbar.make(view!!, "Failed to create activity", Snackbar.LENGTH_LONG)
 
                         }
 
@@ -250,6 +222,40 @@ class CreateActivityFragment : ActionBarFragment() {
         }
 
         return true
+
+    }
+
+
+    private fun showDeleteDialog(view: View, context: Context) {
+
+        val dialog = AlertDialog.Builder(context)
+            .setIcon(android.R.drawable.ic_delete)
+            .setTitle("Are you sure?")
+            .setMessage("Are you sure you want to delete this record?")
+            .setPositiveButton("Yes") { _: DialogInterface, _: Int ->
+
+                mActivityRef
+                    .delete()
+                    .addOnFailureListener { firebaseFirestoreException ->
+
+                        Log.w(
+                            TAG,
+                            "Failed to delete data from Firestore",
+                            firebaseFirestoreException
+                        )
+
+                    }
+
+
+                Snackbar.make(view, "Activity deleted", Snackbar.LENGTH_LONG).show()
+
+                findNavController().navigate(R.id.action_returnToHomeFragment)
+
+            }
+            .setNegativeButton("No", null)
+
+
+        dialog.show()
 
     }
 }

@@ -10,11 +10,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.CollectionReference
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TAG
 import com.jdevs.timeo.data.TimeoRecord
+import com.jdevs.timeo.helpers.TimeHelper
 import kotlinx.android.synthetic.main.partial_records_list_item.view.*
 
 class RecordsListAdapter(
@@ -27,7 +29,11 @@ class RecordsListAdapter(
 ) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
 
     inner class ViewHolder(val layout: ConstraintLayout) : RecyclerView.ViewHolder(layout),
-        View.OnLongClickListener {
+        View.OnLongClickListener,
+        OnFailureListener,
+        DialogInterface.OnClickListener {
+
+        private var view: View? = null
 
         init {
 
@@ -37,44 +43,49 @@ class RecordsListAdapter(
 
         override fun onLongClick(v: View): Boolean {
 
-            if (context == null) {
+            view = v
 
-                return true
+            showDialog()
 
-            }
+            return true
 
-            val dialog = AlertDialog.Builder(context)
+        }
+
+        private fun showDialog() {
+
+            val dialog = AlertDialog.Builder(context!!)
                 .setIcon(android.R.drawable.ic_delete)
                 .setTitle("Are you sure?")
                 .setMessage("Are you sure you want to delete this record?")
-                .setPositiveButton("Yes") { _: DialogInterface, _: Int ->
-
-                    val documentId = mItemIds[adapterPosition]
-
-                    mRecordsCollection
-                        .document(documentId)
-                        .delete()
-                        .addOnFailureListener { firebaseFirestoreException ->
-
-                            Log.w(
-                                TAG,
-                                "Failed to delete data from Firestore",
-                                firebaseFirestoreException
-                            )
-
-                        }
-
-
-                    Snackbar.make(v, "Record deleted", Snackbar.LENGTH_LONG).show()
-
-                }
+                .setPositiveButton("Yes", this)
                 .setNegativeButton("No", null)
 
 
             dialog.show()
 
+        }
 
-            return true
+        override fun onFailure(firebaseException: Exception) {
+
+            Log.w(
+                TAG,
+                "Failed to delete data from Firestore",
+                firebaseException
+            )
+
+        }
+
+        override fun onClick(dialog: DialogInterface?, which: Int) {
+
+            val documentId = mItemIds[adapterPosition]
+
+            mRecordsCollection
+                .document(documentId)
+                .delete()
+                .addOnFailureListener(this)
+
+
+            Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_LONG).show()
 
         }
 
@@ -85,7 +96,6 @@ class RecordsListAdapter(
 
         val layout = LayoutInflater.from(parent.context)
             .inflate(R.layout.partial_records_list_item, parent, false) as ConstraintLayout
-
 
         return ViewHolder(layout)
 
@@ -109,22 +119,19 @@ class RecordsListAdapter(
 
             workTimeTextView.apply {
 
-                val timeMinutes = dataset[position].workingTime
-
-                val hours = timeMinutes.div(60)
-                val minutes = timeMinutes.rem(60)
+                val time = TimeHelper.minsToTime(dataset[position].workingTime)
 
                 var timeString = ""
 
-                if (hours != 0) {
+                if (time.first != 0) {
 
-                    timeString += "${hours}h "
+                    timeString += "${time.first}h "
 
                 }
 
-                if (minutes != 0) {
+                if (time.second != 0) {
 
-                    timeString += "${minutes}m"
+                    timeString += "${time.second}m"
 
                 }
 

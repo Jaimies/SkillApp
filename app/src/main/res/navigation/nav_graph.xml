@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.jdevs.timeo.HomeFragment"
-        android:label="Timeo - home "
+        android:label="Timeo - home"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/viewCreateActivityFragment"
@@ -72,14 +72,9 @@
             app:argType="string"
             app:nullable="true" />
         <argument
-            android:name="activityTitle"
+            android:name="timeoActivity"
             android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="activityIcon"
-            android:defaultValue="@null"
-            app:argType="string"
+            app:argType="com.jdevs.timeo.data.TimeoActivity"
             app:nullable="true" />
         <action
             android:id="@+id/action_returnToActivityDetails"
@@ -144,11 +139,8 @@
         android:label="Activity details"
         tools:layout="@layout/fragment_activity_details">
         <argument
-            android:name="activityTitle"
-            app:argType="string" />
-        <argument
-            android:name="activityIcon"
-            app:argType="string" />
+            android:name="timeoActivity"
+            app:argType="com.jdevs.timeo.data.TimeoActivity" />
         <argument
             android:name="activityId"
             app:argType="string" />

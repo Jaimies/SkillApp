@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.jdevs.timeo.helpers.TimeHelper
 import com.jdevs.timeo.models.ActionBarFragment
 import kotlinx.android.synthetic.main.fragment_activity_details.view.*
 
@@ -20,9 +21,14 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
         val view = inflater.inflate(R.layout.fragment_activity_details, container, false)
 
-        view.mainTextView.apply {
+        view.mainTextView.text = args.timeoActivity.title
 
-            text = args.activityTitle
+
+        view.totalTimeTextView.apply {
+
+            val hours = TimeHelper.minsToHours(args.timeoActivity.totalTime)
+
+            text = "${hours}h"
 
         }
 
@@ -45,8 +51,7 @@ class ActivityDetailsFragment : ActionBarFragment() {
             val directions = ActivityDetailsFragmentDirections.actionEditActivity(
                 true,
                 args.activityId,
-                args.activityTitle,
-                args.activityIcon
+                args.timeoActivity
             )
 
             findNavController().navigate(directions)

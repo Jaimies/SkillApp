@@ -8,11 +8,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.helpers.ScreenHelper.Companion.getDimensions
+import com.jdevs.timeo.helpers.TimeHelper
 import kotlinx.android.synthetic.main.dialog_record_activity.*
 import kotlin.math.roundToInt
 
@@ -20,16 +22,11 @@ import kotlin.math.roundToInt
 class RecordActivityDialog(
     context: Context,
     private val activityName: String,
-    private val activityId: String
+    private val activityId: String,
+    private val activityTotalTime: Int
 ) : Dialog(context),
-    View.OnFocusChangeListener {
-
-
-    private val mFirebaseInstance = FirebaseFirestore.getInstance()
-    private val mAuth = FirebaseAuth.getInstance()
-
-    private lateinit var mRecords: CollectionReference
-
+    View.OnFocusChangeListener,
+    OnFailureListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -137,20 +134,34 @@ class RecordActivityDialog(
         val minutes = minutesEditText.text.toString().toIntOrNull() ?: return
 
 
-        val time = hours * 60 + minutes
+        val time = TimeHelper.timeToMins(Pair(hours, minutes))
+
+        val firestore = FirebaseFirestore.getInstance()
+        val auth = FirebaseAuth.getInstance()
 
 
         val timeoRecord = TimeoRecord(activityName, time, activityId)
 
-        mRecords = mFirebaseInstance.collection("/users/${mAuth.currentUser!!.uid}/records")
+        val userId = auth.currentUser!!.uid
 
-        mRecords.add(timeoRecord).addOnFailureListener { firebaseException ->
 
-            Log.w("Create activity", "Failed to save activity", firebaseException)
+        val records = firestore.collection("/users/${userId}/records")
+        val activityRef = firestore.document("/users/${userId}/activities/${activityId}")
 
-        }
+
+        records.add(timeoRecord).addOnFailureListener(this)
+
+        activityRef.update("totalTime", activityTotalTime + time).addOnFailureListener(this)
 
         dismiss()
+
+    }
+
+    override fun onFailure(firebaseException: Exception) {
+
+        Log.w("Create record", "Failed to create activity", firebaseException)
+
+        Snackbar.make(rootView, "Failed to record activity", Snackbar.LENGTH_LONG).show()
 
     }
 }

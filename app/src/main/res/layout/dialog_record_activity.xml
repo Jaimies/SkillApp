@@ -27,6 +27,7 @@
             android:layout_weight="0.5"
             android:ems="10"
             android:hint="hours"
+            android:importantForAutofill="no"
             android:inputType="number" />
 
         <EditText
@@ -36,6 +37,7 @@
             android:layout_weight="0.5"
             android:ems="10"
             android:hint="minutes"
+            android:importantForAutofill="no"
             android:inputType="number" />
     </LinearLayout>
 

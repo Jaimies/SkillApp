@@ -41,22 +41,19 @@ class ActivitiesListAdapter(
 
                 navController.currentDestination?.apply {
 
-                    val title = dataset[adapterPosition].title
-                    val icon = dataset[adapterPosition].icon
-
                     val activityId = mItemIds[adapterPosition]
 
                     try {
 
                         val action = HomeFragmentDirections
-                            .actionShowActivityDetails(title, icon, activityId)
+                            .actionShowActivityDetails(dataset[adapterPosition], activityId)
 
                         navController.navigate(action)
 
                     } catch (e: IllegalArgumentException) {
 
                         val action = TaskListFragmentDirections
-                            .actionShowActivityDetails(title, icon, activityId)
+                            .actionShowActivityDetails(dataset[adapterPosition], activityId)
 
                         navController.navigate(action)
 
@@ -108,7 +105,12 @@ class ActivitiesListAdapter(
                 setOnClickListener {
 
                     val dialog =
-                        RecordActivityDialog(context, dataset[position].title, mItemIds[position])
+                        RecordActivityDialog(
+                            context,
+                            dataset[position].title,
+                            mItemIds[position],
+                            dataset[position].totalTime
+                        )
 
                     dialog.show()
 

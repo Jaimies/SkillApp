@@ -79,9 +79,9 @@ class LoginFragment : AuthenticationFragment(),
 
                 // Google Sign In was successful, authenticate with Firebase
 
-                val account = task.getResult(ApiException::class.java)
+                val account = task.getResult(ApiException::class.java) ?: return
 
-                firebaseAuthWithGoogle(account!!)
+                firebaseAuthWithGoogle(account)
 
             } catch (e: ApiException) {
 
@@ -152,7 +152,7 @@ class LoginFragment : AuthenticationFragment(),
         }
 
         val googleSignInOptions = GoogleSignInOptions.Builder()
-            .requestIdToken(getString(R.string.google_oauth_key))
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 

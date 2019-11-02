@@ -21,19 +21,19 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
-    private val mainDestinations = setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment)
+    private val mainDestinations =
+        setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment)
 
     private val loginDestinations = setOf(R.id.loginFragment, R.id.signupFragment)
 
     private val nonBackArrowedDestinations = loginDestinations.union(mainDestinations)
 
 
-    private lateinit var navController : NavController
+    private lateinit var navController: NavController
 
-    private lateinit var appBarConfiguration : AppBarConfiguration
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private lateinit var mToggle: ActionBarDrawerToggle
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -133,8 +133,11 @@ class MainActivity : AppCompatActivity(),
     }
 
 
-
-    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
 
         val id = destination.id
 
@@ -157,7 +160,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onBackPressed() {
 
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
 
             drawerLayout.closeDrawer(GravityCompat.START)
 

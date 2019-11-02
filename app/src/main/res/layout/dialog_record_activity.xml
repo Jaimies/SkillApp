@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
-    android:background="@drawable/record_activity_dialog_background"
-    android:layout_weight=".20"
     android:layout_height="match_parent"
-    android:padding="@dimen/activities_item_padding"
+    android:layout_weight=".20"
+    android:background="@drawable/record_activity_dialog_background"
     android:orientation="vertical"
-    android:id="@+id/rootView">
+    android:padding="@dimen/activities_item_padding">
 
     <TextView
         android:layout_width="match_parent"
@@ -25,17 +24,17 @@
             android:id="@+id/hoursEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
             android:ems="10"
             android:hint="hours"
-            android:layout_weight="0.5"
             android:inputType="number" />
 
         <EditText
             android:id="@+id/minutesEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_weight="0.5"
+            android:ems="10"
             android:hint="minutes"
             android:inputType="number" />
     </LinearLayout>
@@ -44,7 +43,7 @@
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/default_margin"
-        android:layout_gravity="center"/>
+        android:text="Add" />
 </LinearLayout>

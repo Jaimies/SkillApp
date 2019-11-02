@@ -2,9 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid
-        android:color="@color/design_default_color_primary_dark"/>
+    <solid android:color="@color/design_default_color_primary_dark" />
 
-    <corners
-        android:radius="@dimen/record_activity_dialog_corner_radius"/>
+    <corners android:radius="@dimen/record_activity_dialog_corner_radius" />
 </shape>

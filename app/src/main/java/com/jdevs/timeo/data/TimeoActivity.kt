@@ -7,9 +7,9 @@ import java.util.*
 // TimeoActivity (task) class
 @Keep
 data class TimeoActivity(
-    val title : String = "",
-    val icon : String = "",
-    @ServerTimestamp var timestamp : Date = Calendar.getInstance().time
+    val title: String = "",
+    val icon: String = "",
+    @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
 ) {
 
     constructor() : this("", "") {

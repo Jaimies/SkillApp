@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/homeFragment"
-        android:title="Home"
         android:icon="@drawable/ic_home"
-    />
+        android:title="Home" />
 
     <item
         android:id="@+id/taskListFragment"
-        android:title="TaskList"
         android:icon="@drawable/ic_today"
-        />
+        android:title="TaskList" />
 
     <item
         android:id="@+id/statsFragment"
-        android:title="Stats"
         android:icon="@drawable/ic_graph"
-        />
+        android:title="Stats" />
 </menu>

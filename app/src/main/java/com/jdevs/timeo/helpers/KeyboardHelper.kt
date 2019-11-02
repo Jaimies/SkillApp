@@ -8,7 +8,7 @@ open class KeyboardHelper {
 
     companion object {
 
-        fun hideKeyboard(activity : Activity?) {
+        fun hideKeyboard(activity: Activity?) {
 
             if (activity == null) {
 

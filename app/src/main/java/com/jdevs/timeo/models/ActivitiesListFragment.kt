@@ -22,17 +22,17 @@ open class ActivitiesListFragment : ActionBarFragment() {
     private val mActivities = ArrayList<TimeoActivity>()
     private val mItemIds = ArrayList<String>()
 
-    private lateinit var mActivitiesRef : Query
+    private lateinit var mActivitiesRef: Query
 
-    private lateinit var mViewAdapter : ActivitiesListAdapter
+    private lateinit var mViewAdapter: ActivitiesListAdapter
 
-    private lateinit var mSnapshotListener : ListenerRegistration
+    private lateinit var mSnapshotListener: ListenerRegistration
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(mUser == null) {
+        if (mUser == null) {
 
             return
 
@@ -55,87 +55,88 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
         loaderLayout.apply {
 
-            visibility  = View.VISIBLE
+            visibility = View.VISIBLE
 
         }
 
-        if(!::mActivitiesRef.isInitialized) {
+        if (!::mActivitiesRef.isInitialized) {
 
             return
 
         }
 
-        mSnapshotListener = mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+        mSnapshotListener =
+            mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
-            if(querySnapshot != null) {
+                if (querySnapshot != null) {
 
-                loaderLayout.apply {
+                    loaderLayout.apply {
 
-                    if(visibility != View.GONE) {
+                        if (visibility != View.GONE) {
 
-                        visibility  = View.GONE
-
-                    }
-
-                }
-
-
-                mActivities.clear()
-                mItemIds.clear()
-
-
-                if(querySnapshot.isEmpty) {
-
-                    createNewActivityView.visibility = View.VISIBLE
-
-                    createNewActivityButton.apply {
-
-                        setOnClickListener {
-
-                            findNavController().navigate(R.id.action_showCreateActivityFragment)
+                            visibility = View.GONE
 
                         }
 
+                    }
+
+
+                    mActivities.clear()
+                    mItemIds.clear()
+
+
+                    if (querySnapshot.isEmpty) {
+
+                        createNewActivityView.visibility = View.VISIBLE
+
+                        createNewActivityButton.apply {
+
+                            setOnClickListener {
+
+                                findNavController().navigate(R.id.action_showCreateActivityFragment)
+
+                            }
+
+
+                        }
+
+                        refreshRecyclerView(recyclerView)
+
+                        return@addSnapshotListener
+
+                    }
+
+
+                    val activities = querySnapshot.documents
+
+                    for (activity in activities) {
+
+                        if (activity.exists()) {
+
+
+                            val timeoActivity = activity.toObject(TimeoActivity::class.java)
+
+                            if (timeoActivity != null) {
+
+                                mActivities.add(timeoActivity)
+                                mItemIds.add(activity.id)
+
+                            }
+
+                        }
 
                     }
 
                     refreshRecyclerView(recyclerView)
 
-                    return@addSnapshotListener
+
+                } else if (firebaseFirestoreException != null) {
+
+                    Log.w(TAG, "Failed to get data from Firestore", firebaseFirestoreException)
 
                 }
-
-
-                val activities = querySnapshot.documents
-
-                for(activity in activities) {
-
-                    if(activity.exists()) {
-
-
-                        val timeoActivity = activity.toObject(TimeoActivity::class.java)
-
-                        if(timeoActivity != null) {
-
-                            mActivities.add(timeoActivity)
-                            mItemIds.add(activity.id)
-
-                        }
-
-                    }
-
-                }
-
-                refreshRecyclerView(recyclerView)
-
-
-            } else if(firebaseFirestoreException != null) {
-
-                Log.w(TAG, "Failed to get data from Firestore", firebaseFirestoreException)
 
             }
-
-        }
 
     }
 
@@ -143,7 +144,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
         super.onPause()
 
-        if(::mSnapshotListener.isInitialized) {
+        if (::mSnapshotListener.isInitialized) {
 
 
             mSnapshotListener.remove()
@@ -154,12 +155,12 @@ open class ActivitiesListFragment : ActionBarFragment() {
     }
 
 
-
     private fun refreshRecyclerView(recyclerView: RecyclerView) {
 
         val viewManager = LinearLayoutManager(context)
 
-        mViewAdapter = ActivitiesListAdapter(mActivities.toTypedArray(), findNavController(), mItemIds)
+        mViewAdapter =
+            ActivitiesListAdapter(mActivities.toTypedArray(), findNavController(), mItemIds)
 
 
         recyclerView.apply {

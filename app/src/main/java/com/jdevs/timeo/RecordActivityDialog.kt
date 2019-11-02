@@ -17,14 +17,18 @@ import kotlinx.android.synthetic.main.dialog_record_activity.*
 import kotlin.math.roundToInt
 
 
-class RecordActivityDialog(context: Context, private val activityName : String, private val activityId : String) : Dialog(context),
+class RecordActivityDialog(
+    context: Context,
+    private val activityName: String,
+    private val activityId: String
+) : Dialog(context),
     View.OnFocusChangeListener {
 
 
-    private val mFirebaseInstance =  FirebaseFirestore.getInstance()
+    private val mFirebaseInstance = FirebaseFirestore.getInstance()
     private val mAuth = FirebaseAuth.getInstance()
 
-    private lateinit var mRecords : CollectionReference
+    private lateinit var mRecords: CollectionReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +84,7 @@ class RecordActivityDialog(context: Context, private val activityName : String, 
         (v as EditText).apply {
 
 
-            if(hasFocus || text.isEmpty()) {
+            if (hasFocus || text.isEmpty()) {
 
                 return
 
@@ -92,7 +96,6 @@ class RecordActivityDialog(context: Context, private val activityName : String, 
         }
 
     }
-
 
 
     private fun validateInput(editText: EditText) {
@@ -129,7 +132,7 @@ class RecordActivityDialog(context: Context, private val activityName : String, 
         validateInput(minutesEditText)
 
 
-        val hours= hoursEditText.text.toString().toIntOrNull() ?: 0
+        val hours = hoursEditText.text.toString().toIntOrNull() ?: 0
 
         val minutes = minutesEditText.text.toString().toIntOrNull() ?: return
 

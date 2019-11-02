@@ -7,7 +7,7 @@ import android.view.WindowManager
 
 open class ScreenHelper {
     companion object {
-        fun getDimensions(context: Context) : DisplayMetrics {
+        fun getDimensions(context: Context): DisplayMetrics {
 
             val displayMetrics = DisplayMetrics()
 

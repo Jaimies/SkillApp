@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_signup.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
 
-
 class SignupFragment : AuthenticationFragment(),
     View.OnClickListener,
     View.OnKeyListener,
@@ -33,19 +32,18 @@ class SignupFragment : AuthenticationFragment(),
 
     private lateinit var auth: FirebaseAuth
 
-    private lateinit var emailTextInputLayout : TextInputLayout
+    private lateinit var emailTextInputLayout: TextInputLayout
     private lateinit var emailEditText: TextInputEditText
 
-    private lateinit var passwordTextInputLayout : TextInputLayout
+    private lateinit var passwordTextInputLayout: TextInputLayout
     private lateinit var passwordEditText: TextInputEditText
 
     private lateinit var signupButton: Button
-    private lateinit var loginTextView : TextView
+    private lateinit var loginTextView: TextView
 
-    private lateinit var spinningProgressBar : FrameLayout
+    private lateinit var spinningProgressBar: FrameLayout
 
-    private lateinit var mainLayout : LinearLayout
-
+    private lateinit var mainLayout: LinearLayout
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +51,6 @@ class SignupFragment : AuthenticationFragment(),
 
         auth = FirebaseAuth.getInstance()
     }
-
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -122,13 +119,25 @@ class SignupFragment : AuthenticationFragment(),
 
     override fun onClick(view: View?) {
 
-        if(!validateInput(emailTextInputLayout, emailEditText, ::validateEmailString, ::showEmailError)) {
+        if (!validateInput(
+                emailTextInputLayout,
+                emailEditText,
+                ::validateEmailString,
+                ::showEmailError
+            )
+        ) {
 
             return
 
         }
 
-        if(!validateInput(passwordTextInputLayout, passwordEditText, ::validatePasswordString, ::showPasswordError)) {
+        if (!validateInput(
+                passwordTextInputLayout,
+                passwordEditText,
+                ::validatePasswordString,
+                ::showPasswordError
+            )
+        ) {
 
             return
 
@@ -143,7 +152,7 @@ class SignupFragment : AuthenticationFragment(),
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
 
-        if((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) && event.action == KeyEvent.ACTION_DOWN) {
+        if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) && event.action == KeyEvent.ACTION_DOWN) {
 
             onClick(v)
 
@@ -158,7 +167,7 @@ class SignupFragment : AuthenticationFragment(),
 
         hideLoader()
 
-        if(task.isSuccessful) {
+        if (task.isSuccessful) {
 
             goToMainActivity()
 
@@ -166,14 +175,14 @@ class SignupFragment : AuthenticationFragment(),
 
         }
 
-        if(task.exception == null) {
+        if (task.exception == null) {
 
             return
 
         }
 
 
-        when(task.exception) {
+        when (task.exception) {
 
             is FirebaseAuthWeakPasswordException -> {
 
@@ -206,20 +215,18 @@ class SignupFragment : AuthenticationFragment(),
     }
 
 
-
-
     private fun validateInput(
         textInputLayout: TextInputLayout,
         editText: EditText,
         validator: (String) -> Int,
-        errorHandler : (Int) -> Unit
-    ) : Boolean{
+        errorHandler: (Int) -> Unit
+    ): Boolean {
 
         val value = editText.text.toString()
 
         val validationResult = validator(value)
 
-        if(validationResult != RESULT_VALID) {
+        if (validationResult != RESULT_VALID) {
 
             errorHandler(validationResult)
 
@@ -228,12 +235,18 @@ class SignupFragment : AuthenticationFragment(),
                 override fun afterTextChanged(s: Editable?) {}
 
 
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                    if(validator(s.toString()) != validationResult) {
+                    if (validator(s.toString()) != validationResult) {
 
                         textInputLayout.error = ""
 
@@ -254,7 +267,6 @@ class SignupFragment : AuthenticationFragment(),
     }
 
 
-
     private fun goToMainActivity() {
 
         findNavController().navigate(R.id.action_signupFragment_to_homeFragment)
@@ -262,10 +274,9 @@ class SignupFragment : AuthenticationFragment(),
     }
 
 
+    private fun showPasswordError(result: Int) {
 
-    private fun showPasswordError(result : Int) {
-
-        if(result == RESULT_VALID) {
+        if (result == RESULT_VALID) {
 
             passwordTextInputLayout.error = ""
 
@@ -273,7 +284,7 @@ class SignupFragment : AuthenticationFragment(),
 
         }
 
-        val error = when(result) {
+        val error = when (result) {
 
             ERROR_EMPTY -> "Password must not be empty"
             ERROR_TOO_SHORT -> "Password must be at least 6 characters long"
@@ -287,11 +298,9 @@ class SignupFragment : AuthenticationFragment(),
     }
 
 
+    private fun showEmailError(result: Int) {
 
-
-    private fun showEmailError(result : Int) {
-
-        if(result == RESULT_VALID) {
+        if (result == RESULT_VALID) {
 
             emailTextInputLayout.error = ""
 
@@ -299,7 +308,7 @@ class SignupFragment : AuthenticationFragment(),
 
         }
 
-        val error = when(result) {
+        val error = when (result) {
 
             ERROR_EMPTY -> "Email must not be empty"
             else -> "Email is not valid"
@@ -311,19 +320,17 @@ class SignupFragment : AuthenticationFragment(),
     }
 
 
+    private fun setError(inputLayout: TextInputLayout, editText: EditText, error: String) {
 
-
-    private fun setError(inputLayout: TextInputLayout, editText: EditText, error : String) {
-
-        if(inputLayout != emailTextInputLayout) {
+        if (inputLayout != emailTextInputLayout) {
 
             removeErrorMessage(inputLayout)
 
         }
 
-        if(inputLayout != passwordTextInputLayout) {
+        if (inputLayout != passwordTextInputLayout) {
 
-           removeErrorMessage(inputLayout)
+            removeErrorMessage(inputLayout)
 
         }
 
@@ -374,26 +381,23 @@ class SignupFragment : AuthenticationFragment(),
     }
 
 
-
-
-
     companion object {
 
-        private fun validatePasswordString(password : String) : Int {
+        private fun validatePasswordString(password: String): Int {
 
-            if(password.isEmpty()) {
+            if (password.isEmpty()) {
 
                 return ERROR_EMPTY
 
             }
 
-            if(password.length < 6) {
+            if (password.length < 6) {
 
                 return ERROR_TOO_SHORT
 
             }
 
-            if(password.length > 25) {
+            if (password.length > 25) {
 
                 return ERROR_TOO_LONG
 
@@ -404,16 +408,16 @@ class SignupFragment : AuthenticationFragment(),
         }
 
 
-        private fun validateEmailString(email : String) : Int {
+        private fun validateEmailString(email: String): Int {
 
 
-            if(email.isEmpty()) {
+            if (email.isEmpty()) {
 
                 return ERROR_EMPTY
 
             }
 
-            if(!isEmailValid(email)) {
+            if (!isEmailValid(email)) {
 
                 return ERROR_INVALID
 

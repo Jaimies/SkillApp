@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_activity_details.view.*
 
 class ActivityDetailsFragment : ActionBarFragment() {
 
-    private val args : ActivityDetailsFragmentArgs by navArgs()
+    private val args: ActivityDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +40,14 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        return if(item.itemId == R.id.editActivity) {
+        return if (item.itemId == R.id.editActivity) {
 
-            val directions = ActivityDetailsFragmentDirections.actionEditActivity(true, args.activityId, args.activityTitle, args.activityIcon)
+            val directions = ActivityDetailsFragmentDirections.actionEditActivity(
+                true,
+                args.activityId,
+                args.activityTitle,
+                args.activityIcon
+            )
 
             findNavController().navigate(directions)
 

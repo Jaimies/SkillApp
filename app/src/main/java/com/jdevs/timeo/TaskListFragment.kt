@@ -12,11 +12,11 @@ import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
 class TaskListFragment : ActivitiesListFragment() {
 
-    private lateinit var mLoader : FrameLayout
-    private lateinit var mRecyclerView : RecyclerView
+    private lateinit var mLoader: FrameLayout
+    private lateinit var mRecyclerView: RecyclerView
 
-    private lateinit var mCreateNewActivityView : LinearLayout
-    private lateinit var mCreateNewActivityButton : MaterialButton
+    private lateinit var mCreateNewActivityView: LinearLayout
+    private lateinit var mCreateNewActivityButton: MaterialButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

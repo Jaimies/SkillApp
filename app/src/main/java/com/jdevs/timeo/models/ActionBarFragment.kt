@@ -14,7 +14,7 @@ open class ActionBarFragment : AuthFragment() {
 
     }
 
-    fun addOptionsMenu(menu: Menu, inflater : MenuInflater, id : Int) {
+    fun addOptionsMenu(menu: Menu, inflater: MenuInflater, id: Int) {
 
         inflater.inflate(id, menu)
 

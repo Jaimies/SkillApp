@@ -20,9 +20,9 @@ import kotlinx.android.synthetic.main.partial_records_list_item.view.*
 class RecordsListAdapter(
 
     private val dataset: Array<TimeoRecord>,
-    private val mRecordsCollection : CollectionReference,
-    private val mItemIds : ArrayList<String>,
-    private val context : Context?
+    private val mRecordsCollection: CollectionReference,
+    private val mItemIds: ArrayList<String>,
+    private val context: Context?
 
 ) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
 
@@ -37,7 +37,7 @@ class RecordsListAdapter(
 
         override fun onLongClick(v: View): Boolean {
 
-            if(context == null) {
+            if (context == null) {
 
                 return true
 
@@ -56,7 +56,11 @@ class RecordsListAdapter(
                         .delete()
                         .addOnFailureListener { firebaseFirestoreException ->
 
-                            Log.w(TAG, "Failed to delete data from Firestore", firebaseFirestoreException)
+                            Log.w(
+                                TAG,
+                                "Failed to delete data from Firestore",
+                                firebaseFirestoreException
+                            )
 
                         }
 
@@ -77,7 +81,6 @@ class RecordsListAdapter(
     }
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val layout = LayoutInflater.from(parent.context)
@@ -92,9 +95,10 @@ class RecordsListAdapter(
 
         holder.layout.apply {
 
-            val backgroundColorId = if(position.rem(2) == 0) R.color.colorListEven else R.color.colorListOdd
+            val backgroundColorId =
+                if (position.rem(2) == 0) R.color.colorListEven else R.color.colorListOdd
 
-            setBackgroundColor(ContextCompat.getColor(context,backgroundColorId))
+            setBackgroundColor(ContextCompat.getColor(context, backgroundColorId))
 
 
             activityNameTextView.apply {
@@ -112,13 +116,13 @@ class RecordsListAdapter(
 
                 var timeString = ""
 
-                if(hours != 0) {
+                if (hours != 0) {
 
                     timeString += "${hours}h "
 
                 }
 
-                if(minutes != 0) {
+                if (minutes != 0) {
 
                     timeString += "${minutes}m"
 

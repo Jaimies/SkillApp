@@ -6,10 +6,9 @@
     tools:context=".HistoryFragment">
 
     <include
+        layout="@layout/partial_records_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/partial_records_list"/>
+        android:layout_height="match_parent" />
 
-    <include
-        layout="@layout/partial_circular_loader"/>
+    <include layout="@layout/partial_circular_loader" />
 </FrameLayout>

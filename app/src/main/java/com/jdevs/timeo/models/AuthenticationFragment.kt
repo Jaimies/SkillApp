@@ -40,11 +40,15 @@ open class AuthenticationFragment : Fragment() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    fun showLoader(spinningProgressBar : FrameLayout, mainLayout : LinearLayout, button : Button? = null) {
+    fun showLoader(
+        spinningProgressBar: FrameLayout,
+        mainLayout: LinearLayout,
+        button: Button? = null
+    ) {
 
         hideKeyboard(activity)
 
-        spinningProgressBar.apply{
+        spinningProgressBar.apply {
 
             visibility = View.VISIBLE
 
@@ -52,7 +56,7 @@ open class AuthenticationFragment : Fragment() {
 
         mainLayout.apply {
 
-            alpha  = 0.5f
+            alpha = 0.5f
 
         }
 
@@ -64,7 +68,11 @@ open class AuthenticationFragment : Fragment() {
 
     }
 
-    fun hideLoader(spinningProgressBar : FrameLayout, mainLayout : LinearLayout, button : Button? = null) {
+    fun hideLoader(
+        spinningProgressBar: FrameLayout,
+        mainLayout: LinearLayout,
+        button: Button? = null
+    ) {
 
         spinningProgressBar.apply {
 
@@ -74,7 +82,7 @@ open class AuthenticationFragment : Fragment() {
 
         mainLayout.apply {
 
-            alpha  = 1.0f
+            alpha = 1.0f
 
         }
 
@@ -85,9 +93,6 @@ open class AuthenticationFragment : Fragment() {
         }
 
     }
-
-
-
 
 
     fun makeTextViewClickable(textView: TextView) {

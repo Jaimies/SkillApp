@@ -6,10 +6,10 @@ import java.util.*
 
 @Keep
 data class TimeoRecord(
-    val title : String,
-    val workingTime : Int = 0,
-    val activityId : String = "",
-    @ServerTimestamp var timestamp : Date = Calendar.getInstance().time
+    val title: String,
+    val workingTime: Int = 0,
+    val activityId: String = "",
+    @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
 ) {
 
     constructor() : this("", 0, "") {

@@ -5,8 +5,8 @@
     android:id="@+id/topbarLayout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/timebar_height"
-    android:gravity="center_vertical"
     android:background="@color/design_default_color_primary"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     app:layout_constraintTop_toTopOf="parent">
 
@@ -14,13 +14,13 @@
         android:id="@+id/topbar_dayInMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="20dp"
         android:format12Hour="dd"
         android:format24Hour="dd"
-        android:layout_marginStart="20dp"
-        android:layout_gravity="center_vertical"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-        tools:text="28"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="28" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -34,8 +34,8 @@
             android:layout_height="wrap_content"
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
-            tools:text="Wednesday"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Wednesday" />
 
         <TextClock
             android:id="@+id/topbar_monthAndYear"
@@ -43,8 +43,8 @@
             android:layout_height="wrap_content"
             android:format12Hour="MM/yyyy"
             android:format24Hour="MM/yyyy"
-            tools:text="09/2019"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="09/2019" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,10 +56,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:gravity="center_vertical|end"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             android:format12Hour="h:mm"
             android:format24Hour="hh:mm"
+            android:gravity="center_vertical|end"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             tools:text="08:40" />
     </LinearLayout>
 

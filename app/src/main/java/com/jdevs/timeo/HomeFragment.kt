@@ -13,13 +13,13 @@ import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
 class HomeFragment : ActivitiesListFragment() {
 
-    private lateinit var mLoader : FrameLayout
-    private lateinit var mRecyclerView : RecyclerView
+    private lateinit var mLoader: FrameLayout
+    private lateinit var mRecyclerView: RecyclerView
 
-    private lateinit var mBottomNavView : BottomNavigationView
+    private lateinit var mBottomNavView: BottomNavigationView
 
-    private lateinit var mCreateNewActivityView : LinearLayout
-    private lateinit var mCreateNewActivityButton : MaterialButton
+    private lateinit var mCreateNewActivityView: LinearLayout
+    private lateinit var mCreateNewActivityButton: MaterialButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +68,7 @@ class HomeFragment : ActivitiesListFragment() {
 
             mBottomNavView = findViewById(R.id.bottomNavView)
 
-            if(mBottomNavView.visibility != View.VISIBLE) {
+            if (mBottomNavView.visibility != View.VISIBLE) {
 
                 mBottomNavView.visibility = View.VISIBLE
 

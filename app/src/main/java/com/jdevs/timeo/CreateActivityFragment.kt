@@ -20,16 +20,16 @@ import kotlinx.android.synthetic.main.fragment_create_activity.view.*
 class CreateActivityFragment : ActionBarFragment() {
 
     private lateinit var titleTextInputLayout: TextInputLayout
-    private lateinit var titleEditText : EditText
+    private lateinit var titleEditText: EditText
 
     private lateinit var iconTextInputLayout: TextInputLayout
-    private lateinit var iconEditText  : EditText
+    private lateinit var iconEditText: EditText
 
-    private lateinit var mActivityRef : DocumentReference
+    private lateinit var mActivityRef: DocumentReference
 
-    private val mFirestore =  FirebaseFirestore.getInstance()
+    private val mFirestore = FirebaseFirestore.getInstance()
 
-    private val args : CreateActivityFragmentArgs by navArgs()
+    private val args: CreateActivityFragmentArgs by navArgs()
 
 
     override fun onCreateView(
@@ -37,13 +37,13 @@ class CreateActivityFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        if(mUser == null) {
+        if (mUser == null) {
 
             return null
 
         }
 
-        val view =  inflater.inflate(R.layout.fragment_create_activity, container, false)
+        val view = inflater.inflate(R.layout.fragment_create_activity, container, false)
 
         titleEditText = view.titleEditText
 
@@ -66,13 +66,13 @@ class CreateActivityFragment : ActionBarFragment() {
         }
 
 
-        (requireActivity() as MainActivity).supportActionBar?.apply{
+        (requireActivity() as MainActivity).supportActionBar?.apply {
 
-            title = if(args.editActivity) "Edit activity" else "Create activity"
+            title = if (args.editActivity) "Edit activity" else "Create activity"
 
         }
 
-        if(args.editActivity) {
+        if (args.editActivity) {
 
             mActivityRef = mFirestore.document("/users/${mUser.uid}/activities/${args.activityId}")
 
@@ -93,7 +93,11 @@ class CreateActivityFragment : ActionBarFragment() {
                                 .delete()
                                 .addOnFailureListener { firebaseFirestoreException ->
 
-                                    Log.w(TAG, "Failed to delete data from Firestore", firebaseFirestoreException)
+                                    Log.w(
+                                        TAG,
+                                        "Failed to delete data from Firestore",
+                                        firebaseFirestoreException
+                                    )
 
                                 }
 
@@ -121,12 +125,11 @@ class CreateActivityFragment : ActionBarFragment() {
         }
 
 
-
         // Inflate the layout for this fragment
         return view
     }
 
-    private fun validateInput() : Boolean {
+    private fun validateInput(): Boolean {
 
         if (titleEditText.text.isEmpty()) {
 
@@ -136,7 +139,7 @@ class CreateActivityFragment : ActionBarFragment() {
 
         }
 
-        if(titleEditText.text.length < 3) {
+        if (titleEditText.text.length < 3) {
 
             titleTextInputLayout.error = "Title must be at least two characters long"
 
@@ -144,7 +147,7 @@ class CreateActivityFragment : ActionBarFragment() {
 
         }
 
-        if(titleEditText.text.length >= 100) {
+        if (titleEditText.text.length >= 100) {
 
             titleTextInputLayout.error = "Title length must not exceed 100 characters"
 
@@ -160,7 +163,7 @@ class CreateActivityFragment : ActionBarFragment() {
 
         }
 
-        if(iconEditText.text.length < 3) {
+        if (iconEditText.text.length < 3) {
 
             iconTextInputLayout.error = "Icon must be at least three characters long"
 
@@ -168,7 +171,7 @@ class CreateActivityFragment : ActionBarFragment() {
 
         }
 
-        if(iconEditText.text.length > 100) {
+        if (iconEditText.text.length > 100) {
 
             iconTextInputLayout.error = "Icon length must not exceed 100 characters"
 
@@ -188,7 +191,7 @@ class CreateActivityFragment : ActionBarFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if(mUser == null) {
+        if (mUser == null) {
 
             return false
 
@@ -196,7 +199,7 @@ class CreateActivityFragment : ActionBarFragment() {
 
         if (item.itemId == R.id.doneAddingActivity) {
 
-            if(validateInput()) {
+            if (validateInput()) {
 
                 val title = titleEditText.text.toString()
 
@@ -204,13 +207,14 @@ class CreateActivityFragment : ActionBarFragment() {
 
                 val timeoActivity = TimeoActivity(title, icon)
 
-                if(args.editActivity) {
+                if (args.editActivity) {
 
-                    mActivityRef.update("title", title, "icon", icon).addOnFailureListener { firebaseException ->
+                    mActivityRef.update("title", title, "icon", icon)
+                        .addOnFailureListener { firebaseException ->
 
-                        Log.w("Create activity", "Failed to save activity", firebaseException)
+                            Log.w("Create activity", "Failed to save activity", firebaseException)
 
-                    }
+                        }
 
                     val directions = CreateActivityFragmentDirections
                         .actionReturnToActivityDetails(title, icon, args.activityId ?: "")

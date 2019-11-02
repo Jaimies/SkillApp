@@ -42,7 +42,7 @@
             android:id="@+id/action_login"
             app:destination="@id/login_nav"
             app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
@@ -161,6 +161,5 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
-    <include
-        app:graph="@navigation/login_nav"/>
+    <include app:graph="@navigation/login_nav" />
 </navigation>

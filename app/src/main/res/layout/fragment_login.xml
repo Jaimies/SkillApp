@@ -10,17 +10,17 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/default_margin"
         android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin">
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
             android:gravity="center_horizontal"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
+            android:text="Login"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTextInputLayout"
@@ -29,10 +29,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
-                android:hint="Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="Autofill" />
@@ -46,48 +46,47 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
-                android:hint="Password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
+                android:hint="Password"
                 android:inputType="textPassword"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="Autofill"/>
+                tools:ignore="Autofill" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end" >
+            android:gravity="end"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/signupTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="Sign up or"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_marginEnd="@dimen/default_margin"
                 android:clickable="true"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:gravity="center_vertical"
+                android:text="Sign up or"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/loginButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Log in"
-                android:focusable="true"/>
+                android:focusable="true"
+                android:text="Log in" />
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/googleSignInButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <include
-        layout="@layout/partial_circular_loader"/>
+    <include layout="@layout/partial_circular_loader" />
 
 </FrameLayout>

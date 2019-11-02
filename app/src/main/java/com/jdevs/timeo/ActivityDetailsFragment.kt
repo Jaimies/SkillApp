@@ -42,7 +42,7 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
         return if(item.itemId == R.id.editActivity) {
 
-            val directions= ActivityDetailsFragmentDirections.actionEditActivity(true, args.activityId, args.activityTitle, args.activityIcon)
+            val directions = ActivityDetailsFragmentDirections.actionEditActivity(true, args.activityId, args.activityTitle, args.activityIcon)
 
             findNavController().navigate(directions)
 

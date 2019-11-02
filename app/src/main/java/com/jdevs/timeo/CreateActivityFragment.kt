@@ -37,6 +37,12 @@ class CreateActivityFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        if(mUser == null) {
+
+            return null
+
+        }
+
         val view =  inflater.inflate(R.layout.fragment_create_activity, container, false)
 
         titleEditText = view.titleEditText
@@ -181,6 +187,12 @@ class CreateActivityFragment : ActionBarFragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if(mUser == null) {
+
+            return false
+
+        }
 
         if (item.itemId == R.id.doneAddingActivity) {
 

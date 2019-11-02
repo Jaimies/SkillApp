@@ -4,32 +4,43 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseUser
 import com.jdevs.timeo.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 open class AuthFragment : Fragment() {
 
-    lateinit var mAuth : FirebaseAuth
+    private val mAuth = FirebaseAuth.getInstance()
 
-    lateinit var mUser : FirebaseUser
+    val mUser = mAuth.currentUser
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
+        if (mUser == null) {
 
-        mAuth = FirebaseAuth.getInstance()
+            returnToLoginFragment()
 
-        mUser = mAuth.currentUser
-            ?: throw FirebaseAuthException("Unauthorized access", "User does not have permissions to use this fragment")
+            return
+
+        }
 
     }
 
     private fun returnToLoginFragment() {
 
-        findNavController().navigate(R.id.loginFragment)
+        findNavController().apply {
+
+            navigate(R.id.action_login)
+
+        }
+
+        requireActivity().toolbar.apply {
+
+            navigationIcon = null
+
+        }
 
     }
 

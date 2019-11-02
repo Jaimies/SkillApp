@@ -1,7 +1,6 @@
 package com.jdevs.timeo
 
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -49,28 +48,28 @@ class LoginFragment : AuthenticationFragment(),
     View.OnKeyListener,
     OnCompleteListener<AuthResult> {
 
-    private lateinit var auth: FirebaseAuth
+    private val auth = FirebaseAuth.getInstance()
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
-    private lateinit var emailTextInputLayout : TextInputLayout
+    private lateinit var emailTextInputLayout: TextInputLayout
     private lateinit var emailEditText: TextInputEditText
 
-    private lateinit var passwordTextInputLayout : TextInputLayout
+    private lateinit var passwordTextInputLayout: TextInputLayout
     private lateinit var passwordEditText: TextInputEditText
 
     private lateinit var loginButton: Button
-    private lateinit var signupTextView : TextView
+    private lateinit var signupTextView: TextView
 
-    private lateinit var spinningProgressBar : FrameLayout
+    private lateinit var spinningProgressBar: FrameLayout
 
-    private lateinit var mainLayout : LinearLayout
+    private lateinit var mainLayout: LinearLayout
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN) {
 
             hideLoader()
 
@@ -96,29 +95,11 @@ class LoginFragment : AuthenticationFragment(),
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        auth = FirebaseAuth.getInstance()
-
-        val user = auth.currentUser
-
-        if(user != null) {
-
-            returnToMainActivity()
-
-        }
-
-
-    }
-
-
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
         super.onCreateView(inflater, container, savedInstanceState)
 
@@ -193,14 +174,13 @@ class LoginFragment : AuthenticationFragment(),
     }
 
 
-
     override fun onClick(v: View?) {
 
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
 
-        if(email.isEmpty()) {
+        if (email.isEmpty()) {
 
             setError(emailTextInputLayout, emailEditText, "Email must not be empty")
 
@@ -208,7 +188,7 @@ class LoginFragment : AuthenticationFragment(),
 
         }
 
-        if(!isEmailValid(email)) {
+        if (!isEmailValid(email)) {
 
             setError(emailTextInputLayout, emailEditText, "Email is invalid", true)
 
@@ -216,9 +196,9 @@ class LoginFragment : AuthenticationFragment(),
 
         }
 
-        if(password.isEmpty()) {
+        if (password.isEmpty()) {
 
-            setError(passwordTextInputLayout, passwordEditText,"Password must not be empty")
+            setError(passwordTextInputLayout, passwordEditText, "Password must not be empty")
 
             return
 
@@ -230,32 +210,35 @@ class LoginFragment : AuthenticationFragment(),
     }
 
 
-
     override fun onComplete(task: Task<AuthResult>) {
 
         hideLoader()
 
 
-        if(task.isSuccessful) {
+        if (task.isSuccessful) {
 
-            returnToMainActivity()
-
-            return
-
-        }
-
-        if(task.exception == null) {
+            goToMainActivity()
 
             return
 
         }
 
+        if (task.exception == null) {
 
-        when(task.exception) {
+            return
+
+        }
+
+
+        when (task.exception) {
 
             is FirebaseAuthInvalidCredentialsException -> {
 
-                setError(passwordTextInputLayout, passwordEditText, "Username and password do not match")
+                setError(
+                    passwordTextInputLayout,
+                    passwordEditText,
+                    "Username and password do not match"
+                )
 
             }
 
@@ -267,7 +250,11 @@ class LoginFragment : AuthenticationFragment(),
 
             is FirebaseNetworkException -> {
 
-                Toast.makeText(context, "Could not sign in, please check your Internet connection", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    context,
+                    "Could not sign in, please check your Internet connection",
+                    Toast.LENGTH_LONG
+                ).show()
 
             }
 
@@ -287,7 +274,7 @@ class LoginFragment : AuthenticationFragment(),
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
 
-        if((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) && event.action == KeyEvent.ACTION_DOWN) {
+        if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) && event.action == KeyEvent.ACTION_DOWN) {
 
             onClick(v)
 
@@ -296,7 +283,6 @@ class LoginFragment : AuthenticationFragment(),
         return false
 
     }
-
 
 
     private fun showGoogleSignInIntent() {
@@ -310,8 +296,6 @@ class LoginFragment : AuthenticationFragment(),
     }
 
 
-
-
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
 
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
@@ -323,7 +307,7 @@ class LoginFragment : AuthenticationFragment(),
 
                 hideLoader()
 
-                if(task.isSuccessful) {
+                if (task.isSuccessful) {
 
                     goToMainActivity()
 
@@ -331,7 +315,8 @@ class LoginFragment : AuthenticationFragment(),
 
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    Snackbar.make(view!!.rootView, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(view!!.rootView, "Authentication Failed.", Snackbar.LENGTH_SHORT)
+                        .show()
 
                 }
 
@@ -347,17 +332,20 @@ class LoginFragment : AuthenticationFragment(),
     }
 
 
+    private fun setError(
+        inputLayout: TextInputLayout,
+        editText: EditText,
+        error: String,
+        needsEmailValidation: Boolean = false
+    ) {
 
-
-    private fun setError(inputLayout: TextInputLayout, editText: EditText, error : String, needsEmailValidation: Boolean = false) {
-
-        if(inputLayout != emailTextInputLayout) {
+        if (inputLayout != emailTextInputLayout) {
 
             removeErrorMessage(emailTextInputLayout)
 
         }
 
-        if(inputLayout != passwordTextInputLayout) {
+        if (inputLayout != passwordTextInputLayout) {
 
             removeErrorMessage(passwordTextInputLayout)
 
@@ -374,11 +362,17 @@ class LoginFragment : AuthenticationFragment(),
 
                 override fun afterTextChanged(s: Editable?) {}
 
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-                    if(s.isNotEmpty() && (needsEmailValidation && isEmailValid(s))) {
+                    if (s.isNotEmpty() && (needsEmailValidation && isEmailValid(s))) {
 
                         removeErrorMessage(this@LoginFragment.emailTextInputLayout)
 

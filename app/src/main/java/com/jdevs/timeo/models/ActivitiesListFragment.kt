@@ -32,6 +32,12 @@ open class ActivitiesListFragment : ActionBarFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if(mUser == null) {
+
+            return
+
+        }
+
         mActivitiesRef = mFirestore
             .collection("users/${mUser.uid}/activities")
             .orderBy("timestamp", Query.Direction.DESCENDING)
@@ -50,6 +56,12 @@ open class ActivitiesListFragment : ActionBarFragment() {
         loaderLayout.apply {
 
             visibility  = View.VISIBLE
+
+        }
+
+        if(!::mActivitiesRef.isInitialized) {
+
+            return
 
         }
 
@@ -131,7 +143,13 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
         super.onPause()
 
-        mSnapshotListener.remove()
+        if(::mSnapshotListener.isInitialized) {
+
+
+            mSnapshotListener.remove()
+
+        }
+
 
     }
 

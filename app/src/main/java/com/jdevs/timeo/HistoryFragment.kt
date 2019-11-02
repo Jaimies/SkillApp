@@ -41,6 +41,12 @@ class HistoryFragment : ActionBarFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if(mUser == null) {
+
+            return
+
+        }
+
         mRecordsCollection = mFirestore.collection("users/${mUser.uid}/records")
 
         mRecordsSorted = mRecordsCollection

@@ -120,23 +120,6 @@ class SignupFragment : AuthenticationFragment(),
         return view
     }
 
-
-
-
-
-    override fun onStart() {
-        super.onStart()
-
-        val user = auth.currentUser
-
-        if(user != null) {
-
-            returnToMainActivity()
-
-        }
-
-    }
-
     override fun onClick(view: View?) {
 
         if(!validateInput(emailTextInputLayout, emailEditText, ::validateEmailString, ::showEmailError)) {

@@ -79,8 +79,6 @@ class MainActivity : AppCompatActivity(),
 
         bottomNavView.setupWithNavController(navController)
 
-        toolbar.navigationIcon = null
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -10,6 +10,9 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 apply plugin: 'io.fabric'
 
+apply plugin: 'com.google.firebase.firebase-perf'
+
+
 android {
     signingConfigs {
         release {
@@ -60,6 +63,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
     implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-perf:19.0.1'
 
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

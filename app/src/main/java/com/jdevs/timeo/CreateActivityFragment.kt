@@ -187,6 +187,22 @@ class CreateActivityFragment : ActionBarFragment(),
                     mActivityRef.update("title", title, "icon", icon)
                         .addOnFailureListener(this)
 
+                    val records = mFirestore.collection("users/${mUser.uid}/records")
+
+                    records.whereEqualTo("activityId", args.activityId).get().addOnSuccessListener { querySnapshot ->
+
+                        if(querySnapshot != null && !querySnapshot.isEmpty) {
+
+                            for(document in querySnapshot.documents) {
+
+                                document.reference.update("title", title)
+
+                            }
+
+                        }
+
+                    }
+
                     val directions = CreateActivityFragmentDirections
                         .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")
 
@@ -200,6 +216,7 @@ class CreateActivityFragment : ActionBarFragment(),
 
                     activities.add(timeoActivity)
                         .addOnFailureListener(this)
+
 
                     findNavController().apply {
 

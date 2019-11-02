@@ -12,7 +12,7 @@ import java.util.*
 data class TimeoActivity(
     var title: String = "",
     var icon: String = "",
-    var totalTime: Int = -1,
+    var totalTime: Int = 0,
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
 ) : Parcelable {
 

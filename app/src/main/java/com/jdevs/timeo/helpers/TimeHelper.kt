@@ -19,6 +19,7 @@ class TimeHelper {
 
         }
 
+
         fun timeToMins(time: Pair<Int, Int>): Int {
 
             return time.first * 60 + time.second

@@ -6,8 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -26,7 +26,7 @@ class RecordsListAdapter(
 
 ) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val layout: LinearLayout) : RecyclerView.ViewHolder(layout),
+    inner class ViewHolder(val layout: ConstraintLayout) : RecyclerView.ViewHolder(layout),
         View.OnLongClickListener {
 
         init {
@@ -81,7 +81,7 @@ class RecordsListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val layout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.partial_records_list_item, parent, false) as LinearLayout
+            .inflate(R.layout.partial_records_list_item, parent, false) as ConstraintLayout
 
 
         return ViewHolder(layout)

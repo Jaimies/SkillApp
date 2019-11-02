@@ -125,16 +125,20 @@ class RecordActivityDialog(
     private fun submit() {
 
         validateInput(hoursEditText)
-
         validateInput(minutesEditText)
 
-
         val hours = hoursEditText.text.toString().toIntOrNull() ?: 0
-
         val minutes = minutesEditText.text.toString().toIntOrNull() ?: return
 
-
         val time = TimeHelper.timeToMins(Pair(hours, minutes))
+
+        createRecord(time)
+
+        dismiss()
+
+    }
+
+    private fun createRecord(time: Int) {
 
         val firestore = FirebaseFirestore.getInstance()
         val auth = FirebaseAuth.getInstance()
@@ -152,8 +156,6 @@ class RecordActivityDialog(
         records.add(timeoRecord).addOnFailureListener(this)
 
         activityRef.update("totalTime", activityTotalTime + time).addOnFailureListener(this)
-
-        dismiss()
 
     }
 

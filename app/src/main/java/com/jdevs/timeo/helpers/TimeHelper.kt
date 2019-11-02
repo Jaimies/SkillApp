@@ -6,8 +6,8 @@ class TimeHelper {
 
         fun minsToTime(mins: Int): Pair<Int, Int> {
 
-            val hours = mins.div(60)
-            val minutes = mins.rem(60)
+            val hours = mins / 60
+            val minutes = mins % 60
 
             return Pair(hours, minutes)
 

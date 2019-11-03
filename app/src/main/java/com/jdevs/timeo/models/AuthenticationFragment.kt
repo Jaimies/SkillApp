@@ -1,59 +1,21 @@
 package com.jdevs.timeo.models
 
 import android.graphics.Color
-import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.jdevs.timeo.LoginFragment
-import com.jdevs.timeo.R
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 
 
 open class AuthenticationFragment : Fragment() {
-
-    lateinit var mGoogleSignInClient: GoogleSignInClient
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        activity?.apply {
-
-            val bottomNavView = findViewById<BottomNavigationView>(R.id.bottomNavView)
-
-            bottomNavView.visibility = View.GONE
-
-        }
-
-        val googleSignInOptions = GoogleSignInOptions.Builder()
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        mGoogleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
-
-        mGoogleSignInClient.signOut()
-
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
 
     fun showLoader(
         spinningProgressBar: FrameLayout,
@@ -161,14 +123,6 @@ open class AuthenticationFragment : Fragment() {
             }
 
         }
-
-    }
-
-    fun showGoogleSignInIntent() {
-
-        val signInIntent = mGoogleSignInClient.signInIntent
-
-        startActivityForResult(signInIntent, LoginFragment.RC_SIGN_IN)
 
     }
 }

@@ -41,15 +41,7 @@ class ProfileFragment : Fragment() {
 
                 setOnClickListener {
 
-                    FirebaseAuth.getInstance().currentUser!!.apply {
-
-                        for (provider in providerData) {
-
-                            unlink(provider.providerId)
-
-                        }
-
-                    }
+                    FirebaseAuth.getInstance().signOut()
 
                     findNavController().navigate(R.id.action_logout)
 

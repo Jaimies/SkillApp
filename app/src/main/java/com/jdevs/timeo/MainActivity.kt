@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity(),
 
     private val loginDestinations = setOf(R.id.loginFragment, R.id.signupFragment)
 
-    private val topLevelDestinations = loginDestinations.union(mainDestinations)
-
 
     private lateinit var navController: NavController
 
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity(),
 
 
         appBarConfiguration = AppBarConfiguration(
-            topLevelDestinations.union(setOf(R.id.profileFragment)),
+            mainDestinations.union(setOf(R.id.profileFragment)),
             drawerLayout
         )
 

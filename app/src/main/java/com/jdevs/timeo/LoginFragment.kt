@@ -10,11 +10,15 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
@@ -26,7 +30,6 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.AuthenticationFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
@@ -62,6 +65,8 @@ class LoginFragment : AuthenticationFragment(),
 
     private lateinit var mainLayout: LinearLayout
 
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -78,7 +83,7 @@ class LoginFragment : AuthenticationFragment(),
 
                 val account = task.getResult(ApiException::class.java) ?: return
 
-                firebaseAuthWithGoogle(account)
+                firebaseLinkGoogleAccount(account)
 
             } catch (e: ApiException) {
 
@@ -90,7 +95,6 @@ class LoginFragment : AuthenticationFragment(),
 
                 }
 
-                // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
                 Snackbar.make(view!!, "Failed to sign in with Google", Snackbar.LENGTH_LONG).show()
 
@@ -132,12 +136,21 @@ class LoginFragment : AuthenticationFragment(),
             setOnClickListener {
 
                 findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
-                requireActivity().toolbar.navigationIcon = null
 
             }
 
             makeTextViewClickable(this)
         }
+
+
+        val googleSignInOptions = GoogleSignInOptions.Builder()
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
+
+        mGoogleSignInClient.signOut()
 
 
 
@@ -285,9 +298,58 @@ class LoginFragment : AuthenticationFragment(),
     }
 
 
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+    private fun firebaseLinkGoogleAccount(account: GoogleSignInAccount) {
 
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+
+        showLoader()
+
+        val user = auth.currentUser
+
+        if (user != null && user.isAnonymous) {
+
+            user.linkWithCredential(credential)
+                .addOnCompleteListener {
+
+                    hideLoader()
+
+                }
+                .addOnSuccessListener {
+
+                    goToMainActivity()
+
+                }
+                .addOnFailureListener { exception ->
+
+                    if(exception is FirebaseAuthUserCollisionException) {
+
+                        firebaseAuthWithGoogle(credential)
+
+                        return@addOnFailureListener
+
+                    }
+
+
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", exception)
+                    Snackbar.make(
+                        view!!,
+                        "Authentication Failed",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+
+                }
+
+        } else {
+
+            firebaseAuthWithGoogle(credential)
+
+        }
+
+
+    }
+
+    private fun firebaseAuthWithGoogle(credential: AuthCredential) {
 
         showLoader()
 
@@ -302,7 +364,7 @@ class LoginFragment : AuthenticationFragment(),
                 goToMainActivity()
 
             }
-            .addOnFailureListener { exception ->
+            .addOnFailureListener {exception ->
 
                 // If sign in fails, display a message to the user.
                 Log.w(TAG, "signInWithCredential:failure", exception)
@@ -313,7 +375,6 @@ class LoginFragment : AuthenticationFragment(),
                 ).show()
 
             }
-
 
     }
 
@@ -399,7 +460,6 @@ class LoginFragment : AuthenticationFragment(),
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this)
 
-
         showLoader()
 
     }
@@ -414,6 +474,32 @@ class LoginFragment : AuthenticationFragment(),
 
         super.hideLoader(spinningProgressBar, mainLayout, loginButton)
 
+    }
+
+
+    private fun showGoogleSignInIntent() {
+
+        val signInIntent = mGoogleSignInClient.signInIntent
+
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+
+    }
+
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+
+        val navController = findNavController()
+
+        val graph = navController.graph
+
+        val dest = graph.findNode(R.id.signupFragment)
+
+        if (!enter && dest != null && navController.currentDestination?.id == dest.id) {
+
+            return AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left)
+
+        }
+
+        return super.onCreateAnimation(transit, enter, nextAnim)
     }
 
 

@@ -2,7 +2,6 @@ package com.jdevs.timeo
 
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,19 +14,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.*
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.AuthenticationFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
@@ -39,46 +31,6 @@ class SignupFragment : AuthenticationFragment(),
 
     private val auth = FirebaseAuth.getInstance()
 
-    private val args by navArgs<SignupFragmentArgs>()
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == LoginFragment.RC_SIGN_IN) {
-
-            hideLoader()
-
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-
-            try {
-
-                // Google Sign In was successful, authenticate with Firebase
-
-                val account = task.getResult(ApiException::class.java) ?: return
-
-                firebaseLinkGoogleAccount(account)
-
-            } catch (e: ApiException) {
-
-                if (e.statusCode == GoogleSignInStatusCodes.SIGN_IN_CANCELLED) {
-
-                    Log.i(TAG, "Sign in was cancelled by user")
-
-                    return
-
-                }
-
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
-                Snackbar.make(view!!, "Failed to link account with Google", Snackbar.LENGTH_LONG).show()
-
-            }
-
-        }
-
-    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -97,43 +49,13 @@ class SignupFragment : AuthenticationFragment(),
 
             signupButton.setOnClickListener(this@SignupFragment)
 
-            loginTextView.apply loginTextView@{
+            loginTextView.setOnClickListener {
 
-                if (args.linkAccount) {
-
-                    visibility = View.GONE
-
-                    return@loginTextView
-                }
-
-                setOnClickListener {
-
-                    findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
-                    requireActivity().toolbar.navigationIcon = null
-
-                }
-
-                makeTextViewClickable(this)
-            }
-
-
-            if (args.linkAccount) {
-
-                googleSignInButton.apply {
-
-                    visibility = View.VISIBLE
-
-                    setOnClickListener {
-
-                        showLoader()
-
-                        showGoogleSignInIntent()
-
-                    }
-
-                }
+                findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
 
             }
+
+            makeTextViewClickable(loginTextView)
 
             rootView.setOnClickListener {
 
@@ -396,49 +318,6 @@ class SignupFragment : AuthenticationFragment(),
 
     }
 
-    private fun firebaseLinkGoogleAccount(account: GoogleSignInAccount) {
-
-        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-
-        showLoader()
-
-        auth.currentUser?.apply {
-            linkWithCredential(credential)
-                .addOnCompleteListener {
-
-                    hideLoader()
-
-                }
-                .addOnSuccessListener {
-
-                    goToMainActivity()
-
-                }
-                .addOnFailureListener { exception ->
-
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "linkWithCredential:failure", exception)
-
-                    val message = when(exception) {
-
-                        is FirebaseAuthUserCollisionException -> "This credential is already associated with a different user account"
-                        else -> "Failed to link account with Google"
-
-                    }
-
-                    mGoogleSignInClient.signOut()
-
-                    Snackbar.make(
-                        view!!,
-                        message,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-
-                }
-        }
-
-    }
-
     private fun showLoader() {
 
         super.showLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.signupButton)
@@ -454,7 +333,9 @@ class SignupFragment : AuthenticationFragment(),
 
     private fun signUp(email: String, password: String) {
 
-        auth.createUserWithEmailAndPassword(email, password)
+        val credential = EmailAuthProvider.getCredential(email, password)
+
+        auth.currentUser!!.linkWithCredential(credential)
             .addOnCompleteListener(this)
 
         showLoader()

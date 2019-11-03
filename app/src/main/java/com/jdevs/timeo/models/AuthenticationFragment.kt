@@ -125,4 +125,15 @@ open class AuthenticationFragment : Fragment() {
         }
 
     }
+
+    companion object {
+
+        const val RC_SIGN_IN = 101
+
+        fun isEmailValid(email: CharSequence): Boolean {
+
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+        }
+    }
 }

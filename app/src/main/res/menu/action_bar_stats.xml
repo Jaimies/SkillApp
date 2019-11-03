@@ -12,5 +12,5 @@
         android:id="@+id/shareAchievements"
         android:icon="@drawable/ic_share"
         android:title=""
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

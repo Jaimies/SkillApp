@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.EditText
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -22,7 +22,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
@@ -49,19 +48,6 @@ class LoginFragment : AuthenticationFragment(),
     OnCompleteListener<AuthResult> {
 
     private val auth = FirebaseAuth.getInstance()
-
-    private lateinit var emailTextInputLayout: TextInputLayout
-    private lateinit var emailEditText: TextInputEditText
-
-    private lateinit var passwordTextInputLayout: TextInputLayout
-    private lateinit var passwordEditText: TextInputEditText
-
-    private lateinit var loginButton: Button
-    private lateinit var signupTextView: TextView
-
-    private lateinit var spinningProgressBar: FrameLayout
-
-    private lateinit var mainLayout: LinearLayout
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
@@ -112,33 +98,18 @@ class LoginFragment : AuthenticationFragment(),
 
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
-        emailTextInputLayout = view.emailTextInputLayout
-        emailEditText = view.emailEditText
+        view.passwordEditText.setOnKeyListener(this)
 
-        passwordTextInputLayout = view.passwordTextInputLayout
-        passwordEditText = view.passwordEditText.apply {
+        view.loginButton.setOnClickListener(this)
 
-            setOnKeyListener(this@LoginFragment)
 
-        }
+        view.signupTextView.setOnClickListener {
 
-        loginButton = view.signupButton.apply {
-
-            setOnClickListener(this@LoginFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
 
         }
 
-
-        signupTextView = view.signupTextView.apply {
-
-            setOnClickListener {
-
-                findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
-
-            }
-
-            makeTextViewClickable(this)
-        }
+        makeTextViewClickable(view.signupTextView)
 
 
         val googleSignInOptions = GoogleSignInOptions.Builder()
@@ -151,31 +122,17 @@ class LoginFragment : AuthenticationFragment(),
         mGoogleSignInClient.signOut()
 
 
+        view.rootView.setOnClickListener {
 
-        mainLayout = view.mainLayout
-
-        spinningProgressBar = view.spinningProgressBar
-
-
-        view.rootView.apply {
-
-            setOnClickListener {
-
-                hideKeyboard(activity)
-
-            }
+            hideKeyboard(activity)
 
         }
 
-        view.googleSignInButton.apply {
+        view.googleSignInButton.setOnClickListener {
 
-            setOnClickListener {
+            showLoader()
 
-                showLoader()
-
-                showGoogleSignInIntent()
-
-            }
+            showGoogleSignInIntent()
 
         }
 
@@ -187,13 +144,13 @@ class LoginFragment : AuthenticationFragment(),
 
     override fun onClick(v: View?) {
 
-        val email = emailEditText.text.toString()
-        val password = passwordEditText.text.toString()
+        val email = view!!.emailEditText.text.toString()
+        val password = view!!.passwordEditText.text.toString()
 
 
         if (email.isEmpty()) {
 
-            setError(emailTextInputLayout, emailEditText, "Email must not be empty")
+            setError(view!!.emailTextInputLayout, view!!.emailEditText, "Email must not be empty")
 
             return
 
@@ -201,7 +158,7 @@ class LoginFragment : AuthenticationFragment(),
 
         if (!isEmailValid(email)) {
 
-            setError(emailTextInputLayout, emailEditText, "Email is invalid", true)
+            setError(view!!.emailTextInputLayout, view!!.emailEditText, "Email is invalid", true)
 
             return
 
@@ -209,7 +166,11 @@ class LoginFragment : AuthenticationFragment(),
 
         if (password.isEmpty()) {
 
-            setError(passwordTextInputLayout, passwordEditText, "Password must not be empty")
+            setError(
+                view!!.passwordTextInputLayout,
+                view!!.passwordEditText,
+                "Password must not be empty"
+            )
 
             return
 
@@ -246,8 +207,8 @@ class LoginFragment : AuthenticationFragment(),
             is FirebaseAuthInvalidCredentialsException -> {
 
                 setError(
-                    passwordTextInputLayout,
-                    passwordEditText,
+                    view!!.passwordTextInputLayout,
+                    view!!.passwordEditText,
                     "Username and password do not match"
                 )
 
@@ -255,7 +216,11 @@ class LoginFragment : AuthenticationFragment(),
 
             is FirebaseAuthInvalidUserException -> {
 
-                setError(emailTextInputLayout, emailEditText, "User with that email does not exist")
+                setError(
+                    view!!.emailTextInputLayout,
+                    view!!.emailEditText,
+                    "User with that email does not exist"
+                )
 
             }
 
@@ -319,7 +284,7 @@ class LoginFragment : AuthenticationFragment(),
                 }
                 .addOnFailureListener { exception ->
 
-                    if(exception is FirebaseAuthUserCollisionException) {
+                    if (exception is FirebaseAuthUserCollisionException) {
 
                         firebaseAuthWithGoogle(credential)
 
@@ -364,7 +329,7 @@ class LoginFragment : AuthenticationFragment(),
                     goToMainActivity()
 
                 }
-                .addOnFailureListener {exception ->
+                .addOnFailureListener { exception ->
 
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", exception)
@@ -395,15 +360,15 @@ class LoginFragment : AuthenticationFragment(),
         needsEmailValidation: Boolean = false
     ) {
 
-        if (inputLayout != emailTextInputLayout) {
+        if (inputLayout != view!!.emailTextInputLayout) {
 
-            removeErrorMessage(emailTextInputLayout)
+            removeErrorMessage(view!!.emailTextInputLayout)
 
         }
 
-        if (inputLayout != passwordTextInputLayout) {
+        if (inputLayout != view!!.passwordTextInputLayout) {
 
-            removeErrorMessage(passwordTextInputLayout)
+            removeErrorMessage(view!!.passwordTextInputLayout)
 
         }
 
@@ -430,9 +395,9 @@ class LoginFragment : AuthenticationFragment(),
 
                     if (s.isNotEmpty() && (needsEmailValidation && isEmailValid(s))) {
 
-                        removeErrorMessage(this@LoginFragment.emailTextInputLayout)
+                        removeErrorMessage(this@LoginFragment.view!!.emailTextInputLayout)
 
-                        emailEditText.removeTextChangedListener(this)
+                        view!!.emailEditText.removeTextChangedListener(this)
 
                     }
 
@@ -466,20 +431,19 @@ class LoginFragment : AuthenticationFragment(),
 
         }
 
-
         showLoader()
 
     }
 
     private fun showLoader() {
 
-        super.showLoader(spinningProgressBar, mainLayout, loginButton)
+        super.showLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
 
     }
 
     private fun hideLoader() {
 
-        super.hideLoader(spinningProgressBar, mainLayout, loginButton)
+        super.hideLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
 
     }
 
@@ -489,19 +453,6 @@ class LoginFragment : AuthenticationFragment(),
         val signInIntent = mGoogleSignInClient.signInIntent
 
         startActivityForResult(signInIntent, RC_SIGN_IN)
-
-    }
-
-
-    companion object {
-
-        const val RC_SIGN_IN = 101
-
-        private fun isEmailValid(email: CharSequence): Boolean {
-
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-        }
 
     }
 }

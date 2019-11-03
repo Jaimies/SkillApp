@@ -70,10 +70,11 @@
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:text="Log in or"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                tools:ignore="KeyboardInaccessibleWidget" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/signupButton"
+                android:id="@+id/loginButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sign up" />

@@ -26,7 +26,7 @@ class ProfileFragment : Fragment() {
 
             view.loginLayout.visibility = View.VISIBLE
 
-            view.signupButton.setOnClickListener {
+            view.loginButton.setOnClickListener {
 
                 findNavController().navigate(R.id.action_login)
 

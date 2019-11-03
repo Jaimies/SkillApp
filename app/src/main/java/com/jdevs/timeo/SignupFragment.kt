@@ -47,7 +47,7 @@ class SignupFragment : AuthenticationFragment(),
 
             passwordEditText.setOnKeyListener(this@SignupFragment)
 
-            signupButton.setOnClickListener(this@SignupFragment)
+            loginButton.setOnClickListener(this@SignupFragment)
 
             loginTextView.setOnClickListener {
 
@@ -320,13 +320,13 @@ class SignupFragment : AuthenticationFragment(),
 
     private fun showLoader() {
 
-        super.showLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.signupButton)
+        super.showLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
 
     }
 
     private fun hideLoader() {
 
-        super.hideLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.signupButton)
+        super.hideLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
 
     }
 
@@ -386,13 +386,6 @@ class SignupFragment : AuthenticationFragment(),
             }
 
             return RESULT_VALID
-
-        }
-
-
-        private fun isEmailValid(email: CharSequence): Boolean {
-
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
         }
     }

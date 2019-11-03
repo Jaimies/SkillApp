@@ -162,7 +162,7 @@
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/profileFragment"
+            app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_login"
@@ -192,8 +192,8 @@
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -211,7 +211,7 @@
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/signupFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

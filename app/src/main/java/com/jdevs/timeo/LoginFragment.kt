@@ -10,8 +10,6 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.navigation.fragment.findNavController
@@ -483,23 +481,6 @@ class LoginFragment : AuthenticationFragment(),
 
         startActivityForResult(signInIntent, RC_SIGN_IN)
 
-    }
-
-    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
-
-        val navController = findNavController()
-
-        val graph = navController.graph
-
-        val dest = graph.findNode(R.id.signupFragment)
-
-        if (!enter && dest != null && navController.currentDestination?.id == dest.id) {
-
-            return AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left)
-
-        }
-
-        return super.onCreateAnimation(transit, enter, nextAnim)
     }
 
 

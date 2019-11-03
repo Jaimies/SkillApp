@@ -20,7 +20,7 @@
             <item
                 android:id="@+id/profileFragment"
                 android:icon="@drawable/ic_account"
-                android:title="Profile"/>
+                android:title="Profile" />
         </menu>
     </item>
 </menu>

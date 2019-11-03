@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoActivity
@@ -26,6 +27,8 @@ class CreateActivityFragment : ActionBarFragment(),
     private val mFirestore = FirebaseFirestore.getInstance()
 
     private val args: CreateActivityFragmentArgs by navArgs()
+
+    private val mUser = FirebaseAuth.getInstance().currentUser
 
 
     override fun onCreateView(

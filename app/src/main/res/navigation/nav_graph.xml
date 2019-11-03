@@ -163,6 +163,6 @@
             android:id="@+id/action_logout"
             app:destination="@id/login_nav"
             app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

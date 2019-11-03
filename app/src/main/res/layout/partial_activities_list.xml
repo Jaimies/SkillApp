@@ -35,5 +35,7 @@
             android:text="Create an activity" />
     </LinearLayout>
 
-    <include layout="@layout/partial_circular_loader" />
+    <include
+        android:id="@+id/listLoader"
+        layout="@layout/partial_circular_loader" />
 </FrameLayout>

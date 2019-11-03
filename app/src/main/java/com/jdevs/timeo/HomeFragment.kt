@@ -1,25 +1,28 @@
 package com.jdevs.timeo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.Query
 import com.jdevs.timeo.models.ActivitiesListFragment
 import kotlinx.android.synthetic.main.partial_activities_list.view.*
-import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
 class HomeFragment : ActivitiesListFragment() {
 
     private lateinit var mLoader: FrameLayout
     private lateinit var mRecyclerView: RecyclerView
 
-    private lateinit var mBottomNavView: BottomNavigationView
-
     private lateinit var mCreateNewActivityView: LinearLayout
     private lateinit var mCreateNewActivityButton: MaterialButton
+
+    private val mAuth = FirebaseAuth.getInstance()
+
+    private var mUser = mAuth.currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,12 +35,9 @@ class HomeFragment : ActivitiesListFragment() {
 
         mCreateNewActivityButton = view.createNewActivityButton
 
-        mLoader = view.spinningProgressBar
+        mLoader = view.listLoader as FrameLayout
 
         mRecyclerView = view.activitiesRecyclerView
-
-
-        showBottonNavIfHidden()
 
         // Inflate the layout for this fragment
         return view
@@ -45,6 +45,14 @@ class HomeFragment : ActivitiesListFragment() {
 
     override fun onStart() {
         super.onStart()
+
+        if (mUser == null) {
+
+            signInAnonymously()
+
+            return
+
+        }
 
         setupActivityListener(
             mRecyclerView,
@@ -62,19 +70,35 @@ class HomeFragment : ActivitiesListFragment() {
 
     }
 
-    private fun showBottonNavIfHidden() {
+    private fun signInAnonymously() {
 
-        activity?.apply {
+        mAuth.signInAnonymously()
+            .addOnSuccessListener { result ->
 
-            mBottomNavView = findViewById(R.id.bottomNavView)
+                mUser = result.user
 
-            if (mBottomNavView.visibility != View.VISIBLE) {
+                mLoader.visibility = View.GONE
 
-                mBottomNavView.visibility = View.VISIBLE
+                mActivitiesRef = mFirestore
+                    .collection("users/${mUser!!.uid}/activities")
+                    .orderBy("timestamp", Query.Direction.DESCENDING)
+                    .limit(20)
+
+                setupActivityListener(
+                    mRecyclerView,
+                    mLoader,
+                    mCreateNewActivityView,
+                    mCreateNewActivityButton
+                )
+
+            }
+            .addOnFailureListener { exception ->
+
+                Log.w(TAG, "Failed to sign in anonymously", exception)
 
             }
 
-        }
+        mLoader.visibility = View.VISIBLE
 
     }
 

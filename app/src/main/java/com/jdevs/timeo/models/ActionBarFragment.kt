@@ -3,8 +3,9 @@ package com.jdevs.timeo.models
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.fragment.app.Fragment
 
-open class ActionBarFragment : AuthFragment() {
+open class ActionBarFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

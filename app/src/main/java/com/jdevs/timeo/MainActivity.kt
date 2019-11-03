@@ -49,7 +49,10 @@ class MainActivity : AppCompatActivity(),
         navController.addOnDestinationChangedListener(this)
 
 
-        appBarConfiguration = AppBarConfiguration(topLevelDestinations.union(setOf(R.id.profileFragment)), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            topLevelDestinations.union(setOf(R.id.profileFragment)),
+            drawerLayout
+        )
 
         mToggle = object : ActionBarDrawerToggle(
             this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close

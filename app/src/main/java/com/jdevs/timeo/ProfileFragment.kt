@@ -22,7 +22,6 @@ class ProfileFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-
         if (mAuth.currentUser!!.isAnonymous) {
 
             view.loginLayout.visibility = View.VISIBLE
@@ -35,19 +34,15 @@ class ProfileFragment : Fragment() {
 
         } else {
 
-            view.logoutButton.apply {
+            view.logoutButton.setOnClickListener {
 
-                visibility = View.VISIBLE
+                FirebaseAuth.getInstance().signOut()
 
-                setOnClickListener {
-
-                    FirebaseAuth.getInstance().signOut()
-
-                    findNavController().navigate(R.id.action_logout)
-
-                }
+                findNavController().navigate(R.id.action_logout)
 
             }
+
+            view.logoutLayout.visibility = View.VISIBLE
 
         }
 

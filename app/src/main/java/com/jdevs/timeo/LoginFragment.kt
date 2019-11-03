@@ -351,28 +351,32 @@ class LoginFragment : AuthenticationFragment(),
 
         showLoader()
 
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener {
+        auth.currentUser!!.delete().addOnCompleteListener {
 
-                hideLoader()
+            auth.signInWithCredential(credential)
+                .addOnCompleteListener {
 
-            }
-            .addOnSuccessListener {
+                    hideLoader()
 
-                goToMainActivity()
+                }
+                .addOnSuccessListener {
 
-            }
-            .addOnFailureListener {exception ->
+                    goToMainActivity()
 
-                // If sign in fails, display a message to the user.
-                Log.w(TAG, "signInWithCredential:failure", exception)
-                Snackbar.make(
-                    view!!,
-                    "Authentication Failed",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                }
+                .addOnFailureListener {exception ->
 
-            }
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", exception)
+                    Snackbar.make(
+                        view!!,
+                        "Authentication Failed",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+
+                }
+
+        }
 
     }
 
@@ -455,8 +459,13 @@ class LoginFragment : AuthenticationFragment(),
 
     private fun signIn(email: String, password: String) {
 
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this)
+        auth.currentUser!!.delete().addOnCompleteListener {
+
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this)
+
+        }
+
 
         showLoader()
 

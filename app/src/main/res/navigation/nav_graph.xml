@@ -154,4 +154,15 @@
     </fragment>
 
     <include app:graph="@navigation/login_nav" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.jdevs.timeo.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_logout"
+            app:destination="@id/login_nav"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>

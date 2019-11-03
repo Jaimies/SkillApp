@@ -189,19 +189,20 @@ class CreateActivityFragment : ActionBarFragment(),
 
                     val records = mFirestore.collection("users/${mUser.uid}/records")
 
-                    records.whereEqualTo("activityId", args.activityId).get().addOnSuccessListener { querySnapshot ->
+                    records.whereEqualTo("activityId", args.activityId).get()
+                        .addOnSuccessListener { querySnapshot ->
 
-                        if(querySnapshot != null && !querySnapshot.isEmpty) {
+                            if (querySnapshot != null && !querySnapshot.isEmpty) {
 
-                            for(document in querySnapshot.documents) {
+                                for (document in querySnapshot.documents) {
 
-                                document.reference.update("title", title)
+                                    document.reference.update("title", title)
+
+                                }
 
                             }
 
                         }
-
-                    }
 
                     val directions = CreateActivityFragmentDirections
                         .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")

@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(),
 
     private val loginDestinations = setOf(R.id.loginFragment, R.id.signupFragment)
 
-    private val nonBackArrowedDestinations = loginDestinations.union(mainDestinations)
+    private val topLevelDestinations = loginDestinations.union(mainDestinations)
 
 
     private lateinit var navController: NavController
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(),
         navController.addOnDestinationChangedListener(this)
 
 
-        appBarConfiguration = AppBarConfiguration(nonBackArrowedDestinations, drawerLayout)
+        appBarConfiguration = AppBarConfiguration(topLevelDestinations.union(setOf(R.id.profileFragment)), drawerLayout)
 
         mToggle = object : ActionBarDrawerToggle(
             this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -145,14 +145,20 @@ class MainActivity : AppCompatActivity(),
 
             bottomNavView.visibility = View.VISIBLE
 
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-
 
         } else {
 
             bottomNavView.visibility = View.GONE
 
+        }
+
+        if (loginDestinations.contains(id)) {
+
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+        } else {
+
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
         }
 

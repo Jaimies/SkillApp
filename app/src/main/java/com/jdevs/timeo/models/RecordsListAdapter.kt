@@ -91,7 +91,7 @@ class RecordsListAdapter(
             val activity = FirebaseFirestore.getInstance()
                 .document("/users/${userId}/activities/${mRecords[adapterPosition].activityId}")
 
-            val workingTime= mRecords[adapterPosition].workingTime.toLong()
+            val workingTime = mRecords[adapterPosition].workingTime.toLong()
 
 
             activity.update("totalTime", FieldValue.increment(-workingTime))

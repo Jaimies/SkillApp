@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -32,7 +33,7 @@ import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
 
-const val TAG = "Login"
+const val TAG = "Timeo"
 
 const val ERROR_EMPTY = 1220
 const val ERROR_INVALID = 1221
@@ -84,6 +85,14 @@ class LoginFragment : AuthenticationFragment(),
                 firebaseAuthWithGoogle(account)
 
             } catch (e: ApiException) {
+
+                if (e.statusCode == SIGN_IN_CANCELLED) {
+
+                    Log.i(TAG, "Sign in was cancelled by user")
+
+                    return
+
+                }
 
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)

@@ -15,4 +15,12 @@
         android:icon="@drawable/ic_graph"
         android:title="Stats" />
 
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/profileFragment"
+                android:icon="@drawable/ic_account"
+                android:title="Profile"/>
+        </menu>
+    </item>
 </menu>

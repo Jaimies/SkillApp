@@ -155,7 +155,8 @@ class RecordActivityDialog(
 
         records.add(timeoRecord).addOnFailureListener(this)
 
-        activityRef.update("totalTime", FieldValue.increment(time.toLong())).addOnFailureListener(this)
+        activityRef.update("totalTime", FieldValue.increment(time.toLong()))
+            .addOnFailureListener(this)
 
     }
 

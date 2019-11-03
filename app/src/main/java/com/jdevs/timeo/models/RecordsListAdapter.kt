@@ -26,7 +26,6 @@ class RecordsListAdapter(
     private val dataset: Array<TimeoRecord>,
     private val mRecordsCollection: CollectionReference,
     private val mItemIds: ArrayList<String>,
-    private val mRecords: ArrayList<TimeoRecord>,
     private val userId: String,
     private val context: Context?
 
@@ -89,9 +88,9 @@ class RecordsListAdapter(
                 .addOnFailureListener(this)
 
             val activity = FirebaseFirestore.getInstance()
-                .document("/users/${userId}/activities/${mRecords[adapterPosition].activityId}")
+                .document("/users/${userId}/activities/${dataset[adapterPosition].activityId}")
 
-            val workingTime = mRecords[adapterPosition].workingTime.toLong()
+            val workingTime = dataset[adapterPosition].workingTime.toLong()
 
 
             activity.update("totalTime", FieldValue.increment(-workingTime))

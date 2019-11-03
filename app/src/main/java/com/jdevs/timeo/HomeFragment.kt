@@ -46,7 +46,9 @@ class HomeFragment : ActivitiesListFragment() {
     override fun onStart() {
         super.onStart()
 
-        if (mUser == null) {
+        val user = mUser
+
+        if (user == null || user.providerId == "") {
 
             signInAnonymously()
 

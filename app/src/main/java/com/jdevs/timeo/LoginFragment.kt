@@ -15,8 +15,6 @@ import android.widget.*
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
@@ -50,8 +48,6 @@ class LoginFragment : AuthenticationFragment(),
     OnCompleteListener<AuthResult> {
 
     private val auth = FirebaseAuth.getInstance()
-
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
 
     private lateinit var emailTextInputLayout: TextInputLayout
     private lateinit var emailEditText: TextInputEditText
@@ -124,7 +120,7 @@ class LoginFragment : AuthenticationFragment(),
 
         }
 
-        loginButton = view.loginButton.apply {
+        loginButton = view.signupButton.apply {
 
             setOnClickListener(this@LoginFragment)
 
@@ -160,16 +156,11 @@ class LoginFragment : AuthenticationFragment(),
 
         }
 
-        val googleSignInOptions = GoogleSignInOptions.Builder()
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        mGoogleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
-
         view.googleSignInButton.apply {
 
             setOnClickListener {
+
+                showLoader()
 
                 showGoogleSignInIntent()
 
@@ -259,10 +250,10 @@ class LoginFragment : AuthenticationFragment(),
 
             is FirebaseNetworkException -> {
 
-                Toast.makeText(
-                    context,
+                Snackbar.make(
+                    view!!,
                     "Could not sign in, please check your Internet connection",
-                    Toast.LENGTH_LONG
+                    Snackbar.LENGTH_LONG
                 ).show()
 
             }
@@ -271,7 +262,7 @@ class LoginFragment : AuthenticationFragment(),
 
                 Log.w(TAG, "Failed to sign in", task.exception)
 
-                Snackbar.make(view!!.rootView, "Failed to sign in", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(view!!, "Failed to sign in", Snackbar.LENGTH_LONG).show()
 
             }
 
@@ -294,17 +285,6 @@ class LoginFragment : AuthenticationFragment(),
     }
 
 
-    private fun showGoogleSignInIntent() {
-
-        showLoader()
-
-        val signInIntent = mGoogleSignInClient.signInIntent
-
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-
-    }
-
-
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
 
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
@@ -312,24 +292,28 @@ class LoginFragment : AuthenticationFragment(),
         showLoader()
 
         auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
+            .addOnCompleteListener {
 
                 hideLoader()
 
-                if (task.isSuccessful) {
+            }
+            .addOnSuccessListener {
 
-                    goToMainActivity()
-
-                } else {
-
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    Snackbar.make(view!!.rootView, "Authentication Failed", Snackbar.LENGTH_SHORT)
-                        .show()
-
-                }
+                goToMainActivity()
 
             }
+            .addOnFailureListener { exception ->
+
+                // If sign in fails, display a message to the user.
+                Log.w(TAG, "signInWithCredential:failure", exception)
+                Snackbar.make(
+                    view!!,
+                    "Authentication Failed",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+
+            }
+
 
     }
 
@@ -414,6 +398,7 @@ class LoginFragment : AuthenticationFragment(),
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this)
+
 
         showLoader()
 

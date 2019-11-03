@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 
 class ProfileFragment : Fragment() {
+
+    private val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,19 +23,44 @@ class ProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
 
-        view.logoutButton.setOnClickListener {
+        if (mAuth.currentUser!!.isAnonymous) {
 
-            FirebaseAuth.getInstance().signOut()
+            view.loginLayout.visibility = View.VISIBLE
 
-            findNavController().navigate(R.id.action_logout)
+            view.signupButton.setOnClickListener {
 
-            requireActivity().toolbar.navigationIcon = null
+                findNavController().navigate(R.id.action_login)
+
+            }
+
+        } else {
+
+            view.logoutButton.apply {
+
+                visibility = View.VISIBLE
+
+                setOnClickListener {
+
+                    FirebaseAuth.getInstance().currentUser!!.apply {
+
+                        for (provider in providerData) {
+
+                            unlink(provider.providerId)
+
+                        }
+
+                    }
+
+                    findNavController().navigate(R.id.action_logout)
+
+                }
+
+            }
 
         }
 
         // Inflate the layout for this fragment
         return view
     }
-
 
 }

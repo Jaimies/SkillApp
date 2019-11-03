@@ -10,9 +10,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
         android:gravity="center_horizontal"
         android:text="Profile"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/logoutButton"
@@ -20,6 +21,29 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/default_margin"
-        android:text="Logout" />
+        android:text="Logout"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/loginLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You are not logged in"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signupButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.jdevs.timeo.models.ActivitiesListFragment
 import kotlinx.android.synthetic.main.partial_activities_list.view.*
-import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
 class TaskListFragment : ActivitiesListFragment() {
 
@@ -30,7 +29,7 @@ class TaskListFragment : ActivitiesListFragment() {
 
         mCreateNewActivityButton = view.createNewActivityButton
 
-        mLoader = view.spinningProgressBar
+        mLoader = view.listLoader as FrameLayout
 
         mRecyclerView = view.activitiesRecyclerView
 

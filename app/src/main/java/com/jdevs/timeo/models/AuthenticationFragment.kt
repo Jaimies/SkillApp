@@ -15,12 +15,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.jdevs.timeo.LoginFragment
 import com.jdevs.timeo.R
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 
 
 open class AuthenticationFragment : Fragment() {
+
+    lateinit var mGoogleSignInClient: GoogleSignInClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +41,15 @@ open class AuthenticationFragment : Fragment() {
             bottomNavView.visibility = View.GONE
 
         }
+
+        val googleSignInOptions = GoogleSignInOptions.Builder()
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
+
+        mGoogleSignInClient.signOut()
 
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -149,5 +164,11 @@ open class AuthenticationFragment : Fragment() {
 
     }
 
+    fun showGoogleSignInIntent() {
 
+        val signInIntent = mGoogleSignInClient.signInIntent
+
+        startActivityForResult(signInIntent, LoginFragment.RC_SIGN_IN)
+
+    }
 }

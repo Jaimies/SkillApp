@@ -2,6 +2,7 @@ package com.jdevs.timeo
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,11 +12,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.EditText
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.*
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
@@ -30,28 +37,48 @@ class SignupFragment : AuthenticationFragment(),
     View.OnKeyListener,
     OnCompleteListener<AuthResult> {
 
-    private lateinit var auth: FirebaseAuth
+    private val auth = FirebaseAuth.getInstance()
 
-    private lateinit var emailTextInputLayout: TextInputLayout
-    private lateinit var emailEditText: TextInputEditText
-
-    private lateinit var passwordTextInputLayout: TextInputLayout
-    private lateinit var passwordEditText: TextInputEditText
-
-    private lateinit var signupButton: Button
-    private lateinit var loginTextView: TextView
-
-    private lateinit var spinningProgressBar: FrameLayout
-
-    private lateinit var mainLayout: LinearLayout
+    private val args by navArgs<SignupFragmentArgs>()
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        auth = FirebaseAuth.getInstance()
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == LoginFragment.RC_SIGN_IN) {
+
+            hideLoader()
+
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+
+                // Google Sign In was successful, authenticate with Firebase
+
+                val account = task.getResult(ApiException::class.java) ?: return
+
+                firebaseLinkGoogleAccount(account)
+
+            } catch (e: ApiException) {
+
+                if (e.statusCode == GoogleSignInStatusCodes.SIGN_IN_CANCELLED) {
+
+                    Log.i(TAG, "Sign in was cancelled by user")
+
+                    return
+
+                }
+
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e)
+                Snackbar.make(view!!, "Failed to link account with Google", Snackbar.LENGTH_LONG).show()
+
+            }
+
+        }
+
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -64,48 +91,51 @@ class SignupFragment : AuthenticationFragment(),
 
         val view = inflater.inflate(R.layout.fragment_signup, container, false)
 
-        emailTextInputLayout = view.emailTextInputLayout
-        emailEditText = view.emailEditText
+        view.apply {
 
-        passwordTextInputLayout = view.passwordTextInputLayout
-        passwordEditText = view.passwordEditText.apply {
+            passwordEditText.setOnKeyListener(this@SignupFragment)
 
-            setOnKeyListener(this@SignupFragment)
+            signupButton.setOnClickListener(this@SignupFragment)
 
-        }
+            loginTextView.apply loginTextView@{
 
-        signupButton = view.loginButton.apply {
+                if (args.linkAccount) {
 
-            setOnClickListener(this@SignupFragment)
+                    visibility = View.GONE
 
-        }
+                    return@loginTextView
+                }
 
-        loginTextView = view.loginTextView
+                setOnClickListener {
 
-        mainLayout = view.mainLayout
+                    findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+                    requireActivity().toolbar.navigationIcon = null
 
-        spinningProgressBar = view.spinningProgressBar
+                }
+
+                makeTextViewClickable(this)
+            }
 
 
+            if (args.linkAccount) {
 
+                googleSignInButton.apply {
 
-        loginTextView = view.loginTextView.apply {
+                    visibility = View.VISIBLE
 
-            setOnClickListener {
+                    setOnClickListener {
 
-                findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
-                requireActivity().toolbar.navigationIcon = null
+                        showLoader()
+
+                        showGoogleSignInIntent()
+
+                    }
+
+                }
 
             }
 
-            makeTextViewClickable(this)
-        }
-
-
-
-        view.rootView.apply {
-
-            setOnClickListener {
+            rootView.setOnClickListener {
 
                 hideKeyboard(activity)
 
@@ -120,8 +150,8 @@ class SignupFragment : AuthenticationFragment(),
     override fun onClick(view: View?) {
 
         if (!validateInput(
-                emailTextInputLayout,
-                emailEditText,
+                getView()!!.emailTextInputLayout,
+                getView()!!.emailEditText,
                 ::validateEmailString,
                 ::showEmailError
             )
@@ -132,8 +162,8 @@ class SignupFragment : AuthenticationFragment(),
         }
 
         if (!validateInput(
-                passwordTextInputLayout,
-                passwordEditText,
+                getView()!!.passwordTextInputLayout,
+                getView()!!.passwordEditText,
                 ::validatePasswordString,
                 ::showPasswordError
             )
@@ -143,8 +173,8 @@ class SignupFragment : AuthenticationFragment(),
 
         }
 
-        val email = emailEditText.text.toString()
-        val password = passwordEditText.text.toString()
+        val email = getView()!!.emailEditText.text.toString()
+        val password = getView()!!.passwordEditText.text.toString()
 
         signUp(email, password)
 
@@ -186,19 +216,27 @@ class SignupFragment : AuthenticationFragment(),
 
             is FirebaseAuthWeakPasswordException -> {
 
-                setError(passwordTextInputLayout, passwordEditText, "The password is too weak")
+                setError(
+                    view!!.passwordTextInputLayout,
+                    view!!.passwordEditText,
+                    "The password is too weak"
+                )
 
             }
 
             is FirebaseAuthUserCollisionException -> {
 
-                setError(emailTextInputLayout, emailEditText, "User with that email already exists")
+                setError(
+                    view!!.emailTextInputLayout,
+                    view!!.emailEditText,
+                    "User with that email already exists"
+                )
 
             }
 
             is FirebaseAuthInvalidCredentialsException -> {
 
-                setError(emailTextInputLayout, emailEditText, "Email is invalid")
+                setError(view!!.emailTextInputLayout, view!!.emailEditText, "Email is invalid")
 
             }
 
@@ -278,7 +316,7 @@ class SignupFragment : AuthenticationFragment(),
 
         if (result == RESULT_VALID) {
 
-            passwordTextInputLayout.error = ""
+            view!!.passwordTextInputLayout.error = ""
 
             return
 
@@ -293,7 +331,7 @@ class SignupFragment : AuthenticationFragment(),
 
         }
 
-        setError(passwordTextInputLayout, passwordEditText, error)
+        setError(view!!.passwordTextInputLayout, view!!.passwordEditText, error)
 
     }
 
@@ -302,7 +340,7 @@ class SignupFragment : AuthenticationFragment(),
 
         if (result == RESULT_VALID) {
 
-            emailTextInputLayout.error = ""
+            view!!.emailTextInputLayout.error = ""
 
             return
 
@@ -315,20 +353,20 @@ class SignupFragment : AuthenticationFragment(),
 
         }
 
-        setError(emailTextInputLayout, emailEditText, error)
+        setError(view!!.emailTextInputLayout, view!!.emailEditText, error)
 
     }
 
 
     private fun setError(inputLayout: TextInputLayout, editText: EditText, error: String) {
 
-        if (inputLayout != emailTextInputLayout) {
+        if (inputLayout != view!!.emailTextInputLayout) {
 
             removeErrorMessage(inputLayout)
 
         }
 
-        if (inputLayout != passwordTextInputLayout) {
+        if (inputLayout != view!!.passwordTextInputLayout) {
 
             removeErrorMessage(inputLayout)
 
@@ -358,15 +396,58 @@ class SignupFragment : AuthenticationFragment(),
 
     }
 
+    private fun firebaseLinkGoogleAccount(account: GoogleSignInAccount) {
+
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+
+        showLoader()
+
+        auth.currentUser?.apply {
+            linkWithCredential(credential)
+                .addOnCompleteListener {
+
+                    hideLoader()
+
+                }
+                .addOnSuccessListener {
+
+                    goToMainActivity()
+
+                }
+                .addOnFailureListener { exception ->
+
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "linkWithCredential:failure", exception)
+
+                    val message = when(exception) {
+
+                        is FirebaseAuthUserCollisionException -> "This credential is already associated with a different user account"
+                        else -> "Failed to link account with Google"
+
+                    }
+
+                    mGoogleSignInClient.signOut()
+
+                    Snackbar.make(
+                        view!!,
+                        message,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+
+                }
+        }
+
+    }
+
     private fun showLoader() {
 
-        super.showLoader(spinningProgressBar, mainLayout, signupButton)
+        super.showLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.signupButton)
 
     }
 
     private fun hideLoader() {
 
-        super.hideLoader(spinningProgressBar, mainLayout, signupButton)
+        super.hideLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.signupButton)
 
     }
 

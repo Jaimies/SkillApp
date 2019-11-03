@@ -44,16 +44,18 @@ class ActivityDetailsFragment : ActionBarFragment() {
             val days = if (daysDiff != 0) daysDiff else 1
 
 
-            val avgTime = args.timeoActivity.totalTime / days / 60.0f
-
-            val avgTimeString = "%.1f".format(avgTime)
+            val avgMins = args.timeoActivity.totalTime / days
 
 
-            val result =
-                if (avgTimeString.takeLast(1) == "0") avgTimeString.dropLast(2) else avgTimeString
+            val avgHours = TimeHelper.minsToHours(avgMins)
 
+            text = "${avgHours}h"
 
-            text = "${result}h"
+        }
+
+        view.lastWeekTextView.apply {
+
+            text = "42h"
 
         }
 

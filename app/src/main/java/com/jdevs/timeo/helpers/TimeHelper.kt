@@ -15,7 +15,12 @@ class TimeHelper {
 
         fun minsToHours(mins: Int): String {
 
-            return "%.1f".format(mins / 60f)
+            val time = mins / 60.0f
+
+            val timeString = "%.1f".format(time)
+
+
+            return if (timeString.takeLast(1) == "0") timeString.dropLast(2) else timeString
 
         }
 

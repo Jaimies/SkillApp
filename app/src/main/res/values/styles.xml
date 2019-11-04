@@ -8,4 +8,15 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="PreloaderStyle">
+        <item name="android:background">@color/colorPreloaderBackground</item>
+    </style>
+
+    <style name="NavHeaderStyle">
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
+    <style name="DateTimeStyle">
+        <item name="android:background">@color/colorAccent</item>
+    </style>
 </resources>

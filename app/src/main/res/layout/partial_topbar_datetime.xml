@@ -5,7 +5,7 @@
     android:id="@+id/topbarLayout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/timebar_height"
-    android:background="@color/design_default_color_primary"
+    style="@style/DateTimeStyle"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     app:layout_constraintTop_toTopOf="parent">

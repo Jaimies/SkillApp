@@ -17,15 +17,13 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
     private val mainDestinations =
-        setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment)
+        setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment, R.id.settingsFragment)
 
     private val loginDestinations = setOf(R.id.loginFragment, R.id.signupFragment)
-
 
     private lateinit var navController: NavController
 
@@ -33,19 +31,15 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var mToggle: ActionBarDrawerToggle
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
         setSupportActionBar(toolbar)
 
         navController = findNavController(R.id.nav_host_fragment)
 
         navController.addOnDestinationChangedListener(this)
-
 
         appBarConfiguration = AppBarConfiguration(
             mainDestinations.union(setOf(R.id.profileFragment)),
@@ -61,33 +55,26 @@ class MainActivity : AppCompatActivity(),
                 syncState()
             }
 
-
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
                 syncState()
             }
-
         }
 
         drawerLayout.addDrawerListener(mToggle)
         mToggle.syncState()
 
-
         setupActionBarWithNavController(navController, appBarConfiguration)
-
 
         navView.setupWithNavController(navController)
 
         bottomNavView.setupWithNavController(navController)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
 
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -96,19 +83,16 @@ class MainActivity : AppCompatActivity(),
             R.id.addActivity -> {
 
                 navController.navigate(R.id.action_showCreateActivityFragment)
-
             }
 
             R.id.historyFragment -> {
 
                 navController.navigate(R.id.action_showHistory)
-
             }
 
             R.id.showAchievements -> {
 
                 navController.navigate(R.id.showAchievements)
-
             }
 
             R.id.shareAchievements -> {
@@ -120,7 +104,6 @@ class MainActivity : AppCompatActivity(),
                     putExtra(Intent.EXTRA_TEXT, "Those are my achievements. What do you think?")
 
                     type = "text/plain"
-
                 }
 
                 val shareIntent = Intent.createChooser(sendIntent, null)
@@ -130,9 +113,7 @@ class MainActivity : AppCompatActivity(),
         }
 
         return false
-
     }
-
 
     override fun onDestinationChanged(
         controller: NavController,
@@ -145,24 +126,18 @@ class MainActivity : AppCompatActivity(),
         if (mainDestinations.contains(id)) {
 
             bottomNavView.visibility = View.VISIBLE
-
-
         } else {
 
             bottomNavView.visibility = View.GONE
-
         }
 
         if (loginDestinations.contains(id)) {
 
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-
         } else {
 
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-
         }
-
     }
 
     override fun onBackPressed() {
@@ -176,6 +151,5 @@ class MainActivity : AppCompatActivity(),
         }
 
         super.onBackPressed()
-
     }
 }

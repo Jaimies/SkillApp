@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/topbarLayout"
+    style="@style/DateTimeStyle"
     android:layout_width="match_parent"
     android:layout_height="@dimen/timebar_height"
-    style="@style/DateTimeStyle"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     app:layout_constraintTop_toTopOf="parent">

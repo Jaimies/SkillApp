@@ -21,6 +21,11 @@
                 android:id="@+id/profileFragment"
                 android:icon="@drawable/ic_account"
                 android:title="Profile" />
+
+            <item
+                android:id="@+id/settingsFragment"
+                android:icon="@drawable/ic_settings"
+                android:title="Settings" />
         </menu>
     </item>
 </menu>

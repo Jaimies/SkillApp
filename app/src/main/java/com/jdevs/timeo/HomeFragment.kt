@@ -2,7 +2,11 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
+import android.view.MenuInflater
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +29,8 @@ class HomeFragment : ActivitiesListFragment() {
     private var mUser = mAuth.currentUser
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
@@ -53,7 +58,6 @@ class HomeFragment : ActivitiesListFragment() {
             signInAnonymously()
 
             return
-
         }
 
         setupActivityListener(
@@ -62,14 +66,11 @@ class HomeFragment : ActivitiesListFragment() {
             mCreateNewActivityView,
             mCreateNewActivityButton
         )
-
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
         addOptionsMenu(menu, inflater, R.menu.action_bar_main)
-
     }
 
     private fun signInAnonymously() {
@@ -92,16 +93,12 @@ class HomeFragment : ActivitiesListFragment() {
                     mCreateNewActivityView,
                     mCreateNewActivityButton
                 )
-
             }
             .addOnFailureListener { exception ->
 
                 Log.w(TAG, "Failed to sign in anonymously", exception)
-
             }
 
         mLoader.visibility = View.VISIBLE
-
     }
-
 }

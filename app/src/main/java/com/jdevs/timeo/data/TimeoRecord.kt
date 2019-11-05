@@ -15,7 +15,5 @@ data class TimeoRecord(
     constructor() : this("", 0, "") {
 
         timestamp = Calendar.getInstance().time
-
     }
-
 }

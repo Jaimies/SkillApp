@@ -30,28 +30,23 @@ class CreateActivityFragment : ActionBarFragment(),
 
     private val mUser = FirebaseAuth.getInstance().currentUser
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_create_activity, container, false)
 
-
         view.rootView.setOnClickListener {
 
             hideKeyboard(activity)
-
         }
-
 
         requireActivity().toolbar.apply {
 
             title = if (args.editActivity) "Edit activity" else "Create activity"
-
         }
-
 
         if (args.editActivity) {
 
@@ -65,18 +60,13 @@ class CreateActivityFragment : ActionBarFragment(),
                 setOnClickListener {
 
                     showDeleteDialog(view, context)
-
                 }
-
             }
-
 
             view.titleEditText.setText(args.timeoActivity?.title)
 
             view.iconEditText.setText(args.timeoActivity?.icon)
-
         }
-
 
         // Inflate the layout for this fragment
         return view
@@ -89,7 +79,6 @@ class CreateActivityFragment : ActionBarFragment(),
             "Failed to save data to Firestore",
             firebaseException
         )
-
     }
 
     private fun validateInput(): Boolean {
@@ -104,7 +93,6 @@ class CreateActivityFragment : ActionBarFragment(),
                 error = "Title cannot be empty"
 
                 return false
-
             }
 
             if (titleText.length < 3) {
@@ -112,7 +100,6 @@ class CreateActivityFragment : ActionBarFragment(),
                 error = "Title must be at least two characters long"
 
                 return false
-
             }
 
             if (titleText.length >= 100) {
@@ -120,11 +107,8 @@ class CreateActivityFragment : ActionBarFragment(),
                 error = "Title length must not exceed 100 characters"
 
                 return false
-
             }
-
         }
-
 
         view!!.iconTextInputLayout.apply {
 
@@ -133,7 +117,6 @@ class CreateActivityFragment : ActionBarFragment(),
                 error = "Icon cannot be empty"
 
                 return false
-
             }
 
             if (iconText.length < 3) {
@@ -141,7 +124,6 @@ class CreateActivityFragment : ActionBarFragment(),
                 error = "Icon must be at least three characters long"
 
                 return false
-
             }
 
             if (iconText.length > 100) {
@@ -149,9 +131,7 @@ class CreateActivityFragment : ActionBarFragment(),
                 error = "Icon length must not exceed 100 characters"
 
                 return false
-
             }
-
         }
 
         return true
@@ -160,16 +140,13 @@ class CreateActivityFragment : ActionBarFragment(),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
         addOptionsMenu(menu, inflater, R.menu.action_bar_create_activity)
-
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (mUser == null) {
 
             return false
-
         }
 
         if (item.itemId == R.id.doneAddingActivity) {
@@ -200,18 +177,14 @@ class CreateActivityFragment : ActionBarFragment(),
                                 for (document in querySnapshot.documents) {
 
                                     document.reference.update("title", title)
-
                                 }
-
                             }
-
                         }
 
                     val directions = CreateActivityFragmentDirections
                         .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")
 
                     findNavController().navigate(directions)
-
                 } else {
 
                     val activities = mFirestore.collection("users/${mUser.uid}/activities")
@@ -221,28 +194,21 @@ class CreateActivityFragment : ActionBarFragment(),
                     activities.add(timeoActivity)
                         .addOnFailureListener(this)
 
-
                     findNavController().apply {
 
                         popBackStack(R.id.createActivityFragment, true)
-
                     }
                 }
 
                 hideKeyboard(activity)
-
             }
-
         } else {
 
             return super.onOptionsItemSelected(item)
-
         }
 
         return true
-
     }
-
 
     private fun showDeleteDialog(view: View, context: Context) {
 
@@ -256,16 +222,12 @@ class CreateActivityFragment : ActionBarFragment(),
                     .delete()
                     .addOnFailureListener(this)
 
-
                 Snackbar.make(view, "Activity deleted", Snackbar.LENGTH_LONG).show()
 
                 findNavController().navigate(R.id.action_returnToHomeFragment)
-
             }
             .setNegativeButton("No", null)
 
-
         dialog.show()
-
     }
 }

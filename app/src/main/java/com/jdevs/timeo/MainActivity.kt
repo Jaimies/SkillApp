@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity(),
     private val mainDestinations =
         setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment, R.id.settingsFragment)
 
-    private val loginDestinations = setOf(R.id.loginFragment, R.id.signupFragment)
+    private val otherTopLevelDestinations = setOf(R.id.profileFragment, R.id.settingsFragment)
+
+    private val allTopLevelDestinations = mainDestinations.union(otherTopLevelDestinations)
 
     private lateinit var navController: NavController
 
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity(),
         navController.addOnDestinationChangedListener(this)
 
         appBarConfiguration = AppBarConfiguration(
-            mainDestinations.union(setOf(R.id.profileFragment)),
+            mainDestinations.union(otherTopLevelDestinations),
             drawerLayout
         )
 
@@ -131,12 +133,12 @@ class MainActivity : AppCompatActivity(),
             bottomNavView.visibility = View.GONE
         }
 
-        if (loginDestinations.contains(id)) {
-
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-        } else {
+        if (allTopLevelDestinations.contains(id)) {
 
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        } else {
+
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
     }
 
@@ -147,7 +149,6 @@ class MainActivity : AppCompatActivity(),
             drawerLayout.closeDrawer(GravityCompat.START)
 
             return
-
         }
 
         super.onBackPressed()

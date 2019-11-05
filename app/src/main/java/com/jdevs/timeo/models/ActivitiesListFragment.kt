@@ -31,23 +31,19 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
     private val mUser = FirebaseAuth.getInstance().currentUser
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (mUser == null) {
 
             return
-
         }
 
         mActivitiesRef = mFirestore
             .collection("users/${mUser.uid}/activities")
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .limit(20)
-
     }
-
 
     fun setupActivityListener(
         recyclerView: RecyclerView,
@@ -59,13 +55,11 @@ open class ActivitiesListFragment : ActionBarFragment() {
         loaderLayout.apply {
 
             visibility = View.VISIBLE
-
         }
 
         if (!::mActivitiesRef.isInitialized) {
 
             return
-
         }
 
         mSnapshotListener =
@@ -78,15 +72,11 @@ open class ActivitiesListFragment : ActionBarFragment() {
                         if (visibility != View.GONE) {
 
                             visibility = View.GONE
-
                         }
-
                     }
-
 
                     mActivities.clear()
                     mItemIds.clear()
-
 
                     if (querySnapshot.isEmpty) {
 
@@ -97,18 +87,13 @@ open class ActivitiesListFragment : ActionBarFragment() {
                             setOnClickListener {
 
                                 findNavController().navigate(R.id.action_showCreateActivityFragment)
-
                             }
-
-
                         }
 
                         refreshRecyclerView(recyclerView)
 
                         return@addSnapshotListener
-
                     }
-
 
                     val activities = querySnapshot.documents
 
@@ -116,31 +101,22 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
                         if (activity.exists()) {
 
-
                             val timeoActivity = activity.toObject(TimeoActivity::class.java)
 
                             if (timeoActivity != null) {
 
                                 mActivities.add(timeoActivity)
                                 mItemIds.add(activity.id)
-
                             }
-
                         }
-
                     }
 
                     refreshRecyclerView(recyclerView)
-
-
                 } else if (firebaseFirestoreException != null) {
 
                     Log.w(TAG, "Failed to get data from Firestore", firebaseFirestoreException)
-
                 }
-
             }
-
     }
 
     override fun onPause() {
@@ -149,14 +125,9 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
         if (::mSnapshotListener.isInitialized) {
 
-
             mSnapshotListener.remove()
-
         }
-
-
     }
-
 
     private fun refreshRecyclerView(recyclerView: RecyclerView) {
 
@@ -165,15 +136,11 @@ open class ActivitiesListFragment : ActionBarFragment() {
         mViewAdapter =
             ActivitiesListAdapter(mActivities.toTypedArray(), findNavController(), mItemIds)
 
-
         recyclerView.apply {
 
             layoutManager = viewManager
 
             adapter = mViewAdapter
-
         }
-
     }
-
 }

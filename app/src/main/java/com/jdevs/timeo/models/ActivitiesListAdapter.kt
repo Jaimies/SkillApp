@@ -18,7 +18,6 @@ import com.jdevs.timeo.TaskListFragmentDirections
 import com.jdevs.timeo.data.TimeoActivity
 import kotlinx.android.synthetic.main.partial_activities_list_item.view.*
 
-
 class ActivitiesListAdapter(
     private val dataset: Array<TimeoActivity>,
     private val navController: NavController,
@@ -31,43 +30,30 @@ class ActivitiesListAdapter(
         init {
 
             layout.setOnClickListener(this)
-
         }
-
 
         override fun onClick(v: View?) {
 
-            try {
+            navController.currentDestination?.apply {
 
-                navController.currentDestination?.apply {
+                val activityId = mItemIds[adapterPosition]
 
-                    val activityId = mItemIds[adapterPosition]
+                try {
 
-                    try {
+                    val action = HomeFragmentDirections
+                        .actionShowActivityDetails(dataset[adapterPosition], activityId)
 
-                        val action = HomeFragmentDirections
-                            .actionShowActivityDetails(dataset[adapterPosition], activityId)
+                    navController.navigate(action)
+                } catch (e: IllegalArgumentException) {
 
-                        navController.navigate(action)
+                    val action = TaskListFragmentDirections
+                        .actionShowActivityDetails(dataset[adapterPosition], activityId)
 
-                    } catch (e: IllegalArgumentException) {
-
-                        val action = TaskListFragmentDirections
-                            .actionShowActivityDetails(dataset[adapterPosition], activityId)
-
-                        navController.navigate(action)
-
-                    }
-
+                    navController.navigate(action)
                 }
-
-            } catch (e: Exception) {
             }
-
         }
-
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -79,7 +65,6 @@ class ActivitiesListAdapter(
             ) as ConstraintLayout
 
         return ViewHolder(layout)
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -93,11 +78,9 @@ class ActivitiesListAdapter(
                 context
             )
 
-
             listItemTitle.apply {
 
                 text = dataset[position].title
-
             }
 
             plusButton.apply {
@@ -112,17 +95,12 @@ class ActivitiesListAdapter(
                         )
 
                     dialog.show()
-
                 }
-
             }
-
         }
-
     }
 
     override fun getItemCount() = dataset.size
-
 
     private fun reColorView(
         position: Int,
@@ -137,11 +115,9 @@ class ActivitiesListAdapter(
             1 -> android.R.color.holo_green_dark
             2 -> android.R.color.holo_blue_dark
             else -> android.R.color.holo_orange_dark
-
         }
 
         val color = ContextCompat.getColor(context, colorId)
-
 
         val parentBackground = parentDrawable as LayerDrawable
         val plusBackground = plusButtonDrawable as LayerDrawable
@@ -152,7 +128,5 @@ class ActivitiesListAdapter(
 
         borderLeft.setColor(color)
         plusBackgroundItem.setColor(color)
-
     }
-
 }

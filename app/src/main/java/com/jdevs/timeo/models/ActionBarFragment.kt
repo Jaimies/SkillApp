@@ -12,7 +12,6 @@ open class ActionBarFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         setHasOptionsMenu(true)
-
     }
 
     fun addOptionsMenu(menu: Menu, inflater: MenuInflater, id: Int) {
@@ -20,7 +19,5 @@ open class ActionBarFragment : Fragment() {
         inflater.inflate(id, menu)
 
         super.onCreateOptionsMenu(menu, inflater)
-
     }
-
 }

@@ -1,6 +1,5 @@
 package com.jdevs.timeo
 
-
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
@@ -23,7 +22,6 @@ import com.jdevs.timeo.models.AuthenticationFragment
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
-
 class SignupFragment : AuthenticationFragment(),
     View.OnClickListener,
     View.OnKeyListener,
@@ -31,15 +29,14 @@ class SignupFragment : AuthenticationFragment(),
 
     private val auth = FirebaseAuth.getInstance()
 
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         super.onCreateView(inflater, container, savedInstanceState)
-
 
         val view = inflater.inflate(R.layout.fragment_signup, container, false)
 
@@ -52,7 +49,6 @@ class SignupFragment : AuthenticationFragment(),
             loginTextView.setOnClickListener {
 
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
-
             }
 
             makeTextViewClickable(loginTextView)
@@ -60,9 +56,7 @@ class SignupFragment : AuthenticationFragment(),
             rootView.setOnClickListener {
 
                 hideKeyboard(activity)
-
             }
-
         }
 
         // Inflate the layout for this fragment
@@ -80,7 +74,6 @@ class SignupFragment : AuthenticationFragment(),
         ) {
 
             return
-
         }
 
         if (!validateInput(
@@ -92,14 +85,12 @@ class SignupFragment : AuthenticationFragment(),
         ) {
 
             return
-
         }
 
         val email = getView()!!.emailEditText.text.toString()
         val password = getView()!!.passwordEditText.text.toString()
 
         signUp(email, password)
-
     }
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
@@ -107,13 +98,10 @@ class SignupFragment : AuthenticationFragment(),
         if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) && event.action == KeyEvent.ACTION_DOWN) {
 
             onClick(v)
-
         }
 
         return false
-
     }
-
 
     override fun onComplete(task: Task<AuthResult>) {
 
@@ -124,15 +112,12 @@ class SignupFragment : AuthenticationFragment(),
             goToMainActivity()
 
             return
-
         }
 
         if (task.exception == null) {
 
             return
-
         }
-
 
         when (task.exception) {
 
@@ -143,7 +128,6 @@ class SignupFragment : AuthenticationFragment(),
                     view!!.passwordEditText,
                     "The password is too weak"
                 )
-
             }
 
             is FirebaseAuthUserCollisionException -> {
@@ -153,13 +137,11 @@ class SignupFragment : AuthenticationFragment(),
                     view!!.emailEditText,
                     "User with that email already exists"
                 )
-
             }
 
             is FirebaseAuthInvalidCredentialsException -> {
 
                 setError(view!!.emailTextInputLayout, view!!.emailEditText, "Email is invalid")
-
             }
 
             else -> {
@@ -167,13 +149,9 @@ class SignupFragment : AuthenticationFragment(),
                 Log.w(TAG, "Failed to sign up", task.exception)
 
                 Toast.makeText(context, "Failed to sign in", Toast.LENGTH_LONG).show()
-
             }
-
         }
-
     }
-
 
     private fun validateInput(
         textInputLayout: TextInputLayout,
@@ -194,7 +172,6 @@ class SignupFragment : AuthenticationFragment(),
 
                 override fun afterTextChanged(s: Editable?) {}
 
-
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -203,7 +180,6 @@ class SignupFragment : AuthenticationFragment(),
                 ) {
                 }
 
-
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
                     if (validator(s.toString()) != validationResult) {
@@ -211,28 +187,20 @@ class SignupFragment : AuthenticationFragment(),
                         textInputLayout.error = ""
 
                         editText.removeTextChangedListener(this)
-
                     }
-
                 }
-
             })
 
             return false
-
         }
 
         return true
-
     }
-
 
     private fun goToMainActivity() {
 
         findNavController().navigate(R.id.action_signupFragment_to_homeFragment)
-
     }
-
 
     private fun showPasswordError(result: Int) {
 
@@ -241,7 +209,6 @@ class SignupFragment : AuthenticationFragment(),
             view!!.passwordTextInputLayout.error = ""
 
             return
-
         }
 
         val error = when (result) {
@@ -250,13 +217,10 @@ class SignupFragment : AuthenticationFragment(),
             ERROR_TOO_SHORT -> "Password must be at least 6 characters long"
             ERROR_TOO_LONG -> "Password length must not exceed 25 characters"
             else -> "Password is not valid"
-
         }
 
         setError(view!!.passwordTextInputLayout, view!!.passwordEditText, error)
-
     }
-
 
     private fun showEmailError(result: Int) {
 
@@ -265,33 +229,27 @@ class SignupFragment : AuthenticationFragment(),
             view!!.emailTextInputLayout.error = ""
 
             return
-
         }
 
         val error = when (result) {
 
             ERROR_EMPTY -> "Email must not be empty"
             else -> "Email is not valid"
-
         }
 
         setError(view!!.emailTextInputLayout, view!!.emailEditText, error)
-
     }
-
 
     private fun setError(inputLayout: TextInputLayout, editText: EditText, error: String) {
 
         if (inputLayout != view!!.emailTextInputLayout) {
 
             removeErrorMessage(inputLayout)
-
         }
 
         if (inputLayout != view!!.passwordTextInputLayout) {
 
             removeErrorMessage(inputLayout)
-
         }
 
         inputLayout.error = error
@@ -300,11 +258,8 @@ class SignupFragment : AuthenticationFragment(),
 
             requestFocus()
             setSelection(this.length())
-
         }
-
     }
-
 
     private fun removeErrorMessage(inputLayout: TextInputLayout) {
 
@@ -313,23 +268,18 @@ class SignupFragment : AuthenticationFragment(),
             error = ""
 
             isErrorEnabled = false
-
         }
-
     }
 
     private fun showLoader() {
 
         super.showLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
-
     }
 
     private fun hideLoader() {
 
         super.hideLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
-
     }
-
 
     private fun signUp(email: String, password: String) {
 
@@ -339,9 +289,7 @@ class SignupFragment : AuthenticationFragment(),
             .addOnCompleteListener(this)
 
         showLoader()
-
     }
-
 
     companion object {
 
@@ -350,44 +298,34 @@ class SignupFragment : AuthenticationFragment(),
             if (password.isEmpty()) {
 
                 return ERROR_EMPTY
-
             }
 
             if (password.length < 6) {
 
                 return ERROR_TOO_SHORT
-
             }
 
             if (password.length > 25) {
 
                 return ERROR_TOO_LONG
-
             }
 
             return RESULT_VALID
-
         }
 
-
         private fun validateEmailString(email: String): Int {
-
 
             if (email.isEmpty()) {
 
                 return ERROR_EMPTY
-
             }
 
             if (!isEmailValid(email)) {
 
                 return ERROR_INVALID
-
             }
 
             return RESULT_VALID
-
         }
     }
-
 }

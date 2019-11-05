@@ -19,7 +19,5 @@ data class TimeoActivity(
     constructor() : this("", "") {
 
         timestamp = Calendar.getInstance().time
-
     }
-
 }

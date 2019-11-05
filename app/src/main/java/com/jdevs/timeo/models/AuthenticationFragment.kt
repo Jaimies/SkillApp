@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 
-
 open class AuthenticationFragment : Fragment() {
 
     fun showLoader(
@@ -28,21 +27,17 @@ open class AuthenticationFragment : Fragment() {
         spinningProgressBar.apply {
 
             visibility = View.VISIBLE
-
         }
 
         mainLayout.apply {
 
             alpha = 0.5f
-
         }
 
         button?.apply {
 
             isEnabled = false
-
         }
-
     }
 
     fun hideLoader(
@@ -54,23 +49,18 @@ open class AuthenticationFragment : Fragment() {
         spinningProgressBar.apply {
 
             visibility = View.GONE
-
         }
 
         mainLayout.apply {
 
             alpha = 1.0f
-
         }
 
         button?.apply {
 
             isEnabled = true
-
         }
-
     }
-
 
     fun makeTextViewClickable(textView: TextView) {
 
@@ -93,8 +83,6 @@ open class AuthenticationFragment : Fragment() {
             Spanned.SPAN_INCLUSIVE_EXCLUSIVE
         )
 
-
-
         textView.apply {
 
             setOnTouchListener { v, event ->
@@ -107,7 +95,6 @@ open class AuthenticationFragment : Fragment() {
 
                         textView.setText(notClickedString, TextView.BufferType.SPANNABLE)
                         v.performClick()
-
                     }
 
                     MotionEvent.ACTION_CANCEL -> textView.setText(
@@ -116,14 +103,11 @@ open class AuthenticationFragment : Fragment() {
                         TextView.BufferType.SPANNABLE
 
                     )
-
                 }
 
                 true
             }
-
         }
-
     }
 
     companion object {
@@ -133,7 +117,6 @@ open class AuthenticationFragment : Fragment() {
         fun isEmailValid(email: CharSequence): Boolean {
 
             return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
         }
     }
 }

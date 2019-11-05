@@ -51,7 +51,6 @@ class LoginFragment : AuthenticationFragment(),
 
     private lateinit var mLoader: FrameLayout
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -68,7 +67,6 @@ class LoginFragment : AuthenticationFragment(),
                 val account = task.getResult(ApiException::class.java) ?: return
 
                 firebaseLinkGoogleAccount(account)
-
             } catch (e: ApiException) {
 
                 if (e.statusCode == SIGN_IN_CANCELLED) {
@@ -76,21 +74,17 @@ class LoginFragment : AuthenticationFragment(),
                     Log.i(TAG, "Sign in was cancelled by user")
 
                     return
-
                 }
 
                 Log.w(TAG, "Google sign in failed", e)
                 Snackbar.make(view!!, "Failed to sign in with Google", Snackbar.LENGTH_LONG).show()
-
             }
-
         }
-
     }
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
@@ -104,15 +98,12 @@ class LoginFragment : AuthenticationFragment(),
 
         mLoader = view.spinningProgressBar
 
-
         view.signupTextView.setOnClickListener {
 
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
-
         }
 
         makeTextViewClickable(view.signupTextView)
-
 
         val googleSignInOptions = GoogleSignInOptions.Builder()
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -123,11 +114,9 @@ class LoginFragment : AuthenticationFragment(),
 
         mGoogleSignInClient.signOut()
 
-
         view.rootView.setOnClickListener {
 
             hideKeyboard(activity)
-
         }
 
         view.googleSignInButton.setOnClickListener {
@@ -135,27 +124,22 @@ class LoginFragment : AuthenticationFragment(),
             showLoader()
 
             showGoogleSignInIntent()
-
         }
-
 
         // Inflate the layout for this fragment
         return view
     }
-
 
     override fun onClick(v: View?) {
 
         val email = view!!.emailEditText.text.toString()
         val password = view!!.passwordEditText.text.toString()
 
-
         if (email.isEmpty()) {
 
             setError(view!!.emailTextInputLayout, view!!.emailEditText, "Email must not be empty")
 
             return
-
         }
 
         if (!isEmailValid(email)) {
@@ -163,7 +147,6 @@ class LoginFragment : AuthenticationFragment(),
             setError(view!!.emailTextInputLayout, view!!.emailEditText, "Email is invalid", true)
 
             return
-
         }
 
         if (password.isEmpty()) {
@@ -175,34 +158,26 @@ class LoginFragment : AuthenticationFragment(),
             )
 
             return
-
         }
 
-
         signIn(email, password)
-
     }
-
 
     override fun onComplete(task: Task<AuthResult>) {
 
         hideLoader()
-
 
         if (task.isSuccessful) {
 
             goToMainActivity()
 
             return
-
         }
 
         if (task.exception == null) {
 
             return
-
         }
-
 
         when (task.exception) {
 
@@ -213,7 +188,6 @@ class LoginFragment : AuthenticationFragment(),
                     view!!.passwordEditText,
                     "Username and password do not match"
                 )
-
             }
 
             is FirebaseAuthInvalidUserException -> {
@@ -223,7 +197,6 @@ class LoginFragment : AuthenticationFragment(),
                     view!!.emailEditText,
                     "User with that email does not exist"
                 )
-
             }
 
             is FirebaseNetworkException -> {
@@ -233,7 +206,6 @@ class LoginFragment : AuthenticationFragment(),
                     "Could not sign in, please check your Internet connection",
                     Snackbar.LENGTH_LONG
                 ).show()
-
             }
 
             else -> {
@@ -241,27 +213,19 @@ class LoginFragment : AuthenticationFragment(),
                 Log.w(TAG, "Failed to sign in", task.exception)
 
                 Snackbar.make(view!!, "Failed to sign in", Snackbar.LENGTH_LONG).show()
-
             }
-
         }
-
-
     }
-
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
 
         if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) && event.action == KeyEvent.ACTION_DOWN) {
 
             onClick(v)
-
         }
 
         return false
-
     }
-
 
     private fun firebaseLinkGoogleAccount(account: GoogleSignInAccount) {
 
@@ -289,7 +253,6 @@ class LoginFragment : AuthenticationFragment(),
                         firebaseAuthWithGoogle(credential)
 
                         return@addOnFailureListener
-
                     }
 
                     // If sign in fails, display a message to the user.
@@ -339,7 +302,6 @@ class LoginFragment : AuthenticationFragment(),
     private fun goToMainActivity() {
 
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-
     }
 
     private fun setError(
@@ -398,9 +360,7 @@ class LoginFragment : AuthenticationFragment(),
             error = ""
 
             isErrorEnabled = false
-
         }
-
     }
 
     private fun signIn(email: String, password: String) {
@@ -419,21 +379,17 @@ class LoginFragment : AuthenticationFragment(),
     private fun showLoader() {
 
         super.showLoader(mLoader, view!!.mainLayout, view!!.loginButton)
-
     }
 
     private fun hideLoader() {
 
         super.hideLoader(mLoader, view!!.mainLayout, view!!.loginButton)
-
     }
-
 
     private fun showGoogleSignInIntent() {
 
         val signInIntent = mGoogleSignInClient.signInIntent
 
         startActivityForResult(signInIntent, RC_SIGN_IN)
-
     }
 }

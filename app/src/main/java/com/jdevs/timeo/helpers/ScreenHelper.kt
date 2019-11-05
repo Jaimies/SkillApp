@@ -11,19 +11,14 @@ open class ScreenHelper {
 
             val displayMetrics = DisplayMetrics()
 
-
             val windowService = context.getSystemService(WINDOW_SERVICE) as WindowManager
-
 
             windowService.defaultDisplay.apply {
 
                 getMetrics(displayMetrics)
-
             }
 
-
             return displayMetrics
-
         }
     }
 }

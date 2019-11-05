@@ -41,7 +41,6 @@ class RecordsListAdapter(
         init {
 
             layout.setOnLongClickListener(this)
-
         }
 
         override fun onLongClick(v: View): Boolean {
@@ -51,7 +50,6 @@ class RecordsListAdapter(
             showDialog()
 
             return true
-
         }
 
         private fun showDialog() {
@@ -63,9 +61,7 @@ class RecordsListAdapter(
                 .setPositiveButton("Yes", this)
                 .setNegativeButton("No", null)
 
-
             dialog.show()
-
         }
 
         override fun onFailure(firebaseException: Exception) {
@@ -75,7 +71,6 @@ class RecordsListAdapter(
                 "Failed to delete data from Firestore",
                 firebaseException
             )
-
         }
 
         override fun onClick(dialog: DialogInterface?, which: Int) {
@@ -88,20 +83,15 @@ class RecordsListAdapter(
                 .addOnFailureListener(this)
 
             val activity = FirebaseFirestore.getInstance()
-                .document("/users/${userId}/activities/${dataset[adapterPosition].activityId}")
+                .document("/users/$userId/activities/${dataset[adapterPosition].activityId}")
 
             val workingTime = dataset[adapterPosition].workingTime.toLong()
 
-
             activity.update("totalTime", FieldValue.increment(-workingTime))
 
-
             Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_LONG).show()
-
         }
-
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -109,7 +99,6 @@ class RecordsListAdapter(
             .inflate(R.layout.partial_records_list_item, parent, false) as ConstraintLayout
 
         return ViewHolder(layout)
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -121,11 +110,9 @@ class RecordsListAdapter(
 
             setBackgroundColor(ContextCompat.getColor(context, backgroundColorId))
 
-
             activityNameTextView.apply {
 
                 text = dataset[position].title
-
             }
 
             workTimeTextView.apply {
@@ -137,20 +124,16 @@ class RecordsListAdapter(
                 if (time.first != 0) {
 
                     timeString += "${time.first}h "
-
                 }
 
                 if (time.second != 0) {
 
                     timeString += "${time.second}m"
-
                 }
 
                 text = timeString
-
             }
         }
-
     }
 
     override fun getItemCount() = dataset.size

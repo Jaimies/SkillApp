@@ -1,6 +1,5 @@
 package com.jdevs.timeo
 
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,7 +19,6 @@ import com.jdevs.timeo.models.RecordsListAdapter
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 import kotlinx.android.synthetic.main.partial_records_list.view.*
 
-
 class HistoryFragment : ActionBarFragment() {
 
     private val mFirestore = FirebaseFirestore.getInstance()
@@ -39,14 +37,12 @@ class HistoryFragment : ActionBarFragment() {
 
     private val mUser = FirebaseAuth.getInstance().currentUser
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (mUser == null) {
 
             return
-
         }
 
         mRecordsCollection = mFirestore.collection("users/${mUser.uid}/records")
@@ -54,13 +50,11 @@ class HistoryFragment : ActionBarFragment() {
         mRecordsSorted = mRecordsCollection
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .limit(30)
-
-
     }
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
@@ -74,9 +68,7 @@ class HistoryFragment : ActionBarFragment() {
 
         // Inflate the layout for this fragment
         return view
-
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -84,9 +76,7 @@ class HistoryFragment : ActionBarFragment() {
         mLoader.apply {
 
             visibility = View.VISIBLE
-
         }
-
 
         mRecordsSorted.addSnapshotListener(requireActivity()) { querySnapshot, firebaseFirestoreException ->
 
@@ -97,15 +87,11 @@ class HistoryFragment : ActionBarFragment() {
                     if (visibility != View.GONE) {
 
                         visibility = View.GONE
-
                     }
-
                 }
-
 
                 mRecords.clear()
                 mItemIds.clear()
-
 
                 if (querySnapshot.isEmpty) {
 
@@ -114,9 +100,7 @@ class HistoryFragment : ActionBarFragment() {
                     refreshRecyclerView()
 
                     return@addSnapshotListener
-
                 }
-
 
                 val records = querySnapshot.documents
 
@@ -124,32 +108,23 @@ class HistoryFragment : ActionBarFragment() {
 
                     if (record.exists()) {
 
-
                         val timeoRecord = record.toObject(TimeoRecord::class.java)
 
                         if (timeoRecord != null) {
 
                             mRecords.add(timeoRecord)
                             mItemIds.add(record.id)
-
                         }
-
                     }
-
                 }
 
                 refreshRecyclerView()
-
-
             } else if (firebaseFirestoreException != null) {
 
                 Log.w(TAG, "Failed to get data from Firestore", firebaseFirestoreException)
-
             }
-
         }
     }
-
 
     private fun refreshRecyclerView() {
 
@@ -168,10 +143,6 @@ class HistoryFragment : ActionBarFragment() {
             layoutManager = viewManager
 
             adapter = mViewAdapter
-
         }
-
     }
-
-
 }

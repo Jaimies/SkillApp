@@ -15,17 +15,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.jdevs.timeo.helpers.KeyboardHelper
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
     private val mainDestinations =
-        setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment, R.id.settingsFragment)
+        setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment)
 
-    private val otherTopLevelDestinations = setOf(R.id.profileFragment, R.id.settingsFragment)
-
-    private val allTopLevelDestinations = mainDestinations.union(otherTopLevelDestinations)
+    private val allTopLevelDestinations =
+        mainDestinations.union(setOf(R.id.profileFragment, R.id.settingsFragment))
 
     private lateinit var navController: NavController
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(),
         navController.addOnDestinationChangedListener(this)
 
         appBarConfiguration = AppBarConfiguration(
-            mainDestinations.union(otherTopLevelDestinations),
+            allTopLevelDestinations,
             drawerLayout
         )
 
@@ -122,6 +122,8 @@ class MainActivity : AppCompatActivity(),
         destination: NavDestination,
         arguments: Bundle?
     ) {
+
+        KeyboardHelper.hideKeyboard(this)
 
         val id = destination.id
 

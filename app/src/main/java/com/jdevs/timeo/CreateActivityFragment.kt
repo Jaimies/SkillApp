@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,7 +21,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_create_activity.view.*
 
 class CreateActivityFragment : ActionBarFragment(),
-    OnFailureListener {
+    OnFailureListener,
+    View.OnKeyListener {
 
     private lateinit var mActivityRef: DocumentReference
 
@@ -79,6 +81,21 @@ class CreateActivityFragment : ActionBarFragment(),
             "Failed to save data to Firestore",
             firebaseException
         )
+    }
+
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+
+        if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) &&
+            event.action == KeyEvent.ACTION_DOWN
+        ) {
+
+            if (validateInput()) {
+
+                createActivity()
+            }
+        }
+
+        return false
     }
 
     private fun validateInput(): Boolean {
@@ -144,63 +161,11 @@ class CreateActivityFragment : ActionBarFragment(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (mUser == null) {
-
-            return false
-        }
-
         if (item.itemId == R.id.doneAddingActivity) {
 
             if (validateInput()) {
 
-                val title = view!!.titleEditText.text.toString()
-
-                val icon = view!!.iconEditText.text.toString()
-
-                if (args.editActivity) {
-
-                    val timeoActivity = args.timeoActivity ?: return false
-
-                    timeoActivity.title = title
-                    timeoActivity.icon = icon
-
-                    mActivityRef.update("title", title, "icon", icon)
-                        .addOnFailureListener(this)
-
-                    val records = mFirestore.collection("users/${mUser.uid}/records")
-
-                    records.whereEqualTo("activityId", args.activityId).get()
-                        .addOnSuccessListener { querySnapshot ->
-
-                            if (querySnapshot != null && !querySnapshot.isEmpty) {
-
-                                for (document in querySnapshot.documents) {
-
-                                    document.reference.update("title", title)
-                                }
-                            }
-                        }
-
-                    val directions = CreateActivityFragmentDirections
-                        .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")
-
-                    findNavController().navigate(directions)
-                } else {
-
-                    val activities = mFirestore.collection("users/${mUser.uid}/activities")
-
-                    val timeoActivity = TimeoActivity(title, icon)
-
-                    activities.add(timeoActivity)
-                        .addOnFailureListener(this)
-
-                    findNavController().apply {
-
-                        popBackStack(R.id.createActivityFragment, true)
-                    }
-                }
-
-                hideKeyboard(activity)
+                createActivity()
             }
         } else {
 
@@ -208,6 +173,58 @@ class CreateActivityFragment : ActionBarFragment(),
         }
 
         return true
+    }
+
+    private fun createActivity() {
+
+        val title = view!!.titleEditText.text.toString()
+
+        val icon = view!!.iconEditText.text.toString()
+
+        if (args.editActivity) {
+
+            val timeoActivity = args.timeoActivity ?: return
+
+            timeoActivity.title = title
+            timeoActivity.icon = icon
+
+            mActivityRef.update("title", title, "icon", icon)
+                .addOnFailureListener(this)
+
+            val records = mFirestore.collection("users/${mUser!!.uid}/records")
+
+            records.whereEqualTo("activityId", args.activityId).get()
+                .addOnSuccessListener { querySnapshot ->
+
+                    if (querySnapshot != null && !querySnapshot.isEmpty) {
+
+                        for (document in querySnapshot.documents) {
+
+                            document.reference.update("title", title)
+                        }
+                    }
+                }
+
+            val directions = CreateActivityFragmentDirections
+                .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")
+
+            findNavController().navigate(directions)
+        } else {
+
+            val activities = mFirestore.collection("users/${mUser!!.uid}/activities")
+
+            val timeoActivity = TimeoActivity(title, icon)
+
+            activities.add(timeoActivity)
+                .addOnFailureListener(this)
+
+            findNavController().apply {
+
+                popBackStack(R.id.createActivityFragment, true)
+            }
+        }
+
+        hideKeyboard(activity)
     }
 
     private fun showDeleteDialog(view: View, context: Context) {

@@ -21,7 +21,7 @@ class ProfileFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        if (mAuth.currentUser!!.isAnonymous) {
+        if (mAuth.currentUser?.isAnonymous == true) {
 
             view.loginLayout.visibility = View.VISIBLE
 

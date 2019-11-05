@@ -219,7 +219,9 @@ class LoginFragment : AuthenticationFragment(),
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
 
-        if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) && event.action == KeyEvent.ACTION_DOWN) {
+        if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) &&
+            event.action == KeyEvent.ACTION_DOWN
+        ) {
 
             onClick(v)
         }
@@ -365,7 +367,7 @@ class LoginFragment : AuthenticationFragment(),
 
     private fun signIn(email: String, password: String) {
 
-        mAuth.currentUser!!.delete().addOnFailureListener { exception ->
+        mAuth.currentUser?.delete()?.addOnFailureListener { exception ->
 
             Log.w(TAG, "Failed to delete user data", exception)
         }

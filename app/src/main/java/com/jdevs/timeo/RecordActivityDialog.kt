@@ -34,9 +34,9 @@ class RecordActivityDialog(
 
         val dimensions = getDimensions(context)
 
-        val width = (dimensions.widthPixels * 0.9).roundToInt()
+        val width = (dimensions.widthPixels * DIALOG_WIDTH).roundToInt()
 
-        val height = (dimensions.heightPixels * 0.35).roundToInt()
+        val height = (dimensions.heightPixels * DIALOG_HEIGHT).roundToInt()
 
         window?.apply {
 
@@ -83,7 +83,7 @@ class RecordActivityDialog(
 
         editText.apply {
 
-            val highLimit = if (id == R.id.hoursEditText) 23 else 59
+            val highLimit = if (id == R.id.hoursEditText) MAX_HOURS else MAX_MINS
 
             val lowLimit = if (id == R.id.hoursEditText) 0 else 5
 
@@ -141,5 +141,14 @@ class RecordActivityDialog(
         Log.w("Create record", "Failed to create activity", firebaseException)
 
         Snackbar.make(rootView, "Failed to record activity", Snackbar.LENGTH_LONG).show()
+    }
+
+    companion object {
+
+        const val DIALOG_WIDTH = 0.9
+        const val DIALOG_HEIGHT = 0.35
+
+        const val MAX_MINS = 59
+        const val MAX_HOURS = 23
     }
 }

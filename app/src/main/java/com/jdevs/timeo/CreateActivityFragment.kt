@@ -249,7 +249,7 @@ class CreateActivityFragment : ActionBarFragment(),
         val dialog = AlertDialog.Builder(context)
             .setIcon(android.R.drawable.ic_delete)
             .setTitle("Are you sure?")
-            .setMessage("Are you sure you want to delete this record?")
+            .setMessage("Are you sure you want to delete this activity?")
             .setPositiveButton("Yes") { _: DialogInterface, _: Int ->
 
                 mActivityRef

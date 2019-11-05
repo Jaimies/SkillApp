@@ -1,6 +1,5 @@
 package com.jdevs.timeo
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.FrameLayout
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -30,7 +30,6 @@ import com.jdevs.timeo.models.AuthenticationFragment
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
-
 const val TAG = "Timeo"
 
 const val ERROR_EMPTY = 1220
@@ -41,15 +40,16 @@ const val ERROR_TOO_LONG = 1224
 
 const val RESULT_VALID = 1222
 
-
 class LoginFragment : AuthenticationFragment(),
     View.OnClickListener,
     View.OnKeyListener,
     OnCompleteListener<AuthResult> {
 
-    private val auth = FirebaseAuth.getInstance()
+    private val mAuth = FirebaseAuth.getInstance()
 
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+
+    private lateinit var mLoader: FrameLayout
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -101,6 +101,8 @@ class LoginFragment : AuthenticationFragment(),
         view.passwordEditText.setOnKeyListener(this)
 
         view.loginButton.setOnClickListener(this)
+
+        mLoader = view.spinningProgressBar
 
 
         view.signupTextView.setOnClickListener {
@@ -267,7 +269,7 @@ class LoginFragment : AuthenticationFragment(),
 
         showLoader()
 
-        val user = auth.currentUser
+        val user = mAuth.currentUser
 
         if (user != null && user.isAnonymous) {
 
@@ -275,12 +277,10 @@ class LoginFragment : AuthenticationFragment(),
                 .addOnCompleteListener {
 
                     hideLoader()
-
                 }
                 .addOnSuccessListener {
 
                     goToMainActivity()
-
                 }
                 .addOnFailureListener { exception ->
 
@@ -292,7 +292,6 @@ class LoginFragment : AuthenticationFragment(),
 
                     }
 
-
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", exception)
                     Snackbar.make(
@@ -300,58 +299,48 @@ class LoginFragment : AuthenticationFragment(),
                         "Authentication Failed",
                         Snackbar.LENGTH_SHORT
                     ).show()
-
                 }
-
         } else {
 
             firebaseAuthWithGoogle(credential)
-
         }
-
-
     }
 
     private fun firebaseAuthWithGoogle(credential: AuthCredential) {
 
         showLoader()
 
-        auth.currentUser!!.delete().addOnCompleteListener {
+        mAuth.currentUser!!.delete().addOnFailureListener { exception ->
 
-            auth.signInWithCredential(credential)
-                .addOnCompleteListener {
-
-                    hideLoader()
-
-                }
-                .addOnSuccessListener {
-
-                    goToMainActivity()
-
-                }
-                .addOnFailureListener { exception ->
-
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", exception)
-                    Snackbar.make(
-                        view!!,
-                        "Authentication Failed",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-
-                }
-
+            Log.w(TAG, "Failed to delete anonymous user", exception)
         }
 
-    }
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener {
 
+                hideLoader()
+            }
+            .addOnSuccessListener {
+
+                goToMainActivity()
+            }
+            .addOnFailureListener { exception ->
+
+                // If sign in fails, display a message to the user.
+                Log.w(TAG, "signInWithCredential:failure", exception)
+                Snackbar.make(
+                    view!!,
+                    "Authentication Failed",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+    }
 
     private fun goToMainActivity() {
 
         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 
     }
-
 
     private fun setError(
         inputLayout: TextInputLayout,
@@ -363,13 +352,11 @@ class LoginFragment : AuthenticationFragment(),
         if (inputLayout != view!!.emailTextInputLayout) {
 
             removeErrorMessage(view!!.emailTextInputLayout)
-
         }
 
         if (inputLayout != view!!.passwordTextInputLayout) {
 
             removeErrorMessage(view!!.passwordTextInputLayout)
-
         }
 
         inputLayout.error = error
@@ -398,16 +385,11 @@ class LoginFragment : AuthenticationFragment(),
                         removeErrorMessage(this@LoginFragment.view!!.emailTextInputLayout)
 
                         view!!.emailEditText.removeTextChangedListener(this)
-
                     }
-
                 }
-
             })
         }
-
     }
-
 
     private fun removeErrorMessage(inputLayout: TextInputLayout) {
 
@@ -421,29 +403,28 @@ class LoginFragment : AuthenticationFragment(),
 
     }
 
-
     private fun signIn(email: String, password: String) {
 
-        auth.currentUser!!.delete().addOnCompleteListener {
+        mAuth.currentUser!!.delete().addOnFailureListener { exception ->
 
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this)
-
+            Log.w(TAG, "Failed to delete user data", exception)
         }
 
-        showLoader()
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this)
 
+        showLoader()
     }
 
     private fun showLoader() {
 
-        super.showLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
+        super.showLoader(mLoader, view!!.mainLayout, view!!.loginButton)
 
     }
 
     private fun hideLoader() {
 
-        super.hideLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
+        super.hideLoader(mLoader, view!!.mainLayout, view!!.loginButton)
 
     }
 

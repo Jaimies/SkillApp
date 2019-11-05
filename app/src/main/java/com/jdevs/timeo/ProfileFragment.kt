@@ -1,6 +1,5 @@
 package com.jdevs.timeo
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,13 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
-
 class ProfileFragment : Fragment() {
 
     private val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
@@ -29,9 +28,7 @@ class ProfileFragment : Fragment() {
             view.loginButton.setOnClickListener {
 
                 findNavController().navigate(R.id.action_login)
-
             }
-
         } else {
 
             view.logoutButton.setOnClickListener {
@@ -39,15 +36,12 @@ class ProfileFragment : Fragment() {
                 FirebaseAuth.getInstance().signOut()
 
                 findNavController().navigate(R.id.action_logout)
-
             }
 
             view.logoutLayout.visibility = View.VISIBLE
-
         }
 
         // Inflate the layout for this fragment
         return view
     }
-
 }

@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoRecord
-import com.jdevs.timeo.helpers.ScreenHelper.Companion.getDimensions
+import com.jdevs.timeo.helpers.ScreenHelper
 import com.jdevs.timeo.helpers.TimeHelper
 import kotlinx.android.synthetic.main.dialog_record_activity.*
 import kotlin.math.roundToInt
@@ -32,7 +32,7 @@ class RecordActivityDialog(
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_record_activity)
 
-        val dimensions = getDimensions(context)
+        val dimensions = ScreenHelper.getDimensions(context)
 
         val width = (dimensions.widthPixels * DIALOG_WIDTH).roundToInt()
 

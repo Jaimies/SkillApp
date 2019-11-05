@@ -1,6 +1,5 @@
 package com.jdevs.timeo
 
-
 import android.os.Bundle
 import android.view.*
 import androidx.navigation.fragment.findNavController
@@ -11,14 +10,13 @@ import kotlinx.android.synthetic.main.fragment_activity_details.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
 class ActivityDetailsFragment : ActionBarFragment() {
 
     private val args: ActivityDetailsFragmentArgs by navArgs()
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
@@ -26,13 +24,11 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
         view.mainTextView.text = args.timeoActivity.title
 
-
         view.totalTimeTextView.apply {
 
             val totalHours = TimeHelper.minsToHours(args.timeoActivity.totalTime)
 
             text = "${totalHours}h"
-
         }
 
         view.averageTimeTextView.apply {
@@ -40,36 +36,28 @@ class ActivityDetailsFragment : ActionBarFragment() {
             val msDiff = Calendar.getInstance().timeInMillis - args.timeoActivity.timestamp.time
             val daysDiff = TimeUnit.MILLISECONDS.toDays(msDiff).toInt()
 
-
             val days = if (daysDiff != 0) daysDiff else 1
 
-
             val avgMins = args.timeoActivity.totalTime / days
-
 
             val avgHours = TimeHelper.minsToHours(avgMins)
 
             text = "${avgHours}h"
-
         }
 
         view.lastWeekTextView.apply {
 
             text = "42h"
-
         }
 
         // Inflate the layout for this fragment
         return view
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
         addOptionsMenu(menu, inflater, R.menu.action_bar_activity_details)
-
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -84,13 +72,9 @@ class ActivityDetailsFragment : ActionBarFragment() {
             findNavController().navigate(directions)
 
             true
-
-
         } else {
 
             super.onOptionsItemSelected(item)
-
         }
     }
-
 }

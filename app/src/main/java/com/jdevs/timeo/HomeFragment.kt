@@ -2,15 +2,8 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
-import android.view.MenuInflater
+import android.view.*
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.models.ActivitiesListFragment
@@ -19,10 +12,6 @@ import kotlinx.android.synthetic.main.partial_activities_list.view.*
 class HomeFragment : ActivitiesListFragment() {
 
     private lateinit var mLoader: FrameLayout
-    private lateinit var mRecyclerView: RecyclerView
-
-    private lateinit var mCreateNewActivityView: LinearLayout
-    private lateinit var mCreateNewActivityButton: MaterialButton
 
     private val mAuth = FirebaseAuth.getInstance()
 
@@ -36,13 +25,7 @@ class HomeFragment : ActivitiesListFragment() {
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        mCreateNewActivityView = view.createNewActivityView
-
-        mCreateNewActivityButton = view.createNewActivityButton
-
         mLoader = view.listLoader as FrameLayout
-
-        mRecyclerView = view.activitiesRecyclerView
 
         // Inflate the layout for this fragment
         return view
@@ -61,10 +44,10 @@ class HomeFragment : ActivitiesListFragment() {
         }
 
         setupActivityListener(
-            mRecyclerView,
+            view!!.activitiesRecyclerView,
             mLoader,
-            mCreateNewActivityView,
-            mCreateNewActivityButton
+            view!!.createNewActivityView,
+            view!!.createNewActivityButton
         )
     }
 
@@ -88,10 +71,10 @@ class HomeFragment : ActivitiesListFragment() {
                     .limit(20)
 
                 setupActivityListener(
-                    mRecyclerView,
+                    view!!.activitiesRecyclerView,
                     mLoader,
-                    mCreateNewActivityView,
-                    mCreateNewActivityButton
+                    view!!.createNewActivityView,
+                    view!!.createNewActivityButton
                 )
             }
             .addOnFailureListener { exception ->

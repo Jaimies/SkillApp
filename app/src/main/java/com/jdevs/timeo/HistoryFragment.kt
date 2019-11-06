@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -29,7 +30,8 @@ class HistoryFragment : ActionBarFragment(),
     private lateinit var mViewAdapter: RecordsListAdapter
 
     private lateinit var mLoader: FrameLayout
-
+    private lateinit var mRecordsRecyclerView: RecyclerView
+    private lateinit var mCreateNewActivityTextView: TextView
     private val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +53,10 @@ class HistoryFragment : ActionBarFragment(),
         val view = inflater.inflate(R.layout.fragment_history, container, false)
 
         mLoader = view.spinningProgressBar
+
+        mRecordsRecyclerView = view.recordsRecyclerView
+
+        mCreateNewActivityTextView = view.createNewActivityTextView
 
         // Inflate the layout for this fragment
         return view
@@ -84,7 +90,7 @@ class HistoryFragment : ActionBarFragment(),
 
             if (querySnapshot.isEmpty) {
 
-                view!!.createNewActivityTextView.visibility = View.VISIBLE
+                mCreateNewActivityTextView.visibility = View.VISIBLE
 
                 refreshRecyclerView()
 
@@ -130,7 +136,7 @@ class HistoryFragment : ActionBarFragment(),
             context
         )
 
-        (view!!.recordsRecyclerView as RecyclerView).apply {
+        mRecordsRecyclerView.apply {
 
             layoutManager = viewManager
 

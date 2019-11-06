@@ -2,13 +2,20 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.models.ActivitiesListFragment
 import kotlinx.android.synthetic.main.partial_activities_list.view.*
 
 class TaskListFragment : ActivitiesListFragment() {
 
     private lateinit var mLoader: FrameLayout
+
+    private lateinit var mActivitiesRecyclerView: RecyclerView
+    private lateinit var mCreateNewActivityView: LinearLayout
+    private lateinit var mCreateNewActivityButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,7 +25,15 @@ class TaskListFragment : ActivitiesListFragment() {
 
         val view = inflater.inflate(R.layout.fragment_task_list, container, false)
 
-        mLoader = view.listLoader as FrameLayout
+        view.apply {
+
+            mLoader = listLoader as FrameLayout
+
+            mActivitiesRecyclerView = activitiesRecyclerView
+
+            mCreateNewActivityView = createNewActivityView
+            mCreateNewActivityButton = createNewActivityButton
+        }
 
         return view
     }
@@ -28,10 +43,10 @@ class TaskListFragment : ActivitiesListFragment() {
         super.onStart()
 
         setupActivityListener(
-            view!!.activitiesRecyclerView,
+            mActivitiesRecyclerView,
             mLoader,
-            view!!.createNewActivityView,
-            view!!.createNewActivityButton
+            mCreateNewActivityView,
+            mCreateNewActivityButton
         )
     }
 

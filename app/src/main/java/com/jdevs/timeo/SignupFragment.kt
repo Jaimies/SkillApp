@@ -10,8 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -29,6 +28,15 @@ class SignupFragment : AuthenticationFragment(),
 
     private val auth = FirebaseAuth.getInstance()
 
+    private lateinit var mEmailEditText: EditText
+    private lateinit var mEmailTextInputLayout: TextInputLayout
+    private lateinit var mPasswordEditText: EditText
+    private lateinit var mPasswordTextInputLayout: TextInputLayout
+
+    private lateinit var mLoader: FrameLayout
+    private lateinit var mSignupButton: Button
+    private lateinit var mMainLayout: LinearLayout
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,14 +50,30 @@ class SignupFragment : AuthenticationFragment(),
 
         view.apply {
 
-            passwordEditText.setOnKeyListener(this@SignupFragment)
+            mEmailEditText = emailEditText
 
-            loginButton.setOnClickListener(this@SignupFragment)
+            mEmailTextInputLayout = emailTextInputLayout
+
+            mPasswordEditText = passwordEditText.apply {
+
+                setOnKeyListener(this@SignupFragment)
+            }
+
+            mPasswordTextInputLayout = passwordTextInputLayout
+
+            mSignupButton = loginButton.apply {
+
+                setOnClickListener(this@SignupFragment)
+            }
+
+            mLoader = spinningProgressBar
 
             loginTextView.setOnClickListener {
 
                 findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
             }
+
+            mMainLayout = mainLayout
 
             makeTextViewClickable(loginTextView)
 
@@ -66,8 +90,8 @@ class SignupFragment : AuthenticationFragment(),
     override fun onClick(view: View?) {
 
         if (!validateInput(
-                getView()!!.emailTextInputLayout,
-                getView()!!.emailEditText,
+                mEmailTextInputLayout,
+                mEmailEditText,
                 ::validateEmailString,
                 ::showEmailError
             )
@@ -77,8 +101,8 @@ class SignupFragment : AuthenticationFragment(),
         }
 
         if (!validateInput(
-                getView()!!.passwordTextInputLayout,
-                getView()!!.passwordEditText,
+                mPasswordTextInputLayout,
+                mPasswordEditText,
                 ::validatePasswordString,
                 ::showPasswordError
             )
@@ -87,8 +111,8 @@ class SignupFragment : AuthenticationFragment(),
             return
         }
 
-        val email = getView()!!.emailEditText.text.toString()
-        val password = getView()!!.passwordEditText.text.toString()
+        val email = mEmailEditText.text.toString()
+        val password = mPasswordEditText.text.toString()
 
         signUp(email, password)
     }
@@ -124,8 +148,8 @@ class SignupFragment : AuthenticationFragment(),
             is FirebaseAuthWeakPasswordException -> {
 
                 setError(
-                    view!!.passwordTextInputLayout,
-                    view!!.passwordEditText,
+                    mPasswordTextInputLayout,
+                    mPasswordEditText,
                     "The password is too weak"
                 )
             }
@@ -133,15 +157,15 @@ class SignupFragment : AuthenticationFragment(),
             is FirebaseAuthUserCollisionException -> {
 
                 setError(
-                    view!!.emailTextInputLayout,
-                    view!!.emailEditText,
+                    mEmailTextInputLayout,
+                    mEmailEditText,
                     "User with that email already exists"
                 )
             }
 
             is FirebaseAuthInvalidCredentialsException -> {
 
-                setError(view!!.emailTextInputLayout, view!!.emailEditText, "Email is invalid")
+                setError(mEmailTextInputLayout, mEmailEditText, "Email is invalid")
             }
 
             else -> {
@@ -206,7 +230,7 @@ class SignupFragment : AuthenticationFragment(),
 
         if (result == RESULT_VALID) {
 
-            view!!.passwordTextInputLayout.error = ""
+            mPasswordTextInputLayout.error = ""
 
             return
         }
@@ -219,14 +243,14 @@ class SignupFragment : AuthenticationFragment(),
             else -> "Password is not valid"
         }
 
-        setError(view!!.passwordTextInputLayout, view!!.passwordEditText, error)
+        setError(mPasswordTextInputLayout, mPasswordEditText, error)
     }
 
     private fun showEmailError(result: Int) {
 
         if (result == RESULT_VALID) {
 
-            view!!.emailTextInputLayout.error = ""
+            mEmailTextInputLayout.error = ""
 
             return
         }
@@ -237,17 +261,17 @@ class SignupFragment : AuthenticationFragment(),
             else -> "Email is not valid"
         }
 
-        setError(view!!.emailTextInputLayout, view!!.emailEditText, error)
+        setError(mEmailTextInputLayout, mEmailEditText, error)
     }
 
     private fun setError(inputLayout: TextInputLayout, editText: EditText, error: String) {
 
-        if (inputLayout != view!!.emailTextInputLayout) {
+        if (inputLayout != mEmailTextInputLayout) {
 
             removeErrorMessage(inputLayout)
         }
 
-        if (inputLayout != view!!.passwordTextInputLayout) {
+        if (inputLayout != mPasswordTextInputLayout) {
 
             removeErrorMessage(inputLayout)
         }
@@ -273,12 +297,12 @@ class SignupFragment : AuthenticationFragment(),
 
     private fun showLoader() {
 
-        super.showLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
+        super.showLoader(mLoader, mMainLayout, mSignupButton)
     }
 
     private fun hideLoader() {
 
-        super.hideLoader(view!!.spinningProgressBar, view!!.mainLayout, view!!.loginButton)
+        super.hideLoader(mLoader, mMainLayout, mSignupButton)
     }
 
     private fun signUp(email: String, password: String) {

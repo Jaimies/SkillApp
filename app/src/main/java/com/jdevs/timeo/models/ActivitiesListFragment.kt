@@ -3,12 +3,12 @@ package com.jdevs.timeo.models
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -49,7 +49,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
         recyclerView: RecyclerView,
         loaderLayout: FrameLayout,
         createNewActivityView: LinearLayout,
-        createNewActivityButton: MaterialButton
+        createNewActivityButton: Button
     ) {
 
         loaderLayout.apply {

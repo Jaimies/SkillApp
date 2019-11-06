@@ -171,9 +171,6 @@ class CreateActivityFragment : ActionBarFragment(),
             timeoActivity.title = title
             timeoActivity.icon = icon
 
-            mActivityRef.update("title", title, "icon", icon)
-                .addOnFailureListener(this)
-
             val records = mFirestore.collection("users/${mUser!!.uid}/records")
 
             records.whereEqualTo("activityId", args.activityId).get()
@@ -181,10 +178,23 @@ class CreateActivityFragment : ActionBarFragment(),
 
                     if (querySnapshot != null && !querySnapshot.isEmpty) {
 
-                        for (document in querySnapshot.documents) {
+                        val recordReferences = ArrayList<DocumentReference>()
 
-                            document.reference.update("title", title)
+                        for (record in querySnapshot.documents) {
+
+                            recordReferences.add(record.reference)
                         }
+
+                        mFirestore.runBatch { batch ->
+
+                            batch.update(mActivityRef, "title", title, "icon", icon)
+
+                            for (recordReference in recordReferences) {
+
+                                batch.update(recordReference, "title", title)
+                            }
+                        }
+                            .addOnFailureListener(this)
                     }
                 }
 

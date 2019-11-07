@@ -17,16 +17,16 @@ import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.ActionBarFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_create_activity.view.*
+import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.*
 
-class CreateActivityFragment : ActionBarFragment(),
+class CreateOrEditActivityFragment : ActionBarFragment(),
     OnFailureListener {
 
     private lateinit var mActivityRef: DocumentReference
 
     private val mFirestore = FirebaseFirestore.getInstance()
 
-    private val args: CreateActivityFragmentArgs by navArgs()
+    private val args: CreateOrEditActivityFragmentArgs by navArgs()
 
     private val mUser = FirebaseAuth.getInstance().currentUser
 
@@ -36,7 +36,7 @@ class CreateActivityFragment : ActionBarFragment(),
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_create_activity, container, false)
+        val view = inflater.inflate(R.layout.fragment_create_or_edit_activity, container, false)
 
         view.rootView.setOnClickListener {
 
@@ -198,7 +198,7 @@ class CreateActivityFragment : ActionBarFragment(),
                     }
                 }
 
-            val directions = CreateActivityFragmentDirections
+            val directions = CreateOrEditActivityFragmentDirections
                 .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")
 
             findNavController().navigate(directions)

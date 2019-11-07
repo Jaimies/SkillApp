@@ -59,8 +59,8 @@
     </fragment>
     <fragment
         android:id="@+id/createActivityFragment"
-        android:name="com.jdevs.timeo.CreateActivityFragment"
-        tools:layout="@layout/fragment_create_activity">
+        android:name="com.jdevs.timeo.CreateOrEditActivityFragment"
+        tools:layout="@layout/fragment_create_or_edit_activity">
         <argument
             android:name="editActivity"
             android:defaultValue="false"

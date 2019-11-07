@@ -7,8 +7,6 @@ import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.helpers.TimeHelper
 import com.jdevs.timeo.models.ActionBarFragment
 import kotlinx.android.synthetic.main.fragment_activity_details.view.*
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 class ActivityDetailsFragment : ActionBarFragment() {
 
@@ -33,13 +31,9 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
         view.averageTimeTextView.apply {
 
-            val msDiff = Calendar.getInstance().timeInMillis - args.timeoActivity.timestamp.time
-            val daysDiff = TimeUnit.MILLISECONDS.toDays(msDiff).toInt()
-
-            val days = if (daysDiff != 0) daysDiff else 1
+            val days = TimeHelper.getHoursSinceDate(args.timeoActivity.timestamp)
 
             val avgMins = args.timeoActivity.totalTime / days
-
             val avgHours = TimeHelper.minsToHours(avgMins)
 
             text = "${avgHours}h"

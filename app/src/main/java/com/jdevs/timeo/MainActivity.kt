@@ -17,15 +17,16 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.jdevs.timeo.helpers.KeyboardHelper
 import kotlinx.android.synthetic.main.activity_main.*
-
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
-    private val mainDestinations =
+    private val mainDestinations by lazy {
         setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment)
+    }
 
-    private val allTopLevelDestinations =
+    private val allTopLevelDestinations by lazy {
         mainDestinations.union(setOf(R.id.profileFragment, R.id.settingsFragment))
+    }
 
     private lateinit var navController: NavController
 
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity(),
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         setSupportActionBar(toolbar)
 
         navController = findNavController(R.id.nav_host_fragment)
@@ -156,3 +158,4 @@ class MainActivity : AppCompatActivity(),
         super.onBackPressed()
     }
 }
+

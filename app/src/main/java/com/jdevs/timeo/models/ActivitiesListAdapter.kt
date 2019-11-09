@@ -19,7 +19,7 @@ import com.jdevs.timeo.data.TimeoActivity
 import kotlinx.android.synthetic.main.partial_activities_list_item.view.*
 
 class ActivitiesListAdapter(
-    private val dataset: Array<TimeoActivity>,
+    private val dataset: ArrayList<TimeoActivity>,
     private val navController: NavController,
     private val mItemIds: ArrayList<String>
 ) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {

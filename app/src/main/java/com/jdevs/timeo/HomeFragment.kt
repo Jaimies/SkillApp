@@ -8,7 +8,6 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.Query
 import com.jdevs.timeo.models.ActivitiesListFragment
 import kotlinx.android.synthetic.main.partial_activities_list.view.*
 
@@ -79,11 +78,6 @@ class HomeFragment : ActivitiesListFragment() {
                 mUser = result.user
 
                 mLoader.visibility = View.GONE
-
-                mActivitiesRef = mFirestore
-                    .collection("users/${mUser!!.uid}/activities")
-                    .orderBy("timestamp", Query.Direction.DESCENDING)
-                    .limit(20)
 
                 setupActivityListener(
                     mActivitiesRecyclerView,

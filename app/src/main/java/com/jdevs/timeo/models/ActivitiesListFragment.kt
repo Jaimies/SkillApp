@@ -3,6 +3,7 @@ package com.jdevs.timeo.models
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AbsListView
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -10,24 +11,25 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TAG
 import com.jdevs.timeo.data.TimeoActivity
 
 open class ActivitiesListFragment : ActionBarFragment() {
 
-    val mFirestore = FirebaseFirestore.getInstance()
+    private val mFirestore = FirebaseFirestore.getInstance()
     private val mActivities = ArrayList<TimeoActivity>()
     private val mItemIds = ArrayList<String>()
 
-    lateinit var mActivitiesRef: Query
+    private lateinit var mActivitiesRef: Query
 
+    private lateinit var mListener: EventListener<QuerySnapshot>
     private lateinit var mViewAdapter: ActivitiesListAdapter
 
-    private lateinit var mSnapshotListener: ListenerRegistration
+    private var lastLoadedDocument: DocumentSnapshot? = null
+
+    private val mSnapshotListeners = ArrayList<ListenerRegistration>()
 
     private val mUser = FirebaseAuth.getInstance().currentUser
 
@@ -42,7 +44,6 @@ open class ActivitiesListFragment : ActionBarFragment() {
         mActivitiesRef = mFirestore
             .collection("users/${mUser.uid}/activities")
             .orderBy("timestamp", Query.Direction.DESCENDING)
-            .limit(20)
     }
 
     fun setupActivityListener(
@@ -62,8 +63,41 @@ open class ActivitiesListFragment : ActionBarFragment() {
             return
         }
 
-        mSnapshotListener =
-            mActivitiesRef.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            private var isScrolling = false
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+
+                    isScrolling = true
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                (recyclerView.layoutManager as? LinearLayoutManager)?.apply {
+
+                    val lastVisibleItem = findLastVisibleItemPosition()
+                    val totalItemsCount = itemCount
+
+                    if (isScrolling && (lastVisibleItem == totalItemsCount - 1)) {
+
+                        isScrolling = false
+                        loadItems()
+
+                    }
+
+                }
+            }
+        })
+
+        mListener =
+            EventListener { querySnapshot, firebaseFirestoreException ->
 
                 if (querySnapshot != null) {
 
@@ -75,29 +109,29 @@ open class ActivitiesListFragment : ActionBarFragment() {
                         }
                     }
 
-                    mActivities.clear()
-                    mItemIds.clear()
-
                     if (querySnapshot.isEmpty) {
 
-                        createNewActivityView.visibility = View.VISIBLE
+                        if (mActivities.isEmpty()) {
 
-                        createNewActivityButton.apply {
+                            createNewActivityView.visibility = View.VISIBLE
 
-                            setOnClickListener {
+                            createNewActivityButton.apply {
 
-                                findNavController().navigate(R.id.action_showCreateActivityFragment)
+                                setOnClickListener {
+
+                                    findNavController().navigate(R.id.action_showCreateActivityFragment)
+                                }
                             }
+
+                            mViewAdapter.notifyDataSetChanged()
                         }
 
-                        refreshRecyclerView(recyclerView)
-
-                        return@addSnapshotListener
+                        return@EventListener
                     }
 
                     val activities = querySnapshot.documents
 
-                    for (activity in activities) {
+                    for ((index, activity) in activities.withIndex()) {
 
                         if (activity.exists()) {
 
@@ -107,34 +141,57 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
                                 mActivities.add(timeoActivity)
                                 mItemIds.add(activity.id)
+
+                                mViewAdapter.notifyItemChanged(index)
                             }
                         }
                     }
 
-                    refreshRecyclerView(recyclerView)
+                    lastLoadedDocument = activities.last()
+
                 } else if (firebaseFirestoreException != null) {
 
                     Log.w(TAG, "Failed to get data from Firestore", firebaseFirestoreException)
                 }
             }
+
+        setupRecyclerView(recyclerView)
+
+        loadItems()
     }
 
     override fun onPause() {
 
         super.onPause()
 
-        if (::mSnapshotListener.isInitialized) {
-
-            mSnapshotListener.remove()
-        }
+        mSnapshotListeners.forEach { it.remove() }
     }
 
-    private fun refreshRecyclerView(recyclerView: RecyclerView) {
+    override fun onResume() {
+        super.onResume()
+
+        mActivitiesRef = mFirestore
+            .collection("users/${mUser!!.uid}/activities")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+
+        lastLoadedDocument = null
+
+        mSnapshotListeners.forEach { it.remove() }
+
+        mActivities.clear()
+        mViewAdapter.notifyDataSetChanged()
+
+        loadItems()
+    }
+
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
 
         val viewManager = LinearLayoutManager(context)
 
         mViewAdapter =
-            ActivitiesListAdapter(mActivities.toTypedArray(), findNavController(), mItemIds)
+            ActivitiesListAdapter(mActivities, findNavController(), mItemIds)
+
+        recyclerView.setHasFixedSize(false)
 
         recyclerView.apply {
 
@@ -142,5 +199,32 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
             adapter = mViewAdapter
         }
+    }
+
+    private fun loadItems() {
+
+        val document = lastLoadedDocument
+
+        val listenerRegistration = if (document != null) {
+
+            mActivitiesRef
+                .startAfter(document)
+                .limit(ONE_FETCH_ITEMS_MAX_COUNT)
+                .addSnapshotListener(mListener)
+        } else {
+
+            mActivitiesRef
+                .limit(ONE_FETCH_ITEMS_MAX_COUNT)
+                .addSnapshotListener(mListener)
+        }
+
+
+
+        mSnapshotListeners.add(listenerRegistration)
+    }
+
+    companion object {
+
+        const val ONE_FETCH_ITEMS_MAX_COUNT: Long = 12
     }
 }

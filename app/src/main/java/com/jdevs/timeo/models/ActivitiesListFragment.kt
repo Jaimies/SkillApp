@@ -11,25 +11,122 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TAG
 import com.jdevs.timeo.data.TimeoActivity
 
 open class ActivitiesListFragment : ActionBarFragment() {
 
+    inner class RealtimeScrollListener : RecyclerView.OnScrollListener() {
+
+        private var isScrolling = false
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+
+            super.onScrollStateChanged(recyclerView, newState)
+
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+
+                isScrolling = true
+            }
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            (recyclerView.layoutManager as? LinearLayoutManager)?.apply {
+
+                val lastVisibleItem = findLastVisibleItemPosition()
+                val totalItemsCount = itemCount
+
+                if (isScrolling && (lastVisibleItem == totalItemsCount - 1)) {
+
+                    isScrolling = false
+                    loadItems()
+                }
+            }
+        }
+    }
+
     private val mFirestore = FirebaseFirestore.getInstance()
     private val mActivities = ArrayList<TimeoActivity>()
     private val mItemIds = ArrayList<String>()
 
+    private lateinit var mLoader: FrameLayout
+    private lateinit var mCreateNewActivityView: LinearLayout
+    private lateinit var mCreateNewActivityButton: Button
+
     private lateinit var mActivitiesRef: Query
 
-    private lateinit var mListener: EventListener<QuerySnapshot>
     private lateinit var mViewAdapter: ActivitiesListAdapter
 
     private var lastLoadedDocument: DocumentSnapshot? = null
 
     private val mSnapshotListeners = ArrayList<ListenerRegistration>()
+    private val mListener by lazy {
+        EventListener<QuerySnapshot> { querySnapshot, firebaseFirestoreException ->
+
+            if (querySnapshot != null) {
+
+                mLoader.apply {
+
+                    if (visibility != View.GONE) {
+
+                        visibility = View.GONE
+                    }
+                }
+
+                if (querySnapshot.isEmpty) {
+
+                    if (mActivities.isEmpty()) {
+
+                        mCreateNewActivityView.visibility = View.VISIBLE
+
+                        mCreateNewActivityButton.apply {
+
+                            setOnClickListener {
+
+                                findNavController().navigate(R.id.action_showCreateActivityFragment)
+                            }
+                        }
+
+                        mViewAdapter.notifyDataSetChanged()
+                    }
+
+                    return@EventListener
+                }
+
+                val activities = querySnapshot.documents
+
+                for ((index, activity) in activities.withIndex()) {
+
+                    if (activity.exists()) {
+
+                        val timeoActivity = activity.toObject(TimeoActivity::class.java)
+
+                        if (timeoActivity != null) {
+
+                            mActivities.add(timeoActivity)
+                            mItemIds.add(activity.id)
+
+                            mViewAdapter.notifyItemChanged(index)
+                        }
+                    }
+                }
+
+                lastLoadedDocument = activities.last()
+            } else if (firebaseFirestoreException != null) {
+
+                Log.w(TAG, "Failed to get data from Firestore", firebaseFirestoreException)
+            }
+        }
+    }
 
     private val mUser = FirebaseAuth.getInstance().currentUser
 
@@ -53,7 +150,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
         createNewActivityButton: Button
     ) {
 
-        loaderLayout.apply {
+        mLoader = loaderLayout.apply {
 
             visibility = View.VISIBLE
         }
@@ -63,97 +160,10 @@ open class ActivitiesListFragment : ActionBarFragment() {
             return
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        mCreateNewActivityView = createNewActivityView
+        mCreateNewActivityButton = createNewActivityButton
 
-            private var isScrolling = false
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-
-                super.onScrollStateChanged(recyclerView, newState)
-
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-
-                    isScrolling = true
-                }
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                (recyclerView.layoutManager as? LinearLayoutManager)?.apply {
-
-                    val lastVisibleItem = findLastVisibleItemPosition()
-                    val totalItemsCount = itemCount
-
-                    if (isScrolling && (lastVisibleItem == totalItemsCount - 1)) {
-
-                        isScrolling = false
-                        loadItems()
-
-                    }
-
-                }
-            }
-        })
-
-        mListener =
-            EventListener { querySnapshot, firebaseFirestoreException ->
-
-                if (querySnapshot != null) {
-
-                    loaderLayout.apply {
-
-                        if (visibility != View.GONE) {
-
-                            visibility = View.GONE
-                        }
-                    }
-
-                    if (querySnapshot.isEmpty) {
-
-                        if (mActivities.isEmpty()) {
-
-                            createNewActivityView.visibility = View.VISIBLE
-
-                            createNewActivityButton.apply {
-
-                                setOnClickListener {
-
-                                    findNavController().navigate(R.id.action_showCreateActivityFragment)
-                                }
-                            }
-
-                            mViewAdapter.notifyDataSetChanged()
-                        }
-
-                        return@EventListener
-                    }
-
-                    val activities = querySnapshot.documents
-
-                    for ((index, activity) in activities.withIndex()) {
-
-                        if (activity.exists()) {
-
-                            val timeoActivity = activity.toObject(TimeoActivity::class.java)
-
-                            if (timeoActivity != null) {
-
-                                mActivities.add(timeoActivity)
-                                mItemIds.add(activity.id)
-
-                                mViewAdapter.notifyItemChanged(index)
-                            }
-                        }
-                    }
-
-                    lastLoadedDocument = activities.last()
-
-                } else if (firebaseFirestoreException != null) {
-
-                    Log.w(TAG, "Failed to get data from Firestore", firebaseFirestoreException)
-                }
-            }
+        recyclerView.addOnScrollListener(RealtimeScrollListener())
 
         setupRecyclerView(recyclerView)
 
@@ -191,8 +201,6 @@ open class ActivitiesListFragment : ActionBarFragment() {
         mViewAdapter =
             ActivitiesListAdapter(mActivities, findNavController(), mItemIds)
 
-        recyclerView.setHasFixedSize(false)
-
         recyclerView.apply {
 
             layoutManager = viewManager
@@ -217,8 +225,6 @@ open class ActivitiesListFragment : ActionBarFragment() {
                 .limit(ONE_FETCH_ITEMS_MAX_COUNT)
                 .addSnapshotListener(mListener)
         }
-
-
 
         mSnapshotListeners.add(listenerRegistration)
     }

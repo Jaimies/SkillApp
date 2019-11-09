@@ -184,7 +184,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
     private fun loadItems() {
 
-        if(!isNewDataAvailable) {
+        if (!isNewDataAvailable) {
 
             return
         }

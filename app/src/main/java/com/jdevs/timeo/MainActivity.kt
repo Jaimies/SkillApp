@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var mToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -150,4 +150,3 @@ class MainActivity : AppCompatActivity(),
         super.onBackPressed()
     }
 }
-

@@ -4,4 +4,5 @@
     <color name="colorListOdd">#00000000</color>
     <color name="colorListEven">#FF555555</color>
     <color name="colorPreloaderBackground">#45000000</color>
+    <color name="colorBackground">#FF333333</color>
 </resources>

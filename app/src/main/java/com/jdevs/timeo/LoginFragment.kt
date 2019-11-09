@@ -26,7 +26,13 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.*
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.GoogleAuthProvider
 import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.AuthenticationFragment
 import kotlinx.android.synthetic.main.fragment_login.view.*

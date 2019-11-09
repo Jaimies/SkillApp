@@ -69,6 +69,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
     private var lastLoadedDocument: DocumentSnapshot? = null
 
     private val mSnapshotListeners = ArrayList<ListenerRegistration>()
+
     private val mListener by lazy {
         EventListener<QuerySnapshot> { querySnapshot, firebaseFirestoreException ->
 
@@ -99,6 +100,8 @@ open class ActivitiesListFragment : ActionBarFragment() {
                         mViewAdapter.notifyDataSetChanged()
                     }
 
+                    isNewDataAvailable = false
+
                     return@EventListener
                 }
 
@@ -121,6 +124,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
                 }
 
                 lastLoadedDocument = activities.last()
+                isNewDataAvailable = true
             } else if (firebaseFirestoreException != null) {
 
                 Log.w(TAG, "Failed to get data from Firestore", firebaseFirestoreException)
@@ -129,6 +133,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
     }
 
     private val mUser = FirebaseAuth.getInstance().currentUser
+    private var isNewDataAvailable = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -210,6 +215,11 @@ open class ActivitiesListFragment : ActionBarFragment() {
     }
 
     private fun loadItems() {
+
+        if(!isNewDataAvailable) {
+
+            return
+        }
 
         val document = lastLoadedDocument
 

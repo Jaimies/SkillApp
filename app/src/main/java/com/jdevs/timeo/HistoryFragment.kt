@@ -10,7 +10,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.RecordsListAdapter
@@ -73,7 +79,10 @@ class HistoryFragment : ActionBarFragment(),
         mRecordsSorted.addSnapshotListener(requireActivity(), this)
     }
 
-    override fun onEvent(querySnapshot: QuerySnapshot?, firebaseFirestoreException: FirebaseFirestoreException?) {
+    override fun onEvent(
+        querySnapshot: QuerySnapshot?,
+        firebaseFirestoreException: FirebaseFirestoreException?
+    ) {
 
         if (querySnapshot != null) {
 

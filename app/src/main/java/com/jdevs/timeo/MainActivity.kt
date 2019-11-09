@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.jdevs.timeo.helpers.KeyboardHelper
 import kotlinx.android.synthetic.main.activity_main.*
+
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 

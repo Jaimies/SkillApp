@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.partial_records_list_item.view.*
 
 class RecordsListAdapter(
 
-    private val dataset: Array<TimeoRecord>,
+    private val dataset: ArrayList<TimeoRecord>,
     private val mRecordsCollection: CollectionReference,
     private val mItemIds: ArrayList<String>,
     private val userId: String,

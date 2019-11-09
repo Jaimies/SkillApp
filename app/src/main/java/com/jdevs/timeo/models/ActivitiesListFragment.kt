@@ -3,7 +3,6 @@ package com.jdevs.timeo.models
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AbsListView
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -22,37 +21,6 @@ import com.jdevs.timeo.TAG
 import com.jdevs.timeo.data.TimeoActivity
 
 open class ActivitiesListFragment : ActionBarFragment() {
-
-    inner class RealtimeScrollListener : RecyclerView.OnScrollListener() {
-
-        private var isScrolling = false
-
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-
-            super.onScrollStateChanged(recyclerView, newState)
-
-            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-
-                isScrolling = true
-            }
-        }
-
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-
-            (recyclerView.layoutManager as? LinearLayoutManager)?.apply {
-
-                val lastVisibleItem = findLastVisibleItemPosition()
-                val totalItemsCount = itemCount
-
-                if (isScrolling && (lastVisibleItem == totalItemsCount - 1)) {
-
-                    isScrolling = false
-                    loadItems()
-                }
-            }
-        }
-    }
 
     private val mFirestore = FirebaseFirestore.getInstance()
     private val mActivities = ArrayList<TimeoActivity>()
@@ -168,7 +136,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
         mCreateNewActivityView = createNewActivityView
         mCreateNewActivityButton = createNewActivityButton
 
-        recyclerView.addOnScrollListener(RealtimeScrollListener())
+        recyclerView.addOnScrollListener(RealtimeScrollListener(::loadItems))
 
         setupRecyclerView(recyclerView)
 

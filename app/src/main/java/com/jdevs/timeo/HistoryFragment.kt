@@ -18,11 +18,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
+import com.jdevs.timeo.adapters.RecordsListAdapter
 import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.models.ActionBarFragment
-import com.jdevs.timeo.models.ActivitiesListFragment
 import com.jdevs.timeo.models.RealtimeScrollListener
-import com.jdevs.timeo.models.RecordsListAdapter
+import com.jdevs.timeo.utilities.TAG
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 import kotlinx.android.synthetic.main.partial_records_list.view.*
 
@@ -231,12 +231,12 @@ class HistoryFragment : ActionBarFragment(),
 
             mRecordsRef
                 .startAfter(document)
-                .limit(ActivitiesListFragment.ONE_FETCH_ITEMS_MAX_COUNT)
+                .limit(ONE_FETCH_ITEMS_MAX_COUNT)
                 .addSnapshotListener(mListener)
         } else {
 
             mRecordsRef
-                .limit(ActivitiesListFragment.ONE_FETCH_ITEMS_MAX_COUNT)
+                .limit(ONE_FETCH_ITEMS_MAX_COUNT)
                 .addSnapshotListener(mListener)
         }
 

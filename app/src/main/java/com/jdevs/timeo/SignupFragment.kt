@@ -1,6 +1,5 @@
 package com.jdevs.timeo
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,8 +24,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.AuthenticationFragment
+import com.jdevs.timeo.utilities.KeyboardUtility.Companion.hideKeyboard
+import com.jdevs.timeo.utilities.TAG
 import kotlinx.android.synthetic.main.fragment_signup.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
 
@@ -46,7 +46,6 @@ class SignupFragment : AuthenticationFragment(),
     private lateinit var mSignupButton: Button
     private lateinit var mMainLayout: LinearLayout
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -197,7 +196,7 @@ class SignupFragment : AuthenticationFragment(),
 
         val validationResult = validator(value)
 
-        if (validationResult != RESULT_VALID) {
+        if (validationResult != R.id.RESULT_VALID) {
 
             errorHandler(validationResult)
 
@@ -237,7 +236,7 @@ class SignupFragment : AuthenticationFragment(),
 
     private fun showPasswordError(result: Int) {
 
-        if (result == RESULT_VALID) {
+        if (result == R.id.RESULT_VALID) {
 
             mPasswordTextInputLayout.error = ""
 
@@ -246,9 +245,9 @@ class SignupFragment : AuthenticationFragment(),
 
         val error = when (result) {
 
-            ERROR_EMPTY -> "Password must not be empty"
-            ERROR_TOO_SHORT -> "Password must be at least 6 characters long"
-            ERROR_TOO_LONG -> "Password length must not exceed 25 characters"
+            R.id.ERROR_EMPTY -> "Password must not be empty"
+            R.id.ERROR_TOO_SHORT -> "Password must be at least 6 characters long"
+            R.id.ERROR_TOO_LONG -> "Password length must not exceed 25 characters"
             else -> "Password is not valid"
         }
 
@@ -257,7 +256,7 @@ class SignupFragment : AuthenticationFragment(),
 
     private fun showEmailError(result: Int) {
 
-        if (result == RESULT_VALID) {
+        if (result == R.id.RESULT_VALID) {
 
             mEmailTextInputLayout.error = ""
 
@@ -266,7 +265,7 @@ class SignupFragment : AuthenticationFragment(),
 
         val error = when (result) {
 
-            ERROR_EMPTY -> "Email must not be empty"
+            R.id.ERROR_EMPTY -> "Email must not be empty"
             else -> "Email is not valid"
         }
 
@@ -330,35 +329,35 @@ class SignupFragment : AuthenticationFragment(),
 
             if (password.isEmpty()) {
 
-                return ERROR_EMPTY
+                return R.id.ERROR_EMPTY
             }
 
             if (password.length < 6) {
 
-                return ERROR_TOO_SHORT
+                return R.id.ERROR_TOO_SHORT
             }
 
             if (password.length > 25) {
 
-                return ERROR_TOO_LONG
+                return R.id.ERROR_TOO_LONG
             }
 
-            return RESULT_VALID
+            return R.id.RESULT_VALID
         }
 
         private fun validateEmailString(email: String): Int {
 
             if (email.isEmpty()) {
 
-                return ERROR_EMPTY
+                return R.id.ERROR_EMPTY
             }
 
             if (!isEmailValid(email)) {
 
-                return ERROR_INVALID
+                return R.id.ERROR_INVALID
             }
 
-            return RESULT_VALID
+            return R.id.RESULT_VALID
         }
     }
 }

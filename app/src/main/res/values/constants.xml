@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ERROR_EMPTY" type="id" />
+    <item name="ERROR_INVALID" type="id" />
+    <item name="ERROR_TOO_SHORT" type="id" />
+    <item name="ERROR_TOO_LONG" type="id" />
+    <item name="RESULT_VALID" type="id" />
+    <item name="OPERATION_ADDED" type="id" />
+    <item name="OPERATION_MODIFIED" type="id" />
+    <item name="OPERATION_REMOVED" type="id" />
+    <item name="OPERATION_LOADED" type="id" />
+</resources>

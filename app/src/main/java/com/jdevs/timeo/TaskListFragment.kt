@@ -27,6 +27,8 @@ class TaskListFragment : ActivitiesListFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        super.onCreateView(inflater, container, savedInstanceState)
+
         val view = inflater.inflate(R.layout.fragment_task_list, container, false)
 
         view.apply {

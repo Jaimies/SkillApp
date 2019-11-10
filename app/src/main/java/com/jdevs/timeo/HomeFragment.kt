@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.jdevs.timeo.models.ActivitiesListFragment
+import com.jdevs.timeo.utilities.TAG
 import kotlinx.android.synthetic.main.partial_activities_list.view.*
 
 class HomeFragment : ActivitiesListFragment() {
@@ -32,6 +33,8 @@ class HomeFragment : ActivitiesListFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        super.onCreateView(inflater, container, savedInstanceState)
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 

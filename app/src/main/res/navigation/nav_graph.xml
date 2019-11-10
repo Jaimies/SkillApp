@@ -13,7 +13,6 @@
         <action
             android:id="@+id/viewCreateActivityFragment"
             app:destination="@id/createActivityFragment" />
-
         <action
             android:id="@+id/action_showActivityDetails"
             app:destination="@id/activityDetailsFragment"
@@ -21,7 +20,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
-
         <action
             android:id="@+id/action_showHistory"
             app:destination="@id/historyFragment"
@@ -29,7 +27,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
-
         <action
             android:id="@+id/action_showCreateActivityFragment"
             app:destination="@id/createActivityFragment"
@@ -37,7 +34,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
-
         <action
             android:id="@+id/action_login"
             app:destination="@id/loginFragment"
@@ -65,7 +61,6 @@
             android:name="editActivity"
             android:defaultValue="false"
             app:argType="boolean" />
-
         <argument
             android:name="activityId"
             android:defaultValue="@null"
@@ -112,7 +107,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
-
         <action
             android:id="@+id/action_showHistory"
             app:destination="@id/historyFragment"
@@ -120,7 +114,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
-
         <action
             android:id="@+id/action_showCreateActivityFragment"
             app:destination="@id/createActivityFragment"

@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.jdevs.timeo.helpers.TimeHelper
 import com.jdevs.timeo.models.ActionBarFragment
+import com.jdevs.timeo.utilities.TimeUtitlity
 import kotlinx.android.synthetic.main.fragment_activity_details.view.*
 
 class ActivityDetailsFragment : ActionBarFragment() {
@@ -29,17 +29,17 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
         view.totalTimeTextView.apply {
 
-            val totalHours = TimeHelper.minsToHours(args.timeoActivity.totalTime)
+            val totalHours = TimeUtitlity.minsToHours(args.timeoActivity.totalTime)
 
             text = "${totalHours}h"
         }
 
         view.averageTimeTextView.apply {
 
-            val days = TimeHelper.getHoursSinceDate(args.timeoActivity.timestamp)
+            val days = TimeUtitlity.getHoursSinceDate(args.timeoActivity.timestamp)
 
             val avgMins = args.timeoActivity.totalTime / days
-            val avgHours = TimeHelper.minsToHours(avgMins)
+            val avgHours = TimeUtitlity.minsToHours(avgMins)
 
             text = "${avgHours}h"
         }

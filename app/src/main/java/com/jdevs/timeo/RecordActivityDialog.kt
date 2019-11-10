@@ -14,8 +14,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoRecord
-import com.jdevs.timeo.helpers.ScreenHelper
-import com.jdevs.timeo.helpers.TimeHelper
+import com.jdevs.timeo.utilities.ScreenUtility
+import com.jdevs.timeo.utilities.TimeUtitlity
 import kotlinx.android.synthetic.main.dialog_record_activity.*
 import kotlin.math.roundToInt
 
@@ -32,7 +32,7 @@ class RecordActivityDialog(
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_record_activity)
 
-        val dimensions = ScreenHelper.getDimensions(context)
+        val dimensions = ScreenUtility.getDimensions(context)
 
         val width = (dimensions.widthPixels * DIALOG_WIDTH).roundToInt()
 
@@ -111,7 +111,7 @@ class RecordActivityDialog(
         val hours = hoursEditText.text.toString().toIntOrNull() ?: 0
         val minutes = minutesEditText.text.toString().toIntOrNull() ?: return
 
-        val time = TimeHelper.timeToMins(Pair(hours, minutes))
+        val time = TimeUtitlity.timeToMins(Pair(hours, minutes))
 
         createRecord(time)
 

@@ -1,7 +1,6 @@
-package com.jdevs.timeo.models
+package com.jdevs.timeo.adapters
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.view.LayoutInflater
@@ -16,12 +15,13 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.RecordActivityDialog
 import com.jdevs.timeo.TaskListFragmentDirections
 import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.utilities.TimeUtitlity
 import kotlinx.android.synthetic.main.partial_activities_list_item.view.*
 
 class ActivitiesListAdapter(
     private val dataset: ArrayList<TimeoActivity>,
-    private val navController: NavController,
-    private val mItemIds: ArrayList<String>
+    private val itemIds : ArrayList<String>,
+    private val navController: NavController
 ) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
 
     inner class ViewHolder(val layout: ConstraintLayout) : RecyclerView.ViewHolder(layout),
@@ -36,7 +36,7 @@ class ActivitiesListAdapter(
 
             navController.currentDestination?.apply {
 
-                val activityId = mItemIds[adapterPosition]
+                val activityId = itemIds[adapterPosition]
 
                 try {
 
@@ -73,8 +73,8 @@ class ActivitiesListAdapter(
 
             reColorView(
                 position,
-                rootView.background.current,
-                plusButton.background.current,
+                rootView.background.current as LayerDrawable,
+                plusButton.background.current as LayerDrawable,
                 context
             )
 
@@ -91,12 +91,15 @@ class ActivitiesListAdapter(
                         RecordActivityDialog(
                             context,
                             dataset[position].title,
-                            mItemIds[position]
+                            itemIds[position]
                         )
 
                     dialog.show()
                 }
             }
+
+            val hours = TimeUtitlity.minsToHours(dataset[position].totalTime)
+            totalHoursTextView.text = "${hours}h"
         }
     }
 
@@ -104,8 +107,8 @@ class ActivitiesListAdapter(
 
     private fun reColorView(
         position: Int,
-        parentDrawable: Drawable,
-        plusButtonDrawable: Drawable,
+        parentDrawable: LayerDrawable,
+        plusButtonDrawable: LayerDrawable,
         context: Context
     ) {
 
@@ -119,12 +122,9 @@ class ActivitiesListAdapter(
 
         val color = ContextCompat.getColor(context, colorId)
 
-        val parentBackground = parentDrawable as LayerDrawable
-        val plusBackground = plusButtonDrawable as LayerDrawable
-
-        val borderLeft = parentBackground.findDrawableByLayerId(R.id.borderLeft) as GradientDrawable
+        val borderLeft = parentDrawable.findDrawableByLayerId(R.id.borderLeft) as GradientDrawable
         val plusBackgroundItem =
-            plusBackground.findDrawableByLayerId(R.id.plusBackground) as GradientDrawable
+            plusButtonDrawable.findDrawableByLayerId(R.id.plusBackground) as GradientDrawable
 
         borderLeft.setColor(color)
         plusBackgroundItem.setColor(color)

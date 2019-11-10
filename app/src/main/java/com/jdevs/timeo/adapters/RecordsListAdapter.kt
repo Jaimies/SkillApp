@@ -1,4 +1,4 @@
-package com.jdevs.timeo.models
+package com.jdevs.timeo.adapters
 
 import android.content.Context
 import android.content.DialogInterface
@@ -16,9 +16,9 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.R
-import com.jdevs.timeo.TAG
 import com.jdevs.timeo.data.TimeoRecord
-import com.jdevs.timeo.helpers.TimeHelper
+import com.jdevs.timeo.utilities.TAG
+import com.jdevs.timeo.utilities.TimeUtitlity
 import kotlinx.android.synthetic.main.partial_records_list_item.view.*
 
 class RecordsListAdapter(
@@ -117,7 +117,7 @@ class RecordsListAdapter(
 
             workTimeTextView.apply {
 
-                val time = TimeHelper.minsToTime(dataset[position].workingTime)
+                val time = TimeUtitlity.minsToTime(dataset[position].workingTime)
 
                 var timeString = ""
 

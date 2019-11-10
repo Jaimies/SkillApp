@@ -19,8 +19,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.ActionBarFragment
+import com.jdevs.timeo.utilities.KeyboardUtility.Companion.hideKeyboard
+import com.jdevs.timeo.utilities.TAG
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.*
 
@@ -149,7 +150,7 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (item.itemId == R.id.doneAddingActivity) {
+        if (item.itemId == R.id.done) {
 
             if (validateInput()) {
 
@@ -216,10 +217,7 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
             activities.add(timeoActivity)
                 .addOnFailureListener(this)
 
-            findNavController().apply {
-
-                popBackStack(R.id.createActivityFragment, true)
-            }
+            findNavController().navigate(R.id.action_returnToHomeFragment)
         }
 
         hideKeyboard(activity)

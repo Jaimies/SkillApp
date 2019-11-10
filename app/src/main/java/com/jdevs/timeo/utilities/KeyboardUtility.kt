@@ -1,10 +1,10 @@
-package com.jdevs.timeo.helpers
+package com.jdevs.timeo.utilities
 
 import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
-open class KeyboardHelper {
+open class KeyboardUtility {
 
     companion object {
 

@@ -33,20 +33,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
-import com.jdevs.timeo.helpers.KeyboardHelper.Companion.hideKeyboard
 import com.jdevs.timeo.models.AuthenticationFragment
+import com.jdevs.timeo.utilities.KeyboardUtility.Companion.hideKeyboard
+import com.jdevs.timeo.utilities.TAG
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.partial_circular_loader.view.*
-
-const val TAG = "Timeo"
-
-const val ERROR_EMPTY = 1220
-const val ERROR_INVALID = 1221
-
-const val ERROR_TOO_SHORT = 1223
-const val ERROR_TOO_LONG = 1224
-
-const val RESULT_VALID = 1222
 
 class LoginFragment : AuthenticationFragment(),
     View.OnClickListener,

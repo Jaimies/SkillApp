@@ -1,119 +1,47 @@
 package com.jdevs.timeo.models
 
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
-import com.jdevs.timeo.TAG
+import com.jdevs.timeo.adapters.ActivitiesListAdapter
 import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
 
 open class ActivitiesListFragment : ActionBarFragment() {
 
-    private val mFirestore = FirebaseFirestore.getInstance()
     private val mActivities = ArrayList<TimeoActivity>()
     private val mItemIds = ArrayList<String>()
 
     private lateinit var mLoader: FrameLayout
     private lateinit var mCreateNewActivityView: LinearLayout
     private lateinit var mCreateNewActivityButton: Button
+    private lateinit var mRecyclerView: RecyclerView
 
-    private lateinit var mActivitiesRef: Query
+    lateinit var mViewAdapter: ActivitiesListAdapter
 
-    private lateinit var mViewAdapter: ActivitiesListAdapter
+    private var activitiesListViewModel: ActivitiesListViewModel? = null
 
-    private var lastLoadedDocument: DocumentSnapshot? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        activitiesListViewModel =
+            ViewModelProviders.of(this).get(ActivitiesListViewModel::class.java)
 
-    private val mSnapshotListeners = ArrayList<ListenerRegistration>()
+        activitiesListViewModel?.getActivitiesListLiveData()
 
-    private val mListener by lazy {
-        EventListener<QuerySnapshot> { querySnapshot, firebaseFirestoreException ->
-
-            if (querySnapshot != null) {
-
-                mLoader.apply {
-
-                    if (visibility != View.GONE) {
-
-                        visibility = View.GONE
-                    }
-                }
-
-                if (querySnapshot.isEmpty) {
-
-                    if (mActivities.isEmpty()) {
-
-                        mCreateNewActivityView.visibility = View.VISIBLE
-
-                        mCreateNewActivityButton.apply {
-
-                            setOnClickListener {
-
-                                findNavController().navigate(R.id.action_showCreateActivityFragment)
-                            }
-                        }
-
-                        mViewAdapter.notifyDataSetChanged()
-                    }
-
-                    isNewDataAvailable = false
-
-                    return@EventListener
-                }
-
-                val activities = querySnapshot.documents
-
-                for ((index, activity) in activities.withIndex()) {
-
-                    if (activity.exists()) {
-
-                        val timeoActivity = activity.toObject(TimeoActivity::class.java)
-
-                        if (timeoActivity != null) {
-
-                            mActivities.add(timeoActivity)
-                            mItemIds.add(activity.id)
-
-                            mViewAdapter.notifyItemChanged(index)
-                        }
-                    }
-                }
-
-                lastLoadedDocument = activities.last()
-                isNewDataAvailable = true
-            } else if (firebaseFirestoreException != null) {
-
-                Log.w(TAG, "Failed to get data from Firestore", firebaseFirestoreException)
-            }
-        }
-    }
-
-    private val mUser = FirebaseAuth.getInstance().currentUser
-    private var isNewDataAvailable = true
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (mUser == null) {
-
-            return
-        }
-
-        mActivitiesRef = mFirestore
-            .collection("users/${mUser.uid}/activities")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
+        return null
     }
 
     fun setupActivityListener(
@@ -128,43 +56,13 @@ open class ActivitiesListFragment : ActionBarFragment() {
             visibility = View.VISIBLE
         }
 
-        if (!::mActivitiesRef.isInitialized) {
-
-            return
-        }
-
         mCreateNewActivityView = createNewActivityView
         mCreateNewActivityButton = createNewActivityButton
 
-        recyclerView.addOnScrollListener(RealtimeScrollListener(::loadItems))
-
         setupRecyclerView(recyclerView)
+        recyclerView.addOnScrollListener(RealtimeScrollListener(::getActivities))
 
-        loadItems()
-    }
-
-    override fun onPause() {
-
-        super.onPause()
-
-        mSnapshotListeners.forEach { it.remove() }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        mActivitiesRef = mFirestore
-            .collection("users/${mUser!!.uid}/activities")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-
-        lastLoadedDocument = null
-
-        mSnapshotListeners.forEach { it.remove() }
-
-        mActivities.clear()
-        mViewAdapter.notifyDataSetChanged()
-
-        loadItems()
+        getActivities()
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -172,9 +70,13 @@ open class ActivitiesListFragment : ActionBarFragment() {
         val viewManager = LinearLayoutManager(context)
 
         mViewAdapter =
-            ActivitiesListAdapter(mActivities, findNavController(), mItemIds)
+            ActivitiesListAdapter(
+                mActivities,
+                mItemIds,
+                findNavController()
+            )
 
-        recyclerView.apply {
+        mRecyclerView = recyclerView.apply {
 
             layoutManager = viewManager
 
@@ -182,33 +84,57 @@ open class ActivitiesListFragment : ActionBarFragment() {
         }
     }
 
-    private fun loadItems() {
+    private fun getActivities() {
+        val activitiesListLiveData = activitiesListViewModel?.getActivitiesListLiveData() ?: return
 
-        if (!isNewDataAvailable) {
+        activitiesListLiveData.observe(this) { operation ->
 
-            return
+            when (operation.type) {
+                R.id.OPERATION_ADDED -> {
+                    val activity = operation.activity ?: return@observe
+                    addActivity(activity)
+                }
+
+                R.id.OPERATION_MODIFIED -> {
+                    val activity = operation.activity ?: return@observe
+                    modifyActivity(activity, operation.id)
+                }
+
+                R.id.OPERATION_REMOVED -> {
+                    removeActivity(operation.id)
+                }
+
+                R.id.OPERATION_LOADED -> {
+                    mLoader.visibility = View.GONE
+                }
+            }
         }
-
-        val document = lastLoadedDocument
-
-        val listenerRegistration = if (document != null) {
-
-            mActivitiesRef
-                .startAfter(document)
-                .limit(ONE_FETCH_ITEMS_MAX_COUNT)
-                .addSnapshotListener(mListener)
-        } else {
-
-            mActivitiesRef
-                .limit(ONE_FETCH_ITEMS_MAX_COUNT)
-                .addSnapshotListener(mListener)
-        }
-
-        mSnapshotListeners.add(listenerRegistration)
     }
 
-    companion object {
+    open fun addActivity(activity: TimeoActivity) {
+        mActivities.add(activity)
+        mViewAdapter.notifyItemInserted(mActivities.size - 1)
+    }
 
-        const val ONE_FETCH_ITEMS_MAX_COUNT: Long = 12
+    private fun removeActivity(id: String) {
+
+        val index = mActivities.withIndex().filterIndexed { index, _ -> mItemIds[index] == id }
+            .map { it.index }
+            .single()
+
+        mActivities.removeAt(index)
+
+        mViewAdapter.notifyItemRemoved(index)
+    }
+
+    private fun modifyActivity(activity: TimeoActivity, id: String) {
+        val index =
+            mActivities.withIndex().filterIndexed { index, _ -> mItemIds[index] == id }
+                .map { it.index }
+                .single()
+
+        mActivities[index] = activity
+
+        mViewAdapter.notifyItemChanged(index)
     }
 }

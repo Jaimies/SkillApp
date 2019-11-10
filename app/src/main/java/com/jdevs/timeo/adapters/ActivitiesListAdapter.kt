@@ -15,12 +15,14 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.RecordActivityDialog
 import com.jdevs.timeo.TaskListFragmentDirections
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.utilities.TimeUtitlity
-import kotlinx.android.synthetic.main.partial_activities_list_item.view.*
+import com.jdevs.timeo.utilities.TimeUtility
+import kotlinx.android.synthetic.main.partial_activities_list_item.view.listItemTitle
+import kotlinx.android.synthetic.main.partial_activities_list_item.view.plusButton
+import kotlinx.android.synthetic.main.partial_activities_list_item.view.totalHoursTextView
 
 class ActivitiesListAdapter(
     private val dataset: ArrayList<TimeoActivity>,
-    private val itemIds : ArrayList<String>,
+    private val itemIds: ArrayList<String>,
     private val navController: NavController
 ) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
 
@@ -98,7 +100,7 @@ class ActivitiesListAdapter(
                 }
             }
 
-            val hours = TimeUtitlity.minsToHours(dataset[position].totalTime)
+            val hours = TimeUtility.minsToHours(dataset[position].totalTime)
             totalHoursTextView.text = "${hours}h"
         }
     }

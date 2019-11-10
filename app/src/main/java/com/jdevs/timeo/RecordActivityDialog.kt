@@ -15,8 +15,11 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.utilities.ScreenUtility
-import com.jdevs.timeo.utilities.TimeUtitlity
-import kotlinx.android.synthetic.main.dialog_record_activity.*
+import com.jdevs.timeo.utilities.TimeUtility
+import kotlinx.android.synthetic.main.dialog_record_activity.addButton
+import kotlinx.android.synthetic.main.dialog_record_activity.hoursEditText
+import kotlinx.android.synthetic.main.dialog_record_activity.minutesEditText
+import kotlinx.android.synthetic.main.dialog_record_activity.rootView
 import kotlin.math.roundToInt
 
 class RecordActivityDialog(
@@ -111,7 +114,7 @@ class RecordActivityDialog(
         val hours = hoursEditText.text.toString().toIntOrNull() ?: 0
         val minutes = minutesEditText.text.toString().toIntOrNull() ?: return
 
-        val time = TimeUtitlity.timeToMins(Pair(hours, minutes))
+        val time = TimeUtility.timeToMins(Pair(hours, minutes))
 
         createRecord(time)
 

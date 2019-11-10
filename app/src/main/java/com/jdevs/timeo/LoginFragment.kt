@@ -36,8 +36,15 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.jdevs.timeo.models.AuthenticationFragment
 import com.jdevs.timeo.utilities.KeyboardUtility.Companion.hideKeyboard
 import com.jdevs.timeo.utilities.TAG
-import kotlinx.android.synthetic.main.fragment_login.view.*
-import kotlinx.android.synthetic.main.partial_circular_loader.view.*
+import kotlinx.android.synthetic.main.fragment_login.view.emailEditText
+import kotlinx.android.synthetic.main.fragment_login.view.emailTextInputLayout
+import kotlinx.android.synthetic.main.fragment_login.view.googleSignInButton
+import kotlinx.android.synthetic.main.fragment_login.view.loginButton
+import kotlinx.android.synthetic.main.fragment_login.view.mainLayout
+import kotlinx.android.synthetic.main.fragment_login.view.passwordEditText
+import kotlinx.android.synthetic.main.fragment_login.view.passwordTextInputLayout
+import kotlinx.android.synthetic.main.fragment_login.view.signupTextView
+import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
 
 class LoginFragment : AuthenticationFragment(),
     View.OnClickListener,

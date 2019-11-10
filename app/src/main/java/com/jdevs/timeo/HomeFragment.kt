@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.jdevs.timeo.models.ActivitiesListFragment
 import com.jdevs.timeo.utilities.TAG
-import kotlinx.android.synthetic.main.partial_activities_list.view.*
+import kotlinx.android.synthetic.main.partial_activities_list.view.activitiesRecyclerView
+import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityButton
+import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityView
+import kotlinx.android.synthetic.main.partial_activities_list.view.listLoader
 
 class HomeFragment : ActivitiesListFragment() {
 

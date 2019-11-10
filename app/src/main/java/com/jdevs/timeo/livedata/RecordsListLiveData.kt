@@ -15,7 +15,6 @@ import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.utilities.RECORDS_FETCH_LIMIT
 import com.jdevs.timeo.utilities.TAG
 
-
 class RecordsListLiveData(
     private val query: Query,
     private val onLastVisibleRecordCallback: OnLastVisibleRecordCallback,
@@ -46,35 +45,14 @@ class RecordsListLiveData(
             return
         }
 
-        if(!wasLoaderHidden) {
+        if (!wasLoaderHidden) {
 
             value = RecordOperation(null, R.id.OPERATION_LOADED, "")
             wasLoaderHidden = true
         }
 
         for (documentChange in querySnapshot.documentChanges) {
-
-            val record = try {
-
-                documentChange.document.toObject(TimeoRecord::class.java)
-            } catch (e : RuntimeException) {
-
-                e.printStackTrace()
-                TimeoRecord()
-            }
-
-            val documentId = documentChange.document.id
-
-            val operation = when (documentChange.type) {
-
-                DocumentChange.Type.ADDED -> RecordOperation(record, R.id.OPERATION_ADDED, documentId)
-
-                DocumentChange.Type.MODIFIED -> RecordOperation(record, R.id.OPERATION_MODIFIED, documentId)
-
-                DocumentChange.Type.REMOVED -> RecordOperation(record, R.id.OPERATION_REMOVED, documentId)
-            }
-
-            value = operation
+            processDocumentChange(documentChange)
         }
 
         val querySnapshotSize = querySnapshot.size()
@@ -88,6 +66,38 @@ class RecordsListLiveData(
 
             onLastVisibleRecordCallback.setLastVisibleRecord(lastVisibleProduct)
         }
+    }
+
+    private fun processDocumentChange(documentChange: DocumentChange) {
+        val record = try {
+
+            documentChange.document.toObject(TimeoRecord::class.java)
+        } catch (e: RuntimeException) {
+
+            e.printStackTrace()
+            TimeoRecord()
+        }
+
+        val documentId = documentChange.document.id
+
+        val operation = when (documentChange.type) {
+
+            DocumentChange.Type.ADDED -> RecordOperation(record, R.id.OPERATION_ADDED, documentId)
+
+            DocumentChange.Type.MODIFIED -> RecordOperation(
+                record,
+                R.id.OPERATION_MODIFIED,
+                documentId
+            )
+
+            DocumentChange.Type.REMOVED -> RecordOperation(
+                record,
+                R.id.OPERATION_REMOVED,
+                documentId
+            )
+        }
+
+        value = operation
     }
 
     interface OnLastVisibleRecordCallback {

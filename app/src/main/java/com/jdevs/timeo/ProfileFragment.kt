@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fragment_profile.view.*
+import kotlinx.android.synthetic.main.fragment_profile.view.loginButton
+import kotlinx.android.synthetic.main.fragment_profile.view.loginLayout
+import kotlinx.android.synthetic.main.fragment_profile.view.logoutButton
+import kotlinx.android.synthetic.main.fragment_profile.view.logoutLayout
 
 class ProfileFragment : Fragment() {
 

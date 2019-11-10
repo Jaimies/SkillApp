@@ -18,8 +18,9 @@ import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.RealtimeScrollListener
 import com.jdevs.timeo.viewmodels.RecordsListViewModel
-import kotlinx.android.synthetic.main.partial_circular_loader.view.*
-import kotlinx.android.synthetic.main.partial_records_list.view.*
+import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
+import kotlinx.android.synthetic.main.partial_records_list.view.createNewActivityTextView
+import kotlinx.android.synthetic.main.partial_records_list.view.recordsRecyclerView
 
 class HistoryFragment : ActionBarFragment() {
 
@@ -69,7 +70,7 @@ class HistoryFragment : ActionBarFragment() {
     private fun getRecords() {
         val recordsListLiveData = recordsListViewModel?.getRecordsListLiveData() ?: return
 
-        recordsListLiveData.observe(this) { operation : RecordOperation ->
+        recordsListLiveData.observe(this) { operation: RecordOperation ->
 
             when (operation.type) {
                 R.id.OPERATION_ADDED -> {

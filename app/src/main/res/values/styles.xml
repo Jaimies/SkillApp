@@ -21,6 +21,6 @@
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
-<!--        <item name="android:windowBackground">@drawable/ic_launcher</item>-->
+        <item name="android:windowBackground">@drawable/ic_launcher</item>
     </style>
 </resources>

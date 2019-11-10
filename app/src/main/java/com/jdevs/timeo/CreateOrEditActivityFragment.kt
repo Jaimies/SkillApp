@@ -22,8 +22,12 @@ import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.utilities.KeyboardUtility.Companion.hideKeyboard
 import com.jdevs.timeo.utilities.TAG
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.*
+import kotlinx.android.synthetic.main.activity_main.toolbar
+import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.deleteButton
+import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.iconEditText
+import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.iconTextInputLayout
+import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.titleEditText
+import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.titleTextInputLayout
 
 class CreateOrEditActivityFragment : ActionBarFragment(),
     OnFailureListener {

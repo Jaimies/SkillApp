@@ -11,7 +11,10 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.models.ActivitiesListFragment
-import kotlinx.android.synthetic.main.partial_activities_list.view.*
+import kotlinx.android.synthetic.main.partial_activities_list.view.activitiesRecyclerView
+import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityButton
+import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityView
+import kotlinx.android.synthetic.main.partial_activities_list.view.listLoader
 
 class TaskListFragment : ActivitiesListFragment() {
 

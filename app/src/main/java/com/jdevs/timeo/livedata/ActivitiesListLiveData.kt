@@ -15,7 +15,6 @@ import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.utilities.ACTIVITIES_FETCH_LIMIT
 import com.jdevs.timeo.utilities.TAG
 
-
 class ActivitiesListLiveData(
     private val query: Query,
     private val onLastVisibleActivityCallback: OnLastVisibleActivityCallback,
@@ -46,35 +45,14 @@ class ActivitiesListLiveData(
             return
         }
 
-        if(!wasLoaderHidden) {
+        if (!wasLoaderHidden) {
 
             value = ActivityOperation(null, R.id.OPERATION_LOADED, "")
             wasLoaderHidden = true
         }
 
         for (documentChange in querySnapshot.documentChanges) {
-
-            val activity = try {
-
-                documentChange.document.toObject(TimeoActivity::class.java)
-            } catch (e : RuntimeException) {
-
-                e.printStackTrace()
-                TimeoActivity()
-            }
-
-            val documentId = documentChange.document.id
-
-            val operation = when (documentChange.type) {
-
-                DocumentChange.Type.ADDED -> ActivityOperation(activity, R.id.OPERATION_ADDED, documentId)
-
-                DocumentChange.Type.MODIFIED -> ActivityOperation(activity, R.id.OPERATION_MODIFIED, documentId)
-
-                DocumentChange.Type.REMOVED -> ActivityOperation(activity, R.id.OPERATION_REMOVED, documentId)
-            }
-
-            value = operation
+            processDocumentChange(documentChange)
         }
 
         val querySnapshotSize = querySnapshot.size()
@@ -88,6 +66,42 @@ class ActivitiesListLiveData(
 
             onLastVisibleActivityCallback.setLastVisibleActivity(lastVisibleProduct)
         }
+    }
+
+    private fun processDocumentChange(documentChange: DocumentChange) {
+        val activity = try {
+
+            documentChange.document.toObject(TimeoActivity::class.java)
+        } catch (e: RuntimeException) {
+
+            e.printStackTrace()
+            TimeoActivity()
+        }
+
+        val documentId = documentChange.document.id
+
+        val operation = when (documentChange.type) {
+
+            DocumentChange.Type.ADDED -> ActivityOperation(
+                activity,
+                R.id.OPERATION_ADDED,
+                documentId
+            )
+
+            DocumentChange.Type.MODIFIED -> ActivityOperation(
+                activity,
+                R.id.OPERATION_MODIFIED,
+                documentId
+            )
+
+            DocumentChange.Type.REMOVED -> ActivityOperation(
+                activity,
+                R.id.OPERATION_REMOVED,
+                documentId
+            )
+        }
+
+        value = operation
     }
 
     interface OnLastVisibleActivityCallback {

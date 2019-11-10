@@ -2,7 +2,8 @@ package com.jdevs.timeo.data
 
 import androidx.annotation.Keep
 import com.google.firebase.firestore.ServerTimestamp
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 @Keep
 data class TimeoRecord(

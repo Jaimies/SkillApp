@@ -2,20 +2,37 @@ package com.jdevs.timeo.utilities
 
 import org.joda.time.DateTime
 import org.joda.time.Days
-import java.util.*
+import java.util.Date
 
-class TimeUtitlity {
+class TimeUtility {
 
     companion object {
 
         private const val HOUR_MINUTES = 60
 
-        fun minsToTime(mins: Int): Pair<Int, Int> {
+        fun minsToTime(mins: Int): String {
 
             val hours = mins / HOUR_MINUTES
             val minutes = mins % HOUR_MINUTES
 
-            return Pair(hours, minutes)
+            var timeString = ""
+
+            if (hours != 0) {
+
+                timeString += "${hours}h"
+            }
+
+            if (minutes != 0) {
+
+                if (hours != 0) {
+
+                    timeString += " "
+                }
+
+                timeString += "${minutes}m"
+            }
+
+            return timeString
         }
 
         fun minsToHours(mins: Int): String {

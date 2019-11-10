@@ -229,6 +229,8 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
 
     private fun showDeleteDialog(view: View, context: Context) {
 
+        /* TODO: Deal with poor architecture */
+
         val dialog = AlertDialog.Builder(context)
             .setIcon(android.R.drawable.ic_delete)
             .setTitle("Are you sure?")

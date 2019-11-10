@@ -22,6 +22,7 @@ import com.jdevs.timeo.utilities.TimeUtility
 import kotlinx.android.synthetic.main.partial_records_list_item.view.activityNameTextView
 import kotlinx.android.synthetic.main.partial_records_list_item.view.workTimeTextView
 
+/* TODO: CHANGE THE POOR ARCHITECTURE */
 class RecordsListAdapter(
 
     private val dataset: ArrayList<TimeoRecord>,

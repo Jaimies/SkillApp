@@ -75,7 +75,7 @@ class HistoryFragment : ActionBarFragment() {
             when (operation.type) {
                 R.id.OPERATION_ADDED -> {
                     val record = operation.activity ?: return@observe
-                    addRecord(record)
+                    addRecord(record, operation.id)
                 }
 
                 R.id.OPERATION_MODIFIED -> {
@@ -94,8 +94,9 @@ class HistoryFragment : ActionBarFragment() {
         }
     }
 
-    private fun addRecord(record: TimeoRecord) {
+    private fun addRecord(record: TimeoRecord, id: String) {
         mRecords.add(record)
+        mItemIds.add(id)
         mViewAdapter.notifyItemInserted(mRecords.size - 1)
     }
 
@@ -106,6 +107,7 @@ class HistoryFragment : ActionBarFragment() {
             .single()
 
         mRecords.removeAt(index)
+        mItemIds.remove(id)
 
         mViewAdapter.notifyItemRemoved(index)
     }

@@ -92,7 +92,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
             when (operation.type) {
                 R.id.OPERATION_ADDED -> {
                     val activity = operation.activity ?: return@observe
-                    addActivity(activity)
+                    addActivity(activity, operation.id)
                 }
 
                 R.id.OPERATION_MODIFIED -> {
@@ -111,8 +111,9 @@ open class ActivitiesListFragment : ActionBarFragment() {
         }
     }
 
-    private fun addActivity(activity: TimeoActivity) {
+    private fun addActivity(activity: TimeoActivity, id: String) {
         mActivities.add(activity)
+        mItemIds.add(id)
         mViewAdapter.notifyItemInserted(mActivities.size - 1)
     }
 

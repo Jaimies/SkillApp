@@ -111,7 +111,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
         }
     }
 
-    open fun addActivity(activity: TimeoActivity) {
+    private fun addActivity(activity: TimeoActivity) {
         mActivities.add(activity)
         mViewAdapter.notifyItemInserted(mActivities.size - 1)
     }

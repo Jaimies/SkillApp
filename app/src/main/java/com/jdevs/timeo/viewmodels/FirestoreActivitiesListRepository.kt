@@ -27,10 +27,10 @@ class FirestoreActivitiesListRepository :
             return null
         }
 
-        val lastProduct = lastVisibleActivity
+        val lastActivity = lastVisibleActivity
 
-        if (lastProduct != null) {
-            query = query.startAfter(lastProduct)
+        if (lastActivity != null) {
+            query = query.startAfter(lastActivity)
         }
 
         return ActivitiesListLiveData(query, this, this)

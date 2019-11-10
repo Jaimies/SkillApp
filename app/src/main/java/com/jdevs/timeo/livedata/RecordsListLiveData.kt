@@ -10,17 +10,17 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
-import com.jdevs.timeo.data.ActivityOperation
-import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.utilities.ACTIVITIES_FETCH_LIMIT
+import com.jdevs.timeo.data.RecordOperation
+import com.jdevs.timeo.data.TimeoRecord
+import com.jdevs.timeo.utilities.RECORDS_FETCH_LIMIT
 import com.jdevs.timeo.utilities.TAG
 
 
-class ActivitiesListLiveData(
+class RecordsListLiveData(
     private val query: Query,
-    private val onLastVisibleActivityCallback: OnLastVisibleActivityCallback,
-    private val onLastActivityReachedCallback: OnLastActivityReachedCallback
-) : LiveData<ActivityOperation>(),
+    private val onLastVisibleRecordCallback: OnLastVisibleRecordCallback,
+    private val onLastRecordReachedCallback: OnLastRecordReachedCallback
+) : LiveData<RecordOperation>(),
     EventListener<QuerySnapshot> {
 
     private var listenerRegistration: ListenerRegistration? = null
@@ -48,30 +48,30 @@ class ActivitiesListLiveData(
 
         if(!wasLoaderHidden) {
 
-            value = ActivityOperation(null, R.id.OPERATION_LOADED, "")
+            value = RecordOperation(null, R.id.OPERATION_LOADED, "")
             wasLoaderHidden = true
         }
 
         for (documentChange in querySnapshot.documentChanges) {
 
-            val activity = try {
+            val record = try {
 
-                documentChange.document.toObject(TimeoActivity::class.java)
+                documentChange.document.toObject(TimeoRecord::class.java)
             } catch (e : RuntimeException) {
 
                 e.printStackTrace()
-                TimeoActivity()
+                TimeoRecord()
             }
 
             val documentId = documentChange.document.id
 
             val operation = when (documentChange.type) {
 
-                DocumentChange.Type.ADDED -> ActivityOperation(activity, R.id.OPERATION_ADDED, documentId)
+                DocumentChange.Type.ADDED -> RecordOperation(record, R.id.OPERATION_ADDED, documentId)
 
-                DocumentChange.Type.MODIFIED -> ActivityOperation(activity, R.id.OPERATION_MODIFIED, documentId)
+                DocumentChange.Type.MODIFIED -> RecordOperation(record, R.id.OPERATION_MODIFIED, documentId)
 
-                DocumentChange.Type.REMOVED -> ActivityOperation(activity, R.id.OPERATION_REMOVED, documentId)
+                DocumentChange.Type.REMOVED -> RecordOperation(record, R.id.OPERATION_REMOVED, documentId)
             }
 
             value = operation
@@ -79,22 +79,22 @@ class ActivitiesListLiveData(
 
         val querySnapshotSize = querySnapshot.size()
 
-        if (querySnapshotSize < ACTIVITIES_FETCH_LIMIT) {
+        if (querySnapshotSize < RECORDS_FETCH_LIMIT) {
 
-            onLastActivityReachedCallback.setLastActivityReached(true)
+            onLastRecordReachedCallback.setLastRecordReached(true)
         } else {
 
             val lastVisibleProduct = querySnapshot.documents[querySnapshotSize - 1]
 
-            onLastVisibleActivityCallback.setLastVisibleActivity(lastVisibleProduct)
+            onLastVisibleRecordCallback.setLastVisibleRecord(lastVisibleProduct)
         }
     }
 
-    interface OnLastVisibleActivityCallback {
-        fun setLastVisibleActivity(lastVisibleActivity: DocumentSnapshot)
+    interface OnLastVisibleRecordCallback {
+        fun setLastVisibleRecord(lastVisibleRecord: DocumentSnapshot)
     }
 
-    interface OnLastActivityReachedCallback {
-        fun setLastActivityReached(isLastActivityReached: Boolean)
+    interface OnLastRecordReachedCallback {
+        fun setLastRecordReached(isLastRecordReached: Boolean)
     }
 }

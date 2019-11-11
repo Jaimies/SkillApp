@@ -73,7 +73,7 @@ class ActivitiesListAdapter(
 
         holder.layout.apply {
 
-            reColorView(
+            recolorView(
                 position,
                 rootView.background.current as LayerDrawable,
                 plusButton.background.current as LayerDrawable,
@@ -107,7 +107,7 @@ class ActivitiesListAdapter(
 
     override fun getItemCount() = dataset.size
 
-    private fun reColorView(
+    private fun recolorView(
         position: Int,
         parentDrawable: LayerDrawable,
         plusButtonDrawable: LayerDrawable,

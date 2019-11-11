@@ -121,7 +121,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
         val index = mActivities.withIndex().filterIndexed { index, _ -> mItemIds[index] == id }
             .map { it.index }
-            .single()
+            .first()
 
         mActivities.removeAt(index)
 
@@ -132,7 +132,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
         val index =
             mActivities.withIndex().filterIndexed { index, _ -> mItemIds[index] == id }
                 .map { it.index }
-                .single()
+                .first()
 
         mActivities[index] = activity
 

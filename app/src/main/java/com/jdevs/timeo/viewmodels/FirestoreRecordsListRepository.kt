@@ -36,6 +36,11 @@ class FirestoreRecordsListRepository :
         return RecordsListLiveData(query, this, this)
     }
 
+    override fun deleteRecord(id: String) {
+
+        recordsRef.document(id).delete()
+    }
+
     override fun setLastRecordReached(isLastRecordReached: Boolean) {
         this.isLastRecordReached = isLastRecordReached
     }

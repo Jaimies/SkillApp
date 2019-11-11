@@ -10,12 +10,12 @@ class RecordsListViewModel : ViewModel() {
         return recordsListRepository.getRecordsListLiveData()
     }
 
-    fun deleteRecord(id : String) {
-        recordsListRepository.deleteRecord(id)
+    fun deleteRecord(id: String, recordTime: Long, activityId: String) {
+        recordsListRepository.deleteRecord(id, recordTime, activityId)
     }
 
     interface RecordsListRepository {
         fun getRecordsListLiveData(): RecordsListLiveData?
-        fun deleteRecord(id : String)
+        fun deleteRecord(id: String, recordTime: Long, activityId : String)
     }
 }

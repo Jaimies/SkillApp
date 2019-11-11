@@ -107,7 +107,7 @@ class HistoryFragment : ActionBarFragment(),
 
         val index = mRecords.withIndex().filterIndexed { index, _ -> mItemIds[index] == id }
             .map { it.index }
-            .single()
+            .first()
 
         mRecords.removeAt(index)
         mItemIds.remove(id)
@@ -119,7 +119,7 @@ class HistoryFragment : ActionBarFragment(),
         val index =
             mRecords.withIndex().filterIndexed { index, _ -> mItemIds[index] == id }
                 .map { it.index }
-                .single()
+                .first()
 
         mRecords[index] = record
 
@@ -163,10 +163,10 @@ class HistoryFragment : ActionBarFragment(),
 
             return
         }
+        val recordTime = mRecords[chosenRecordIndex].workingTime.toLong()
 
-        recordsListViewModel?.deleteRecord(mItemIds[chosenRecordIndex])
+        recordsListViewModel?.deleteRecord(mItemIds[chosenRecordIndex], recordTime, mRecords[chosenRecordIndex].activityId)
 
-//        val workingTime = dataset[adapterPosition].workingTime.toLong()
 
 //        activity.update("totalTime", FieldValue.increment(-workingTime))
 

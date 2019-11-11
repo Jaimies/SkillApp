@@ -2,6 +2,7 @@ package com.jdevs.timeo.viewmodels
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.livedata.RecordsListLiveData
@@ -14,10 +15,14 @@ class FirestoreRecordsListRepository :
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+
     private val recordsRef = firestore.collection("/users/${auth.currentUser!!.uid}/records")
+    private val activitiesRef = firestore.collection("/users/${auth.currentUser!!.uid}/activities")
+
     private var query = recordsRef.orderBy("timestamp", Query.Direction.DESCENDING).limit(
         RECORDS_FETCH_LIMIT
     )
+
     private var isLastRecordReached = false
     private var lastVisibleRecord: DocumentSnapshot? = null
 
@@ -36,9 +41,14 @@ class FirestoreRecordsListRepository :
         return RecordsListLiveData(query, this, this)
     }
 
-    override fun deleteRecord(id: String) {
+    override fun deleteRecord(id: String, recordTime: Long, activityId: String) {
 
         recordsRef.document(id).delete()
+
+        activitiesRef.document(activityId).update(
+            "totalTime",
+            FieldValue.increment(-recordTime)
+        )
     }
 
     override fun setLastRecordReached(isLastRecordReached: Boolean) {

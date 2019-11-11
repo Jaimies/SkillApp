@@ -134,7 +134,7 @@ open class ActivitiesListFragment : ActionBarFragment() {
                 .map { it.index }
                 .first()
 
-        mActivities[index] = activity
+            mActivities[index] = activity
 
         mViewAdapter.notifyItemChanged(index)
     }

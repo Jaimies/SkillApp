@@ -27,6 +27,7 @@ class ActivitiesListLiveData(
 
     override fun onActive() {
         listenerRegistration = query.addSnapshotListener(this)
+        wasLoaderHidden = false
     }
 
     override fun onInactive() {

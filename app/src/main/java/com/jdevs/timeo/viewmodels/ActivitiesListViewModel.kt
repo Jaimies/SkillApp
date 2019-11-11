@@ -10,7 +10,12 @@ class ActivitiesListViewModel : ViewModel() {
         return activitiesListRepository.getActivitiesListLiveData()
     }
 
+    fun createRecord(activityName: String, workingTime: Int, activityId: String) {
+        activitiesListRepository.createRecord(activityName, workingTime, activityId)
+    }
+
     interface ActivitiesListRepository {
         fun getActivitiesListLiveData(): ActivitiesListLiveData?
+        fun createRecord(activityName: String, workingTime: Int, activityId: String)
     }
 }

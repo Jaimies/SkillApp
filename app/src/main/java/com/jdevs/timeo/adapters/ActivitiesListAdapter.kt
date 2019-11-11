@@ -8,12 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.HomeFragmentDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.RecordActivityDialog
-import com.jdevs.timeo.TaskListFragmentDirections
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.utilities.TimeUtility
 import kotlinx.android.synthetic.main.partial_activities_list_item.view.listItemTitle
@@ -22,38 +19,19 @@ import kotlinx.android.synthetic.main.partial_activities_list_item.view.totalHou
 
 class ActivitiesListAdapter(
     private val dataset: ArrayList<TimeoActivity>,
-    private val itemIds: ArrayList<String>,
-    private val navController: NavController
+    private val onClickCallback: (Int) -> Unit,
+    private val createRecordCallback: (Int, Int) -> Unit
 ) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
 
     inner class ViewHolder(val layout: ConstraintLayout) : RecyclerView.ViewHolder(layout),
         View.OnClickListener {
 
         init {
-
             layout.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
-
-            navController.currentDestination?.apply {
-
-                val activityId = itemIds[adapterPosition]
-
-                try {
-
-                    val action = HomeFragmentDirections
-                        .actionShowActivityDetails(dataset[adapterPosition], activityId)
-
-                    navController.navigate(action)
-                } catch (e: IllegalArgumentException) {
-
-                    val action = TaskListFragmentDirections
-                        .actionShowActivityDetails(dataset[adapterPosition], activityId)
-
-                    navController.navigate(action)
-                }
-            }
+            onClickCallback(adapterPosition)
         }
     }
 
@@ -92,8 +70,8 @@ class ActivitiesListAdapter(
                     val dialog =
                         RecordActivityDialog(
                             context,
-                            dataset[position].title,
-                            itemIds[position]
+                            createRecordCallback,
+                            position
                         )
 
                     dialog.show()

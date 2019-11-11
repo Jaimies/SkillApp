@@ -10,10 +10,6 @@ import android.view.View
 import android.widget.EditText
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
-import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.utilities.ScreenUtility
 import com.jdevs.timeo.utilities.TimeUtility
 import kotlinx.android.synthetic.main.dialog_record_activity.addButton
@@ -24,8 +20,8 @@ import kotlin.math.roundToInt
 
 class RecordActivityDialog(
     context: Context,
-    private val activityName: String,
-    private val activityId: String
+    private val callback: (Int, Int) -> Unit,
+    private val index: Int
 ) : Dialog(context),
     View.OnFocusChangeListener,
     OnFailureListener {
@@ -116,34 +112,16 @@ class RecordActivityDialog(
 
         val time = TimeUtility.timeToMins(Pair(hours, minutes))
 
-        createRecord(time)
+        callback(index, time)
 
         dismiss()
-    }
-
-    private fun createRecord(time: Int) {
-
-        val firestore = FirebaseFirestore.getInstance()
-        val auth = FirebaseAuth.getInstance()
-
-        val timeoRecord = TimeoRecord(activityName, time, activityId)
-
-        val userId = auth.currentUser!!.uid
-
-        val records = firestore.collection("/users/$userId/records")
-        val activityRef = firestore.document("/users/$userId/activities/$activityId")
-
-        records.add(timeoRecord).addOnFailureListener(this)
-
-        activityRef.update("totalTime", FieldValue.increment(time.toLong()))
-            .addOnFailureListener(this)
     }
 
     override fun onFailure(firebaseException: Exception) {
 
         Log.w("Create record", "Failed to create activity", firebaseException)
 
-        Snackbar.make(rootView, "Failed to record activity", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(rootView, "Failed to record activity", Snackbar.LENGTH_SHORT).show()
     }
 
     companion object {

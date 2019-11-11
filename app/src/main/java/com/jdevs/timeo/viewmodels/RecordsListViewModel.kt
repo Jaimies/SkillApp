@@ -16,6 +16,6 @@ class RecordsListViewModel : ViewModel() {
 
     interface RecordsListRepository {
         fun getRecordsListLiveData(): RecordsListLiveData?
-        fun deleteRecord(id: String, recordTime: Long, activityId : String)
+        fun deleteRecord(id: String, recordTime: Long, activityId: String)
     }
 }

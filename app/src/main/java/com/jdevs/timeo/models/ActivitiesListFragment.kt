@@ -12,7 +12,9 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.HomeFragmentDirections
 import com.jdevs.timeo.R
+import com.jdevs.timeo.TaskListFragmentDirections
 import com.jdevs.timeo.adapters.ActivitiesListAdapter
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
@@ -57,7 +59,11 @@ open class ActivitiesListFragment : ActionBarFragment() {
         }
 
         mCreateNewActivityView = createNewActivityView
-        mCreateNewActivityButton = createNewActivityButton
+        mCreateNewActivityButton = createNewActivityButton.apply {
+            setOnClickListener {
+                findNavController().navigate(R.id.action_showCreateActivityFragment)
+            }
+        }
 
         setupRecyclerView(recyclerView)
         recyclerView.addOnScrollListener(RealtimeScrollListener(::getActivities))
@@ -72,8 +78,8 @@ open class ActivitiesListFragment : ActionBarFragment() {
         mViewAdapter =
             ActivitiesListAdapter(
                 mActivities,
-                mItemIds,
-                findNavController()
+                ::navigateToDetails,
+                ::createRecord
             )
 
         mRecyclerView = recyclerView.apply {
@@ -108,10 +114,27 @@ open class ActivitiesListFragment : ActionBarFragment() {
                     mLoader.visibility = View.GONE
                 }
             }
+
+            if (mActivities.isEmpty()) {
+
+                if (mCreateNewActivityView.visibility != View.VISIBLE) {
+                    mCreateNewActivityView.visibility = View.VISIBLE
+                }
+            } else {
+
+                if (mCreateNewActivityView.visibility != View.GONE) {
+                    mCreateNewActivityView.visibility = View.GONE
+                }
+            }
         }
     }
 
     private fun addActivity(activity: TimeoActivity, id: String) {
+        if (mItemIds.contains(id)) {
+
+            return
+        }
+
         mActivities.add(activity)
         mItemIds.add(id)
         mViewAdapter.notifyItemInserted(mActivities.size - 1)
@@ -134,8 +157,31 @@ open class ActivitiesListFragment : ActionBarFragment() {
                 .map { it.index }
                 .first()
 
-            mActivities[index] = activity
+        mActivities[index] = activity
 
         mViewAdapter.notifyItemChanged(index)
+    }
+
+    private fun navigateToDetails(index: Int) {
+
+        val activityId = mItemIds[index]
+
+        try {
+
+            val action = HomeFragmentDirections
+                .actionShowActivityDetails(mActivities[index], activityId)
+
+            findNavController().navigate(action)
+        } catch (e: IllegalArgumentException) {
+
+            val action = TaskListFragmentDirections
+                .actionShowActivityDetails(mActivities[index], activityId)
+
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun createRecord(index: Int, time: Int) {
+        activitiesListViewModel?.createRecord(mActivities[index].title, time, mItemIds[index])
     }
 }

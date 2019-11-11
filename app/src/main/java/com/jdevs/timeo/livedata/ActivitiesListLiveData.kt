@@ -18,6 +18,7 @@ import com.jdevs.timeo.utilities.TAG
 class ActivitiesListLiveData(
     private val query: Query,
     private val onLastVisibleActivityCallback: OnLastVisibleActivityCallback,
+
     private val onLastActivityReachedCallback: OnLastActivityReachedCallback
 ) : LiveData<ActivityOperation>(),
     EventListener<QuerySnapshot> {
@@ -56,6 +57,7 @@ class ActivitiesListLiveData(
             processDocumentChange(documentChange)
         }
 
+        // TODO : changes are not showing up when made from another Fragment
         val querySnapshotSize = querySnapshot.size()
 
         if (querySnapshotSize < ACTIVITIES_FETCH_LIMIT) {

@@ -94,6 +94,16 @@ class HistoryFragment : ActionBarFragment(),
                     mLoader.visibility = View.GONE
                 }
             }
+
+            if (mRecords.isEmpty()) {
+
+                if (mCreateNewActivityView.visibility != View.VISIBLE)
+                    mCreateNewActivityView.visibility = View.VISIBLE
+            } else {
+
+                if (mCreateNewActivityView.visibility != View.GONE)
+                    mCreateNewActivityView.visibility = View.GONE
+            }
         }
     }
 
@@ -163,13 +173,17 @@ class HistoryFragment : ActionBarFragment(),
 
             return
         }
+
         val recordTime = mRecords[chosenRecordIndex].workingTime.toLong()
 
-        recordsListViewModel?.deleteRecord(mItemIds[chosenRecordIndex], recordTime, mRecords[chosenRecordIndex].activityId)
+        recordsListViewModel?.deleteRecord(
+            mItemIds[chosenRecordIndex],
+            recordTime,
+            mRecords[chosenRecordIndex].activityId
+        )
 
-
-//        activity.update("totalTime", FieldValue.increment(-workingTime))
-
-        Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_LONG).show()
+        val snack =
+            Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_SHORT)
+        snack.show()
     }
 }

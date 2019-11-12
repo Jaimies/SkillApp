@@ -15,13 +15,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.utilities.KeyboardUtility.Companion.hideKeyboard
 import com.jdevs.timeo.utilities.TAG
+import com.jdevs.timeo.viewmodels.FirestoreActivitiesListRepository
 import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.deleteButton
 import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.iconEditText
@@ -31,14 +29,9 @@ import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.titl
 
 class CreateOrEditActivityFragment : ActionBarFragment(),
     OnFailureListener {
-
-    private lateinit var mActivityRef: DocumentReference
-
-    private val mFirestore = FirebaseFirestore.getInstance()
-
     private val args: CreateOrEditActivityFragmentArgs by navArgs()
 
-    private val mUser = FirebaseAuth.getInstance().currentUser
+    private val firestoreActivitiesListRepository = FirestoreActivitiesListRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,9 +52,6 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
         }
 
         if (args.editActivity) {
-
-            mActivityRef =
-                mFirestore.document("/users/${mUser!!.uid}/activities/${args.activityId}")
 
             view.deleteButton.apply {
 
@@ -178,35 +168,16 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
 
             val timeoActivity = args.timeoActivity ?: return
 
-            timeoActivity.title = title
-            timeoActivity.icon = icon
+            timeoActivity.apply {
 
-            val records = mFirestore.collection("users/${mUser!!.uid}/records")
+                this.title = title
+                this.icon = icon
+            }
 
-            records.whereEqualTo("activityId", args.activityId).get()
-                .addOnSuccessListener { querySnapshot ->
-
-                    if (querySnapshot != null && !querySnapshot.isEmpty) {
-
-                        val recordReferences = ArrayList<DocumentReference>()
-
-                        for (record in querySnapshot.documents) {
-
-                            recordReferences.add(record.reference)
-                        }
-
-                        mFirestore.runBatch { batch ->
-
-                            batch.update(mActivityRef, "title", title, "icon", icon)
-
-                            for (recordReference in recordReferences) {
-
-                                batch.update(recordReference, "title", title)
-                            }
-                        }
-                            .addOnFailureListener(this)
-                    }
-                }
+            firestoreActivitiesListRepository.updateActivity(
+                timeoActivity,
+                args.activityId ?: return
+            )
 
             val directions = CreateOrEditActivityFragmentDirections
                 .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")
@@ -214,12 +185,9 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
             findNavController().navigate(directions)
         } else {
 
-            val activities = mFirestore.collection("users/${mUser!!.uid}/activities")
-
             val timeoActivity = TimeoActivity(title, icon)
 
-            activities.add(timeoActivity)
-                .addOnFailureListener(this)
+            firestoreActivitiesListRepository.createActivity(timeoActivity)
 
             findNavController().navigate(R.id.action_returnToHomeFragment)
         }
@@ -229,17 +197,15 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
 
     private fun showDeleteDialog(view: View, context: Context) {
 
-        /* TODO: Deal with poor architecture */
-
         val dialog = AlertDialog.Builder(context)
             .setIcon(android.R.drawable.ic_delete)
             .setTitle("Are you sure?")
             .setMessage("Are you sure you want to delete this activity?")
             .setPositiveButton("Yes") { _: DialogInterface, _: Int ->
 
-                mActivityRef
-                    .delete()
-                    .addOnFailureListener(this)
+                firestoreActivitiesListRepository.deleteActivity(
+                    args.activityId ?: return@setPositiveButton
+                )
 
                 Snackbar.make(view, "Activity deleted", Snackbar.LENGTH_LONG).show()
 

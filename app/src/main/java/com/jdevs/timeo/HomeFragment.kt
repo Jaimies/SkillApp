@@ -37,8 +37,6 @@ class HomeFragment : ActivitiesListFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        super.onCreateView(inflater, container, savedInstanceState)
-
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         view.apply {
@@ -51,20 +49,11 @@ class HomeFragment : ActivitiesListFragment() {
             mCreateNewActivityButton = createNewActivityButton
         }
 
-        // Inflate the layout for this fragment
-        return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-
         val user = mUser
 
         if (user == null || user.providerId == "") {
 
             signInAnonymously()
-
-            return
         }
 
         setupActivityListener(
@@ -73,6 +62,9 @@ class HomeFragment : ActivitiesListFragment() {
             mCreateNewActivityView,
             mCreateNewActivityButton
         )
+
+        // Inflate the layout for this fragment
+        return view
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

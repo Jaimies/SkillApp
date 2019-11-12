@@ -57,7 +57,6 @@ class ActivitiesListLiveData(
             processDocumentChange(documentChange)
         }
 
-        // TODO : changes are not showing up when made from another Fragment
         val querySnapshotSize = querySnapshot.size()
 
         if (querySnapshotSize < ACTIVITIES_FETCH_LIMIT) {

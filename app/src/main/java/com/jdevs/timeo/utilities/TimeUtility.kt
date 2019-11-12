@@ -57,7 +57,7 @@ class TimeUtility {
 
             val daysDiff = Days.daysBetween(creationTime, currentTime)
 
-            return daysDiff.days + 1
+            return if (daysDiff.days > 0) daysDiff.days + 1 else 1
         }
     }
 }

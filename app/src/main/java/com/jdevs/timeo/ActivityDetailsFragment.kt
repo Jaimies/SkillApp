@@ -41,7 +41,7 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
             val days = TimeUtility.getHoursSinceDate(args.timeoActivity.timestamp)
 
-            val avgMins = args.timeoActivity.totalTime / days
+            val avgMins = args.timeoActivity.totalTime / (days + 1)
             val avgHours = TimeUtility.minsToHours(avgMins)
 
             text = "${avgHours}h"

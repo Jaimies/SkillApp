@@ -176,14 +176,14 @@ class HistoryFragment : ActionBarFragment(),
 
         val recordTime = mRecords[chosenRecordIndex].workingTime.toLong()
 
+        val snack =
+            Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_SHORT)
+        snack.show()
+
         recordsListViewModel?.deleteRecord(
             mItemIds[chosenRecordIndex],
             recordTime,
             mRecords[chosenRecordIndex].activityId
         )
-
-        val snack =
-            Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_SHORT)
-        snack.show()
     }
 }

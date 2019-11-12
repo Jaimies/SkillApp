@@ -13,11 +13,11 @@ class FirestoreRecordsListRepository :
     RecordsListLiveData.OnLastRecordReachedCallback,
     RecordsListLiveData.OnLastVisibleRecordCallback {
 
-    private val firestore = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
+    private val firestore by lazy { FirebaseFirestore.getInstance() }
+    private val auth by lazy { FirebaseAuth.getInstance() }
 
-    private val recordsRef = firestore.collection("/users/${auth.currentUser!!.uid}/records")
-    private val activitiesRef = firestore.collection("/users/${auth.currentUser!!.uid}/activities")
+    private val recordsRef by lazy { firestore.collection("/users/${auth.currentUser!!.uid}/records") }
+    private val activitiesRef by lazy { firestore.collection("/users/${auth.currentUser!!.uid}/activities") }
 
     private var query = recordsRef.orderBy("timestamp", Query.Direction.DESCENDING).limit(
         RECORDS_FETCH_LIMIT
@@ -45,10 +45,11 @@ class FirestoreRecordsListRepository :
 
         recordsRef.document(id).delete()
 
-        activitiesRef.document(activityId).update(
-            "totalTime",
-            FieldValue.increment(-recordTime)
-        )
+        activitiesRef.document(activityId)
+            .update(
+                "totalTime",
+                FieldValue.increment(-recordTime)
+            )
     }
 
     override fun setLastRecordReached(isLastRecordReached: Boolean) {

@@ -1,9 +1,7 @@
 package com.jdevs.timeo.models
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -33,17 +31,19 @@ open class ActivitiesListFragment : ActionBarFragment() {
 
     private var activitiesListViewModel: ActivitiesListViewModel? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         activitiesListViewModel =
             ViewModelProviders.of(this).get(ActivitiesListViewModel::class.java)
+    }
 
-        activitiesListViewModel?.getActivitiesListLiveData()
+    override fun onStart() {
+        super.onStart()
 
-        return null
+        mActivities.clear()
+        mItemIds.clear()
     }
 
     fun setupActivityListener(

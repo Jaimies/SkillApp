@@ -22,13 +22,19 @@
         android:layout_marginTop="@dimen/default_margin"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="You are logged in"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+        <TextView
+            android:id="@+id/userEmailEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="User email" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/logoutButton"

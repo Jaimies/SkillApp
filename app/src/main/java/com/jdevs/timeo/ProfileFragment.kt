@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.fragment_profile.view.loginButton
 import kotlinx.android.synthetic.main.fragment_profile.view.loginLayout
 import kotlinx.android.synthetic.main.fragment_profile.view.logoutButton
 import kotlinx.android.synthetic.main.fragment_profile.view.logoutLayout
+import kotlinx.android.synthetic.main.fragment_profile.view.userEmailEditText
 
 class ProfileFragment : Fragment() {
 
@@ -42,6 +43,8 @@ class ProfileFragment : Fragment() {
             }
 
             view.logoutLayout.visibility = View.VISIBLE
+
+            view.userEmailEditText.text = "Your email: ${mAuth.currentUser?.email}"
         }
 
         // Inflate the layout for this fragment

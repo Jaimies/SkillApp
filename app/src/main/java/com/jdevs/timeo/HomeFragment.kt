@@ -7,19 +7,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.jdevs.timeo.models.ActivitiesListFragment
+import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.utilities.TAG
-import kotlinx.android.synthetic.main.partial_activities_list.view.activitiesRecyclerView
-import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityButton
-import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityView
-import kotlinx.android.synthetic.main.partial_activities_list.view.listLoader
+import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
 
-class HomeFragment : ActivitiesListFragment() {
+class HomeFragment : ActionBarFragment() {
 
     private lateinit var mLoader: FrameLayout
 
@@ -27,9 +21,16 @@ class HomeFragment : ActivitiesListFragment() {
 
     private var mUser = mAuth.currentUser
 
-    private lateinit var mActivitiesRecyclerView: RecyclerView
-    private lateinit var mCreateNewActivityView: LinearLayout
-    private lateinit var mCreateNewActivityButton: Button
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val user = mUser
+
+        if (user == null || user.providerId == "") {
+
+            signInAnonymously()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,27 +42,8 @@ class HomeFragment : ActivitiesListFragment() {
 
         view.apply {
 
-            mLoader = listLoader as FrameLayout
-
-            mActivitiesRecyclerView = activitiesRecyclerView
-
-            mCreateNewActivityView = createNewActivityView
-            mCreateNewActivityButton = createNewActivityButton
+            mLoader = spinningProgressBar
         }
-
-        val user = mUser
-
-        if (user == null || user.providerId == "") {
-
-            signInAnonymously()
-        }
-
-        setupActivityListener(
-            mActivitiesRecyclerView,
-            mLoader,
-            mCreateNewActivityView,
-            mCreateNewActivityButton
-        )
 
         // Inflate the layout for this fragment
         return view
@@ -75,18 +57,12 @@ class HomeFragment : ActivitiesListFragment() {
     private fun signInAnonymously() {
 
         mAuth.signInAnonymously()
+            .addOnCompleteListener {
+                mLoader.visibility = View.GONE
+            }
             .addOnSuccessListener { result ->
 
                 mUser = result.user
-
-                mLoader.visibility = View.GONE
-
-                setupActivityListener(
-                    mActivitiesRecyclerView,
-                    mLoader,
-                    mCreateNewActivityView,
-                    mCreateNewActivityButton
-                )
             }
             .addOnFailureListener { exception ->
 

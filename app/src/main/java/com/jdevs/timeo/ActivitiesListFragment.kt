@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActi
 import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityView
 import kotlinx.android.synthetic.main.partial_activities_list.view.listLoader
 
-class TaskListFragment : ActionBarFragment() {
+class ActivitiesListFragment : ActionBarFragment() {
 
     private lateinit var mLoader: FrameLayout
 
@@ -39,7 +39,6 @@ class TaskListFragment : ActionBarFragment() {
     private lateinit var mViewAdapter: ActivitiesListAdapter
 
     private var activitiesListViewModel: ActivitiesListViewModel? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -179,6 +178,7 @@ class TaskListFragment : ActionBarFragment() {
             .first()
 
         mActivities.removeAt(index)
+        mItemIds.removeAt(index)
 
         mViewAdapter.notifyItemRemoved(index)
     }
@@ -206,7 +206,7 @@ class TaskListFragment : ActionBarFragment() {
             findNavController().navigate(action)
         } catch (e: IllegalArgumentException) {
 
-            val action = TaskListFragmentDirections
+            val action = ActivitiesListFragmentDirections
                 .actionShowActivityDetails(mActivities[index], activityId)
 
             findNavController().navigate(action)

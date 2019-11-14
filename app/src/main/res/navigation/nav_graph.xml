@@ -97,7 +97,7 @@
         tools:layout="@layout/fragment_history" />
     <fragment
         android:id="@+id/taskListFragment"
-        android:name="com.jdevs.timeo.TaskListFragment"
+        android:name="com.jdevs.timeo.ActivitiesListFragment"
         android:label="List of tasks"
         tools:layout="@layout/fragment_task_list">
         <action

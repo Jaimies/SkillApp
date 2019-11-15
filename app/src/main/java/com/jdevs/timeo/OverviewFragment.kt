@@ -3,17 +3,15 @@ package com.jdevs.timeo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.utilities.TAG
 import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
 
-class HomeFragment : ActionBarFragment() {
+class OverviewFragment : Fragment() {
 
     private lateinit var mLoader: FrameLayout
 
@@ -38,7 +36,7 @@ class HomeFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_overview, container, false)
 
         view.apply {
 
@@ -47,11 +45,6 @@ class HomeFragment : ActionBarFragment() {
 
         // Inflate the layout for this fragment
         return view
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        addOptionsMenu(menu, inflater, R.menu.action_bar_main)
     }
 
     private fun signInAnonymously() {

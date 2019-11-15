@@ -6,7 +6,7 @@
         android:title="Home" />
 
     <item
-        android:id="@+id/taskListFragment"
+        android:id="@+id/activitiesListFragment"
         android:icon="@drawable/ic_list"
         android:title="Task list" />
 

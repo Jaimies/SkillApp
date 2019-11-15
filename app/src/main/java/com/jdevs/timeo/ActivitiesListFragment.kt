@@ -114,7 +114,7 @@ class ActivitiesListFragment : ActionBarFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        addOptionsMenu(menu, inflater, R.menu.action_bar_main)
+        addOptionsMenu(menu, inflater, R.menu.action_bar_task_list)
     }
 
     private fun getActivities() {

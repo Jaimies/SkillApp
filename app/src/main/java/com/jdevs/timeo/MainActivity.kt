@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
     private val mainDestinations by lazy {
-        setOf(R.id.homeFragment, R.id.taskListFragment, R.id.statsFragment)
+        setOf(R.id.homeFragment, R.id.activitiesListFragment, R.id.statsFragment)
     }
 
     private val allTopLevelDestinations by lazy {

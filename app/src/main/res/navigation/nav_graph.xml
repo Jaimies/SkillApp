@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.jdevs.timeo.HomeFragment"
+        android:name="com.jdevs.timeo.OverviewFragment"
         android:label="Timeo - home"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_overview">
         <action
             android:id="@+id/viewCreateActivityFragment"
             app:destination="@id/createActivityFragment" />
@@ -82,12 +82,12 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_returnToHomeFragment"
-            app:destination="@id/homeFragment"
+            app:destination="@id/activitiesListFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/activityDetailsFragment"
+            app:popUpTo="@id/activitiesListFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -96,9 +96,9 @@
         android:label="History"
         tools:layout="@layout/fragment_history" />
     <fragment
-        android:id="@+id/taskListFragment"
+        android:id="@+id/activitiesListFragment"
         android:name="com.jdevs.timeo.ActivitiesListFragment"
-        android:label="List of tasks"
+        android:label="Your activities"
         tools:layout="@layout/fragment_task_list">
         <action
             android:id="@+id/action_showActivityDetails"

@@ -17,14 +17,15 @@ import com.jdevs.timeo.adapters.RecordsListAdapter
 import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.data.TimeoRecord
 import com.jdevs.timeo.models.ActionBarFragment
-import com.jdevs.timeo.models.RealtimeScrollListener
+import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodels.RecordsListViewModel
 import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
 import kotlinx.android.synthetic.main.partial_records_list.view.createNewActivityTextView
 import kotlinx.android.synthetic.main.partial_records_list.view.recordsRecyclerView
 
 class HistoryFragment : ActionBarFragment(),
-    DialogInterface.OnClickListener {
+    DialogInterface.OnClickListener,
+    ScrollDownListener.OnScrolledDownListener {
 
     private val mRecords = ArrayList<TimeoRecord>()
     private val mItemIds = ArrayList<String>()
@@ -54,7 +55,7 @@ class HistoryFragment : ActionBarFragment(),
 
         mRecordsRecyclerView = view.recordsRecyclerView.apply {
 
-            addOnScrollListener(RealtimeScrollListener(::getRecords))
+            addOnScrollListener(ScrollDownListener(this@HistoryFragment))
         }
 
         setupRecyclerView()
@@ -68,6 +69,11 @@ class HistoryFragment : ActionBarFragment(),
 
         // Inflate the layout for this fragment
         return view
+    }
+
+    override fun onScrolledDown() {
+
+        getRecords()
     }
 
     private fun getRecords() {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/topbarLayout"
-    style="@style/DateTimeStyle"
+    style="@style/Widget.Timeo.TimeBar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/timebar_height"
     android:gravity="center_vertical"

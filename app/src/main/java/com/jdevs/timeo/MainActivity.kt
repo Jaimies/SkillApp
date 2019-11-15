@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var mToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
+        setTheme(R.style.Theme_Timeo)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

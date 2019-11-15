@@ -1,26 +1,29 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.Timeo" parent="Theme.MaterialComponents.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="spinBars">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="PreloaderStyle">
+    <style name="Theme.Timeo.Splash">
+        <item name="android:windowBackground">@drawable/ic_launcher</item>
+    </style>
+
+    <style name="Widget" />
+    <style name="Widget.Timeo" />
+
+    <style name="Widget.Timeo.Preloader">
         <item name="android:background">@color/colorPreloaderBackground</item>
     </style>
 
-    <style name="NavHeaderStyle">
-        <item name="android:background">@color/colorAccent</item>
+    <style name="Widget.Timeo.NavHeader">
+        <item name="android:background">?attr/colorAccent</item>
     </style>
 
-    <style name="DateTimeStyle">
-        <item name="android:background">@color/colorAccent</item>
-    </style>
-
-    <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/ic_launcher</item>
+    <style name="Widget.Timeo.TimeBar">
+        <item name="android:background">?attr/colorAccent</item>
     </style>
 </resources>

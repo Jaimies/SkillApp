@@ -17,14 +17,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.adapters.ActivitiesListAdapter
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.models.ActionBarFragment
-import com.jdevs.timeo.models.RealtimeScrollListener
+import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
 import kotlinx.android.synthetic.main.partial_activities_list.view.activitiesRecyclerView
 import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityButton
 import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityView
 import kotlinx.android.synthetic.main.partial_activities_list.view.listLoader
 
-class ActivitiesListFragment : ActionBarFragment() {
+class ActivitiesListFragment : ActionBarFragment(),
+    ScrollDownListener.OnScrolledDownListener {
 
     private lateinit var mLoader: FrameLayout
 
@@ -92,7 +93,7 @@ class ActivitiesListFragment : ActionBarFragment() {
         }
 
         setupRecyclerView()
-        mRecyclerView.addOnScrollListener(RealtimeScrollListener(::getActivities))
+        mRecyclerView.addOnScrollListener(ScrollDownListener(this))
 
         getActivities()
     }
@@ -100,6 +101,11 @@ class ActivitiesListFragment : ActionBarFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
         addOptionsMenu(menu, inflater, R.menu.action_bar_main)
+    }
+
+    override fun onScrolledDown() {
+
+        getActivities()
     }
 
     private fun setupRecyclerView() {

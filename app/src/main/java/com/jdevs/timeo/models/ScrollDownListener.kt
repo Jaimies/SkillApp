@@ -4,7 +4,7 @@ import android.widget.AbsListView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class RealtimeScrollListener(private val callback: () -> Unit) : RecyclerView.OnScrollListener() {
+class ScrollDownListener(private val listener: OnScrolledDownListener) : RecyclerView.OnScrollListener() {
 
     private var isScrolling = false
 
@@ -29,8 +29,12 @@ class RealtimeScrollListener(private val callback: () -> Unit) : RecyclerView.On
             if (isScrolling && (lastVisibleItem == totalItemsCount - 1)) {
 
                 isScrolling = false
-                callback()
+                listener.onScrolledDown()
             }
         }
+    }
+
+    interface OnScrolledDownListener {
+        fun onScrolledDown()
     }
 }

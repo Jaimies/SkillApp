@@ -20,8 +20,8 @@ import kotlin.math.roundToInt
 
 class RecordActivityDialog(
     context: Context,
-    private val callback: (Int, Int) -> Unit,
-    private val index: Int
+    private val index: Int,
+    private val createRecord: (Int, Int) -> Unit = { _, _ -> }
 ) : Dialog(context),
     View.OnFocusChangeListener,
     OnFailureListener {
@@ -112,7 +112,7 @@ class RecordActivityDialog(
 
         val time = TimeUtility.timeToMins(Pair(hours, minutes))
 
-        callback(index, time)
+        createRecord(index, time)
 
         dismiss()
     }

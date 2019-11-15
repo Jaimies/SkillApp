@@ -13,27 +13,20 @@ import kotlinx.android.synthetic.main.partial_records_list_item.view.activityNam
 import kotlinx.android.synthetic.main.partial_records_list_item.view.workTimeTextView
 
 class RecordsListAdapter(
-
     private val dataset: ArrayList<TimeoRecord>,
-    private val onLongClickCallback: (Int) -> Unit
-
+    private val showDeleteDialog: (Int) -> Unit = {}
 ) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
 
     inner class ViewHolder(val layout: ConstraintLayout) : RecyclerView.ViewHolder(layout),
         View.OnLongClickListener {
 
-        private var view: View? = null
-
         init {
-
             layout.setOnLongClickListener(this)
         }
 
         override fun onLongClick(v: View): Boolean {
 
-            view = v
-
-            onLongClickCallback(adapterPosition)
+            showDeleteDialog(adapterPosition)
 
             return true
         }
@@ -69,4 +62,8 @@ class RecordsListAdapter(
     }
 
     override fun getItemCount() = dataset.size
+
+    interface RecordsListEventListener {
+        fun showDeleteDialog(index: Int)
+    }
 }

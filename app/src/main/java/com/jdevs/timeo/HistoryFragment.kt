@@ -24,8 +24,7 @@ import kotlinx.android.synthetic.main.partial_records_list.view.createNewActivit
 import kotlinx.android.synthetic.main.partial_records_list.view.recordsRecyclerView
 
 class HistoryFragment : ActionBarFragment(),
-    DialogInterface.OnClickListener,
-    ScrollDownListener.OnScrolledDownListener {
+    DialogInterface.OnClickListener {
 
     private val mRecords = ArrayList<TimeoRecord>()
     private val mItemIds = ArrayList<String>()
@@ -39,6 +38,13 @@ class HistoryFragment : ActionBarFragment(),
     private lateinit var mCreateNewActivityView: TextView
 
     private var chosenRecordIndex = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        recordsListViewModel =
+            ViewModelProviders.of(this).get(RecordsListViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,15 +61,12 @@ class HistoryFragment : ActionBarFragment(),
 
         mRecordsRecyclerView = view.recordsRecyclerView.apply {
 
-            addOnScrollListener(ScrollDownListener(this@HistoryFragment))
+            addOnScrollListener(ScrollDownListener(::getRecords))
         }
 
         setupRecyclerView()
 
         mCreateNewActivityView = view.createNewActivityTextView
-
-        recordsListViewModel =
-            ViewModelProviders.of(this).get(RecordsListViewModel::class.java)
 
         getRecords()
 
@@ -71,9 +74,38 @@ class HistoryFragment : ActionBarFragment(),
         return view
     }
 
-    override fun onScrolledDown() {
+    private fun showDeleteDialog(index: Int) {
 
-        getRecords()
+        val dialog = AlertDialog.Builder(context!!)
+            .setIcon(android.R.drawable.ic_delete)
+            .setTitle("Are you sure?")
+            .setMessage("Are you sure you want to delete this record?")
+            .setPositiveButton("Yes", this)
+            .setNegativeButton("No", null)
+
+        chosenRecordIndex = index
+
+        dialog.show()
+    }
+
+    override fun onClick(dialog: DialogInterface?, which: Int) {
+
+        if (chosenRecordIndex == -1) {
+
+            return
+        }
+
+        val recordTime = mRecords[chosenRecordIndex].workingTime.toLong()
+
+        val snack =
+            Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_SHORT)
+        snack.show()
+
+        recordsListViewModel?.deleteRecord(
+            mItemIds[chosenRecordIndex],
+            recordTime,
+            mRecords[chosenRecordIndex].activityId
+        )
     }
 
     private fun getRecords() {
@@ -103,12 +135,14 @@ class HistoryFragment : ActionBarFragment(),
 
             if (mRecords.isEmpty()) {
 
-                if (mCreateNewActivityView.visibility != View.VISIBLE)
+                if (mCreateNewActivityView.visibility != View.VISIBLE) {
                     mCreateNewActivityView.visibility = View.VISIBLE
+                }
             } else {
 
-                if (mCreateNewActivityView.visibility != View.GONE)
+                if (mCreateNewActivityView.visibility != View.GONE) {
                     mCreateNewActivityView.visibility = View.GONE
+                }
             }
         }
     }
@@ -148,7 +182,7 @@ class HistoryFragment : ActionBarFragment(),
 
         mViewAdapter = RecordsListAdapter(
             mRecords,
-            ::showDialog
+            ::showDeleteDialog
         )
 
         mRecordsRecyclerView.apply {
@@ -157,39 +191,5 @@ class HistoryFragment : ActionBarFragment(),
 
             adapter = mViewAdapter
         }
-    }
-
-    private fun showDialog(itemIndex: Int) {
-
-        val dialog = AlertDialog.Builder(context!!)
-            .setIcon(android.R.drawable.ic_delete)
-            .setTitle("Are you sure?")
-            .setMessage("Are you sure you want to delete this record?")
-            .setPositiveButton("Yes", this)
-            .setNegativeButton("No", null)
-
-        chosenRecordIndex = itemIndex
-
-        dialog.show()
-    }
-
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-
-        if (chosenRecordIndex == -1) {
-
-            return
-        }
-
-        val recordTime = mRecords[chosenRecordIndex].workingTime.toLong()
-
-        val snack =
-            Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_SHORT)
-        snack.show()
-
-        recordsListViewModel?.deleteRecord(
-            mItemIds[chosenRecordIndex],
-            recordTime,
-            mRecords[chosenRecordIndex].activityId
-        )
     }
 }

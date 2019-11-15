@@ -19,8 +19,8 @@ import kotlinx.android.synthetic.main.partial_activities_list_item.view.totalHou
 
 class ActivitiesListAdapter(
     private val dataset: ArrayList<TimeoActivity>,
-    private val onClickCallback: (Int) -> Unit,
-    private val createRecordCallback: (Int, Int) -> Unit
+    private val createRecord: (Int, Int) -> Unit = { _, _ -> },
+    private val navigateToDetails: (Int) -> Unit = {}
 ) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
 
     inner class ViewHolder(val layout: ConstraintLayout) : RecyclerView.ViewHolder(layout),
@@ -31,7 +31,7 @@ class ActivitiesListAdapter(
         }
 
         override fun onClick(v: View?) {
-            onClickCallback(adapterPosition)
+            navigateToDetails(adapterPosition)
         }
     }
 
@@ -70,8 +70,8 @@ class ActivitiesListAdapter(
                     val dialog =
                         RecordActivityDialog(
                             context,
-                            createRecordCallback,
-                            position
+                            position,
+                            createRecord
                         )
 
                     dialog.show()

@@ -24,8 +24,7 @@ import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActi
 import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityView
 import kotlinx.android.synthetic.main.partial_activities_list.view.listLoader
 
-class ActivitiesListFragment : ActionBarFragment(),
-    ScrollDownListener.OnScrolledDownListener {
+class ActivitiesListFragment : ActionBarFragment() {
 
     private lateinit var mLoader: FrameLayout
 
@@ -92,31 +91,13 @@ class ActivitiesListFragment : ActionBarFragment(),
             }
         }
 
-        setupRecyclerView()
-        mRecyclerView.addOnScrollListener(ScrollDownListener(this))
-
-        getActivities()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        addOptionsMenu(menu, inflater, R.menu.action_bar_main)
-    }
-
-    override fun onScrolledDown() {
-
-        getActivities()
-    }
-
-    private fun setupRecyclerView() {
-
         val viewManager = LinearLayoutManager(context)
 
         mViewAdapter =
             ActivitiesListAdapter(
                 mActivities,
-                ::navigateToDetails,
-                ::createRecord
+                ::createRecord,
+                ::navigateToDetails
             )
 
         mRecyclerView.apply {
@@ -125,6 +106,15 @@ class ActivitiesListFragment : ActionBarFragment(),
 
             adapter = mViewAdapter
         }
+
+        mRecyclerView.addOnScrollListener(ScrollDownListener(::getActivities))
+
+        getActivities()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        addOptionsMenu(menu, inflater, R.menu.action_bar_main)
     }
 
     private fun getActivities() {

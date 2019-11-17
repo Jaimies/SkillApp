@@ -6,7 +6,7 @@ import java.util.Calendar
 import java.util.Date
 
 @Keep
-data class TimeoRecord(
+data class Record(
     val title: String,
     val workingTime: Int = 0,
     val activityId: String = "",

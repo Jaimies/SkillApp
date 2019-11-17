@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import com.jdevs.timeo.utilities.TAG
+import com.jdevs.timeo.utils.TAG
 import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
 
 class OverviewFragment : Fragment() {
@@ -18,17 +18,6 @@ class OverviewFragment : Fragment() {
     private val mAuth = FirebaseAuth.getInstance()
 
     private var mUser = mAuth.currentUser
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val user = mUser
-
-        if (user == null || user.providerId == "") {
-
-            signInAnonymously()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +30,13 @@ class OverviewFragment : Fragment() {
         view.apply {
 
             mLoader = spinningProgressBar
+        }
+
+        val user = mUser
+
+        if (user == null || user.providerId == "") {
+
+            signInAnonymously()
         }
 
         // Inflate the layout for this fragment

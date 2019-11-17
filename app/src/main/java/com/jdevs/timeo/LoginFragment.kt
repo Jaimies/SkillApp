@@ -33,9 +33,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
-import com.jdevs.timeo.models.AuthenticationFragment
-import com.jdevs.timeo.utilities.KeyboardUtility.Companion.hideKeyboard
-import com.jdevs.timeo.utilities.TAG
+import com.jdevs.timeo.models.AuthFragment
+import com.jdevs.timeo.utils.Keyboard.Companion.hide
+import com.jdevs.timeo.utils.TAG
 import kotlinx.android.synthetic.main.fragment_login.view.emailEditText
 import kotlinx.android.synthetic.main.fragment_login.view.emailTextInputLayout
 import kotlinx.android.synthetic.main.fragment_login.view.googleSignInButton
@@ -46,7 +46,7 @@ import kotlinx.android.synthetic.main.fragment_login.view.passwordTextInputLayou
 import kotlinx.android.synthetic.main.fragment_login.view.signupTextView
 import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
 
-class LoginFragment : AuthenticationFragment(),
+class LoginFragment : AuthFragment(),
     View.OnClickListener,
     View.OnKeyListener,
     OnCompleteListener<AuthResult> {
@@ -146,7 +146,7 @@ class LoginFragment : AuthenticationFragment(),
 
         view.rootView.setOnClickListener {
 
-            hideKeyboard(activity)
+            hide(activity)
         }
 
         view.googleSignInButton.setOnClickListener {

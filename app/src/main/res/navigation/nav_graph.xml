@@ -3,16 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/overviewFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/overviewFragment"
         android:name="com.jdevs.timeo.OverviewFragment"
         android:label="Timeo - home"
         tools:layout="@layout/fragment_overview">
-        <action
-            android:id="@+id/viewCreateActivityFragment"
-            app:destination="@id/createActivityFragment" />
         <action
             android:id="@+id/action_showActivityDetails"
             app:destination="@id/activityDetailsFragment"
@@ -20,25 +17,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_showHistory"
-            app:destination="@id/historyFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_showCreateActivityFragment"
-            app:destination="@id/createActivityFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_login"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
@@ -97,9 +75,9 @@
         tools:layout="@layout/fragment_history" />
     <fragment
         android:id="@+id/activitiesListFragment"
-        android:name="com.jdevs.timeo.ActivitiesListFragment"
+        android:name="com.jdevs.timeo.ActivityListFragment"
         android:label="Your activities"
-        tools:layout="@layout/fragment_task_list">
+        tools:layout="@layout/fragment_activity_list">
         <action
             android:id="@+id/action_showActivityDetails"
             app:destination="@id/activityDetailsFragment"
@@ -152,7 +130,7 @@
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_logout"
-            app:destination="@id/homeFragment"
+            app:destination="@id/overviewFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popUpTo="@id/nav_graph"
@@ -182,7 +160,7 @@
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
+            app:destination="@id/overviewFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popUpTo="@id/nav_graph"
@@ -201,7 +179,7 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_signupFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
+            app:destination="@id/overviewFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popUpTo="@id/nav_graph"

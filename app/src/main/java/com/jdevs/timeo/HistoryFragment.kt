@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.adapters.RecordsListAdapter
 import com.jdevs.timeo.data.RecordOperation
-import com.jdevs.timeo.data.TimeoRecord
+import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodels.RecordsListViewModel
@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.partial_records_list.view.recordsRecyclerV
 class HistoryFragment : ActionBarFragment(),
     DialogInterface.OnClickListener {
 
-    private val mRecords = ArrayList<TimeoRecord>()
+    private val mRecords = ArrayList<Record>()
     private val mItemIds = ArrayList<String>()
 
     private var recordsListViewModel: RecordsListViewModel? = null
@@ -147,7 +147,7 @@ class HistoryFragment : ActionBarFragment(),
         }
     }
 
-    private fun addRecord(record: TimeoRecord, id: String) {
+    private fun addRecord(record: Record, id: String) {
         mRecords.add(record)
         mItemIds.add(id)
         mViewAdapter.notifyItemInserted(mRecords.size - 1)
@@ -165,7 +165,7 @@ class HistoryFragment : ActionBarFragment(),
         mViewAdapter.notifyItemRemoved(index)
     }
 
-    private fun modifyRecord(record: TimeoRecord, id: String) {
+    private fun modifyRecord(record: Record, id: String) {
         val index =
             mRecords.withIndex().filterIndexed { index, _ -> mItemIds[index] == id }
                 .map { it.index }

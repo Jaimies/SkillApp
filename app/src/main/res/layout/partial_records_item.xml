@@ -8,20 +8,18 @@
     android:paddingEnd="@dimen/default_margin">
 
     <TextView
-        android:id="@+id/activityNameTextView"
+        android:id="@+id/nameTextView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:paddingEnd="@dimen/default_margin"
         android:singleLine="true"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        app:layout_constraintEnd_toStartOf="@+id/workTimeTextView"
+        app:layout_constraintEnd_toStartOf="@+id/timeTextView"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="RtlSymmetry"
         tools:text="Activity name" />
 
     <TextView
-        android:id="@+id/workTimeTextView"
+        android:id="@+id/timeTextView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"

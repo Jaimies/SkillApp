@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.models.ActionBarFragment
-import com.jdevs.timeo.utilities.TimeUtility
+import com.jdevs.timeo.utils.Time
 import kotlinx.android.synthetic.main.fragment_activity_details.view.averageTimeTextView
 import kotlinx.android.synthetic.main.fragment_activity_details.view.lastWeekTextView
 import kotlinx.android.synthetic.main.fragment_activity_details.view.mainTextView
@@ -32,17 +32,17 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
         view.totalTimeTextView.apply {
 
-            val totalHours = TimeUtility.minsToHours(args.timeoActivity.totalTime)
+            val totalHours = Time.minsToHours(args.timeoActivity.totalTime)
 
             text = "${totalHours}h"
         }
 
         view.averageTimeTextView.apply {
 
-            val days = TimeUtility.getHoursSinceDate(args.timeoActivity.timestamp)
+            val days = Time.getHoursSinceDate(args.timeoActivity.timestamp)
 
             val avgMins = args.timeoActivity.totalTime / (days + 1)
-            val avgHours = TimeUtility.minsToHours(avgMins)
+            val avgHours = Time.minsToHours(avgMins)
 
             text = "${avgHours}h"
         }
@@ -58,7 +58,7 @@ class ActivityDetailsFragment : ActionBarFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        addOptionsMenu(menu, inflater, R.menu.action_bar_activity_details)
+        createOptionsMenu(menu, inflater, R.menu.action_bar_activity_details)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

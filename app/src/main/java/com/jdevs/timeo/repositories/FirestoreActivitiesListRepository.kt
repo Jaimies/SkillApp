@@ -1,4 +1,4 @@
-package com.jdevs.timeo.viewmodels
+package com.jdevs.timeo.repositories
 
 import android.util.Log
 import com.google.android.gms.tasks.OnFailureListener
@@ -9,10 +9,11 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.data.TimeoRecord
+import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.livedata.ActivitiesListLiveData
-import com.jdevs.timeo.utilities.ACTIVITIES_FETCH_LIMIT
-import com.jdevs.timeo.utilities.TAG
+import com.jdevs.timeo.utils.ACTIVITIES_FETCH_LIMIT
+import com.jdevs.timeo.utils.TAG
+import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
 
 class FirestoreActivitiesListRepository :
     ActivitiesListViewModel.ActivitiesListRepository,
@@ -47,7 +48,7 @@ class FirestoreActivitiesListRepository :
 
     override fun createRecord(activityName: String, workingTime: Int, activityId: String) {
 
-        val record = TimeoRecord(activityName, workingTime, activityId)
+        val record = Record(activityName, workingTime, activityId)
 
         recordsRef.add(record)
 

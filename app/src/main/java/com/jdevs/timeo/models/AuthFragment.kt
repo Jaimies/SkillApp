@@ -12,9 +12,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.jdevs.timeo.utilities.KeyboardUtility.Companion.hideKeyboard
+import com.jdevs.timeo.utils.Keyboard.Companion.hide
 
-open class AuthenticationFragment : Fragment() {
+open class AuthFragment : Fragment() {
 
     fun showLoader(
         spinningProgressBar: FrameLayout,
@@ -22,7 +22,7 @@ open class AuthenticationFragment : Fragment() {
         button: Button? = null
     ) {
 
-        hideKeyboard(activity)
+        hide(activity)
 
         spinningProgressBar.apply {
 

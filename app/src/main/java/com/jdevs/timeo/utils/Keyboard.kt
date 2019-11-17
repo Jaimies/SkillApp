@@ -1,14 +1,14 @@
-package com.jdevs.timeo.utilities
+package com.jdevs.timeo.utils
 
 import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
-open class KeyboardUtility {
+open class Keyboard {
 
     companion object {
 
-        fun hideKeyboard(activity: Activity?) {
+        fun hide(activity: Activity?) {
 
             if (activity == null) {
 

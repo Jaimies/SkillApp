@@ -17,9 +17,9 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.models.ActionBarFragment
-import com.jdevs.timeo.utilities.KeyboardUtility.Companion.hideKeyboard
-import com.jdevs.timeo.utilities.TAG
-import com.jdevs.timeo.viewmodels.FirestoreActivitiesListRepository
+import com.jdevs.timeo.repositories.FirestoreActivitiesListRepository
+import com.jdevs.timeo.utils.Keyboard.Companion.hide
+import com.jdevs.timeo.utils.TAG
 import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.deleteButton
 import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.iconEditText
@@ -31,7 +31,8 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
     OnFailureListener {
     private val args: CreateOrEditActivityFragmentArgs by navArgs()
 
-    private val firestoreActivitiesListRepository = FirestoreActivitiesListRepository()
+    private val firestoreActivitiesListRepository =
+        FirestoreActivitiesListRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +44,7 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
 
         view.rootView.setOnClickListener {
 
-            hideKeyboard(activity)
+            hide(activity)
         }
 
         requireActivity().toolbar.apply {
@@ -139,7 +140,7 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        addOptionsMenu(menu, inflater, R.menu.action_bar_create_activity)
+        createOptionsMenu(menu, inflater, R.menu.action_bar_create_activity)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -192,7 +193,7 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
             findNavController().navigate(R.id.action_returnToHomeFragment)
         }
 
-        hideKeyboard(activity)
+        hide(activity)
     }
 
     private fun showDeleteDialog(view: View, context: Context) {

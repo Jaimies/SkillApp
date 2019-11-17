@@ -14,7 +14,7 @@ open class ActionBarFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    fun addOptionsMenu(menu: Menu, inflater: MenuInflater, id: Int) {
+    fun createOptionsMenu(menu: Menu, inflater: MenuInflater, id: Int) {
 
         inflater.inflate(id, menu)
 

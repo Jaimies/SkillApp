@@ -12,8 +12,8 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.ActivityOperation
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.utilities.ACTIVITIES_FETCH_LIMIT
-import com.jdevs.timeo.utilities.TAG
+import com.jdevs.timeo.utils.ACTIVITIES_FETCH_LIMIT
+import com.jdevs.timeo.utils.TAG
 
 class ActivitiesListLiveData(
     private val query: Query,

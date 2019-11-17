@@ -10,8 +10,8 @@ import android.view.View
 import android.widget.EditText
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
-import com.jdevs.timeo.utilities.ScreenUtility
-import com.jdevs.timeo.utilities.TimeUtility
+import com.jdevs.timeo.utils.Screen
+import com.jdevs.timeo.utils.Time
 import kotlinx.android.synthetic.main.dialog_record_activity.addButton
 import kotlinx.android.synthetic.main.dialog_record_activity.hoursEditText
 import kotlinx.android.synthetic.main.dialog_record_activity.minutesEditText
@@ -31,7 +31,7 @@ class RecordActivityDialog(
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_record_activity)
 
-        val dimensions = ScreenUtility.getDimensions(context)
+        val dimensions = Screen.getDimensions(context)
 
         val width = (dimensions.widthPixels * DIALOG_WIDTH).roundToInt()
 
@@ -49,20 +49,11 @@ class RecordActivityDialog(
             minutesEditText.clearFocus()
         }
 
-        hoursEditText.apply {
+        hoursEditText.onFocusChangeListener = this
 
-            onFocusChangeListener = this@RecordActivityDialog
-        }
+        minutesEditText.onFocusChangeListener = this
 
-        minutesEditText.apply {
-
-            onFocusChangeListener = this@RecordActivityDialog
-        }
-
-        addButton.setOnClickListener {
-
-            submit()
-        }
+        addButton.setOnClickListener { submit() }
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
@@ -110,7 +101,7 @@ class RecordActivityDialog(
         val hours = hoursEditText.text.toString().toIntOrNull() ?: 0
         val minutes = minutesEditText.text.toString().toIntOrNull() ?: return
 
-        val time = TimeUtility.timeToMins(Pair(hours, minutes))
+        val time = Time.timeToMins(Pair(hours, minutes))
 
         createRecord(index, time)
 

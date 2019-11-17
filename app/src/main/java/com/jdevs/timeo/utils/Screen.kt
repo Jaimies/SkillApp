@@ -1,11 +1,11 @@
-package com.jdevs.timeo.utilities
+package com.jdevs.timeo.utils
 
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.util.DisplayMetrics
 import android.view.WindowManager
 
-open class ScreenUtility {
+class Screen {
     companion object {
         fun getDimensions(context: Context): DisplayMetrics {
 

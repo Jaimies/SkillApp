@@ -1,4 +1,4 @@
-package com.jdevs.timeo.viewmodels
+package com.jdevs.timeo.repositories
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -6,7 +6,8 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.livedata.RecordsListLiveData
-import com.jdevs.timeo.utilities.RECORDS_FETCH_LIMIT
+import com.jdevs.timeo.utils.RECORDS_FETCH_LIMIT
+import com.jdevs.timeo.viewmodels.RecordsListViewModel
 
 class FirestoreRecordsListRepository :
     RecordsListViewModel.RecordsListRepository,

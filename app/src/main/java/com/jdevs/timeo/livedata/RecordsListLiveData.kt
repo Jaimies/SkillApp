@@ -11,9 +11,9 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.RecordOperation
-import com.jdevs.timeo.data.TimeoRecord
-import com.jdevs.timeo.utilities.RECORDS_FETCH_LIMIT
-import com.jdevs.timeo.utilities.TAG
+import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.utils.RECORDS_FETCH_LIMIT
+import com.jdevs.timeo.utils.TAG
 
 class RecordsListLiveData(
     private val query: Query,
@@ -72,11 +72,11 @@ class RecordsListLiveData(
     private fun processDocumentChange(documentChange: DocumentChange) {
         val record = try {
 
-            documentChange.document.toObject(TimeoRecord::class.java)
+            documentChange.document.toObject(Record::class.java)
         } catch (e: RuntimeException) {
 
             e.printStackTrace()
-            TimeoRecord()
+            Record()
         }
 
         val documentId = documentChange.document.id

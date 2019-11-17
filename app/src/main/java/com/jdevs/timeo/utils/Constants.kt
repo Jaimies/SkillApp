@@ -1,4 +1,4 @@
-package com.jdevs.timeo.utilities
+package com.jdevs.timeo.utils
 
 const val TAG = "Timeo"
 

@@ -1,10 +1,10 @@
-package com.jdevs.timeo.utilities
+package com.jdevs.timeo.utils
 
 import org.joda.time.DateTime
 import org.joda.time.Days
 import java.util.Date
 
-class TimeUtility {
+class Time {
 
     companion object {
 

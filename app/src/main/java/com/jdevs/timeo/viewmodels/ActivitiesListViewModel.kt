@@ -3,9 +3,11 @@ package com.jdevs.timeo.viewmodels
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.livedata.ActivitiesListLiveData
+import com.jdevs.timeo.repositories.FirestoreActivitiesListRepository
 
 class ActivitiesListViewModel : ViewModel() {
-    private val activitiesListRepository = FirestoreActivitiesListRepository()
+    private val activitiesListRepository =
+        FirestoreActivitiesListRepository()
 
     fun getActivitiesListLiveData(): ActivitiesListLiveData? {
         return activitiesListRepository.getActivitiesListLiveData()

@@ -19,6 +19,6 @@ class AchievementsFragment : ActionBarFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        addOptionsMenu(menu, inflater, R.menu.action_bar_achievements)
+        createOptionsMenu(menu, inflater, R.menu.action_bar_achievements)
     }
 }

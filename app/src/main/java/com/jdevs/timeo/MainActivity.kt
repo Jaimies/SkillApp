@@ -14,7 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.jdevs.timeo.utilities.KeyboardUtility
+import com.jdevs.timeo.utils.Keyboard
 import kotlinx.android.synthetic.main.activity_main.bottomNavView
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navView
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
     private val mainDestinations by lazy {
-        setOf(R.id.homeFragment, R.id.activitiesListFragment, R.id.statsFragment)
+        setOf(R.id.overviewFragment, R.id.activitiesListFragment, R.id.statsFragment)
     }
 
     private val allTopLevelDestinations by lazy {
@@ -53,25 +53,14 @@ class MainActivity : AppCompatActivity(),
             drawerLayout
         )
 
-        mToggle = object : ActionBarDrawerToggle(
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        mToggle = ActionBarDrawerToggle(
             this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        ) {
-
-            override fun onDrawerOpened(drawerView: View) {
-                super.onDrawerOpened(drawerView)
-                syncState()
-            }
-
-            override fun onDrawerClosed(drawerView: View) {
-                super.onDrawerClosed(drawerView)
-                syncState()
-            }
-        }
+        )
 
         drawerLayout.addDrawerListener(mToggle)
         mToggle.syncState()
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
 
         navView.setupWithNavController(navController)
 
@@ -128,7 +117,7 @@ class MainActivity : AppCompatActivity(),
         arguments: Bundle?
     ) {
 
-        KeyboardUtility.hideKeyboard(this)
+        Keyboard.hide(this)
 
         val id = destination.id
 
@@ -144,7 +133,6 @@ class MainActivity : AppCompatActivity(),
     override fun onBackPressed() {
 
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-
             drawerLayout.closeDrawer(GravityCompat.START)
 
             return

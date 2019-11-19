@@ -11,14 +11,12 @@ import java.util.Date
 @Keep
 @Parcelize
 data class TimeoActivity(
-    var title: String = "",
+    var name: String = "",
     var icon: String = "",
     var totalTime: Int = 0,
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
 ) : Parcelable {
-
     constructor() : this("", "") {
-
         timestamp = Calendar.getInstance().time
     }
 }

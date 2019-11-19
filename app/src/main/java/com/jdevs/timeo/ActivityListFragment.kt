@@ -27,24 +27,20 @@ import kotlinx.android.synthetic.main.partial_activities_list.view.listLoader
 class ActivityListFragment : ActionBarFragment() {
 
     private lateinit var mLoader: FrameLayout
-
     private lateinit var mActivitiesRecyclerView: RecyclerView
     private lateinit var mCreateNewActivityView: LinearLayout
     private lateinit var mCreateNewActivityButton: Button
+    private lateinit var mRecyclerView: RecyclerView
 
     private val activityList = ArrayList<TimeoActivity>()
     private val idList = ArrayList<String>()
-    private lateinit var mRecyclerView: RecyclerView
 
-    private lateinit var mViewAdapter: ActivitiesListAdapter
+    private val mViewAdapter: ActivitiesListAdapter by lazy {
+        ActivitiesListAdapter(activityList, ::createRecord, ::navigateToDetails)
+    }
 
-    private var activitiesListViewModel: ActivitiesListViewModel? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        activitiesListViewModel =
-            ViewModelProviders.of(this).get(ActivitiesListViewModel::class.java)
+    private val activitiesListViewModel: ActivitiesListViewModel? by lazy {
+        ViewModelProviders.of(this).get(ActivitiesListViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -67,20 +63,6 @@ class ActivityListFragment : ActionBarFragment() {
             mRecyclerView = activitiesRecyclerView
         }
 
-        setupActivityListener()
-
-        return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        activityList.clear()
-        idList.clear()
-    }
-
-    private fun setupActivityListener() {
-
         mLoader.apply {
             visibility = View.VISIBLE
         }
@@ -91,13 +73,6 @@ class ActivityListFragment : ActionBarFragment() {
 
         val linearLayoutManager = LinearLayoutManager(context)
 
-        mViewAdapter =
-            ActivitiesListAdapter(
-                activityList,
-                ::createRecord,
-                ::navigateToDetails
-            )
-
         mRecyclerView.apply {
 
             layoutManager = linearLayoutManager
@@ -107,6 +82,15 @@ class ActivityListFragment : ActionBarFragment() {
         mRecyclerView.addOnScrollListener(ScrollDownListener(::getActivities))
 
         getActivities()
+
+        return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        activityList.clear()
+        idList.clear()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -209,6 +193,6 @@ class ActivityListFragment : ActionBarFragment() {
     }
 
     private fun createRecord(index: Int, time: Int) {
-        activitiesListViewModel?.createRecord(activityList[index].title, time, idList[index])
+        activitiesListViewModel?.createRecord(activityList[index].name, time, idList[index])
     }
 }

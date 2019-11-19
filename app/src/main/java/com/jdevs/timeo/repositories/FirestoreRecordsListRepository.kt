@@ -6,7 +6,12 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.livedata.RecordsListLiveData
-import com.jdevs.timeo.utils.RECORDS_FETCH_LIMIT
+import com.jdevs.timeo.util.ACTIVITIES_COLLECTION
+import com.jdevs.timeo.util.ACTIVITIES_TOTAL_TIME_PROPERTY
+import com.jdevs.timeo.util.RECORDS_COLLECTION
+import com.jdevs.timeo.util.RECORDS_FETCH_LIMIT
+import com.jdevs.timeo.util.RECORDS_TIMESTAMP_PROPERTY
+import com.jdevs.timeo.util.USERS_COLLECTION
 import com.jdevs.timeo.viewmodels.RecordsListViewModel
 
 class FirestoreRecordsListRepository :
@@ -14,15 +19,21 @@ class FirestoreRecordsListRepository :
     RecordsListLiveData.OnLastRecordReachedCallback,
     RecordsListLiveData.OnLastVisibleRecordCallback {
 
-    private val firestore by lazy { FirebaseFirestore.getInstance() }
-    private val auth by lazy { FirebaseAuth.getInstance() }
+    private val firestore = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
-    private val recordsRef by lazy { firestore.collection("/users/${auth.currentUser!!.uid}/records") }
-    private val activitiesRef by lazy { firestore.collection("/users/${auth.currentUser!!.uid}/activities") }
+    private val recordsRef = firestore
+        .collection("/$USERS_COLLECTION/${auth.currentUser!!.uid}/$RECORDS_COLLECTION")
 
-    private var query = recordsRef.orderBy("timestamp", Query.Direction.DESCENDING).limit(
-        RECORDS_FETCH_LIMIT
-    )
+    private val activitiesRef by lazy {
+        firestore
+            .collection("/$USERS_COLLECTION/${auth.currentUser!!.uid}/$ACTIVITIES_COLLECTION")
+    }
+
+
+    private var query = recordsRef
+        .orderBy(RECORDS_TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
+        .limit(RECORDS_FETCH_LIMIT)
 
     private var isLastRecordReached = false
     private var lastVisibleRecord: DocumentSnapshot? = null
@@ -48,7 +59,7 @@ class FirestoreRecordsListRepository :
 
         activitiesRef.document(activityId)
             .update(
-                "totalTime",
+                ACTIVITIES_TOTAL_TIME_PROPERTY,
                 FieldValue.increment(-recordTime)
             )
     }
@@ -61,3 +72,4 @@ class FirestoreRecordsListRepository :
         this.lastVisibleRecord = lastVisibleRecord
     }
 }
+

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.RecordActivityDialog
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.utils.Time
+import com.jdevs.timeo.util.Time
 import kotlinx.android.synthetic.main.partial_activities_item.view.listItemTitle
 import kotlinx.android.synthetic.main.partial_activities_item.view.plusButton
 import kotlinx.android.synthetic.main.partial_activities_item.view.totalHoursTextView
@@ -63,7 +63,7 @@ class ActivitiesListAdapter(
 
             listItemTitle.apply {
 
-                text = activity.title
+                text = activity.name
             }
 
             plusButton.apply {

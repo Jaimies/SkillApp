@@ -1,69 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ProfileFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
-        android:gravity="center_horizontal"
-        android:text="Profile"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+        <variable
+            name="viewmodel"
+            type="com.jdevs.timeo.viewmodels.ProfileFragmentViewModel" />
+    </data>
 
     <LinearLayout
-        android:id="@+id/logoutLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
-        android:gravity="center_horizontal"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        tools:context=".ProfileFragment">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You are logged in"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+            android:layout_marginTop="@dimen/default_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/profile"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
 
-        <TextView
-            android:id="@+id/userEmailEditText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="User email" />
+            android:layout_marginTop="@dimen/default_margin"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:hideIf="@{!viewmodel.isUserLoggedIn}">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/logged_in"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewmodel.userEmail}"
+                tools:text="User email" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewmodel.navigator.logout()}"
+                android:text="@string/logout" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout" />
+            android:layout_marginTop="@dimen/default_margin"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:hideIf="@{viewmodel.isUserLoggedIn}"
+            tools:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/not_logged_in"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewmodel.navigator.login()}"
+                android:text="@string/login" />
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/loginLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="You are not logged in"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login" />
-    </LinearLayout>
-
-</LinearLayout>
+</layout>

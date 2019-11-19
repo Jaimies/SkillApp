@@ -5,17 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fragment_profile.view.loginButton
-import kotlinx.android.synthetic.main.fragment_profile.view.loginLayout
-import kotlinx.android.synthetic.main.fragment_profile.view.logoutButton
-import kotlinx.android.synthetic.main.fragment_profile.view.logoutLayout
-import kotlinx.android.synthetic.main.fragment_profile.view.userEmailEditText
+import com.jdevs.timeo.databinding.FragmentProfileBinding
+import com.jdevs.timeo.navigators.ProfileNavigator
+import com.jdevs.timeo.viewmodels.ProfileFragmentViewModel
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), ProfileNavigator {
 
     private val mAuth = FirebaseAuth.getInstance()
+
+    private val viewModel by lazy {
+        ViewModelProviders.of(this).get(ProfileFragmentViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,31 +26,25 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        val binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        if (mAuth.currentUser?.isAnonymous == true) {
+        binding.viewmodel = viewModel
 
-            view.loginLayout.visibility = View.VISIBLE
+        viewModel.isUserLoggedIn = !(mAuth.currentUser?.isAnonymous ?: true)
+        viewModel.userEmail = mAuth.currentUser?.email ?: ""
 
-            view.loginButton.setOnClickListener {
-
-                findNavController().navigate(R.id.action_login)
-            }
-        } else {
-
-            view.logoutButton.setOnClickListener {
-
-                FirebaseAuth.getInstance().signOut()
-
-                findNavController().navigate(R.id.action_logout)
-            }
-
-            view.logoutLayout.visibility = View.VISIBLE
-
-            view.userEmailEditText.text = "Your email: ${mAuth.currentUser?.email}"
-        }
+        viewModel.navigator = this
 
         // Inflate the layout for this fragment
-        return view
+        return binding.root
+    }
+
+    override fun login() {
+        findNavController().navigate(R.id.action_login)
+    }
+
+    override fun logout() {
+        FirebaseAuth.getInstance().signOut()
+        findNavController().navigate(R.id.action_logout)
     }
 }

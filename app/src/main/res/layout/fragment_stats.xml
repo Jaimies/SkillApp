@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Stats"
+        android:text="@string/stats"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
 </FrameLayout>

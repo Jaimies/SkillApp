@@ -1,4 +1,4 @@
-package com.jdevs.timeo.utils
+package com.jdevs.timeo.util
 
 import android.app.Activity
 import android.view.View

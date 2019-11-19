@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/overviewFragment"
         android:name="com.jdevs.timeo.OverviewFragment"
-        android:label="Timeo - home"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_overview">
         <action
             android:id="@+id/action_showActivityDetails"
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.jdevs.timeo.StatsFragment"
-        android:label="Stats"
+        android:label="@string/stats"
         tools:layout="@layout/fragment_stats">
         <action
             android:id="@+id/showAchievements"
@@ -71,12 +71,12 @@
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.jdevs.timeo.HistoryFragment"
-        android:label="History"
+        android:label="@string/history"
         tools:layout="@layout/fragment_history" />
     <fragment
         android:id="@+id/activitiesListFragment"
         android:name="com.jdevs.timeo.ActivityListFragment"
-        android:label="Your activities"
+        android:label="@string/your_activities"
         tools:layout="@layout/fragment_activity_list">
         <action
             android:id="@+id/action_showActivityDetails"
@@ -103,12 +103,12 @@
     <fragment
         android:id="@+id/achievementsFragment"
         android:name="com.jdevs.timeo.AchievementsFragment"
-        android:label="My achievements" />
+        android:label="@string/my_achievements" />
     <fragment
         android:id="@+id/activityDetailsFragment"
-        android:name="com.jdevs.timeo.ActivityDetailsFragment"
-        android:label="Activity details"
-        tools:layout="@layout/fragment_activity_details">
+        android:name="com.jdevs.timeo.ActivityDetailFragment"
+        android:label="@string/activity_details"
+        tools:layout="@layout/fragment_activity_detail">
         <argument
             android:name="timeoActivity"
             app:argType="com.jdevs.timeo.data.TimeoActivity" />
@@ -126,7 +126,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.jdevs.timeo.ProfileFragment"
-        android:label="Profile"
+        android:label="@string/profile"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_logout"
@@ -147,7 +147,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.jdevs.timeo.LoginFragment"
-        android:label="Login"
+        android:label="@string/login"
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
@@ -169,7 +169,7 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.jdevs.timeo.SignupFragment"
-        android:label="Sign up">
+        android:label="@string/sign_up">
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -188,6 +188,6 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.jdevs.timeo.SettingsFragment"
-        android:label="Settings"
+        android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

@@ -1,15 +1,11 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.android.application'
-
-apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 apply plugin: 'io.fabric'
-
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
@@ -50,6 +46,10 @@ android {
         main {
             java.srcDirs = ['src/main/java', 'src/main/java/com/jdevs/model']
         }
+    }
+
+    dataBinding {
+        enabled = true
     }
 }
 

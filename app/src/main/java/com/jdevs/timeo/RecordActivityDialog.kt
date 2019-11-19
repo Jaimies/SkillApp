@@ -10,8 +10,8 @@ import android.view.View
 import android.widget.EditText
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
-import com.jdevs.timeo.utils.Screen
-import com.jdevs.timeo.utils.Time
+import com.jdevs.timeo.util.Screen
+import com.jdevs.timeo.util.Time
 import kotlinx.android.synthetic.main.dialog_record_activity.addButton
 import kotlinx.android.synthetic.main.dialog_record_activity.hoursEditText
 import kotlinx.android.synthetic.main.dialog_record_activity.minutesEditText

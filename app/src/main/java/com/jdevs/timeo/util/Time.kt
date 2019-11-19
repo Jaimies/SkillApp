@@ -1,4 +1,4 @@
-package com.jdevs.timeo.utils
+package com.jdevs.timeo.util
 
 import org.joda.time.DateTime
 import org.joda.time.Days

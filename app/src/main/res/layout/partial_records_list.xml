@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:text="There is nothing here yet.."
+        android:text="@string/there_is_nothing_here_yet"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:visibility="gone" />
 

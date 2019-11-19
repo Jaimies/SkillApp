@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="Record time"
+        android:text="@string/record_time"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
     <LinearLayout
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:ems="10"
-            android:hint="hours"
+            android:hint="@string/hours"
             android:importantForAutofill="no"
             android:inputType="number" />
 
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:ems="10"
-            android:hint="minutes"
+            android:hint="@string/minutes"
             android:importantForAutofill="no"
             android:inputType="number" />
     </LinearLayout>
@@ -46,5 +46,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/default_margin"
-        android:text="Add" />
+        android:text="@string/add" />
 </LinearLayout>

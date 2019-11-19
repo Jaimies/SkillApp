@@ -1,4 +1,4 @@
-package com.jdevs.timeo.utils
+package com.jdevs.timeo.util
 
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE

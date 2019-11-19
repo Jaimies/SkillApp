@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.utils.Time
+import com.jdevs.timeo.util.Time
 import kotlinx.android.synthetic.main.partial_records_item.view.nameTextView
 import kotlinx.android.synthetic.main.partial_records_item.view.timeTextView
 

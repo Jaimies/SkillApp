@@ -12,8 +12,8 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.utils.RECORDS_FETCH_LIMIT
-import com.jdevs.timeo.utils.TAG
+import com.jdevs.timeo.util.RECORDS_FETCH_LIMIT
+import com.jdevs.timeo.util.TAG
 
 class RecordsListLiveData(
     private val query: Query,

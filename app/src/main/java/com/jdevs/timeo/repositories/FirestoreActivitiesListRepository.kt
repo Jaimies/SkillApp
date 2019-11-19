@@ -8,11 +8,18 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.livedata.ActivitiesListLiveData
-import com.jdevs.timeo.utils.ACTIVITIES_FETCH_LIMIT
-import com.jdevs.timeo.utils.TAG
+import com.jdevs.timeo.util.ACTIVITIES_ACTIVITY_ID_PROPERTY
+import com.jdevs.timeo.util.ACTIVITIES_COLLECTION
+import com.jdevs.timeo.util.ACTIVITIES_FETCH_LIMIT
+import com.jdevs.timeo.util.ACTIVITIES_NAME_PROPERTY
+import com.jdevs.timeo.util.ACTIVITIES_TIMESTAMP_PROPERTY
+import com.jdevs.timeo.util.ACTIVITIES_TOTAL_TIME_PROPERTY
+import com.jdevs.timeo.util.RECORDS_COLLECTION
+import com.jdevs.timeo.util.TAG
+import com.jdevs.timeo.util.USERS_COLLECTION
 import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
 
 class FirestoreActivitiesListRepository :
@@ -23,11 +30,19 @@ class FirestoreActivitiesListRepository :
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
-    private val activitiesRef = firestore.collection("/users/${auth.currentUser!!.uid}/activities")
-    private val recordsRef = firestore.collection("/users/${auth.currentUser!!.uid}/records")
-    private var query = activitiesRef.orderBy("timestamp", Query.Direction.DESCENDING).limit(
-        ACTIVITIES_FETCH_LIMIT
-    )
+
+    private val activitiesRef = firestore
+        .collection("/$USERS_COLLECTION/${auth.currentUser!!.uid}/$ACTIVITIES_COLLECTION")
+
+    private val recordsRef by lazy {
+        firestore
+            .collection("/$USERS_COLLECTION/${auth.currentUser!!.uid}/$RECORDS_COLLECTION")
+    }
+
+    private var query = activitiesRef
+        .orderBy(ACTIVITIES_TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
+        .limit(ACTIVITIES_FETCH_LIMIT)
+
     private var isLastActivityReached = false
     private var lastVisibleActivity: DocumentSnapshot? = null
 
@@ -53,7 +68,7 @@ class FirestoreActivitiesListRepository :
         recordsRef.add(record)
 
         activitiesRef.document(activityId)
-            .update("totalTime", FieldValue.increment(workingTime.toLong()))
+            .update(ACTIVITIES_TOTAL_TIME_PROPERTY, FieldValue.increment(workingTime.toLong()))
             .addOnFailureListener(this)
     }
 
@@ -61,7 +76,7 @@ class FirestoreActivitiesListRepository :
 
         val activityReference = activitiesRef.document(activityId)
 
-        recordsRef.whereEqualTo("activityId", activityId).get()
+        recordsRef.whereEqualTo(ACTIVITIES_ACTIVITY_ID_PROPERTY, activityId).get()
             .addOnSuccessListener { querySnapshot ->
 
                 val recordReferences = ArrayList<DocumentReference>()
@@ -77,7 +92,7 @@ class FirestoreActivitiesListRepository :
 
                     for (recordReference in recordReferences) {
 
-                        batch.update(recordReference, "title", activity.title)
+                        batch.update(recordReference, ACTIVITIES_NAME_PROPERTY, activity.name)
                     }
                 }
                     .addOnFailureListener(this)

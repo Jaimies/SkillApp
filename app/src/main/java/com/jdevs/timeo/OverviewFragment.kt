@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.jdevs.timeo.util.TAG
-import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
+import kotlinx.android.synthetic.main.circular_loader.view.spinningProgressBar
 
 class OverviewFragment : Fragment() {
 

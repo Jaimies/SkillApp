@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/topbarLayout"
-        layout="@layout/partial_topbar_datetime"
+        layout="@layout/topbar_datetime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +23,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topbarLayout" />
 
-    <include layout="@layout/partial_circular_loader" />
+    <include layout="@layout/circular_loader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,29 +3,29 @@
     <item
         android:id="@+id/overviewFragment"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="@string/home" />
 
     <item
         android:id="@+id/activitiesListFragment"
         android:icon="@drawable/ic_list"
-        android:title="Task list" />
+        android:title="@string/your_activities" />
 
     <item
         android:id="@+id/statsFragment"
         android:icon="@drawable/ic_graph"
-        android:title="Stats" />
+        android:title="@string/stats" />
 
-    <item android:title="Account">
+    <item android:title="@string/account">
         <menu>
             <item
                 android:id="@+id/profileFragment"
                 android:icon="@drawable/ic_account"
-                android:title="Profile" />
+                android:title="@string/profile" />
 
             <item
                 android:id="@+id/settingsFragment"
                 android:icon="@drawable/ic_settings"
-                android:title="Settings" />
+                android:title="@string/settings" />
         </menu>
     </item>
 </menu>

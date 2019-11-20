@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.fragment_signup.view.loginTextView
 import kotlinx.android.synthetic.main.fragment_signup.view.mainLayout
 import kotlinx.android.synthetic.main.fragment_signup.view.passwordEditText
 import kotlinx.android.synthetic.main.fragment_signup.view.passwordTextInputLayout
-import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
+import kotlinx.android.synthetic.main.circular_loader.view.spinningProgressBar
 
 class SignupFragment : AuthFragment(),
     View.OnClickListener,

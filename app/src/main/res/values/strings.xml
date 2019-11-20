@@ -30,4 +30,6 @@
     <string name="history">History</string>
     <string name="your_activities">Your activities</string>
     <string name="activity_details">Activity details</string>
+    <string name="account">Account</string>
+    <string name="home">Home</string>
 </resources>

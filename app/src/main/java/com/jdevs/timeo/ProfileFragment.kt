@@ -31,7 +31,7 @@ class ProfileFragment : Fragment(), ProfileNavigator {
         binding.viewmodel = viewModel
 
         viewModel.isUserLoggedIn = !(mAuth.currentUser?.isAnonymous ?: true)
-        viewModel.userEmail = mAuth.currentUser?.email ?: ""
+        viewModel.userEmail = mAuth.currentUser?.email.orEmpty()
 
         viewModel.navigator = this
 

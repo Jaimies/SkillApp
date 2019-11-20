@@ -81,5 +81,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/partial_circular_loader" />
+    <include layout="@layout/circular_loader" />
 </FrameLayout>

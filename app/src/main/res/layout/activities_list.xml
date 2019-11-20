@@ -37,5 +37,5 @@
 
     <include
         android:id="@+id/listLoader"
-        layout="@layout/partial_circular_loader" />
+        layout="@layout/circular_loader" />
 </FrameLayout>

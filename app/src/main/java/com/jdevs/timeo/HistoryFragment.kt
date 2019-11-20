@@ -19,9 +19,9 @@ import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodels.RecordsListViewModel
-import kotlinx.android.synthetic.main.partial_circular_loader.view.spinningProgressBar
-import kotlinx.android.synthetic.main.partial_records_list.view.createNewActivityTextView
-import kotlinx.android.synthetic.main.partial_records_list.view.recordsRecyclerView
+import kotlinx.android.synthetic.main.circular_loader.view.spinningProgressBar
+import kotlinx.android.synthetic.main.records_list.view.createNewActivityTextView
+import kotlinx.android.synthetic.main.records_list.view.recordsRecyclerView
 
 class HistoryFragment : ActionBarFragment(),
     DialogInterface.OnClickListener {
@@ -95,7 +95,7 @@ class HistoryFragment : ActionBarFragment(),
             return
         }
 
-        val recordTime = mRecords[chosenRecordIndex].workingTime.toLong()
+        val recordTime = mRecords[chosenRecordIndex].time.toLong()
 
         val snack =
             Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_SHORT)

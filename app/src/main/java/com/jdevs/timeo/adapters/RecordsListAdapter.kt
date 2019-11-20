@@ -1,15 +1,18 @@
 package com.jdevs.timeo.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.util.Time
-import kotlinx.android.synthetic.main.partial_records_item.view.nameTextView
-import kotlinx.android.synthetic.main.partial_records_item.view.timeTextView
+import com.jdevs.timeo.databinding.RecordsItemBinding
+import com.jdevs.timeo.navigators.RecordNavigator
+import com.jdevs.timeo.util.randomString
+import com.jdevs.timeo.viewmodels.RecordViewModel
 
 class RecordsListAdapter(
     private val recordList: List<Record>,
@@ -18,10 +21,15 @@ class RecordsListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val layout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.partial_records_item, parent, false) as ConstraintLayout
+        val binding =
+            RecordsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return ViewHolder(layout)
+        val viewModel = ViewModelProviders.of(parent.context as FragmentActivity)
+            .get(randomString(), RecordViewModel::class.java)
+
+        binding.viewmodel = viewModel
+
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -30,31 +38,31 @@ class RecordsListAdapter(
 
     override fun getItemCount() = recordList.size
 
-    inner class ViewHolder(view: ConstraintLayout) : RecyclerView.ViewHolder(view) {
-        private val nameTextView = view.nameTextView
-        private val timeTextView = view.timeTextView
-        private val rootView = view.rootView
+    inner class ViewHolder(private val binding: RecordsItemBinding) :
+        RecyclerView.ViewHolder(binding.root),
+        RecordNavigator {
 
         init {
-            view.setOnLongClickListener {
-                showDeleteDialog(adapterPosition)
-                true
-            }
+            binding.viewmodel?.navigator = this
         }
 
         fun bindRecord(record: Record) {
             val backgroundColorId =
                 if (adapterPosition.rem(2) == 0) R.color.colorListEven else R.color.colorListOdd
 
-            rootView.setBackgroundColor(ContextCompat.getColor(rootView.context, backgroundColorId))
+            binding.root.setBackgroundColor(
+                ContextCompat.getColor(
+                    binding.root.context,
+                    backgroundColorId
+                )
+            )
 
-            nameTextView.apply {
-                text = record.title
-            }
+            binding.viewmodel?.setRecord(record)
+        }
 
-            timeTextView.apply {
-                text = Time.minsToTime(record.workingTime)
-            }
+        override fun deleteRecord(view : View) : Boolean {
+            showDeleteDialog(adapterPosition)
+            return false
         }
     }
 }

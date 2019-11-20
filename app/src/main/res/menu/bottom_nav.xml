@@ -4,15 +4,15 @@
     <item
         android:id="@+id/overviewFragment"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="@string/home" />
 
     <item
         android:id="@+id/activitiesListFragment"
         android:icon="@drawable/ic_today"
-        android:title="Activities" />
+        android:title="@string/your_activities" />
 
     <item
         android:id="@+id/statsFragment"
         android:icon="@drawable/ic_graph"
-        android:title="Stats" />
+        android:title="@string/stats" />
 </menu>

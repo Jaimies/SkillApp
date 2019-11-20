@@ -19,10 +19,10 @@ import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
-import kotlinx.android.synthetic.main.partial_activities_list.view.activitiesRecyclerView
-import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityButton
-import kotlinx.android.synthetic.main.partial_activities_list.view.createNewActivityView
-import kotlinx.android.synthetic.main.partial_activities_list.view.listLoader
+import kotlinx.android.synthetic.main.activities_list.view.activitiesRecyclerView
+import kotlinx.android.synthetic.main.activities_list.view.createNewActivityButton
+import kotlinx.android.synthetic.main.activities_list.view.createNewActivityView
+import kotlinx.android.synthetic.main.activities_list.view.listLoader
 
 class ActivityListFragment : ActionBarFragment() {
 

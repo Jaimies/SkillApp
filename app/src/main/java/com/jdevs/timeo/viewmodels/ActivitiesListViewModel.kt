@@ -16,7 +16,7 @@ class ActivitiesListViewModel : ViewModel() {
     val isEmpty: LiveData<Boolean> get() = _isEmpty
     val isLoaded: LiveData<Boolean> get() = _isLoaded
 
-    var navigator : ActivityListNavigator? = null
+    var navigator: ActivityListNavigator? = null
 
     private val activitiesListRepository =
         FirestoreActivitiesListRepository()
@@ -28,18 +28,18 @@ class ActivitiesListViewModel : ViewModel() {
     }
 
     fun setLength(length: Int) {
-        if(length > 0) {
+        if (length > 0) {
             _isEmpty.value = false
         }
     }
 
-    fun createRecord(activityName: String, workingTime: Int, activityId: String) {
-        activitiesListRepository.createRecord(activityName, workingTime, activityId)
+    fun createRecord(activityName: String, time: Long, activityId: String) {
+        activitiesListRepository.createRecord(activityName, time, activityId)
     }
 
     interface ActivitiesListRepository {
         fun getActivitiesListLiveData(): ActivitiesListLiveData?
-        fun createRecord(activityName: String, workingTime: Int, activityId: String)
+        fun createRecord(activityName: String, time: Long, activityId: String)
         fun updateActivity(activity: TimeoActivity, activityId: String)
         fun createActivity(activity: TimeoActivity)
         fun deleteActivity(activityId: String)

@@ -18,7 +18,7 @@ import com.jdevs.timeo.viewmodels.ActivityViewModel
 
 class ActivitiesListAdapter(
     private val activityList: List<TimeoActivity>,
-    private val createRecord: (Int, Int) -> Unit = { _, _ -> },
+    private val createRecord: (Int, Long) -> Unit = { _, _ -> },
     private val navigateToDetails: (Int) -> Unit = {}
 ) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
 

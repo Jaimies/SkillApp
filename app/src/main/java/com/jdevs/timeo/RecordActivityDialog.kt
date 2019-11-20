@@ -10,8 +10,8 @@ import android.view.View
 import android.widget.EditText
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
+import com.jdevs.timeo.util.getMins
 import com.jdevs.timeo.util.getScreenDimensions
-import com.jdevs.timeo.util.timeToMins
 import kotlinx.android.synthetic.main.dialog_record_activity.addButton
 import kotlinx.android.synthetic.main.dialog_record_activity.hoursEditText
 import kotlinx.android.synthetic.main.dialog_record_activity.minutesEditText
@@ -21,7 +21,7 @@ import kotlin.math.roundToInt
 class RecordActivityDialog(
     context: Context,
     private val index: Int,
-    private val createRecord: (Int, Int) -> Unit = { _, _ -> }
+    private val createRecord: (Int, Long) -> Unit = { _, _ -> }
 ) : Dialog(context),
     View.OnFocusChangeListener,
     OnFailureListener {
@@ -98,10 +98,10 @@ class RecordActivityDialog(
         validateInput(hoursEditText)
         validateInput(minutesEditText)
 
-        val hours = hoursEditText.text.toString().toIntOrNull() ?: 0
-        val minutes = minutesEditText.text.toString().toIntOrNull() ?: return
+        val hours = hoursEditText.text.toString().toLongOrNull() ?: 0
+        val minutes = minutesEditText.text.toString().toLongOrNull() ?: return
 
-        val time = timeToMins(Pair(hours, minutes))
+        val time = Pair(hours, minutes).getMins()
 
         createRecord(index, time)
 

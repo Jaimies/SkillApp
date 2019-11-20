@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.util.getAvgDailyHours
-import com.jdevs.timeo.util.minsToHours
+import com.jdevs.timeo.util.getHours
 
 class ActivityDetailViewModel : ViewModel() {
     private val _name = MutableLiveData("")
@@ -20,8 +20,8 @@ class ActivityDetailViewModel : ViewModel() {
 
     fun setActivity(activity: TimeoActivity) {
         _name.value = activity.name
-        _totalTime.value = minsToHours(activity.totalTime) + "h"
-        _avgDailyTime.value = getAvgDailyHours(activity.timestamp, activity.totalTime) + "h"
+        _totalTime.value = activity.totalTime.getHours() + "h"
+        _avgDailyTime.value = activity.totalTime.getAvgDailyHours(activity.timestamp) + "h"
         _lastWeekTime.value = "42h"
     }
 }

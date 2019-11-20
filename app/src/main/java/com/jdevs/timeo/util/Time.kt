@@ -6,21 +6,21 @@ import java.util.Date
 
 private const val HOUR_MINUTES = 60
 
-fun minsToTime(mins: Int): String {
+fun Long.getFriendlyTime(): String {
 
-    val hours = mins / HOUR_MINUTES
-    val minutes = mins % HOUR_MINUTES
+    val hours = this / HOUR_MINUTES
+    val minutes = this % HOUR_MINUTES
 
     var timeString = ""
 
-    if (hours != 0) {
+    if (hours != 0L) {
 
         timeString += "${hours}h"
     }
 
-    if (minutes != 0) {
+    if (minutes != 0L) {
 
-        if (hours != 0) {
+        if (hours != 0L) {
 
             timeString += " "
         }
@@ -31,35 +31,34 @@ fun minsToTime(mins: Int): String {
     return timeString
 }
 
-fun minsToHours(mins: Long): String {
+fun Long.getHours(): String {
 
-    val time = mins / HOUR_MINUTES.toFloat()
+    val time = this / HOUR_MINUTES.toFloat()
 
     val timeString = "%.1f".format(time)
 
     return if (timeString.takeLast(1) == "0") timeString.dropLast(2) else timeString
 }
 
-fun timeToMins(time: Pair<Int, Int>): Int {
-
-    return time.first * HOUR_MINUTES + time.second
+fun Pair<Long, Long>.getMins(): Long {
+    return first * HOUR_MINUTES + second
 }
 
-fun getDaysSinceDate(date: Date): Int {
+fun Date.getDaysSince(): Int {
 
     val currentTime = DateTime()
 
-    val creationTime = DateTime(date)
+    val creationTime = DateTime(this)
 
     val daysDiff = Days.daysBetween(creationTime, currentTime)
 
     return if (daysDiff.days > 0) daysDiff.days + 1 else 1
 }
 
-fun getAvgDailyHours(timestamp: Date, totalTime: Long): String {
+fun Long.getAvgDailyHours(timestamp: Date): String {
 
-    val daysCount = getDaysSinceDate(timestamp)
-    val avgDailyMins = totalTime / (daysCount + 1)
+    val daysCount = timestamp.getDaysSince()
+    val avgDailyMins = this / (daysCount + 1)
 
-    return minsToHours(avgDailyMins)
+    return avgDailyMins.getHours()
 }

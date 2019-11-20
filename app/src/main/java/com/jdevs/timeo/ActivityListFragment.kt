@@ -162,7 +162,7 @@ class ActivityListFragment : ActionBarFragment(),
         }
     }
 
-    private fun createRecord(index: Int, time: Int) {
+    private fun createRecord(index: Int, time: Long) {
         viewModel.createRecord(activityList[index].name, time, idList[index])
     }
 }

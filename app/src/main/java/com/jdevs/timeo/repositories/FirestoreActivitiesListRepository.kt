@@ -61,14 +61,14 @@ class FirestoreActivitiesListRepository :
         return ActivitiesListLiveData(query, this, this)
     }
 
-    override fun createRecord(activityName: String, workingTime: Int, activityId: String) {
+    override fun createRecord(activityName: String, time: Long, activityId: String) {
 
-        val record = Record(activityName, workingTime, activityId)
+        val record = Record(activityName, time, activityId)
 
         recordsRef.add(record)
 
         activitiesRef.document(activityId)
-            .update(ACTIVITIES_TOTAL_TIME_PROPERTY, FieldValue.increment(workingTime.toLong()))
+            .update(ACTIVITIES_TOTAL_TIME_PROPERTY, FieldValue.increment(time))
             .addOnFailureListener(this)
     }
 

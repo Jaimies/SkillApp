@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.navigators.RecordNavigator
-import com.jdevs.timeo.util.minsToTime
+import com.jdevs.timeo.util.getFriendlyTime
 
 class RecordViewModel : ViewModel() {
     private val _name = MutableLiveData("")
@@ -18,6 +18,6 @@ class RecordViewModel : ViewModel() {
 
     fun setRecord(record: Record) {
         _name.value = record.name
-        _time.value = minsToTime(record.time)
+        _time.value = record.time.getFriendlyTime()
     }
 }

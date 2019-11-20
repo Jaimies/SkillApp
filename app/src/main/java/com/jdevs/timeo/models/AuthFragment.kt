@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.jdevs.timeo.util.Keyboard.Companion.hide
+import com.jdevs.timeo.util.hideKeyboard
 
 open class AuthFragment : Fragment() {
 
@@ -22,7 +22,7 @@ open class AuthFragment : Fragment() {
         button: Button? = null
     ) {
 
-        hide(activity)
+        hideKeyboard(activity)
 
         spinningProgressBar.apply {
 

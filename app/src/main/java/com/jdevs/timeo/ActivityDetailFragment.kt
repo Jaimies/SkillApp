@@ -12,7 +12,8 @@ import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.databinding.FragmentActivityDetailBinding
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.states.ActivityDetailsState
-import com.jdevs.timeo.util.Time
+import com.jdevs.timeo.util.getHoursSinceDate
+import com.jdevs.timeo.util.minsToHours
 
 class ActivityDetailFragment : ActionBarFragment() {
 
@@ -26,11 +27,11 @@ class ActivityDetailFragment : ActionBarFragment() {
 
         val binding = FragmentActivityDetailBinding.inflate(inflater, container, false)
 
-        val totalTime = Time.minsToHours(args.timeoActivity.totalTime) + "h"
-        val daysCount = Time.getHoursSinceDate(args.timeoActivity.timestamp)
+        val totalTime = minsToHours(args.timeoActivity.totalTime) + "h"
+        val daysCount = getHoursSinceDate(args.timeoActivity.timestamp)
 
         val avgDailyMins = args.timeoActivity.totalTime / (daysCount + 1)
-        val avgDailyTime = Time.minsToHours(avgDailyMins) + "h"
+        val avgDailyTime = minsToHours(avgDailyMins) + "h"
 
         val lastWeekTime = "42h"
 

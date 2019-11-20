@@ -14,7 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.jdevs.timeo.util.Keyboard
+import com.jdevs.timeo.util.hideKeyboard
 import kotlinx.android.synthetic.main.activity_main.bottomNavView
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navView
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(),
         arguments: Bundle?
     ) {
 
-        Keyboard.hide(this)
+        hideKeyboard(this)
 
         val id = destination.id
 

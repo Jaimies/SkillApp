@@ -10,8 +10,8 @@ import android.view.View
 import android.widget.EditText
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
-import com.jdevs.timeo.util.Screen
-import com.jdevs.timeo.util.Time
+import com.jdevs.timeo.util.getScreenDimensions
+import com.jdevs.timeo.util.timeToMins
 import kotlinx.android.synthetic.main.dialog_record_activity.addButton
 import kotlinx.android.synthetic.main.dialog_record_activity.hoursEditText
 import kotlinx.android.synthetic.main.dialog_record_activity.minutesEditText
@@ -31,7 +31,7 @@ class RecordActivityDialog(
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_record_activity)
 
-        val dimensions = Screen.getDimensions(context)
+        val dimensions = getScreenDimensions(context)
 
         val width = (dimensions.widthPixels * DIALOG_WIDTH).roundToInt()
 
@@ -101,7 +101,7 @@ class RecordActivityDialog(
         val hours = hoursEditText.text.toString().toIntOrNull() ?: 0
         val minutes = minutesEditText.text.toString().toIntOrNull() ?: return
 
-        val time = Time.timeToMins(Pair(hours, minutes))
+        val time = timeToMins(Pair(hours, minutes))
 
         createRecord(index, time)
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.navigators.ActivityNavigator
-import com.jdevs.timeo.util.Time
+import com.jdevs.timeo.util.minsToHours
 
 class ActivityViewModel : ViewModel() {
     private val _name = MutableLiveData("")
@@ -18,6 +18,6 @@ class ActivityViewModel : ViewModel() {
 
     fun setActivity(activity: TimeoActivity) {
         _name.value = activity.name
-        _totalTime.value = Time.minsToHours(activity.totalTime) + "h"
+        _totalTime.value = minsToHours(activity.totalTime) + "h"
     }
 }

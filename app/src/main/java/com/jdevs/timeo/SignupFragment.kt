@@ -25,8 +25,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.models.AuthFragment
-import com.jdevs.timeo.util.Keyboard.Companion.hide
 import com.jdevs.timeo.util.TAG
+import com.jdevs.timeo.util.hideKeyboard
 import kotlinx.android.synthetic.main.circular_loader.view.spinningProgressBar
 import kotlinx.android.synthetic.main.fragment_signup.view.emailEditText
 import kotlinx.android.synthetic.main.fragment_signup.view.emailTextInputLayout
@@ -93,7 +93,7 @@ class SignupFragment : AuthFragment(),
 
             rootView.setOnClickListener {
 
-                hide(activity)
+                hideKeyboard(activity)
             }
         }
 

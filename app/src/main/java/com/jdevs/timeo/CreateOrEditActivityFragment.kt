@@ -18,8 +18,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.repositories.FirestoreActivitiesListRepository
-import com.jdevs.timeo.util.Keyboard.Companion.hide
 import com.jdevs.timeo.util.TAG
+import com.jdevs.timeo.util.hideKeyboard
 import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.deleteButton
 import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.iconEditText
@@ -44,7 +44,7 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
 
         view.rootView.setOnClickListener {
 
-            hide(activity)
+            hideKeyboard(activity)
         }
 
         requireActivity().toolbar.apply {
@@ -193,7 +193,7 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
             findNavController().navigate(R.id.action_returnToHomeFragment)
         }
 
-        hide(activity)
+        hideKeyboard(activity)
     }
 
     private fun showDeleteDialog(view: View, context: Context) {

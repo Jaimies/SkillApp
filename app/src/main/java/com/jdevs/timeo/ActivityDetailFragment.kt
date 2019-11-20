@@ -7,13 +7,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.databinding.FragmentActivityDetailBinding
 import com.jdevs.timeo.models.ActionBarFragment
-import com.jdevs.timeo.states.ActivityDetailsState
-import com.jdevs.timeo.util.getHoursSinceDate
-import com.jdevs.timeo.util.minsToHours
+import com.jdevs.timeo.viewmodels.ActivityDetailsViewModel
 
 class ActivityDetailFragment : ActionBarFragment() {
 
@@ -25,21 +24,14 @@ class ActivityDetailFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentActivityDetailBinding.inflate(inflater, container, false)
+        val binding = FragmentActivityDetailBinding.inflate(inflater, container, false).also {
 
-        val totalTime = minsToHours(args.timeoActivity.totalTime) + "h"
-        val daysCount = getHoursSinceDate(args.timeoActivity.timestamp)
-
-        val avgDailyMins = args.timeoActivity.totalTime / (daysCount + 1)
-        val avgDailyTime = minsToHours(avgDailyMins) + "h"
-
-        val lastWeekTime = "42h"
-
-        val state =
-            ActivityDetailsState(args.timeoActivity.name, totalTime, avgDailyTime, lastWeekTime)
-
-        binding.lifecycleOwner = this
-        binding.state = state
+            it.lifecycleOwner = this
+            it.viewmodel =
+                ViewModelProviders.of(this).get(ActivityDetailsViewModel::class.java).apply {
+                    setActivity(args.timeoActivity)
+                }
+        }
 
         return binding.root
     }

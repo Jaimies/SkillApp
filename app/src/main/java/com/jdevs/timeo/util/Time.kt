@@ -45,7 +45,7 @@ fun timeToMins(time: Pair<Int, Int>): Int {
     return time.first * HOUR_MINUTES + time.second
 }
 
-fun getHoursSinceDate(date: Date): Int {
+fun getDaysSinceDate(date: Date): Int {
 
     val currentTime = DateTime()
 

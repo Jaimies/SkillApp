@@ -16,35 +16,30 @@ import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.adapters.RecordsListAdapter
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.RecordOperation
+import com.jdevs.timeo.databinding.FragmentHistoryBinding
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodels.RecordsListViewModel
-import kotlinx.android.synthetic.main.circular_loader.view.spinningProgressBar
-import kotlinx.android.synthetic.main.records_list.view.createNewActivityTextView
-import kotlinx.android.synthetic.main.records_list.view.recordsRecyclerView
 
 class HistoryFragment : ActionBarFragment(),
     DialogInterface.OnClickListener {
 
-    private val mRecords = ArrayList<Record>()
-    private val mItemIds = ArrayList<String>()
+    private val recordList = ArrayList<Record>()
+    private val idList = ArrayList<String>()
 
-    private var recordsListViewModel: RecordsListViewModel? = null
+    private val viewModel by lazy {
+        ViewModelProviders.of(this).get(RecordsListViewModel::class.java)
+    }
 
-    private lateinit var mViewAdapter: RecordsListAdapter
+    private val mAdapter by lazy {
+        RecordsListAdapter(recordList, ::showDeleteDialog)
+    }
 
     private lateinit var mLoader: FrameLayout
-    private lateinit var mRecordsRecyclerView: RecyclerView
+    private lateinit var mRecyclerView: RecyclerView
     private lateinit var mCreateNewActivityView: TextView
 
     private var chosenRecordIndex = -1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        recordsListViewModel =
-            ViewModelProviders.of(this).get(RecordsListViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,26 +47,20 @@ class HistoryFragment : ActionBarFragment(),
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_history, container, false)
+        val binding = FragmentHistoryBinding.inflate(inflater, container, false)
 
-        mLoader = view.spinningProgressBar.apply {
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = this
 
-            visibility = View.VISIBLE
-        }
-
-        mRecordsRecyclerView = view.recordsRecyclerView.apply {
-
+        mRecyclerView = binding.recordsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = mAdapter
             addOnScrollListener(ScrollDownListener(::getRecords))
         }
 
-        setupRecyclerView()
-
-        mCreateNewActivityView = view.createNewActivityTextView
-
         getRecords()
 
-        // Inflate the layout for this fragment
-        return view
+        return binding.root
     }
 
     private fun showDeleteDialog(index: Int) {
@@ -95,21 +84,21 @@ class HistoryFragment : ActionBarFragment(),
             return
         }
 
-        val recordTime = mRecords[chosenRecordIndex].time.toLong()
+        val recordTime = recordList[chosenRecordIndex].time.toLong()
 
         val snack =
             Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_SHORT)
         snack.show()
 
-        recordsListViewModel?.deleteRecord(
-            mItemIds[chosenRecordIndex],
+        viewModel.deleteRecord(
+            idList[chosenRecordIndex],
             recordTime,
-            mRecords[chosenRecordIndex].activityId
+            recordList[chosenRecordIndex].activityId
         )
     }
 
     private fun getRecords() {
-        val recordsListLiveData = recordsListViewModel?.getRecordsListLiveData() ?: return
+        val recordsListLiveData = viewModel.recordsListLiveData ?: return
 
         recordsListLiveData.observe(this) { operation: RecordOperation ->
 
@@ -129,67 +118,41 @@ class HistoryFragment : ActionBarFragment(),
                 }
 
                 R.id.OPERATION_LOADED -> {
-                    mLoader.visibility = View.GONE
+                    viewModel.onLoaded()
                 }
             }
 
-            if (mRecords.isEmpty()) {
-
-                if (mCreateNewActivityView.visibility != View.VISIBLE) {
-                    mCreateNewActivityView.visibility = View.VISIBLE
-                }
-            } else {
-
-                if (mCreateNewActivityView.visibility != View.GONE) {
-                    mCreateNewActivityView.visibility = View.GONE
-                }
-            }
+            viewModel.setLength(recordList.size)
         }
     }
 
     private fun addRecord(record: Record, id: String) {
-        mRecords.add(record)
-        mItemIds.add(id)
-        mViewAdapter.notifyItemInserted(mRecords.size - 1)
+        recordList.add(record)
+        idList.add(id)
+        mAdapter.notifyItemInserted(recordList.size - 1)
     }
 
     private fun removeRecord(id: String) {
 
-        val index = mRecords.withIndex().filterIndexed { index, _ -> mItemIds[index] == id }
+        val index = recordList.withIndex().filterIndexed { index, _ -> idList[index] == id }
             .map { it.index }
             .first()
 
-        mRecords.removeAt(index)
-        mItemIds.remove(id)
+        recordList.removeAt(index)
+        idList.remove(id)
 
-        mViewAdapter.notifyItemRemoved(index)
+        mAdapter.notifyItemRemoved(index)
     }
 
     private fun modifyRecord(record: Record, id: String) {
         val index =
-            mRecords.withIndex().filterIndexed { index, _ -> mItemIds[index] == id }
+            recordList.withIndex().filterIndexed { index, _ -> idList[index] == id }
                 .map { it.index }
                 .first()
 
-        mRecords[index] = record
+        recordList[index] = record
 
-        mViewAdapter.notifyItemChanged(index)
+        mAdapter.notifyItemChanged(index)
     }
 
-    private fun setupRecyclerView() {
-
-        val viewManager = LinearLayoutManager(context)
-
-        mViewAdapter = RecordsListAdapter(
-            mRecords,
-            ::showDeleteDialog
-        )
-
-        mRecordsRecyclerView.apply {
-
-            layoutManager = viewManager
-
-            adapter = mViewAdapter
-        }
-    }
 }

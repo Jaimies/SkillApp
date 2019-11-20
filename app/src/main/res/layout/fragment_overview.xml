@@ -8,7 +8,7 @@
     tools:context=".OverviewFragment">
 
     <include
-        android:id="@+id/topbarLayout"
+        android:id="@+id/topbar"
         layout="@layout/topbar_datetime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,8 +21,8 @@
         android:text="@string/overview"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topbarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/topbar" />
 
-    <include layout="@layout/circular_loader" />
+    <include layout="@layout/preloader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -88,6 +88,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/circular_loader" />
+    <include layout="@layout/preloader" />
 
 </FrameLayout>

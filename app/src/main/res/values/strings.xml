@@ -32,4 +32,7 @@
     <string name="activity_details">Activity details</string>
     <string name="account">Account</string>
     <string name="home">Home</string>
+    <string name="total_time">Total time</string>
+    <string name="last_week">Last 7 days</string>
+    <string name="daily_average">Daily average</string>
 </resources>

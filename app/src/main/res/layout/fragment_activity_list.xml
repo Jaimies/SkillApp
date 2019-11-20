@@ -1,12 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".OverviewFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include
-        layout="@layout/activities_list"
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.jdevs.timeo.viewmodels.ActivitiesListViewModel" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+        android:layout_height="match_parent"
+        tools:context=".ActivityListFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activity_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingTop="32dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp"
+            app:hideIf="@{viewmodel.isEmpty}" />
+
+        <LinearLayout
+            android:id="@+id/create_new_activity_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:hideIf="@{!viewmodel.isEmpty}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/there_is_nothing_here_yet" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/create_new_activity_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:onClick="@{() -> viewmodel.navigator.createActivity()}"
+                android:text="@string/create_activity" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/preloader"
+            hideIf="@{viewmodel.isLoaded}"
+            layout="@layout/preloader" />
+    </FrameLayout>
+</layout>

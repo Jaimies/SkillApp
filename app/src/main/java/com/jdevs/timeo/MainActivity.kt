@@ -14,10 +14,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
 import com.jdevs.timeo.util.hideKeyboard
-import kotlinx.android.synthetic.main.activity_main.bottomNavView
+import com.jdevs.timeo.util.lazyUnsynchronized
+import kotlinx.android.synthetic.main.activity_main.bottom_nav_view
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
-import kotlinx.android.synthetic.main.activity_main.navView
+import kotlinx.android.synthetic.main.activity_main.nav_view
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : AppCompatActivity(),
@@ -32,10 +34,11 @@ class MainActivity : AppCompatActivity(),
     }
 
     private lateinit var navController: NavController
-
     private lateinit var appBarConfiguration: AppBarConfiguration
-
     private lateinit var mToggle: ActionBarDrawerToggle
+
+    private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
+    private val navView: NavigationView by lazyUnsynchronized { nav_view }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Timeo)
@@ -77,17 +80,14 @@ class MainActivity : AppCompatActivity(),
         when (item.itemId) {
 
             R.id.addActivity -> {
-
                 navController.navigate(R.id.action_showCreateActivityFragment)
             }
 
             R.id.historyFragment -> {
-
                 navController.navigate(R.id.action_showHistory)
             }
 
             R.id.showAchievements -> {
-
                 navController.navigate(R.id.showAchievements)
             }
 

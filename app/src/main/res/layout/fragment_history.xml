@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HistoryFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include
-        layout="@layout/records_list"
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.jdevs.timeo.viewmodels.RecordsListViewModel" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:context=".HistoryFragment">
 
-    <include layout="@layout/circular_loader" />
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/records_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hideIf="@{viewmodel.isEmpty}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:text="@string/there_is_nothing_here_yet"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:hideIf="@{!viewmodel.isEmpty}" />
+
+        <include
+            android:id="@+id/preloader"
+            layout="@layout/preloader"
+            app:hideIf="@{viewmodel.isLoaded}" />
+    </FrameLayout>
+</layout>

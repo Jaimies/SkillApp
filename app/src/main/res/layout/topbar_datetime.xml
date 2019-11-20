@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/topbarLayout"
+    android:id="@+id/topbar"
     style="@style/Widget.Timeo.TimeBar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/timebar_height"

@@ -6,9 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -16,31 +13,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.adapters.ActivitiesListAdapter
 import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.databinding.FragmentActivityListBinding
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
+import com.jdevs.timeo.navigators.ActivityListNavigator
 import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
-import kotlinx.android.synthetic.main.activities_list.view.activitiesRecyclerView
-import kotlinx.android.synthetic.main.activities_list.view.createNewActivityButton
-import kotlinx.android.synthetic.main.activities_list.view.createNewActivityView
-import kotlinx.android.synthetic.main.activities_list.view.listLoader
 
-class ActivityListFragment : ActionBarFragment() {
+class ActivityListFragment : ActionBarFragment(),
+    ActivityListNavigator {
 
-    private lateinit var mLoader: FrameLayout
-    private lateinit var mActivitiesRecyclerView: RecyclerView
-    private lateinit var mCreateNewActivityView: LinearLayout
-    private lateinit var mCreateNewActivityButton: Button
     private lateinit var mRecyclerView: RecyclerView
 
     private val activityList = ArrayList<TimeoActivity>()
     private val idList = ArrayList<String>()
 
-    private val mViewAdapter: ActivitiesListAdapter by lazy {
+    private val mAdapter: ActivitiesListAdapter by lazy {
         ActivitiesListAdapter(activityList, ::createRecord, ::navigateToDetails)
     }
 
-    private val activitiesListViewModel: ActivitiesListViewModel? by lazy {
-        ViewModelProviders.of(this).get(ActivitiesListViewModel::class.java)
+    private val viewModel by lazy {
+        ViewModelProviders.of(this).get(ActivitiesListViewModel::class.java).also {
+            it.navigator = this
+        }
     }
 
     override fun onCreateView(
@@ -48,42 +42,21 @@ class ActivityListFragment : ActionBarFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val binding =
+            FragmentActivityListBinding.inflate(inflater, container, false).also {
+                it.viewmodel = viewModel
+                it.lifecycleOwner = this
+            }
 
-        val view = inflater.inflate(R.layout.fragment_activity_list, container, false)
-
-        view.apply {
-
-            mLoader = listLoader as FrameLayout
-
-            mActivitiesRecyclerView = activitiesRecyclerView
-
-            mCreateNewActivityView = createNewActivityView
-            mCreateNewActivityButton = createNewActivityButton
-
-            mRecyclerView = activitiesRecyclerView
+        mRecyclerView = binding.activityRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = mAdapter
+            addOnScrollListener(ScrollDownListener(::getActivities))
         }
-
-        mLoader.apply {
-            visibility = View.VISIBLE
-        }
-
-        mCreateNewActivityButton.setOnClickListener {
-            findNavController().navigate(R.id.action_showCreateActivityFragment)
-        }
-
-        val linearLayoutManager = LinearLayoutManager(context)
-
-        mRecyclerView.apply {
-
-            layoutManager = linearLayoutManager
-            adapter = mViewAdapter
-        }
-
-        mRecyclerView.addOnScrollListener(ScrollDownListener(::getActivities))
 
         getActivities()
 
-        return view
+        return binding.root
     }
 
     override fun onStart() {
@@ -94,14 +67,22 @@ class ActivityListFragment : ActionBarFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
         createOptionsMenu(menu, inflater, R.menu.action_bar_activity_list)
     }
 
-    private fun getActivities() {
-        val activitiesListLiveData = activitiesListViewModel?.getActivitiesListLiveData() ?: return
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.navigator = null
+    }
 
-        activitiesListLiveData.observe(this) { operation ->
+    override fun createActivity() {
+        findNavController().navigate(R.id.action_showCreateActivityFragment)
+    }
+
+    private fun getActivities() {
+        val liveData = viewModel.activitiesListLiveData ?: return
+
+        liveData.observe(this) { operation ->
 
             when (operation.type) {
                 R.id.OPERATION_ADDED -> {
@@ -119,21 +100,11 @@ class ActivityListFragment : ActionBarFragment() {
                 }
 
                 R.id.OPERATION_LOADED -> {
-                    mLoader.visibility = View.GONE
+                    viewModel.onLoaded()
                 }
             }
 
-            if (activityList.isEmpty()) {
-
-                if (mCreateNewActivityView.visibility != View.VISIBLE) {
-                    mCreateNewActivityView.visibility = View.VISIBLE
-                }
-            } else {
-
-                if (mCreateNewActivityView.visibility != View.GONE) {
-                    mCreateNewActivityView.visibility = View.GONE
-                }
-            }
+            viewModel.setLength(activityList.size)
         }
     }
 
@@ -145,7 +116,7 @@ class ActivityListFragment : ActionBarFragment() {
 
         activityList.add(activity)
         idList.add(id)
-        mViewAdapter.notifyItemInserted(activityList.size - 1)
+        mAdapter.notifyItemInserted(activityList.size - 1)
     }
 
     private fun removeActivity(id: String) {
@@ -157,7 +128,7 @@ class ActivityListFragment : ActionBarFragment() {
         activityList.removeAt(index)
         idList.removeAt(index)
 
-        mViewAdapter.notifyItemRemoved(index)
+        mAdapter.notifyItemRemoved(index)
     }
 
     private fun modifyActivity(activity: TimeoActivity, id: String) {
@@ -168,7 +139,7 @@ class ActivityListFragment : ActionBarFragment() {
 
         activityList[index] = activity
 
-        mViewAdapter.notifyItemChanged(index)
+        mAdapter.notifyItemChanged(index)
     }
 
     private fun navigateToDetails(index: Int) {
@@ -176,7 +147,6 @@ class ActivityListFragment : ActionBarFragment() {
         val activityId = idList[index]
 
         try {
-
             val action = OverviewFragmentDirections
                 .actionShowActivityDetails(activityList[index], activityId)
 
@@ -193,6 +163,6 @@ class ActivityListFragment : ActionBarFragment() {
     }
 
     private fun createRecord(index: Int, time: Int) {
-        activitiesListViewModel?.createRecord(activityList[index].name, time, idList[index])
+        viewModel.createRecord(activityList[index].name, time, idList[index])
     }
 }

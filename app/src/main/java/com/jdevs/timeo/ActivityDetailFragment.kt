@@ -27,7 +27,6 @@ class ActivityDetailFragment : ActionBarFragment() {
         val binding = FragmentActivityDetailBinding.inflate(inflater, container, false)
 
         val totalTime = Time.minsToHours(args.timeoActivity.totalTime) + "h"
-
         val daysCount = Time.getHoursSinceDate(args.timeoActivity.timestamp)
 
         val avgDailyMins = args.timeoActivity.totalTime / (daysCount + 1)
@@ -52,7 +51,6 @@ class ActivityDetailFragment : ActionBarFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return if (item.itemId == R.id.editActivity) {
-
             val directions = ActivityDetailFragmentDirections.actionEditActivity(
                 true,
                 args.activityId,

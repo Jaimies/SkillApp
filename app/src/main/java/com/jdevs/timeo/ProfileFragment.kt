@@ -10,14 +10,14 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.jdevs.timeo.databinding.FragmentProfileBinding
 import com.jdevs.timeo.navigators.ProfileNavigator
-import com.jdevs.timeo.viewmodels.ProfileFragmentViewModel
+import com.jdevs.timeo.viewmodels.ProfileViewModel
 
 class ProfileFragment : Fragment(), ProfileNavigator {
 
     private val mAuth = FirebaseAuth.getInstance()
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(ProfileFragmentViewModel::class.java)
+        ViewModelProviders.of(this).get(ProfileViewModel::class.java)
     }
 
     override fun onCreateView(

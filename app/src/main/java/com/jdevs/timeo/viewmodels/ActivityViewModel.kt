@@ -8,16 +8,16 @@ import com.jdevs.timeo.navigators.ActivityNavigator
 import com.jdevs.timeo.util.Time
 
 class ActivityViewModel : ViewModel() {
-    private val _name = MutableLiveData("Test")
-    private val _totalTime = MutableLiveData(0)
+    private val _name = MutableLiveData("")
+    private val _totalTime = MutableLiveData("")
+
+    val name: LiveData<String> get() = _name
+    val totalTime: LiveData<String> get() = _totalTime
 
     var navigator: ActivityNavigator? = null
 
-    val name: LiveData<String> get() = _name
-    val totalTime: String get() = Time.minsToHours(_totalTime.value!!) + "h"
-
     fun setActivity(activity: TimeoActivity) {
         _name.value = activity.name
-        _totalTime.value = activity.totalTime
+        _totalTime.value = Time.minsToHours(activity.totalTime) + "h"
     }
 }

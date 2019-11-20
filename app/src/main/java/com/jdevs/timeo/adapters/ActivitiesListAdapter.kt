@@ -2,20 +2,22 @@ package com.jdevs.timeo.adapters
 
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.RecordActivityDialog
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
 import com.jdevs.timeo.navigators.ActivityNavigator
+import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.randomString
 import com.jdevs.timeo.viewmodels.ActivityViewModel
-
 
 class ActivitiesListAdapter(
     private val activityList: List<TimeoActivity>,
@@ -30,12 +32,13 @@ class ActivitiesListAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
-
-        binding.viewmodel = ViewModelProviders.of(parent.context as FragmentActivity).get(
-            randomString(),
-            ActivityViewModel::class.java
-        )
+            ).also {
+                it.viewmodel = ViewModelProviders.of(parent.context as FragmentActivity).get(
+                    randomString(),
+                    ActivityViewModel::class.java
+                )
+                it.lifecycleOwner = parent.context as FragmentActivity
+            }
 
         return ViewHolder(binding)
     }
@@ -52,6 +55,10 @@ class ActivitiesListAdapter(
 
         init {
             binding.viewmodel?.navigator = this
+
+            binding.viewmodel?.name?.observe(binding.root.context as FragmentActivity) {
+                Log.i(TAG, it)
+            }
         }
 
         fun bindActivity(activity: TimeoActivity) {

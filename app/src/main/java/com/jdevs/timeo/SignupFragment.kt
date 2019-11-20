@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.models.AuthFragment
 import com.jdevs.timeo.util.Keyboard.Companion.hide
 import com.jdevs.timeo.util.TAG
+import kotlinx.android.synthetic.main.circular_loader.view.spinningProgressBar
 import kotlinx.android.synthetic.main.fragment_signup.view.emailEditText
 import kotlinx.android.synthetic.main.fragment_signup.view.emailTextInputLayout
 import kotlinx.android.synthetic.main.fragment_signup.view.loginButton
@@ -34,7 +35,6 @@ import kotlinx.android.synthetic.main.fragment_signup.view.loginTextView
 import kotlinx.android.synthetic.main.fragment_signup.view.mainLayout
 import kotlinx.android.synthetic.main.fragment_signup.view.passwordEditText
 import kotlinx.android.synthetic.main.fragment_signup.view.passwordTextInputLayout
-import kotlinx.android.synthetic.main.circular_loader.view.spinningProgressBar
 
 class SignupFragment : AuthFragment(),
     View.OnClickListener,

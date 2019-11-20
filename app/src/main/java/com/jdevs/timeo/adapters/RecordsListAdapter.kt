@@ -22,12 +22,13 @@ class RecordsListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val binding =
-            RecordsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            RecordsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false).also {
 
-        val viewModel = ViewModelProviders.of(parent.context as FragmentActivity)
-            .get(randomString(), RecordViewModel::class.java)
+                it.viewmodel = ViewModelProviders.of(parent.context as FragmentActivity)
+                    .get(randomString(), RecordViewModel::class.java)
 
-        binding.viewmodel = viewModel
+                it.lifecycleOwner = parent.context as FragmentActivity
+            }
 
         return ViewHolder(binding)
     }
@@ -60,7 +61,7 @@ class RecordsListAdapter(
             binding.viewmodel?.setRecord(record)
         }
 
-        override fun deleteRecord(view : View) : Boolean {
+        override fun deleteRecord(view: View): Boolean {
             showDeleteDialog(adapterPosition)
             return false
         }

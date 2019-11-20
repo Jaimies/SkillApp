@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.adapters.RecordsListAdapter
-import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodels.RecordsListViewModel

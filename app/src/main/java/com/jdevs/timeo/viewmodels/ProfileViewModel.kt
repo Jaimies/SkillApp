@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.navigators.ProfileNavigator
 
-class ProfileFragmentViewModel : ViewModel() {
+class ProfileViewModel : ViewModel() {
     @JvmField
     var isUserLoggedIn = false
     @JvmField

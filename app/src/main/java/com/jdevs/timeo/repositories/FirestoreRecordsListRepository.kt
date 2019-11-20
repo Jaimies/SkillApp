@@ -30,7 +30,6 @@ class FirestoreRecordsListRepository :
             .collection("/$USERS_COLLECTION/${auth.currentUser!!.uid}/$ACTIVITIES_COLLECTION")
     }
 
-
     private var query = recordsRef
         .orderBy(RECORDS_TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
         .limit(RECORDS_FETCH_LIMIT)
@@ -72,4 +71,3 @@ class FirestoreRecordsListRepository :
         this.lastVisibleRecord = lastVisibleRecord
     }
 }
-

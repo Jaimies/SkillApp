@@ -10,8 +10,8 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
-import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.util.RECORDS_FETCH_LIMIT
 import com.jdevs.timeo.util.TAG
 

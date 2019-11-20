@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.databinding.FragmentActivityDetailBinding
 import com.jdevs.timeo.models.ActionBarFragment
-import com.jdevs.timeo.viewmodels.ActivityDetailsViewModel
+import com.jdevs.timeo.viewmodels.ActivityDetailViewModel
 
 class ActivityDetailFragment : ActionBarFragment() {
 
@@ -28,7 +28,7 @@ class ActivityDetailFragment : ActionBarFragment() {
 
             it.lifecycleOwner = this
             it.viewmodel =
-                ViewModelProviders.of(this).get(ActivityDetailsViewModel::class.java).apply {
+                ViewModelProviders.of(this).get(ActivityDetailViewModel::class.java).apply {
                     setActivity(args.timeoActivity)
                 }
         }

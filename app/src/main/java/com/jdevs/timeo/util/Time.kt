@@ -31,7 +31,7 @@ fun minsToTime(mins: Int): String {
     return timeString
 }
 
-fun minsToHours(mins: Int): String {
+fun minsToHours(mins: Long): String {
 
     val time = mins / HOUR_MINUTES.toFloat()
 
@@ -54,4 +54,12 @@ fun getDaysSinceDate(date: Date): Int {
     val daysDiff = Days.daysBetween(creationTime, currentTime)
 
     return if (daysDiff.days > 0) daysDiff.days + 1 else 1
+}
+
+fun getAvgDailyHours(timestamp: Date, totalTime: Long): String {
+
+    val daysCount = getDaysSinceDate(timestamp)
+    val avgDailyMins = totalTime / (daysCount + 1)
+
+    return minsToHours(avgDailyMins)
 }

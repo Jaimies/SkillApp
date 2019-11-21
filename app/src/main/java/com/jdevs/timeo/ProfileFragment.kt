@@ -9,10 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.jdevs.timeo.databinding.FragmentProfileBinding
-import com.jdevs.timeo.navigators.ProfileNavigator
 import com.jdevs.timeo.viewmodels.ProfileViewModel
 
-class ProfileFragment : Fragment(), ProfileNavigator {
+class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
     private val mAuth = FirebaseAuth.getInstance()
 

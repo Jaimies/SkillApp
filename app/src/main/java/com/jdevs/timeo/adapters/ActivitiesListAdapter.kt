@@ -12,7 +12,6 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.RecordActivityDialog
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
-import com.jdevs.timeo.navigators.ActivityNavigator
 import com.jdevs.timeo.util.randomString
 import com.jdevs.timeo.viewmodels.ActivityViewModel
 
@@ -48,7 +47,7 @@ class ActivitiesListAdapter(
 
     inner class ViewHolder(private val binding: ActivitiesItemBinding) :
         RecyclerView.ViewHolder(binding.root),
-        ActivityNavigator {
+        ActivityViewModel.Navigator {
 
         init {
             binding.viewmodel?.navigator = this

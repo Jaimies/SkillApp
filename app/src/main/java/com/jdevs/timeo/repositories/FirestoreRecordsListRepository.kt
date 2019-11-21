@@ -12,10 +12,10 @@ import com.jdevs.timeo.util.RECORDS_COLLECTION
 import com.jdevs.timeo.util.RECORDS_FETCH_LIMIT
 import com.jdevs.timeo.util.RECORDS_TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.USERS_COLLECTION
-import com.jdevs.timeo.viewmodels.RecordsListViewModel
+import com.jdevs.timeo.viewmodels.RecordListViewModel
 
 class FirestoreRecordsListRepository :
-    RecordsListViewModel.RecordsListRepository,
+    RecordListViewModel.Repository,
     RecordsListLiveData.OnLastRecordReachedCallback,
     RecordsListLiveData.OnLastVisibleRecordCallback {
 

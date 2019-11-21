@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
@@ -19,7 +17,7 @@ import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.databinding.FragmentHistoryBinding
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
-import com.jdevs.timeo.viewmodels.RecordsListViewModel
+import com.jdevs.timeo.viewmodels.RecordListViewModel
 
 class HistoryFragment : ActionBarFragment(),
     DialogInterface.OnClickListener {
@@ -28,16 +26,14 @@ class HistoryFragment : ActionBarFragment(),
     private val idList = ArrayList<String>()
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(RecordsListViewModel::class.java)
+        ViewModelProviders.of(this).get(RecordListViewModel::class.java)
     }
 
     private val mAdapter by lazy {
         RecordsListAdapter(recordList, ::showDeleteDialog)
     }
 
-    private lateinit var mLoader: FrameLayout
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mCreateNewActivityView: TextView
 
     private var chosenRecordIndex = -1
 
@@ -154,5 +150,4 @@ class HistoryFragment : ActionBarFragment(),
 
         mAdapter.notifyItemChanged(index)
     }
-
 }

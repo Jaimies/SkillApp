@@ -1,7 +1,6 @@
 package com.jdevs.timeo.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.navigators.ProfileNavigator
 
 class ProfileViewModel : ViewModel() {
     @JvmField
@@ -9,5 +8,10 @@ class ProfileViewModel : ViewModel() {
     @JvmField
     var userEmail = ""
 
-    var navigator: ProfileNavigator? = null
+    var navigator: Navigator? = null
+
+    interface Navigator {
+        fun login()
+        fun logout()
+    }
 }

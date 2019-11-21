@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.RecordsItemBinding
-import com.jdevs.timeo.navigators.RecordNavigator
 import com.jdevs.timeo.util.randomString
 import com.jdevs.timeo.viewmodels.RecordViewModel
 
@@ -41,7 +40,7 @@ class RecordsListAdapter(
 
     inner class ViewHolder(private val binding: RecordsItemBinding) :
         RecyclerView.ViewHolder(binding.root),
-        RecordNavigator {
+        RecordViewModel.Navigator {
 
         init {
             binding.viewmodel?.navigator = this

@@ -16,11 +16,10 @@ import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.FragmentActivityListBinding
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
-import com.jdevs.timeo.navigators.ActivityListNavigator
 import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
 
 class ActivityListFragment : ActionBarFragment(),
-    ActivityListNavigator {
+    ActivitiesListViewModel.Navigator {
 
     private lateinit var mRecyclerView: RecyclerView
 

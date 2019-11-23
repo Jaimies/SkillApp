@@ -69,23 +69,19 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
             view.iconEditText.setText(args.timeoActivity?.icon)
         }
 
-        // Inflate the layout for this fragment
+
         return view
     }
 
     override fun onFailure(firebaseException: Exception) {
 
-        Log.w(
-            TAG,
-            "Failed to save data to Firestore",
-            firebaseException
-        )
+        Log.w(TAG, "Failed to save data to Firestore", firebaseException)
     }
 
     private fun validateInput(): Boolean {
 
-        val titleText = view!!.titleEditText.text ?: return false
-        val iconText = view!!.iconEditText.text ?: return false
+        val titleText = view?.titleEditText?.text ?: return false
+        val iconText = view?.iconEditText?.text ?: return false
 
         view!!.titleTextInputLayout.apply {
 

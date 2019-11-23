@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.adapters.RecordsListAdapter
 import com.jdevs.timeo.data.Record
@@ -33,8 +32,6 @@ class HistoryFragment : Fragment(),
         RecordsListAdapter(recordList, ::showDeleteDialog)
     }
 
-    private lateinit var mRecyclerView: RecyclerView
-
     private var chosenRecordIndex = -1
 
     override fun onCreateView(
@@ -48,7 +45,7 @@ class HistoryFragment : Fragment(),
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
-        mRecyclerView = binding.recordsRecyclerView.apply {
+        binding.recordsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = mAdapter
             addOnScrollListener(ScrollDownListener(::getRecords))

@@ -13,7 +13,7 @@ import com.jdevs.timeo.viewmodels.ProfileViewModel
 
 class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
-    private val mAuth = FirebaseAuth.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(ProfileViewModel::class.java)
@@ -29,12 +29,11 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
         binding.viewmodel = viewModel
 
-        viewModel.isUserLoggedIn = !(mAuth.currentUser?.isAnonymous ?: true)
-        viewModel.userEmail = mAuth.currentUser?.email.orEmpty()
+        viewModel.isUserLoggedIn = !(auth.currentUser?.isAnonymous ?: true)
+        viewModel.userEmail = auth.currentUser?.email.orEmpty()
 
         viewModel.navigator = this
 
-        // Inflate the layout for this fragment
         return binding.root
     }
 

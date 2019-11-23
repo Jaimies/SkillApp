@@ -5,19 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.jdevs.timeo.util.TAG
-import kotlinx.android.synthetic.main.preloader.view.preloader
+import kotlinx.android.synthetic.main.preloader.preloader
 
 class OverviewFragment : Fragment() {
 
-    private lateinit var mLoader: FrameLayout
-
-    private val mAuth = FirebaseAuth.getInstance()
-
-    private var mUser = mAuth.currentUser
+    private val auth = FirebaseAuth.getInstance()
+    private var user = auth.currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,39 +21,29 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_overview, container, false)
-
-        view.apply {
-
-            mLoader = preloader as FrameLayout
-        }
-
-        val user = mUser
-
-        if (user == null || user.providerId == "") {
+        if (user == null || user?.providerId == "") {
 
             signInAnonymously()
         }
 
-        // Inflate the layout for this fragment
-        return view
+        return inflater.inflate(R.layout.fragment_overview, container, false)
     }
 
     private fun signInAnonymously() {
 
-        mAuth.signInAnonymously()
+        auth.signInAnonymously()
             .addOnCompleteListener {
-                mLoader.visibility = View.GONE
+                preloader.visibility = View.GONE
             }
             .addOnSuccessListener { result ->
 
-                mUser = result.user
+                user = result.user
             }
             .addOnFailureListener { exception ->
 
                 Log.w(TAG, "Failed to sign in anonymously", exception)
             }
 
-        mLoader.visibility = View.VISIBLE
+        preloader.visibility = View.VISIBLE
     }
 }

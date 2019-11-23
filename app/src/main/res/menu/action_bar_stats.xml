@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/showAchievements"
+        android:id="@+id/achievements"
         android:icon="@drawable/ic_star"
         android:title=""
         app:showAsAction="always" />

@@ -33,9 +33,22 @@ class MainActivity : AppCompatActivity(),
         mainDestinations.union(setOf(R.id.profileFragment, R.id.settingsFragment))
     }
 
-    private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var mToggle: ActionBarDrawerToggle
+    private val navController by lazy {
+        findNavController(R.id.nav_host_fragment)
+    }
+
+    private val appBarConfiguration by lazy {
+        AppBarConfiguration(
+            allTopLevelDestinations,
+            drawerLayout
+        )
+    }
+
+    private val mToggle by lazy {
+        ActionBarDrawerToggle(
+            this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+    }
 
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
     private val navView: NavigationView by lazyUnsynchronized { nav_view }
@@ -43,30 +56,17 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Timeo)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
+        setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        navController = findNavController(R.id.nav_host_fragment)
-
         navController.addOnDestinationChangedListener(this)
-
-        appBarConfiguration = AppBarConfiguration(
-            allTopLevelDestinations,
-            drawerLayout
-        )
-
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        mToggle = ActionBarDrawerToggle(
-            this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
 
         drawerLayout.addDrawerListener(mToggle)
         mToggle.syncState()
 
         navView.setupWithNavController(navController)
-
         bottomNavView.setupWithNavController(navController)
     }
 
@@ -83,12 +83,12 @@ class MainActivity : AppCompatActivity(),
                 navController.navigate(R.id.action_showCreateActivityFragment)
             }
 
-            R.id.historyFragment -> {
+            R.id.history -> {
                 navController.navigate(R.id.action_showHistory)
             }
 
-            R.id.showAchievements -> {
-                navController.navigate(R.id.showAchievements)
+            R.id.achievements -> {
+                navController.navigate(R.id.action_showAchievements)
             }
 
             R.id.shareAchievements -> {

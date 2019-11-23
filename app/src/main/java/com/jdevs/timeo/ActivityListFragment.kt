@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.adapters.ActivitiesListAdapter
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.FragmentActivityListBinding
@@ -20,7 +19,6 @@ class ActivityListFragment : ActionBarFragment(),
     ActivitiesListViewModel.Navigator {
 
     override val menuId = R.menu.action_bar_activity_list
-    private lateinit var mRecyclerView: RecyclerView
 
     private val activityList = ArrayList<TimeoActivity>()
     private val idList = ArrayList<String>()
@@ -47,10 +45,11 @@ class ActivityListFragment : ActionBarFragment(),
                 it.lifecycleOwner = this
             }
 
-        mRecyclerView = binding.activityRecyclerView.apply {
+        binding.activityRecyclerView.apply {
 
             layoutManager = LinearLayoutManager(context)
             adapter = mAdapter
+
             addOnScrollListener(ScrollDownListener(::getActivities))
         }
 

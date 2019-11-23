@@ -1,93 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:id="@+id/mainLayout"
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.jdevs.timeo.viewmodels.LoginViewModel" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginTop="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/login"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/emailEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="Autofill" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passwordEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="Autofill" />
-        </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="match_parent"
+        android:onClick="@{() -> viewmodel.navigator.hideKeyboard()}"
+        tools:context=".LoginFragment">
 
         <LinearLayout
+            android:id="@+id/main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal">
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:alpha="@{viewmodel.isLoading ? 0.5f : 1.0f}"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/signupTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:clickable="true"
-                android:focusable="false"
-                android:gravity="center_vertical"
-                android:text="@string/sign_up_or"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                tools:ignore="KeyboardInaccessibleWidget" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/loginButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:text="@string/log_in" />
+                android:gravity="center_horizontal"
+                android:text="@string/login"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/googleSignInButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:editText="@{emailEditText}"
+                app:error="@{viewmodel.emailError}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="Autofill" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_text_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:editText="@{passwordEditText}"
+                app:error="@{viewmodel.passwordError}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="Autofill" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:onClick="@{() -> viewmodel.navigator.navigateToSignup()}"
+                    android:text="@string/sign_up_or"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    app:clickableStyle="@{true}"
+                    tools:ignore="KeyboardInaccessibleWidget" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{!viewmodel.isLoading}"
+                    android:focusable="true"
+                    android:onClick="@{() -> viewmodel.navigator.signIn(emailEditText.getText().toString(), passwordEditText.getText().toString())}"
+                    android:text="@string/login_button" />
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/google_signin_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewmodel.navigator.signInWithGoogle()}" />
+            </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
-
-    <include layout="@layout/preloader" />
-
-</FrameLayout>
+        <include
+            android:id="@+id/preloader"
+            layout="@layout/preloader"
+            app:hideIf="@{!viewmodel.isLoading}" />
+    </FrameLayout>
+</layout>

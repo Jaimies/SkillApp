@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainLayout"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/default_margin"
@@ -45,12 +45,6 @@
             android:text="Laptop.png"
             tools:ignore="Autofill" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    <Spinner-->
-    <!--        android:id="@+id/childOfSpinner"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="@dimen/default_margin" />-->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/deleteButton"

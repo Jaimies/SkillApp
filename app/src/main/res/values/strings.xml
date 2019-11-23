@@ -7,6 +7,7 @@
     <string name="logout">Logout</string>
     <string name="not_logged_in">You are not logged in</string>
     <string name="login">Login</string>
+    <string name="login_button">Log in</string>
     <string name="profile">Profile</string>
     <string name="hours">hours</string>
     <string name="minutes">minutes</string>
@@ -19,11 +20,11 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="sign_up_or">Sign up or</string>
-    <string name="log_in">Log in</string>
     <string name="overview">Overview</string>
     <string name="settings">Settings</string>
     <string name="log_in_or">Log in or</string>
     <string name="sign_up">Sign up</string>
+    <string name="sign_up_button">Sign up</string>
     <string name="stats">Stats</string>
     <string name="there_is_nothing_here_yet">There is nothing here yet</string>
     <string name="create_activity">Create an activity</string>

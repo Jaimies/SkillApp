@@ -14,3 +14,5 @@ const val USERS_COLLECTION = "users"
 const val RECORDS_COLLECTION = "records"
 const val RECORDS_FETCH_LIMIT: Long = 20
 const val RECORDS_TIMESTAMP_PROPERTY = "timestamp"
+
+const val RC_SIGN_IN = 101

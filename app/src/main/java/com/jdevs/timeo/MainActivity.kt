@@ -14,7 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.navigation.NavigationView
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.lazyUnsynchronized
 import kotlinx.android.synthetic.main.activity_main.bottom_nav_view
@@ -45,26 +44,38 @@ class MainActivity : AppCompatActivity(),
     }
 
     private val mToggle by lazy {
-        ActionBarDrawerToggle(
-            this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
+        object : ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        ) {
+
+            override fun onDrawerStateChanged(newState: Int) {
+                super.onDrawerStateChanged(newState)
+
+                if(newState == 1) {
+                    syncState()
+                }
+            }
+        }
     }
 
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
-    private val navView: NavigationView by lazyUnsynchronized { nav_view }
+    private val navView by lazyUnsynchronized { nav_view }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Timeo)
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
-        navController.addOnDestinationChangedListener(this)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        setSupportActionBar(toolbar)
 
         drawerLayout.addDrawerListener(mToggle)
         mToggle.syncState()
+
+        navController.addOnDestinationChangedListener(this)
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
         navView.setupWithNavController(navController)
         bottomNavView.setupWithNavController(navController)
@@ -121,13 +132,9 @@ class MainActivity : AppCompatActivity(),
 
         val id = destination.id
 
-        if (mainDestinations.contains(id)) {
+        bottomNavView.visibility = if (mainDestinations.contains(id)) View.VISIBLE else View.GONE
 
-            bottomNavView.visibility = View.VISIBLE
-        } else {
-
-            bottomNavView.visibility = View.GONE
-        }
+        mToggle.syncState()
     }
 
     override fun onBackPressed() {

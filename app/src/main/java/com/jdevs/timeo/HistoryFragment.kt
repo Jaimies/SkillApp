@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,11 +16,10 @@ import com.jdevs.timeo.adapters.RecordsListAdapter
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.databinding.FragmentHistoryBinding
-import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodels.RecordListViewModel
 
-class HistoryFragment : ActionBarFragment(),
+class HistoryFragment : Fragment(),
     DialogInterface.OnClickListener {
 
     private val recordList = ArrayList<Record>()

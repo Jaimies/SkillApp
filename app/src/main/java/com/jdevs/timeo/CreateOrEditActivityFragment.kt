@@ -5,8 +5,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +28,8 @@ import kotlinx.android.synthetic.main.fragment_create_or_edit_activity.view.titl
 class CreateOrEditActivityFragment : ActionBarFragment(),
     OnFailureListener {
     private val args: CreateOrEditActivityFragmentArgs by navArgs()
+
+    override val menuId = R.menu.action_bar_create_activity
 
     private val firestoreActivitiesListRepository =
         FirestoreActivitiesListRepository()
@@ -136,11 +136,6 @@ class CreateOrEditActivityFragment : ActionBarFragment(),
         }
 
         return true
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        createOptionsMenu(menu, inflater, R.menu.action_bar_create_activity)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

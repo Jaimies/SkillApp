@@ -31,7 +31,9 @@ class SignupFragment : Fragment(),
     private val auth by lazy { FirebaseAuth.getInstance() }
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(SignupViewModel::class.java)
+        ViewModelProviders.of(this).get(SignupViewModel::class.java).also {
+            it.navigator = this
+        }
     }
 
     override fun onCreateView(
@@ -41,10 +43,7 @@ class SignupFragment : Fragment(),
     ): View? {
         val binding = FragmentSignupBinding.inflate(inflater, container, false).also {
 
-            it.viewmodel = viewModel.also { viewModel ->
-                viewModel.navigator = this
-            }
-
+            it.viewmodel = viewModel
             it.lifecycleOwner = this
         }
 

@@ -39,7 +39,9 @@ class LoginFragment : Fragment(),
     private val auth by lazy { FirebaseAuth.getInstance() }
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        ViewModelProviders.of(this).get(LoginViewModel::class.java).also {
+            it.navigator = this
+        }
     }
 
     private val googleSignInClient by lazy {
@@ -60,10 +62,7 @@ class LoginFragment : Fragment(),
 
         binding.also {
 
-            it.viewmodel = viewModel.also { viewModel ->
-                viewModel.navigator = this@LoginFragment
-            }
-
+            it.viewmodel = viewModel
             it.lifecycleOwner = this@LoginFragment
         }
 

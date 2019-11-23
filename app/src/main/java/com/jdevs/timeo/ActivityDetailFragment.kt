@@ -2,8 +2,6 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +15,7 @@ import com.jdevs.timeo.viewmodels.ActivityDetailViewModel
 class ActivityDetailFragment : ActionBarFragment() {
 
     private val args: ActivityDetailFragmentArgs by navArgs()
+    override val menuId = R.menu.action_bar_activity_details
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,11 +33,6 @@ class ActivityDetailFragment : ActionBarFragment() {
         }
 
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        createOptionsMenu(menu, inflater, R.menu.action_bar_activity_details)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

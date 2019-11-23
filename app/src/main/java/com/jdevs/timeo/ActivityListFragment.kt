@@ -2,8 +2,6 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
@@ -21,6 +19,7 @@ import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
 class ActivityListFragment : ActionBarFragment(),
     ActivitiesListViewModel.Navigator {
 
+    override val menuId = R.menu.action_bar_activity_list
     private lateinit var mRecyclerView: RecyclerView
 
     private val activityList = ArrayList<TimeoActivity>()
@@ -43,11 +42,13 @@ class ActivityListFragment : ActionBarFragment(),
     ): View? {
         val binding =
             FragmentActivityListBinding.inflate(inflater, container, false).also {
+
                 it.viewmodel = viewModel
                 it.lifecycleOwner = this
             }
 
         mRecyclerView = binding.activityRecyclerView.apply {
+
             layoutManager = LinearLayoutManager(context)
             adapter = mAdapter
             addOnScrollListener(ScrollDownListener(::getActivities))
@@ -63,10 +64,6 @@ class ActivityListFragment : ActionBarFragment(),
 
         activityList.clear()
         idList.clear()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        createOptionsMenu(menu, inflater, R.menu.action_bar_activity_list)
     }
 
     override fun onDestroy() {

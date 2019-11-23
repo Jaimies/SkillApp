@@ -6,17 +6,19 @@ import android.view.MenuInflater
 import androidx.fragment.app.Fragment
 
 open class ActionBarFragment : Fragment() {
+    protected open val menuId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
         setHasOptionsMenu(true)
     }
 
-    fun createOptionsMenu(menu: Menu, inflater: MenuInflater, id: Int) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        inflater.inflate(id, menu)
+        if (menuId != -1) {
+            inflater.inflate(menuId, menu)
+        }
 
         super.onCreateOptionsMenu(menu, inflater)
     }

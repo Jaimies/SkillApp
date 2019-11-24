@@ -8,7 +8,7 @@ import com.jdevs.timeo.repositories.FirestoreRecordsListRepository
 
 class RecordListViewModel : ViewModel() {
     private val _isEmpty = MutableLiveData(true)
-    private val _isLoaded = MutableLiveData(true)
+    private val _isLoaded = MutableLiveData(false)
 
     val isEmpty: LiveData<Boolean> get() = _isEmpty
     val isLoaded: LiveData<Boolean> get() = _isLoaded

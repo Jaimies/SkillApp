@@ -31,12 +31,14 @@ class FirestoreActivitiesListRepository :
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
-    private val activitiesRef = firestore
-        .collection("/$USERS_COLLECTION/${auth.currentUser!!.uid}/$ACTIVITIES_COLLECTION")
+    private val activitiesRef by lazy {
+        firestore
+            .collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$ACTIVITIES_COLLECTION")
+    }
 
     private val recordsRef by lazy {
         firestore
-            .collection("/$USERS_COLLECTION/${auth.currentUser!!.uid}/$RECORDS_COLLECTION")
+            .collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$RECORDS_COLLECTION")
     }
 
     private var query = activitiesRef

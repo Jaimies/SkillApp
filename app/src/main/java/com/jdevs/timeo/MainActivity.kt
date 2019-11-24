@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(),
             override fun onDrawerStateChanged(newState: Int) {
                 super.onDrawerStateChanged(newState)
 
-                if(newState == 1) {
+                if (newState == 1 && allTopLevelDestinations.contains(navController.currentDestination?.id)) {
                     syncState()
                 }
             }

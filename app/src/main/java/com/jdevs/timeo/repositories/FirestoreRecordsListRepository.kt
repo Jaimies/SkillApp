@@ -22,12 +22,14 @@ class FirestoreRecordsListRepository :
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
-    private val recordsRef = firestore
-        .collection("/$USERS_COLLECTION/${auth.currentUser!!.uid}/$RECORDS_COLLECTION")
+    private val recordsRef by lazy {
+        firestore
+            .collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$RECORDS_COLLECTION")
+    }
 
     private val activitiesRef by lazy {
         firestore
-            .collection("/$USERS_COLLECTION/${auth.currentUser!!.uid}/$ACTIVITIES_COLLECTION")
+            .collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$ACTIVITIES_COLLECTION")
     }
 
     private var query = recordsRef

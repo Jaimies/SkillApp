@@ -56,8 +56,8 @@
                 android:id="@+id/password_text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:error="@{viewmodel.passwordError}"
-                app:editText="@{passwordEditText}">
+                app:editText="@{passwordEditText}"
+                app:error="@{viewmodel.passwordError}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_edit_text"

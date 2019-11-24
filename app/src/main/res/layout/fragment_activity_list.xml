@@ -24,7 +24,7 @@
             android:paddingTop="32dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"
-            app:hideIf="@{viewmodel.isEmpty}" />
+            app:hideIf="@{viewmodel.isEmpty || !viewmodel.isLoaded}" />
 
         <LinearLayout
             android:id="@+id/create_new_activity_view"
@@ -33,7 +33,7 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:hideIf="@{!viewmodel.isEmpty}">
+            app:hideIf="@{!viewmodel.isEmpty || !viewmodel.isLoaded}">
 
             <TextView
                 android:layout_width="wrap_content"

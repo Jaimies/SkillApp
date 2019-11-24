@@ -15,8 +15,4 @@ data class TimeoActivity(
     var icon: String = "",
     var totalTime: Long = 0,
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
-) : Parcelable {
-    constructor() : this("", "") {
-        timestamp = Calendar.getInstance().time
-    }
-}
+) : Parcelable

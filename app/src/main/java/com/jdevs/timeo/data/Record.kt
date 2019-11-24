@@ -7,12 +7,8 @@ import java.util.Date
 
 @Keep
 data class Record(
-    val name: String,
+    val name: String = "",
     val time: Long = 0,
     val activityId: String = "",
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
-) {
-    constructor() : this("", 0, "") {
-        timestamp = Calendar.getInstance().time
-    }
-}
+)

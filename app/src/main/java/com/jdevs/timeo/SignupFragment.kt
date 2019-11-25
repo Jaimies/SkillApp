@@ -8,12 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.EmailAuthProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
@@ -25,10 +21,7 @@ import com.jdevs.timeo.util.validatePassword
 import com.jdevs.timeo.viewmodels.SignupViewModel
 
 class SignupFragment : Fragment(),
-    OnCompleteListener<AuthResult>,
     SignupViewModel.Navigator {
-
-    private val auth by lazy { FirebaseAuth.getInstance() }
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(SignupViewModel::class.java).also {
@@ -52,6 +45,7 @@ class SignupFragment : Fragment(),
 
     override fun onDestroy() {
         super.onDestroy()
+
         viewModel.navigator = null
     }
 
@@ -63,14 +57,33 @@ class SignupFragment : Fragment(),
         hideKeyboard(activity)
     }
 
-    override fun signup(email: String, password: String) {
+    override fun signUp(email: String, password: String) {
 
         if (!(validateEmail(email) && validatePassword(password))) {
+
             return
         }
 
-        val credential = EmailAuthProvider.getCredential(email, password)
-        auth.currentUser!!.linkWithCredential(credential).addOnCompleteListener(this)
+        viewModel.createAccount(email, password).observe(this) { authState ->
+
+            when (authState.state) {
+
+                R.id.AUTH_STATE_FINISHED -> {
+
+                    viewModel.hideLoader()
+                }
+
+                R.id.AUTH_STATE_SUCCESSFUL -> {
+
+                    findNavController().navigate(R.id.action_signupFragment_to_homeFragment)
+                }
+
+                R.id.AUTH_STATE_FAILED -> {
+
+                    handleException(authState.exception)
+                }
+            }
+        }
 
         viewModel.showLoader()
         hideKeyboard()
@@ -116,29 +129,27 @@ class SignupFragment : Fragment(),
         return true
     }
 
-    override fun onComplete(task: Task<AuthResult>) {
-        viewModel.hideLoader()
+    private fun handleException(exception: Exception?) {
 
-        if (task.isSuccessful) {
-            findNavController().navigate(R.id.action_signupFragment_to_homeFragment)
-            return
-        }
-
-        when (task.exception) {
+        when (exception) {
             is FirebaseAuthWeakPasswordException -> {
+
                 viewModel.setPasswordError("The password is too weak")
             }
 
             is FirebaseAuthUserCollisionException -> {
+
                 viewModel.setEmailError("User with that email already exists")
             }
 
             is FirebaseAuthInvalidCredentialsException -> {
+
                 viewModel.setEmailError("Email is invalid")
             }
 
             else -> {
-                Log.w(TAG, "Failed to sign up", task.exception)
+
+                Log.w(TAG, "Failed to sign up", exception)
                 Toast.makeText(context, "Failed to sign in", Toast.LENGTH_LONG).show()
             }
         }

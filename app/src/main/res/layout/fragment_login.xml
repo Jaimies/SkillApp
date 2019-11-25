@@ -102,7 +102,7 @@
                     android:id="@+id/google_signin_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewmodel.navigator.signInWithGoogle()}" />
+                    android:onClick="@{() -> viewmodel.navigator.showGoogleSignInIntent()}" />
             </LinearLayout>
         </LinearLayout>
 

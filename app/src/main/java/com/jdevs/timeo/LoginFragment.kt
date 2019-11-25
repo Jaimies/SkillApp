@@ -8,23 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.GoogleAuthProvider
 import com.jdevs.timeo.databinding.FragmentLoginBinding
 import com.jdevs.timeo.util.RC_SIGN_IN
 import com.jdevs.timeo.util.TAG
@@ -33,10 +27,7 @@ import com.jdevs.timeo.util.isValidEmail
 import com.jdevs.timeo.viewmodels.LoginViewModel
 
 class LoginFragment : Fragment(),
-    OnCompleteListener<AuthResult>,
     LoginViewModel.Navigator {
-
-    private val auth by lazy { FirebaseAuth.getInstance() }
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(LoginViewModel::class.java).also {
@@ -85,60 +76,43 @@ class LoginFragment : Fragment(),
             password.isEmpty() -> viewModel.setPasswordError("Password must not be empty")
 
             else -> {
-                if (auth.currentUser?.isAnonymous == true) {
-                    auth.currentUser?.delete()?.addOnFailureListener { exception ->
-                        Log.w(TAG, "Failed to delete user data", exception)
+
+                viewModel.showLoader()
+                hideKeyboard()
+
+                viewModel.signIn(email, password).observe(this) { authState ->
+
+                    when (authState.state) {
+
+                        R.id.AUTH_STATE_FINISHED -> {
+
+                            viewModel.hideLoader()
+                        }
+
+                        R.id.AUTH_STATE_SUCCESSFUL -> {
+
+                            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                        }
+
+                        R.id.AUTH_STATE_FAILED -> {
+
+                            handleAuthException(authState.exception)
+                        }
                     }
                 }
-
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this)
-
-                hideKeyboard()
-                viewModel.showLoader()
             }
         }
     }
 
-    override fun signInWithGoogle() {
+    override fun showGoogleSignInIntent() {
+
         hideKeyboard()
         viewModel.showLoader()
 
-        googleSignInClient.signOut()
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
 
         return
-    }
-
-    override fun onComplete(task: Task<AuthResult>) {
-
-        if (task.isSuccessful) {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-            return
-        }
-
-        viewModel.hideLoader()
-
-        when (task.exception) {
-            is FirebaseAuthInvalidCredentialsException -> {
-                viewModel.setPasswordError("Username and password do not match")
-            }
-
-            is FirebaseAuthInvalidUserException -> {
-                viewModel.setEmailError("User with that email does not exist")
-            }
-
-            is FirebaseNetworkException -> {
-                Snackbar.make(view!!, "Please check your Internet connection", Snackbar.LENGTH_LONG)
-                    .show()
-            }
-
-            else -> {
-                Log.w(TAG, "Failed to sign in", task.exception)
-                Snackbar.make(view!!, "Failed to sign in", Snackbar.LENGTH_LONG).show()
-            }
-        }
     }
 
     override fun navigateToSignup() {
@@ -154,7 +128,7 @@ class LoginFragment : Fragment(),
 
             try {
                 val account = task.getResult(ApiException::class.java) ?: return
-                firebaseLinkGoogleAccount(account)
+                linkGoogleAccount(account)
             } catch (e: ApiException) {
                 if (e.statusCode == SIGN_IN_CANCELLED) {
                     Log.i(TAG, "Sign in was cancelled by user")
@@ -167,65 +141,53 @@ class LoginFragment : Fragment(),
         }
     }
 
-    private fun firebaseLinkGoogleAccount(account: GoogleSignInAccount) {
-
-        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+    private fun linkGoogleAccount(account: GoogleSignInAccount) {
 
         hideKeyboard()
         viewModel.showLoader()
 
-        val user = auth.currentUser
+        viewModel.signInWithGoogle(account).observe(this) { state ->
 
-        if (user != null && user.isAnonymous) {
+            when (state) {
 
-            user.linkWithCredential(credential)
-                .addOnCompleteListener {
+                R.id.AUTH_STATE_FINISHED -> {
+
                     viewModel.hideLoader()
                 }
-                .addOnSuccessListener {
+
+                R.id.AUTH_STATE_SUCCESSFUL -> {
                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 }
-                .addOnFailureListener { exception ->
 
-                    if (exception is FirebaseAuthUserCollisionException) {
-                        firebaseAuthWithGoogle(credential)
-                        return@addOnFailureListener
-                    }
+                R.id.AUTH_STATE_FAILED -> {
 
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", exception)
                     Snackbar.make(view!!, "Authentication Failed", Snackbar.LENGTH_SHORT).show()
                 }
-        } else {
-            firebaseAuthWithGoogle(credential)
+            }
         }
     }
 
-    private fun firebaseAuthWithGoogle(credential: AuthCredential) {
+    private fun handleAuthException(exception: Exception?) {
 
-        viewModel.showLoader()
-        hideKeyboard()
+        when (exception) {
 
-        if (auth.currentUser?.isAnonymous == true) {
+            is FirebaseAuthInvalidCredentialsException -> {
+                viewModel.setPasswordError("Username and password do not match")
+            }
 
-            auth.currentUser?.delete()?.addOnFailureListener { exception ->
-                Log.w(TAG, "Failed to delete anonymous user", exception)
+            is FirebaseAuthInvalidUserException -> {
+                viewModel.setEmailError("User with that email does not exist")
+            }
+
+            is FirebaseNetworkException -> {
+                Snackbar.make(view!!, "Please check your Internet connection", Snackbar.LENGTH_LONG)
+                    .show()
+            }
+
+            else -> {
+                Log.w(TAG, "Failed to sign in", exception)
+                Snackbar.make(view!!, "Failed to sign in", Snackbar.LENGTH_LONG).show()
             }
         }
-
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener {
-
-                viewModel.hideLoader()
-            }
-            .addOnSuccessListener {
-
-                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-            }
-            .addOnFailureListener { exception ->
-
-                Log.w(TAG, "signInWithCredential:failure", exception)
-                Snackbar.make(view!!, "Authentication Failed", Snackbar.LENGTH_SHORT).show()
-            }
     }
 }

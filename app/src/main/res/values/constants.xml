@@ -9,4 +9,8 @@
     <item name="OPERATION_MODIFIED" type="id" />
     <item name="OPERATION_REMOVED" type="id" />
     <item name="OPERATION_LOADED" type="id" />
+    <item name="AUTH_STATE_SUCCESSFUL" type="id" />
+    <item name="AUTH_STATE_FAILED" type="id" />
+    <item name="AUTH_STATE_IN_PROGRESS" type="id" />
+    <item name="AUTH_STATE_FINISHED" type="id" />
 </resources>

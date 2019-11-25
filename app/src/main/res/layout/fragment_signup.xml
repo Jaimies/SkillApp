@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="@{!viewmodel.isLoading}"
-                    android:onClick="@{() -> viewmodel.navigator.signup(emailEditText.getText().toString(), passwordEditText.getText().toString())}"
+                    android:onClick="@{() -> viewmodel.navigator.signUp(emailEditText.getText().toString(), passwordEditText.getText().toString())}"
                     android:text="@string/sign_up_button" />
             </LinearLayout>
         </LinearLayout>

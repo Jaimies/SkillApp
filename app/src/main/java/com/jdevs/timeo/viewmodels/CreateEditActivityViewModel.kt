@@ -1,0 +1,48 @@
+package com.jdevs.timeo.viewmodels
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.jdevs.timeo.data.TimeoActivity
+
+class CreateEditActivityViewModel : ViewModel() {
+
+    val name = MutableLiveData("")
+    val icon = MutableLiveData("")
+
+    val nameError get() = _nameError as LiveData<String>
+    val iconError get() = _iconError as LiveData<String>
+    val activityExists get() = _activityExists as LiveData<Boolean>
+
+    var navigator: Navigator? = null
+
+    private val _nameError = MutableLiveData("")
+    private val _iconError = MutableLiveData("")
+    private val _activityExists = MutableLiveData(false)
+
+    fun setActivity(activity: TimeoActivity?) {
+
+        name.value = activity?.name.orEmpty()
+        icon.value = activity?.icon.orEmpty()
+
+        _activityExists.value = true
+    }
+
+    fun setNameError(error: String) {
+        _nameError.value = error
+    }
+
+    fun setIconError(error: String) {
+        _iconError.value = error
+    }
+
+    fun triggerSaveActivity() {
+        navigator?.saveActivity(name.value.orEmpty(), icon.value.orEmpty())
+    }
+
+    interface Navigator {
+        fun saveActivity(name: String, icon: String)
+        fun showDeleteDialog()
+        fun hideKeyboard()
+    }
+}

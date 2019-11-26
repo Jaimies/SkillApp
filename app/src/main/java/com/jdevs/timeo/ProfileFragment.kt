@@ -27,12 +27,13 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
         val binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        binding.viewmodel = viewModel
+        binding.viewmodel = viewModel.apply {
 
-        viewModel.isUserLoggedIn = !(auth.currentUser?.isAnonymous ?: true)
-        viewModel.userEmail = auth.currentUser?.email.orEmpty()
+            isUserLoggedIn = !(auth.currentUser?.isAnonymous ?: true)
+            userEmail = auth.currentUser?.email.orEmpty()
 
-        viewModel.navigator = this
+            navigator = this@ProfileFragment
+        }
 
         return binding.root
     }
@@ -42,7 +43,7 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
     }
 
     override fun logout() {
-        FirebaseAuth.getInstance().signOut()
+        viewModel.logout()
         findNavController().navigate(R.id.action_logout)
     }
 }

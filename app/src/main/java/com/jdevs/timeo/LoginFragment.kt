@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -77,28 +76,9 @@ class LoginFragment : Fragment(),
 
             else -> {
 
-                viewModel.showLoader()
-                hideKeyboard()
+                viewModel.signIn(email, password, ::handleException) {
 
-                viewModel.signIn(email, password).observe(this) { authState ->
-
-                    when (authState.state) {
-
-                        R.id.AUTH_STATE_FINISHED -> {
-
-                            viewModel.hideLoader()
-                        }
-
-                        R.id.AUTH_STATE_SUCCESSFUL -> {
-
-                            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                        }
-
-                        R.id.AUTH_STATE_FAILED -> {
-
-                            handleAuthException(authState.exception)
-                        }
-                    }
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 }
             }
         }
@@ -143,31 +123,19 @@ class LoginFragment : Fragment(),
 
     private fun linkGoogleAccount(account: GoogleSignInAccount) {
 
-        hideKeyboard()
-        viewModel.showLoader()
+        viewModel.signInWithGoogle(account, ::onGoogleSignInFailed) {
 
-        viewModel.signInWithGoogle(account).observe(this) { state ->
-
-            when (state) {
-
-                R.id.AUTH_STATE_FINISHED -> {
-
-                    viewModel.hideLoader()
-                }
-
-                R.id.AUTH_STATE_SUCCESSFUL -> {
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                }
-
-                R.id.AUTH_STATE_FAILED -> {
-
-                    Snackbar.make(view!!, "Authentication Failed", Snackbar.LENGTH_SHORT).show()
-                }
-            }
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
     }
 
-    private fun handleAuthException(exception: Exception?) {
+    private fun onGoogleSignInFailed(exception: Exception) {
+
+        Log.w(TAG, "Google sign in failed", exception)
+        Snackbar.make(view!!, "Authentication Failed", Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun handleException(exception: Exception?) {
 
         when (exception) {
 

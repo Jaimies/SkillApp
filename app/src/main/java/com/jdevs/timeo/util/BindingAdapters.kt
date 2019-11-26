@@ -1,4 +1,4 @@
-package com.jdevs.timeo.viewmodels
+package com.jdevs.timeo.util
 
 import android.graphics.Color
 import android.text.SpannableString
@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.textfield.TextInputLayout
-import com.jdevs.timeo.util.doOnceAfterTextChanged
 
 @BindingAdapter("hideIf")
 fun hideIf(view: View, value: Boolean) {
@@ -74,7 +73,6 @@ fun setError(textInputLayout: TextInputLayout, error: String, editText: EditText
     if (error.isEmpty()) {
 
         textInputLayout.isErrorEnabled = false
-
         return
     }
 

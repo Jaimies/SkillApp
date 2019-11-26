@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -64,29 +63,9 @@ class SignupFragment : Fragment(),
             return
         }
 
-        viewModel.createAccount(email, password).observe(this) { authState ->
-
-            when (authState.state) {
-
-                R.id.AUTH_STATE_FINISHED -> {
-
-                    viewModel.hideLoader()
-                }
-
-                R.id.AUTH_STATE_SUCCESSFUL -> {
-
-                    findNavController().navigate(R.id.action_signupFragment_to_homeFragment)
-                }
-
-                R.id.AUTH_STATE_FAILED -> {
-
-                    handleException(authState.exception)
-                }
-            }
+        viewModel.createAccount(email, password, ::handleException) {
+            findNavController().navigate(R.id.action_signupFragment_to_homeFragment)
         }
-
-        viewModel.showLoader()
-        hideKeyboard()
     }
 
     private fun validatePassword(password: String): Boolean {

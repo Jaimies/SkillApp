@@ -1,14 +1,19 @@
 package com.jdevs.timeo.viewmodels
 
 import androidx.lifecycle.ViewModel
+import com.jdevs.timeo.repositories.FirebaseAuthRepository
 
 class ProfileViewModel : ViewModel() {
-    @JvmField
     var isUserLoggedIn = false
-    @JvmField
     var userEmail = ""
 
     var navigator: Navigator? = null
+
+    private val firebaseAuthRepository by lazy { FirebaseAuthRepository() }
+
+    fun logout() {
+        firebaseAuthRepository.logout()
+    }
 
     interface Navigator {
         fun login()

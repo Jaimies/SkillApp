@@ -2,7 +2,6 @@ package com.jdevs.timeo.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.data.AuthState
 
 class SignupViewModel : AuthViewModel() {
     private val _emailError = MutableLiveData("")
@@ -23,8 +22,17 @@ class SignupViewModel : AuthViewModel() {
         _passwordError.value = error
     }
 
-    fun createAccount(email: String, password: String): LiveData<AuthState> {
-        return authRepository.createAccount(email, password)
+    fun createAccount(
+        email: String,
+        password: String,
+        failure: (Exception) -> Unit,
+        success: () -> Unit
+    ) {
+
+        launchSuspendingProcess(failure, success, navigator) {
+
+            authRepository.createAccount(email, password)
+        }
     }
 
     interface Navigator : AuthViewModel.Navigator {

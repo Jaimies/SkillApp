@@ -43,7 +43,6 @@ class ActivitiesListLiveData(
         if (exception != null || querySnapshot == null) {
 
             Log.w(TAG, "Failed to get data from Firestore", exception)
-
             return
         }
 

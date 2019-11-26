@@ -3,7 +3,6 @@ package com.jdevs.timeo.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.jdevs.timeo.data.AuthState
 
 class LoginViewModel : AuthViewModel() {
 
@@ -25,12 +24,21 @@ class LoginViewModel : AuthViewModel() {
         _passwordError.value = error
     }
 
-    fun signInWithGoogle(account: GoogleSignInAccount): LiveData<Int> {
-        return authRepository.linkGoogleAccount(account)
+    fun signInWithGoogle(
+        account: GoogleSignInAccount,
+        failure: (Exception) -> Unit,
+        success: () -> Unit
+    ) {
+        launchSuspendingProcess(failure, success, navigator) {
+            authRepository.linkGoogleAccount(account)
+        }
     }
 
-    fun signIn(email: String, password: String): LiveData<AuthState> {
-        return authRepository.signIn(email, password)
+    fun signIn(email: String, password: String, failure: (Exception) -> Unit, success: () -> Unit) {
+
+        launchSuspendingProcess(failure, success, navigator) {
+            authRepository.signIn(email, password)
+        }
     }
 
     interface Navigator : AuthViewModel.Navigator {

@@ -36,7 +36,7 @@ class CreateEditActivityViewModel : ViewModel() {
         _iconError.value = error
     }
 
-    fun triggerSaveActivity() {
+    fun triggerActivitySave() {
         navigator?.saveActivity(name.value.orEmpty(), icon.value.orEmpty())
     }
 

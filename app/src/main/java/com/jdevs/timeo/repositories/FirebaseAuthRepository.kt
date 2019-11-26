@@ -12,6 +12,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.AuthState
 import com.jdevs.timeo.util.TAG
+import com.jdevs.timeo.util.logOnFailure
 
 class FirebaseAuthRepository {
 
@@ -54,10 +55,7 @@ class FirebaseAuthRepository {
 
                 if (auth.currentUser?.isAnonymous == true) {
 
-                    auth.currentUser?.delete()?.addOnFailureListener { exception ->
-
-                        Log.w(TAG, "Failed to delete user data", exception)
-                    }
+                    auth.currentUser?.delete()?.logOnFailure("Failed to delete user data")
                 }
 
                 state.value = AuthState(R.id.AUTH_STATE_SUCCESSFUL)
@@ -106,9 +104,7 @@ class FirebaseAuthRepository {
 
         if (auth.currentUser?.isAnonymous == true) {
 
-            auth.currentUser?.delete()?.addOnFailureListener { exception ->
-                Log.w(TAG, "Failed to delete anonymous user", exception)
-            }
+            auth.currentUser?.delete()?.logOnFailure("Failed to delete the anonymous user")
         }
 
         auth.signInWithCredential(credential)

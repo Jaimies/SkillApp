@@ -14,6 +14,7 @@ import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.FragmentCreateEditActivityBinding
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.repositories.FirestoreActivitiesListRepository
+import com.jdevs.timeo.util.ACTIVITY_NAME_MAX_LENGTH
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.viewmodels.CreateEditActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.toolbar
@@ -51,7 +52,6 @@ class CreateEditActivityFragment : ActionBarFragment(),
             it.lifecycleOwner = this
         }
 
-
         requireActivity().toolbar.apply {
 
             title = if (args.editActivity) "Edit activity" else "Create activity"
@@ -69,7 +69,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
 
         if (args.editActivity) {
 
-            val timeoActivity = args.timeoActivity ?: return
+            val timeoActivity = args.timeoActivity!!
 
             timeoActivity.also {
 
@@ -77,10 +77,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
                 it.icon = icon
             }
 
-            firestoreActivitiesListRepository.updateActivity(
-                timeoActivity,
-                args.activityId ?: return
-            )
+            firestoreActivitiesListRepository.updateActivity(timeoActivity, args.activityId!!)
 
             val directions = CreateEditActivityFragmentDirections
                 .actionReturnToActivityDetails(timeoActivity, args.activityId ?: "")
@@ -128,9 +125,15 @@ class CreateEditActivityFragment : ActionBarFragment(),
 
         when {
             name.isEmpty() -> viewModel.setNameError("Title cannot be empty")
-            name.length >= 100 -> viewModel.setNameError("Title length must not exceed 100 characters")
             icon.isEmpty() -> viewModel.setIconError("Icon cannot be empty")
-            icon.length >= 100 -> viewModel.setIconError("Icon length must not exceed 100 characters")
+
+            name.length >= ACTIVITY_NAME_MAX_LENGTH -> {
+                viewModel.setNameError("Title length must not exceed 100 characters")
+            }
+
+            icon.length >= ACTIVITY_NAME_MAX_LENGTH -> {
+                viewModel.setIconError("Icon length must not exceed 100 characters")
+            }
 
             else -> {
                 return true
@@ -144,7 +147,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
 
         if (item.itemId == R.id.save) {
 
-            viewModel.triggerSaveActivity()
+            viewModel.triggerActivitySave()
         } else {
 
             return super.onOptionsItemSelected(item)

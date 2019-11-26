@@ -29,7 +29,7 @@ class LoginViewModel : AuthViewModel() {
         return authRepository.linkGoogleAccount(account)
     }
 
-    fun signIn(email: String, password: String) : LiveData<AuthState> {
+    fun signIn(email: String, password: String): LiveData<AuthState> {
         return authRepository.signIn(email, password)
     }
 

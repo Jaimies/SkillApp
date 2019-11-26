@@ -2,7 +2,9 @@ package com.jdevs.timeo.util
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
+import com.google.android.gms.tasks.Task
 
 fun <T> lazyUnsynchronized(initializer: () -> T) = lazy(LazyThreadSafetyMode.NONE, initializer)
 
@@ -21,4 +23,8 @@ fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
             removeSelfFrom(this@doOnceAfterTextChanged)
         }
     })
+}
+
+fun Task<*>.logOnFailure(message: String = "Failed to perform an operation") {
+    addOnFailureListener { Log.w(TAG, message, it) }
 }

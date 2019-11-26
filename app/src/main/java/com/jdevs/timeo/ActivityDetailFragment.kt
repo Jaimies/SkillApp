@@ -15,6 +15,7 @@ import com.jdevs.timeo.viewmodels.ActivityDetailViewModel
 class ActivityDetailFragment : ActionBarFragment() {
 
     private val args: ActivityDetailFragmentArgs by navArgs()
+
     override val menuId = R.menu.action_bar_activity_details
 
     override fun onCreateView(

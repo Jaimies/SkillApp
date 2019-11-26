@@ -1,14 +1,13 @@
 package com.jdevs.timeo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import com.jdevs.timeo.util.TAG
+import com.jdevs.timeo.util.logOnFailure
 import kotlinx.android.synthetic.main.preloader.view.preloader
 
 class OverviewFragment : Fragment() {
@@ -39,16 +38,14 @@ class OverviewFragment : Fragment() {
 
         auth.signInAnonymously()
             .addOnCompleteListener {
+
                 preloader.visibility = View.GONE
             }
             .addOnSuccessListener { result ->
 
                 user = result.user
             }
-            .addOnFailureListener { exception ->
-
-                Log.w(TAG, "Failed to sign in anonymously", exception)
-            }
+            .logOnFailure("Failed to delete anonymous user")
 
         preloader.visibility = View.VISIBLE
     }

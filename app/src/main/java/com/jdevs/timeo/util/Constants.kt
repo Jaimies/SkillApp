@@ -8,6 +8,7 @@ const val ACTIVITIES_NAME_PROPERTY = "name"
 const val ACTIVITIES_ACTIVITY_ID_PROPERTY = "activityId"
 const val ACTIVITIES_TOTAL_TIME_PROPERTY = "totalTime"
 const val ACTIVITIES_TIMESTAMP_PROPERTY = "timestamp"
+const val ACTIVITY_NAME_MAX_LENGTH = 100
 
 const val USERS_COLLECTION = "users"
 

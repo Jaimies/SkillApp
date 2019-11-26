@@ -23,7 +23,7 @@ class SignupViewModel : AuthViewModel() {
         _passwordError.value = error
     }
 
-    fun createAccount(email: String, password: String) : LiveData<AuthState> {
+    fun createAccount(email: String, password: String): LiveData<AuthState> {
         return authRepository.createAccount(email, password)
     }
 

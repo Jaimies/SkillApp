@@ -89,7 +89,6 @@ fun setError(textInputLayout: TextInputLayout, error: String, editText: EditText
             textInputLayout.isErrorEnabled = false
         }
     }
-
 }
 
 @BindingAdapter("android:onClick")

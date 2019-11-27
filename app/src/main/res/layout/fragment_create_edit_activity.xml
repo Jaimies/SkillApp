@@ -25,17 +25,15 @@
         tools:context=".CreateEditActivityFragment">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/nameTextInputLayout"
+            android:id="@+id/name_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:editText="@{nameEditText}"
             app:error="@{viewmodel.nameError}">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
+                android:id="@+id/name_edit_text"
+                style="@style/Widget.Timeo.EditText"
                 android:hint="@string/name"
                 android:inputType="text"
                 android:text="@={viewmodel.name}"
@@ -43,18 +41,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/iconTextInputLayout"
+            android:id="@+id/icon_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:editText="@{iconEditText}"
             app:error="@{viewmodel.iconError}">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/iconEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin"
-                android:ems="10"
+                android:id="@+id/icon_edit_text"
+                style="@style/Widget.Timeo.EditText"
                 android:hint="@string/icon"
                 android:inputType="text"
                 android:text="@={viewmodel.icon}"
@@ -62,7 +57,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

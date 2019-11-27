@@ -12,9 +12,9 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.util.getMins
 import com.jdevs.timeo.util.getScreenDimensions
-import kotlinx.android.synthetic.main.dialog_record_activity.addButton
-import kotlinx.android.synthetic.main.dialog_record_activity.hoursEditText
-import kotlinx.android.synthetic.main.dialog_record_activity.minutesEditText
+import kotlinx.android.synthetic.main.dialog_record_activity.add_button
+import kotlinx.android.synthetic.main.dialog_record_activity.hours_edit_text
+import kotlinx.android.synthetic.main.dialog_record_activity.minutes_edit_text
 import kotlinx.android.synthetic.main.dialog_record_activity.rootView
 import kotlin.math.roundToInt
 
@@ -34,26 +34,23 @@ class RecordActivityDialog(
         val dimensions = getScreenDimensions(context)
 
         val width = (dimensions.widthPixels * DIALOG_WIDTH).roundToInt()
-
         val height = (dimensions.heightPixels * DIALOG_HEIGHT).roundToInt()
 
         window?.apply {
 
             setLayout(width, height)
-
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
         rootView.setOnClickListener {
-            hoursEditText.clearFocus()
-            minutesEditText.clearFocus()
+            hours_edit_text.clearFocus()
+            minutes_edit_text.clearFocus()
         }
 
-        hoursEditText.onFocusChangeListener = this
+        hours_edit_text.onFocusChangeListener = this
+        minutes_edit_text.onFocusChangeListener = this
 
-        minutesEditText.onFocusChangeListener = this
-
-        addButton.setOnClickListener { submit() }
+        add_button.setOnClickListener { addRecord() }
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
@@ -73,16 +70,14 @@ class RecordActivityDialog(
 
         editText.apply {
 
-            val highLimit = if (id == R.id.hoursEditText) MAX_HOURS else MAX_MINS
-
-            val lowLimit = if (id == R.id.hoursEditText) 0 else 5
+            val highLimit = if (id == R.id.hours_edit_text) MAX_HOURS else MAX_MINS
+            val lowLimit = if (id == R.id.hours_edit_text) 0 else 5
 
             val value = text.toString().toIntOrNull() ?: return
 
             if (value > highLimit) {
 
                 setText(highLimit.toString())
-
                 return
             }
 
@@ -93,13 +88,13 @@ class RecordActivityDialog(
         }
     }
 
-    private fun submit() {
+    private fun addRecord() {
 
-        validateInput(hoursEditText)
-        validateInput(minutesEditText)
+        validateInput(hours_edit_text)
+        validateInput(minutes_edit_text)
 
-        val hours = hoursEditText.text.toString().toLongOrNull() ?: 0
-        val minutes = minutesEditText.text.toString().toLongOrNull() ?: return
+        val hours = hours_edit_text.text.toString().toLongOrNull() ?: 0
+        val minutes = minutes_edit_text.text.toString().toLongOrNull() ?: return
 
         val time = Pair(hours, minutes).getMins()
 

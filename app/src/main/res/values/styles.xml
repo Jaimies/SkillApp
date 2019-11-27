@@ -6,6 +6,7 @@
         <item name="windowNoTitle">true</item>
         <item name="spinBars">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPreloaderBackground">@color/colorPreloaderBackground</item>
     </style>
 
     <style name="Theme.Timeo.Splash">
@@ -17,7 +18,7 @@
     <style name="Widget.Timeo" />
 
     <style name="Widget.Timeo.Preloader">
-        <item name="android:background">@color/colorPreloaderBackground</item>
+        <item name="android:background">?attr/colorPreloaderBackground</item>
     </style>
 
     <style name="Widget.Timeo.NavHeader">
@@ -27,4 +28,40 @@
     <style name="Widget.Timeo.TimeBar">
         <item name="android:background">?attr/colorAccent</item>
     </style>
+
+    <style name="Widget.Timeo.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+    </style>
+
+    <style name="Widget.Timeo.LinkTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">false</item>
+        <item name="android:layout_marginEnd">@dimen/default_margin</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
+        </item>
+    </style>
+
+    <style name="Widget.Timeo.LoginTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
+        </item>
+    </style>
+
+    <style name="Widget.Timeo.LoginLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/default_margin</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <declare-styleable name="Theme.Timeo">
+        <attr name="colorPreloaderBackground" format="color" />
+    </declare-styleable>
 </resources>

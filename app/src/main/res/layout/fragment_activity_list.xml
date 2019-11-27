@@ -27,7 +27,6 @@
             app:hideIf="@{viewmodel.isEmpty || !viewmodel.isLoaded}" />
 
         <LinearLayout
-            android:id="@+id/create_new_activity_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -41,7 +40,6 @@
                 android:text="@string/there_is_nothing_here_yet" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/create_new_activity_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"

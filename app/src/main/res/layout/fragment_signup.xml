@@ -17,18 +17,13 @@
         tools:context=".LoginFragment">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
+            style="@style/Widget.Timeo.LoginLayout"
             android:alpha="@{viewmodel.isLoading ? 0.5f : 1.0f}"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/sign_up"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+                style="@style/Widget.Timeo.LoginTitle"
+                android:text="@string/sign_up" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -38,14 +33,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
+                    style="@style/Widget.Timeo.EditText"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:text="@={viewmodel.email}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="Autofill" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -57,15 +49,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin"
+                    style="@style/Widget.Timeo.EditText"
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:text="@={viewmodel.password}"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:onEnterPressed="@{() -> viewmodel.triggerSignUp()}"
-                    tools:ignore="Autofill" />
+                    app:onEnterPressed="@{() -> viewmodel.triggerSignUp()}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -75,15 +64,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/default_margin"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:gravity="center_vertical"
+                    style="@style/Widget.Timeo.LinkTextView"
                     android:onClick="@{() -> viewmodel.navigator.navigateToLogin()}"
                     android:text="@string/log_in_or"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     app:clickableStyle="@{true}"
                     tools:ignore="KeyboardInaccessibleWidget" />
 

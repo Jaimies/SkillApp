@@ -46,7 +46,8 @@ class LoginViewModel : AuthViewModel() {
         }
     }
 
-    fun signIn() {
+    fun triggerSignIn() {
+
         navigator?.signIn(email.value.orEmpty(), password.value.orEmpty())
     }
 

@@ -60,15 +60,18 @@ class LoginFragment : Fragment(),
     }
 
     override fun onDestroy() {
+
         super.onDestroy()
         viewModel.navigator = null
     }
 
     override fun hideKeyboard() {
+
         hideKeyboard(activity)
     }
 
     override fun signIn(email: String, password: String) {
+
         when {
             email.isEmpty() -> viewModel.setEmailError("Email must not be empty")
             !email.isValidEmail() -> viewModel.setEmailError("Email is invalid")
@@ -148,7 +151,8 @@ class LoginFragment : Fragment(),
             }
 
             is FirebaseNetworkException -> {
-                Snackbar.make(view!!, "Please check your Internet connection", Snackbar.LENGTH_LONG)
+                Snackbar
+                    .make(view!!, "Please check your Internet connection", Snackbar.LENGTH_LONG)
                     .show()
             }
 

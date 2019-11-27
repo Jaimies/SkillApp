@@ -17,12 +17,9 @@
         tools:context=".LoginFragment">
 
         <LinearLayout
-            android:id="@+id/main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_margin="@dimen/default_margin"
             android:alpha="@{viewmodel.isLoading ? 0.5f : 1.0f}"
             android:orientation="vertical">
 
@@ -34,7 +31,6 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/email_text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:editText="@{emailEditText}"
@@ -54,7 +50,6 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/password_text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:editText="@{passwordEditText}"
@@ -69,7 +64,7 @@
                     android:inputType="textPassword"
                     android:text="@={viewmodel.password}"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:onEnterPressed="@{() -> viewmodel.signUp()}"
+                    app:onEnterPressed="@{() -> viewmodel.triggerSignUp()}"
                     tools:ignore="Autofill" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,11 +88,10 @@
                     tools:ignore="KeyboardInaccessibleWidget" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/signup_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="@{!viewmodel.isLoading}"
-                    android:onClick="@{() -> viewmodel.signUp()}"
+                    android:onClick="@{() -> viewmodel.triggerSignUp()}"
                     android:text="@string/sign_up_button" />
             </LinearLayout>
         </LinearLayout>

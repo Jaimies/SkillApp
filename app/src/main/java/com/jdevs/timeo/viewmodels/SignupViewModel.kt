@@ -38,7 +38,7 @@ class SignupViewModel : AuthViewModel() {
         }
     }
 
-    fun signUp() {
+    fun triggerSignUp() {
         navigator?.signUp(email.value.orEmpty(), password.value.orEmpty())
     }
 

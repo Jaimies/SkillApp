@@ -91,13 +91,13 @@ fun setError(textInputLayout: TextInputLayout, error: String, editText: EditText
     }
 }
 
-@BindingAdapter("app:onEnterPressed")
-fun setOnEnterPressedListener(view: View, block: () -> Unit) {
+@BindingAdapter("onEnterPressed")
+fun setOnEnterPressedListener(view: View, block: Runnable) {
     view.setOnKeyListener { _, keyCode, event ->
         if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) &&
             event?.action == KeyEvent.ACTION_DOWN
         ) {
-            block()
+            block.run()
         }
 
         false
@@ -105,6 +105,7 @@ fun setOnEnterPressedListener(view: View, block: () -> Unit) {
 }
 
 @BindingAdapter("android:onClick")
-fun bindSignInClick(button: SignInButton, method: () -> Unit) {
-    button.setOnClickListener { method() }
+fun bindSignInClick(button: SignInButton, block: Runnable) {
+
+    button.setOnClickListener { block.run() }
 }

@@ -9,12 +9,29 @@ import com.jdevs.timeo.repositories.FirebaseAuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@Suppress("PropertyName")
 open class AuthViewModel : ViewModel() {
 
-    private val _isLoading = MutableLiveData(false)
+    val email = MutableLiveData("")
+    val password = MutableLiveData("")
     val isLoading get() = _isLoading as LiveData<Boolean>
+    val emailError get() = _emailError as LiveData<String>
+    val passwordError get() = _passwordError as LiveData<String>
 
+    private val _isLoading = MutableLiveData(false)
+    private val _emailError = MutableLiveData("")
+    private val _passwordError = MutableLiveData("")
     protected val authRepository by lazy { FirebaseAuthRepository() }
+
+    fun setEmailError(error: String) {
+        _passwordError.value = ""
+        _emailError.value = error
+    }
+
+    fun setPasswordError(error: String) {
+        _emailError.value = ""
+        _passwordError.value = error
+    }
 
     fun showLoader() {
         _isLoading.value = true

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Timeo</string>
 
+    <string name="yes">yes</string>
+    <string name="no">no</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="logged_in">You are logged in</string>
@@ -17,6 +19,9 @@
     <string name="name">Name</string>
     <string name="icon">Icon</string>
     <string name="delete_activity">Delete activity</string>
+    <string name="activity_deleted">Activity deleted</string>
+    <string name="sure_delete_activity">Are you sure you want to delete this activity?</string>
+    <string name="are_you_sure">Are you sure?</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="sign_up_or">Sign up or</string>
@@ -28,6 +33,7 @@
     <string name="stats">Stats</string>
     <string name="there_is_nothing_here_yet">There is nothing here yet</string>
     <string name="create_activity">Create an activity</string>
+    <string name="edit_activity">Edit an activity</string>
     <string name="history">History</string>
     <string name="your_activities">Your activities</string>
     <string name="activity_details">Activity details</string>
@@ -36,4 +42,20 @@
     <string name="total_time">Total time</string>
     <string name="last_week">Last 7 days</string>
     <string name="daily_average">Daily average</string>
+    <string name="sign_in_failed">Sign in failed</string>
+    <string name="google_sign_in_failed">Google sign in failed</string>
+    <string name="sign_up_failed">Sign up failed</string>
+    <string name="check_connection">Please check your network connection</string>
+    <string name="user_does_not_exist">User with that email does not exist</string>
+    <string name="user_already_exists">User already exists</string>
+    <string name="password_incorrect">Username and password do not match</string>
+    <string name="email_empty">Email must not be empty</string>
+    <string name="email_invalid">Email is invalid</string>
+    <string name="password_empty">Password must not be empty</string>
+    <string name="password_too_weak">The password is too weak</string>
+    <string name="password_too_short">Password must be at least 6 characters long</string>
+    <string name="name_empty">Title cannot be empty</string>
+    <string name="name_too_long">Title length must not exceed 100 characters</string>
+    <string name="icon_empty">Icon cannot be empty</string>
+    <string name="icon_too_long">Icon length must not exceed 100 characters</string>
 </resources>

@@ -14,7 +14,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes.NETWORK_ERROR
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -73,9 +75,9 @@ class LoginFragment : Fragment(),
     override fun signIn(email: String, password: String) {
 
         when {
-            email.isEmpty() -> viewModel.setEmailError("Email must not be empty")
-            !email.isValidEmail() -> viewModel.setEmailError("Email is invalid")
-            password.isEmpty() -> viewModel.setPasswordError("Password must not be empty")
+            email.isEmpty() -> viewModel.setEmailError(getString(R.string.email_empty))
+            !email.isValidEmail() -> viewModel.setEmailError(getString(R.string.email_invalid))
+            password.isEmpty() -> viewModel.setPasswordError(getString(R.string.password_empty))
 
             else -> {
 
@@ -107,20 +109,43 @@ class LoginFragment : Fragment(),
         viewModel.hideLoader()
 
         if (requestCode == RC_SIGN_IN) {
+
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
+
                 val account = task.getResult(ApiException::class.java) ?: return
                 linkGoogleAccount(account)
             } catch (e: ApiException) {
-                if (e.statusCode == SIGN_IN_CANCELLED) {
-                    Log.i(TAG, "Sign in was cancelled by user")
-                    return
-                }
 
-                Log.w(TAG, "Google sign in failed", e)
-                Snackbar.make(view!!, "Failed to sign in with Google", Snackbar.LENGTH_LONG).show()
+                when (e.statusCode) {
+                    SIGN_IN_CANCELLED -> {
+
+                        Log.i(TAG, "Sign in was cancelled by user")
+                    }
+
+                    NETWORK_ERROR -> {
+
+                        Snackbar
+                            .make(
+                                view!!, getString(R.string.check_connection),
+                                Snackbar.LENGTH_LONG
+                            )
+                            .show()
+                    }
+
+                    else -> {
+
+                        Log.w(TAG, "Google sign in failed", e)
+                        Snackbar.make(
+                            view!!, getString(R.string.google_sign_in_failed),
+                            Snackbar.LENGTH_LONG
+                        )
+                            .show()
+                    }
+                }
             }
+
         }
     }
 
@@ -135,31 +160,31 @@ class LoginFragment : Fragment(),
     private fun onGoogleSignInFailed(exception: Exception) {
 
         Log.w(TAG, "Google sign in failed", exception)
-        Snackbar.make(view!!, "Authentication Failed", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(view!!, getString(R.string.google_sign_in_failed), Snackbar.LENGTH_SHORT)
+            .show()
     }
 
-    private fun handleException(exception: Exception?) {
+    private fun handleException(exception: FirebaseException?) = when (exception) {
 
-        when (exception) {
+        is FirebaseAuthInvalidCredentialsException -> {
 
-            is FirebaseAuthInvalidCredentialsException -> {
-                viewModel.setPasswordError("Username and password do not match")
-            }
+            viewModel.setPasswordError(getString(R.string.password_incorrect))
+        }
 
-            is FirebaseAuthInvalidUserException -> {
-                viewModel.setEmailError("User with that email does not exist")
-            }
+        is FirebaseAuthInvalidUserException -> {
 
-            is FirebaseNetworkException -> {
-                Snackbar
-                    .make(view!!, "Please check your Internet connection", Snackbar.LENGTH_LONG)
-                    .show()
-            }
+            viewModel.setEmailError(getString(R.string.user_does_not_exist))
+        }
 
-            else -> {
-                Log.w(TAG, "Failed to sign in", exception)
-                Snackbar.make(view!!, "Failed to sign in", Snackbar.LENGTH_LONG).show()
-            }
+        is FirebaseNetworkException -> {
+
+            Snackbar.make(view!!, getString(R.string.check_connection), Snackbar.LENGTH_LONG).show()
+        }
+
+        else -> {
+
+            Log.w(TAG, "Failed to sign in", exception)
+            Snackbar.make(view!!, getString(R.string.sign_in_failed), Snackbar.LENGTH_LONG).show()
         }
     }
 }

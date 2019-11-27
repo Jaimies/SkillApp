@@ -73,9 +73,9 @@ class SignupFragment : Fragment(),
 
         val error = when (password.validatePassword()) {
             R.id.RESULT_VALID -> ""
-            R.id.ERROR_EMPTY -> "Password must not be empty"
-            R.id.ERROR_TOO_SHORT -> "Password must be at least 6 characters long"
-            R.id.ERROR_TOO_LONG -> "Password length must not exceed 25 characters"
+            R.id.ERROR_EMPTY -> getString(R.string.password_empty)
+            R.id.ERROR_TOO_SHORT -> getString(R.string.password_too_short)
+            R.id.ERROR_TOO_LONG -> getString(R.string.password_too_long)
             else -> return true
         }
 
@@ -88,8 +88,8 @@ class SignupFragment : Fragment(),
 
         val error = when (email.validateEmail()) {
             R.id.RESULT_VALID -> ""
-            R.id.ERROR_EMPTY -> "Email must not be empty"
-            R.id.ERROR_INVALID -> "Email is not valid"
+            R.id.ERROR_EMPTY -> getString(R.string.email_empty)
+            R.id.ERROR_INVALID -> getString(R.string.email_invalid)
             else -> return true
         }
 
@@ -103,23 +103,24 @@ class SignupFragment : Fragment(),
         when (exception) {
             is FirebaseAuthWeakPasswordException -> {
 
-                viewModel.setPasswordError("The password is too weak")
+                viewModel.setPasswordError(getString(R.string.password_too_weak))
             }
 
             is FirebaseAuthUserCollisionException -> {
 
-                viewModel.setEmailError("User with that email already exists")
+                viewModel.setEmailError(getString(R.string.user_already_exists))
             }
 
             is FirebaseAuthInvalidCredentialsException -> {
 
-                viewModel.setEmailError("Email is invalid")
+                viewModel.setEmailError(getString(R.string.email_invalid))
             }
 
             else -> {
 
                 Log.w(TAG, "Failed to sign up", exception)
-                Snackbar.make(view!!, "Failed to sign up", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(view!!, getString(R.string.sign_up_failed), Snackbar.LENGTH_SHORT)
+                    .show()
             }
         }
     }

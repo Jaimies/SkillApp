@@ -1,6 +1,7 @@
 package com.jdevs.timeo.viewmodels
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.FirebaseException
 
 class LoginViewModel : AuthViewModel() {
 
@@ -8,7 +9,7 @@ class LoginViewModel : AuthViewModel() {
 
     fun signInWithGoogle(
         account: GoogleSignInAccount,
-        failure: (Exception) -> Unit,
+        failure: (FirebaseException) -> Unit,
         success: () -> Unit
     ) {
 
@@ -18,7 +19,12 @@ class LoginViewModel : AuthViewModel() {
         }
     }
 
-    fun signIn(email: String, password: String, failure: (Exception) -> Unit, success: () -> Unit) {
+    fun signIn(
+        email: String,
+        password: String,
+        failure: (FirebaseException) -> Unit,
+        success: () -> Unit
+    ) {
 
         launchSuspendingProcess(failure, success, navigator) {
 

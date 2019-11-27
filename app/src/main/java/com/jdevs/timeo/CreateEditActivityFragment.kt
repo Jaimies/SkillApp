@@ -54,7 +54,8 @@ class CreateEditActivityFragment : ActionBarFragment(),
 
         requireActivity().toolbar.apply {
 
-            title = if (args.editActivity) "Edit activity" else "Create activity"
+            title =
+                getString(if (args.editActivity) R.string.edit_activity else R.string.create_activity)
         }
 
         return binding.root
@@ -99,19 +100,20 @@ class CreateEditActivityFragment : ActionBarFragment(),
 
         val dialog = AlertDialog.Builder(context!!)
             .setIcon(android.R.drawable.ic_delete)
-            .setTitle("Are you sure?")
-            .setMessage("Are you sure you want to delete this activity?")
-            .setPositiveButton("Yes") { _, _ ->
+            .setTitle(getString(R.string.are_you_sure))
+            .setMessage(getString(R.string.sure_delete_activity))
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
 
                 firestoreActivitiesListRepository.deleteActivity(
                     args.activityId ?: return@setPositiveButton
                 )
 
-                Snackbar.make(view!!, "Activity deleted", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(view!!, getString(R.string.activity_deleted), Snackbar.LENGTH_LONG)
+                    .show()
 
                 findNavController().navigate(R.id.action_returnToHomeFragment)
             }
-            .setNegativeButton("No", null)
+            .setNegativeButton(getString(R.string.no), null)
 
         dialog.show()
     }
@@ -124,20 +126,18 @@ class CreateEditActivityFragment : ActionBarFragment(),
     private fun validateInput(name: String, icon: String): Boolean {
 
         when {
-            name.isEmpty() -> viewModel.setNameError("Title cannot be empty")
-            icon.isEmpty() -> viewModel.setIconError("Icon cannot be empty")
+            name.isEmpty() -> viewModel.setNameError(getString(R.string.name_empty))
+            icon.isEmpty() -> viewModel.setIconError(getString(R.string.icon_empty))
 
             name.length >= ACTIVITY_NAME_MAX_LENGTH -> {
-                viewModel.setNameError("Title length must not exceed 100 characters")
+                viewModel.setNameError(getString(R.string.name_too_long))
             }
 
             icon.length >= ACTIVITY_NAME_MAX_LENGTH -> {
-                viewModel.setIconError("Icon length must not exceed 100 characters")
+                viewModel.setIconError(getString(R.string.icon_too_long))
             }
 
-            else -> {
-                return true
-            }
+            else -> return true
         }
 
         return false

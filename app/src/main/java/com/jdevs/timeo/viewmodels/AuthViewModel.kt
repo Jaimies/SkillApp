@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.FirebaseException
 import com.jdevs.timeo.repositories.FirebaseAuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +42,7 @@ open class AuthViewModel : ViewModel() {
     }
 
     protected fun launchSuspendingProcess(
-        failure: (Exception) -> Unit,
+        failure: (FirebaseException) -> Unit,
         success: () -> Unit,
         navigator: Navigator?,
         block: suspend () -> Unit
@@ -55,7 +55,7 @@ open class AuthViewModel : ViewModel() {
 
                 block()
                 success()
-            } catch (exception: FirebaseAuthException) {
+            } catch (exception: FirebaseException) {
 
                 failure(exception)
             } finally {

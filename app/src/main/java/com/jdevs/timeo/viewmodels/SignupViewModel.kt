@@ -7,6 +7,9 @@ class SignupViewModel : AuthViewModel() {
     private val _emailError = MutableLiveData("")
     private val _passwordError = MutableLiveData("")
 
+    val email = MutableLiveData("")
+    val password = MutableLiveData("")
+
     val emailError get() = _emailError as LiveData<String>
     val passwordError get() = _passwordError as LiveData<String>
 
@@ -33,6 +36,10 @@ class SignupViewModel : AuthViewModel() {
 
             authRepository.createAccount(email, password)
         }
+    }
+
+    fun signUp() {
+        navigator?.signUp(email.value.orEmpty(), password.value.orEmpty())
     }
 
     interface Navigator : AuthViewModel.Navigator {

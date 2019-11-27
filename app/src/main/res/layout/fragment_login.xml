@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/login"
+                android:text="@string/sign_up"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -47,6 +47,7 @@
                     android:layout_marginTop="@dimen/default_margin"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
+                    android:text="@={viewmodel.email}"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="Autofill" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +67,9 @@
                     android:layout_marginTop="@dimen/default_margin"
                     android:hint="@string/password"
                     android:inputType="textPassword"
+                    android:text="@={viewmodel.password}"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:onEnterPressed="@{() -> viewmodel.signIn()}"
                     tools:ignore="Autofill" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,19 +93,12 @@
                     tools:ignore="KeyboardInaccessibleWidget" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/login_button"
+                    android:id="@+id/signup_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="@{!viewmodel.isLoading}"
-                    android:focusable="true"
-                    android:onClick="@{() -> viewmodel.navigator.signIn(emailEditText.getText().toString(), passwordEditText.getText().toString())}"
+                    android:onClick="@{() -> viewmodel.signIn()}"
                     android:text="@string/login_button" />
-
-                <com.google.android.gms.common.SignInButton
-                    android:id="@+id/google_signin_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewmodel.navigator.showGoogleSignInIntent()}" />
             </LinearLayout>
         </LinearLayout>
 

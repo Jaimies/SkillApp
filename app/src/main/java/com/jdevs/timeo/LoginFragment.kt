@@ -53,7 +53,7 @@ class LoginFragment : Fragment(),
         binding.also {
 
             it.viewmodel = viewModel
-            it.lifecycleOwner = this@LoginFragment
+            it.lifecycleOwner = this
         }
 
         return binding.root

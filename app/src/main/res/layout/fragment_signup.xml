@@ -47,6 +47,7 @@
                     android:layout_marginTop="@dimen/default_margin"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
+                    android:text="@={viewmodel.email}"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="Autofill" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +67,9 @@
                     android:layout_marginTop="@dimen/default_margin"
                     android:hint="@string/password"
                     android:inputType="textPassword"
+                    android:text="@={viewmodel.password}"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:onEnterPressed="@{() -> viewmodel.signUp()}"
                     tools:ignore="Autofill" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="@{!viewmodel.isLoading}"
-                    android:onClick="@{() -> viewmodel.navigator.signUp(emailEditText.getText().toString(), passwordEditText.getText().toString())}"
+                    android:onClick="@{() -> viewmodel.signUp()}"
                     android:text="@string/sign_up_button" />
             </LinearLayout>
         </LinearLayout>

@@ -4,8 +4,10 @@ import android.graphics.Color
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -89,8 +91,20 @@ fun setError(textInputLayout: TextInputLayout, error: String, editText: EditText
     }
 }
 
+@BindingAdapter("app:onEnterPressed")
+fun setOnEnterPressedListener(view: View, block: () -> Unit) {
+    view.setOnKeyListener { _, keyCode, event ->
+        if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) &&
+            event?.action == KeyEvent.ACTION_DOWN
+        ) {
+            block()
+        }
+
+        false
+    }
+}
+
 @BindingAdapter("android:onClick")
 fun bindSignInClick(button: SignInButton, method: () -> Unit) {
-
     button.setOnClickListener { method() }
 }

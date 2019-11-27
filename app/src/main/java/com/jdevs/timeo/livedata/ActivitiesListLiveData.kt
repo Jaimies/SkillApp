@@ -18,7 +18,6 @@ import com.jdevs.timeo.util.TAG
 class ActivitiesListLiveData(
     private val query: Query,
     private val onLastVisibleActivityCallback: OnLastVisibleActivityCallback,
-
     private val onLastActivityReachedCallback: OnLastActivityReachedCallback
 ) : LiveData<ActivityOperation>(),
     EventListener<QuerySnapshot> {

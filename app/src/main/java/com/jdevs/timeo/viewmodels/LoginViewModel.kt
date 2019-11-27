@@ -6,11 +6,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 class LoginViewModel : AuthViewModel() {
 
-    private val _emailError = MutableLiveData("")
-    private val _passwordError = MutableLiveData("")
-
+    val email = MutableLiveData("")
+    val password = MutableLiveData("")
     val emailError get() = _emailError as LiveData<String>
     val passwordError get() = _passwordError as LiveData<String>
+
+    private val _emailError = MutableLiveData("")
+    private val _passwordError = MutableLiveData("")
 
     var navigator: Navigator? = null
 
@@ -29,7 +31,9 @@ class LoginViewModel : AuthViewModel() {
         failure: (Exception) -> Unit,
         success: () -> Unit
     ) {
+
         launchSuspendingProcess(failure, success, navigator) {
+
             authRepository.linkGoogleAccount(account)
         }
     }
@@ -37,8 +41,13 @@ class LoginViewModel : AuthViewModel() {
     fun signIn(email: String, password: String, failure: (Exception) -> Unit, success: () -> Unit) {
 
         launchSuspendingProcess(failure, success, navigator) {
+
             authRepository.signIn(email, password)
         }
+    }
+
+    fun signIn() {
+        navigator?.signIn(email.value.orEmpty(), password.value.orEmpty())
     }
 
     interface Navigator : AuthViewModel.Navigator {

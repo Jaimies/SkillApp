@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.adapter.RecordAdapter
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.RecordOperation
+import com.jdevs.timeo.data.operations.RecordOperation
 import com.jdevs.timeo.databinding.FragmentHistoryBinding
 import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodel.RecordListViewModel

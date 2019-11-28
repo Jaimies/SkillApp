@@ -1,4 +1,6 @@
-package com.jdevs.timeo.data
+package com.jdevs.timeo.data.operations
+
+import com.jdevs.timeo.data.Record
 
 data class RecordOperation(
     val activity: Record?,

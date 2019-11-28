@@ -11,7 +11,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.RecordOperation
+import com.jdevs.timeo.data.operations.RecordOperation
 import com.jdevs.timeo.util.RECORDS_FETCH_LIMIT
 import com.jdevs.timeo.util.TAG
 
@@ -48,7 +48,11 @@ class RecordListLiveData(
 
         if (!wasLoaderHidden) {
 
-            value = RecordOperation(null, R.id.OPERATION_LOADED, "")
+            value = RecordOperation(
+                null,
+                R.id.OPERATION_LOADED,
+                ""
+            )
             wasLoaderHidden = true
         }
 
@@ -83,7 +87,11 @@ class RecordListLiveData(
 
         val operation = when (documentChange.type) {
 
-            DocumentChange.Type.ADDED -> RecordOperation(record, R.id.OPERATION_ADDED, documentId)
+            DocumentChange.Type.ADDED -> RecordOperation(
+                record,
+                R.id.OPERATION_ADDED,
+                documentId
+            )
 
             DocumentChange.Type.MODIFIED -> RecordOperation(
                 record,

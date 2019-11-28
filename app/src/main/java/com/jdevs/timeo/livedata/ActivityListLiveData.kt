@@ -10,7 +10,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
-import com.jdevs.timeo.data.ActivityOperation
+import com.jdevs.timeo.data.operations.ActivityOperation
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.util.ACTIVITIES_FETCH_LIMIT
 import com.jdevs.timeo.util.TAG
@@ -47,7 +47,11 @@ class ActivityListLiveData(
 
         if (!wasLoaderHidden) {
 
-            value = ActivityOperation(null, R.id.OPERATION_LOADED, "")
+            value = ActivityOperation(
+                null,
+                R.id.OPERATION_LOADED,
+                ""
+            )
             wasLoaderHidden = true
         }
 

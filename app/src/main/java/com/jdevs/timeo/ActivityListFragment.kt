@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jdevs.timeo.adapter.ActivityAdapter
+import com.jdevs.timeo.adapter.ActivitiesAdapter
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.FragmentActivityListBinding
 import com.jdevs.timeo.models.ActionBarFragment
@@ -23,8 +23,11 @@ class ActivityListFragment : ActionBarFragment(),
     private val activityList = ArrayList<TimeoActivity>()
     private val idList = ArrayList<String>()
 
-    private val mAdapter: ActivityAdapter by lazy {
-        ActivityAdapter(activityList, ::createRecord, ::navigateToDetails)
+    private val mAdapter by lazy {
+        ActivitiesAdapter(
+            ::createRecord,
+            ::navigateToDetails
+        )
     }
 
     private val viewModel by lazy {
@@ -61,8 +64,8 @@ class ActivityListFragment : ActionBarFragment(),
     override fun onStart() {
         super.onStart()
 
-        activityList.clear()
-        idList.clear()
+//        activityList.clear()
+//        idList.clear()
     }
 
     override fun onDestroy() {
@@ -109,9 +112,12 @@ class ActivityListFragment : ActionBarFragment(),
             return
         }
 
-        activityList.add(activity)
+        for (i in 1..10) {
+
+            mAdapter.addItem(activity)
+        }
+
         idList.add(id)
-        mAdapter.notifyItemInserted(activityList.size - 1)
     }
 
     private fun removeActivity(id: String) {

@@ -1,4 +1,4 @@
-package com.jdevs.timeo.adapter
+package com.jdevs.timeo.adapter.delegate
 
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
@@ -9,19 +9,14 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
-import com.jdevs.timeo.RecordActivityDialog
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
 import com.jdevs.timeo.util.randomString
 import com.jdevs.timeo.viewmodel.ActivityViewModel
 
-class ActivityAdapter(
-    private val activityList: List<TimeoActivity>,
-    private val createRecord: (Int, Long) -> Unit = { _, _ -> },
-    private val navigateToDetails: (Int) -> Unit = {}
-) : RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
+class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 
         val binding =
             ActivitiesItemBinding.inflate(
@@ -40,11 +35,9 @@ class ActivityAdapter(
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindActivity(activityList[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
+//        holder.bindActivity(activityList[position])
     }
-
-    override fun getItemCount() = activityList.size
 
     inner class ViewHolder(private val binding: ActivitiesItemBinding) :
         RecyclerView.ViewHolder(binding.root),
@@ -61,11 +54,12 @@ class ActivityAdapter(
         }
 
         override fun showRecordDialog() {
-            RecordActivityDialog(binding.root.context, adapterPosition, createRecord).show()
+
+//            RecordActivityDialog(binding.root.context, adapterPosition, createRecord).show()
         }
 
         override fun navigateToDetails() {
-            navigateToDetails(adapterPosition)
+//            navigateToDetails(adapterPosition)
         }
 
         private fun recolorView() {

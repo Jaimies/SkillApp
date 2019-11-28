@@ -1,7 +1,7 @@
-package com.jdevs.timeo.viewmodels
+package com.jdevs.timeo.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.repositories.FirebaseAuthRepository
+import com.jdevs.timeo.repository.FirebaseAuthRepository
 
 class ProfileViewModel : ViewModel() {
     var isUserLoggedIn = false

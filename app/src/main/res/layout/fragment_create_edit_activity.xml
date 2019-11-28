@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodels.CreateEditActivityViewModel" />
+            type="com.jdevs.timeo.viewmodel.CreateEditActivityViewModel" />
     </data>
 
     <LinearLayout

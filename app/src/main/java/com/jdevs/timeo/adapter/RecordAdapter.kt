@@ -1,4 +1,4 @@
-package com.jdevs.timeo.adapters
+package com.jdevs.timeo.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +11,12 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.RecordsItemBinding
 import com.jdevs.timeo.util.randomString
-import com.jdevs.timeo.viewmodels.RecordViewModel
+import com.jdevs.timeo.viewmodel.RecordViewModel
 
-class RecordsListAdapter(
+class RecordAdapter(
     private val recordList: List<Record>,
     private val showDeleteDialog: (Int) -> Unit = {}
-) : RecyclerView.Adapter<RecordsListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecordAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 

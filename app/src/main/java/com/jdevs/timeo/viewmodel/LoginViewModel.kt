@@ -1,4 +1,4 @@
-package com.jdevs.timeo.viewmodels
+package com.jdevs.timeo.viewmodel
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.FirebaseException

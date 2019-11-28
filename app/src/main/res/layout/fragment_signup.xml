@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodels.SignupViewModel" />
+            type="com.jdevs.timeo.viewmodel.SignupViewModel" />
     </data>
 
     <FrameLayout

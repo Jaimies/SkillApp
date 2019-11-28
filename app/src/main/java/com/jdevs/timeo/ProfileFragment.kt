@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.jdevs.timeo.databinding.FragmentProfileBinding
-import com.jdevs.timeo.viewmodels.ProfileViewModel
+import com.jdevs.timeo.viewmodel.ProfileViewModel
 
 class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 

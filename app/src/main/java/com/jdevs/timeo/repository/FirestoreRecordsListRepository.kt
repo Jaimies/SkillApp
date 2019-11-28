@@ -1,23 +1,23 @@
-package com.jdevs.timeo.repositories
+package com.jdevs.timeo.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.livedata.RecordsListLiveData
+import com.jdevs.timeo.livedata.RecordListLiveData
 import com.jdevs.timeo.util.ACTIVITIES_COLLECTION
 import com.jdevs.timeo.util.ACTIVITIES_TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.RECORDS_COLLECTION
 import com.jdevs.timeo.util.RECORDS_FETCH_LIMIT
 import com.jdevs.timeo.util.RECORDS_TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.USERS_COLLECTION
-import com.jdevs.timeo.viewmodels.RecordListViewModel
+import com.jdevs.timeo.viewmodel.RecordListViewModel
 
 class FirestoreRecordsListRepository :
     RecordListViewModel.Repository,
-    RecordsListLiveData.OnLastRecordReachedCallback,
-    RecordsListLiveData.OnLastVisibleRecordCallback {
+    RecordListLiveData.OnLastRecordReachedCallback,
+    RecordListLiveData.OnLastVisibleRecordCallback {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
@@ -39,7 +39,7 @@ class FirestoreRecordsListRepository :
     private var isLastRecordReached = false
     private var lastVisibleRecord: DocumentSnapshot? = null
 
-    override fun getRecordsListLiveData(): RecordsListLiveData? {
+    override fun getRecordsListLiveData(): RecordListLiveData? {
 
         if (isLastRecordReached) {
             return null
@@ -51,7 +51,7 @@ class FirestoreRecordsListRepository :
             query = query.startAfter(lastRecord)
         }
 
-        return RecordsListLiveData(query, this, this)
+        return RecordListLiveData(query, this, this)
     }
 
     override fun deleteRecord(id: String, recordTime: Long, activityId: String) {

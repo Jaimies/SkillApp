@@ -11,12 +11,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.jdevs.timeo.adapters.RecordsListAdapter
+import com.jdevs.timeo.adapter.RecordAdapter
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.databinding.FragmentHistoryBinding
 import com.jdevs.timeo.models.ScrollDownListener
-import com.jdevs.timeo.viewmodels.RecordListViewModel
+import com.jdevs.timeo.viewmodel.RecordListViewModel
 
 class HistoryFragment : Fragment(),
     DialogInterface.OnClickListener {
@@ -29,7 +29,7 @@ class HistoryFragment : Fragment(),
     }
 
     private val mAdapter by lazy {
-        RecordsListAdapter(recordList, ::showDeleteDialog)
+        RecordAdapter(recordList, ::showDeleteDialog)
     }
 
     private var chosenRecordIndex = -1
@@ -40,15 +40,18 @@ class HistoryFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        val binding = FragmentHistoryBinding.inflate(inflater, container, false).also {
 
-        binding.viewmodel = viewModel
-        binding.lifecycleOwner = this
+            it.viewmodel = viewModel
+            it.lifecycleOwner = this
 
-        binding.recordsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = mAdapter
-            addOnScrollListener(ScrollDownListener(::getRecords))
+            it.recordsRecyclerView.apply {
+
+                layoutManager = LinearLayoutManager(context)
+                adapter = mAdapter
+
+                addOnScrollListener(ScrollDownListener(::getRecords))
+            }
         }
 
         getRecords()
@@ -77,7 +80,7 @@ class HistoryFragment : Fragment(),
             return
         }
 
-        val recordTime = recordList[chosenRecordIndex].time.toLong()
+        val recordTime = recordList[chosenRecordIndex].time
 
         val snack =
             Snackbar.make(view!!, "Record deleted", Snackbar.LENGTH_SHORT)
@@ -133,7 +136,6 @@ class HistoryFragment : Fragment(),
 
         recordList.removeAt(index)
         idList.remove(id)
-
         mAdapter.notifyItemRemoved(index)
     }
 
@@ -144,7 +146,6 @@ class HistoryFragment : Fragment(),
                 .first()
 
         recordList[index] = record
-
         mAdapter.notifyItemChanged(index)
     }
 }

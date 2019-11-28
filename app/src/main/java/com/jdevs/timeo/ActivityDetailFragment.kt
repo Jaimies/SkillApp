@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.databinding.FragmentActivityDetailBinding
 import com.jdevs.timeo.models.ActionBarFragment
-import com.jdevs.timeo.viewmodels.ActivityDetailViewModel
+import com.jdevs.timeo.viewmodel.ActivityDetailViewModel
 
 class ActivityDetailFragment : ActionBarFragment() {
 

@@ -7,14 +7,14 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodels.ActivityViewModel" />
+            type="com.jdevs.timeo.viewmodel.ActivityViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/activities_item_height"
         android:layout_marginBottom="@dimen/activities_item_margin"
-        android:background="@drawable/activities_list_item_background_red"
+        android:background="@drawable/activities_item_background"
         android:gravity="center_vertical"
         android:onClick="@{() -> viewmodel.navigator.navigateToDetails()}"
         android:paddingStart="@dimen/activities_item_padding"
@@ -50,7 +50,7 @@
             android:id="@+id/plus_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/activities_list_plus_button_red"
+            android:background="@drawable/activities_item_button"
             android:onClick="@{() -> viewmodel.navigator.showRecordDialog()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

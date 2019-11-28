@@ -51,6 +51,6 @@
         android:elevation="320dp"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu"
+        app:menu="@menu/drawer_nav"
         tools:ignore="UnusedAttribute" />
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,4 +1,4 @@
-package com.jdevs.timeo.repositories
+package com.jdevs.timeo.repository
 
 import android.util.Log
 import com.google.android.gms.tasks.OnFailureListener
@@ -10,7 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.livedata.ActivitiesListLiveData
+import com.jdevs.timeo.livedata.ActivityListLiveData
 import com.jdevs.timeo.util.ACTIVITIES_ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.ACTIVITIES_COLLECTION
 import com.jdevs.timeo.util.ACTIVITIES_FETCH_LIMIT
@@ -20,12 +20,12 @@ import com.jdevs.timeo.util.ACTIVITIES_TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.RECORDS_COLLECTION
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.USERS_COLLECTION
-import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
+import com.jdevs.timeo.viewmodel.ActivitiesListViewModel
 
 class FirestoreActivitiesListRepository :
     ActivitiesListViewModel.ActivitiesListRepository,
-    ActivitiesListLiveData.OnLastActivityReachedCallback,
-    ActivitiesListLiveData.OnLastVisibleActivityCallback,
+    ActivityListLiveData.OnLastActivityReachedCallback,
+    ActivityListLiveData.OnLastVisibleActivityCallback,
     OnFailureListener {
 
     private val firestore = FirebaseFirestore.getInstance()
@@ -48,7 +48,7 @@ class FirestoreActivitiesListRepository :
     private var isLastActivityReached = false
     private var lastVisibleActivity: DocumentSnapshot? = null
 
-    override fun getActivitiesListLiveData(): ActivitiesListLiveData? {
+    override fun getActivitiesListLiveData(): ActivityListLiveData? {
 
         if (isLastActivityReached) {
             return null
@@ -60,7 +60,7 @@ class FirestoreActivitiesListRepository :
             query = query.startAfter(lastActivity)
         }
 
-        return ActivitiesListLiveData(query, this, this)
+        return ActivityListLiveData(query, this, this)
     }
 
     override fun createRecord(activityName: String, time: Long, activityId: String) {

@@ -13,10 +13,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.FragmentCreateEditActivityBinding
 import com.jdevs.timeo.models.ActionBarFragment
-import com.jdevs.timeo.repositories.FirestoreActivitiesListRepository
+import com.jdevs.timeo.repository.FirestoreActivitiesListRepository
 import com.jdevs.timeo.util.ACTIVITY_NAME_MAX_LENGTH
 import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.viewmodels.CreateEditActivityViewModel
+import com.jdevs.timeo.viewmodel.CreateEditActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class CreateEditActivityFragment : ActionBarFragment(),

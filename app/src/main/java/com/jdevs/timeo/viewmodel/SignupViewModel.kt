@@ -1,4 +1,4 @@
-package com.jdevs.timeo.viewmodels
+package com.jdevs.timeo.viewmodel
 
 class SignupViewModel : AuthViewModel() {
 

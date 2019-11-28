@@ -25,7 +25,7 @@ import com.jdevs.timeo.util.RC_SIGN_IN
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
-import com.jdevs.timeo.viewmodels.LoginViewModel
+import com.jdevs.timeo.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment(),
     LoginViewModel.Navigator {

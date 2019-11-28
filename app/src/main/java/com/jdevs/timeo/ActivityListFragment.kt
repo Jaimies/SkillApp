@@ -8,12 +8,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jdevs.timeo.adapters.ActivitiesListAdapter
+import com.jdevs.timeo.adapter.ActivityAdapter
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.FragmentActivityListBinding
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
-import com.jdevs.timeo.viewmodels.ActivitiesListViewModel
+import com.jdevs.timeo.viewmodel.ActivitiesListViewModel
 
 class ActivityListFragment : ActionBarFragment(),
     ActivitiesListViewModel.Navigator {
@@ -23,8 +23,8 @@ class ActivityListFragment : ActionBarFragment(),
     private val activityList = ArrayList<TimeoActivity>()
     private val idList = ArrayList<String>()
 
-    private val mAdapter: ActivitiesListAdapter by lazy {
-        ActivitiesListAdapter(activityList, ::createRecord, ::navigateToDetails)
+    private val mAdapter: ActivityAdapter by lazy {
+        ActivityAdapter(activityList, ::createRecord, ::navigateToDetails)
     }
 
     private val viewModel by lazy {
@@ -43,15 +43,15 @@ class ActivityListFragment : ActionBarFragment(),
 
                 it.viewmodel = viewModel
                 it.lifecycleOwner = this
+
+                it.activityRecyclerView.apply {
+
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = mAdapter
+
+                    addOnScrollListener(ScrollDownListener(::getActivities))
+                }
             }
-
-        binding.activityRecyclerView.apply {
-
-            layoutManager = LinearLayoutManager(context)
-            adapter = mAdapter
-
-            addOnScrollListener(ScrollDownListener(::getActivities))
-        }
 
         getActivities()
 
@@ -75,7 +75,7 @@ class ActivityListFragment : ActionBarFragment(),
     }
 
     private fun getActivities() {
-        val liveData = viewModel.activitiesListLiveData ?: return
+        val liveData = viewModel.activityListLiveData ?: return
 
         liveData.observe(this) { operation ->
 

@@ -1,4 +1,4 @@
-package com.jdevs.timeo.viewmodels
+package com.jdevs.timeo.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -17,7 +17,7 @@ import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
-import com.jdevs.timeo.viewmodels.SignupViewModel
+import com.jdevs.timeo.viewmodel.SignupViewModel
 
 class SignupFragment : Fragment(),
     SignupViewModel.Navigator {

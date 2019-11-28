@@ -6,7 +6,7 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodels.ActivityDetailViewModel" />
+            type="com.jdevs.timeo.viewmodel.ActivityDetailViewModel" />
     </data>
 
     <LinearLayout

@@ -1,11 +1,11 @@
-package com.jdevs.timeo.viewmodels
+package com.jdevs.timeo.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.livedata.ActivitiesListLiveData
-import com.jdevs.timeo.repositories.FirestoreActivitiesListRepository
+import com.jdevs.timeo.livedata.ActivityListLiveData
+import com.jdevs.timeo.repository.FirestoreActivitiesListRepository
 
 class ActivitiesListViewModel : ViewModel() {
 
@@ -20,7 +20,7 @@ class ActivitiesListViewModel : ViewModel() {
     private val activitiesListRepository =
         FirestoreActivitiesListRepository()
 
-    val activitiesListLiveData: ActivitiesListLiveData? get() = activitiesListRepository.getActivitiesListLiveData()
+    val activityListLiveData get() = activitiesListRepository.getActivitiesListLiveData()
 
     fun onLoaded() {
         _isLoaded.value = true
@@ -37,7 +37,7 @@ class ActivitiesListViewModel : ViewModel() {
     }
 
     interface ActivitiesListRepository {
-        fun getActivitiesListLiveData(): ActivitiesListLiveData?
+        fun getActivitiesListLiveData(): ActivityListLiveData?
         fun createRecord(activityName: String, time: Long, activityId: String)
         fun updateActivity(activity: TimeoActivity, activityId: String)
         fun createActivity(activity: TimeoActivity)

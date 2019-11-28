@@ -1,4 +1,4 @@
-package com.jdevs.timeo.adapters
+package com.jdevs.timeo.adapter
 
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
@@ -13,13 +13,13 @@ import com.jdevs.timeo.RecordActivityDialog
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
 import com.jdevs.timeo.util.randomString
-import com.jdevs.timeo.viewmodels.ActivityViewModel
+import com.jdevs.timeo.viewmodel.ActivityViewModel
 
-class ActivitiesListAdapter(
+class ActivityAdapter(
     private val activityList: List<TimeoActivity>,
     private val createRecord: (Int, Long) -> Unit = { _, _ -> },
     private val navigateToDetails: (Int) -> Unit = {}
-) : RecyclerView.Adapter<ActivitiesListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -29,10 +29,11 @@ class ActivitiesListAdapter(
                 parent,
                 false
             ).also {
-                it.viewmodel = ViewModelProviders.of(parent.context as FragmentActivity).get(
-                    randomString(),
-                    ActivityViewModel::class.java
-                )
+
+                it.viewmodel = ViewModelProviders
+                    .of(parent.context as FragmentActivity)
+                    .get(randomString(), ActivityViewModel::class.java)
+
                 it.lifecycleOwner = parent.context as FragmentActivity
             }
 
@@ -50,6 +51,7 @@ class ActivitiesListAdapter(
         ActivityViewModel.Navigator {
 
         init {
+
             binding.viewmodel?.navigator = this
         }
 

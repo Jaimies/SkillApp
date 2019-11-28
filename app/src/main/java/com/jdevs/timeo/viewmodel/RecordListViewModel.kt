@@ -1,10 +1,10 @@
-package com.jdevs.timeo.viewmodels
+package com.jdevs.timeo.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.livedata.RecordsListLiveData
-import com.jdevs.timeo.repositories.FirestoreRecordsListRepository
+import com.jdevs.timeo.livedata.RecordListLiveData
+import com.jdevs.timeo.repository.FirestoreRecordsListRepository
 
 class RecordListViewModel : ViewModel() {
     private val _isEmpty = MutableLiveData(true)
@@ -33,7 +33,7 @@ class RecordListViewModel : ViewModel() {
     }
 
     interface Repository {
-        fun getRecordsListLiveData(): RecordsListLiveData?
+        fun getRecordsListLiveData(): RecordListLiveData?
         fun deleteRecord(id: String, recordTime: Long, activityId: String)
     }
 }

@@ -54,6 +54,7 @@
     <string name="password_empty">Password must not be empty</string>
     <string name="password_too_weak">The password is too weak</string>
     <string name="password_too_short">Password must be at least 6 characters long</string>
+    <string name="password_too_long">Password length must not exceed 25 characters</string>
     <string name="name_empty">Title cannot be empty</string>
     <string name="name_too_long">Title length must not exceed 100 characters</string>
     <string name="icon_empty">Icon cannot be empty</string>

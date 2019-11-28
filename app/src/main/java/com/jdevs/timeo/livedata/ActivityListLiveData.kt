@@ -15,7 +15,7 @@ import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.util.ACTIVITIES_FETCH_LIMIT
 import com.jdevs.timeo.util.TAG
 
-class ActivitiesListLiveData(
+class ActivityListLiveData(
     private val query: Query,
     private val onLastVisibleActivityCallback: OnLastVisibleActivityCallback,
     private val onLastActivityReachedCallback: OnLastActivityReachedCallback

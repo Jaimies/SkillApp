@@ -15,7 +15,7 @@ import com.jdevs.timeo.data.RecordOperation
 import com.jdevs.timeo.util.RECORDS_FETCH_LIMIT
 import com.jdevs.timeo.util.TAG
 
-class RecordsListLiveData(
+class RecordListLiveData(
     private val query: Query,
     private val onLastVisibleRecordCallback: OnLastVisibleRecordCallback,
     private val onLastRecordReachedCallback: OnLastRecordReachedCallback

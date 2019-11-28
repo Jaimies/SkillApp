@@ -14,22 +14,18 @@ import com.jdevs.timeo.util.RECORDS_TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.USERS_COLLECTION
 import com.jdevs.timeo.viewmodel.RecordListViewModel
 
-class FirestoreRecordsListRepository :
-    RecordListViewModel.Repository,
-    RecordListLiveData.OnLastRecordReachedCallback,
-    RecordListLiveData.OnLastVisibleRecordCallback {
+class FirestoreRecordListRepository(private val onLastItemReachedCallback: () -> Unit = {}) :
+    RecordListViewModel.Repository {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
     private val recordsRef by lazy {
-        firestore
-            .collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$RECORDS_COLLECTION")
+        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$RECORDS_COLLECTION")
     }
 
     private val activitiesRef by lazy {
-        firestore
-            .collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$ACTIVITIES_COLLECTION")
+        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$ACTIVITIES_COLLECTION")
     }
 
     private var query = recordsRef
@@ -42,6 +38,7 @@ class FirestoreRecordsListRepository :
     override fun getRecordsListLiveData(): RecordListLiveData? {
 
         if (isLastRecordReached) {
+
             return null
         }
 
@@ -51,7 +48,7 @@ class FirestoreRecordsListRepository :
             query = query.startAfter(lastRecord)
         }
 
-        return RecordListLiveData(query, this, this)
+        return RecordListLiveData(query, ::setLastVisibleItem, ::onLastItemReached)
     }
 
     override fun deleteRecord(id: String, recordTime: Long, activityId: String) {
@@ -59,17 +56,17 @@ class FirestoreRecordsListRepository :
         recordsRef.document(id).delete()
 
         activitiesRef.document(activityId)
-            .update(
-                ACTIVITIES_TOTAL_TIME_PROPERTY,
-                FieldValue.increment(-recordTime)
-            )
+            .update(ACTIVITIES_TOTAL_TIME_PROPERTY, FieldValue.increment(-recordTime))
     }
 
-    override fun setLastRecordReached(isLastRecordReached: Boolean) {
-        this.isLastRecordReached = isLastRecordReached
+    private fun onLastItemReached() {
+
+        isLastRecordReached = true
+        onLastItemReachedCallback()
     }
 
-    override fun setLastVisibleRecord(lastVisibleRecord: DocumentSnapshot) {
-        this.lastVisibleRecord = lastVisibleRecord
+    private fun setLastVisibleItem(lastVisibleItem: DocumentSnapshot) {
+
+        lastVisibleRecord = lastVisibleItem
     }
 }

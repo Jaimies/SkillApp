@@ -13,10 +13,10 @@ import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.FragmentActivityListBinding
 import com.jdevs.timeo.models.ActionBarFragment
 import com.jdevs.timeo.models.ScrollDownListener
-import com.jdevs.timeo.viewmodel.ActivitiesListViewModel
+import com.jdevs.timeo.viewmodel.ActivityListViewModel
 
 class ActivityListFragment : ActionBarFragment(),
-    ActivitiesListViewModel.Navigator {
+    ActivityListViewModel.Navigator {
 
     override val menuId = R.menu.action_bar_activity_list
 
@@ -31,7 +31,7 @@ class ActivityListFragment : ActionBarFragment(),
     }
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(ActivitiesListViewModel::class.java).also {
+        ViewModelProviders.of(this).get(ActivityListViewModel::class.java).also {
             it.navigator = this
         }
     }
@@ -61,13 +61,6 @@ class ActivityListFragment : ActionBarFragment(),
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-
-//        activityList.clear()
-//        idList.clear()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         viewModel.navigator = null
@@ -75,6 +68,11 @@ class ActivityListFragment : ActionBarFragment(),
 
     override fun createActivity() {
         findNavController().navigate(R.id.action_showCreateActivityFragment)
+    }
+
+    override fun onLastItemReached() {
+
+        mAdapter.onLastItemReached()
     }
 
     private fun getActivities() {
@@ -107,15 +105,14 @@ class ActivityListFragment : ActionBarFragment(),
     }
 
     private fun addActivity(activity: TimeoActivity, id: String) {
+
         if (idList.contains(id)) {
 
             return
         }
 
-        for (i in 1..10) {
-
-            mAdapter.addItem(activity)
-        }
+        activityList.add(activity)
+        mAdapter.addItem(activity)
 
         idList.add(id)
     }
@@ -127,6 +124,7 @@ class ActivityListFragment : ActionBarFragment(),
             .first()
 
         activityList.removeAt(index)
+        mAdapter.removeItem(index)
         idList.removeAt(index)
 
         mAdapter.notifyItemRemoved(index)
@@ -139,8 +137,7 @@ class ActivityListFragment : ActionBarFragment(),
                 .first()
 
         activityList[index] = activity
-
-        mAdapter.notifyItemChanged(index)
+        mAdapter.modifyItem(index, activity)
     }
 
     private fun navigateToDetails(index: Int) {

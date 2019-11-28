@@ -1,4 +1,4 @@
-package com.jdevs.timeo.adapter.delegate
+package com.jdevs.timeo.adapter.delegates
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,10 @@ import com.jdevs.timeo.R
 
 class LoadingDelegateAdapter : ViewTypeDelegateAdapter {
 
-    override fun onCreateViewHolder(parent: ViewGroup) = ViewHolder(parent)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        record: (Int, Long) -> Unit, goToDetails: (Int) -> Unit
+    ) = ViewHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {}
 

@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.livedata.ActivityListLiveData
-import com.jdevs.timeo.repository.FirestoreActivitiesListRepository
+import com.jdevs.timeo.repository.FirestoreActivityListRepository
 
-class ActivitiesListViewModel : ViewModel() {
+class ActivityListViewModel : ViewModel() {
 
     private val _isEmpty = MutableLiveData(true)
     private val _isLoaded = MutableLiveData(false)
@@ -18,7 +18,7 @@ class ActivitiesListViewModel : ViewModel() {
     var navigator: Navigator? = null
 
     private val activitiesListRepository =
-        FirestoreActivitiesListRepository()
+        FirestoreActivityListRepository { navigator?.onLastItemReached() }
 
     val activityListLiveData get() = activitiesListRepository.getActivitiesListLiveData()
 
@@ -27,6 +27,7 @@ class ActivitiesListViewModel : ViewModel() {
     }
 
     fun setLength(length: Int) {
+
         if (length > 0) {
             _isEmpty.value = false
         }
@@ -46,5 +47,6 @@ class ActivitiesListViewModel : ViewModel() {
 
     interface Navigator {
         fun createActivity()
+        fun onLastItemReached()
     }
 }

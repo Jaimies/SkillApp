@@ -72,7 +72,6 @@ class SignupFragment : Fragment(),
     private fun validatePassword(password: String): Boolean {
 
         val error = when (password.validatePassword()) {
-            R.id.RESULT_VALID -> ""
             R.id.ERROR_EMPTY -> getString(R.string.password_empty)
             R.id.ERROR_TOO_SHORT -> getString(R.string.password_too_short)
             R.id.ERROR_TOO_LONG -> getString(R.string.password_too_long)
@@ -87,7 +86,6 @@ class SignupFragment : Fragment(),
     private fun validateEmail(email: String): Boolean {
 
         val error = when (email.validateEmail()) {
-            R.id.RESULT_VALID -> ""
             R.id.ERROR_EMPTY -> getString(R.string.email_empty)
             R.id.ERROR_INVALID -> getString(R.string.email_invalid)
             else -> return true

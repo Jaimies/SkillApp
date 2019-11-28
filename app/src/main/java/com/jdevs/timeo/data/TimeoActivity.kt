@@ -3,8 +3,8 @@ package com.jdevs.timeo.data
 import android.os.Parcelable
 import androidx.annotation.Keep
 import com.google.firebase.firestore.ServerTimestamp
-import com.jdevs.timeo.adapter.delegate.AdapterConstants
-import com.jdevs.timeo.adapter.delegate.ViewType
+import com.jdevs.timeo.adapter.delegates.AdapterConstants
+import com.jdevs.timeo.adapter.delegates.ViewType
 import kotlinx.android.parcel.Parcelize
 import java.util.Calendar
 import java.util.Date

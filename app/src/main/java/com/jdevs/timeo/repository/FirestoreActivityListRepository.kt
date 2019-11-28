@@ -1,7 +1,5 @@
 package com.jdevs.timeo.repository
 
-import android.util.Log
-import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -18,27 +16,22 @@ import com.jdevs.timeo.util.ACTIVITIES_NAME_PROPERTY
 import com.jdevs.timeo.util.ACTIVITIES_TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.ACTIVITIES_TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.RECORDS_COLLECTION
-import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.USERS_COLLECTION
-import com.jdevs.timeo.viewmodel.ActivitiesListViewModel
+import com.jdevs.timeo.util.logOnFailure
+import com.jdevs.timeo.viewmodel.ActivityListViewModel
 
-class FirestoreActivitiesListRepository :
-    ActivitiesListViewModel.ActivitiesListRepository,
-    ActivityListLiveData.OnLastActivityReachedCallback,
-    ActivityListLiveData.OnLastVisibleActivityCallback,
-    OnFailureListener {
+class FirestoreActivityListRepository(private val onLastItemReachedCallback: () -> Unit = {}) :
+    ActivityListViewModel.ActivitiesListRepository {
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
     private val activitiesRef by lazy {
-        firestore
-            .collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$ACTIVITIES_COLLECTION")
+        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$ACTIVITIES_COLLECTION")
     }
 
     private val recordsRef by lazy {
-        firestore
-            .collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$RECORDS_COLLECTION")
+        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$RECORDS_COLLECTION")
     }
 
     private var query = activitiesRef
@@ -51,16 +44,18 @@ class FirestoreActivitiesListRepository :
     override fun getActivitiesListLiveData(): ActivityListLiveData? {
 
         if (isLastActivityReached) {
+
             return null
         }
 
         val lastActivity = lastVisibleActivity
 
         if (lastActivity != null) {
+
             query = query.startAfter(lastActivity)
         }
 
-        return ActivityListLiveData(query, this, this)
+        return ActivityListLiveData(query, ::setLastVisibleItem, ::onLastItemReached)
     }
 
     override fun createRecord(activityName: String, time: Long, activityId: String) {
@@ -69,9 +64,10 @@ class FirestoreActivitiesListRepository :
 
         recordsRef.add(record)
 
-        activitiesRef.document(activityId)
+        activitiesRef
+            .document(activityId)
             .update(ACTIVITIES_TOTAL_TIME_PROPERTY, FieldValue.increment(time))
-            .addOnFailureListener(this)
+            .logOnFailure("Failed to update data in Firestore")
     }
 
     override fun updateActivity(activity: TimeoActivity, activityId: String) {
@@ -97,35 +93,30 @@ class FirestoreActivitiesListRepository :
                         batch.update(recordReference, ACTIVITIES_NAME_PROPERTY, activity.name)
                     }
                 }
-                    .addOnFailureListener(this)
+                    .logOnFailure("Failed to save data to Firestore")
             }
     }
 
     override fun createActivity(activity: TimeoActivity) {
 
         activitiesRef.add(activity)
-            .addOnFailureListener(this)
+            .logOnFailure("Failed to add data to Firestore")
     }
 
     override fun deleteActivity(activityId: String) {
 
-        activitiesRef.document(activityId).delete().addOnFailureListener(this)
+        activitiesRef.document(activityId).delete()
+            .logOnFailure("Failed to delete data to Firestore")
     }
 
-    override fun onFailure(exception: Exception) {
+    private fun onLastItemReached() {
 
-        Log.w(
-            TAG,
-            "Failed to save data to Firestore",
-            exception
-        )
+        isLastActivityReached = true
+        onLastItemReachedCallback()
     }
 
-    override fun setLastActivityReached(isLastActivityReached: Boolean) {
-        this.isLastActivityReached = isLastActivityReached
-    }
+    private fun setLastVisibleItem(lastVisibleItem: DocumentSnapshot) {
 
-    override fun setLastVisibleActivity(lastVisibleActivity: DocumentSnapshot) {
-        this.lastVisibleActivity = lastVisibleActivity
+        lastVisibleActivity = lastVisibleItem
     }
 }

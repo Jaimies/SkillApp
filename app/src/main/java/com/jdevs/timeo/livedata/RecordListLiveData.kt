@@ -17,8 +17,8 @@ import com.jdevs.timeo.util.TAG
 
 class RecordListLiveData(
     private val query: Query,
-    private val onLastVisibleRecordCallback: OnLastVisibleRecordCallback,
-    private val onLastRecordReachedCallback: OnLastRecordReachedCallback
+    private val setLastVisibleRecord: (DocumentSnapshot) -> Unit,
+    private val onLastRecordReached: () -> Unit
 ) : LiveData<RecordOperation>(),
     EventListener<QuerySnapshot> {
 
@@ -48,15 +48,12 @@ class RecordListLiveData(
 
         if (!wasLoaderHidden) {
 
-            value = RecordOperation(
-                null,
-                R.id.OPERATION_LOADED,
-                ""
-            )
+            value = RecordOperation(null, R.id.OPERATION_LOADED, "")
             wasLoaderHidden = true
         }
 
         for (documentChange in querySnapshot.documentChanges) {
+
             processDocumentChange(documentChange)
         }
 
@@ -64,16 +61,17 @@ class RecordListLiveData(
 
         if (querySnapshotSize < RECORDS_FETCH_LIMIT) {
 
-            onLastRecordReachedCallback.setLastRecordReached(true)
+            onLastRecordReached()
         } else {
 
             val lastVisibleProduct = querySnapshot.documents[querySnapshotSize - 1]
 
-            onLastVisibleRecordCallback.setLastVisibleRecord(lastVisibleProduct)
+            setLastVisibleRecord(lastVisibleProduct)
         }
     }
 
     private fun processDocumentChange(documentChange: DocumentChange) {
+
         val record = try {
 
             documentChange.document.toObject(Record::class.java)
@@ -87,33 +85,16 @@ class RecordListLiveData(
 
         val operation = when (documentChange.type) {
 
-            DocumentChange.Type.ADDED -> RecordOperation(
-                record,
-                R.id.OPERATION_ADDED,
-                documentId
-            )
+            DocumentChange.Type.ADDED ->
+                RecordOperation(record, R.id.OPERATION_ADDED, documentId)
 
-            DocumentChange.Type.MODIFIED -> RecordOperation(
-                record,
-                R.id.OPERATION_MODIFIED,
-                documentId
-            )
+            DocumentChange.Type.MODIFIED ->
+                RecordOperation(record, R.id.OPERATION_MODIFIED, documentId)
 
-            DocumentChange.Type.REMOVED -> RecordOperation(
-                record,
-                R.id.OPERATION_REMOVED,
-                documentId
-            )
+            DocumentChange.Type.REMOVED ->
+                RecordOperation(record, R.id.OPERATION_REMOVED, documentId)
         }
 
         value = operation
-    }
-
-    interface OnLastVisibleRecordCallback {
-        fun setLastVisibleRecord(lastVisibleRecord: DocumentSnapshot)
-    }
-
-    interface OnLastRecordReachedCallback {
-        fun setLastRecordReached(isLastRecordReached: Boolean)
     }
 }

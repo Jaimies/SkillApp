@@ -1,4 +1,4 @@
-package com.jdevs.timeo.adapter.delegate
+package com.jdevs.timeo.adapter.delegates
 
 object AdapterConstants {
     const val LOADING = 1

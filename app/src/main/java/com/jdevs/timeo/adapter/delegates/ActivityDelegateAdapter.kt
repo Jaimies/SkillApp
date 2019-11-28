@@ -1,4 +1,4 @@
-package com.jdevs.timeo.adapter.delegate
+package com.jdevs.timeo.adapter.delegates
 
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
+import com.jdevs.timeo.RecordActivityDialog
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
 import com.jdevs.timeo.util.randomString
@@ -16,7 +17,10 @@ import com.jdevs.timeo.viewmodel.ActivityViewModel
 
 class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
 
-    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        record: (Int, Long) -> Unit, goToDetails: (Int) -> Unit
+    ): RecyclerView.ViewHolder {
 
         val binding =
             ActivitiesItemBinding.inflate(
@@ -32,14 +36,19 @@ class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
                 it.lifecycleOwner = parent.context as FragmentActivity
             }
 
-        return ViewHolder(binding)
+        return ViewHolder(binding, record, goToDetails)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
-//        holder.bindActivity(activityList[position])
+        holder as ViewHolder
+        holder.bindActivity(item as TimeoActivity)
     }
 
-    inner class ViewHolder(private val binding: ActivitiesItemBinding) :
+    class ViewHolder(
+        private val binding: ActivitiesItemBinding,
+        private val createRecord: (Int, Long) -> Unit = { _, _ -> },
+        private val navigateToDetails: (Int) -> Unit = {}
+    ) :
         RecyclerView.ViewHolder(binding.root),
         ActivityViewModel.Navigator {
 
@@ -55,11 +64,11 @@ class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
 
         override fun showRecordDialog() {
 
-//            RecordActivityDialog(binding.root.context, adapterPosition, createRecord).show()
+            RecordActivityDialog(binding.root.context, adapterPosition, createRecord).show()
         }
 
         override fun navigateToDetails() {
-//            navigateToDetails(adapterPosition)
+            navigateToDetails(adapterPosition)
         }
 
         private fun recolorView() {

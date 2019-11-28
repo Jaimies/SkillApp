@@ -10,15 +10,15 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
-import com.jdevs.timeo.data.operations.ActivityOperation
 import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.data.operations.ActivityOperation
 import com.jdevs.timeo.util.ACTIVITIES_FETCH_LIMIT
 import com.jdevs.timeo.util.TAG
 
 class ActivityListLiveData(
     private val query: Query,
-    private val onLastVisibleActivityCallback: OnLastVisibleActivityCallback,
-    private val onLastActivityReachedCallback: OnLastActivityReachedCallback
+    private val setLastVisibleActivity: (DocumentSnapshot) -> Unit,
+    private val onLastActivityReached: () -> Unit
 ) : LiveData<ActivityOperation>(),
     EventListener<QuerySnapshot> {
 
@@ -47,11 +47,7 @@ class ActivityListLiveData(
 
         if (!wasLoaderHidden) {
 
-            value = ActivityOperation(
-                null,
-                R.id.OPERATION_LOADED,
-                ""
-            )
+            value = ActivityOperation(null, R.id.OPERATION_LOADED, "")
             wasLoaderHidden = true
         }
 
@@ -63,12 +59,12 @@ class ActivityListLiveData(
 
         if (querySnapshotSize < ACTIVITIES_FETCH_LIMIT) {
 
-            onLastActivityReachedCallback.setLastActivityReached(true)
+            onLastActivityReached()
         } else {
 
             val lastVisibleProduct = querySnapshot.documents[querySnapshotSize - 1]
 
-            onLastVisibleActivityCallback.setLastVisibleActivity(lastVisibleProduct)
+            setLastVisibleActivity(lastVisibleProduct)
         }
     }
 
@@ -86,33 +82,16 @@ class ActivityListLiveData(
 
         val operation = when (documentChange.type) {
 
-            DocumentChange.Type.ADDED -> ActivityOperation(
-                activity,
-                R.id.OPERATION_ADDED,
-                documentId
-            )
+            DocumentChange.Type.ADDED ->
+                ActivityOperation(activity, R.id.OPERATION_ADDED, documentId)
 
-            DocumentChange.Type.MODIFIED -> ActivityOperation(
-                activity,
-                R.id.OPERATION_MODIFIED,
-                documentId
-            )
+            DocumentChange.Type.MODIFIED ->
+                ActivityOperation(activity, R.id.OPERATION_MODIFIED, documentId)
 
-            DocumentChange.Type.REMOVED -> ActivityOperation(
-                activity,
-                R.id.OPERATION_REMOVED,
-                documentId
-            )
+            DocumentChange.Type.REMOVED ->
+                ActivityOperation(activity, R.id.OPERATION_REMOVED, documentId)
         }
 
         value = operation
-    }
-
-    interface OnLastVisibleActivityCallback {
-        fun setLastVisibleActivity(lastVisibleActivity: DocumentSnapshot)
-    }
-
-    interface OnLastActivityReachedCallback {
-        fun setLastActivityReached(isLastActivityReached: Boolean)
     }
 }

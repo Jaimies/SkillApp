@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.livedata.RecordListLiveData
-import com.jdevs.timeo.repository.FirestoreRecordsListRepository
+import com.jdevs.timeo.repository.FirestoreRecordListRepository
 
 class RecordListViewModel : ViewModel() {
     private val _isEmpty = MutableLiveData(true)
@@ -24,7 +24,7 @@ class RecordListViewModel : ViewModel() {
     }
 
     private val recordsListRepository =
-        FirestoreRecordsListRepository()
+        FirestoreRecordListRepository()
 
     val recordsListLiveData get() = recordsListRepository.getRecordsListLiveData()
 

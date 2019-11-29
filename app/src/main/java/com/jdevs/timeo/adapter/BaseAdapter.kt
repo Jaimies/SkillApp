@@ -13,9 +13,10 @@ import com.jdevs.timeo.util.AdapterConstants
 
 open class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var isLastItemReached = false
     protected val items = ArrayList<ViewType>()
     protected val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
+
+    private var isLastItemReached = false
 
     private val loadingItem = object : ViewType {
 
@@ -25,7 +26,6 @@ open class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     init {
 
         delegateAdapters.put(AdapterConstants.LOADING, LoadingDelegateAdapter())
-
         items.add(loadingItem)
     }
 
@@ -49,10 +49,11 @@ open class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount() = items.size
 
     fun addItem(item: ViewType) = items.apply {
-        val initPosition = size - 1
 
-        remove(loadingItem)
-        notifyItemRemoved(initPosition)
+        val startPosition = items.lastIndex
+
+        removeAt(startPosition)
+        notifyItemRemoved(startPosition)
 
         add(item)
 
@@ -61,7 +62,7 @@ open class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             add(loadingItem)
         }
 
-        notifyItemRangeInserted(initPosition, size - 1)
+        notifyItemRangeInserted(startPosition, items.lastIndex)
     }
 
     fun modifyItem(index: Int, item: ViewType) {
@@ -77,8 +78,11 @@ open class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun onLastItemReached() {
 
+        val lastPosition = items.lastIndex
         isLastItemReached = true
-        items.removeAt(items.size - 1)
+
+        items.removeAt(lastPosition)
+        notifyItemRemoved(lastPosition)
     }
 
     fun removeAllItems() {

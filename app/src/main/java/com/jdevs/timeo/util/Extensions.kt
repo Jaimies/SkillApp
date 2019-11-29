@@ -3,6 +3,9 @@ package com.jdevs.timeo.util
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import com.google.android.gms.tasks.Task
 
@@ -26,5 +29,11 @@ fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
 }
 
 fun Task<*>.logOnFailure(message: String = "Failed to perform an operation") {
+
     addOnFailureListener { Log.w(TAG, message, it) }
+}
+
+fun ViewGroup.inflate(layoutId: Int): View {
+
+    return LayoutInflater.from(context).inflate(layoutId, this, false)
 }

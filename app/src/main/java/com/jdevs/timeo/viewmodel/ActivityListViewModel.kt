@@ -23,14 +23,13 @@ class ActivityListViewModel : ViewModel() {
     val activityListLiveData get() = activitiesListRepository.getActivitiesListLiveData()
 
     fun onLoaded() {
+
         _isLoaded.value = true
     }
 
     fun setLength(length: Int) {
 
-        if (length > 0) {
-            _isEmpty.value = false
-        }
+        _isEmpty.value = length == 0
     }
 
     fun createRecord(activityName: String, time: Long, activityId: String) {

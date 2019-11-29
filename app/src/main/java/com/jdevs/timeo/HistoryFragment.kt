@@ -100,6 +100,13 @@ class HistoryFragment : Fragment(),
         mAdapter.onLastItemReached()
     }
 
+    override fun onStart() {
+        super.onStart()
+        recordList.clear()
+        idList.clear()
+        mAdapter.removeAllItems()
+    }
+
     private fun getRecords() {
         val recordsListLiveData = viewModel.recordsListLiveData ?: return
 

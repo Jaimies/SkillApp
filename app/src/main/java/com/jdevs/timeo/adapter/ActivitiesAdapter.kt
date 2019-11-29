@@ -50,7 +50,7 @@ class ActivitiesAdapter(
     fun addItem(item: TimeoActivity) = activityList.apply {
         val initPosition = size - 1
 
-        removeAt(initPosition)
+        remove(loadingItem)
         notifyItemRemoved(initPosition)
 
         add(item)
@@ -78,5 +78,13 @@ class ActivitiesAdapter(
 
         isLastItemReached = true
         activityList.removeAt(activityList.size - 1)
+    }
+
+    fun removeAllItems() {
+
+        activityList.clear()
+        activityList.add(loadingItem)
+
+        notifyDataSetChanged()
     }
 }

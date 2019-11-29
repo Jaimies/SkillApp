@@ -61,6 +61,13 @@ class ActivityListFragment : ActionBarFragment(),
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        activityList.clear()
+        idList.clear()
+        mAdapter.removeAllItems()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.navigator = null

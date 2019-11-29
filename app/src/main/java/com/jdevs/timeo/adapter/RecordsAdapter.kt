@@ -78,4 +78,13 @@ class RecordsAdapter(
         isLastItemReached = true
         recordsList.removeAt(recordsList.lastIndex)
     }
+
+
+    fun removeAllItems() {
+
+        recordsList.clear()
+        recordsList.add(loadingItem)
+
+        notifyDataSetChanged()
+    }
 }

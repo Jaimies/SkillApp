@@ -22,10 +22,7 @@ class RecordListViewModel : ViewModel() {
 
     fun setLength(length: Int) {
 
-        if (length > 0) {
-
-            _isEmpty.value = false
-        }
+        _isEmpty.value = length == 0
     }
 
     private val recordsListRepository =

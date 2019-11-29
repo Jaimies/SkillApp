@@ -2,6 +2,7 @@ package com.jdevs.timeo.data
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.adapter.delegates.ViewType
 import com.jdevs.timeo.util.AdapterConstants
@@ -17,6 +18,6 @@ data class TimeoActivity(
     var totalTime: Long = 0,
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
 ) : Parcelable, ViewType {
-
+    @Exclude
     override fun getViewType() = AdapterConstants.ACTIVITY
 }

@@ -122,7 +122,7 @@ class HistoryFragment : Fragment(),
                 }
             }
 
-            viewModel.setLength(mAdapter.itemCount)
+            viewModel.setLength(mAdapter.dataItemCount)
         }
     }
 

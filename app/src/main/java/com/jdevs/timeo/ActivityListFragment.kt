@@ -96,7 +96,7 @@ class ActivityListFragment : ActionBarFragment(),
                 }
             }
 
-            viewModel.setLength(mAdapter.itemCount)
+            viewModel.setLength(mAdapter.dataItemCount)
         }
     }
 

@@ -9,12 +9,15 @@ import com.jdevs.timeo.adapter.delegates.LoadingDelegateAdapter
 import com.jdevs.timeo.adapter.delegates.ViewType
 import com.jdevs.timeo.adapter.delegates.ViewTypeDelegateAdapter
 import com.jdevs.timeo.util.AdapterConstants
+import com.jdevs.timeo.util.AdapterConstants.LOADING
 import com.jdevs.timeo.util.inflate
 
 open class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    protected val items = mutableListOf<ViewType>()
+    val dataItemCount: Int get() = items.filter { it.getViewType() != LOADING }.size
+
     private val idList = mutableListOf<String>()
+    protected val items = mutableListOf<ViewType>()
 
     protected val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
     private var isLastItemReached = false

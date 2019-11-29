@@ -32,12 +32,12 @@ class FirestoreRecordListRepository(private val onLastItemReachedCallback: () ->
         .orderBy(RECORDS_TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
         .limit(RECORDS_FETCH_LIMIT)
 
-    private var isLastRecordReached = false
+    private var isLastItemReached = false
     private var lastVisibleRecord: DocumentSnapshot? = null
 
     override fun getRecordsListLiveData(): RecordListLiveData? {
 
-        if (isLastRecordReached) {
+        if (isLastItemReached) {
 
             return null
         }
@@ -61,8 +61,11 @@ class FirestoreRecordListRepository(private val onLastItemReachedCallback: () ->
 
     private fun onLastItemReached() {
 
-        isLastRecordReached = true
-        onLastItemReachedCallback()
+        if(!isLastItemReached) {
+
+            isLastItemReached = true
+            onLastItemReachedCallback()
+        }
     }
 
     private fun setLastVisibleItem(lastVisibleItem: DocumentSnapshot) {

@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 
 class LoadingDelegateAdapter : ViewTypeDelegateAdapter {
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        record: (Int, Long) -> Unit, goToDetails: (Int) -> Unit
+        record: (Int, Long) -> Unit,
+        goToDetails: (Int) -> Unit,
+        deleteRecord: (Int) -> Unit
     ) = ViewHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {}

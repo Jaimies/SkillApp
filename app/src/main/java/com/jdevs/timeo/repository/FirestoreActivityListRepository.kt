@@ -38,12 +38,12 @@ class FirestoreActivityListRepository(private val onLastItemReachedCallback: () 
         .orderBy(ACTIVITIES_TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
         .limit(ACTIVITIES_FETCH_LIMIT)
 
-    private var isLastActivityReached = false
+    private var isLastItemReached = false
     private var lastVisibleActivity: DocumentSnapshot? = null
 
     override fun getActivitiesListLiveData(): ActivityListLiveData? {
 
-        if (isLastActivityReached) {
+        if (isLastItemReached) {
 
             return null
         }
@@ -111,8 +111,11 @@ class FirestoreActivityListRepository(private val onLastItemReachedCallback: () 
 
     private fun onLastItemReached() {
 
-        isLastActivityReached = true
-        onLastItemReachedCallback()
+        if (!isLastItemReached) {
+
+            isLastItemReached = true
+            onLastItemReachedCallback()
+        }
     }
 
     private fun setLastVisibleItem(lastVisibleItem: DocumentSnapshot) {

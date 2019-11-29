@@ -3,21 +3,20 @@ package com.jdevs.timeo.adapter
 import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.adapter.delegates.ActivityDelegateAdapter
 import com.jdevs.timeo.adapter.delegates.LoadingDelegateAdapter
+import com.jdevs.timeo.adapter.delegates.RecordDelegateAdapter
 import com.jdevs.timeo.adapter.delegates.ViewType
 import com.jdevs.timeo.adapter.delegates.ViewTypeDelegateAdapter
-import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
+import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.util.AdapterConstants.LOADING
+import com.jdevs.timeo.util.AdapterConstants.RECORD
 
-class ActivitiesAdapter(
-    private val createRecord: (Int, Long) -> Unit = { _, _ -> },
-    private val navigateToDetails: (Int) -> Unit = {}
+class RecordsAdapter(
+    private val showDeleteDialog: (Int) -> Unit = {}
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var isLastItemReached = false
-    private val activityList = ArrayList<ViewType>()
+    private val recordsList = ArrayList<ViewType>()
     private val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
 
     private val loadingItem = object : ViewType {
@@ -27,27 +26,27 @@ class ActivitiesAdapter(
 
     init {
         delegateAdapters.put(LOADING, LoadingDelegateAdapter())
-        delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter())
+        delegateAdapters.put(RECORD, RecordDelegateAdapter())
 
-        activityList.add(loadingItem)
+        recordsList.add(loadingItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         return delegateAdapters.get(viewType)
-            .onCreateViewHolder(parent, createRecord, navigateToDetails)
+            .onCreateViewHolder(parent, deleteRecord = showDeleteDialog)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         delegateAdapters.get(getItemViewType(position))
-            .onBindViewHolder(holder, activityList[position])
+            .onBindViewHolder(holder, recordsList[position])
     }
 
-    override fun getItemViewType(position: Int) = activityList[position].getViewType()
+    override fun getItemViewType(position: Int) = recordsList[position].getViewType()
 
-    override fun getItemCount() = activityList.size
+    override fun getItemCount() = recordsList.size
 
-    fun addItem(item: TimeoActivity) = activityList.apply {
+    fun addItem(item: Record) = recordsList.apply {
         val initPosition = size - 1
 
         removeAt(initPosition)
@@ -63,20 +62,20 @@ class ActivitiesAdapter(
         notifyItemRangeInserted(initPosition, size - 1)
     }
 
-    fun modifyItem(index: Int, item: TimeoActivity) {
+    fun modifyItem(index: Int, item: Record) {
 
-        activityList[index] = item
+        recordsList[index] = item
         notifyItemChanged(index)
     }
 
     fun removeItem(index: Int) {
-        activityList.removeAt(index)
+        recordsList.removeAt(index)
         notifyItemRemoved(index)
     }
 
     fun onLastItemReached() {
 
         isLastItemReached = true
-        activityList.removeAt(activityList.size - 1)
+        recordsList.removeAt(recordsList.lastIndex)
     }
 }

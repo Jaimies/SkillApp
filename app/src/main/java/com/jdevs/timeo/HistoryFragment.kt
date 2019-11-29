@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.jdevs.timeo.adapter.RecordAdapter
+import com.jdevs.timeo.adapter.RecordsAdapter
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.operations.RecordOperation
 import com.jdevs.timeo.databinding.FragmentHistoryBinding
@@ -19,17 +19,20 @@ import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodel.RecordListViewModel
 
 class HistoryFragment : Fragment(),
-    DialogInterface.OnClickListener {
+    DialogInterface.OnClickListener,
+    RecordListViewModel.Navigator {
 
     private val recordList = ArrayList<Record>()
     private val idList = ArrayList<String>()
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(RecordListViewModel::class.java)
+        ViewModelProviders.of(this).get(RecordListViewModel::class.java).also {
+            it.navigator = this
+        }
     }
 
     private val mAdapter by lazy {
-        RecordAdapter(recordList, ::showDeleteDialog)
+        RecordsAdapter(::showDeleteDialog)
     }
 
     private var chosenRecordIndex = -1
@@ -93,6 +96,10 @@ class HistoryFragment : Fragment(),
         )
     }
 
+    override fun onLastItemReached() {
+        mAdapter.onLastItemReached()
+    }
+
     private fun getRecords() {
         val recordsListLiveData = viewModel.recordsListLiveData ?: return
 
@@ -125,7 +132,7 @@ class HistoryFragment : Fragment(),
     private fun addRecord(record: Record, id: String) {
         recordList.add(record)
         idList.add(id)
-        mAdapter.notifyItemInserted(recordList.size - 1)
+        mAdapter.addItem(record)
     }
 
     private fun removeRecord(id: String) {
@@ -136,7 +143,8 @@ class HistoryFragment : Fragment(),
 
         recordList.removeAt(index)
         idList.remove(id)
-        mAdapter.notifyItemRemoved(index)
+
+        mAdapter.removeItem(index)
     }
 
     private fun modifyRecord(record: Record, id: String) {
@@ -146,6 +154,7 @@ class HistoryFragment : Fragment(),
                 .first()
 
         recordList[index] = record
-        mAdapter.notifyItemChanged(index)
+
+        mAdapter.modifyItem(index, record)
     }
 }

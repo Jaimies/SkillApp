@@ -16,10 +16,11 @@ import com.jdevs.timeo.util.randomString
 import com.jdevs.timeo.viewmodel.ActivityViewModel
 
 class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        record: (Int, Long) -> Unit, goToDetails: (Int) -> Unit
+        record: (Int, Long) -> Unit,
+        goToDetails: (Int) -> Unit,
+        deleteRecord: (Int) -> Unit
     ): RecyclerView.ViewHolder {
 
         val binding =
@@ -40,6 +41,7 @@ class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
+
         holder as ViewHolder
         holder.bindActivity(item as TimeoActivity)
     }

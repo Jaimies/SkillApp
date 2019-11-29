@@ -1,4 +1,4 @@
-package com.jdevs.timeo.adapter
+package com.jdevs.timeo.adapter.delegates
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +13,14 @@ import com.jdevs.timeo.databinding.RecordsItemBinding
 import com.jdevs.timeo.util.randomString
 import com.jdevs.timeo.viewmodel.RecordViewModel
 
-class RecordAdapter(
-    private val recordList: List<Record>,
-    private val showDeleteDialog: (Int) -> Unit = {}
-) : RecyclerView.Adapter<RecordAdapter.ViewHolder>() {
+class RecordDelegateAdapter : ViewTypeDelegateAdapter {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        record: (Int, Long) -> Unit,
+        goToDetails: (Int) -> Unit,
+        deleteRecord: (Int) -> Unit
+    ): ViewHolder {
 
         val binding =
             RecordsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false).also {
@@ -29,16 +31,18 @@ class RecordAdapter(
                 it.lifecycleOwner = parent.context as FragmentActivity
             }
 
-        return ViewHolder(binding)
+        return ViewHolder(binding, deleteRecord)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindRecord(recordList[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
+        holder as ViewHolder
+        holder.bindRecord(item as Record)
     }
 
-    override fun getItemCount() = recordList.size
-
-    inner class ViewHolder(private val binding: RecordsItemBinding) :
+    inner class ViewHolder(
+        private val binding: RecordsItemBinding,
+        private val showDeleteDialog: (Int) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root),
         RecordViewModel.Navigator {
 

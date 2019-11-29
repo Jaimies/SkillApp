@@ -17,3 +17,9 @@ const val RECORDS_FETCH_LIMIT: Long = 20
 const val RECORDS_TIMESTAMP_PROPERTY = "timestamp"
 
 const val RC_SIGN_IN = 101
+
+object AdapterConstants {
+    const val LOADING = 1
+    const val ACTIVITY = 2
+    const val RECORD = 3
+}

@@ -7,19 +7,19 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodel.RecordListViewModel" />
+            type="com.jdevs.timeo.ui.history.viewmodel.HistoryViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HistoryFragment">
+        tools:context=".ui.history.HistoryFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/records_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hideIf="@{viewmodel.isEmpty || !viewmodel.isLoaded}" />
+            app:hideIf="@{viewmodel.isEmpty || viewmodel.isLoading}" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,11 +28,11 @@
             android:orientation="vertical"
             android:text="@string/there_is_nothing_here_yet"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            app:hideIf="@{!viewmodel.isEmpty || !viewmodel.isLoaded}" />
+            app:hideIf="@{!viewmodel.isEmpty || viewmodel.isLoading}" />
 
         <include
             android:id="@+id/preloader"
             layout="@layout/preloader"
-            app:hideIf="@{viewmodel.isLoaded}" />
+            app:hideIf="@{!viewmodel.isLoading}" />
     </FrameLayout>
 </layout>

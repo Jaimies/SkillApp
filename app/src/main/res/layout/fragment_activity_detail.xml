@@ -6,14 +6,14 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodel.ActivityDetailViewModel" />
+            type="com.jdevs.timeo.ui.activities.viewmodel.ActivityDetailViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ActivityDetailFragment">
+        tools:context=".ui.activities.ActivityDetailFragment">
 
         <TextView
             android:layout_width="match_parent"

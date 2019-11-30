@@ -4,6 +4,6 @@ import com.jdevs.timeo.data.Record
 
 data class RecordOperation(
     val item: Record?,
-    val type: Int,
-    val id: String = ""
-)
+    override val type: Int,
+    override val id: String = ""
+) : Operation

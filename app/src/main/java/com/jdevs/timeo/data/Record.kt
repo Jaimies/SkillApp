@@ -3,7 +3,7 @@ package com.jdevs.timeo.data
 import androidx.annotation.Keep
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
-import com.jdevs.timeo.adapter.delegates.ViewType
+import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.util.AdapterConstants
 import java.util.Calendar
 import java.util.Date

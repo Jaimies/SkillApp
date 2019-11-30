@@ -1,10 +1,9 @@
 package com.jdevs.timeo.util
 
+import com.jdevs.timeo.util.Time.HOUR_MINUTES
 import org.joda.time.DateTime
 import org.joda.time.Days
 import java.util.Date
-
-private const val HOUR_MINUTES = 60
 
 fun Long.getFriendlyTime(): String {
 

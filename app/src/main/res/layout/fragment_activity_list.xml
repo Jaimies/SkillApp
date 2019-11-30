@@ -7,13 +7,13 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodel.ActivityListViewModel" />
+            type="com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ActivityListFragment">
+        tools:context=".ui.activities.ActivityListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/activity_recycler_view"
@@ -24,7 +24,7 @@
             android:paddingTop="32dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"
-            app:hideIf="@{viewmodel.isEmpty || !viewmodel.isLoaded}" />
+            app:hideIf="@{viewmodel.isEmpty || viewmodel.isLoading}" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:hideIf="@{!viewmodel.isEmpty || !viewmodel.isLoaded}">
+            app:hideIf="@{!viewmodel.isEmpty || viewmodel.isLoading}">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
 
         <include
             android:id="@+id/preloader"
-            hideIf="@{viewmodel.isLoaded}"
-            layout="@layout/preloader" />
+            layout="@layout/preloader"
+            app:hideIf="@{!viewmodel.isLoading}" />
     </FrameLayout>
 </layout>

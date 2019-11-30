@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodel.CreateEditActivityViewModel" />
+            type="com.jdevs.timeo.ui.activities.viewmodel.CreateEditActivityViewModel" />
     </data>
 
     <LinearLayout
@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".CreateEditActivityFragment">
+        tools:context=".ui.activities.CreateEditActivityFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_text_input_layout"

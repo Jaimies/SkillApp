@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodel.RecordViewModel" />
+            type="com.jdevs.timeo.ui.history.viewmodel.RecordViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

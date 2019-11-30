@@ -4,7 +4,7 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
-import com.jdevs.timeo.adapter.delegates.ViewType
+import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.util.AdapterConstants
 import kotlinx.android.parcel.Parcelize
 import java.util.Calendar

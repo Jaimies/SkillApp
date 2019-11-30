@@ -7,14 +7,14 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodel.ProfileViewModel" />
+            type="com.jdevs.timeo.ui.profile.viewmodel.ProfileViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ProfileFragment">
+        tools:context=".ui.profile.ProfileFragment">
 
         <TextView
             android:layout_width="match_parent"

@@ -7,14 +7,14 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.viewmodel.SignupViewModel" />
+            type="com.jdevs.timeo.ui.login.viewmodel.SignupViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="@{() -> viewmodel.navigator.hideKeyboard()}"
-        tools:context=".LoginFragment">
+        tools:context=".ui.login.LoginFragment">
 
         <LinearLayout
             style="@style/Widget.Timeo.LoginLayout"

@@ -4,6 +4,6 @@ import com.jdevs.timeo.data.TimeoActivity
 
 data class ActivityOperation(
     val item: TimeoActivity?,
-    val type: Int,
-    val id: String = ""
-)
+    override val type: Int,
+    override val id: String = ""
+) : Operation

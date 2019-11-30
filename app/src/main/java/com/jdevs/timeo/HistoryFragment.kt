@@ -89,12 +89,8 @@ class HistoryFragment : Fragment(),
     }
 
     override fun onLastItemReached() {
-        mAdapter.onLastItemReached()
-    }
 
-    override fun onStart() {
-        super.onStart()
-        mAdapter.removeAllItems()
+        mAdapter.onLastItemReached()
     }
 
     private fun getRecords() {

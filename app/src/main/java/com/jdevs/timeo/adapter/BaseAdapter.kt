@@ -48,6 +48,12 @@ open class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun addItem(item: ViewType, id: String) = items.apply {
 
+        if (idList.contains(id)) {
+
+            modifyItem(item, id)
+            return@apply
+        }
+
         remove(loadingItem)
 
         add(item)
@@ -83,22 +89,16 @@ open class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun getId(index: Int): String = idList[index]
 
-    fun removeAllItems() {
-
-        items.clear()
-        idList.clear()
-        items.add(loadingItem)
-
-        notifyDataSetChanged()
-    }
-
     fun onLastItemReached() {
 
-        val lastPosition = items.lastIndex
         isLastItemReached = true
 
-        items.removeAt(lastPosition)
-        notifyItemRemoved(lastPosition)
+        if (items.contains(loadingItem)) {
+            val lastPosition = items.lastIndex
+
+            items.remove(loadingItem)
+            notifyItemRemoved(lastPosition)
+        }
     }
 
     class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view)

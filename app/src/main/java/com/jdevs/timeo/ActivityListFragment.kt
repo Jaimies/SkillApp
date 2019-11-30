@@ -52,11 +52,6 @@ class ActivityListFragment : ActionBarFragment(),
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        mAdapter.removeAllItems()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         viewModel.navigator = null

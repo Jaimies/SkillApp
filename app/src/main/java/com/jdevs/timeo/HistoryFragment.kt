@@ -98,7 +98,7 @@ class HistoryFragment : Fragment(),
     }
 
     private fun getRecords() {
-        val recordsListLiveData = viewModel.recordsListLiveData
+        val recordsListLiveData = viewModel.recordsLiveData
 
         recordsListLiveData?.observe(this) { operation ->
 

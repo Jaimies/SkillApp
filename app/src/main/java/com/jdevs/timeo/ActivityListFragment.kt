@@ -68,7 +68,7 @@ class ActivityListFragment : ActionBarFragment(),
     }
 
     private fun getActivities() {
-        val liveData = viewModel.activityListLiveData
+        val liveData = viewModel.activitiesLiveData
 
         liveData?.observe(this) { operation ->
 

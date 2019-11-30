@@ -9,17 +9,18 @@ class ActivityListViewModel : ItemListViewModel() {
 
     var navigator: Navigator? = null
 
-    private val activitiesListRepository =
+    private val activitiesRepository =
         FirestoreActivityListRepository { navigator?.onLastItemReached() }
 
-    val activityListLiveData get() = activitiesListRepository.getLiveData() as ActivityListLiveData?
+    val activitiesLiveData get() = activitiesRepository.getLiveData() as ActivityListLiveData?
 
     override fun onFragmentDestroyed() {
         navigator = null
+        activitiesRepository.onFragmentDestroyed()
     }
 
     fun createRecord(activityName: String, time: Long, activityId: String) {
-        activitiesListRepository.createRecord(activityName, time, activityId)
+        activitiesRepository.createRecord(activityName, time, activityId)
     }
 
     interface Repository {

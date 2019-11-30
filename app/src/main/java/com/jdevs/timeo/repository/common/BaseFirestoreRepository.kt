@@ -22,6 +22,7 @@ abstract class BaseFirestoreRepository(private val onLastItemCallback: () -> Uni
         firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$RECORDS_COLLECTION")
     }
 
+    protected abstract val initialQuery: Query
     protected abstract var query: Query
     protected abstract val liveDataConstructor: (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> LiveData<*>
 
@@ -43,6 +44,13 @@ abstract class BaseFirestoreRepository(private val onLastItemCallback: () -> Uni
         }
 
         return liveDataConstructor(query, ::setLastVisibleItem, ::onLastItemReached)
+    }
+
+    fun onFragmentDestroyed() {
+
+        query = initialQuery
+        isLastItemReached = false
+        lastVisibleItem = null
     }
 
     private fun onLastItemReached() {

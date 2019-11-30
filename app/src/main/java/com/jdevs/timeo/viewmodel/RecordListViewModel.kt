@@ -8,17 +8,18 @@ class RecordListViewModel : ItemListViewModel() {
 
     var navigator: Navigator? = null
 
-    private val recordsListRepository =
+    private val recordsRepository =
         FirestoreRecordListRepository { navigator?.onLastItemReached() }
 
-    val recordsListLiveData get() = recordsListRepository.getLiveData() as RecordListLiveData?
+    val recordsLiveData get() = recordsRepository.getLiveData() as RecordListLiveData?
 
     override fun onFragmentDestroyed() {
         navigator = null
+        recordsRepository.onFragmentDestroyed()
     }
 
     fun deleteRecord(id: String, recordTime: Long, activityId: String) {
-        recordsListRepository.deleteRecord(id, recordTime, activityId)
+        recordsRepository.deleteRecord(id, recordTime, activityId)
     }
 
     interface Repository {

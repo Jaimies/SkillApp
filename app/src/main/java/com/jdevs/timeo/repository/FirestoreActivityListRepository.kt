@@ -19,9 +19,11 @@ class FirestoreActivityListRepository(lastItemCallback: () -> Unit = {}) :
     BaseFirestoreRepository(lastItemCallback),
     ActivityListViewModel.Repository {
 
-    override var query = activitiesRef
+    override val initialQuery = activitiesRef
         .orderBy(ACTIVITIES_TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
         .limit(ACTIVITIES_FETCH_LIMIT)
+
+    override var query = initialQuery
 
     override val liveDataConstructor = ::ActivityListLiveData
 

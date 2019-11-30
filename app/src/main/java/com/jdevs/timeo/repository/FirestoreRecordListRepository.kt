@@ -13,9 +13,11 @@ class FirestoreRecordListRepository(onLastItemCallback: () -> Unit = {}) :
     BaseFirestoreRepository(onLastItemCallback),
     RecordListViewModel.Repository {
 
-    override var query = recordsRef
+    override var initialQuery = recordsRef
         .orderBy(RECORDS_TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
         .limit(RECORDS_FETCH_LIMIT)
+
+    override var query = initialQuery
 
     override val liveDataConstructor = ::RecordListLiveData
 

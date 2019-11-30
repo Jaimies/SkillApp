@@ -56,6 +56,12 @@ class HistoryFragment : Fragment(),
         return binding.root
     }
 
+    override fun onDestroy() {
+
+        super.onDestroy()
+        viewModel.onFragmentDestroyed()
+    }
+
     private fun showDeleteDialog(index: Int) {
 
         val dialog = AlertDialog.Builder(context!!)

@@ -1,5 +1,7 @@
 package com.jdevs.timeo.viewmodel
 
+import com.jdevs.timeo.viewmodel.common.AuthViewModel
+
 class SignupViewModel : AuthViewModel() {
 
     var navigator: Navigator? = null

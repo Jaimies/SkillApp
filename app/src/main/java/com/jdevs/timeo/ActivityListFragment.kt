@@ -55,7 +55,7 @@ class ActivityListFragment : ActionBarFragment(),
     override fun onDestroy() {
 
         super.onDestroy()
-        viewModel.navigator = null
+        viewModel.onFragmentDestroyed()
     }
 
     override fun createActivity() {

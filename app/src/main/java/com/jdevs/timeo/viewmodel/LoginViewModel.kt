@@ -2,6 +2,7 @@ package com.jdevs.timeo.viewmodel
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.FirebaseException
+import com.jdevs.timeo.viewmodel.common.AuthViewModel
 
 class LoginViewModel : AuthViewModel() {
 

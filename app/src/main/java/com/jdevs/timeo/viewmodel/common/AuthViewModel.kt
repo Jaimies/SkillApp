@@ -1,4 +1,4 @@
-package com.jdevs.timeo.viewmodel
+package com.jdevs.timeo.viewmodel.common
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Suppress("PropertyName")
-open class AuthViewModel : ViewModel() {
+abstract class AuthViewModel : ViewModel() {
 
     val email = MutableLiveData("")
     val password = MutableLiveData("")

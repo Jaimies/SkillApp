@@ -1,24 +1,19 @@
 package com.jdevs.timeo.adapter
 
 import android.util.SparseArray
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.R
 import com.jdevs.timeo.adapter.delegates.LoadingDelegateAdapter
 import com.jdevs.timeo.adapter.delegates.ViewType
 import com.jdevs.timeo.adapter.delegates.ViewTypeDelegateAdapter
 import com.jdevs.timeo.util.AdapterConstants.LOADING
-import com.jdevs.timeo.util.inflate
 
 abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it.getViewType() != LOADING }.size
 
+    protected val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
     protected val items = mutableListOf<ViewType>()
     private val idList = mutableListOf<String>()
-
-    protected val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
     private var isLastItemReached = false
 
     private val loadingItem = object : ViewType {
@@ -35,11 +30,6 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         delegateAdapters.get(getItemViewType(position))
             .onBindViewHolder(holder, items[position])
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        return BaseViewHolder(parent.inflate(R.layout.activities_item_loading))
     }
 
     override fun getItemViewType(position: Int) = items[position].getViewType()
@@ -99,6 +89,4 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             notifyItemRemoved(lastPosition)
         }
     }
-
-    class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }

@@ -145,7 +145,6 @@ class LoginFragment : Fragment(),
                     }
                 }
             }
-
         }
     }
 

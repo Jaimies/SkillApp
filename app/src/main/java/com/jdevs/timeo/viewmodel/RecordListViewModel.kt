@@ -28,14 +28,13 @@ class RecordListViewModel : ViewModel() {
     private val recordsListRepository =
         FirestoreRecordListRepository { navigator?.onLastItemReached() }
 
-    val recordsListLiveData get() = recordsListRepository.getRecordsListLiveData()
+    val recordsListLiveData get() = recordsListRepository.getLiveData() as RecordListLiveData?
 
     fun deleteRecord(id: String, recordTime: Long, activityId: String) {
         recordsListRepository.deleteRecord(id, recordTime, activityId)
     }
 
     interface Repository {
-        fun getRecordsListLiveData(): RecordListLiveData?
         fun deleteRecord(id: String, recordTime: Long, activityId: String)
     }
 

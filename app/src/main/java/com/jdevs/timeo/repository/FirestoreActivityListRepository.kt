@@ -1,62 +1,29 @@
 package com.jdevs.timeo.repository
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.livedata.ActivityListLiveData
+import com.jdevs.timeo.repository.common.BaseFirestoreRepository
 import com.jdevs.timeo.util.ACTIVITIES_ACTIVITY_ID_PROPERTY
-import com.jdevs.timeo.util.ACTIVITIES_COLLECTION
 import com.jdevs.timeo.util.ACTIVITIES_FETCH_LIMIT
 import com.jdevs.timeo.util.ACTIVITIES_NAME_PROPERTY
 import com.jdevs.timeo.util.ACTIVITIES_TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.ACTIVITIES_TOTAL_TIME_PROPERTY
-import com.jdevs.timeo.util.RECORDS_COLLECTION
-import com.jdevs.timeo.util.USERS_COLLECTION
 import com.jdevs.timeo.util.logOnFailure
 import com.jdevs.timeo.viewmodel.ActivityListViewModel
 
-class FirestoreActivityListRepository(private val onLastItemReachedCallback: () -> Unit = {}) :
-    ActivityListViewModel.ActivitiesListRepository {
+class FirestoreActivityListRepository(lastItemCallback: () -> Unit = {}) :
+    BaseFirestoreRepository(lastItemCallback),
+    ActivityListViewModel.Repository {
 
-    private val firestore = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
-
-    private val activitiesRef by lazy {
-        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$ACTIVITIES_COLLECTION")
-    }
-
-    private val recordsRef by lazy {
-        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/$RECORDS_COLLECTION")
-    }
-
-    private var query = activitiesRef
+    override var query = activitiesRef
         .orderBy(ACTIVITIES_TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
         .limit(ACTIVITIES_FETCH_LIMIT)
 
-    private var isLastItemReached = false
-    private var lastVisibleActivity: DocumentSnapshot? = null
-
-    override fun getActivitiesListLiveData(): ActivityListLiveData? {
-
-        if (isLastItemReached) {
-
-            return null
-        }
-
-        val lastActivity = lastVisibleActivity
-
-        if (lastActivity != null) {
-
-            query = query.startAfter(lastActivity)
-        }
-
-        return ActivityListLiveData(query, ::setLastVisibleItem, ::onLastItemReached)
-    }
+    override val liveDataConstructor = ::ActivityListLiveData
 
     override fun createRecord(activityName: String, time: Long, activityId: String) {
 
@@ -107,19 +74,5 @@ class FirestoreActivityListRepository(private val onLastItemReachedCallback: () 
 
         activitiesRef.document(activityId).delete()
             .logOnFailure("Failed to delete data to Firestore")
-    }
-
-    private fun onLastItemReached() {
-
-        if (!isLastItemReached) {
-
-            isLastItemReached = true
-            onLastItemReachedCallback()
-        }
-    }
-
-    private fun setLastVisibleItem(lastVisibleItem: DocumentSnapshot) {
-
-        lastVisibleActivity = lastVisibleItem
     }
 }

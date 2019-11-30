@@ -20,7 +20,7 @@ class ActivityListViewModel : ViewModel() {
     private val activitiesListRepository =
         FirestoreActivityListRepository { navigator?.onLastItemReached() }
 
-    val activityListLiveData get() = activitiesListRepository.getActivitiesListLiveData()
+    val activityListLiveData get() = activitiesListRepository.getLiveData() as ActivityListLiveData?
 
     fun onLoaded() {
 
@@ -36,8 +36,7 @@ class ActivityListViewModel : ViewModel() {
         activitiesListRepository.createRecord(activityName, time, activityId)
     }
 
-    interface ActivitiesListRepository {
-        fun getActivitiesListLiveData(): ActivityListLiveData?
+    interface Repository {
         fun createRecord(activityName: String, time: Long, activityId: String)
         fun updateActivity(activity: TimeoActivity, activityId: String)
         fun createActivity(activity: TimeoActivity)

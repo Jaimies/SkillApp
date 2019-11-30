@@ -3,9 +3,7 @@ package com.jdevs.timeo.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.adapter.delegates.ActivityDelegateAdapter
-import com.jdevs.timeo.adapter.delegates.LoadingDelegateAdapter
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
-import com.jdevs.timeo.util.AdapterConstants.LOADING
 
 class ActivitiesAdapter(
     private val createRecord: (Int, Long) -> Unit = { _, _ -> },

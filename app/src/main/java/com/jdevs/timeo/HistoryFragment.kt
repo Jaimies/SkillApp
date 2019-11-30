@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.adapter.RecordsAdapter
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.operations.RecordOperation
 import com.jdevs.timeo.databinding.FragmentHistoryBinding
 import com.jdevs.timeo.models.ScrollDownListener
 import com.jdevs.timeo.viewmodel.RecordListViewModel
@@ -78,14 +77,13 @@ class HistoryFragment : Fragment(),
             return
         }
 
-        val recordTime = getItem(chosenRecordIndex).time
+        val record = getRecord(chosenRecordIndex)
+
+        val recordTime = record.time
 
         Snackbar.make(view!!, getString(R.string.record_deleted), Snackbar.LENGTH_SHORT).show()
 
-        viewModel.deleteRecord(
-            mAdapter.getId(chosenRecordIndex), recordTime,
-            getItem(chosenRecordIndex).activityId
-        )
+        viewModel.deleteRecord(mAdapter.getId(chosenRecordIndex), recordTime, record.activityId)
     }
 
     override fun onLastItemReached() {
@@ -94,9 +92,9 @@ class HistoryFragment : Fragment(),
     }
 
     private fun getRecords() {
-        val recordsListLiveData = viewModel.recordsListLiveData ?: return
+        val recordsListLiveData = viewModel.recordsListLiveData
 
-        recordsListLiveData.observe(this) { operation: RecordOperation ->
+        recordsListLiveData?.observe(this) { operation ->
 
             when (operation.type) {
                 R.id.OPERATION_ADDED -> {
@@ -122,5 +120,5 @@ class HistoryFragment : Fragment(),
         }
     }
 
-    private fun getItem(index: Int): Record = mAdapter.getItem(index)
+    private fun getRecord(index: Int): Record = mAdapter.getItem(index)
 }

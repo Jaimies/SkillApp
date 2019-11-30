@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Timeo</string>
 
-    <string name="yes">yes</string>
-    <string name="no">no</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="logged_in">You are logged in</string>

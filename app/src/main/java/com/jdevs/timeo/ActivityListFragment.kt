@@ -53,6 +53,7 @@ class ActivityListFragment : ActionBarFragment(),
     }
 
     override fun onDestroy() {
+
         super.onDestroy()
         viewModel.navigator = null
     }
@@ -67,9 +68,9 @@ class ActivityListFragment : ActionBarFragment(),
     }
 
     private fun getActivities() {
-        val liveData = viewModel.activityListLiveData ?: return
+        val liveData = viewModel.activityListLiveData
 
-        liveData.observe(this) { operation ->
+        liveData?.observe(this) { operation ->
 
             when (operation.type) {
                 R.id.OPERATION_ADDED -> {
@@ -98,7 +99,7 @@ class ActivityListFragment : ActionBarFragment(),
     private fun navigateToDetails(index: Int) {
 
         val activityId = mAdapter.getId(index)
-        val item = getItem(index)
+        val item = getActivity(index)
 
         try {
             val action = OverviewFragmentDirections
@@ -115,8 +116,9 @@ class ActivityListFragment : ActionBarFragment(),
     }
 
     private fun createRecord(index: Int, time: Long) {
-        viewModel.createRecord(getItem(index).name, time, mAdapter.getId(index))
+
+        viewModel.createRecord(getActivity(index).name, time, mAdapter.getId(index))
     }
 
-    private fun getItem(index: Int): TimeoActivity = mAdapter.getItem(index)
+    private fun getActivity(index: Int): TimeoActivity = mAdapter.getItem(index)
 }

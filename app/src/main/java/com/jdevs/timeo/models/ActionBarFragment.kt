@@ -5,8 +5,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import androidx.fragment.app.Fragment
 
-open class ActionBarFragment : Fragment() {
-    protected open val menuId: Int = -1
+abstract class ActionBarFragment : Fragment() {
+    protected abstract val menuId: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -16,10 +16,7 @@ open class ActionBarFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        if (menuId != -1) {
-            inflater.inflate(menuId, menu)
-        }
-
+        inflater.inflate(menuId, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 }

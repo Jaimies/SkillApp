@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class CreateEditActivityFragment : ActionBarFragment(),
     CreateEditActivityViewModel.Navigator {
-    
+
     private val args: CreateEditActivityFragmentArgs by navArgs()
     override val menuId = R.menu.action_bar_create_activity
 

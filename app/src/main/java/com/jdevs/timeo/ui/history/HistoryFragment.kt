@@ -86,7 +86,6 @@ class HistoryFragment : Fragment(),
         }
 
         val record = getRecord(chosenRecordIndex)
-
         val recordTime = record.time
 
         Snackbar.make(view!!, getString(R.string.record_deleted), Snackbar.LENGTH_SHORT).show()
@@ -121,6 +120,10 @@ class HistoryFragment : Fragment(),
 
                 R.id.OPERATION_LOADED -> {
                     viewModel.hideLoader()
+                }
+
+                R.id.OPERATION_FINISHED -> {
+                    mAdapter.showLoader()
                 }
             }
 

@@ -93,6 +93,10 @@ class ActivityListFragment : ActionBarFragment(),
                 R.id.OPERATION_LOADED -> {
                     viewModel.hideLoader()
                 }
+
+                R.id.OPERATION_FINISHED -> {
+                    mAdapter.showLoader()
+                }
             }
 
             viewModel.setLength(mAdapter.dataItemCount)

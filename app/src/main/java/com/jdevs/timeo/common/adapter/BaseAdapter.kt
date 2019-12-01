@@ -40,17 +40,11 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             return@apply
         }
 
-        remove(loadingItem)
-
+        hideLoader()
         add(item)
         idList.add(id)
 
-        if (!isLastItemReached) {
-
-            add(loadingItem)
-        }
-
-        notifyDataSetChanged()
+        notifyItemInserted(lastIndex)
     }
 
     fun modifyItem(item: ViewType, id: String) {
@@ -72,13 +66,23 @@ abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun getItem(index: Int) = items[index]
-
     fun getId(index: Int): String = idList[index]
 
     fun onLastItemReached() {
 
         isLastItemReached = true
+        hideLoader()
+    }
 
+    fun showLoader() {
+        if (!isLastItemReached) {
+
+            items.add(loadingItem)
+            notifyItemInserted(items.lastIndex)
+        }
+    }
+
+    private fun hideLoader() {
         if (items.contains(loadingItem)) {
             val lastPosition = items.lastIndex
 

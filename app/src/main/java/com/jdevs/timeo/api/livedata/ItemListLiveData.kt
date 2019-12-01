@@ -58,6 +58,8 @@ abstract class ItemListLiveData(
             processDocumentChange(documentChange)
         }
 
+        value = operationConstructor(null, R.id.OPERATION_FINISHED, "")
+
         val querySnapshotSize = querySnapshot.size()
 
         if (querySnapshotSize < FETCH_LIMIT) {

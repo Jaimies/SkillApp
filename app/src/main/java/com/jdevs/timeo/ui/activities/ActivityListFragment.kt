@@ -71,7 +71,7 @@ class ActivityListFragment : ActionBarFragment(),
     }
 
     private fun getActivities() {
-        viewModel.activitiesLiveData?.observe(this) { operation ->
+        viewModel.activitiesLiveData?.observe(viewLifecycleOwner) { operation ->
 
             operation as ActivityOperation
 

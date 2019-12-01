@@ -99,7 +99,7 @@ class HistoryFragment : Fragment(),
     }
 
     private fun getRecords() {
-        viewModel.recordsLiveData?.observe(this) { operation ->
+        viewModel.recordsLiveData?.observe(viewLifecycleOwner) { operation ->
 
             operation as RecordOperation
 

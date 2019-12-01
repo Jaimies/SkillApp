@@ -9,7 +9,7 @@ import com.jdevs.timeo.util.RecordsConstants.FETCH_LIMIT
 import com.jdevs.timeo.util.RecordsConstants.TIMESTAMP_PROPERTY
 
 class RecordsRepository(onLastItemCallback: () -> Unit = {}) :
-    FirestoreBaseRepository(onLastItemCallback),
+    FirestoreItemListRepository(onLastItemCallback),
     HistoryViewModel.Repository {
 
     override var initialQuery = recordsRef

@@ -10,7 +10,6 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
-import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.data.operations.Operation
 import com.jdevs.timeo.util.ActivitiesConstants.FETCH_LIMIT
 import com.jdevs.timeo.util.TAG
@@ -74,14 +73,14 @@ abstract class ItemListLiveData(
     }
 
     private fun processDocumentChange(documentChange: DocumentChange) {
-        val activity = try {
-
+        val activity =
+//        try {
             documentChange.document.toObject(dataType)
-        } catch (e: RuntimeException) {
-
-            e.printStackTrace()
-            TimeoActivity()
-        }
+//        } catch (e: RuntimeException) {
+//
+//            e.printStackTrace()
+//            dataType.createInstance()
+//        }
 
         val documentId = documentChange.document.id
 

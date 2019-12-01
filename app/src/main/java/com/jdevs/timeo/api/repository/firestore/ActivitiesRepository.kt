@@ -15,7 +15,7 @@ import com.jdevs.timeo.util.ActivitiesConstants.TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.logOnFailure
 
 class ActivitiesRepository(lastItemCallback: () -> Unit = {}) :
-    FirestoreBaseRepository(lastItemCallback),
+    FirestoreItemListRepository(lastItemCallback),
     ActivityListViewModel.Repository {
 
     override val initialQuery = activitiesRef

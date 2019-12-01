@@ -13,7 +13,6 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.common.InfiniteScrollListener
 import com.jdevs.timeo.common.ItemListFragment
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.operations.RecordOperation
 import com.jdevs.timeo.databinding.FragmentHistoryBinding
 import com.jdevs.timeo.ui.history.adapter.RecordsAdapter
 import com.jdevs.timeo.ui.history.viewmodel.HistoryViewModel
@@ -88,7 +87,7 @@ class HistoryFragment : ItemListFragment<Record>(),
     }
 
     private fun getRecords() {
-        observeOperation<RecordOperation>(viewModel.recordsLiveData)
+        observeOperation(viewModel.recordsLiveData)
     }
 
     private fun getRecord(index: Int) = mAdapter.getItem(index) as Record

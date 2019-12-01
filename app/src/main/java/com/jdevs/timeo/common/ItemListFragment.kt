@@ -6,14 +6,13 @@ import com.jdevs.timeo.api.livedata.ItemListLiveData
 import com.jdevs.timeo.common.adapter.ItemListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.viewmodel.ItemListViewModel
-import com.jdevs.timeo.data.operations.Operation
 
 abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
     ItemListViewModel.Navigator {
     protected abstract val viewModel: ItemListViewModel
     protected abstract val mAdapter: ItemListAdapter
 
-    fun <O : Operation> observeOperation(liveData: ItemListLiveData?, onResult: (O) -> Unit = {}) {
+    fun observeOperation(liveData: ItemListLiveData?) {
         liveData?.observe(viewLifecycleOwner) { operation ->
 
             when (operation.type) {
@@ -23,6 +22,7 @@ abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
 
                 R.id.OPERATION_FINISHED -> {
                     mAdapter.showLoader()
+                    viewModel.setLength(mAdapter.dataItemCount)
                 }
 
                 R.id.OPERATION_ADDED -> {
@@ -38,13 +38,7 @@ abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
                 R.id.OPERATION_REMOVED -> {
                     mAdapter.removeItem(operation.id)
                 }
-
-                else -> {
-                    onResult(operation as O)
-                }
             }
-
-            viewModel.setLength(mAdapter.dataItemCount)
         }
     }
 

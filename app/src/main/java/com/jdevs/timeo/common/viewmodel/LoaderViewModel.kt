@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-open class LoaderViewModel : ViewModel() {
+open class LoaderViewModel(isLoadingByDefault: Boolean = false) : ViewModel() {
     val isLoading get() = _isLoading as LiveData<Boolean>
 
-    private val _isLoading = MutableLiveData(false)
+    private val _isLoading = MutableLiveData(isLoadingByDefault)
 
     fun showLoader() {
         _isLoading.value = true

@@ -9,7 +9,7 @@ import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.USERS_COLLECTION
 
-abstract class FirestoreBaseRepository(private val onLastItemCallback: () -> Unit = {}) {
+abstract class FirestoreItemListRepository(private val onLastItemCallback: () -> Unit = {}) {
     protected val firestore = FirebaseFirestore.getInstance()
     protected abstract val initialQuery: Query
     protected abstract var query: Query

@@ -11,7 +11,6 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.common.InfiniteScrollListener
 import com.jdevs.timeo.common.ItemListFragment
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.data.operations.ActivityOperation
 import com.jdevs.timeo.databinding.FragmentActivityListBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
@@ -59,7 +58,7 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
     }
 
     private fun getActivities() {
-        observeOperation<ActivityOperation>(viewModel.activitiesLiveData)
+        observeOperation(viewModel.activitiesLiveData)
     }
 
     private fun navigateToDetails(index: Int) {

@@ -16,7 +16,7 @@
         tools:context=".ui.history.HistoryFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/records_recycler_view"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hideIf="@{viewmodel.isEmpty || viewmodel.isLoading}" />

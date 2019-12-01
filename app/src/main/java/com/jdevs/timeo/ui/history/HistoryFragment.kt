@@ -6,26 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.InfiniteScrollListener
+import com.jdevs.timeo.common.ItemListFragment
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.operations.RecordOperation
 import com.jdevs.timeo.databinding.FragmentHistoryBinding
 import com.jdevs.timeo.ui.history.adapter.RecordsAdapter
 import com.jdevs.timeo.ui.history.viewmodel.HistoryViewModel
 
-class HistoryFragment : Fragment(),
+class HistoryFragment : ItemListFragment<Record>(),
     DialogInterface.OnClickListener,
     HistoryViewModel.Navigator {
 
-    private val mAdapter by lazy { RecordsAdapter(::showDeleteDialog) }
+    override val menuId = R.menu.action_bar_activity_list
+    override val mAdapter by lazy { RecordsAdapter(::showDeleteDialog) }
 
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProviders.of(this).get(HistoryViewModel::class.java).also {
             it.navigator = this
         }
@@ -44,7 +44,7 @@ class HistoryFragment : Fragment(),
             it.viewmodel = viewModel
             it.lifecycleOwner = this
 
-            it.recordsRecyclerView.apply {
+            it.recyclerView.apply {
 
                 layoutManager = LinearLayoutManager(context)
                 adapter = mAdapter
@@ -56,12 +56,6 @@ class HistoryFragment : Fragment(),
         getRecords()
 
         return binding.root
-    }
-
-    override fun onDestroy() {
-
-        super.onDestroy()
-        viewModel.onFragmentDestroyed()
     }
 
     private fun showDeleteDialog(index: Int) {
@@ -93,42 +87,8 @@ class HistoryFragment : Fragment(),
         viewModel.deleteRecord(mAdapter.getId(chosenRecordIndex), recordTime, record.activityId)
     }
 
-    override fun onLastItemReached() {
-
-        mAdapter.onLastItemReached()
-    }
-
     private fun getRecords() {
-        viewModel.recordsLiveData?.observe(viewLifecycleOwner) { operation ->
-
-            operation as RecordOperation
-
-            when (operation.type) {
-                R.id.OPERATION_ADDED -> {
-                    val record = operation.item ?: return@observe
-                    mAdapter.addItem(record, operation.id)
-                }
-
-                R.id.OPERATION_MODIFIED -> {
-                    val record = operation.item ?: return@observe
-                    mAdapter.modifyItem(record, operation.id)
-                }
-
-                R.id.OPERATION_REMOVED -> {
-                    mAdapter.removeItem(operation.id)
-                }
-
-                R.id.OPERATION_LOADED -> {
-                    viewModel.hideLoader()
-                }
-
-                R.id.OPERATION_FINISHED -> {
-                    mAdapter.showLoader()
-                }
-            }
-
-            viewModel.setLength(mAdapter.dataItemCount)
-        }
+        observeOperation<RecordOperation>(viewModel.recordsLiveData)
     }
 
     private fun getRecord(index: Int) = mAdapter.getItem(index) as Record

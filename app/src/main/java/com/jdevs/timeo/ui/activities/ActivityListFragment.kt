@@ -5,12 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.common.InfiniteScrollListener
+import com.jdevs.timeo.common.ItemListFragment
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.data.operations.ActivityOperation
 import com.jdevs.timeo.databinding.FragmentActivityListBinding
@@ -18,13 +17,13 @@ import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.ui.overview.OverviewFragmentDirections
 
-class ActivityListFragment : ActionBarFragment(),
+class ActivityListFragment : ItemListFragment<TimeoActivity>(),
     ActivityListViewModel.Navigator {
 
     override val menuId = R.menu.action_bar_activity_list
-    private val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
+    override val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
 
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProviders.of(this).get(ActivityListViewModel::class.java).also {
             it.navigator = this
         }
@@ -41,7 +40,7 @@ class ActivityListFragment : ActionBarFragment(),
                 it.viewmodel = viewModel
                 it.lifecycleOwner = this
 
-                it.activityRecyclerView.apply {
+                it.recyclerView.apply {
 
                     layoutManager = LinearLayoutManager(context)
                     adapter = mAdapter
@@ -55,52 +54,12 @@ class ActivityListFragment : ActionBarFragment(),
         return binding.root
     }
 
-    override fun onDestroy() {
-
-        super.onDestroy()
-        viewModel.onFragmentDestroyed()
-    }
-
     override fun createActivity() {
         findNavController().navigate(R.id.action_showCreateActivityFragment)
     }
 
-    override fun onLastItemReached() {
-
-        mAdapter.onLastItemReached()
-    }
-
     private fun getActivities() {
-        viewModel.activitiesLiveData?.observe(viewLifecycleOwner) { operation ->
-
-            operation as ActivityOperation
-
-            when (operation.type) {
-                R.id.OPERATION_ADDED -> {
-                    val activity = operation.item ?: return@observe
-                    mAdapter.addItem(activity, operation.id)
-                }
-
-                R.id.OPERATION_MODIFIED -> {
-                    val activity = operation.item ?: return@observe
-                    mAdapter.modifyItem(activity, operation.id)
-                }
-
-                R.id.OPERATION_REMOVED -> {
-                    mAdapter.removeItem(operation.id)
-                }
-
-                R.id.OPERATION_LOADED -> {
-                    viewModel.hideLoader()
-                }
-
-                R.id.OPERATION_FINISHED -> {
-                    mAdapter.showLoader()
-                }
-            }
-
-            viewModel.setLength(mAdapter.dataItemCount)
-        }
+        observeOperation<ActivityOperation>(viewModel.activitiesLiveData)
     }
 
     private fun navigateToDetails(index: Int) {

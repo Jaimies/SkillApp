@@ -4,7 +4,7 @@ import android.util.SparseArray
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.util.AdapterConstants.LOADING
 
-abstract class BaseAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class ItemLIstAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it.getViewType() != LOADING }.size
 

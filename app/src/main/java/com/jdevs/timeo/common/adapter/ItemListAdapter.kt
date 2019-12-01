@@ -4,12 +4,13 @@ import android.util.SparseArray
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.util.AdapterConstants.LOADING
 
-abstract class ItemLIstAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class ItemListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it.getViewType() != LOADING }.size
 
     protected val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
     protected val items = mutableListOf<ViewType>()
+
     private val idList = mutableListOf<String>()
     private var isLastItemReached = false
 
@@ -31,6 +32,9 @@ abstract class ItemLIstAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     override fun getItemViewType(position: Int) = items[position].getViewType()
     override fun getItemCount() = items.size
+
+    fun getItem(index: Int) = items[index]
+    fun getId(index: Int): String = idList[index]
 
     fun addItem(item: ViewType, id: String) = items.apply {
 
@@ -65,9 +69,6 @@ abstract class ItemLIstAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
         notifyItemRemoved(index)
     }
 
-    fun getItem(index: Int) = items[index]
-    fun getId(index: Int): String = idList[index]
-
     fun onLastItemReached() {
 
         isLastItemReached = true
@@ -75,7 +76,7 @@ abstract class ItemLIstAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
     }
 
     fun showLoader() {
-        if (!isLastItemReached) {
+        if (!isLastItemReached && !items.contains(loadingItem)) {
 
             items.add(loadingItem)
             notifyItemInserted(items.lastIndex)
@@ -83,11 +84,12 @@ abstract class ItemLIstAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
     }
 
     private fun hideLoader() {
-        if (items.contains(loadingItem)) {
-            val lastPosition = items.lastIndex
 
-            items.remove(loadingItem)
-            notifyItemRemoved(lastPosition)
+        val index = items.indexOf(loadingItem)
+
+        if (index != -1) {
+            items.removeAt(index)
+            notifyItemRemoved(index)
         }
     }
 }

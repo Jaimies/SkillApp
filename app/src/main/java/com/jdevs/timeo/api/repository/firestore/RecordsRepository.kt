@@ -17,7 +17,6 @@ class RecordsRepository(onLastItemCallback: () -> Unit = {}) :
         .limit(FETCH_LIMIT)
 
     override var query = initialQuery
-
     override val liveDataConstructor = ::RecordListLiveData
 
     override fun deleteRecord(id: String, recordTime: Long, activityId: String) {

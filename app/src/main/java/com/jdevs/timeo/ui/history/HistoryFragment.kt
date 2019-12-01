@@ -22,7 +22,7 @@ class HistoryFragment : ItemListFragment<Record>(),
     DialogInterface.OnClickListener,
     HistoryViewModel.Navigator {
 
-    override val menuId = R.menu.action_bar_activity_list
+    override val menuId = R.menu.action_bar_history
     override val mAdapter by lazy { RecordsAdapter(::showDeleteDialog) }
 
     override val viewModel by lazy {

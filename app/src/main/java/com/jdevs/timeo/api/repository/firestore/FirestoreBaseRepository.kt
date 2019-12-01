@@ -10,22 +10,19 @@ import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.USERS_COLLECTION
 
 abstract class FirestoreBaseRepository(private val onLastItemCallback: () -> Unit = {}) {
-
     protected val firestore = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
-
-    protected val activitiesRef by lazy {
-        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/${ActivitiesConstants.COLLECTION}")
-    }
-
-    protected val recordsRef by lazy {
-        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/${RecordsConstants.COLLECTION}")
-    }
-
     protected abstract val initialQuery: Query
     protected abstract var query: Query
     protected abstract val liveDataConstructor: (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> LiveData<*>
 
+    protected val activitiesRef by lazy {
+        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/${ActivitiesConstants.COLLECTION}")
+    }
+    protected val recordsRef by lazy {
+        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/${RecordsConstants.COLLECTION}")
+    }
+
+    private val auth = FirebaseAuth.getInstance()
     private var isLastItemReached = false
     private var lastVisibleItem: DocumentSnapshot? = null
 

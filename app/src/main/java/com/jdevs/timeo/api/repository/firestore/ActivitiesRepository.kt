@@ -23,7 +23,6 @@ class ActivitiesRepository(lastItemCallback: () -> Unit = {}) :
         .limit(FETCH_LIMIT)
 
     override var query = initialQuery
-
     override val liveDataConstructor = ::ActivityListLiveData
 
     override fun createRecord(activityName: String, time: Long, activityId: String) {

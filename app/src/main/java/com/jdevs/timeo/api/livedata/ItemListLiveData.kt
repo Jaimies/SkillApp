@@ -22,11 +22,11 @@ abstract class ItemListLiveData(
 ) : LiveData<Operation>(),
     EventListener<QuerySnapshot> {
 
-    private var listenerRegistration: ListenerRegistration? = null
-    private var wasLoaderHidden = false
-
     protected abstract val dataType: Class<*>
     protected abstract val operationConstructor: (Any?, Int, String) -> Operation
+
+    private var listenerRegistration: ListenerRegistration? = null
+    private var wasLoaderHidden = false
 
     override fun onActive() {
         listenerRegistration = query.addSnapshotListener(this)

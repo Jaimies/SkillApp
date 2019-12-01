@@ -1,12 +1,15 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="Theme.Timeo" parent="Theme.MaterialComponents.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="spinBars">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="colorPreloaderBackground">@color/colorPreloaderBackground</item>
+        <item name="topbarHeight">@dimen/topbar_height_minimized</item>
+        <item name="topbarMonthDayTextAppearance">
+            @style/TextAppearance.MaterialComponents.Headline4
+        </item>
     </style>
 
     <style name="Theme.Timeo.Splash">
@@ -17,6 +20,10 @@
 
     <style name="Widget.Timeo" />
 
+    <style name="Widget.Timeo.BottomNavigationView">
+        <item name="android:visibility">gone</item>
+    </style>
+
     <style name="Widget.Timeo.Preloader">
         <item name="android:background">?attr/colorPreloaderBackground</item>
     </style>
@@ -25,8 +32,17 @@
         <item name="android:background">?attr/colorAccent</item>
     </style>
 
-    <style name="Widget.Timeo.TimeBar">
+    <style name="Widget.Timeo.Topbar">
         <item name="android:background">?attr/colorAccent</item>
+        <item name="android:layout_height">?attr/topbarHeight</item>
+    </style>
+
+    <style name="Widget.Timeo.TopbarMonthDay">
+        <item name="android:textAppearance">?attr/topbarMonthDayTextAppearance</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:format12Hour">dd</item>
+        <item name="android:format24Hour">dd</item>
     </style>
 
     <style name="Widget.Timeo.EditText">
@@ -63,5 +79,7 @@
 
     <declare-styleable name="Theme.Timeo">
         <attr name="colorPreloaderBackground" format="color" />
+        <attr name="topbarHeight" format="dimension" />
+        <attr name="topbarMonthDayTextAppearance" format="reference" />
     </declare-styleable>
 </resources>

@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity(),
         setOf(R.id.overviewFragment, R.id.activitiesListFragment, R.id.statsFragment)
     }
 
-    private val allTopLevelDestinations by lazy {
+    private val topLevelDestinations by lazy {
         mainDestinations.union(setOf(R.id.profileFragment, R.id.settingsFragment))
     }
 
@@ -37,10 +38,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private val appBarConfiguration by lazy {
-        AppBarConfiguration(
-            allTopLevelDestinations,
-            drawerLayout
-        )
+        AppBarConfiguration(topLevelDestinations, drawerLayout)
     }
 
     private val mToggle by lazy {
@@ -54,7 +52,9 @@ class MainActivity : AppCompatActivity(),
             override fun onDrawerStateChanged(newState: Int) {
                 super.onDrawerStateChanged(newState)
 
-                if (newState == 1 && allTopLevelDestinations.contains(navController.currentDestination?.id)) {
+                if (newState == DrawerLayout.STATE_DRAGGING &&
+                    topLevelDestinations.contains(navController.currentDestination?.id)
+                ) {
                     syncState()
                 }
             }
@@ -130,9 +130,8 @@ class MainActivity : AppCompatActivity(),
 
         hideKeyboard(this)
 
-        val id = destination.id
-
-        bottomNavView.visibility = if (mainDestinations.contains(id)) View.VISIBLE else View.GONE
+        bottomNavView.visibility =
+            if (shouldDisplayBottomNav(destination)) View.VISIBLE else View.GONE
 
         mToggle.syncState()
     }
@@ -146,5 +145,20 @@ class MainActivity : AppCompatActivity(),
         }
 
         super.onBackPressed()
+    }
+
+    private fun shouldDisplayBottomNav(destination: NavDestination): Boolean {
+        val id = destination.id
+
+        val res = obtainStyledAttributes(
+            R.style.Widget_Timeo_BottomNavigationView,
+            intArrayOf(android.R.attr.visibility)
+        )
+
+        val result = res.getString(0)
+
+        res.recycle()
+
+        return mainDestinations.contains(id) && result == "0"
     }
 }

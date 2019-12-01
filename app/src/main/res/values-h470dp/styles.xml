@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Timeo" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="spinBars">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPreloaderBackground">@color/colorPreloaderBackground</item>
+        <item name="topbarHeight">@dimen/topbar_height</item>
+        <item name="topbarMonthDayTextAppearance">
+            @style/TextAppearance.MaterialComponents.Headline3
+        </item>
+    </style>
+
+    <style name="Widget.Timeo.BottomNavigationView">
+        <item name="android:visibility">visible</item>
+    </style>
+</resources>

@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/records_list_item_height"
+        android:layout_height="@dimen/records_item_height"
         android:paddingStart="@dimen/default_margin"
         android:paddingEnd="@dimen/default_margin">
 

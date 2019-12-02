@@ -15,6 +15,7 @@ import com.jdevs.timeo.databinding.FragmentActivityListBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.ui.overview.OverviewFragmentDirections
+import com.jdevs.timeo.util.ActivitiesConstants
 
 class ActivityListFragment : ItemListFragment<TimeoActivity>(),
     ActivityListViewModel.Navigator {
@@ -33,6 +34,7 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val binding =
             FragmentActivityListBinding.inflate(inflater, container, false).also {
 
@@ -41,10 +43,18 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
 
                 it.recyclerView.apply {
 
-                    layoutManager = LinearLayoutManager(context)
+                    linearLayoutManager = LinearLayoutManager(context)
+
+                    layoutManager = linearLayoutManager
                     adapter = mAdapter
 
-                    addOnScrollListener(InfiniteScrollListener(::getActivities))
+                    addOnScrollListener(
+                        InfiniteScrollListener(
+                            ::getActivities,
+                            linearLayoutManager,
+                            ActivitiesConstants.VISIBLE_THRESHOLD
+                        )
+                    )
                 }
             }
 

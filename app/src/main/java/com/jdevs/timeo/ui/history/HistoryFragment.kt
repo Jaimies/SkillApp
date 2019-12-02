@@ -16,6 +16,7 @@ import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.FragmentHistoryBinding
 import com.jdevs.timeo.ui.history.adapter.RecordsAdapter
 import com.jdevs.timeo.ui.history.viewmodel.HistoryViewModel
+import com.jdevs.timeo.util.RecordsConstants
 
 class HistoryFragment : ItemListFragment<Record>(),
     DialogInterface.OnClickListener,
@@ -45,10 +46,18 @@ class HistoryFragment : ItemListFragment<Record>(),
 
             it.recyclerView.apply {
 
-                layoutManager = LinearLayoutManager(context)
+                linearLayoutManager = LinearLayoutManager(context)
+
+                layoutManager = linearLayoutManager
                 adapter = mAdapter
 
-                addOnScrollListener(InfiniteScrollListener(::getRecords))
+                addOnScrollListener(
+                    InfiniteScrollListener(
+                        ::getRecords,
+                        linearLayoutManager,
+                        RecordsConstants.VISIBLE_THRESHOLD
+                    )
+                )
             }
         }
 

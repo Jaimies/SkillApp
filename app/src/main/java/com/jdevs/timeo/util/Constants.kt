@@ -12,6 +12,7 @@ object ActivitiesConstants {
     const val TIMESTAMP_PROPERTY = "timestamp"
     const val NAME_MAX_LENGTH = 100
     const val ICON_MAX_LENGTH = 100
+    const val VISIBLE_THRESHOLD = 3
 }
 
 object RecordsConstants {
@@ -19,6 +20,7 @@ object RecordsConstants {
     const val FETCH_LIMIT: Long = 20
     const val TIMESTAMP_PROPERTY = "timestamp"
     const val RECORD_MIN_TIME = 5
+    const val VISIBLE_THRESHOLD = 2
 }
 
 object AuthConstants {

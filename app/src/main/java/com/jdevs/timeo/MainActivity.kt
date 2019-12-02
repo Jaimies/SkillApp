@@ -7,7 +7,6 @@ import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -33,50 +32,33 @@ class MainActivity : AppCompatActivity(),
         mainDestinations.union(setOf(R.id.profileFragment, R.id.settingsFragment))
     }
 
-    private val navController by lazy {
-        findNavController(R.id.nav_host_fragment)
-    }
-
     private val appBarConfiguration by lazy {
         AppBarConfiguration(topLevelDestinations, drawerLayout)
     }
 
     private val mToggle by lazy {
-        object : ActionBarDrawerToggle(
+        ActionBarDrawerToggle(
             this,
             drawerLayout,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
-        ) {
-
-            override fun onDrawerStateChanged(newState: Int) {
-                super.onDrawerStateChanged(newState)
-
-                if (newState == DrawerLayout.STATE_DRAGGING &&
-                    topLevelDestinations.contains(navController.currentDestination?.id)
-                ) {
-                    syncState()
-                }
-            }
-        }
+        )
     }
 
+    private val navController by lazy { findNavController(R.id.nav_host_fragment) }
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
     private val navView by lazyUnsynchronized { nav_view }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Timeo)
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
-
         setSupportActionBar(toolbar)
-
         drawerLayout.addDrawerListener(mToggle)
-        mToggle.syncState()
 
         navController.addOnDestinationChangedListener(this)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
         navView.setupWithNavController(navController)
         bottomNavView.setupWithNavController(navController)
     }
@@ -133,7 +115,9 @@ class MainActivity : AppCompatActivity(),
         bottomNavView.visibility =
             if (shouldDisplayBottomNav(destination)) View.VISIBLE else View.GONE
 
-        mToggle.syncState()
+        toolbar.post {
+            mToggle.syncState()
+        }
     }
 
     override fun onBackPressed() {

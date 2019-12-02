@@ -16,8 +16,8 @@ import com.jdevs.timeo.util.TAG
 
 abstract class ItemListLiveData(
     private val query: Query,
-    private val setLastVisibleActivity: (DocumentSnapshot) -> Unit,
-    private val onLastActivityReached: () -> Unit
+    private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
+    private val onLastItemReached: () -> Unit
 ) : LiveData<Operation>(),
     EventListener<QuerySnapshot> {
 
@@ -54,33 +54,35 @@ abstract class ItemListLiveData(
         }
 
         for (documentChange in querySnapshot.documentChanges) {
+
             processDocumentChange(documentChange)
         }
 
         value = operationConstructor(null, R.id.OPERATION_FINISHED, "")
 
-        val querySnapshotSize = querySnapshot.size()
+        val snapshotSize = querySnapshot.size()
 
-        if (querySnapshotSize < FETCH_LIMIT) {
+        if (snapshotSize < FETCH_LIMIT) {
 
-            onLastActivityReached()
+            onLastItemReached()
         } else {
 
-            val lastVisibleProduct = querySnapshot.documents[querySnapshotSize - 1]
+            val lastVisibleItem = querySnapshot.documents[snapshotSize - 1]
 
-            setLastVisibleActivity(lastVisibleProduct)
+            setLastVisibleItem(lastVisibleItem)
         }
     }
 
     private fun processDocumentChange(documentChange: DocumentChange) {
-        val activity =
-//        try {
+
+        val activity = try {
+
             documentChange.document.toObject(dataType)
-//        } catch (e: RuntimeException) {
-//
-//            e.printStackTrace()
-//            dataType.createInstance()
-//        }
+        } catch (e: RuntimeException) {
+
+            e.printStackTrace()
+            dataType.getConstructor().newInstance()
+        }
 
         val documentId = documentChange.document.id
 

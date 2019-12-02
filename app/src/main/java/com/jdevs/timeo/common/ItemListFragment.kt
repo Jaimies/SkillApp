@@ -19,11 +19,9 @@ abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
         liveData?.observe(viewLifecycleOwner) { operation ->
 
             when (operation.type) {
-                R.id.OPERATION_LOADED -> {
-                    viewModel.hideLoader()
-                }
 
                 R.id.OPERATION_FINISHED -> {
+                    viewModel.hideLoader()
                     mAdapter.showLoader()
                     viewModel.setLength(mAdapter.dataItemCount)
                 }

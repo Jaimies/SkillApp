@@ -23,13 +23,10 @@ abstract class ItemListLiveData(
 
     protected abstract val dataType: Class<*>
     protected abstract val operationConstructor: (Any?, Int, String) -> Operation
-
     private var listenerRegistration: ListenerRegistration? = null
-    private var wasLoaderHidden = false
 
     override fun onActive() {
         listenerRegistration = query.addSnapshotListener(this)
-        wasLoaderHidden = false
     }
 
     override fun onInactive() {
@@ -45,12 +42,6 @@ abstract class ItemListLiveData(
 
             Log.w(TAG, "Failed to get data from Firestore", exception)
             return
-        }
-
-        if (!wasLoaderHidden) {
-
-            value = operationConstructor(null, R.id.OPERATION_LOADED, "")
-            wasLoaderHidden = true
         }
 
         for (documentChange in querySnapshot.documentChanges) {

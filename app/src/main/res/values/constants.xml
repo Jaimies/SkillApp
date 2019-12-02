@@ -8,6 +8,5 @@
     <item name="OPERATION_ADDED" type="id" />
     <item name="OPERATION_MODIFIED" type="id" />
     <item name="OPERATION_REMOVED" type="id" />
-    <item name="OPERATION_LOADED" type="id" />
     <item name="OPERATION_FINISHED" type="id" />
 </resources>

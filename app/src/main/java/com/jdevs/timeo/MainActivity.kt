@@ -5,15 +5,16 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.lazyUnsynchronized
+import com.jdevs.timeo.util.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.bottom_nav_view
 import kotlinx.android.synthetic.main.activity_main.drawer_layout
 import kotlinx.android.synthetic.main.activity_main.nav_view
@@ -21,21 +22,23 @@ import kotlinx.android.synthetic.main.activity_main.nav_view
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
-    private val navController by lazy { findNavController(R.id.nav_host_fragment) }
-    private val bottomNavView by lazyUnsynchronized { bottom_nav_view ?: null }
+    val bottomNavView by lazyUnsynchronized { bottom_nav_view ?: null }
+    private var currentNavController: LiveData<NavController>? = null
     private val navView by lazyUnsynchronized { nav_view ?: null }
     private val drawerLayout by lazyUnsynchronized { drawer_layout ?: null }
 
-    private val mainDestinations by lazy {
-        setOf(R.id.overviewFragment, R.id.activitiesListFragment, R.id.statsFragment)
-    }
-
     private val topLevelDestinations by lazy {
-        mainDestinations + setOf(R.id.profileFragment, R.id.settingsFragment)
+        listOf(
+            R.id.overviewFragment,
+            R.id.activitiesListFragment,
+            R.id.statsFragment,
+            R.id.profileFragment,
+            R.id.settingsFragment
+        )
     }
 
     private val appBarConfiguration by lazy {
-        AppBarConfiguration(topLevelDestinations, drawerLayout)
+        AppBarConfiguration(topLevelDestinations.toSet(), drawerLayout)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,15 +47,31 @@ class MainActivity : AppCompatActivity(),
 
         setContentView(R.layout.activity_main)
 
-        navController.addOnDestinationChangedListener(this)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView?.setupWithNavController(navController)
-        bottomNavView?.setupWithNavController(navController)
+        val navGraphIds = listOf(
+            R.navigation.overview,
+            R.navigation.activity_list,
+            R.navigation.stats,
+            R.navigation.profile,
+            R.navigation.settings
+        )
+
+        currentNavController = bottomNavView?.setupWithNavController(
+            navGraphIds = navGraphIds,
+            fragmentManager = supportFragmentManager,
+            containerId = R.id.nav_host_container,
+            intent = intent
+        )?.also {
+
+            it.observe(this) { navController ->
+                setupActionBarWithNavController(navController)
+                navController.addOnDestinationChangedListener(this)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
 
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+        return currentNavController?.value?.navigateUp(appBarConfiguration) ?: false || super.onSupportNavigateUp()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -60,15 +79,15 @@ class MainActivity : AppCompatActivity(),
         when (item.itemId) {
 
             R.id.addActivity -> {
-                navController.navigate(R.id.action_showCreateActivityFragment)
+                currentNavController?.value?.navigate(R.id.action_showCreateActivityFragment)
             }
 
             R.id.history -> {
-                navController.navigate(R.id.action_showHistory)
+                currentNavController?.value?.navigate(R.id.action_showHistory)
             }
 
             R.id.achievements -> {
-                navController.navigate(R.id.action_showAchievements)
+                currentNavController?.value?.navigate(R.id.action_showAchievements)
             }
 
             R.id.shareAchievements -> {

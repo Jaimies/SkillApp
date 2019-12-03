@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.FragmentProfileBinding
 import com.jdevs.timeo.ui.profile.viewmodel.ProfileViewModel
@@ -45,6 +46,11 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
     override fun logout() {
         viewModel.logout()
-        findNavController().navigate(R.id.action_logout)
+
+        (activity as MainActivity).apply {
+            bottomNavView?.selectedItemId = R.id.overview
+        }
+
+        findNavController().navigate(R.id.action_reset)
     }
 }

@@ -14,7 +14,6 @@ import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.FragmentActivityListBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
-import com.jdevs.timeo.ui.overview.OverviewFragmentDirections
 import com.jdevs.timeo.util.ActivitiesConstants
 
 class ActivityListFragment : ItemListFragment<TimeoActivity>(),
@@ -76,17 +75,10 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
         val activityId = mAdapter.getId(index)
         val item = getActivity(index)
 
-        try {
-            val action = OverviewFragmentDirections.actionShowActivityDetails(item, activityId)
+        val action =
+            ActivityListFragmentDirections.actionShowActivityDetails(item, activityId)
 
-            findNavController().navigate(action)
-        } catch (e: IllegalArgumentException) {
-
-            val action =
-                ActivityListFragmentDirections.actionShowActivityDetails(item, activityId)
-
-            findNavController().navigate(action)
-        }
+        findNavController().navigate(action)
     }
 
     private fun createRecord(index: Int, time: Long) {

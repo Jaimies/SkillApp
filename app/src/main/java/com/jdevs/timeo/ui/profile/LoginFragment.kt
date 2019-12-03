@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.login
+package com.jdevs.timeo.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
@@ -20,9 +20,10 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.FragmentLoginBinding
-import com.jdevs.timeo.ui.login.viewmodel.LoginViewModel
+import com.jdevs.timeo.ui.profile.viewmodel.LoginViewModel
 import com.jdevs.timeo.util.RequestCodes.RC_SIGN_IN
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.hideKeyboard
@@ -83,7 +84,11 @@ class LoginFragment : Fragment(),
 
                 viewModel.signIn(email, password, ::handleException) {
 
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                    (activity as MainActivity).apply {
+                        bottomNavView?.selectedItemId = R.id.overview
+                    }
+
+                    findNavController().navigate(R.id.action_reset)
                 }
             }
         }
@@ -151,7 +156,11 @@ class LoginFragment : Fragment(),
 
         viewModel.signInWithGoogle(account, ::onGoogleSignInFailed) {
 
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            (activity as MainActivity).apply {
+                bottomNavView?.selectedItemId = R.id.overview
+            }
+
+            findNavController().navigate(R.id.action_reset)
         }
     }
 

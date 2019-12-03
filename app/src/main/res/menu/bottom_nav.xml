@@ -2,27 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/overviewFragment"
+        android:id="@+id/overview"
         android:icon="@drawable/ic_home"
         android:title="@string/home" />
 
     <item
-        android:id="@+id/activitiesListFragment"
+        android:id="@+id/activity_list"
         android:icon="@drawable/ic_today"
         android:title="@string/your_activities" />
 
     <item
-        android:id="@+id/statsFragment"
+        android:id="@+id/stats"
         android:icon="@drawable/ic_graph"
         android:title="@string/stats" />
 
     <item
-        android:id="@+id/profileFragment"
+        android:id="@+id/profile"
         android:icon="@drawable/ic_account"
         android:title="@string/profile" />
 
     <item
-        android:id="@+id/settingsFragment"
+        android:id="@+id/settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings" />
 </menu>

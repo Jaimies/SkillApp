@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.login.viewmodel
+package com.jdevs.timeo.ui.profile.viewmodel
 
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import com.jdevs.timeo.util.launchSuspendingProcess

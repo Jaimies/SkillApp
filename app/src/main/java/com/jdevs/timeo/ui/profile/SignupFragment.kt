@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.login
+package com.jdevs.timeo.ui.profile
 
 import android.os.Bundle
 import android.util.Log
@@ -12,9 +12,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.FragmentSignupBinding
-import com.jdevs.timeo.ui.login.viewmodel.SignupViewModel
+import com.jdevs.timeo.ui.profile.viewmodel.SignupViewModel
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.validateEmail
@@ -65,7 +66,11 @@ class SignupFragment : Fragment(),
 
         viewModel.createAccount(email, password, ::handleException) {
 
-            findNavController().navigate(R.id.action_signupFragment_to_homeFragment)
+            (activity as MainActivity).apply {
+                bottomNavView?.selectedItemId = R.id.overview
+            }
+
+            findNavController().navigate(R.id.action_reset)
         }
     }
 

@@ -83,10 +83,8 @@ class LoginFragment : Fragment(),
             else -> {
 
                 viewModel.signIn(email, password, ::handleException) {
-
-                    (activity as MainActivity).apply {
-                        bottomNavView?.selectedItemId = R.id.overview
-                    }
+                    
+                    (activity as MainActivity).navigateToGraph(R.id.overview)
 
                     findNavController().navigate(R.id.action_reset)
                 }
@@ -156,9 +154,7 @@ class LoginFragment : Fragment(),
 
         viewModel.signInWithGoogle(account, ::onGoogleSignInFailed) {
 
-            (activity as MainActivity).apply {
-                bottomNavView?.selectedItemId = R.id.overview
-            }
+            (activity as MainActivity).navigateToGraph(R.id.overview)
 
             findNavController().navigate(R.id.action_reset)
         }

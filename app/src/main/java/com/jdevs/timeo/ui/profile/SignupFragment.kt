@@ -66,9 +66,7 @@ class SignupFragment : Fragment(),
 
         viewModel.createAccount(email, password, ::handleException) {
 
-            (activity as MainActivity).apply {
-                bottomNavView?.selectedItemId = R.id.overview
-            }
+            (activity as MainActivity).navigateToGraph(R.id.overview)
 
             findNavController().navigate(R.id.action_reset)
         }

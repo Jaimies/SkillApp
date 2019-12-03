@@ -46,10 +46,8 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
     override fun logout() {
         viewModel.logout()
-
-        (activity as MainActivity).apply {
-            bottomNavView?.selectedItemId = R.id.overview
-        }
+        
+        (activity as MainActivity).navigateToGraph(R.id.overview)
 
         findNavController().navigate(R.id.action_reset)
     }

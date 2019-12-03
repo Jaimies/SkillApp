@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.nav_view
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
-    val bottomNavView by lazyUnsynchronized { bottom_nav_view ?: null }
+    private val bottomNavView by lazyUnsynchronized { bottom_nav_view ?: null }
     private var currentNavController: LiveData<NavController>? = null
     private val navView by lazyUnsynchronized { nav_view ?: null }
     private val drawerLayout by lazyUnsynchronized { drawer_layout ?: null }
@@ -128,5 +128,9 @@ class MainActivity : AppCompatActivity(),
         }
 
         super.onBackPressed()
+    }
+
+    fun navigateToGraph(graphId : Int) {
+        bottomNavView?.selectedItemId = graphId
     }
 }

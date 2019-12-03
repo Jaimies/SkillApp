@@ -2,12 +2,11 @@ package com.jdevs.timeo.common
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.util.ActivitiesConstants
 
 class InfiniteScrollListener(
-    private val func: () -> Unit,
+    private val block: () -> Unit,
     private val layoutManager: LinearLayoutManager,
-    private val visibleThreshold: Int = ActivitiesConstants.VISIBLE_THRESHOLD
+    private val visibleThreshold: Int = 0
 ) : RecyclerView.OnScrollListener() {
 
     private var previousTotal = 0
@@ -32,7 +31,7 @@ class InfiniteScrollListener(
             if (!isLoading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold)
             ) {
-                func()
+                block()
                 isLoading = true
             }
         }

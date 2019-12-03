@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.Timeo.NavHeader"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
+    android:layout_height="@dimen/nav_header_height"
+    android:background="?attr/colorSecondary"
     android:gravity="bottom"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/padding_default">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:gravity="center_horizontal"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2" />

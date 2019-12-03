@@ -17,13 +17,12 @@ import com.jdevs.timeo.util.lazyUnsynchronized
 import kotlinx.android.synthetic.main.activity_main.bottom_nav_view
 import kotlinx.android.synthetic.main.activity_main.drawer_layout
 import kotlinx.android.synthetic.main.activity_main.nav_view
-import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
     private val navController by lazy { findNavController(R.id.nav_host_fragment) }
-    private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
+    private val bottomNavView by lazyUnsynchronized { bottom_nav_view ?: null }
     private val navView by lazyUnsynchronized { nav_view ?: null }
     private val drawerLayout by lazyUnsynchronized { drawer_layout ?: null }
 
@@ -44,12 +43,11 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
         navController.addOnDestinationChangedListener(this)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView?.setupWithNavController(navController)
-        bottomNavView.setupWithNavController(navController)
+        bottomNavView?.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

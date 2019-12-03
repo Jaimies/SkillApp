@@ -13,8 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/records_item_height"
-        android:paddingStart="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin">
+        android:paddingStart="@dimen/margin_default"
+        android:paddingEnd="@dimen/margin_default">
 
         <!--suppress AndroidUnknownAttribute -->
         <TextView

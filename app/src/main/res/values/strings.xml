@@ -11,8 +11,8 @@
     <string name="login">Login</string>
     <string name="login_button">Log in</string>
     <string name="profile">Profile</string>
-    <string name="hours">hours</string>
-    <string name="minutes">minutes</string>
+    <string name="hours">Hours</string>
+    <string name="minutes">Minutes</string>
     <string name="add">Add</string>
     <string name="record_time">Record time</string>
     <string name="my_achievements">My achievements</string>

@@ -13,12 +13,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/activities_item_height"
-        android:layout_marginBottom="@dimen/activities_item_margin"
+        android:layout_marginBottom="@dimen/margin_default"
         android:background="@drawable/activities_item_background"
         android:gravity="center_vertical"
         android:onClick="@{() -> viewmodel.navigator.navigateToDetails()}"
-        android:paddingStart="@dimen/activities_item_padding"
-        android:paddingEnd="@dimen/activities_item_padding">
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_medium">
 
         <TextView
             android:layout_width="0dp"
@@ -38,18 +38,17 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:paddingStart="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin"
+            android:paddingStart="@dimen/margin_default"
+            android:paddingEnd="@dimen/margin_default"
             android:text="@{viewmodel.totalTime}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toStartOf="@+id/plus_button"
-            tools:layout_editor_absoluteY="0dp"
             tools:text="820h" />
 
         <ImageButton
             android:id="@+id/plus_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/activities_plus_button_size"
+            android:layout_height="@dimen/activities_plus_button_size"
             android:background="@drawable/activities_item_button"
             android:onClick="@{() -> viewmodel.navigator.showRecordDialog()}"
             app:layout_constraintBottom_toBottomOf="parent"

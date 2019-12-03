@@ -20,10 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingStart="16dp"
-            android:paddingTop="32dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="16dp"
+            android:paddingStart="@dimen/padding_default"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_default"
+            android:paddingBottom="@dimen/padding_default"
             app:hideIf="@{viewmodel.isEmpty || viewmodel.isLoading}" />
 
         <LinearLayout
@@ -42,7 +42,7 @@
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginTop="@dimen/margin_default"
                 android:onClick="@{() -> viewmodel.navigator.createActivity()}"
                 android:text="@string/create_activity" />
         </LinearLayout>

@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -19,7 +20,6 @@ import com.jdevs.timeo.ui.activities.viewmodel.CreateEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.ICON_MAX_LENGTH
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.hideKeyboard
-import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class CreateEditActivityFragment : ActionBarFragment(),
     CreateEditActivityViewModel.Navigator {
@@ -53,7 +53,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
             it.lifecycleOwner = this
         }
 
-        requireActivity().toolbar.apply {
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
 
             title =
                 getString(if (args.editActivity) R.string.edit_activity else R.string.create_activity)

@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.Timeo.Topbar"
     android:layout_width="match_parent"
+    android:layout_height="@dimen/topbar_height"
+    android:background="?attr/colorPrimary"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     app:layout_constraintTop_toTopOf="parent">
@@ -11,13 +12,18 @@
     <TextClock
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Widget.Timeo.TopbarMonthDay"
-        tools:text="28" />
+        android:layout_marginStart="@dimen/margin_large"
+        android:format12Hour="dd"
+        android:format24Hour="dd"
+        android:textAppearance="@style/topbar_day_text_appearance"
+        android:textStyle="bold"
+        tools:text="28"
+        tools:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/margin_small"
         android:orientation="vertical">
 
         <TextClock
@@ -44,7 +50,7 @@
         <TextClock
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="@dimen/margin_default"
             android:format12Hour="h:mm"
             android:format24Hour="hh:mm"
             android:gravity="center_vertical|end"

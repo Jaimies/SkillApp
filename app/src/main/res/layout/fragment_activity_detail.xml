@@ -16,24 +16,16 @@
         tools:context=".ui.activities.ActivityDetailFragment">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingStart="48dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="48dp"
-            android:paddingBottom="8dp"
-            android:singleLine="true"
+            style="@style/Widget.Timeo.MainTitle"
             android:text="@{viewmodel.name}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             tools:text="Very very long activity name that just cant't fit" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:paddingStart="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin">
+            android:paddingStart="@dimen/margin_default"
+            android:paddingEnd="@dimen/margin_default">
 
             <LinearLayout
                 android:layout_width="wrap_content"

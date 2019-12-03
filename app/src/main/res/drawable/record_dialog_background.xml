@@ -4,5 +4,5 @@
 
     <solid android:color="@color/design_default_color_primary_dark" />
 
-    <corners android:radius="@dimen/record_dialog_corner_radius" />
+    <corners android:radius="@dimen/dialog_record_corner_radius" />
 </shape>

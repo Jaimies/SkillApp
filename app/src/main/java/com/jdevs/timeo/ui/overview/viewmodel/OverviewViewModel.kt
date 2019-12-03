@@ -11,7 +11,11 @@ class OverviewViewModel : LoaderViewModel() {
 
     fun signInAnonymously(logOnFailure: String = "") {
 
-        launchSuspendingProcess(navigator = navigator, logOnFailure = logOnFailure, showLoader = false) {
+        launchSuspendingProcess(
+            navigator = navigator,
+            logOnFailure = logOnFailure,
+            showLoader = false
+        ) {
 
             authRepository.signInAnonymously()
         }

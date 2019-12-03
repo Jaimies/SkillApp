@@ -15,4 +15,14 @@
         android:id="@+id/statsFragment"
         android:icon="@drawable/ic_graph"
         android:title="@string/stats" />
+
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_account"
+        android:title="@string/profile" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
 </menu>

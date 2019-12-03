@@ -3,8 +3,6 @@ package com.jdevs.timeo
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
@@ -17,37 +15,29 @@ import androidx.navigation.ui.setupWithNavController
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.lazyUnsynchronized
 import kotlinx.android.synthetic.main.activity_main.bottom_nav_view
-import kotlinx.android.synthetic.main.activity_main.drawerLayout
+import kotlinx.android.synthetic.main.activity_main.drawer_layout
 import kotlinx.android.synthetic.main.activity_main.nav_view
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
+    private val navController by lazy { findNavController(R.id.nav_host_fragment) }
+    private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
+    private val navView by lazyUnsynchronized { nav_view ?: null }
+    private val drawerLayout by lazyUnsynchronized { drawer_layout ?: null }
+
     private val mainDestinations by lazy {
         setOf(R.id.overviewFragment, R.id.activitiesListFragment, R.id.statsFragment)
     }
 
     private val topLevelDestinations by lazy {
-        mainDestinations.union(setOf(R.id.profileFragment, R.id.settingsFragment))
+        mainDestinations + setOf(R.id.profileFragment, R.id.settingsFragment)
     }
 
     private val appBarConfiguration by lazy {
         AppBarConfiguration(topLevelDestinations, drawerLayout)
     }
-
-    private val mToggle by lazy {
-        ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-    }
-
-    private val navController by lazy { findNavController(R.id.nav_host_fragment) }
-    private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
-    private val navView by lazyUnsynchronized { nav_view }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Timeo)
@@ -55,11 +45,10 @@ class MainActivity : AppCompatActivity(),
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        drawerLayout.addDrawerListener(mToggle)
 
         navController.addOnDestinationChangedListener(this)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        navView?.setupWithNavController(navController)
         bottomNavView.setupWithNavController(navController)
     }
 
@@ -111,38 +100,16 @@ class MainActivity : AppCompatActivity(),
     ) {
 
         hideKeyboard(this)
-
-        bottomNavView.visibility =
-            if (shouldDisplayBottomNav(destination)) View.VISIBLE else View.GONE
-
-        toolbar.post {
-            mToggle.syncState()
-        }
     }
 
     override fun onBackPressed() {
 
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        if (drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {
 
+            drawerLayout?.closeDrawer(GravityCompat.START)
             return
         }
 
         super.onBackPressed()
-    }
-
-    private fun shouldDisplayBottomNav(destination: NavDestination): Boolean {
-        val id = destination.id
-
-        val res = obtainStyledAttributes(
-            R.style.Widget_Timeo_BottomNavigationView,
-            intArrayOf(android.R.attr.visibility)
-        )
-
-        val result = res.getString(0)
-
-        res.recycle()
-
-        return mainDestinations.contains(id) && result == "0"
     }
 }

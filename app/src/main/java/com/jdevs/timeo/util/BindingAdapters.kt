@@ -98,6 +98,8 @@ fun setOnEnterPressedListener(view: View, block: Runnable) {
             event?.action == KeyEvent.ACTION_DOWN
         ) {
             block.run()
+
+            return@setOnKeyListener true
         }
 
         false

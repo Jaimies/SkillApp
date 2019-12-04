@@ -84,6 +84,6 @@ class MainActivity : AppCompatActivity(),
 
     fun navigateToGraph(graphId: Int) {
 
-        bottomNavView?.selectedItemId = graphId
+        bottomNavView.selectedItemId = graphId
     }
 }

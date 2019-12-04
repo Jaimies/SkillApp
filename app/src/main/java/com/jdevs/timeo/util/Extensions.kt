@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.jdevs.timeo.MainActivity
-import com.jdevs.timeo.R
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -91,5 +90,5 @@ fun ViewModel.launchSuspendingProcess(
 fun Fragment.navigateToGraph(graphId: Int) {
 
     (requireActivity() as MainActivity).navigateToGraph(graphId)
-    findNavController().navigate(R.id.action_reset)
+    findNavController().popBackStack()
 }

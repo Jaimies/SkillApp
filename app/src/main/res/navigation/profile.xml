@@ -17,12 +17,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/action_reset"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/profile"
-            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -36,16 +30,9 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/profileFragment"
-            app:popUpToInclusive="false" />
-
-        <action
-            android:id="@+id/action_reset"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/profile"
-            app:popUpToInclusive="true" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.jdevs.timeo.ui.profile.SignupFragment"
@@ -56,12 +43,8 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
-
-        <action
-            android:id="@+id/action_reset"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/profile"
-            app:popUpToInclusive="true" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>

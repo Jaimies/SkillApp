@@ -29,7 +29,7 @@ class SignupViewModel : AuthViewModel() {
     }
 
     interface Navigator : LoaderViewModel.Navigator {
-        fun navigateToLogin()
+        fun navigateToSignIn()
         fun signUp(email: String, password: String)
     }
 }

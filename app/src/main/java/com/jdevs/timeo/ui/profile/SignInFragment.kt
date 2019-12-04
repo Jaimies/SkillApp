@@ -20,20 +20,20 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.R
-import com.jdevs.timeo.databinding.FragmentLoginBinding
-import com.jdevs.timeo.ui.profile.viewmodel.LoginViewModel
+import com.jdevs.timeo.databinding.FragmentSigninBinding
+import com.jdevs.timeo.ui.profile.viewmodel.SignInViewModel
 import com.jdevs.timeo.util.RequestCodes.RC_SIGN_IN
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
+import com.jdevs.timeo.util.navigateToGraph
 
-class LoginFragment : Fragment(),
-    LoginViewModel.Navigator {
+class SignInFragment : Fragment(),
+    SignInViewModel.Navigator {
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(LoginViewModel::class.java).also {
+        ViewModelProviders.of(this).get(SignInViewModel::class.java).also {
             it.navigator = this
         }
     }
@@ -52,7 +52,7 @@ class LoginFragment : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentLoginBinding.inflate(inflater, container, false)
+        val binding = FragmentSigninBinding.inflate(inflater, container, false)
 
         binding.also {
 
@@ -83,10 +83,8 @@ class LoginFragment : Fragment(),
             else -> {
 
                 viewModel.signIn(email, password, ::handleException) {
-                    
-                    (activity as MainActivity).navigateToGraph(R.id.overview)
 
-                    findNavController().navigate(R.id.action_reset)
+                    navigateToGraph(R.id.overview)
                 }
             }
         }
@@ -104,7 +102,7 @@ class LoginFragment : Fragment(),
     }
 
     override fun navigateToSignup() {
-        findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+        findNavController().navigate(R.id.action_signInFragment_to_signupFragment)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -154,9 +152,7 @@ class LoginFragment : Fragment(),
 
         viewModel.signInWithGoogle(account, ::onGoogleSignInFailed) {
 
-            (activity as MainActivity).navigateToGraph(R.id.overview)
-
-            findNavController().navigate(R.id.action_reset)
+            navigateToGraph(R.id.overview)
         }
     }
 

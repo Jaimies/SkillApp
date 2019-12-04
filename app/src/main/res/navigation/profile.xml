@@ -11,8 +11,8 @@
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile">
         <action
-            android:id="@+id/action_login"
-            app:destination="@id/loginFragment"
+            android:id="@+id/action_sign_in"
+            app:destination="@id/signInFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
@@ -26,12 +26,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.jdevs.timeo.ui.profile.LoginFragment"
-        android:label="@string/login"
+        android:id="@+id/signInFragment"
+        android:name="com.jdevs.timeo.ui.profile.SignInFragment"
+        android:label="@string/sign_in"
         tools:layout="@layout/fragment_signup">
         <action
-            android:id="@+id/action_loginFragment_to_signupFragment"
+            android:id="@+id/action_signInFragment_to_signupFragment"
             app:destination="@id/signupFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
@@ -51,8 +51,8 @@
         android:name="com.jdevs.timeo.ui.profile.SignupFragment"
         android:label="@string/sign_up">
         <action
-            android:id="@+id/action_signupFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
+            android:id="@+id/action_signupFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"

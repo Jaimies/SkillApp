@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.FragmentProfileBinding
 import com.jdevs.timeo.ui.profile.viewmodel.ProfileViewModel
+import com.jdevs.timeo.util.navigateToGraph
 
 class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
@@ -33,22 +33,23 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
         binding.viewmodel = viewModel.apply {
 
-            isUserLoggedIn = !(auth.currentUser?.isAnonymous ?: true)
-            userEmail = auth.currentUser?.email.orEmpty()
+            if (auth.currentUser?.isAnonymous == false) {
+
+                signIn(auth.currentUser?.email ?: "")
+            }
         }
 
         return binding.root
     }
 
-    override fun login() {
-        findNavController().navigate(R.id.action_login)
+    override fun signIn() {
+
+        findNavController().navigate(R.id.action_sign_in)
     }
 
-    override fun logout() {
-        viewModel.logout()
+    override fun signOut() {
 
-        (activity as MainActivity).navigateToGraph(R.id.overview)
-
-        findNavController().navigate(R.id.action_reset)
+        viewModel.signOut()
+        navigateToGraph(R.id.overview)
     }
 }

@@ -3,11 +3,11 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="logged_in">You are logged in</string>
-    <string name="not_logged_in">You are not logged in</string>
-    <string name="logout">Logout</string>
-    <string name="login">Login</string>
-    <string name="login_button">Log in</string>
+    <string name="signed_in">You are signed in</string>
+    <string name="not_signed_in">You are not signed in</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_in_button">Sign in</string>
     <string name="profile">Profile</string>
     <string name="hours">Hours</string>
     <string name="minutes">Minutes</string>
@@ -23,7 +23,7 @@
     <string name="password">Password</string>
     <string name="sign_up_or">Sign up or</string>
     <string name="overview">Overview</string>
-    <string name="log_in_or">Log in or</string>
+    <string name="sign_in_or">Sign in or</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_up_button">Sign up</string>
     <string name="there_is_nothing_here_yet">There is nothing here yet</string>

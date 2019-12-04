@@ -10,8 +10,8 @@ fun String.isValidEmail(): Boolean {
 
 fun String.validatePassword(): Int = when {
     isEmpty() -> R.id.ERROR_EMPTY
-    length < PASSWORD_MAX_LENGTH -> R.id.ERROR_TOO_SHORT
-    length > PASSWORD_MIN_LENGTH -> R.id.ERROR_TOO_LONG
+    length < PASSWORD_MIN_LENGTH -> R.id.ERROR_TOO_SHORT
+    length > PASSWORD_MAX_LENGTH -> R.id.ERROR_TOO_LONG
     else -> R.id.RESULT_VALID
 }
 

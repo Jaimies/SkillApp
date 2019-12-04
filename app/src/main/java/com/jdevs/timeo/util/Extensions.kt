@@ -7,9 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
+import com.jdevs.timeo.MainActivity
+import com.jdevs.timeo.R
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,21 +50,22 @@ fun ViewGroup.inflate(layoutId: Int): View {
     return LayoutInflater.from(context).inflate(layoutId, this, false)
 }
 
-fun LoaderViewModel.launchSuspendingProcess(
+fun ViewModel.launchSuspendingProcess(
     onFailure: (FirebaseException) -> Unit = {},
     onSuccess: () -> Unit = {},
     navigator: LoaderViewModel.Navigator? = null,
     logOnFailure: String = "",
-    showLoader: Boolean = true,
     block: suspend () -> Unit
 ) {
-    if (showLoader) {
+    if (this is LoaderViewModel) {
 
         showLoader()
-        navigator?.hideKeyboard()
     }
 
+    navigator?.hideKeyboard()
+
     viewModelScope.launch(Dispatchers.Main) {
+
         try {
 
             block()
@@ -74,10 +80,16 @@ fun LoaderViewModel.launchSuspendingProcess(
             onFailure(exception)
         } finally {
 
-            if (showLoader) {
+            if (this@launchSuspendingProcess is LoaderViewModel) {
 
                 hideLoader()
             }
         }
     }
+}
+
+fun Fragment.navigateToGraph(graphId: Int) {
+
+    (requireActivity() as MainActivity).navigateToGraph(graphId)
+    findNavController().navigate(R.id.action_reset)
 }

@@ -5,14 +5,14 @@ import com.google.firebase.FirebaseException
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import com.jdevs.timeo.util.launchSuspendingProcess
 
-class LoginViewModel : AuthViewModel() {
+class SignInViewModel : AuthViewModel() {
 
     var navigator: Navigator? = null
 
     fun signInWithGoogle(
         account: GoogleSignInAccount,
-        onFailure: (FirebaseException) -> Unit,
-        onSuccess: () -> Unit
+        onFailure: (FirebaseException) -> Unit = {},
+        onSuccess: () -> Unit = {}
     ) {
 
         launchSuspendingProcess(onFailure, onSuccess, navigator) {
@@ -24,8 +24,8 @@ class LoginViewModel : AuthViewModel() {
     fun signIn(
         email: String,
         password: String,
-        onFailure: (FirebaseException) -> Unit,
-        onSuccess: () -> Unit
+        onFailure: (FirebaseException) -> Unit = {},
+        onSuccess: () -> Unit = {}
     ) {
 
         launchSuspendingProcess(onFailure, onSuccess, navigator) {

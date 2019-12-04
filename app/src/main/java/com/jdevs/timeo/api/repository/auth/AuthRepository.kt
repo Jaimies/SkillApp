@@ -51,7 +51,8 @@ class AuthRepository {
         auth.signInAnonymously().await()
     }
 
-    fun logout() {
+    fun signOut() {
+
         auth.signOut()
     }
 

@@ -7,14 +7,14 @@
 
         <variable
             name="viewmodel"
-            type="com.jdevs.timeo.ui.profile.viewmodel.LoginViewModel" />
+            type="com.jdevs.timeo.ui.profile.viewmodel.SignInViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="@{() -> viewmodel.navigator.hideKeyboard()}"
-        tools:context=".ui.profile.LoginFragment">
+        tools:context=".ui.profile.SignInFragment">
 
         <LinearLayout
             style="@style/Widget.Timeo.LoginLayout"
@@ -22,7 +22,7 @@
 
             <TextView
                 style="@style/Widget.Timeo.MainTitle"
-                android:text="@string/login" />
+                android:text="@string/sign_in" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="@{!viewmodel.isLoading}"
                     android:onClick="@{() -> viewmodel.triggerSignIn()}"
-                    android:text="@string/login_button" />
+                    android:text="@string/sign_in_button" />
 
                 <com.google.android.gms.common.SignInButton
                     android:layout_width="wrap_content"

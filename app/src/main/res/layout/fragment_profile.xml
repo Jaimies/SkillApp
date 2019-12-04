@@ -30,25 +30,25 @@
             android:layout_marginTop="@dimen/margin_default"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:hideIf="@{!viewmodel.isUserLoggedIn}">
+            app:hideIf="@{!viewmodel.isLoggedIn}">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/logged_in"
+                android:text="@string/signed_in"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.userEmail}"
+                android:text="@{viewmodel.email}"
                 tools:text="User email" />
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewmodel.navigator.logout()}"
-                android:text="@string/logout" />
+                android:onClick="@{() -> viewmodel.navigator.signOut()}"
+                android:text="@string/sign_out" />
 
         </LinearLayout>
 
@@ -58,20 +58,20 @@
             android:layout_marginTop="@dimen/margin_default"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:hideIf="@{viewmodel.isUserLoggedIn}"
+            app:hideIf="@{viewmodel.isLoggedIn}"
             tools:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_logged_in"
+                android:text="@string/not_signed_in"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewmodel.navigator.login()}"
-                android:text="@string/login" />
+                android:onClick="@{() -> viewmodel.navigator.signIn()}"
+                android:text="@string/sign_in" />
         </LinearLayout>
 
     </LinearLayout>

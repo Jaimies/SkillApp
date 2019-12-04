@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="@{() -> viewmodel.navigator.hideKeyboard()}"
-        tools:context=".ui.profile.LoginFragment">
+        tools:context=".ui.profile.SignInFragment">
 
         <LinearLayout
             style="@style/Widget.Timeo.LoginLayout"
@@ -65,8 +65,8 @@
 
                 <TextView
                     style="@style/Widget.Timeo.LinkTextView"
-                    android:onClick="@{() -> viewmodel.navigator.navigateToLogin()}"
-                    android:text="@string/log_in_or"
+                    android:onClick="@{() -> viewmodel.navigator.navigateToSignIn()}"
+                    android:text="@string/sign_in_or"
                     app:clickableStyle="@{true}"
                     tools:ignore="KeyboardInaccessibleWidget" />
 

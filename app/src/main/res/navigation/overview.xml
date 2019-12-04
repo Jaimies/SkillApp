@@ -7,6 +7,6 @@
     <fragment
         android:id="@+id/overviewFragment"
         android:name="com.jdevs.timeo.ui.overview.OverviewFragment"
-        tools:layout="@layout/fragment_overview"
-        android:label="@string/app_name" />
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_overview" />
 </navigation>

@@ -18,7 +18,9 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
     private val auth = FirebaseAuth.getInstance()
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(ProfileViewModel::class.java)
+        ViewModelProviders.of(this).get(ProfileViewModel::class.java).also {
+            it.navigator = this
+        }
     }
 
     override fun onCreateView(
@@ -33,8 +35,6 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
             isUserLoggedIn = !(auth.currentUser?.isAnonymous ?: true)
             userEmail = auth.currentUser?.email.orEmpty()
-
-            navigator = this@ProfileFragment
         }
 
         return binding.root
@@ -46,7 +46,7 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
     override fun logout() {
         viewModel.logout()
-        
+
         (activity as MainActivity).navigateToGraph(R.id.overview)
 
         findNavController().navigate(R.id.action_reset)

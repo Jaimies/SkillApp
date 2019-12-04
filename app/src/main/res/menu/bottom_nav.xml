@@ -12,17 +12,7 @@
         android:title="@string/your_activities" />
 
     <item
-        android:id="@+id/stats"
-        android:icon="@drawable/ic_graph"
-        android:title="@string/stats" />
-
-    <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_account"
         android:title="@string/profile" />
-
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/settings" />
 </menu>

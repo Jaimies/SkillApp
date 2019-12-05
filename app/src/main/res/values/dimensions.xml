@@ -8,6 +8,7 @@
     <dimen name="padding_medium">20dp</dimen>
     <dimen name="padding_large">32dp</dimen>
     <dimen name="padding_xlarge">48dp</dimen>
+    <dimen name="elevation_default">8dp</dimen>
 
     <dimen name="topbar_height">50dp</dimen>
     <dimen name="activities_item_height">60dp</dimen>

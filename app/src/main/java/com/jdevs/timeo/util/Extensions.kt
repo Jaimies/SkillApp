@@ -10,6 +10,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.jdevs.timeo.MainActivity
@@ -88,6 +89,7 @@ fun ViewModel.launchSuspendingProcess(
 fun Fragment.navigateToGraph(graphId: Int) {
 
     requireMainActivity().navigateToGraph(graphId)
+    findNavController().popBackStack()
 }
 
 fun Fragment.requireMainActivity() = requireActivity() as MainActivity

@@ -14,6 +14,7 @@ import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.lazyUnsynchronized
 import com.jdevs.timeo.util.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.bottom_nav_view
+import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
 
         val navGraphIds = listOf(
             R.navigation.overview,
@@ -84,7 +86,11 @@ class MainActivity : AppCompatActivity(),
 
     fun navigateToGraph(graphId: Int) {
 
-        currentNavController?.value?.popBackStack()
         bottomNavView.selectedItemId = graphId
+
+        toolbar.post {
+
+            currentNavController?.value?.popBackStack()
+        }
     }
 }

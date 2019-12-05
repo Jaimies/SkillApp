@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/Widget.Timeo.MainTitle"
+                style="@style/Widget.Timeo.Header.Small"
                 android:text="@string/sign_up" />
 
             <com.google.android.material.textfield.TextInputLayout

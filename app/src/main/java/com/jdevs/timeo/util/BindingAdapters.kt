@@ -16,9 +16,9 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter("hideIf")
-fun hideIf(view: View, value: Boolean) {
+fun hideIf(view: View, shouldHide: Boolean) {
 
-    view.visibility = if (value) View.GONE else View.VISIBLE
+    view.visibility = if (shouldHide) View.GONE else View.VISIBLE
 }
 
 @BindingAdapter("clickableStyle")

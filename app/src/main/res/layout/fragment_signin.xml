@@ -21,7 +21,7 @@
             android:alpha="@{viewmodel.isLoading ? 0.5f : 1.0f}">
 
             <TextView
-                style="@style/Widget.Timeo.MainTitle"
+                style="@style/Widget.Timeo.Header.Small"
                 android:text="@string/sign_in" />
 
             <com.google.android.material.textfield.TextInputLayout

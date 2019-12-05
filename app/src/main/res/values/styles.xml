@@ -19,18 +19,22 @@
     <style name="Widget.Timeo.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/margin_default</item>
     </style>
 
-    <style name="Widget.Timeo.MainTitle">
+    <style name="Widget.Timeo.Header">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:singleLine">true</item>
-        <item name="android:paddingTop">@dimen/padding_small</item>
-        <item name="android:paddingEnd">@dimen/padding_xlarge</item>
-        <item name="android:paddingBottom">@dimen/padding_small</item>
-        <item name="android:paddingStart">@dimen/padding_xlarge</item>
+        <item name="android:paddingTop">@dimen/padding_tiny</item>
+        <item name="android:paddingEnd">@dimen/padding_default</item>
+        <item name="android:paddingBottom">@dimen/padding_tiny</item>
+        <item name="android:paddingStart">@dimen/padding_default</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4
+        </item>
+    </style>
+
+    <style name="Widget.Timeo.Header.Small">
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
         </item>
     </style>

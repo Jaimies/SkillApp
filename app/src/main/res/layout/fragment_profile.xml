@@ -17,17 +17,14 @@
         tools:context=".ui.profile.ProfileFragment">
 
         <TextView
+            style="@style/Widget.Timeo.Header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
-            android:gravity="center_horizontal"
-            android:text="@string/profile"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
+            android:text="@string/profile" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             app:hideIf="@{!viewmodel.isLoggedIn}">
@@ -55,7 +52,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_default"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             app:hideIf="@{viewmodel.isLoggedIn}"

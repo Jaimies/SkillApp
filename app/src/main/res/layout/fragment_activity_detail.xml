@@ -16,7 +16,7 @@
         tools:context=".ui.activities.ActivityDetailFragment">
 
         <TextView
-            style="@style/Widget.Timeo.MainTitle"
+            style="@style/Widget.Timeo.Header.Small"
             android:text="@{viewmodel.name}"
             tools:text="Very very long activity name that just cant't fit" />
 

@@ -19,12 +19,15 @@ import kotlinx.android.synthetic.main.activity_main.toolbar
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
-    private var currentNavController: LiveData<NavController>? = null
+    private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
-    private val appBarConfiguration by lazy { AppBarConfiguration(topLevelDestinations.toSet()) }
+    private val appBarConfiguration by lazy { AppBarConfiguration(topLevelDestinations) }
+
+    private val navGraphIds =
+        listOf(R.navigation.overview, R.navigation.activity_list, R.navigation.profile)
 
     private val topLevelDestinations by lazy {
-        listOf(R.id.overviewFragment, R.id.activityListFragment, R.id.profileFragment)
+        setOf(R.id.overviewFragment, R.id.activityListFragment, R.id.profileFragment)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,18 +37,12 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val navGraphIds = listOf(
-            R.navigation.overview,
-            R.navigation.activity_list,
-            R.navigation.profile
-        )
-
-        currentNavController = bottomNavView?.setupWithNavController(
+        currentNavController = bottomNavView.setupWithNavController(
             navGraphIds = navGraphIds,
             fragmentManager = supportFragmentManager,
             containerId = R.id.nav_host_container,
             intent = intent
-        )?.also {
+        ).also {
 
             it.observe(this) { navController ->
                 setupActionBarWithNavController(navController)
@@ -56,7 +53,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onSupportNavigateUp(): Boolean {
 
-        return currentNavController?.value?.navigateUp(appBarConfiguration) ?: false || super.onSupportNavigateUp()
+        return currentNavController.value?.navigateUp(appBarConfiguration) ?: false || super.onSupportNavigateUp()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -64,11 +61,11 @@ class MainActivity : AppCompatActivity(),
         when (item.itemId) {
 
             R.id.addActivity -> {
-                currentNavController?.value?.navigate(R.id.action_showCreateActivityFragment)
+                currentNavController.value?.navigate(R.id.action_showCreateActivityFragment)
             }
 
             R.id.history -> {
-                currentNavController?.value?.navigate(R.id.action_showHistory)
+                currentNavController.value?.navigate(R.id.action_showHistory)
             }
         }
 
@@ -84,13 +81,13 @@ class MainActivity : AppCompatActivity(),
         hideKeyboard(this)
     }
 
-    fun navigateToGraph(graphId: Int) {
+    fun navigateToGraph(graphId: Int, tabsToRecreate: Set<Int> = topLevelDestinations) {
 
         bottomNavView.selectedItemId = graphId
 
         toolbar.post {
 
-            currentNavController?.value?.popBackStack()
+            currentNavController.value?.popBackStack()
         }
     }
 }

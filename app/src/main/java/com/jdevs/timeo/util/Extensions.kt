@@ -10,12 +10,10 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 fun <T> lazyUnsynchronized(initializer: () -> T) = lazy(LazyThreadSafetyMode.NONE, initializer)
@@ -63,7 +61,7 @@ fun ViewModel.launchSuspendingProcess(
 
     navigator?.hideKeyboard()
 
-    viewModelScope.launch(Dispatchers.Main) {
+    viewModelScope.launch {
 
         try {
 
@@ -89,6 +87,7 @@ fun ViewModel.launchSuspendingProcess(
 
 fun Fragment.navigateToGraph(graphId: Int) {
 
-    (requireActivity() as MainActivity).navigateToGraph(graphId)
-    findNavController().popBackStack()
+    requireMainActivity().navigateToGraph(graphId)
 }
+
+fun Fragment.requireMainActivity() = requireActivity() as MainActivity

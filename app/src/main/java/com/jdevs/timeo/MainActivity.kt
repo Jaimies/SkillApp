@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity(),
 
     fun navigateToGraph(graphId: Int) {
 
+        currentNavController?.value?.popBackStack()
         bottomNavView.selectedItemId = graphId
     }
 }

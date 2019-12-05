@@ -14,17 +14,18 @@ abstract class FirestoreItemListRepository(private val onLastItemCallback: () ->
     protected abstract val initialQuery: Query
     protected abstract var query: Query
     protected abstract val liveDataConstructor: (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> LiveData<*>
-
-    protected val activitiesRef by lazy {
-        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/${ActivitiesConstants.COLLECTION}")
-    }
-    protected val recordsRef by lazy {
-        firestore.collection("/$USERS_COLLECTION/${auth.currentUser?.uid}/${RecordsConstants.COLLECTION}")
-    }
-
     private val auth = FirebaseAuth.getInstance()
+    private val currentUid = auth.currentUser?.uid
     private var isLastItemReached = false
     private var lastVisibleItem: DocumentSnapshot? = null
+
+    protected val activitiesRef by lazy {
+        firestore.collection("/$USERS_COLLECTION/$currentUid/${ActivitiesConstants.COLLECTION}")
+    }
+
+    protected val recordsRef by lazy {
+        firestore.collection("/$USERS_COLLECTION/$currentUid/${RecordsConstants.COLLECTION}")
+    }
 
     fun getLiveData(): LiveData<*>? {
 

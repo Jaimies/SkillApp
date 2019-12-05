@@ -33,9 +33,9 @@ object RequestCodes {
 }
 
 object AdapterConstants {
-    const val LOADING = 1
-    const val ACTIVITY = 2
-    const val RECORD = 3
+    const val LOADING = 0
+    const val ACTIVITY = 1
+    const val RECORD = 2
 }
 
 object Time {

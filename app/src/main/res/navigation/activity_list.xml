@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_list"
-    app:startDestination="@id/activitiesListFragment">
+    app:startDestination="@id/activityListFragment">
 
     <fragment
         android:id="@+id/createActivityFragment"
@@ -34,21 +34,21 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_returnToHomeFragment"
-            app:destination="@id/activitiesListFragment"
+            app:destination="@id/activityListFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/activitiesListFragment"
+            app:popUpTo="@id/activityListFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/history"
+        android:id="@+id/historyFragment"
         android:name="com.jdevs.timeo.ui.history.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/fragment_history" />
     <fragment
-        android:id="@+id/activitiesListFragment"
+        android:id="@+id/activityListFragment"
         android:name="com.jdevs.timeo.ui.activities.ActivityListFragment"
         android:label="@string/your_activities"
         tools:layout="@layout/fragment_activity_list">
@@ -61,7 +61,7 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_showHistory"
-            app:destination="@id/history"
+            app:destination="@id/historyFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"

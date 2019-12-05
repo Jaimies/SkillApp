@@ -102,7 +102,7 @@ class SignInFragment : Fragment(),
     }
 
     override fun navigateToSignup() {
-        findNavController().navigate(R.id.action_signInFragment_to_signupFragment)
+        findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(),
     private val appBarConfiguration by lazy { AppBarConfiguration(topLevelDestinations.toSet()) }
 
     private val topLevelDestinations by lazy {
-        listOf(R.id.overviewFragment, R.id.activitiesListFragment, R.id.profileFragment)
+        listOf(R.id.overviewFragment, R.id.activityListFragment, R.id.profileFragment)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

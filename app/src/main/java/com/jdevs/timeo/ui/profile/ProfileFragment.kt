@@ -44,7 +44,7 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
     override fun signIn() {
 
-        findNavController().navigate(R.id.action_sign_in)
+        findNavController().navigate(R.id.action_signIn)
     }
 
     override fun signOut() {

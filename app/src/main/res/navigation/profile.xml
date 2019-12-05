@@ -11,7 +11,7 @@
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile">
         <action
-            android:id="@+id/action_sign_in"
+            android:id="@+id/action_signIn"
             app:destination="@id/signInFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
@@ -25,8 +25,8 @@
         android:label="@string/sign_in"
         tools:layout="@layout/fragment_signup">
         <action
-            android:id="@+id/action_signInFragment_to_signupFragment"
-            app:destination="@id/signupFragment"
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
@@ -34,11 +34,11 @@
     </fragment>
 
     <fragment
-        android:id="@+id/signupFragment"
+        android:id="@+id/signUpFragment"
         android:name="com.jdevs.timeo.ui.profile.SignupFragment"
         android:label="@string/sign_up">
         <action
-            android:id="@+id/action_signupFragment_to_signInFragment"
+            android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signInFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"

@@ -51,7 +51,7 @@ class SignupFragment : Fragment(),
     }
 
     override fun navigateToSignIn() {
-        findNavController().navigate(R.id.action_signupFragment_to_signInFragment)
+        findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
     }
 
     override fun hideKeyboard() {

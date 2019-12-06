@@ -1,5 +1,6 @@
 package com.jdevs.timeo.common
 
+import android.os.Bundle
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.R
@@ -14,6 +15,12 @@ abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
     protected abstract val mAdapter: ItemListAdapter
 
     protected lateinit var linearLayoutManager: LinearLayoutManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+        viewModel.setupRepository()
+    }
 
     fun observeOperation(liveData: ItemListLiveData?) {
         liveData?.observe(viewLifecycleOwner) { operation ->

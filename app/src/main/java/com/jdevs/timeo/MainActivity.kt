@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.NavOptions
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -14,6 +15,7 @@ import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.lazyUnsynchronized
 import com.jdevs.timeo.util.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.bottom_nav_view
+import kotlinx.android.synthetic.main.activity_main.nav_host_container
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : AppCompatActivity(),
@@ -22,9 +24,11 @@ class MainActivity : AppCompatActivity(),
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
     private val appBarConfiguration by lazy { AppBarConfiguration(topLevelDestinations) }
+    private val navGraphsToRecreate = mutableListOf<Int>()
 
-    private val navGraphIds =
+    private val navGraphIds by lazy {
         listOf(R.navigation.overview, R.navigation.activity_list, R.navigation.profile)
+    }
 
     private val topLevelDestinations by lazy {
         setOf(R.id.overviewFragment, R.id.activityListFragment, R.id.profileFragment)
@@ -61,10 +65,12 @@ class MainActivity : AppCompatActivity(),
         when (item.itemId) {
 
             R.id.addActivity -> {
+
                 currentNavController.value?.navigate(R.id.action_showCreateActivityFragment)
             }
 
             R.id.history -> {
+
                 currentNavController.value?.navigate(R.id.action_showHistory)
             }
         }
@@ -77,17 +83,34 @@ class MainActivity : AppCompatActivity(),
         destination: NavDestination,
         arguments: Bundle?
     ) {
+        val id = controller.graph.id
+
+        if (navGraphsToRecreate.contains(id)) {
+
+            nav_host_container.post {
+
+                val options = NavOptions.Builder()
+                    .setPopUpTo(id, true)
+                    .build()
+
+                controller.navigate(controller.graph.startDestination, null, options)
+            }
+
+            navGraphsToRecreate.remove(id)
+        }
 
         hideKeyboard(this)
     }
 
-    fun navigateToGraph(graphId: Int, tabsToRecreate: Set<Int> = topLevelDestinations) {
+    fun navigateToGraph(graphId: Int, tabsToRecreate: List<Int> = listOf(R.id.activity_list)) {
 
         bottomNavView.selectedItemId = graphId
 
         toolbar.post {
 
-            currentNavController.value?.popBackStack()
+            toolbar.title = currentNavController.value?.currentDestination?.label
         }
+
+        navGraphsToRecreate.addAll(tabsToRecreate)
     }
 }

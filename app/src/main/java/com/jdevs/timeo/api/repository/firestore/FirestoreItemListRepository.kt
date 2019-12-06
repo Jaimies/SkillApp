@@ -44,13 +44,6 @@ abstract class FirestoreItemListRepository(private val onLastItemCallback: () ->
         return liveDataConstructor(query, ::setLastVisibleItem, ::onLastItemReached)
     }
 
-    fun onFragmentDestroyed() {
-
-        query = initialQuery
-        isLastItemReached = false
-        lastVisibleItem = null
-    }
-
     private fun onLastItemReached() {
 
         if (!isLastItemReached) {

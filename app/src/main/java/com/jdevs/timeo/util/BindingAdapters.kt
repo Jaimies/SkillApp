@@ -2,7 +2,6 @@ package com.jdevs.timeo.util
 
 import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import com.google.android.gms.common.SignInButton
@@ -40,11 +39,10 @@ fun setError(textInputLayout: TextInputLayout, error: String, editText: EditText
 @BindingAdapter("onEnterPressed")
 fun setOnEnterPressedListener(view: View, block: Runnable) {
     view.setOnKeyListener { _, keyCode, event ->
-        if ((keyCode == EditorInfo.IME_ACTION_DONE || keyCode == KeyEvent.KEYCODE_ENTER) &&
-            event?.action == KeyEvent.ACTION_DOWN
-        ) {
-            block.run()
 
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {
+
+            block.run()
             return@setOnKeyListener true
         }
 

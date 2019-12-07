@@ -63,10 +63,12 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
     }
 
     override fun createActivity() {
+
         findNavController().navigate(R.id.action_showCreateActivityFragment)
     }
 
     private fun getActivities() {
+
         observeOperation(viewModel.activitiesLiveData)
     }
 

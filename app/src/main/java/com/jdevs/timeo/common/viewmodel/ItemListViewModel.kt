@@ -13,7 +13,6 @@ abstract class ItemListViewModel : LoaderViewModel(true) {
     }
 
     abstract fun onFragmentDestroyed()
-    abstract fun setupRepository()
 
     interface Navigator {
         fun onLastItemReached()

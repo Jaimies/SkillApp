@@ -15,15 +15,10 @@ import com.jdevs.timeo.util.ActivitiesConstants.TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.logOnFailure
 
 class ActivitiesRepository(lastItemCallback: () -> Unit = {}) :
-    FirestoreItemListRepository(lastItemCallback),
+    ItemListRepository(lastItemCallback),
     ActivityListViewModel.Repository {
 
-    override val initialQuery = activitiesRef
-        .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
-        .limit(FETCH_LIMIT)
-
-    override var query = initialQuery
-    override val liveDataConstructor = ::ActivityListLiveData
+    override val liveData = ::ActivityListLiveData
 
     override fun createRecord(activityName: String, time: Long, activityId: String) {
 
@@ -44,7 +39,7 @@ class ActivitiesRepository(lastItemCallback: () -> Unit = {}) :
         recordsRef.whereEqualTo(ACTIVITY_ID_PROPERTY, activityId).get()
             .addOnSuccessListener { querySnapshot ->
 
-                val recordReferences = ArrayList<DocumentReference>()
+                val recordReferences = mutableListOf<DocumentReference>()
 
                 for (record in querySnapshot.documents) {
 
@@ -74,5 +69,11 @@ class ActivitiesRepository(lastItemCallback: () -> Unit = {}) :
 
         activitiesRef.document(activityId).delete()
             .logOnFailure("Failed to delete data to Firestore")
+    }
+
+    override fun createQuery(): Query {
+        return activitiesRef
+            .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
+            .limit(FETCH_LIMIT)
     }
 }

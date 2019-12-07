@@ -39,8 +39,6 @@ class HistoryFragment : ItemListFragment<Record>(),
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel.setupRepository()
-
         val binding = FragmentHistoryBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel

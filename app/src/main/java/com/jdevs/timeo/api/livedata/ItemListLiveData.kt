@@ -15,7 +15,7 @@ import com.jdevs.timeo.util.ActivitiesConstants.FETCH_LIMIT
 import com.jdevs.timeo.util.TAG
 
 abstract class ItemListLiveData(
-    private val query: Query,
+    private var query: Query?,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
     private val onLastItemReached: () -> Unit
 ) : LiveData<Operation>(),
@@ -23,13 +23,16 @@ abstract class ItemListLiveData(
 
     protected abstract val dataType: Class<*>
     protected abstract val operationConstructor: (Any?, Int, String) -> Operation
+
     private var listenerRegistration: ListenerRegistration? = null
 
     override fun onActive() {
-        listenerRegistration = query.addSnapshotListener(this)
+
+        listenerRegistration = query?.addSnapshotListener(this)
     }
 
     override fun onInactive() {
+
         listenerRegistration?.remove()
     }
 
@@ -51,16 +54,20 @@ abstract class ItemListLiveData(
 
         value = operationConstructor(null, R.id.OPERATION_FINISHED, "")
 
-        val snapshotSize = querySnapshot.size()
-
-        if (snapshotSize < FETCH_LIMIT) {
+        if (querySnapshot.size() < FETCH_LIMIT) {
 
             onLastItemReached()
         } else {
 
-            val lastVisibleItem = querySnapshot.documents[snapshotSize - 1]
+            setLastVisibleItem(querySnapshot.documents.last())
+        }
+    }
 
-            setLastVisibleItem(lastVisibleItem)
+    fun setQuery(newQuery: Query) {
+
+        query = newQuery.also {
+
+            it.addSnapshotListener(this)
         }
     }
 

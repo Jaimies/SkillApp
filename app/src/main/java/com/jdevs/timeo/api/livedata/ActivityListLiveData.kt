@@ -7,10 +7,10 @@ import com.jdevs.timeo.data.operations.ActivityOperation
 import com.jdevs.timeo.data.operations.Operation
 
 class ActivityListLiveData(
-    query: Query,
-    setLastVisibleActivity: (DocumentSnapshot) -> Unit,
-    onLastActivityReached: () -> Unit
-) : ItemListLiveData(query, setLastVisibleActivity, onLastActivityReached) {
+    query: Query?,
+    setLastVisibleItem: (DocumentSnapshot) -> Unit,
+    onLastItemReached: () -> Unit
+) : ItemListLiveData(query, setLastVisibleItem, onLastItemReached) {
 
     override val dataType = TimeoActivity::class.java
     override val operationConstructor = ::ActivityOperation as (Any?, Int, String) -> Operation

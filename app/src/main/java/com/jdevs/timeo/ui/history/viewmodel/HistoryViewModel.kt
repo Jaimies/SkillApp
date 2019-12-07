@@ -8,14 +8,13 @@ class HistoryViewModel : ItemListViewModel() {
     var navigator: Navigator? = null
     val recordsLiveData get() = repository.getLiveData() as RecordListLiveData?
 
-    private lateinit var repository: RecordsRepository
-
-    override fun onFragmentDestroyed() {
-        navigator = null
+    private val repository by lazy {
+        RecordsRepository { navigator?.onLastItemReached() }
     }
 
-    override fun setupRepository() {
-        repository = RecordsRepository { navigator?.onLastItemReached() }
+    override fun onFragmentDestroyed() {
+
+        navigator = null
     }
 
     fun deleteRecord(id: String, recordTime: Long, activityId: String) {

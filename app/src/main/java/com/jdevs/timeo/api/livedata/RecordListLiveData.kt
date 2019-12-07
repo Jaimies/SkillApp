@@ -7,7 +7,7 @@ import com.jdevs.timeo.data.operations.Operation
 import com.jdevs.timeo.data.operations.RecordOperation
 
 class RecordListLiveData(
-    query: Query,
+    query: Query?,
     setLastVisibleItem: (DocumentSnapshot) -> Unit,
     onLastItemReached: () -> Unit
 ) : ItemListLiveData(query, setLastVisibleItem, onLastItemReached) {

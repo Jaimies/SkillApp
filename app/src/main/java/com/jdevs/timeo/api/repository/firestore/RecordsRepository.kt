@@ -9,15 +9,10 @@ import com.jdevs.timeo.util.RecordsConstants.FETCH_LIMIT
 import com.jdevs.timeo.util.RecordsConstants.TIMESTAMP_PROPERTY
 
 class RecordsRepository(onLastItemCallback: () -> Unit = {}) :
-    FirestoreItemListRepository(onLastItemCallback),
+    ItemListRepository(onLastItemCallback),
     HistoryViewModel.Repository {
 
-    override var initialQuery = recordsRef
-        .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
-        .limit(FETCH_LIMIT)
-
-    override var query = initialQuery
-    override val liveDataConstructor = ::RecordListLiveData
+    override val liveData = ::RecordListLiveData
 
     override fun deleteRecord(id: String, recordTime: Long, activityId: String) {
 
@@ -25,5 +20,12 @@ class RecordsRepository(onLastItemCallback: () -> Unit = {}) :
 
         activitiesRef.document(activityId)
             .update(TOTAL_TIME_PROPERTY, FieldValue.increment(-recordTime))
+    }
+
+    override fun createQuery(): Query {
+
+        return recordsRef
+            .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
+            .limit(FETCH_LIMIT)
     }
 }

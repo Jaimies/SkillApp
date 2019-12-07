@@ -9,17 +9,17 @@ class ActivityListViewModel : ItemListViewModel() {
     var navigator: Navigator? = null
     val activitiesLiveData get() = repository.getLiveData() as ActivityListLiveData?
 
-    private lateinit var repository: ActivitiesRepository
+    private val repository by lazy {
+        ActivitiesRepository { navigator?.onLastItemReached() }
+    }
 
     override fun onFragmentDestroyed() {
+
         navigator = null
     }
 
-    override fun setupRepository() {
-        repository = ActivitiesRepository { navigator?.onLastItemReached() }
-    }
-
     fun createRecord(activityName: String, time: Long, activityId: String) {
+
         repository.createRecord(activityName, time, activityId)
     }
 

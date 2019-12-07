@@ -64,11 +64,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/Widget.Timeo.LinkTextView"
+                    style="@style/Widget.Timeo.AlternativeText"
                     android:onClick="@{() -> viewmodel.navigator.navigateToSignIn()}"
-                    android:text="@string/sign_in_or"
-                    app:clickableStyle="@{true}"
-                    tools:ignore="KeyboardInaccessibleWidget" />
+                    android:text="@string/sign_in_or" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"

@@ -15,27 +15,33 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
+import com.jdevs.timeo.util.ViewConstants.HAS_TEXT_WATCHER
 import kotlinx.coroutines.launch
 
 fun <T> lazyUnsynchronized(initializer: () -> T) = lazy(LazyThreadSafetyMode.NONE, initializer)
 
-fun TextWatcher.removeSelfFrom(editText: EditText) {
-    editText.removeTextChangedListener(this)
-}
-
 fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
+
+    if (tag == HAS_TEXT_WATCHER) {
+
+        return
+    }
 
     addTextChangedListener(object : TextWatcher {
 
-        override fun afterTextChanged(s: Editable?) {}
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        override fun afterTextChanged(s: Editable?) {
 
             block()
-            removeSelfFrom(this@doOnceAfterTextChanged)
+            tag = ""
+
+            this@doOnceAfterTextChanged.removeTextChangedListener(this)
         }
     })
+
+    tag = HAS_TEXT_WATCHER
 }
 
 fun Task<*>.logOnFailure(message: String = "Failed to perform an operation") {

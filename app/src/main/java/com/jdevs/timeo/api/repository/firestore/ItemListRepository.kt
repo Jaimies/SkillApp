@@ -8,7 +8,7 @@ import com.google.firebase.firestore.Query
 import com.jdevs.timeo.api.livedata.ItemListLiveData
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
-import com.jdevs.timeo.util.USERS_COLLECTION
+import com.jdevs.timeo.util.UserConstants.USERS_COLLECTION
 
 abstract class ItemListRepository(private val onLastItemCallback: () -> Unit = {}) :
     FirebaseAuth.AuthStateListener {

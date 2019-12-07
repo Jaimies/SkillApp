@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
     private val appBarConfiguration by lazy { AppBarConfiguration(topLevelDestinations) }
-    private val navGraphsToRecreate = mutableListOf<Int>()
+    private val graphsToRecreate = mutableListOf<Int>()
 
     private val navGraphIds by lazy {
         listOf(R.navigation.overview, R.navigation.activity_list, R.navigation.profile)
@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(),
         ).also {
 
             it.observe(this) { navController ->
+
                 setupActionBarWithNavController(navController)
                 navController.addOnDestinationChangedListener(this)
             }
@@ -83,26 +84,26 @@ class MainActivity : AppCompatActivity(),
         destination: NavDestination,
         arguments: Bundle?
     ) {
-        val id = controller.graph.id
+        val graphId = controller.graph.id
 
-        if (navGraphsToRecreate.contains(id)) {
+        if (graphsToRecreate.contains(graphId)) {
 
             nav_host_container.post {
 
                 val options = NavOptions.Builder()
-                    .setPopUpTo(id, true)
+                    .setPopUpTo(graphId, true)
                     .build()
 
                 controller.navigate(controller.graph.startDestination, null, options)
             }
 
-            navGraphsToRecreate.remove(id)
+            graphsToRecreate.remove(graphId)
         }
 
         hideKeyboard(this)
     }
 
-    fun navigateToGraph(graphId: Int, tabsToRecreate: List<Int> = listOf(R.id.activity_list)) {
+    fun navigateToGraph(graphId: Int, graphsToRecreate: List<Int> = listOf(R.id.activity_list)) {
 
         bottomNavView.selectedItemId = graphId
 
@@ -111,6 +112,6 @@ class MainActivity : AppCompatActivity(),
             toolbar.title = currentNavController.value?.currentDestination?.label
         }
 
-        navGraphsToRecreate.addAll(tabsToRecreate)
+        this.graphsToRecreate.addAll(graphsToRecreate)
     }
 }

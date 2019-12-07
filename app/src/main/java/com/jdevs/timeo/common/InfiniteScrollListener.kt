@@ -22,7 +22,9 @@ class InfiniteScrollListener(
             val firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
 
             if (isLoading) {
+
                 if (totalItemCount > previousTotal) {
+
                     isLoading = false
                     previousTotal = totalItemCount
                 }
@@ -31,6 +33,7 @@ class InfiniteScrollListener(
             if (!isLoading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold)
             ) {
+
                 block()
                 isLoading = true
             }

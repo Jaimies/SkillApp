@@ -26,12 +26,6 @@ object RecordsConstants {
     const val RECORD_MIN_TIME = 5
 }
 
-object AuthConstants {
-
-    const val PASSWORD_MAX_LENGTH = 25
-    const val PASSWORD_MIN_LENGTH = 6
-}
-
 object RequestCodes {
 
     const val RC_SIGN_IN = 0
@@ -48,12 +42,6 @@ object Time {
 
     const val HOUR_MINUTES = 60
     const val DAY_HOURS = 24
-}
-
-object StringConstants {
-
-    const val FIRST_RANDOM_SYMBOL_CODE = 32
-    const val LAST_RANDOM_SYMBOL_CODE = 127
 }
 
 object ViewConstants {

@@ -27,19 +27,16 @@ class ActivityDelegateAdapter :
         deleteRecord: (Int) -> Unit
     ): RecyclerView.ViewHolder {
 
-        val binding =
-            ActivitiesItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            ).also {
+        val inflater = LayoutInflater.from(parent.context)
 
-                it.viewmodel = ViewModelProviders
-                    .of(parent.context as FragmentActivity)
-                    .get(randomString(), ActivityViewModel::class.java)
+        val binding = ActivitiesItemBinding.inflate(inflater, parent, false).also {
 
-                it.lifecycleOwner = parent.context as FragmentActivity
-            }
+            it.viewmodel = ViewModelProviders
+                .of(parent.context as FragmentActivity)
+                .get(randomString(), ActivityViewModel::class.java)
+
+            it.lifecycleOwner = parent.context as FragmentActivity
+        }
 
         return ViewHolder(binding, createRecord, goToDetails)
     }

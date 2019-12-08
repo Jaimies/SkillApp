@@ -13,6 +13,7 @@ class InfiniteScrollListener(
     private var isLoading = true
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
         super.onScrolled(recyclerView, dx, dy)
 
         if (dy > 0) {

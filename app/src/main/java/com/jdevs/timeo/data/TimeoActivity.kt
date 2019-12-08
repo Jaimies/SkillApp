@@ -18,6 +18,7 @@ data class TimeoActivity(
     var totalTime: Long = 0,
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
 ) : Parcelable, ViewType {
+
     @Exclude
     override fun getViewType() = AdapterConstants.ACTIVITY
 }

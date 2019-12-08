@@ -5,7 +5,9 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 
 fun hideKeyboard(activity: Activity?) {
+
     if (activity == null) {
+
         return
     }
 

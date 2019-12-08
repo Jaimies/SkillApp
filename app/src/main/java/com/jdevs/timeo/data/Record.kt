@@ -15,6 +15,7 @@ data class Record(
     val activityId: String = "",
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
 ) : ViewType {
+
     @Exclude
     override fun getViewType() = AdapterConstants.RECORD
 }

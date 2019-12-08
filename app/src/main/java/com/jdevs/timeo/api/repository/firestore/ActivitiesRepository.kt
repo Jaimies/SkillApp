@@ -6,7 +6,6 @@ import com.google.firebase.firestore.Query
 import com.jdevs.timeo.api.livedata.ActivityListLiveData
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.ActivitiesConstants.FETCH_LIMIT
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_PROPERTY
@@ -14,8 +13,7 @@ import com.jdevs.timeo.util.ActivitiesConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.ActivitiesConstants.TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.logOnFailure
 
-object ActivitiesRepository : ItemListRepository(),
-    ActivityListViewModel.Repository {
+object ActivitiesRepository : ItemListRepository() {
 
     override val liveData = ::ActivityListLiveData
 
@@ -25,7 +23,13 @@ object ActivitiesRepository : ItemListRepository(),
         return this
     }
 
-    override fun createRecord(activityName: String, time: Long, activityId: String) {
+    override fun createQuery(): Query {
+        return activitiesRef
+            .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
+            .limit(FETCH_LIMIT)
+    }
+
+    fun createRecord(activityName: String, time: Long, activityId: String) {
 
         val record = Record(activityName, time, activityId)
 
@@ -37,7 +41,7 @@ object ActivitiesRepository : ItemListRepository(),
             .logOnFailure("Failed to update data in Firestore")
     }
 
-    override fun updateActivity(activity: TimeoActivity, activityId: String) {
+    fun updateActivity(activity: TimeoActivity, activityId: String) {
 
         val activityReference = activitiesRef.document(activityId)
 
@@ -64,21 +68,15 @@ object ActivitiesRepository : ItemListRepository(),
             }
     }
 
-    override fun createActivity(activity: TimeoActivity) {
+    fun createActivity(activity: TimeoActivity) {
 
         activitiesRef.add(activity)
             .logOnFailure("Failed to add data to Firestore")
     }
 
-    override fun deleteActivity(activityId: String) {
+    fun deleteActivity(activityId: String) {
 
         activitiesRef.document(activityId).delete()
             .logOnFailure("Failed to delete data to Firestore")
-    }
-
-    override fun createQuery(): Query {
-        return activitiesRef
-            .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
-            .limit(FETCH_LIMIT)
     }
 }

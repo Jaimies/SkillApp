@@ -149,7 +149,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
 
         if (item.itemId == R.id.save) {
 
-            viewModel.triggerActivitySave()
+            viewModel.triggerSaveActivity()
         } else {
 
             return super.onOptionsItemSelected(item)

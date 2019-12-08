@@ -1,8 +1,6 @@
 package com.jdevs.timeo.util
 
 import com.jdevs.timeo.R
-import com.jdevs.timeo.util.AuthConstants.PASSWORD_MAX_LENGTH
-import com.jdevs.timeo.util.AuthConstants.PASSWORD_MIN_LENGTH
 
 fun String.isValidEmail(): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
@@ -20,3 +18,6 @@ fun String.validateEmail(): Int = when {
     !isValidEmail() -> R.id.ERROR_INVALID
     else -> R.id.RESULT_VALID
 }
+
+private const val PASSWORD_MAX_LENGTH = 25
+private const val PASSWORD_MIN_LENGTH = 6

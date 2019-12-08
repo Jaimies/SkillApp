@@ -22,14 +22,17 @@ class SignupViewModel : AuthViewModel() {
     }
 
     fun triggerSignUp() {
+
         navigator?.signUp(email.value.orEmpty(), password.value.orEmpty())
     }
 
     override fun onFragmentDestroyed() {
+
         navigator = null
     }
 
     interface Navigator : LoaderViewModel.Navigator {
+
         fun navigateToSignIn()
         fun signUp(email: String, password: String)
     }

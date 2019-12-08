@@ -11,7 +11,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.operations.Operation
-import com.jdevs.timeo.util.ActivitiesConstants.FETCH_LIMIT
 import com.jdevs.timeo.util.TAG
 
 abstract class ItemListLiveData(
@@ -23,6 +22,7 @@ abstract class ItemListLiveData(
 
     protected abstract val dataType: Class<*>
     protected abstract val operation: (Any?, Int, String) -> Operation
+    protected abstract val fetchLimit: Long
 
     private var listenerRegistration: ListenerRegistration? = null
 
@@ -54,7 +54,7 @@ abstract class ItemListLiveData(
 
         value = operation(null, R.id.OPERATION_FINISHED, "")
 
-        if (querySnapshot.size() < FETCH_LIMIT) {
+        if (querySnapshot.size() < fetchLimit) {
 
             onLastItemReached()
         } else {

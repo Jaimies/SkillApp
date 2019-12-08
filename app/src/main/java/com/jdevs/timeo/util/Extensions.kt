@@ -61,6 +61,7 @@ fun ViewModel.launchSuspendingProcess(
     logOnFailure: String = "",
     block: suspend () -> Unit
 ) {
+
     if (this is LoaderViewModel) {
 
         showLoader()

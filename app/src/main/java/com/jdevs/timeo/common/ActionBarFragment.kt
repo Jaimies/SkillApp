@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import androidx.fragment.app.Fragment
 
 abstract class ActionBarFragment : Fragment() {
+
     protected abstract val menuId: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {

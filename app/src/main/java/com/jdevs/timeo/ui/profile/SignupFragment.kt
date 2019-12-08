@@ -35,6 +35,7 @@ class SignupFragment : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val binding = FragmentSignupBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel
@@ -51,10 +52,12 @@ class SignupFragment : Fragment(),
     }
 
     override fun navigateToSignIn() {
+
         findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
     }
 
     override fun hideKeyboard() {
+
         hideKeyboard(activity)
     }
 

@@ -11,6 +11,7 @@ class ActivitiesAdapter(
 ) : ItemListAdapter() {
 
     init {
+
         delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter())
     }
 
@@ -21,6 +22,7 @@ class ActivitiesAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         delegateAdapters.get(getItemViewType(position))
             .onBindViewHolder(holder, items[position])
     }

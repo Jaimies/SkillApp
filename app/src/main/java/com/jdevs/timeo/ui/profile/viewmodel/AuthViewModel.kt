@@ -15,11 +15,13 @@ abstract class AuthViewModel : LoaderViewModel() {
     private val _passwordError = MutableLiveData("")
 
     fun setEmailError(error: String) {
+
         _passwordError.value = ""
         _emailError.value = error
     }
 
     fun setPasswordError(error: String) {
+
         _emailError.value = ""
         _passwordError.value = error
     }

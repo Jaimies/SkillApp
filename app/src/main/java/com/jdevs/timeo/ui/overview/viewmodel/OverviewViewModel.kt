@@ -10,10 +10,7 @@ class OverviewViewModel : ViewModel() {
 
     fun signInAnonymously(logOnFailure: String = "") {
 
-        launchSuspendingProcess(
-            navigator = navigator,
-            logOnFailure = logOnFailure
-        ) {
+        launchSuspendingProcess(navigator = navigator, logOnFailure = logOnFailure) {
 
             AuthRepository.signInAnonymously()
         }

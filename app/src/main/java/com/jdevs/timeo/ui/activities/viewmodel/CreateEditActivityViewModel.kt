@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.TimeoActivity
 
 class CreateEditActivityViewModel : ViewModel() {
+
     var navigator: Navigator? = null
     val name = MutableLiveData("")
     val icon = MutableLiveData("")
@@ -26,14 +27,17 @@ class CreateEditActivityViewModel : ViewModel() {
     }
 
     fun setNameError(error: String) {
+
         _nameError.value = error
     }
 
     fun setIconError(error: String) {
+
         _iconError.value = error
     }
 
-    fun triggerActivitySave() {
+    fun triggerSaveActivity() {
+
         navigator?.saveActivity(name.value.orEmpty(), icon.value.orEmpty())
     }
 

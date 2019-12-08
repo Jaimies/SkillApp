@@ -40,13 +40,13 @@ fun Long.getHours(): String {
 }
 
 fun Pair<Long, Long>.getMins(): Long {
+
     return first * HOUR_MINUTES + second
 }
 
 fun Date.getDaysSince(): Int {
 
     val currentTime = DateTime()
-
     val creationTime = DateTime(this)
 
     val daysDiff = Days.daysBetween(creationTime, currentTime)

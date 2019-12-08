@@ -34,28 +34,27 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding =
-            FragmentActivityListBinding.inflate(inflater, container, false).also {
+        val binding = FragmentActivityListBinding.inflate(inflater, container, false).also {
 
-                it.viewmodel = viewModel
-                it.lifecycleOwner = this
+            it.viewmodel = viewModel
+            it.lifecycleOwner = this
 
-                it.recyclerView.apply {
+            it.recyclerView.apply {
 
-                    linearLayoutManager = LinearLayoutManager(context)
+                linearLayoutManager = LinearLayoutManager(context)
 
-                    layoutManager = linearLayoutManager
-                    adapter = mAdapter
+                layoutManager = linearLayoutManager
+                adapter = mAdapter
 
-                    addOnScrollListener(
-                        InfiniteScrollListener(
-                            ::getItems,
-                            linearLayoutManager,
-                            ActivitiesConstants.VISIBLE_THRESHOLD
-                        )
+                addOnScrollListener(
+                    InfiniteScrollListener(
+                        ::getItems,
+                        linearLayoutManager,
+                        ActivitiesConstants.VISIBLE_THRESHOLD
                     )
-                }
+                )
             }
+        }
 
         return binding.root
     }

@@ -38,6 +38,7 @@ fun setError(textInputLayout: TextInputLayout, error: String, editText: EditText
 
 @BindingAdapter("onEnterPressed")
 fun setOnEnterPressedListener(view: View, block: Runnable) {
+
     view.setOnKeyListener { _, keyCode, event ->
 
         if (keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_DOWN) {

@@ -27,6 +27,7 @@ class ProfileViewModel : ViewModel() {
     }
 
     interface Navigator {
+
         fun signIn()
         fun signOut()
     }

@@ -39,6 +39,7 @@ class SignInFragment : Fragment(),
     }
 
     private val googleSignInClient by lazy {
+
         val googleSignInOptions = GoogleSignInOptions.Builder()
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -52,9 +53,8 @@ class SignInFragment : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSigninBinding.inflate(inflater, container, false)
 
-        binding.also {
+        val binding = FragmentSigninBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel
             it.lifecycleOwner = this
@@ -64,6 +64,7 @@ class SignInFragment : Fragment(),
     }
 
     override fun onDestroy() {
+
         super.onDestroy()
         viewModel.onFragmentDestroyed()
     }
@@ -76,6 +77,7 @@ class SignInFragment : Fragment(),
     override fun signIn(email: String, password: String) {
 
         when {
+
             email.isEmpty() -> viewModel.setEmailError(getString(R.string.email_empty))
             !email.isValidEmail() -> viewModel.setEmailError(getString(R.string.email_invalid))
             password.isEmpty() -> viewModel.setPasswordError(getString(R.string.password_empty))

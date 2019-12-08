@@ -8,6 +8,7 @@ import com.jdevs.timeo.util.getAvgDailyHours
 import com.jdevs.timeo.util.getHours
 
 class ActivityDetailViewModel : ViewModel() {
+
     val name: LiveData<String> get() = _name
     val avgDailyTime: LiveData<String> get() = _avgDailyTime
     val lastWeekTime: LiveData<String> get() = _lastWeekTime
@@ -19,6 +20,7 @@ class ActivityDetailViewModel : ViewModel() {
     private val _totalTime = MutableLiveData("")
 
     fun setActivity(activity: TimeoActivity) {
+
         _name.value = activity.name
         _totalTime.value = activity.totalTime.getHours() + "h"
         _avgDailyTime.value = activity.totalTime.getAvgDailyHours(activity.timestamp) + "h"

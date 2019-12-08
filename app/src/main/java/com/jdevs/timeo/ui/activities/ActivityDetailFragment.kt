@@ -42,12 +42,9 @@ class ActivityDetailFragment : ActionBarFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         return if (item.itemId == R.id.editActivity) {
-            val directions =
-                ActivityDetailFragmentDirections.actionEditActivity(
-                    true,
-                    args.activityId,
-                    args.timeoActivity
-                )
+
+            val directions = ActivityDetailFragmentDirections
+                .actionEditActivity(true, args.activityId, args.timeoActivity)
 
             findNavController().navigate(directions)
 

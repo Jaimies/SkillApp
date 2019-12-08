@@ -16,6 +16,6 @@ class LoadingDelegateAdapter : ViewTypeDelegateAdapter {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {}
 
     class ViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        parent.inflate(R.layout.activities_item_loading)
+        parent.inflate(R.layout.list_item_loading)
     )
 }

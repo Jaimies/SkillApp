@@ -41,10 +41,12 @@ class SignInViewModel : AuthViewModel() {
     }
 
     override fun onFragmentDestroyed() {
+
         navigator = null
     }
 
     interface Navigator : LoaderViewModel.Navigator {
+
         fun navigateToSignup()
         fun signIn(email: String, password: String)
         fun showGoogleSignInIntent()

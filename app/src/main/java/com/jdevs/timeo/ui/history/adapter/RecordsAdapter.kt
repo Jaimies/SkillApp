@@ -10,6 +10,7 @@ class RecordsAdapter(
 ) : ItemListAdapter() {
 
     init {
+
         delegateAdapters.put(RECORD, RecordDelegateAdapter())
     }
 
@@ -20,6 +21,7 @@ class RecordsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         delegateAdapters.get(getItemViewType(position))
             .onBindViewHolder(holder, items[position])
     }

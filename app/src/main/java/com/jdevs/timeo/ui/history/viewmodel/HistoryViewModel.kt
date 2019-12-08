@@ -5,6 +5,7 @@ import com.jdevs.timeo.api.repository.firestore.RecordsRepository
 import com.jdevs.timeo.common.viewmodel.ItemListViewModel
 
 class HistoryViewModel : ItemListViewModel() {
+
     var navigator: Navigator? = null
     val recordsLiveData get() = repository.getLiveData() as RecordListLiveData?
 
@@ -16,11 +17,8 @@ class HistoryViewModel : ItemListViewModel() {
     }
 
     fun deleteRecord(id: String, recordTime: Long, activityId: String) {
-        repository.deleteRecord(id, recordTime, activityId)
-    }
 
-    interface Repository {
-        fun deleteRecord(id: String, recordTime: Long, activityId: String)
+        repository.deleteRecord(id, recordTime, activityId)
     }
 
     interface Navigator : ItemListViewModel.Navigator

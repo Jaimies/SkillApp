@@ -7,7 +7,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.jdevs.timeo.util.logOnFailure
@@ -20,7 +19,13 @@ object AuthRepository {
 
         val credential = EmailAuthProvider.getCredential(email, password)
 
-        return auth.currentUser!!.linkWithCredential(credential).await()
+        return try {
+
+            auth.currentUser!!.linkWithCredential(credential).await()
+        } catch (e: KotlinNullPointerException) {
+
+            auth.createUserWithEmailAndPassword(email, password).await()
+        }
     }
 
     suspend fun signIn(email: String, password: String): AuthResult {
@@ -37,9 +42,9 @@ object AuthRepository {
         try {
 
             return auth.currentUser!!.linkWithCredential(credential).await()
-        } catch (exception: FirebaseAuthException) {
+        } catch (exception: Exception) {
 
-            if (exception is FirebaseAuthUserCollisionException) {
+            if (exception is FirebaseAuthUserCollisionException || exception is KotlinNullPointerException) {
 
                 return signInWithGoogle(credential).await()
             }

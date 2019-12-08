@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,9 +16,9 @@ import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.FragmentCreateEditActivityBinding
 import com.jdevs.timeo.ui.activities.viewmodel.CreateEditActivityViewModel
-import com.jdevs.timeo.util.ActivitiesConstants.ICON_MAX_LENGTH
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.hideKeyboard
+import com.jdevs.timeo.util.requireMainActivity
 
 class CreateEditActivityFragment : ActionBarFragment(),
     CreateEditActivityViewModel.Navigator {
@@ -51,7 +50,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
             it.lifecycleOwner = this
         }
 
-        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+        requireMainActivity().supportActionBar?.apply {
 
             title =
                 getString(if (args.editActivity) R.string.edit_activity else R.string.create_activity)
@@ -60,9 +59,9 @@ class CreateEditActivityFragment : ActionBarFragment(),
         return binding.root
     }
 
-    override fun saveActivity(name: String, icon: String) {
+    override fun saveActivity(name: String) {
 
-        if (!validateInput(name, icon)) {
+        if (!validateInput(name)) {
 
             return
         }
@@ -74,7 +73,6 @@ class CreateEditActivityFragment : ActionBarFragment(),
             timeoActivity.also {
 
                 it.name = name
-                it.icon = icon
             }
 
             ActivitiesRepository.updateActivity(timeoActivity, args.activityId!!)
@@ -88,7 +86,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
             findNavController().navigate(directions)
         } else {
 
-            val timeoActivity = TimeoActivity(name, icon)
+            val timeoActivity = TimeoActivity(name)
 
             ActivitiesRepository.createActivity(timeoActivity)
 
@@ -106,12 +104,11 @@ class CreateEditActivityFragment : ActionBarFragment(),
             .setMessage(getString(R.string.sure_delete_activity))
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
 
-                ActivitiesRepository.deleteActivity(
-                    args.activityId ?: return@setPositiveButton
-                )
+                ActivitiesRepository
+                    .deleteActivity(args.activityId ?: return@setPositiveButton)
 
-                Snackbar.make(view!!, getString(R.string.activity_deleted), Snackbar.LENGTH_LONG)
-                    .show()
+                Snackbar
+                    .make(view!!, getString(R.string.activity_deleted), Snackbar.LENGTH_LONG).show()
 
                 findNavController().navigate(R.id.action_returnToHomeFragment)
             }
@@ -125,19 +122,11 @@ class CreateEditActivityFragment : ActionBarFragment(),
         hideKeyboard(activity)
     }
 
-    private fun validateInput(name: String, icon: String): Boolean {
+    private fun validateInput(name: String): Boolean {
 
         when {
             name.isEmpty() -> viewModel.setNameError(getString(R.string.name_empty))
-            icon.isEmpty() -> viewModel.setIconError(getString(R.string.icon_empty))
-
-            name.length >= NAME_MAX_LENGTH -> {
-                viewModel.setNameError(getString(R.string.name_too_long))
-            }
-
-            icon.length >= ICON_MAX_LENGTH -> {
-                viewModel.setIconError(getString(R.string.icon_too_long))
-            }
+            name.length >= NAME_MAX_LENGTH -> viewModel.setNameError(getString(R.string.name_too_long))
 
             else -> return true
         }
@@ -147,7 +136,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (item.itemId == R.id.save) {
+        if (item.itemId == R.id.action_save) {
 
             viewModel.triggerSaveActivity()
         } else {

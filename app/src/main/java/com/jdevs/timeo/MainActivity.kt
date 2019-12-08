@@ -65,12 +65,12 @@ class MainActivity : AppCompatActivity(),
 
         when (item.itemId) {
 
-            R.id.addActivity -> {
+            R.id.action_createActivity -> {
 
                 currentNavController.value?.navigate(R.id.action_showCreateActivityFragment)
             }
 
-            R.id.history -> {
+            R.id.action_history -> {
 
                 currentNavController.value?.navigate(R.id.action_showHistory)
             }

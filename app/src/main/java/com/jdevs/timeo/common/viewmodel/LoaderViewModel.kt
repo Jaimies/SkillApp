@@ -9,11 +9,13 @@ open class LoaderViewModel(isLoadingByDefault: Boolean = false) : ViewModel() {
 
     private val _isLoading = MutableLiveData(isLoadingByDefault)
 
-    fun showLoader() {
+    open fun showLoader() {
+
         _isLoading.value = true
     }
 
-    fun hideLoader() {
+    open fun hideLoader() {
+
         _isLoading.value = false
     }
 

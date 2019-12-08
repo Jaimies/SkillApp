@@ -8,4 +8,5 @@
     <color name="colorPreloaderBackground">#45000000</color>
     <color name="colorBackground">#FF333333</color>
     <color name="alternativeTextColor">#FFFFFF00</color>
+    <color name="disabledMenuItemColor">#80FFFFFF</color>
 </resources>

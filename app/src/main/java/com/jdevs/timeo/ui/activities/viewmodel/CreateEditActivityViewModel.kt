@@ -9,20 +9,15 @@ class CreateEditActivityViewModel : ViewModel() {
 
     var navigator: Navigator? = null
     val name = MutableLiveData("")
-    val icon = MutableLiveData("")
     val nameError get() = _nameError as LiveData<String>
-    val iconError get() = _iconError as LiveData<String>
     val activityExists get() = _activityExists as LiveData<Boolean>
 
     private val _nameError = MutableLiveData("")
-    private val _iconError = MutableLiveData("")
     private val _activityExists = MutableLiveData(false)
 
     fun setActivity(activity: TimeoActivity?) {
 
         name.value = activity?.name.orEmpty()
-        icon.value = activity?.icon.orEmpty()
-
         _activityExists.value = true
     }
 
@@ -31,18 +26,13 @@ class CreateEditActivityViewModel : ViewModel() {
         _nameError.value = error
     }
 
-    fun setIconError(error: String) {
-
-        _iconError.value = error
-    }
-
     fun triggerSaveActivity() {
 
-        navigator?.saveActivity(name.value.orEmpty(), icon.value.orEmpty())
+        navigator?.saveActivity(name.value.orEmpty())
     }
 
     interface Navigator {
-        fun saveActivity(name: String, icon: String)
+        fun saveActivity(name: String)
         fun showDeleteDialog()
         fun hideKeyboard()
     }

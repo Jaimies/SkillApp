@@ -2,8 +2,10 @@ package com.jdevs.timeo.ui.activities
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +29,9 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
             it.navigator = this
         }
     }
+
+    private lateinit var menu: Menu
+    private var isLoaded = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +62,31 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
         }
 
         return binding.root
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+
+        this.menu = menu
+
+        if (!isLoaded) {
+
+            menu.forEach {
+
+                it.isEnabled = false
+            }
+        }
+
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onItemsLoaded() {
+
+        menu.forEach {
+
+            it.isEnabled = true
+        }
+
+        isLoaded = true
     }
 
     override fun createActivity() {

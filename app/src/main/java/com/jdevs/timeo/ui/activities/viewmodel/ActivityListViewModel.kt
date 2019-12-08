@@ -16,6 +16,12 @@ class ActivityListViewModel : ItemListViewModel() {
         navigator = null
     }
 
+    override fun hideLoader() {
+
+        super.hideLoader()
+        navigator?.onItemsLoaded()
+    }
+
     fun createRecord(activityName: String, time: Long, activityId: String) {
 
         repository.createRecord(activityName, time, activityId)
@@ -24,5 +30,6 @@ class ActivityListViewModel : ItemListViewModel() {
     interface Navigator : ItemListViewModel.Navigator {
 
         fun createActivity()
+        fun onItemsLoaded()
     }
 }

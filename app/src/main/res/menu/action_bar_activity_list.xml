@@ -2,14 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/history"
+        android:id="@+id/action_history"
         android:icon="@drawable/ic_list"
         android:title=""
+        app:iconTint="@drawable/menu_item_icon"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/addActivity"
+        android:id="@+id/action_createActivity"
         android:icon="@drawable/ic_plus"
         android:title=""
+        app:iconTint="@drawable/menu_item_icon"
         app:showAsAction="always" />
 </menu>

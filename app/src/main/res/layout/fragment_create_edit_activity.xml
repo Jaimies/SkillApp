@@ -38,22 +38,7 @@
                 android:inputType="text"
                 android:text="@={viewmodel.name}"
                 tools:ignore="Autofill" />
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/icon_text_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:editText="@{iconEditText}"
-            app:error="@{viewmodel.iconError}">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/icon_edit_text"
-                style="@style/Widget.Timeo.EditText"
-                android:hint="@string/icon"
-                android:inputType="text"
-                android:text="@={viewmodel.icon}"
-                tools:ignore="Autofill" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton

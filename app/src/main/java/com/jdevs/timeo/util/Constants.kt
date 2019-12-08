@@ -26,6 +26,14 @@ object RecordsConstants {
     const val RECORD_MIN_TIME = 5
 }
 
+object OperationConstants {
+
+    const val ADDED = 0
+    const val MODIFIED = 1
+    const val REMOVED = 2
+    const val FINISHED = 3
+}
+
 object RequestCodes {
 
     const val RC_SIGN_IN = 0

@@ -96,7 +96,11 @@ fun ViewModel.launchSuspendingProcess(
 fun Fragment.navigateToGraph(graphId: Int) {
 
     requireMainActivity().navigateToGraph(graphId)
-    findNavController().popBackStack()
+
+    findNavController().apply {
+
+        popBackStack(graph.id, true)
+    }
 }
 
 fun Fragment.requireMainActivity() = requireActivity() as MainActivity

@@ -107,9 +107,9 @@ class MainActivity : AppCompatActivity(),
 
         bottomNavView.selectedItemId = graphId
 
-        toolbar.post {
+        nav_host_container.post {
 
-            toolbar.title = currentNavController.value?.currentDestination?.label
+            currentNavController.value?.popBackStack()
         }
 
         this.graphsToRecreate.addAll(graphsToRecreate)

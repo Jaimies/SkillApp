@@ -15,7 +15,11 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.FragmentSignupBinding
 import com.jdevs.timeo.ui.profile.viewmodel.SignupViewModel
+import com.jdevs.timeo.util.EMPTY
+import com.jdevs.timeo.util.INVALID
 import com.jdevs.timeo.util.TAG
+import com.jdevs.timeo.util.TOO_LONG
+import com.jdevs.timeo.util.TOO_SHORT
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.navigateToGraph
 import com.jdevs.timeo.util.validateEmail
@@ -77,9 +81,10 @@ class SignupFragment : Fragment(),
     private fun validatePassword(password: String): Boolean {
 
         val error = when (password.validatePassword()) {
-            R.id.ERROR_EMPTY -> getString(R.string.password_empty)
-            R.id.ERROR_TOO_SHORT -> getString(R.string.password_too_short)
-            R.id.ERROR_TOO_LONG -> getString(R.string.password_too_long)
+
+            EMPTY -> getString(R.string.password_empty)
+            TOO_SHORT -> getString(R.string.password_too_short)
+            TOO_LONG -> getString(R.string.password_too_long)
             else -> return true
         }
 
@@ -91,8 +96,9 @@ class SignupFragment : Fragment(),
     private fun validateEmail(email: String): Boolean {
 
         val error = when (email.validateEmail()) {
-            R.id.ERROR_EMPTY -> getString(R.string.email_empty)
-            R.id.ERROR_INVALID -> getString(R.string.email_invalid)
+
+            EMPTY -> getString(R.string.email_empty)
+            INVALID -> getString(R.string.email_invalid)
             else -> return true
         }
 
@@ -104,6 +110,7 @@ class SignupFragment : Fragment(),
     private fun handleException(exception: Exception?) {
 
         when (exception) {
+
             is FirebaseAuthWeakPasswordException -> {
 
                 viewModel.setPasswordError(getString(R.string.password_too_weak))

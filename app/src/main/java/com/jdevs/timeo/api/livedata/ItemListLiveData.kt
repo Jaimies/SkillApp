@@ -9,8 +9,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.jdevs.timeo.R
 import com.jdevs.timeo.data.operations.Operation
+import com.jdevs.timeo.util.OperationConstants
 import com.jdevs.timeo.util.TAG
 
 abstract class ItemListLiveData(
@@ -52,7 +52,7 @@ abstract class ItemListLiveData(
             processDocumentChange(documentChange)
         }
 
-        value = operation(null, R.id.OPERATION_FINISHED, "")
+        value = operation(null, OperationConstants.FINISHED, "")
 
         if (querySnapshot.size() < fetchLimit) {
 
@@ -87,13 +87,13 @@ abstract class ItemListLiveData(
         val operation = when (documentChange.type) {
 
             DocumentChange.Type.ADDED ->
-                operation(activity, R.id.OPERATION_ADDED, documentId)
+                operation(activity, OperationConstants.ADDED, documentId)
 
             DocumentChange.Type.MODIFIED ->
-                operation(activity, R.id.OPERATION_MODIFIED, documentId)
+                operation(activity, OperationConstants.MODIFIED, documentId)
 
             DocumentChange.Type.REMOVED ->
-                operation(activity, R.id.OPERATION_REMOVED, documentId)
+                operation(activity, OperationConstants.REMOVED, documentId)
         }
 
         value = operation

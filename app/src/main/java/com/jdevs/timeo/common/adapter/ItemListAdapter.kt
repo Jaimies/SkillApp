@@ -54,8 +54,11 @@ abstract class ItemListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
         val index = ids.indexOf(id)
 
-        items[index] = item
-        notifyItemChanged(index)
+        if (items[index] != item) {
+
+            items[index] = item
+            notifyItemChanged(index)
+        }
     }
 
     fun removeItem(id: String) {

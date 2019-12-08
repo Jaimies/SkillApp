@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.jdevs.timeo.data.operations.Operation
+import com.jdevs.timeo.data.OperationOrException
 import com.jdevs.timeo.util.OperationConstants
 import com.jdevs.timeo.util.TAG
 
@@ -17,11 +17,10 @@ abstract class ItemListLiveData(
     private var query: Query?,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
     private val onLastItemReached: () -> Unit
-) : LiveData<Operation>(),
+) : LiveData<OperationOrException>(),
     EventListener<QuerySnapshot> {
 
     protected abstract val dataType: Class<*>
-    protected abstract val operation: (Any?, Int, String) -> Operation
     protected abstract val fetchLimit: Long
 
     private var listenerRegistration: ListenerRegistration? = null
@@ -52,7 +51,8 @@ abstract class ItemListLiveData(
             processDocumentChange(documentChange)
         }
 
-        value = operation(null, OperationConstants.FINISHED, "")
+        value =
+            OperationOrException(type = OperationConstants.FINISHED)
 
         if (querySnapshot.size() < fetchLimit) {
 
@@ -87,13 +87,25 @@ abstract class ItemListLiveData(
         val operation = when (documentChange.type) {
 
             DocumentChange.Type.ADDED ->
-                operation(activity, OperationConstants.ADDED, documentId)
+                OperationOrException(
+                    activity,
+                    type = OperationConstants.ADDED,
+                    id = documentId
+                )
 
             DocumentChange.Type.MODIFIED ->
-                operation(activity, OperationConstants.MODIFIED, documentId)
+                OperationOrException(
+                    activity,
+                    type = OperationConstants.MODIFIED,
+                    id = documentId
+                )
 
             DocumentChange.Type.REMOVED ->
-                operation(activity, OperationConstants.REMOVED, documentId)
+                OperationOrException(
+                    activity,
+                    type = OperationConstants.REMOVED,
+                    id = documentId
+                )
         }
 
         value = operation

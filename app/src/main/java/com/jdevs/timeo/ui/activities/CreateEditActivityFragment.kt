@@ -24,10 +24,8 @@ import com.jdevs.timeo.util.hideKeyboard
 class CreateEditActivityFragment : ActionBarFragment(),
     CreateEditActivityViewModel.Navigator {
 
-    private val args: CreateEditActivityFragmentArgs by navArgs()
     override val menuId = R.menu.action_bar_create_activity
-
-    private val firestoreActivitiesListRepository = ActivitiesRepository()
+    private val args: CreateEditActivityFragmentArgs by navArgs()
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(CreateEditActivityViewModel::class.java).also {
@@ -79,7 +77,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
                 it.icon = icon
             }
 
-            firestoreActivitiesListRepository.updateActivity(timeoActivity, args.activityId!!)
+            ActivitiesRepository.updateActivity(timeoActivity, args.activityId!!)
 
             val directions =
                 CreateEditActivityFragmentDirections.actionReturnToActivityDetails(
@@ -92,7 +90,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
 
             val timeoActivity = TimeoActivity(name, icon)
 
-            firestoreActivitiesListRepository.createActivity(timeoActivity)
+            ActivitiesRepository.createActivity(timeoActivity)
 
             findNavController().navigate(R.id.action_returnToHomeFragment)
         }
@@ -108,7 +106,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
             .setMessage(getString(R.string.sure_delete_activity))
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
 
-                firestoreActivitiesListRepository.deleteActivity(
+                ActivitiesRepository.deleteActivity(
                     args.activityId ?: return@setPositiveButton
                 )
 

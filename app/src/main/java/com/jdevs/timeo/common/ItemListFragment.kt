@@ -15,28 +15,49 @@ abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
     protected abstract val mAdapter: ItemListAdapter
     protected lateinit var linearLayoutManager: LinearLayoutManager
 
-    fun observeOperation(liveData: ItemListLiveData?) {
+    private var isObserverAttached = false
+
+    abstract fun getItems()
+
+    override fun onStart() {
+
+        super.onStart()
+
+        if (!isObserverAttached) {
+
+            getItems()
+            isObserverAttached = true
+        }
+    }
+
+    fun observe(liveData: ItemListLiveData?) {
+
         liveData?.observe(viewLifecycleOwner) { operation ->
 
             when (operation.type) {
 
                 R.id.OPERATION_FINISHED -> {
+
                     viewModel.hideLoader()
                     mAdapter.showLoader()
+
                     viewModel.setLength(mAdapter.dataItemCount)
                 }
 
                 R.id.OPERATION_ADDED -> {
+
                     val item = operation.item as T
                     mAdapter.addItem(item, operation.id)
                 }
 
                 R.id.OPERATION_MODIFIED -> {
+
                     val item = operation.item as T
                     mAdapter.modifyItem(item, operation.id)
                 }
 
                 R.id.OPERATION_REMOVED -> {
+
                     mAdapter.removeItem(operation.id)
                 }
             }

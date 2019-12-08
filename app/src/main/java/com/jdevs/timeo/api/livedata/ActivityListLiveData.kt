@@ -13,5 +13,5 @@ class ActivityListLiveData(
 ) : ItemListLiveData(query, setLastVisibleItem, onLastItemReached) {
 
     override val dataType = TimeoActivity::class.java
-    override val operationConstructor = ::ActivityOperation as (Any?, Int, String) -> Operation
+    override val operation = ::ActivityOperation as (Any?, Int, String) -> Operation
 }

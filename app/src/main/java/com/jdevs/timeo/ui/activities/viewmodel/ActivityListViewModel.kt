@@ -6,12 +6,11 @@ import com.jdevs.timeo.common.viewmodel.ItemListViewModel
 import com.jdevs.timeo.data.TimeoActivity
 
 class ActivityListViewModel : ItemListViewModel() {
-    var navigator: Navigator? = null
-    val activitiesLiveData get() = repository.getLiveData() as ActivityListLiveData?
 
-    private val repository by lazy {
-        ActivitiesRepository { navigator?.onLastItemReached() }
-    }
+    var navigator: Navigator? = null
+    val liveData get() = repository.getLiveData() as ActivityListLiveData?
+
+    private val repository = ActivitiesRepository { navigator?.onLastItemReached() }
 
     override fun onFragmentDestroyed() {
 

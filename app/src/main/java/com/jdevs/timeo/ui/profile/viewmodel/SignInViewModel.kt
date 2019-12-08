@@ -2,6 +2,7 @@ package com.jdevs.timeo.ui.profile.viewmodel
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.FirebaseException
+import com.jdevs.timeo.api.repository.auth.AuthRepository
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import com.jdevs.timeo.util.launchSuspendingProcess
 
@@ -17,7 +18,7 @@ class SignInViewModel : AuthViewModel() {
 
         launchSuspendingProcess(onFailure, onSuccess, navigator) {
 
-            authRepository.linkGoogleAccount(account)
+            AuthRepository.linkGoogleAccount(account)
         }
     }
 
@@ -30,7 +31,7 @@ class SignInViewModel : AuthViewModel() {
 
         launchSuspendingProcess(onFailure, onSuccess, navigator) {
 
-            authRepository.signIn(email, password)
+            AuthRepository.signIn(email, password)
         }
     }
 

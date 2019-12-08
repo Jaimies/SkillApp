@@ -22,7 +22,7 @@ abstract class ItemListLiveData(
     EventListener<QuerySnapshot> {
 
     protected abstract val dataType: Class<*>
-    protected abstract val operationConstructor: (Any?, Int, String) -> Operation
+    protected abstract val operation: (Any?, Int, String) -> Operation
 
     private var listenerRegistration: ListenerRegistration? = null
 
@@ -52,7 +52,7 @@ abstract class ItemListLiveData(
             processDocumentChange(documentChange)
         }
 
-        value = operationConstructor(null, R.id.OPERATION_FINISHED, "")
+        value = operation(null, R.id.OPERATION_FINISHED, "")
 
         if (querySnapshot.size() < FETCH_LIMIT) {
 
@@ -63,9 +63,9 @@ abstract class ItemListLiveData(
         }
     }
 
-    fun setQuery(newQuery: Query) {
+    fun setQuery(newQuery: Query?) {
 
-        query = newQuery.also {
+        query = newQuery?.also {
 
             it.addSnapshotListener(this)
         }
@@ -87,13 +87,13 @@ abstract class ItemListLiveData(
         val operation = when (documentChange.type) {
 
             DocumentChange.Type.ADDED ->
-                operationConstructor(activity, R.id.OPERATION_ADDED, documentId)
+                operation(activity, R.id.OPERATION_ADDED, documentId)
 
             DocumentChange.Type.MODIFIED ->
-                operationConstructor(activity, R.id.OPERATION_MODIFIED, documentId)
+                operation(activity, R.id.OPERATION_MODIFIED, documentId)
 
             DocumentChange.Type.REMOVED ->
-                operationConstructor(activity, R.id.OPERATION_REMOVED, documentId)
+                operation(activity, R.id.OPERATION_REMOVED, documentId)
         }
 
         value = operation

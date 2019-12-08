@@ -14,11 +14,16 @@ import com.jdevs.timeo.util.ActivitiesConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.ActivitiesConstants.TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.logOnFailure
 
-class ActivitiesRepository(lastItemCallback: () -> Unit = {}) :
-    ItemListRepository(lastItemCallback),
+object ActivitiesRepository : ItemListRepository(),
     ActivityListViewModel.Repository {
 
     override val liveData = ::ActivityListLiveData
+
+    operator fun invoke(lastItemCallback: () -> Unit = {}): ActivitiesRepository {
+
+        super.reset(lastItemCallback)
+        return this
+    }
 
     override fun createRecord(activityName: String, time: Long, activityId: String) {
 

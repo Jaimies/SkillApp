@@ -2,7 +2,6 @@ package com.jdevs.timeo.ui.profile.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.api.repository.auth.AuthRepository
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 
 abstract class AuthViewModel : LoaderViewModel() {
@@ -12,7 +11,6 @@ abstract class AuthViewModel : LoaderViewModel() {
     val emailError get() = _emailError as LiveData<String>
     val passwordError get() = _passwordError as LiveData<String>
 
-    protected val authRepository by lazy { AuthRepository() }
     private val _emailError = MutableLiveData("")
     private val _passwordError = MutableLiveData("")
 

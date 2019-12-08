@@ -31,7 +31,7 @@ class HistoryFragment : ItemListFragment<Record>(),
         }
     }
 
-    private var chosenRecordIndex = -1
+    private var chosenItemIndex = -1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,15 +53,13 @@ class HistoryFragment : ItemListFragment<Record>(),
 
                 addOnScrollListener(
                     InfiniteScrollListener(
-                        ::getRecords,
+                        ::getItems,
                         linearLayoutManager,
                         RecordsConstants.VISIBLE_THRESHOLD
                     )
                 )
             }
         }
-
-        getRecords()
 
         return binding.root
     }
@@ -75,28 +73,29 @@ class HistoryFragment : ItemListFragment<Record>(),
             .setPositiveButton(getString(R.string.yes), this)
             .setNegativeButton(getString(R.string.no), null)
 
-        chosenRecordIndex = index
+        chosenItemIndex = index
 
         dialog.show()
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
 
-        if (chosenRecordIndex == -1) {
+        if (chosenItemIndex == -1) {
 
             return
         }
 
-        val record = getRecord(chosenRecordIndex)
+        val record = getRecord(chosenItemIndex)
         val recordTime = record.time
 
         Snackbar.make(view!!, getString(R.string.record_deleted), Snackbar.LENGTH_SHORT).show()
 
-        viewModel.deleteRecord(mAdapter.getId(chosenRecordIndex), recordTime, record.activityId)
+        viewModel.deleteRecord(mAdapter.getId(chosenItemIndex), recordTime, record.activityId)
     }
 
-    private fun getRecords() {
-        observeOperation(viewModel.recordsLiveData)
+    override fun getItems() {
+
+        observe(viewModel.recordsLiveData)
     }
 
     private fun getRecord(index: Int) = mAdapter.getItem(index) as Record

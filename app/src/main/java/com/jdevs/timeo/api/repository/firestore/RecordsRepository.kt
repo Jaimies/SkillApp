@@ -8,11 +8,16 @@ import com.jdevs.timeo.util.ActivitiesConstants.TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.RecordsConstants.FETCH_LIMIT
 import com.jdevs.timeo.util.RecordsConstants.TIMESTAMP_PROPERTY
 
-class RecordsRepository(onLastItemCallback: () -> Unit = {}) :
-    ItemListRepository(onLastItemCallback),
+object RecordsRepository : ItemListRepository(),
     HistoryViewModel.Repository {
 
     override val liveData = ::RecordListLiveData
+
+    operator fun invoke(onLastItemCallback: () -> Unit = {}): RecordsRepository {
+
+        super.reset(onLastItemCallback)
+        return this
+    }
 
     override fun deleteRecord(id: String, recordTime: Long, activityId: String) {
 

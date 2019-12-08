@@ -10,8 +10,7 @@ import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.UserConstants.USERS_COLLECTION
 
-abstract class ItemListRepository(private val onLastItemCallback: () -> Unit = {}) :
-    FirebaseAuth.AuthStateListener {
+abstract class ItemListRepository : FirebaseAuth.AuthStateListener {
 
     protected lateinit var activitiesRef: CollectionReference
     protected lateinit var recordsRef: CollectionReference
@@ -19,13 +18,25 @@ abstract class ItemListRepository(private val onLastItemCallback: () -> Unit = {
     protected val firestore by lazy { FirebaseFirestore.getInstance() }
 
     private lateinit var query: Query
-    private lateinit var awaitingLiveData: ItemListLiveData
+    private var awaitingLiveData: ItemListLiveData? = null
+    private var onLastItemCallback: () -> Unit = {}
     private var isLastItemReached = false
+    private var isQueryInitialized = false
     private var prevUid: String? = null
     private var lastVisibleItem: DocumentSnapshot? = null
     private val auth by lazy { FirebaseAuth.getInstance() }
 
     abstract fun createQuery(): Query
+
+    fun reset(onLastItemCallback: () -> Unit = {}) {
+
+        lastVisibleItem = null
+        isLastItemReached = false
+        prevUid = null
+        awaitingLiveData = null
+        isQueryInitialized = false
+        this.onLastItemCallback = onLastItemCallback
+    }
 
     fun getLiveData(): ItemListLiveData? {
 
@@ -44,10 +55,10 @@ abstract class ItemListRepository(private val onLastItemCallback: () -> Unit = {
             return awaitingLiveData
         }
 
-        if (!::query.isInitialized) {
+        if (!isQueryInitialized) {
 
             initializeRefs(uid)
-            query = createQuery()
+            isQueryInitialized = true
         }
 
         val lastItem = lastVisibleItem
@@ -67,8 +78,7 @@ abstract class ItemListRepository(private val onLastItemCallback: () -> Unit = {
         if (uid != null && uid != prevUid) {
 
             initializeRefs(uid)
-            awaitingLiveData.setQuery(createQuery())
-
+            awaitingLiveData?.setQuery(query)
             prevUid = uid
 
             auth.removeAuthStateListener(this)
@@ -82,6 +92,8 @@ abstract class ItemListRepository(private val onLastItemCallback: () -> Unit = {
 
         recordsRef =
             firestore.collection("/$USERS_COLLECTION/$uid/${RecordsConstants.COLLECTION}")
+
+        query = createQuery()
     }
 
     private fun onLastItemReached() {

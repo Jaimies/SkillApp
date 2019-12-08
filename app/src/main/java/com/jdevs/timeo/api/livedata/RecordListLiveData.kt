@@ -13,5 +13,5 @@ class RecordListLiveData(
 ) : ItemListLiveData(query, setLastVisibleItem, onLastItemReached) {
 
     override val dataType = Record::class.java
-    override val operationConstructor = ::RecordOperation as (Any?, Int, String) -> Operation
+    override val operation = ::RecordOperation as (Any?, Int, String) -> Operation
 }

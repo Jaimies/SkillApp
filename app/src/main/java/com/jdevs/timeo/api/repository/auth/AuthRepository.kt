@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.jdevs.timeo.util.logOnFailure
 
-class AuthRepository {
+object AuthRepository {
 
     private val auth by lazy { FirebaseAuth.getInstance() }
 
@@ -24,6 +24,8 @@ class AuthRepository {
     }
 
     suspend fun signIn(email: String, password: String): AuthResult {
+
+        deleteCurrentUser()
 
         return auth.signInWithEmailAndPassword(email, password).await()
     }
@@ -58,11 +60,16 @@ class AuthRepository {
 
     private fun signInWithGoogle(credential: AuthCredential): Task<AuthResult> {
 
+        deleteCurrentUser()
+
+        return auth.signInWithCredential(credential)
+    }
+
+    private fun deleteCurrentUser() {
+
         if (auth.currentUser?.isAnonymous == true) {
 
             auth.currentUser?.delete()?.logOnFailure("Failed to delete the anonymous user")
         }
-
-        return auth.signInWithCredential(credential)
     }
 }

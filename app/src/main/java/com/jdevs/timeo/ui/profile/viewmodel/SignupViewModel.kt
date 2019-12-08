@@ -1,5 +1,6 @@
 package com.jdevs.timeo.ui.profile.viewmodel
 
+import com.jdevs.timeo.api.repository.auth.AuthRepository
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import com.jdevs.timeo.util.launchSuspendingProcess
 
@@ -16,7 +17,7 @@ class SignupViewModel : AuthViewModel() {
 
         launchSuspendingProcess(onFailure, onSuccess, navigator) {
 
-            authRepository.createAccount(email, password)
+            AuthRepository.createAccount(email, password)
         }
     }
 

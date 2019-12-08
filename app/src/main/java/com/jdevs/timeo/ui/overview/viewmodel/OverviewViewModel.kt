@@ -8,8 +8,6 @@ import com.jdevs.timeo.util.launchSuspendingProcess
 class OverviewViewModel : ViewModel() {
     var navigator: LoaderViewModel.Navigator? = null
 
-    private val authRepository by lazy { AuthRepository() }
-
     fun signInAnonymously(logOnFailure: String = "") {
 
         launchSuspendingProcess(
@@ -17,7 +15,7 @@ class OverviewViewModel : ViewModel() {
             logOnFailure = logOnFailure
         ) {
 
-            authRepository.signInAnonymously()
+            AuthRepository.signInAnonymously()
         }
     }
 }

@@ -49,15 +49,13 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
 
                     addOnScrollListener(
                         InfiniteScrollListener(
-                            ::getActivities,
+                            ::getItems,
                             linearLayoutManager,
                             ActivitiesConstants.VISIBLE_THRESHOLD
                         )
                     )
                 }
             }
-
-        getActivities()
 
         return binding.root
     }
@@ -67,9 +65,9 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
         findNavController().navigate(R.id.action_showCreateActivityFragment)
     }
 
-    private fun getActivities() {
+    override fun getItems() {
 
-        observeOperation(viewModel.activitiesLiveData)
+        observe(viewModel.liveData)
     }
 
     private fun navigateToDetails(index: Int) {

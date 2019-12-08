@@ -6,17 +6,17 @@ import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.api.repository.auth.AuthRepository
 
 class ProfileViewModel : ViewModel() {
+
     var navigator: Navigator? = null
     val email get() = _email as LiveData<String>
     val isLoggedIn get() = _isLoggedIn as LiveData<Boolean>
 
     private val _isLoggedIn = MutableLiveData(false)
     private val _email = MutableLiveData("")
-    private val authRepository by lazy { AuthRepository() }
 
     fun signOut() {
 
-        authRepository.signOut()
+        AuthRepository.signOut()
         _isLoggedIn.value = false
     }
 

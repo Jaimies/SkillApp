@@ -1,5 +1,9 @@
 package com.jdevs.timeo.common
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.api.livedata.ItemListLiveData
@@ -18,22 +22,44 @@ abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
     protected abstract val mAdapter: ItemListAdapter
     protected lateinit var linearLayoutManager: LinearLayoutManager
 
+    private val liveDatas = mutableListOf<ItemListLiveData>()
     private var isObserverAttached = false
 
     abstract fun getItems()
 
-    override fun onStart() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        super.onStart()
+        val view = super.onCreateView(inflater, container, savedInstanceState)
 
         if (!isObserverAttached) {
 
             getItems()
             isObserverAttached = true
+
+            return view
         }
+
+        liveDatas.forEach {
+
+            if (!it.hasObservers()) {
+
+                observe(it, shouldAddToList = false)
+            }
+        }
+
+        return view
     }
 
-    fun observe(liveData: ItemListLiveData?) {
+    fun observe(liveData: ItemListLiveData?, shouldAddToList: Boolean = true) {
+
+        if (liveData != null && shouldAddToList) {
+
+            liveDatas.add(liveData)
+        }
 
         liveData?.observe(viewLifecycleOwner) { operation ->
 

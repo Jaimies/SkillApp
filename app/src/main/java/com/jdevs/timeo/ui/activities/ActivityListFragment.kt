@@ -39,6 +39,8 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
         savedInstanceState: Bundle?
     ): View? {
 
+        super.onCreateView(inflater, container, savedInstanceState)
+
         val binding = FragmentActivityListBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel

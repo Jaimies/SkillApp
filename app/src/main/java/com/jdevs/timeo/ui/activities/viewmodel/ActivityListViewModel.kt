@@ -9,7 +9,7 @@ class ActivityListViewModel : ItemListViewModel() {
     var navigator: Navigator? = null
     val liveData get() = repository.getLiveData() as ActivityListLiveData?
 
-    private val repository = ActivitiesRepository { navigator?.onLastItemReached() }
+    override val repository = ActivitiesRepository { navigator?.onLastItemReached() }
 
     override fun onFragmentDestroyed() {
 

@@ -1,6 +1,7 @@
 package com.jdevs.timeo.common
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +11,12 @@ import com.jdevs.timeo.api.livedata.ItemListLiveData
 import com.jdevs.timeo.common.adapter.ItemListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.viewmodel.ItemListViewModel
-import com.jdevs.timeo.util.OperationConstants.ADDED
-import com.jdevs.timeo.util.OperationConstants.FINISHED
-import com.jdevs.timeo.util.OperationConstants.MODIFIED
-import com.jdevs.timeo.util.OperationConstants.REMOVED
+import com.jdevs.timeo.util.OperationStates.ADDED
+import com.jdevs.timeo.util.OperationStates.FAILED
+import com.jdevs.timeo.util.OperationStates.FINISHED
+import com.jdevs.timeo.util.OperationStates.MODIFIED
+import com.jdevs.timeo.util.OperationStates.REMOVED
+import com.jdevs.timeo.util.TAG
 
 abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
     ItemListViewModel.Navigator {
@@ -80,6 +83,11 @@ abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
                 REMOVED -> {
 
                     mAdapter.removeItem(operation.id)
+                }
+
+                FAILED -> {
+
+                    Log.w(TAG, "Failed to get data from Firestore", operation.exception)
                 }
 
                 FINISHED -> {

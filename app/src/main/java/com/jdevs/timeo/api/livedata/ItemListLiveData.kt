@@ -1,6 +1,5 @@
 package com.jdevs.timeo.api.livedata
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
@@ -9,16 +8,15 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.jdevs.timeo.data.OperationOrException
-import com.jdevs.timeo.util.OperationConstants
-import com.jdevs.timeo.util.TAG
+import com.jdevs.timeo.data.Operation
+import com.jdevs.timeo.util.OperationStates
+import com.jdevs.timeo.util.OperationStates.FAILED
 
 abstract class ItemListLiveData(
     private var query: Query?,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
     private val onLastItemReached: () -> Unit
-) : LiveData<OperationOrException>(),
-    EventListener<QuerySnapshot> {
+) : LiveData<Operation>(), EventListener<QuerySnapshot> {
 
     protected abstract val dataType: Class<*>
     protected abstract val fetchLimit: Long
@@ -42,7 +40,7 @@ abstract class ItemListLiveData(
 
         if (exception != null || querySnapshot == null) {
 
-            Log.w(TAG, "Failed to get data from Firestore", exception)
+            value = Operation(exception = exception, type = FAILED)
             return
         }
 
@@ -51,8 +49,7 @@ abstract class ItemListLiveData(
             processDocumentChange(documentChange)
         }
 
-        value =
-            OperationOrException(type = OperationConstants.FINISHED)
+        value = Operation(type = OperationStates.FINISHED)
 
         if (querySnapshot.size() < fetchLimit) {
 
@@ -87,25 +84,13 @@ abstract class ItemListLiveData(
         val operation = when (documentChange.type) {
 
             DocumentChange.Type.ADDED ->
-                OperationOrException(
-                    activity,
-                    type = OperationConstants.ADDED,
-                    id = documentId
-                )
+                Operation(activity, type = OperationStates.ADDED, id = documentId)
 
             DocumentChange.Type.MODIFIED ->
-                OperationOrException(
-                    activity,
-                    type = OperationConstants.MODIFIED,
-                    id = documentId
-                )
+                Operation(activity, type = OperationStates.MODIFIED, id = documentId)
 
             DocumentChange.Type.REMOVED ->
-                OperationOrException(
-                    activity,
-                    type = OperationConstants.REMOVED,
-                    id = documentId
-                )
+                Operation(activity, type = OperationStates.REMOVED, id = documentId)
         }
 
         value = operation

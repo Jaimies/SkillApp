@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 open class LoaderViewModel(isLoadingByDefault: Boolean = false) : ViewModel() {
+
     val isLoading get() = _isLoading as LiveData<Boolean>
 
     private val _isLoading = MutableLiveData(isLoadingByDefault)

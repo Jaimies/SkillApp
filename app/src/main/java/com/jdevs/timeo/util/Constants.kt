@@ -13,7 +13,6 @@ object ActivitiesConstants {
     const val FETCH_LIMIT: Long = 12
     const val VISIBLE_THRESHOLD = 3
     const val NAME_MAX_LENGTH = 100
-    const val ICON_MAX_LENGTH = 100
 }
 
 object RecordsConstants {
@@ -26,12 +25,13 @@ object RecordsConstants {
     const val RECORD_MIN_TIME = 5
 }
 
-object OperationConstants {
+object OperationStates {
 
     const val ADDED = 0
     const val MODIFIED = 1
     const val REMOVED = 2
-    const val FINISHED = 3
+    const val FAILED = 3
+    const val FINISHED = 4
 }
 
 object RequestCodes {

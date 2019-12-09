@@ -98,7 +98,7 @@ class RecordDialog(
         val hours = hours_edit_text.text.toString().toLongOrNull() ?: 0
         val minutes = minutes_edit_text.text.toString().toLongOrNull() ?: return
 
-        val time = Pair(hours, minutes).getMins()
+        val time = (hours to minutes).getMins()
 
         createRecord(index, time)
 

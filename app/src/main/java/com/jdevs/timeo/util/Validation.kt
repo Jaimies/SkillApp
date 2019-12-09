@@ -1,6 +1,8 @@
 package com.jdevs.timeo.util
 
-fun String.isValidEmail() = android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
+
+fun String.isValidEmail() = EMAIL_ADDRESS.matcher(this).matches()
 
 fun String.validatePassword() = when {
 

@@ -44,7 +44,7 @@ fun Pair<Long, Long>.getMins(): Long {
     return first * HOUR_MINUTES + second
 }
 
-fun Date.getDaysSince(): Int {
+fun Date.getDaysSpentSince(): Int {
 
     val currentTime = DateTime()
     val creationTime = DateTime(this)
@@ -56,8 +56,8 @@ fun Date.getDaysSince(): Int {
 
 fun Long.getAvgDailyHours(timestamp: Date): String {
 
-    val daysCount = timestamp.getDaysSince()
-    val avgDailyMins = this / (daysCount + 1)
+    val daysCount = timestamp.getDaysSpentSince()
+    val avgDailyMins = this / daysCount
 
     return avgDailyMins.getHours()
 }

@@ -2,7 +2,7 @@ package com.jdevs.timeo.common.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.api.repository.firestore.ItemListRepository
+import com.jdevs.timeo.data.source.ItemListRepository
 
 abstract class ItemListViewModel : LoaderViewModel(true) {
 

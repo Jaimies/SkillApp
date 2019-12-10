@@ -1,4 +1,4 @@
-package com.jdevs.timeo.api.livedata
+package com.jdevs.timeo.data.livedata
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.DocumentChange

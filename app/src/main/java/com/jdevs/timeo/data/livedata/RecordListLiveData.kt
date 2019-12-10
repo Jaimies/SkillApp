@@ -1,4 +1,4 @@
-package com.jdevs.timeo.api.livedata
+package com.jdevs.timeo.data.livedata
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query

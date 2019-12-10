@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jdevs.timeo.api.livedata.ItemListLiveData
 import com.jdevs.timeo.common.adapter.ItemListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.viewmodel.ItemListViewModel
+import com.jdevs.timeo.data.livedata.ItemListLiveData
 import com.jdevs.timeo.util.OperationStates.ADDED
 import com.jdevs.timeo.util.OperationStates.FAILED
 import com.jdevs.timeo.util.OperationStates.FINISHED

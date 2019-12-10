@@ -1,8 +1,8 @@
-package com.jdevs.timeo.api.repository.firestore
+package com.jdevs.timeo.data.source
 
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.api.livedata.RecordListLiveData
+import com.jdevs.timeo.data.livedata.RecordListLiveData
 import com.jdevs.timeo.util.ActivitiesConstants.TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.RecordsConstants.FETCH_LIMIT
 import com.jdevs.timeo.util.RecordsConstants.TIMESTAMP_PROPERTY

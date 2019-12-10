@@ -1,11 +1,11 @@
-package com.jdevs.timeo.api.repository.firestore
+package com.jdevs.timeo.data.source
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.api.livedata.ItemListLiveData
+import com.jdevs.timeo.data.livedata.ItemListLiveData
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.UserConstants.USERS_COLLECTION

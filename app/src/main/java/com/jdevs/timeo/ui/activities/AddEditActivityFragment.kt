@@ -11,9 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
-import com.jdevs.timeo.api.repository.firestore.ActivitiesRepository
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.data.source.ActivitiesRepository
 import com.jdevs.timeo.databinding.AddtaskFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.CreateEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH

@@ -1,11 +1,11 @@
-package com.jdevs.timeo.api.repository.firestore
+package com.jdevs.timeo.data.source
 
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.api.livedata.ActivityListLiveData
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.data.livedata.ActivityListLiveData
 import com.jdevs.timeo.util.ActivitiesConstants.ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.ActivitiesConstants.FETCH_LIMIT
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_PROPERTY

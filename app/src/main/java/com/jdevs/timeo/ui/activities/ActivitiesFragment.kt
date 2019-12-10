@@ -13,15 +13,15 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.common.InfiniteScrollListener
 import com.jdevs.timeo.common.ItemListFragment
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.databinding.FragmentActivityListBinding
+import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.util.ActivitiesConstants
 
-class ActivityListFragment : ItemListFragment<TimeoActivity>(),
+class ActivitiesFragment : ItemListFragment<TimeoActivity>(),
     ActivityListViewModel.Navigator {
 
-    override val menuId = R.menu.action_bar_activity_list
+    override val menuId = R.menu.activities_fragment_menu
     override val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
 
     override val viewModel by lazy {
@@ -41,7 +41,7 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = FragmentActivityListBinding.inflate(inflater, container, false).also {
+        val binding = ActivitiesFragBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel
             it.lifecycleOwner = this
@@ -93,7 +93,7 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
 
     override fun createActivity() {
 
-        findNavController().navigate(R.id.action_showCreateActivityFragment)
+        findNavController().navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
     }
 
     override fun getItems() {
@@ -103,11 +103,11 @@ class ActivityListFragment : ItemListFragment<TimeoActivity>(),
 
     private fun navigateToDetails(index: Int) {
 
-        val activityId = mAdapter.getId(index)
-        val item = getActivity(index)
+        val id = mAdapter.getId(index)
+        val activity = getActivity(index)
 
-        val action =
-            ActivityListFragmentDirections.actionShowActivityDetails(item, activityId)
+        val action = ActivitiesFragmentDirections
+            .actionActivitiesFragmentToActivityDetailsFragment(activity = activity, id = id)
 
         findNavController().navigate(action)
     }

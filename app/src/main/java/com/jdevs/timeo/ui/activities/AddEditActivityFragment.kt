@@ -14,26 +14,26 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.api.repository.firestore.ActivitiesRepository
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.databinding.FragmentCreateEditActivityBinding
+import com.jdevs.timeo.databinding.AddtaskFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.CreateEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.requireMainActivity
 
-class CreateEditActivityFragment : ActionBarFragment(),
+class AddEditActivityFragment : ActionBarFragment(),
     CreateEditActivityViewModel.Navigator {
 
-    override val menuId = R.menu.action_bar_create_activity
-    private val args: CreateEditActivityFragmentArgs by navArgs()
+    override val menuId = R.menu.addedit_fragment_menu
+    private val args: AddEditActivityFragmentArgs by navArgs()
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(CreateEditActivityViewModel::class.java).also {
 
             it.navigator = this
 
-            if (args.editActivity) {
+            if (args.isEdited) {
 
-                it.setActivity(args.timeoActivity)
+                it.setActivity(args.activity)
             }
         }
     }
@@ -44,7 +44,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentCreateEditActivityBinding.inflate(inflater, container, false).also {
+        val binding = AddtaskFragBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel
             it.lifecycleOwner = this
@@ -53,7 +53,7 @@ class CreateEditActivityFragment : ActionBarFragment(),
         requireMainActivity().supportActionBar?.apply {
 
             title =
-                getString(if (args.editActivity) R.string.edit_activity else R.string.create_activity)
+                getString(if (args.isEdited) R.string.edit_activity else R.string.create_activity)
         }
 
         return binding.root
@@ -66,31 +66,29 @@ class CreateEditActivityFragment : ActionBarFragment(),
             return
         }
 
-        if (args.editActivity) {
+        if (args.isEdited) {
 
-            val timeoActivity = args.timeoActivity!!
-
-            timeoActivity.also {
+            val activity = args.activity!!.also {
 
                 it.name = name
             }
 
-            ActivitiesRepository.updateActivity(timeoActivity, args.activityId!!)
+            ActivitiesRepository.updateActivity(activity, args.id!!)
 
             val directions =
-                CreateEditActivityFragmentDirections.actionReturnToActivityDetails(
-                    timeoActivity,
-                    args.activityId ?: ""
+                AddEditActivityFragmentDirections.actionAddEditFragmentToActivityDetailFragment(
+                    activity = activity,
+                    id = args.id ?: ""
                 )
 
             findNavController().navigate(directions)
         } else {
 
-            val timeoActivity = TimeoActivity(name)
+            val activity = TimeoActivity(name)
 
-            ActivitiesRepository.createActivity(timeoActivity)
+            ActivitiesRepository.createActivity(activity)
 
-            findNavController().navigate(R.id.action_returnToHomeFragment)
+            findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
         }
 
         hideKeyboard()
@@ -104,13 +102,12 @@ class CreateEditActivityFragment : ActionBarFragment(),
             .setMessage(getString(R.string.sure_delete_activity))
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
 
-                ActivitiesRepository
-                    .deleteActivity(args.activityId ?: return@setPositiveButton)
+                ActivitiesRepository.deleteActivity(args.id ?: return@setPositiveButton)
 
                 Snackbar
                     .make(view!!, getString(R.string.activity_deleted), Snackbar.LENGTH_LONG).show()
 
-                findNavController().navigate(R.id.action_returnToHomeFragment)
+                findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
             }
             .setNegativeButton(getString(R.string.no), null)
 

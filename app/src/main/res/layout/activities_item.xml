@@ -49,7 +49,7 @@
             android:id="@+id/plus_button"
             android:layout_width="@dimen/activities_plus_button_size"
             android:layout_height="@dimen/activities_plus_button_size"
-            android:background="@drawable/activities_item_button"
+            android:background="@drawable/activities_item_plus_button"
             android:onClick="@{() -> viewmodel.navigator.showRecordDialog()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

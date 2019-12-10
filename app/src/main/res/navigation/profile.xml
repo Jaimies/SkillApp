@@ -3,16 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile"
-    app:startDestination="@id/profileFragment">
+    app:startDestination="@id/profile_fragment_dest"
+    tools:ignore="UnusedNavigation">
 
     <fragment
-        android:id="@+id/profileFragment"
+        android:id="@+id/profile_fragment_dest"
         android:name="com.jdevs.timeo.ui.profile.ProfileFragment"
         android:label="@string/profile"
-        tools:layout="@layout/fragment_profile">
+        tools:layout="@layout/profile_frag">
+
         <action
-            android:id="@+id/action_signIn"
-            app:destination="@id/signInFragment"
+            android:id="@+id/action_profileFragment_to_signInFragment"
+            app:destination="@id/sign_in_fragment_dest"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
@@ -20,13 +22,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/signInFragment"
+        android:id="@+id/sign_in_fragment_dest"
         android:name="com.jdevs.timeo.ui.profile.SignInFragment"
         android:label="@string/sign_in"
-        tools:layout="@layout/fragment_signup">
+        tools:layout="@layout/signup_frag">
+
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment"
+            app:destination="@id/sign_up_fragment_dest"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
@@ -34,17 +37,18 @@
     </fragment>
 
     <fragment
-        android:id="@+id/signUpFragment"
-        android:name="com.jdevs.timeo.ui.profile.SignupFragment"
+        android:id="@+id/sign_up_fragment_dest"
+        android:name="com.jdevs.timeo.ui.profile.SignUpFragment"
         android:label="@string/sign_up">
+
         <action
             android:id="@+id/action_signUpFragment_to_signInFragment"
-            app:destination="@id/signInFragment"
+            app:destination="@id/sign_in_fragment_dest"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/profileFragment"
+            app:popUpTo="@id/profile_fragment_dest"
             app:popUpToInclusive="false" />
     </fragment>
 </navigation>

@@ -13,7 +13,7 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.common.InfiniteScrollListener
 import com.jdevs.timeo.common.ItemListFragment
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.databinding.FragmentHistoryBinding
+import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.ui.history.adapter.RecordsAdapter
 import com.jdevs.timeo.ui.history.viewmodel.HistoryViewModel
 import com.jdevs.timeo.util.RecordsConstants
@@ -22,7 +22,7 @@ class HistoryFragment : ItemListFragment<Record>(),
     DialogInterface.OnClickListener,
     HistoryViewModel.Navigator {
 
-    override val menuId = R.menu.action_bar_history
+    override val menuId = R.menu.history_fragment_menu
     override val mAdapter by lazy { RecordsAdapter(::showDeleteDialog) }
 
     override val viewModel by lazy {
@@ -41,7 +41,7 @@ class HistoryFragment : ItemListFragment<Record>(),
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = FragmentHistoryBinding.inflate(inflater, container, false).also {
+        val binding = HistoryFragBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel
             it.lifecycleOwner = this

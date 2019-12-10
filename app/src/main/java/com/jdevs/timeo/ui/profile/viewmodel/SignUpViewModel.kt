@@ -4,7 +4,7 @@ import com.jdevs.timeo.api.repository.auth.AuthRepository
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import com.jdevs.timeo.util.launchSuspendingProcess
 
-class SignupViewModel : AuthViewModel() {
+class SignUpViewModel : AuthViewModel() {
 
     var navigator: Navigator? = null
 

@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/action_createActivity"
-        android:icon="@drawable/ic_plus"
+        android:icon="@drawable/ic_plus_24dp"
         android:title=""
         app:iconTint="@drawable/menu_item_icon"
         app:showAsAction="always" />

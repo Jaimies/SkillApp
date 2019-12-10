@@ -21,7 +21,7 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.jdevs.timeo.R
-import com.jdevs.timeo.databinding.FragmentSigninBinding
+import com.jdevs.timeo.databinding.SigninFragBinding
 import com.jdevs.timeo.ui.profile.viewmodel.SignInViewModel
 import com.jdevs.timeo.util.RequestCodes.RC_SIGN_IN
 import com.jdevs.timeo.util.TAG
@@ -54,7 +54,7 @@ class SignInFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentSigninBinding.inflate(inflater, container, false).also {
+        val binding = SigninFragBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel
             it.lifecycleOwner = this

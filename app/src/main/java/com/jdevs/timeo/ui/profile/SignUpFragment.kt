@@ -13,8 +13,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.R
-import com.jdevs.timeo.databinding.FragmentSignupBinding
-import com.jdevs.timeo.ui.profile.viewmodel.SignupViewModel
+import com.jdevs.timeo.databinding.SignupFragBinding
+import com.jdevs.timeo.ui.profile.viewmodel.SignUpViewModel
 import com.jdevs.timeo.util.EMPTY
 import com.jdevs.timeo.util.INVALID
 import com.jdevs.timeo.util.TAG
@@ -25,11 +25,11 @@ import com.jdevs.timeo.util.navigateToGraph
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
 
-class SignupFragment : Fragment(),
-    SignupViewModel.Navigator {
+class SignUpFragment : Fragment(),
+    SignUpViewModel.Navigator {
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(SignupViewModel::class.java).also {
+        ViewModelProviders.of(this).get(SignUpViewModel::class.java).also {
             it.navigator = this
         }
     }
@@ -40,7 +40,7 @@ class SignupFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentSignupBinding.inflate(inflater, container, false).also {
+        val binding = SignupFragBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel
             it.lifecycleOwner = this

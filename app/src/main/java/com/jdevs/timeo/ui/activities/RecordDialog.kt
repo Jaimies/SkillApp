@@ -13,10 +13,10 @@ import com.jdevs.timeo.util.Time.DAY_HOURS
 import com.jdevs.timeo.util.Time.HOUR_MINUTES
 import com.jdevs.timeo.util.getMins
 import com.jdevs.timeo.util.getScreenDimensions
-import kotlinx.android.synthetic.main.dialog_record.add_button
-import kotlinx.android.synthetic.main.dialog_record.hours_edit_text
-import kotlinx.android.synthetic.main.dialog_record.minutes_edit_text
-import kotlinx.android.synthetic.main.dialog_record.rootView
+import kotlinx.android.synthetic.main.record_dialog.add_button
+import kotlinx.android.synthetic.main.record_dialog.hours_edit_text
+import kotlinx.android.synthetic.main.record_dialog.minutes_edit_text
+import kotlinx.android.synthetic.main.record_dialog.rootView
 import kotlin.math.roundToInt
 
 class RecordDialog(
@@ -29,7 +29,7 @@ class RecordDialog(
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_record)
+        setContentView(R.layout.record_dialog)
 
         val dimensions = getScreenDimensions(context)
 

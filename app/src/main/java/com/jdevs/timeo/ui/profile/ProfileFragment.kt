@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.jdevs.timeo.R
-import com.jdevs.timeo.databinding.FragmentProfileBinding
+import com.jdevs.timeo.databinding.ProfileFragBinding
 import com.jdevs.timeo.ui.profile.viewmodel.ProfileViewModel
 import com.jdevs.timeo.util.navigateToGraph
 
@@ -29,7 +29,7 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentProfileBinding.inflate(inflater, container, false)
+        val binding = ProfileFragBinding.inflate(inflater, container, false)
 
         binding.viewmodel = viewModel.apply {
 
@@ -44,7 +44,7 @@ class ProfileFragment : Fragment(), ProfileViewModel.Navigator {
 
     override fun signIn() {
 
-        findNavController().navigate(R.id.action_signIn)
+        findNavController().navigate(R.id.action_profileFragment_to_signInFragment)
     }
 
     override fun signOut() {

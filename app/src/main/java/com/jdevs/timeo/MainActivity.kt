@@ -14,9 +14,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.lazyUnsynchronized
 import com.jdevs.timeo.util.setupWithNavController
-import kotlinx.android.synthetic.main.activity_main.bottom_nav_view
-import kotlinx.android.synthetic.main.activity_main.nav_host_container
-import kotlinx.android.synthetic.main.activity_main.toolbar
+import kotlinx.android.synthetic.main.main_act.bottom_nav_view
+import kotlinx.android.synthetic.main.main_act.nav_host_container
+import kotlinx.android.synthetic.main.main_act.toolbar
 
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
@@ -31,14 +31,18 @@ class MainActivity : AppCompatActivity(),
     }
 
     private val topLevelDestinations by lazy {
-        setOf(R.id.overviewFragment, R.id.activityListFragment, R.id.profileFragment)
+        setOf(
+            R.id.overview_fragment_dest,
+            R.id.activities_fragment_dest,
+            R.id.profile_fragment_dest
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Timeo)
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_act)
         setSupportActionBar(toolbar)
 
         currentNavController = bottomNavView.setupWithNavController(
@@ -67,12 +71,12 @@ class MainActivity : AppCompatActivity(),
 
             R.id.action_createActivity -> {
 
-                currentNavController.value?.navigate(R.id.action_showCreateActivityFragment)
+                currentNavController.value?.navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
             }
 
             R.id.action_history -> {
 
-                currentNavController.value?.navigate(R.id.action_showHistory)
+                currentNavController.value?.navigate(R.id.action_activitiesFragment_to_historyFragment)
             }
         }
 

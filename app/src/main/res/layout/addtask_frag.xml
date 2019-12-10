@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".ui.activities.CreateEditActivityFragment">
+        tools:context=".ui.activities.AddEditActivityFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_text_input_layout"

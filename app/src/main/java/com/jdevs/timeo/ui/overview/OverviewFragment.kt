@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
-import com.jdevs.timeo.databinding.FragmentOverviewBinding
+import com.jdevs.timeo.databinding.OverviewFragBinding
 import com.jdevs.timeo.ui.overview.viewmodel.OverviewViewModel
 
 class OverviewFragment : Fragment() {
@@ -24,7 +24,7 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentOverviewBinding.inflate(inflater, container, false).also {
+        val binding = OverviewFragBinding.inflate(inflater, container, false).also {
             it.viewmodel = viewModel
             it.lifecycleOwner = this
         }

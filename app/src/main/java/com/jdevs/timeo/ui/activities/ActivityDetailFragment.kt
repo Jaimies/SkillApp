@@ -10,17 +10,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ActionBarFragment
-import com.jdevs.timeo.databinding.FragmentActivityDetailBinding
+import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityDetailViewModel
 
 class ActivityDetailFragment : ActionBarFragment() {
 
-    override val menuId = R.menu.action_bar_activity_details
+    override val menuId = R.menu.activity_detail_fragment_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(ActivityDetailViewModel::class.java).apply {
-            setActivity(args.timeoActivity)
+            setActivity(args.activity)
         }
     }
 
@@ -30,7 +30,7 @@ class ActivityDetailFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentActivityDetailBinding.inflate(inflater, container, false).also {
+        val binding = ActivitydetailFragBinding.inflate(inflater, container, false).also {
 
             it.lifecycleOwner = this
             it.viewmodel = viewModel
@@ -43,8 +43,12 @@ class ActivityDetailFragment : ActionBarFragment() {
 
         return if (item.itemId == R.id.editActivity) {
 
-            val directions = ActivityDetailFragmentDirections
-                .actionEditActivity(true, args.activityId, args.timeoActivity)
+            val directions =
+                ActivityDetailFragmentDirections.actionActivityDetailFragmentToAddEditActivityFragment(
+                    activity = args.activity,
+                    id = args.id,
+                    isEdited = true
+                )
 
             findNavController().navigate(directions)
 

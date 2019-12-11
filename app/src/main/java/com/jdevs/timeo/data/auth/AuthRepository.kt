@@ -46,9 +46,7 @@ object AuthRepository {
 
             if (exception is FirebaseAuthUserCollisionException || exception is KotlinNullPointerException) {
 
-                return signInWithGoogle(
-                    credential
-                ).await()
+                return signInWithGoogle(credential).await()
             }
 
             throw exception

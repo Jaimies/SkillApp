@@ -1,16 +1,20 @@
 package com.jdevs.timeo.ui.activities.viewmodel
 
 import com.jdevs.timeo.common.viewmodel.ItemListViewModel
-import com.jdevs.timeo.data.livedata.ActivityListLiveData
-import com.jdevs.timeo.data.source.ActivitiesRepository
+import com.jdevs.timeo.data.source.ActivitiesDataSource
+import com.jdevs.timeo.data.source.RecordsDataSource
+import com.jdevs.timeo.data.source.RemoteRepository
 
 class ActivityListViewModel : ItemListViewModel() {
 
     var navigator: Navigator? = null
-    val liveData get() = repository.getLiveData() as ActivityListLiveData?
+    val liveData get() = RemoteRepository.activitiesLiveData
 
-    override val repository =
-        ActivitiesRepository { navigator?.onLastItemReached() }
+    init {
+
+        RemoteRepository.setup(ActivitiesDataSource, RecordsDataSource)
+        RemoteRepository.setOnLastActivityCallback { navigator?.onLastItemReached() }
+    }
 
     override fun onFragmentDestroyed() {
 
@@ -25,7 +29,7 @@ class ActivityListViewModel : ItemListViewModel() {
 
     fun createRecord(activityName: String, time: Long, activityId: String) {
 
-        repository.createRecord(activityName, time, activityId)
+        RemoteRepository.createRecord(activityName, time, activityId)
     }
 
     interface Navigator : ItemListViewModel.Navigator {

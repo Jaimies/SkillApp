@@ -50,10 +50,14 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
 
     fun initialize(activitiesDataSource: RemoteDataSource, recordsDataSource: RemoteDataSource) {
 
-        initializeRefs()
+        this.recordsDataSource = recordsDataSource
+        this.activitiesDataSource = activitiesDataSource
 
-        this.activitiesDataSource = activitiesDataSource.apply { reset(activitiesRef) }
-        this.recordsDataSource = recordsDataSource.apply { reset(recordsRef) }
+        initializeRefs {
+
+            activitiesDataSource.reset(activitiesRef)
+            recordsDataSource.reset(recordsRef)
+        }
     }
 
     override fun onAuthStateChanged(auth: FirebaseAuth) {
@@ -84,14 +88,18 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
 
     fun resetActivitiesSource() {
 
-        initializeRefs()
-        activitiesDataSource.reset(activitiesRef)
+        initializeRefs {
+
+            activitiesDataSource.reset(activitiesRef)
+        }
     }
 
     fun resetRecordsSource() {
 
-        initializeRefs()
-        recordsDataSource.reset(recordsRef)
+        initializeRefs {
+
+            recordsDataSource.reset(recordsRef)
+        }
     }
 
     fun createRecord(activityName: String, time: Long, activityId: String) {
@@ -157,7 +165,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
             .update(ActivitiesConstants.TOTAL_TIME_PROPERTY, FieldValue.increment(-recordTime))
     }
 
-    private fun initializeRefs() {
+    private fun initializeRefs(ifAuthenticated: () -> Unit = {}) {
 
         val uid = auth.currentUser?.uid
 
@@ -169,6 +177,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
         }
 
         setRefs(uid)
+        ifAuthenticated()
     }
 
     private fun setRefs(uid: String) {

@@ -13,6 +13,7 @@ import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.UserConstants
 import com.jdevs.timeo.util.logOnFailure
 
+@Suppress("TooManyFunctions")
 object RemoteRepository : FirebaseAuth.AuthStateListener {
 
     val activitiesLiveData: ItemListLiveData?
@@ -47,25 +48,12 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
     private val firestore by lazy { FirebaseFirestore.getInstance() }
     private val auth by lazy { FirebaseAuth.getInstance() }
 
-    fun setup(
-        activitiesDataSource: RemoteDataSource,
-        recordsDataSource: RemoteDataSource
-    ) {
+    fun initialize(activitiesDataSource: RemoteDataSource, recordsDataSource: RemoteDataSource) {
 
-        val uid = auth.currentUser?.uid
+        initializeRefs()
 
-        if (uid == null) {
-
-            isUserAuthenticated = false
-            auth.addAuthStateListener(this)
-            return
-        }
-
-        initializeRefs(uid)
-
-        this.activitiesDataSource =
-            activitiesDataSource(ref = activitiesRef) as ActivitiesDataSource
-        this.recordsDataSource = recordsDataSource(ref = recordsRef) as RecordsDataSource
+        this.activitiesDataSource = activitiesDataSource.apply { reset(activitiesRef) }
+        this.recordsDataSource = recordsDataSource.apply { reset(recordsRef) }
     }
 
     override fun onAuthStateChanged(auth: FirebaseAuth) {
@@ -74,7 +62,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
 
         if (uid != null && uid != prevUid) {
 
-            initializeRefs(uid)
+            setRefs(uid)
             prevUid = uid
 
             activitiesDataSource.onUserAuthenticated(activitiesRef)
@@ -92,6 +80,18 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
     fun setOnLastRecordCallback(callback: () -> Unit) {
 
         recordsDataSource.onLastItemCallback = callback
+    }
+
+    fun resetActivitiesSource() {
+
+        initializeRefs()
+        activitiesDataSource.reset(activitiesRef)
+    }
+
+    fun resetRecordsSource() {
+
+        initializeRefs()
+        recordsDataSource.reset(recordsRef)
     }
 
     fun createRecord(activityName: String, time: Long, activityId: String) {
@@ -157,7 +157,21 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
             .update(ActivitiesConstants.TOTAL_TIME_PROPERTY, FieldValue.increment(-recordTime))
     }
 
-    private fun initializeRefs(uid: String) {
+    private fun initializeRefs() {
+
+        val uid = auth.currentUser?.uid
+
+        if (uid == null) {
+
+            isUserAuthenticated = false
+            auth.addAuthStateListener(this)
+            return
+        }
+
+        setRefs(uid)
+    }
+
+    private fun setRefs(uid: String) {
 
         activitiesRef =
             firestore.collection("/${UserConstants.USERS_COLLECTION}/$uid/${ActivitiesConstants.COLLECTION}")

@@ -10,6 +10,7 @@ class HistoryViewModel : ItemListViewModel() {
 
     init {
 
+        RemoteRepository.resetRecordsSource()
         RemoteRepository.setOnLastRecordCallback { navigator?.onLastItemReached() }
     }
 

@@ -12,17 +12,6 @@ object RecordsDataSource : RemoteDataSource() {
     override val liveData = ::RecordListLiveData
     private lateinit var recordsRef: CollectionReference
 
-    override operator fun invoke(
-        onLastItemCallback: () -> Unit,
-        recordsRef: CollectionReference
-    ): RecordsDataSource {
-
-        super.reset(onLastItemCallback)
-        this.recordsRef = recordsRef
-
-        return this
-    }
-
     override fun setRef(ref: CollectionReference) {
 
         recordsRef = ref

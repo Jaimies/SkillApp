@@ -26,17 +26,17 @@ abstract class RemoteDataSource {
     private var isQueryInitialized = false
     private var lastVisibleItem: DocumentSnapshot? = null
 
-    abstract operator fun invoke(onLastItemCallback: () -> Unit = {}, ref: CollectionReference): Any
     protected abstract fun createQuery(): Query
     abstract fun setRef(ref: CollectionReference)
 
-    fun reset(onLastItemCallback: () -> Unit = {}) {
+    fun reset(ref: CollectionReference) {
 
         lastVisibleItem = null
         isLastItemReached = false
         awaitingLiveData = null
         isQueryInitialized = false
-        this.onLastItemCallback = onLastItemCallback
+
+        setRef(ref)
     }
 
     fun getLiveData(): ItemListLiveData? {
@@ -65,7 +65,6 @@ abstract class RemoteDataSource {
     fun getAwaitingLiveData(): ItemListLiveData {
 
         awaitingLiveData = liveData(null, ::setLastVisibleItem, ::onLastItemReached)
-
         return awaitingLiveData!!
     }
 

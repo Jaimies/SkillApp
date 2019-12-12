@@ -62,7 +62,12 @@ abstract class ItemListLiveData(
 
     fun setQuery(newQuery: Query?) {
 
-        query = newQuery?.also {
+        if (newQuery == query || newQuery == null) {
+
+            return
+        }
+
+        query = newQuery.also {
 
             it.addSnapshotListener(this)
         }

@@ -1,8 +1,6 @@
 package com.jdevs.timeo.ui.activities.viewmodel
 
 import com.jdevs.timeo.common.viewmodel.ItemListViewModel
-import com.jdevs.timeo.data.source.ActivitiesDataSource
-import com.jdevs.timeo.data.source.RecordsDataSource
 import com.jdevs.timeo.data.source.RemoteRepository
 
 class ActivityListViewModel : ItemListViewModel() {
@@ -12,7 +10,7 @@ class ActivityListViewModel : ItemListViewModel() {
 
     init {
 
-        RemoteRepository.setup(ActivitiesDataSource, RecordsDataSource)
+        RemoteRepository.resetActivitiesSource()
         RemoteRepository.setOnLastActivityCallback { navigator?.onLastItemReached() }
     }
 

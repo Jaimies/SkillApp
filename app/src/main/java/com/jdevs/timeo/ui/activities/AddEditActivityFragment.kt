@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.data.source.ActivitiesRepository
+import com.jdevs.timeo.data.source.RemoteRepository
 import com.jdevs.timeo.databinding.AddtaskFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.CreateEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
@@ -73,7 +73,7 @@ class AddEditActivityFragment : ActionBarFragment(),
                 it.name = name
             }
 
-            ActivitiesRepository.updateActivity(activity, args.id!!)
+            RemoteRepository.updateActivity(activity, args.id!!)
 
             val directions =
                 AddEditActivityFragmentDirections.actionAddEditFragmentToActivityDetailFragment(
@@ -86,7 +86,7 @@ class AddEditActivityFragment : ActionBarFragment(),
 
             val activity = TimeoActivity(name)
 
-            ActivitiesRepository.createActivity(activity)
+            RemoteRepository.createActivity(activity)
 
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
         }
@@ -102,7 +102,7 @@ class AddEditActivityFragment : ActionBarFragment(),
             .setMessage(getString(R.string.sure_delete_activity))
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
 
-                ActivitiesRepository.deleteActivity(args.id ?: return@setPositiveButton)
+                RemoteRepository.deleteActivity(args.id ?: return@setPositiveButton)
 
                 Snackbar
                     .make(view!!, getString(R.string.activity_deleted), Snackbar.LENGTH_LONG).show()

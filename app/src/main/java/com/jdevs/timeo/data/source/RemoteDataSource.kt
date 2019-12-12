@@ -64,8 +64,11 @@ abstract class RemoteDataSource {
 
     fun getAwaitingLiveData(): ItemListLiveData {
 
-        awaitingLiveData = liveData(null, ::setLastVisibleItem, ::onLastItemReached)
-        return awaitingLiveData!!
+        liveData(null, ::setLastVisibleItem, ::onLastItemReached).also {
+
+            awaitingLiveData = it
+            return it
+        }
     }
 
     fun onUserAuthenticated(ref: CollectionReference) {

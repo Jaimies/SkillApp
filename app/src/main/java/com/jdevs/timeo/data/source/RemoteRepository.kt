@@ -69,6 +69,8 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
             setRefs(uid)
             prevUid = uid
 
+            isUserAuthenticated = true
+
             activitiesDataSource.onUserAuthenticated(activitiesRef)
             recordsDataSource.onUserAuthenticated(recordsRef)
 

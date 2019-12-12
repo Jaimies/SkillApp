@@ -43,10 +43,10 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
     private lateinit var activitiesDataSource: RemoteDataSource
     private lateinit var recordsDataSource: RemoteDataSource
 
-    private var prevUid: String? = null
     private var isUserAuthenticated = true
-    private val firestore by lazy { FirebaseFirestore.getInstance() }
-    private val auth by lazy { FirebaseAuth.getInstance() }
+    private var prevUid: String? = null
+    private val auth = FirebaseAuth.getInstance()
+    private val firestore = FirebaseFirestore.getInstance()
 
     fun initialize(activitiesDataSource: RemoteDataSource, recordsDataSource: RemoteDataSource) {
 

@@ -13,7 +13,7 @@ import com.jdevs.timeo.util.logOnFailure
 
 object AuthRepository {
 
-    private val auth by lazy { FirebaseAuth.getInstance() }
+    private val auth = FirebaseAuth.getInstance()
 
     suspend fun createAccount(email: String, password: String): AuthResult {
 

@@ -13,7 +13,7 @@ import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.UserConstants
 import com.jdevs.timeo.util.logOnFailure
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "StaticFieldLeak")
 object RemoteRepository : FirebaseAuth.AuthStateListener {
 
     val activitiesLiveData: ItemListLiveData?

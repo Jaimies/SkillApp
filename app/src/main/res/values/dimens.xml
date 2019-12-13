@@ -4,11 +4,9 @@
     <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_large">20dp</dimen>
     <dimen name="padding_tiny">4dp</dimen>
-    <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_default">16dp</dimen>
     <dimen name="padding_medium">20dp</dimen>
     <dimen name="padding_large">32dp</dimen>
-    <dimen name="padding_xlarge">48dp</dimen>
     <dimen name="elevation_default">4dp</dimen>
 
     <dimen name="topbar_height">50dp</dimen>

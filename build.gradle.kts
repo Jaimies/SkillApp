@@ -7,7 +7,7 @@ buildscript {
         maven(url = uri("https://maven.fabric.io/public"))
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.5.3")
+        classpath("com.android.tools.build:gradle:4.0.0-alpha06")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}")
         classpath("com.google.gms:google-services:4.3.3")

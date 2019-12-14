@@ -17,6 +17,7 @@ import com.jdevs.timeo.R
  *
  * This sample is a workaround until the Navigation Component supports multiple back stacks.
  */
+@Suppress("LongMethod", "ComplexMethod")
 fun BottomNavigationView.setupWithNavController(
     navGraphIds: List<Int>,
     fragmentManager: FragmentManager,

@@ -28,7 +28,7 @@ import java.util.EnumSet
 internal const val DEFAULT_PRIORITY = 10
 
 @Suppress("UnstableApiUsage")
-class MissingEmptyLinesBlockStatementsDetector : Detector(), Detector.UastScanner {
+class MissingEmptyLinesDetector : Detector(), Detector.UastScanner {
 
     override fun getApplicableUastTypes() = listOf(
         UIfExpression::class.java,
@@ -46,19 +46,21 @@ class MissingEmptyLinesBlockStatementsDetector : Detector(), Detector.UastScanne
         val ISSUE = Issue.create(
             "MissingEmptyLinesAroundBlockStatements",
             "Marks missing empty lines around blocks statements.",
-            "Block statements (such as 'if', 'for', 'while', 'switch', 'when') should always surrounded by empty lines.\n" +
+            "Block statements (such as 'if', 'for', 'while', 'switch', 'when')" +
+                    " should always surrounded by empty lines.\n" +
                     "Exception if they are placed exactly at the end or the beginning of an enclosing block.\n" +
                     "Applying this rule we can get more readable code.",
             Category.CORRECTNESS,
             DEFAULT_PRIORITY,
             Severity.WARNING,
             Implementation(
-                MissingEmptyLinesBlockStatementsDetector::class.java,
+                MissingEmptyLinesDetector::class.java,
                 EnumSet.of(Scope.JAVA_FILE)
             )
         )
     }
 
+    @Suppress("TooManyFunctions")
     class MethodBlocksHandler(private val context: JavaContext) : UElementHandler() {
 
         override fun visitForEachExpression(node: UForEachExpression) {

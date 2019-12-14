@@ -8,7 +8,7 @@ import com.android.tools.lint.detector.api.Issue
 
 class IssueRegistry : IssueRegistry() {
     override val issues: List<Issue>
-        get() = listOf(MissingEmptyLinesBlockStatementsDetector.ISSUE)
+        get() = listOf(MissingEmptyLinesDetector.ISSUE)
 
     override val api: Int = CURRENT_API
 }

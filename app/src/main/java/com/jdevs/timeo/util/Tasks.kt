@@ -18,7 +18,7 @@ import kotlin.coroutines.resumeWithException
  * If deferred is cancelled then resulting task will be cancelled as well.
  */
 @ExperimentalCoroutinesApi
-public fun <T> Deferred<T>.asTask(): Task<T> {
+fun <T> Deferred<T>.asTask(): Task<T> {
     val cancellation = CancellationTokenSource()
     val source = TaskCompletionSource<T>(cancellation.token)
 
@@ -29,6 +29,7 @@ public fun <T> Deferred<T>.asTask(): Task<T> {
         }
 
         val t = getCompletionExceptionOrNull()
+
         if (t == null) {
             source.setResult(getCompleted())
         } else {
@@ -43,9 +44,10 @@ public fun <T> Deferred<T>.asTask(): Task<T> {
  * Converts this task to an instance of [Deferred].
  * If task is cancelled then resulting deferred will be cancelled as well.
  */
-public fun <T> Task<T>.asDeferred(): Deferred<T> {
+fun <T> Task<T>.asDeferred(): Deferred<T> {
     if (isComplete) {
         val e = exception
+
         return if (e == null) {
             @Suppress("UNCHECKED_CAST")
             CompletableDeferred<T>().apply { if (isCanceled) cancel() else complete(result as T) }
@@ -57,6 +59,7 @@ public fun <T> Task<T>.asDeferred(): Deferred<T> {
     val result = CompletableDeferred<T>()
     addOnCompleteListener {
         val e = it.exception
+
         if (e == null) {
             @Suppress("UNCHECKED_CAST")
             if (isCanceled) result.cancel() else result.complete(it.result as T)
@@ -74,10 +77,11 @@ public fun <T> Task<T>.asDeferred(): Deferred<T> {
  * If the [Job] of the current coroutine is cancelled or completed while this suspending function is waiting, this function
  * stops waiting for the completion stage and immediately resumes with [CancellationException].
  */
-public suspend fun <T> Task<T>.await(): T {
+suspend fun <T> Task<T>.await(): T {
     // fast path
     if (isComplete) {
         val e = exception
+
         return if (e == null) {
             if (isCanceled) {
                 throw CancellationException("Task $this was cancelled normally.")
@@ -93,6 +97,7 @@ public suspend fun <T> Task<T>.await(): T {
     return suspendCancellableCoroutine { cont ->
         addOnCompleteListener {
             val e = exception
+
             if (e == null) {
                 @Suppress("UNCHECKED_CAST")
                 if (isCanceled) cont.cancel() else cont.resume(result as T)

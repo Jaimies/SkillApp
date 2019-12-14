@@ -94,6 +94,8 @@ dependencies {
     implementation("com.google.firebase:firebase-perf:${Versions.perf}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
 
+    lintChecks(project(path = ":lint"))
+
     testImplementation("junit:junit:${Versions.junit}")
     testImplementation("org.hamcrest:hamcrest-all:${Versions.hamcrest}")
 

@@ -19,6 +19,15 @@ object Versions {
     const val crashlytics = "2.10.1"
     const val perf = "19.0.2"
     const val gmsAuth = "17.0.0"
+    const val fabric = "1.31.2"
+
+    // Gradle
+    const val lint = "27.0.0-alpha06"
+
+    // Classpath
+    const val gradle = "4.0.0-alpha06"
+    const val gms = "4.3.3"
+    const val perfClasspath = "1.3.1"
 
     // Test
     const val junit = "4.12"

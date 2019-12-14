@@ -1,5 +1,6 @@
 
 buildscript {
+    extra["kotlin_version"] = "1.3.61"
     repositories {
         google()
         jcenter()
@@ -7,12 +8,12 @@ buildscript {
         maven(url = uri("https://maven.fabric.io/public"))
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.0.0-alpha06")
+        classpath("com.android.tools.build:gradle:${Versions.gradle}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}")
-        classpath("com.google.gms:google-services:4.3.3")
-        classpath("io.fabric.tools:gradle:1.31.2")
-        classpath("com.google.firebase:perf-plugin:1.3.1")
+        classpath("com.google.gms:google-services:${Versions.gms}")
+        classpath("io.fabric.tools:gradle:${Versions.fabric}")
+        classpath("com.google.firebase:perf-plugin:${Versions.perfClasspath}")
     }
 }
 

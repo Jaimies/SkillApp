@@ -18,6 +18,7 @@ import com.jdevs.timeo.util.OperationStates.MODIFIED
 import com.jdevs.timeo.util.OperationStates.REMOVED
 import com.jdevs.timeo.util.TAG
 
+@Suppress("UNCHECKED_CAST")
 abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
     ItemListViewModel.Navigator {
 

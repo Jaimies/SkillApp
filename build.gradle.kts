@@ -1,6 +1,5 @@
 
 buildscript {
-    extra["kotlin_version"] = "1.3.61"
     repositories {
         google()
         jcenter()
@@ -25,5 +24,5 @@ allprojects {
 }
 
 tasks.register("clean", Delete::class) {
-    delete(buildDir)
+    delete(rootProject.buildDir)
 }

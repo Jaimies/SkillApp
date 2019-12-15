@@ -7,7 +7,7 @@ import com.jdevs.timeo.data.livedata.ItemListLiveData
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.LiveDataConstructor
 
-abstract class RemoteDataSource(
+class RemoteDataSource(
     private val fetchLimit: Long,
     private val livedata: LiveDataConstructor
 ) {

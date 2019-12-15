@@ -3,7 +3,10 @@ package com.jdevs.timeo.ui.activities.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.data.source.RemoteRepository
+import kotlinx.coroutines.launch
 
 class CreateEditActivityViewModel : ViewModel() {
 
@@ -29,6 +32,11 @@ class CreateEditActivityViewModel : ViewModel() {
     fun triggerSaveActivity() {
 
         navigator?.saveActivity(name.value.orEmpty())
+    }
+
+    fun saveActivity(activity: TimeoActivity, id: String) = viewModelScope.launch {
+
+        RemoteRepository.saveActivity(activity, id)
     }
 
     interface Navigator {

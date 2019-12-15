@@ -1,8 +1,8 @@
 package com.jdevs.timeo.data.source
 
+import await
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.Record
@@ -110,35 +110,28 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
             .logOnFailure("Failed to update data in Firestore")
     }
 
-    fun updateActivity(activity: TimeoActivity, activityId: String) {
+    suspend fun saveActivity(activity: TimeoActivity, activityId: String) {
 
-        val activityReference = activitiesRef.document(activityId)
+        val activityRef = activitiesRef.document(activityId)
 
-        recordsRef.whereEqualTo(ActivitiesConstants.ACTIVITY_ID_PROPERTY, activityId).get()
-            .addOnSuccessListener { querySnapshot ->
+        val querySnapshot = recordsRef
+            .whereEqualTo(ActivitiesConstants.ACTIVITY_ID_PROPERTY, activityId)
+            .get().await()
 
-                val recordReferences = mutableListOf<DocumentReference>()
+        firestore.runBatch { batch ->
 
-                for (record in querySnapshot.documents) {
+            batch.set(activityRef, activity)
 
-                    recordReferences.add(record.reference)
-                }
+            for (document in querySnapshot.documents) {
 
-                firestore.runBatch { batch ->
-
-                    batch.set(activityReference, activity)
-
-                    for (recordReference in recordReferences) {
-
-                        batch.update(
-                            recordReference,
-                            ActivitiesConstants.NAME_PROPERTY,
-                            activity.name
-                        )
-                    }
-                }
-                    .logOnFailure("Failed to save data to Firestore")
+                batch.update(
+                    document.reference,
+                    ActivitiesConstants.NAME_PROPERTY,
+                    activity.name
+                )
             }
+        }
+            .logOnFailure("Failed to save data to Firestore")
     }
 
     fun createActivity(activity: TimeoActivity) {

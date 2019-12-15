@@ -73,7 +73,7 @@ class AddEditActivityFragment : ActionBarFragment(),
                 it.name = name
             }
 
-            RemoteRepository.updateActivity(activity, args.id!!)
+            viewModel.saveActivity(activity, args.id!!)
 
             val directions =
                 AddEditActivityFragmentDirections.actionAddEditFragmentToActivityDetailFragment(

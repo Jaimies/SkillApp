@@ -2,14 +2,17 @@ package com.jdevs.timeo.util
 
 const val TAG = "Timeo"
 
+object FirestoreConstants {
+
+    const val TIMESTAMP_PROPERTY = "timestamp"
+}
+
 object ActivitiesConstants {
 
     const val COLLECTION = "activities"
     const val NAME_PROPERTY = "name"
     const val ACTIVITY_ID_PROPERTY = "activityId"
     const val TOTAL_TIME_PROPERTY = "totalTime"
-    const val TIMESTAMP_PROPERTY = "timestamp"
-
     const val FETCH_LIMIT: Long = 12
     const val VISIBLE_THRESHOLD = 3
     const val NAME_MAX_LENGTH = 100
@@ -18,8 +21,6 @@ object ActivitiesConstants {
 object RecordsConstants {
 
     const val COLLECTION = "records"
-    const val TIMESTAMP_PROPERTY = "timestamp"
-
     const val FETCH_LIMIT: Long = 20
     const val VISIBLE_THRESHOLD = 2
     const val RECORD_MIN_TIME = 5

@@ -4,8 +4,13 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.livedata.ItemListLiveData
+import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
+import com.jdevs.timeo.util.LiveDataConstructor
 
-abstract class RemoteDataSource {
+abstract class RemoteDataSource(
+    private val fetchLimit: Long,
+    private val livedata: LiveDataConstructor
+) {
 
     var onLastItemCallback: () -> Unit = {}
         set(newCallback) {
@@ -18,16 +23,17 @@ abstract class RemoteDataSource {
             }
         }
 
-    protected abstract val liveData: (Query?, (DocumentSnapshot) -> Unit, () -> Unit) -> ItemListLiveData
+    private val newQuery
+        get() = ref
+            .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
+            .limit(fetchLimit)
 
     private lateinit var query: Query
+    private lateinit var ref: CollectionReference
     private var awaitingLiveData: ItemListLiveData? = null
     private var isLastItemReached = false
     private var isQueryInitialized = false
     private var lastVisibleItem: DocumentSnapshot? = null
-
-    protected abstract fun createQuery(): Query
-    abstract fun setRef(ref: CollectionReference)
 
     fun reset(ref: CollectionReference) {
 
@@ -36,7 +42,7 @@ abstract class RemoteDataSource {
         awaitingLiveData = null
         isQueryInitialized = false
 
-        setRef(ref)
+        this.ref = ref
     }
 
     fun getLiveData(): ItemListLiveData? {
@@ -48,7 +54,7 @@ abstract class RemoteDataSource {
 
         if (!isQueryInitialized) {
 
-            query = createQuery()
+            query = newQuery
             isQueryInitialized = true
         }
 
@@ -59,12 +65,12 @@ abstract class RemoteDataSource {
             query = query.startAfter(lastItem)
         }
 
-        return liveData(query, ::setLastVisibleItem, ::onLastItemReached)
+        return livedata(query, ::setLastVisibleItem, ::onLastItemReached)
     }
 
     fun getAwaitingLiveData(): ItemListLiveData {
 
-        liveData(null, ::setLastVisibleItem, ::onLastItemReached).also {
+        livedata(null, ::setLastVisibleItem, ::onLastItemReached).also {
 
             awaitingLiveData = it
             return it
@@ -73,8 +79,8 @@ abstract class RemoteDataSource {
 
     fun onUserAuthenticated(ref: CollectionReference) {
 
-        setRef(ref)
-        query = createQuery()
+        this.ref = ref
+        query = newQuery
         awaitingLiveData?.setQuery(query)
     }
 

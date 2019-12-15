@@ -101,7 +101,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
         }
     }
 
-    fun createRecord(activityName: String, time: Long, activityId: String) {
+    fun addRecord(activityName: String, time: Long, activityId: String) {
 
         val record = Record(activityName, time, activityId)
 
@@ -135,7 +135,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
             .logOnFailure("Failed to save data to Firestore")
     }
 
-    fun createActivity(activity: TimeoActivity) {
+    fun addActivity(activity: TimeoActivity) {
 
         activitiesRef.add(activity)
             .logOnFailure("Failed to add data to Firestore")

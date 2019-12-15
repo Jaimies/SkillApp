@@ -26,7 +26,7 @@ class ActivityListViewModel : ItemListViewModel() {
 
     fun createRecord(activityName: String, time: Long, activityId: String) {
 
-        RemoteRepository.createRecord(activityName, time, activityId)
+        RemoteRepository.addRecord(activityName, time, activityId)
     }
 
     interface Navigator : ItemListViewModel.Navigator {

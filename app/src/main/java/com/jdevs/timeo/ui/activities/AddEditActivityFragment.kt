@@ -91,7 +91,7 @@ class AddEditActivityFragment : ActionBarFragment(),
 
             val activity = TimeoActivity(name)
 
-            RemoteRepository.createActivity(activity)
+            RemoteRepository.addActivity(activity)
 
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
         }

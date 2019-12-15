@@ -5,14 +5,14 @@ const val TAG = "Timeo"
 object FirestoreConstants {
 
     const val TIMESTAMP_PROPERTY = "timestamp"
+    const val NAME_PROPERTY = "name"
+    const val ACTIVITY_ID_PROPERTY = "activityId"
+    const val TOTAL_TIME_PROPERTY = "totalTime"
 }
 
 object ActivitiesConstants {
 
     const val COLLECTION = "activities"
-    const val NAME_PROPERTY = "name"
-    const val ACTIVITY_ID_PROPERTY = "activityId"
-    const val TOTAL_TIME_PROPERTY = "totalTime"
     const val FETCH_LIMIT: Long = 12
     const val VISIBLE_THRESHOLD = 3
     const val NAME_MAX_LENGTH = 100

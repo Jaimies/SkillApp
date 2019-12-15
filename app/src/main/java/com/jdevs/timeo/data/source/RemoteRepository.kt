@@ -9,6 +9,9 @@ import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.data.livedata.ItemListLiveData
 import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
+import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
+import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.UserConstants
 import com.jdevs.timeo.util.logOnFailure
@@ -66,7 +69,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
 
         if (uid != null && uid != prevUid) {
 
-            setRefs(uid)
+            setupRefs(uid)
             prevUid = uid
 
             isUserAuthenticated = true
@@ -102,12 +105,14 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
 
         val record = Record(activityName, time, activityId)
 
-        recordsRef.add(record)
+        val newRecordRef = recordsRef.document()
+        val activityRef = activitiesRef.document(activityId)
 
-        activitiesRef
-            .document(activityId)
-            .update(ActivitiesConstants.TOTAL_TIME_PROPERTY, FieldValue.increment(time))
-            .logOnFailure("Failed to update data in Firestore")
+        firestore.runBatch { batch ->
+
+            batch.set(newRecordRef, record)
+            batch.update(activityRef, TOTAL_TIME_PROPERTY, FieldValue.increment(time))
+        }
     }
 
     suspend fun saveActivity(activity: TimeoActivity, activityId: String) {
@@ -115,7 +120,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
         val activityRef = activitiesRef.document(activityId)
 
         val querySnapshot = recordsRef
-            .whereEqualTo(ActivitiesConstants.ACTIVITY_ID_PROPERTY, activityId)
+            .whereEqualTo(ACTIVITY_ID_PROPERTY, activityId)
             .get().await()
 
         firestore.runBatch { batch ->
@@ -124,11 +129,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
 
             for (document in querySnapshot.documents) {
 
-                batch.update(
-                    document.reference,
-                    ActivitiesConstants.NAME_PROPERTY,
-                    activity.name
-                )
+                batch.update(document.reference, NAME_PROPERTY, activity.name)
             }
         }
             .logOnFailure("Failed to save data to Firestore")
@@ -148,10 +149,19 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
 
     fun deleteRecord(id: String, recordTime: Long, activityId: String) {
 
-        recordsRef.document(id).delete()
+        val recordRef = recordsRef.document(id)
+        val activityRef = activitiesRef.document(activityId)
 
-        activitiesRef.document(activityId)
-            .update(ActivitiesConstants.TOTAL_TIME_PROPERTY, FieldValue.increment(-recordTime))
+        firestore.runBatch { batch ->
+
+            batch.delete(recordRef)
+
+            batch.update(
+                activityRef,
+                TOTAL_TIME_PROPERTY,
+                FieldValue.increment(-recordTime)
+            )
+        }
     }
 
     private fun initializeRefs(ifAuthenticated: () -> Unit = {}) {
@@ -165,11 +175,11 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
             return
         }
 
-        setRefs(uid)
+        setupRefs(uid)
         ifAuthenticated()
     }
 
-    private fun setRefs(uid: String) {
+    private fun setupRefs(uid: String) {
 
         activitiesRef =
             firestore.collection("/${UserConstants.USERS_COLLECTION}/$uid/${ActivitiesConstants.COLLECTION}")

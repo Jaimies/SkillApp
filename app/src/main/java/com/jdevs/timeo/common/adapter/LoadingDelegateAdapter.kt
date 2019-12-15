@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.util.inflate
 
+@Suppress("EmptyFunctionBlock")
 class LoadingDelegateAdapter : ViewTypeDelegateAdapter {
     override fun onCreateViewHolder(
         parent: ViewGroup,

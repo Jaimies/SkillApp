@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 
 fun <T> lazyUnsynchronized(initializer: () -> T) = lazy(LazyThreadSafetyMode.NONE, initializer)
 
+@Suppress("EmptyFunctionBlock")
 fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
 
     if (tag == HAS_TEXT_WATCHER) {

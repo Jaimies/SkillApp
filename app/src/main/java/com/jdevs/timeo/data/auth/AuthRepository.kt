@@ -35,6 +35,7 @@ object AuthRepository {
         return auth.signInWithEmailAndPassword(email, password).await()
     }
 
+    @Suppress("TooGenericExceptionCaught")
     suspend fun linkGoogleAccount(account: GoogleSignInAccount): AuthResult {
 
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)

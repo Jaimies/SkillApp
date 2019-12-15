@@ -78,6 +78,7 @@ class ActivityDelegateAdapter :
             navigateToDetails(adapterPosition)
         }
 
+        @Suppress("MagicNumber")
         private fun recolorView() {
 
             val colorId = when (adapterPosition.rem(4)) {

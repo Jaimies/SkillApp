@@ -73,6 +73,7 @@ abstract class ItemListLiveData(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     private fun processDocumentChange(documentChange: DocumentChange) {
 
         val activity = try {

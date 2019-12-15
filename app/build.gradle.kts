@@ -10,6 +10,7 @@ plugins {
     id("io.fabric")
     id("com.google.firebase.firebase-perf")
     id("com.google.gms.google-services")
+    id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
 
 android {
@@ -70,9 +71,19 @@ android {
     buildFeatures.dataBinding = true
 }
 
+detekt {
+
+    ignoreFailures = true
+
+    reports {
+
+        xml.enabled = false
+        txt.enabled = false
+    }
+}
+
 dependencies {
 
-    implementation(fileTree("dir" to "libs", "include" to listOf("*.jar")))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}")
 
     implementation("androidx.core:core-ktx:${Versions.androidxCore}")
@@ -94,11 +105,14 @@ dependencies {
     implementation("com.google.firebase:firebase-perf:${Versions.perf}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
 
+    // Lint dependencies
     lintChecks(project(path = ":lint"))
 
+    // Test
     testImplementation("junit:junit:${Versions.junit}")
     testImplementation("org.hamcrest:hamcrest-all:${Versions.hamcrest}")
 
+    // Android Test
     androidTestImplementation("androidx.test:runner:${Versions.androidxTestRunner}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.espresso}")
 }

@@ -44,6 +44,7 @@ fun <T> Deferred<T>.asTask(): Task<T> {
  * Converts this task to an instance of [Deferred].
  * If task is cancelled then resulting deferred will be cancelled as well.
  */
+@Suppress("NestedBlockDepth", "ComplexMethod")
 fun <T> Task<T>.asDeferred(): Deferred<T> {
     if (isComplete) {
         val e = exception
@@ -77,6 +78,7 @@ fun <T> Task<T>.asDeferred(): Deferred<T> {
  * If the [Job] of the current coroutine is cancelled or completed while this suspending function is waiting, this function
  * stops waiting for the completion stage and immediately resumes with [CancellationException].
  */
+@Suppress("ComplexMethod", "MaxLineLength")
 suspend fun <T> Task<T>.await(): T {
     // fast path
     if (isComplete) {

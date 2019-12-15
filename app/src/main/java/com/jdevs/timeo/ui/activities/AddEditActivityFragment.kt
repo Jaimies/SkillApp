@@ -17,8 +17,10 @@ import com.jdevs.timeo.data.source.RemoteRepository
 import com.jdevs.timeo.databinding.AddtaskFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.CreateEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
+import com.jdevs.timeo.util.getCoroutineIoScope
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.requireMainActivity
+import kotlinx.coroutines.launch
 
 class AddEditActivityFragment : ActionBarFragment(),
     CreateEditActivityViewModel.Navigator {
@@ -73,7 +75,10 @@ class AddEditActivityFragment : ActionBarFragment(),
                 it.name = name
             }
 
-            viewModel.saveActivity(activity, args.id!!)
+            getCoroutineIoScope().launch {
+
+                RemoteRepository.saveActivity(activity, args.id!!)
+            }
 
             val directions =
                 AddEditActivityFragmentDirections.actionAddEditFragmentToActivityDetailFragment(

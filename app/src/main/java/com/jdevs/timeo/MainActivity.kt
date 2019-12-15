@@ -107,6 +107,15 @@ class MainActivity : AppCompatActivity(),
         hideKeyboard(this)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (isFinishing) {
+
+            (application as TimeoApplication).onDestroy()
+        }
+    }
+
     fun navigateToGraph(graphId: Int, graphsToRecreate: List<Int> = listOf(R.id.activity_list)) {
 
         bottomNavView.selectedItemId = graphId

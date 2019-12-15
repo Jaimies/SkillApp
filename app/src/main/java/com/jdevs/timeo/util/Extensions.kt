@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.jdevs.timeo.MainActivity
+import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import com.jdevs.timeo.util.ViewConstants.HAS_TEXT_WATCHER
 import kotlinx.coroutines.launch
@@ -105,3 +106,4 @@ fun Fragment.navigateToGraph(graphId: Int) {
 }
 
 fun Fragment.requireMainActivity() = requireActivity() as MainActivity
+fun Fragment.getCoroutineIoScope() = (requireActivity().application as TimeoApplication).ioScope

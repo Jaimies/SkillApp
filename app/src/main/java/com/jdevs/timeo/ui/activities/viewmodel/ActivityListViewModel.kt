@@ -10,8 +10,7 @@ class ActivityListViewModel : ItemListViewModel() {
 
     init {
 
-        RemoteRepository.resetActivitiesSource()
-        RemoteRepository.setOnLastActivityCallback { navigator?.onLastItemReached() }
+        RemoteRepository.setupActivitiesSource { navigator?.onLastItemReached() }
     }
 
     override fun onFragmentDestroyed() {

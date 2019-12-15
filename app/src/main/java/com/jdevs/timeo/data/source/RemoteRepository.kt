@@ -55,8 +55,8 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
 
         initializeRefs {
 
-            activitiesDataSource.reset(activitiesRef)
-            recordsDataSource.reset(recordsRef)
+            activitiesDataSource.setup(activitiesRef)
+            recordsDataSource.setup(recordsRef)
         }
     }
 
@@ -78,29 +78,23 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
         }
     }
 
-    fun setOnLastActivityCallback(callback: () -> Unit) {
+    fun setupActivitiesSource(onLastItemCallback: () -> Unit) {
 
-        activitiesDataSource.onLastItemCallback = callback
-    }
-
-    fun setOnLastRecordCallback(callback: () -> Unit) {
-
-        recordsDataSource.onLastItemCallback = callback
-    }
-
-    fun resetActivitiesSource() {
+        activitiesDataSource.onLastItemCallback = onLastItemCallback
 
         initializeRefs {
 
-            activitiesDataSource.reset(activitiesRef)
+            activitiesDataSource.setup(activitiesRef)
         }
     }
 
-    fun resetRecordsSource() {
+    fun setupRecordsSource(onLastItemCallback: () -> Unit) {
+
+        recordsDataSource.onLastItemCallback = onLastItemCallback
 
         initializeRefs {
 
-            recordsDataSource.reset(recordsRef)
+            recordsDataSource.setup(recordsRef)
         }
     }
 

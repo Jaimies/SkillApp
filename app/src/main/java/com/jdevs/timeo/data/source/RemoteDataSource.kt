@@ -30,17 +30,18 @@ class RemoteDataSource(
 
     private lateinit var query: Query
     private lateinit var ref: CollectionReference
-    private var awaitingLiveData: ItemListLiveData? = null
-    private var isLastItemReached = false
-    private var isQueryInitialized = false
-    private var lastVisibleItem: DocumentSnapshot? = null
 
-    fun reset(ref: CollectionReference) {
+    private var awaitingLiveData: ItemListLiveData? = null
+    private var lastVisibleItem: DocumentSnapshot? = null
+    private var isLastItemReached = false
+    private var shouldInitializeQuery = true
+
+    fun setup(ref: CollectionReference) {
 
         lastVisibleItem = null
         isLastItemReached = false
+        shouldInitializeQuery = true
         awaitingLiveData = null
-        isQueryInitialized = false
 
         this.ref = ref
     }
@@ -52,10 +53,10 @@ class RemoteDataSource(
             return null
         }
 
-        if (!isQueryInitialized) {
+        if (shouldInitializeQuery) {
 
             query = newQuery
-            isQueryInitialized = true
+            shouldInitializeQuery = false
         }
 
         val lastItem = lastVisibleItem

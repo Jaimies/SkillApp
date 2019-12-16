@@ -36,7 +36,7 @@ class ProfileFragment : ActionBarFragment(), ProfileViewModel.Navigator {
 
             if (auth.currentUser?.isAnonymous == false) {
 
-                signIn(auth.currentUser?.email ?: "")
+                notifyUserIsSignedIn()
             }
         }
 

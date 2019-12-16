@@ -8,22 +8,19 @@ import com.jdevs.timeo.data.auth.AuthRepository
 class ProfileViewModel : ViewModel() {
 
     var navigator: Navigator? = null
-    val email get() = _email as LiveData<String>
-    val isLoggedIn get() = _isLoggedIn as LiveData<Boolean>
+    val isLoggedIn get() = _isSignedIn as LiveData<Boolean>
 
-    private val _isLoggedIn = MutableLiveData(false)
-    private val _email = MutableLiveData("")
+    private val _isSignedIn = MutableLiveData(false)
 
     fun signOut() {
 
         AuthRepository.signOut()
-        _isLoggedIn.value = false
+        _isSignedIn.value = false
     }
 
-    fun signIn(email: String) {
+    fun notifyUserIsSignedIn() {
 
-        _isLoggedIn.value = true
-        _email.value = email
+        _isSignedIn.value = true
     }
 
     interface Navigator {

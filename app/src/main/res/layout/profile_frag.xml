@@ -22,53 +22,21 @@
             android:layout_height="wrap_content"
             android:text="@string/profile" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            app:hideIf="@{!viewmodel.isLoggedIn}">
+            android:layout_gravity="center_horizontal"
+            android:onClick="@{() -> viewmodel.navigator.signOut()}"
+            android:text="@string/sign_out"
+            app:hideIf="@{!viewmodel.isLoggedIn}" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/signed_in"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewmodel.email}"
-                tools:text="User email" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewmodel.navigator.signOut()}"
-                android:text="@string/sign_out" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:onClick="@{() -> viewmodel.navigator.signIn()}"
+            android:text="@string/sign_in"
             app:hideIf="@{viewmodel.isLoggedIn}"
-            tools:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/not_signed_in"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewmodel.navigator.signIn()}"
-                android:text="@string/sign_in" />
-        </LinearLayout>
-
+            tools:visibility="gone" />
     </LinearLayout>
 </layout>

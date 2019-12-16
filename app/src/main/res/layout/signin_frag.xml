@@ -17,7 +17,7 @@
         tools:context=".ui.profile.SignInFragment">
 
         <LinearLayout
-            style="@style/Widget.Timeo.LoginLayout"
+            style="@style/Widget.Timeo.SigninLayout"
             android:alpha="@{viewmodel.isLoading ? 0.5f : 1.0f}">
 
             <TextView

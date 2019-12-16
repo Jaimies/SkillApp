@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.history.viewmodel
+package com.jdevs.timeo.ui.activities.viewmodel
 
 import com.jdevs.timeo.common.viewmodel.ItemListViewModel
 import com.jdevs.timeo.data.source.RemoteRepository

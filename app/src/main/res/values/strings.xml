@@ -48,8 +48,10 @@
     <string name="password_too_weak">The password is too weak</string>
     <string name="password_too_short">Password must be at least 6 characters long</string>
     <string name="password_too_long">Password length must not exceed 25 characters</string>
-    <string name="name_empty">Title cannot be empty</string>
-    <string name="name_too_long">Title length must not exceed 100 characters</string>
+    <string name="name_empty">Name cannot be empty</string>
+    <string name="name_too_long">Name length must not exceed 100 characters</string>
     <string name="sure_delete_record">Are you sure you want to delete this record?</string>
     <string name="record_deleted">Record deleted</string>
+    <string name="stay_focused">Stay focused</string>
+    <string name="settings">Settings</string>
 </resources>

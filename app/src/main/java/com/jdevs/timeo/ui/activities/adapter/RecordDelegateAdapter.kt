@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.history.adapter
+package com.jdevs.timeo.ui.activities.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,7 @@ import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.adapter.ViewTypeDelegateAdapter
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.RecordsItemBinding
-import com.jdevs.timeo.ui.history.viewmodel.RecordViewModel
+import com.jdevs.timeo.ui.activities.viewmodel.RecordViewModel
 import com.jdevs.timeo.util.randomString
 
 class RecordDelegateAdapter :
@@ -35,7 +35,10 @@ class RecordDelegateAdapter :
             it.lifecycleOwner = parent.context as FragmentActivity
         }
 
-        return ViewHolder(binding, deleteRecord)
+        return ViewHolder(
+            binding,
+            deleteRecord
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {

@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.history.adapter
+package com.jdevs.timeo.ui.activities.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +11,10 @@ class RecordsAdapter(
 
     init {
 
-        delegateAdapters.put(RECORD, RecordDelegateAdapter())
+        delegateAdapters.put(
+            RECORD,
+            RecordDelegateAdapter()
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

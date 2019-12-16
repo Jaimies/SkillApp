@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.history
+package com.jdevs.timeo.ui.activities
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -14,8 +14,8 @@ import com.jdevs.timeo.common.InfiniteScrollListener
 import com.jdevs.timeo.common.ItemListFragment
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.HistoryFragBinding
-import com.jdevs.timeo.ui.history.adapter.RecordsAdapter
-import com.jdevs.timeo.ui.history.viewmodel.HistoryViewModel
+import com.jdevs.timeo.ui.activities.adapter.RecordsAdapter
+import com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel
 import com.jdevs.timeo.util.RecordsConstants
 
 class HistoryFragment : ItemListFragment<Record>(),
@@ -23,7 +23,11 @@ class HistoryFragment : ItemListFragment<Record>(),
     HistoryViewModel.Navigator {
 
     override val menuId = R.menu.history_fragment_menu
-    override val mAdapter by lazy { RecordsAdapter(::showDeleteDialog) }
+    override val mAdapter by lazy {
+        RecordsAdapter(
+            ::showDeleteDialog
+        )
+    }
 
     override val viewModel by lazy {
         ViewModelProviders.of(this).get(HistoryViewModel::class.java).also {

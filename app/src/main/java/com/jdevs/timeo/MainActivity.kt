@@ -27,13 +27,19 @@ class MainActivity : AppCompatActivity(),
     private val graphsToRecreate = mutableListOf<Int>()
 
     private val navGraphIds by lazy {
-        listOf(R.navigation.overview, R.navigation.activity_list, R.navigation.profile)
+        listOf(
+            R.navigation.overview,
+            R.navigation.activity_list,
+            R.navigation.stay_focused,
+            R.navigation.profile
+        )
     }
 
     private val topLevelDestinations by lazy {
         setOf(
             R.id.overview_fragment_dest,
             R.id.activities_fragment_dest,
+            R.id.stay_focused_dest,
             R.id.profile_fragment_dest
         )
     }
@@ -67,16 +73,24 @@ class MainActivity : AppCompatActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when (item.itemId) {
+        currentNavController.value?.apply {
 
-            R.id.action_createActivity -> {
+            when (item.itemId) {
 
-                currentNavController.value?.navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
-            }
+                R.id.action_createActivity -> {
 
-            R.id.action_history -> {
+                    navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
+                }
 
-                currentNavController.value?.navigate(R.id.action_activitiesFragment_to_historyFragment)
+                R.id.action_history -> {
+
+                    navigate(R.id.action_activitiesFragment_to_historyFragment)
+                }
+
+                R.id.action_profileFragment_to_settingsFragment -> {
+
+                    navigate(R.id.action_profileFragment_to_settingsFragment)
+                }
             }
         }
 

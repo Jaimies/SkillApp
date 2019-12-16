@@ -39,7 +39,7 @@
 
     <fragment
         android:id="@+id/history_fragment_dest"
-        android:name="com.jdevs.timeo.ui.history.HistoryFragment"
+        android:name="com.jdevs.timeo.ui.activities.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/history_frag" />
 

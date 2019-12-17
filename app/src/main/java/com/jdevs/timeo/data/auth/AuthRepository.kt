@@ -13,6 +13,9 @@ import com.jdevs.timeo.util.logOnFailure
 
 object AuthRepository {
 
+    val isUserSignedIn
+        get() = auth.currentUser != null
+
     private val auth = FirebaseAuth.getInstance()
 
     suspend fun createAccount(email: String, password: String): AuthResult {

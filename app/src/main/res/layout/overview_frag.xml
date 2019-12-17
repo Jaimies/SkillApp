@@ -1,36 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.overview.OverviewFragment">
 
-    <data>
-
-        <variable
-            name="viewmodel"
-            type="com.jdevs.timeo.ui.overview.viewmodel.OverviewViewModel" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/topbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.overview.OverviewFragment">
+        android:layout_height="@dimen/topbar_height"
+        android:background="?attr/colorPrimary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <include
-            android:id="@+id/topbar"
-            layout="@layout/topbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:format12Hour="dd"
+            android:format24Hour="dd"
+            android:textAppearance="@style/topbar_day_text_appearance"
+            android:textStyle="bold"
+            tools:text="28"
+            tools:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
 
-        <TextView
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:orientation="vertical">
+
+            <TextClock
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:format12Hour="EEEE"
+                android:format24Hour="EEEE"
+                android:textStyle="bold"
+                tools:text="Wednesday" />
+
+            <TextClock
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:format12Hour="MM/yyyy"
+                android:format24Hour="MM/yyyy"
+                android:textStyle="bold"
+                tools:text="09/2019" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:text="@string/overview"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topbar" />
+            android:layout_height="wrap_content">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+            <TextClock
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:format12Hour="h:mm"
+                android:format24Hour="hh:mm"
+                android:gravity="center_vertical|end"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                tools:text="08:40" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/overview"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

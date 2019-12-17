@@ -6,13 +6,17 @@ import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.util.launchSuspendingProcess
 
 class OverviewViewModel : ViewModel() {
+
     var navigator: LoaderViewModel.Navigator? = null
 
-    fun signInAnonymously(logOnFailure: String = "") {
+    fun signInIfNeeded(logOnFailure: String = "") {
 
-        launchSuspendingProcess(navigator = navigator, logOnFailure = logOnFailure) {
+        if (!AuthRepository.isUserSignedIn) {
 
-            AuthRepository.signInAnonymously()
+            launchSuspendingProcess(navigator = navigator, logOnFailure = logOnFailure) {
+
+                AuthRepository.signInAnonymously()
+            }
         }
     }
 }

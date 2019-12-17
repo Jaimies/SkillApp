@@ -6,16 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.google.firebase.auth.FirebaseAuth
-import com.jdevs.timeo.databinding.OverviewFragBinding
+import com.jdevs.timeo.R
 import com.jdevs.timeo.ui.overview.viewmodel.OverviewViewModel
 
 class OverviewFragment : Fragment() {
 
-    private val auth = FirebaseAuth.getInstance()
-
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(OverviewViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+        viewModel.signInIfNeeded("Failed to sign in anonymously")
     }
 
     override fun onCreateView(
@@ -24,16 +27,6 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = OverviewFragBinding.inflate(inflater, container, false).also {
-            it.viewmodel = viewModel
-            it.lifecycleOwner = this
-        }
-
-        if (auth.currentUser == null || auth.currentUser?.providerId == "") {
-
-            viewModel.signInAnonymously("Failed to sign in anonymously")
-        }
-
-        return binding.root
+        return inflater.inflate(R.layout.overview_frag, container, false)
     }
 }

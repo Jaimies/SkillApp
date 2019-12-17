@@ -1,9 +1,9 @@
 package com.jdevs.timeo.ui.activities.viewmodel
 
-import com.jdevs.timeo.common.viewmodel.ItemListViewModel
+import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.source.RemoteRepository
 
-class ActivityListViewModel : ItemListViewModel() {
+class ActivityListViewModel : ListViewModel() {
 
     var navigator: Navigator? = null
     val liveData get() = RemoteRepository.activitiesLiveData
@@ -29,7 +29,7 @@ class ActivityListViewModel : ItemListViewModel() {
         RemoteRepository.addRecord(activityName, time, activityId)
     }
 
-    interface Navigator : ItemListViewModel.Navigator {
+    interface Navigator : ListViewModel.Navigator {
 
         fun createActivity()
         fun onItemsLoaded()

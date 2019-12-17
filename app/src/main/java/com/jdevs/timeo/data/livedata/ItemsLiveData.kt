@@ -12,7 +12,7 @@ import com.jdevs.timeo.data.Operation
 import com.jdevs.timeo.util.OperationStates
 import com.jdevs.timeo.util.OperationStates.FAILED
 
-abstract class ItemListLiveData(
+abstract class ItemsLiveData(
     private var query: Query?,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
     private val onLastItemReached: () -> Unit

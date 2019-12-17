@@ -2,13 +2,13 @@ package com.jdevs.timeo.ui.activities.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.common.adapter.ItemListAdapter
+import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 
 class ActivitiesAdapter(
     private val createRecord: (Int, Long) -> Unit = { _, _ -> },
     private val navigateToDetails: (Int) -> Unit = {}
-) : ItemListAdapter() {
+) : ListAdapter() {
 
     init {
 

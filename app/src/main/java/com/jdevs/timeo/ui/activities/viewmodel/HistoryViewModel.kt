@@ -1,9 +1,9 @@
 package com.jdevs.timeo.ui.activities.viewmodel
 
-import com.jdevs.timeo.common.viewmodel.ItemListViewModel
+import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.source.RemoteRepository
 
-class HistoryViewModel : ItemListViewModel() {
+class HistoryViewModel : ListViewModel() {
 
     var navigator: Navigator? = null
     val recordsLiveData get() = RemoteRepository.recordsLiveData
@@ -23,5 +23,5 @@ class HistoryViewModel : ItemListViewModel() {
         RemoteRepository.deleteRecord(id, recordTime, activityId)
     }
 
-    interface Navigator : ItemListViewModel.Navigator
+    interface Navigator : ListViewModel.Navigator
 }

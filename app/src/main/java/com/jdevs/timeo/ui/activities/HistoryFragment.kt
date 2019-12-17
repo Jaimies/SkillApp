@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.InfiniteScrollListener
-import com.jdevs.timeo.common.ItemListFragment
+import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.ui.activities.adapter.RecordsAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel
 import com.jdevs.timeo.util.RecordsConstants
 
-class HistoryFragment : ItemListFragment<Record>(),
+class HistoryFragment : ListFragment<Record>(),
     DialogInterface.OnClickListener,
     HistoryViewModel.Navigator {
 

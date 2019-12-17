@@ -3,7 +3,7 @@ package com.jdevs.timeo.data.source
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.data.livedata.ItemListLiveData
+import com.jdevs.timeo.data.livedata.ItemsLiveData
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.LiveDataConstructor
 
@@ -31,7 +31,7 @@ class RemoteDataSource(
     private lateinit var query: Query
     private lateinit var ref: CollectionReference
 
-    private var awaitingLiveData: ItemListLiveData? = null
+    private var awaitingLiveData: ItemsLiveData? = null
     private var lastVisibleItem: DocumentSnapshot? = null
     private var isLastItemReached = false
     private var shouldInitializeQuery = true
@@ -46,7 +46,7 @@ class RemoteDataSource(
         this.ref = ref
     }
 
-    fun getLiveData(): ItemListLiveData? {
+    fun getLiveData(): ItemsLiveData? {
 
         if (isLastItemReached) {
 
@@ -69,7 +69,7 @@ class RemoteDataSource(
         return livedata(query, ::setLastVisibleItem, ::onLastItemReached)
     }
 
-    fun getAwaitingLiveData(): ItemListLiveData {
+    fun getAwaitingLiveData(): ItemsLiveData {
 
         livedata(null, ::setLastVisibleItem, ::onLastItemReached).also {
 

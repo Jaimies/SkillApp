@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.data.livedata.ItemListLiveData
+import com.jdevs.timeo.data.livedata.ItemsLiveData
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
@@ -19,7 +19,7 @@ import com.jdevs.timeo.util.logOnFailure
 @Suppress("TooManyFunctions", "StaticFieldLeak")
 object RemoteRepository : FirebaseAuth.AuthStateListener {
 
-    val activitiesLiveData: ItemListLiveData?
+    val activitiesLiveData: ItemsLiveData?
         get() {
 
             if (!isUserAuthenticated) {
@@ -30,7 +30,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
             return activitiesDataSource.getLiveData()
         }
 
-    val recordsLiveData: ItemListLiveData?
+    val recordsLiveData: ItemsLiveData?
         get() {
 
             if (!isUserAuthenticated) {

@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jdevs.timeo.common.adapter.ItemListAdapter
+import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
-import com.jdevs.timeo.common.viewmodel.ItemListViewModel
-import com.jdevs.timeo.data.livedata.ItemListLiveData
+import com.jdevs.timeo.common.viewmodel.ListViewModel
+import com.jdevs.timeo.data.livedata.ItemsLiveData
 import com.jdevs.timeo.util.OperationStates.ADDED
 import com.jdevs.timeo.util.OperationStates.FAILED
 import com.jdevs.timeo.util.OperationStates.FINISHED
@@ -19,14 +19,14 @@ import com.jdevs.timeo.util.OperationStates.REMOVED
 import com.jdevs.timeo.util.TAG
 
 @Suppress("UNCHECKED_CAST")
-abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
-    ItemListViewModel.Navigator {
+abstract class ListFragment<T : ViewType> : ActionBarFragment(),
+    ListViewModel.Navigator {
 
-    protected abstract val viewModel: ItemListViewModel
-    protected abstract val mAdapter: ItemListAdapter
+    protected abstract val viewModel: ListViewModel
+    protected abstract val mAdapter: ListAdapter
     protected lateinit var linearLayoutManager: LinearLayoutManager
 
-    private val liveDatas = mutableListOf<ItemListLiveData>()
+    private val liveDatas = mutableListOf<ItemsLiveData>()
     private var isObserverAttached = false
 
     abstract fun getItems()
@@ -58,7 +58,7 @@ abstract class ItemListFragment<T : ViewType> : ActionBarFragment(),
         return view
     }
 
-    fun observe(liveData: ItemListLiveData?, shouldAddToList: Boolean = true) {
+    fun observe(liveData: ItemsLiveData?, shouldAddToList: Boolean = true) {
 
         if (liveData != null && shouldAddToList) {
 

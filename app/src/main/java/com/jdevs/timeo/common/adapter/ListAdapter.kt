@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.util.AdapterConstants.LOADING
 
 @Suppress("TooManyFunctions")
-abstract class ItemListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it.getViewType() != LOADING }.size
 

@@ -11,14 +11,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.InfiniteScrollListener
-import com.jdevs.timeo.common.ItemListFragment
+import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.util.ActivitiesConstants
 
-class ActivitiesFragment : ItemListFragment<TimeoActivity>(),
+class ActivitiesFragment : ListFragment<TimeoActivity>(),
     ActivityListViewModel.Navigator {
 
     override val menuId = R.menu.activities_fragment_menu

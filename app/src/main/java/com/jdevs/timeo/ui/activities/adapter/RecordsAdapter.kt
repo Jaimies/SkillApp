@@ -2,12 +2,12 @@ package com.jdevs.timeo.ui.activities.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.common.adapter.ItemListAdapter
+import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.util.AdapterConstants.RECORD
 
 class RecordsAdapter(
     private val showDeleteDialog: (Int) -> Unit = {}
-) : ItemListAdapter() {
+) : ListAdapter() {
 
     init {
 

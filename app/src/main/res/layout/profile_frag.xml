@@ -28,7 +28,7 @@
             android:layout_gravity="center_horizontal"
             android:onClick="@{() -> viewmodel.navigator.signOut()}"
             android:text="@string/sign_out"
-            app:hideIf="@{!viewmodel.isLoggedIn}" />
+            app:hideIf="@{!viewmodel.isSignedIn}" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
             android:layout_gravity="center_horizontal"
             android:onClick="@{() -> viewmodel.navigator.signIn()}"
             android:text="@string/sign_in"
-            app:hideIf="@{viewmodel.isLoggedIn}"
+            app:hideIf="@{viewmodel.isSignedIn}"
             tools:visibility="gone" />
     </LinearLayout>
 </layout>

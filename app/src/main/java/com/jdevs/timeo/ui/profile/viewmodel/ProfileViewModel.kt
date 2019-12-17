@@ -8,7 +8,7 @@ import com.jdevs.timeo.data.auth.AuthRepository
 class ProfileViewModel : ViewModel() {
 
     var navigator: Navigator? = null
-    val isLoggedIn get() = _isSignedIn as LiveData<Boolean>
+    val isSignedIn get() = _isSignedIn as LiveData<Boolean>
 
     private val _isSignedIn = MutableLiveData(false)
 

@@ -7,6 +7,7 @@ import com.jdevs.timeo.util.inflate
 
 @Suppress("EmptyFunctionBlock")
 class LoadingDelegateAdapter : ViewTypeDelegateAdapter {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         createRecord: (Int, Long) -> Unit,

@@ -11,11 +11,11 @@ import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.livedata.ItemsLiveData
-import com.jdevs.timeo.util.OperationStates.ADDED
-import com.jdevs.timeo.util.OperationStates.FAILED
-import com.jdevs.timeo.util.OperationStates.FINISHED
-import com.jdevs.timeo.util.OperationStates.MODIFIED
-import com.jdevs.timeo.util.OperationStates.REMOVED
+import com.jdevs.timeo.util.OperationTypes.ADDED
+import com.jdevs.timeo.util.OperationTypes.FAILED
+import com.jdevs.timeo.util.OperationTypes.FINISHED
+import com.jdevs.timeo.util.OperationTypes.MODIFIED
+import com.jdevs.timeo.util.OperationTypes.REMOVED
 import com.jdevs.timeo.util.TAG
 
 @Suppress("UNCHECKED_CAST")
@@ -27,7 +27,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment(),
     protected lateinit var linearLayoutManager: LinearLayoutManager
 
     private val liveDatas = mutableListOf<ItemsLiveData>()
-    private var isObserverAttached = false
+    private var hasObserverAttached = false
 
     abstract fun getItems()
 
@@ -39,10 +39,10 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment(),
 
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        if (!isObserverAttached) {
+        if (!hasObserverAttached) {
 
             getItems()
-            isObserverAttached = true
+            hasObserverAttached = true
 
             return view
         }
@@ -86,17 +86,17 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment(),
                     mAdapter.removeItem(operation.id)
                 }
 
-                FAILED -> {
-
-                    Log.w(TAG, "Failed to get data from Firestore", operation.exception)
-                }
-
                 FINISHED -> {
 
                     viewModel.hideLoader()
                     mAdapter.showLoader()
 
                     viewModel.setLength(mAdapter.dataItemCount)
+                }
+
+                FAILED -> {
+
+                    Log.w(TAG, "Failed to get data from Firestore", operation.exception)
                 }
             }
         }

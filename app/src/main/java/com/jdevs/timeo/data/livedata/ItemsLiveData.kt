@@ -9,8 +9,11 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.data.Operation
-import com.jdevs.timeo.util.OperationStates
-import com.jdevs.timeo.util.OperationStates.FAILED
+import com.jdevs.timeo.util.OperationTypes.ADDED
+import com.jdevs.timeo.util.OperationTypes.FAILED
+import com.jdevs.timeo.util.OperationTypes.FINISHED
+import com.jdevs.timeo.util.OperationTypes.MODIFIED
+import com.jdevs.timeo.util.OperationTypes.REMOVED
 
 abstract class ItemsLiveData(
     private var query: Query?,
@@ -49,7 +52,7 @@ abstract class ItemsLiveData(
             processDocumentChange(documentChange)
         }
 
-        value = Operation(type = OperationStates.FINISHED)
+        value = Operation(type = FINISHED)
 
         if (querySnapshot.size() < fetchLimit) {
 
@@ -85,20 +88,14 @@ abstract class ItemsLiveData(
             dataType.getConstructor().newInstance()
         }
 
-        val documentId = documentChange.document.id
+        val docId = documentChange.document.id
 
-        val operation = when (documentChange.type) {
-
-            DocumentChange.Type.ADDED ->
-                Operation(activity, type = OperationStates.ADDED, id = documentId)
-
-            DocumentChange.Type.MODIFIED ->
-                Operation(activity, type = OperationStates.MODIFIED, id = documentId)
-
-            DocumentChange.Type.REMOVED ->
-                Operation(activity, type = OperationStates.REMOVED, id = documentId)
+        val operationType = when (documentChange.type) {
+            DocumentChange.Type.ADDED -> ADDED
+            DocumentChange.Type.MODIFIED -> MODIFIED
+            DocumentChange.Type.REMOVED -> REMOVED
         }
 
-        value = operation
+        value = Operation(activity, type = operationType, id = docId)
     }
 }

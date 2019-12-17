@@ -26,7 +26,7 @@ object RecordsConstants {
     const val RECORD_MIN_TIME = 5
 }
 
-object OperationStates {
+object OperationTypes {
 
     const val ADDED = 0
     const val MODIFIED = 1

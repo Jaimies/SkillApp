@@ -5,7 +5,7 @@ fun randomString(length: Int = 10): String {
     val randomStringBuilder = StringBuilder()
     var tempChar: Char
 
-    for (i in 0..length) {
+    for (i in 1..length) {
 
         tempChar = (FIRST_SYMBOL_CODE..LAST_SYMBOL_CODE).random().toChar()
         randomStringBuilder.append(tempChar)

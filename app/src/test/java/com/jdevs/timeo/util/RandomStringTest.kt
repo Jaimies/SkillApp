@@ -18,4 +18,13 @@ class RandomStringTest {
             assertThat(count, `is`(1))
         }
     }
+
+    @Test
+    fun randomString_twentySymbolsLong_correctLength() {
+
+        val stringLength = 20
+        val randomString = randomString(stringLength)
+
+        assertThat(randomString.length, `is`(stringLength))
+    }
 }

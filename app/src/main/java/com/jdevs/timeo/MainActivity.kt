@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity(),
             graphsToRecreate.remove(graphId)
         }
 
-        hideKeyboard(this)
+        hideKeyboard()
     }
 
     override fun onDestroy() {

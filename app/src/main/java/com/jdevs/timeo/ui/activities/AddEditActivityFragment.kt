@@ -121,7 +121,7 @@ class AddEditActivityFragment : ActionBarFragment(),
 
     override fun hideKeyboard() {
 
-        hideKeyboard(activity)
+        activity?.hideKeyboard()
     }
 
     private fun validateInput(name: String): Boolean {

@@ -1,5 +1,3 @@
-@file:Suppress("RedundantVisibilityModifier")
-
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.RuntimeExecutionException
 import com.google.android.gms.tasks.Task
@@ -44,7 +42,7 @@ fun <T> Deferred<T>.asTask(): Task<T> {
  * Converts this task to an instance of [Deferred].
  * If task is cancelled then resulting deferred will be cancelled as well.
  */
-@Suppress("NestedBlockDepth", "ComplexMethod")
+@Suppress("NestedBlockDepth", "ComplexMethod", "DeferredIsResult")
 fun <T> Task<T>.asDeferred(): Deferred<T> {
     if (isComplete) {
         val e = exception

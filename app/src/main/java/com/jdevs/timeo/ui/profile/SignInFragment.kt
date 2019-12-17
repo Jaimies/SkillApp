@@ -71,7 +71,7 @@ class SignInFragment : Fragment(),
 
     override fun hideKeyboard() {
 
-        hideKeyboard(activity)
+        activity?.hideKeyboard()
     }
 
     override fun signIn(email: String, password: String) {

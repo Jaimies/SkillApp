@@ -62,7 +62,7 @@ class SignUpFragment : Fragment(),
 
     override fun hideKeyboard() {
 
-        hideKeyboard(activity)
+        activity?.hideKeyboard()
     }
 
     override fun signUp(email: String, password: String) {

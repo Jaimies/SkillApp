@@ -31,7 +31,7 @@ class RecordDialog(
         super.onCreate(savedInstanceState)
         setContentView(R.layout.record_dialog)
 
-        val dimensions = getScreenDimensions(context)
+        val dimensions = context.getScreenDimensions()
 
         val width = (dimensions.widthPixels * WIDTH).roundToInt()
         val height = (dimensions.heightPixels * HEIGHT).roundToInt()

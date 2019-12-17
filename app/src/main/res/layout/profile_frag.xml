@@ -16,11 +16,33 @@
         android:orientation="vertical"
         tools:context=".ui.profile.ProfileFragment">
 
-        <TextView
-            style="@style/Widget.Timeo.Header"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/profile" />
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_default"
+                app:cardCornerRadius="@dimen/border_radius_50_percent">
+
+                <ImageView
+                    android:layout_width="@dimen/avatar_size"
+                    android:layout_height="@dimen/avatar_size"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/sample_avatar"
+                    tools:ignore="ContentDescription" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/your_name"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"

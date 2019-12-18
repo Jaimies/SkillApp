@@ -4,14 +4,11 @@
     <color name="colorSecondary">#FF264069</color>
     <color name="colorTertiary">#FF2DBAED</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorBlack">#FF333333</color>
+    <color name="colorBlackDark">#FF151515</color>
+    <color name="colorBlackTransparent">#45000000</color>
+    <color name="colorYellow">#FFFFFF00</color>
+    <color name="colorWhiteTransparent">#80FFFFFF</color>
     <color name="primaryTextColor">#FFE2FFFF</color>
-    <color name="secondaryTextColor">#FFE2FFFF</color>
-
-    <color name="listItemOddBackground">#00000000</color>
-    <color name="listItemEvenBackground">#FF555555</color>
-    <color name="activitiesItemBackground">#FF151515</color>
-    <color name="preloaderBackground">#45000000</color>
-    <color name="launcherBackground">#FF333333</color>
-    <color name="alternativeTextColor">#FFFFFF00</color>
-    <color name="disabledMenuItemColor">#80FFFFFF</color>
+    <color name="secondaryTextColor">@color/primaryTextColor</color>
 </resources>

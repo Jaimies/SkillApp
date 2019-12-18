@@ -7,7 +7,7 @@
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="enabledMenuItemColor">@color/secondaryTextColor</item>
-        <item name="disabledMenuItemColor">@color/disabledMenuItemColor</item>
+        <item name="disabledMenuItemColor">@color/colorWhiteTransparent</item>
         <item name="android:windowBackground">@color/colorSecondary</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>

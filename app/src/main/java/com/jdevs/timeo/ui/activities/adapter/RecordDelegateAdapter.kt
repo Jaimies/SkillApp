@@ -58,7 +58,7 @@ class RecordDelegateAdapter :
         fun bindRecord(record: Record) {
 
             val backgroundColorId =
-                if (adapterPosition.rem(2) == 0) R.color.listItemEvenBackground else R.color.listItemOddBackground
+                if (adapterPosition.rem(2) == 0) R.color.colorBlackTransparent else android.R.color.transparent
 
             binding.root.setBackgroundColor(
                 ContextCompat.getColor(

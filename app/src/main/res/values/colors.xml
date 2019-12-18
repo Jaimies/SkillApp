@@ -7,10 +7,11 @@
     <color name="primaryTextColor">#FFE2FFFF</color>
     <color name="secondaryTextColor">#FFE2FFFF</color>
 
-    <color name="listItemOddColor">#00000000</color>
-    <color name="listItemEvenColor">#FF555555</color>
-    <color name="preloaderBackgroundColor">#45000000</color>
-    <color name="launcherBackgroundColor">#FF333333</color>
+    <color name="listItemOddBackground">#00000000</color>
+    <color name="listItemEvenBackground">#FF555555</color>
+    <color name="activitiesItemBackground">#FF151515</color>
+    <color name="preloaderBackground">#45000000</color>
+    <color name="launcherBackground">#FF333333</color>
     <color name="alternativeTextColor">#FFFFFF00</color>
     <color name="disabledMenuItemColor">#80FFFFFF</color>
 </resources>

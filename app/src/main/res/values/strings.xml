@@ -3,8 +3,6 @@
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="signed_in">You are signed in</string>
-    <string name="not_signed_in">You are not signed in</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_in_button">Sign in</string>

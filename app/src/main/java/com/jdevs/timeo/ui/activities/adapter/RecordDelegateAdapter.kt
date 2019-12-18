@@ -35,10 +35,7 @@ class RecordDelegateAdapter :
             it.lifecycleOwner = parent.context as FragmentActivity
         }
 
-        return ViewHolder(
-            binding,
-            deleteRecord
-        )
+        return ViewHolder(binding, deleteRecord)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
@@ -61,7 +58,7 @@ class RecordDelegateAdapter :
         fun bindRecord(record: Record) {
 
             val backgroundColorId =
-                if (adapterPosition.rem(2) == 0) R.color.listItemEvenColor else R.color.listItemOddColor
+                if (adapterPosition.rem(2) == 0) R.color.listItemEvenBackground else R.color.listItemOddBackground
 
             binding.root.setBackgroundColor(
                 ContextCompat.getColor(
@@ -73,10 +70,9 @@ class RecordDelegateAdapter :
             binding.viewmodel?.setRecord(record)
         }
 
-        override fun deleteRecord(view: View): Boolean {
-
+        override fun deleteRecord(view: View) = run {
             showDeleteDialog(adapterPosition)
-            return false
+            false
         }
     }
 }

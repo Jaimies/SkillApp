@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorAccent">#D81B60</color>
     <color name="colorPrimary">#FF2C6B9E</color>
     <color name="colorSecondary">#FF264069</color>
     <color name="colorTertiary">#FF2DBAED</color>
+    <color name="colorAccent">#D81B60</color>
     <color name="primaryTextColor">#FFE2FFFF</color>
     <color name="secondaryTextColor">#FFE2FFFF</color>
-    <color name="colorListOdd">#00000000</color>
-    <color name="colorListEven">#FF555555</color>
-    <color name="colorPreloaderBackground">#45000000</color>
-    <color name="colorBackground">#FF333333</color>
 
+    <color name="listItemOddColor">#00000000</color>
+    <color name="listItemEvenColor">#FF555555</color>
+    <color name="preloaderBackgroundColor">#45000000</color>
+    <color name="launcherBackgroundColor">#FF333333</color>
     <color name="alternativeTextColor">#FFFFFF00</color>
     <color name="disabledMenuItemColor">#80FFFFFF</color>
 </resources>

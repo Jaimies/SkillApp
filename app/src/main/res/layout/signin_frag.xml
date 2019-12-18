@@ -32,7 +32,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_edit_text"
-                    style="@style/Widget.Timeo.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:text="@={viewmodel.email}"
@@ -47,7 +48,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_edit_text"
-                    style="@style/Widget.Timeo.EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:text="@={viewmodel.password}"

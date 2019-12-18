@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="topbar_day_text_appearance" type="style">
+    <item name="TextAppearance.Timeo.Headline4" type="style">
         @style/TextAppearance.MaterialComponents.Headline3
     </item>
 </resources>

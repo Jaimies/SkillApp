@@ -16,49 +16,4 @@
     <style name="Theme.Timeo.Splash">
         <item name="android:windowBackground">@drawable/ic_launcher</item>
     </style>
-
-    <style name="Widget" />
-
-    <style name="Widget.Timeo" />
-
-    <style name="Widget.Timeo.Header">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:paddingTop">@dimen/padding_tiny</item>
-        <item name="android:paddingEnd">@dimen/padding_default</item>
-        <item name="android:paddingBottom">@dimen/padding_tiny</item>
-        <item name="android:paddingStart">@dimen/padding_default</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4
-        </item>
-    </style>
-
-    <style name="Widget.Timeo.Header.Small">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
-        </item>
-    </style>
-
-    <style name="Widget.Timeo.AlternativeText">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">false</item>
-        <item name="android:layout_marginEnd">@dimen/margin_default</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">@color/alternativeTextColor</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
-    </style>
-
-    <style name="Widget.Timeo.SigninLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/margin_default</item>
-        <item name="android:orientation">vertical</item>
-    </style>
-
-    <item name="topbar_day_text_appearance" type="style">
-        @style/TextAppearance.MaterialComponents.Headline4
-    </item>
 </resources>

@@ -22,7 +22,7 @@
             android:layout_marginStart="@dimen/margin_large"
             android:format12Hour="dd"
             android:format24Hour="dd"
-            android:textAppearance="@style/topbar_day_text_appearance"
+            android:textAppearance="@style/TextAppearance.Timeo.Headline4"
             android:textStyle="bold"
             tools:text="28"
             tools:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />

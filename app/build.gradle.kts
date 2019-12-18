@@ -1,4 +1,3 @@
-
 plugins {
 
     id("com.android.application")
@@ -105,7 +104,10 @@ dependencies {
     implementation("com.google.firebase:firebase-perf:${Versions.perf}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
 
-    // Lint dependencies
+    // Kapt
+    kapt("com.android.databinding:compiler:3.1.4")
+
+    // Lint checks
     lintChecks(project(path = ":lint"))
 
     // Test

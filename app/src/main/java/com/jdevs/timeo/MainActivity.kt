@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(),
     private val navGraphIds by lazy {
         listOf(
             R.navigation.overview,
-            R.navigation.activity_list,
+            R.navigation.activities,
             R.navigation.stay_focused,
             R.navigation.profile
         )

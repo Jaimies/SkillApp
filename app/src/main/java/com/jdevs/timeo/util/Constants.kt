@@ -13,7 +13,7 @@ object FirestoreConstants {
 object ActivitiesConstants {
 
     const val COLLECTION = "activities"
-    const val FETCH_LIMIT: Long = 12
+    const val FETCH_LIMIT = 12L
     const val VISIBLE_THRESHOLD = 3
     const val NAME_MAX_LENGTH = 100
 }
@@ -21,7 +21,7 @@ object ActivitiesConstants {
 object RecordsConstants {
 
     const val COLLECTION = "records"
-    const val FETCH_LIMIT: Long = 20
+    const val FETCH_LIMIT = 20L
     const val VISIBLE_THRESHOLD = 2
     const val RECORD_MIN_TIME = 5
 }

@@ -1,8 +1,8 @@
 package com.jdevs.timeo
 
 import android.app.Application
-import com.jdevs.timeo.data.livedata.activitiesLiveData
-import com.jdevs.timeo.data.livedata.recordsLiveData
+import com.jdevs.timeo.data.activitiesLiveData
+import com.jdevs.timeo.data.recordsLiveData
 import com.jdevs.timeo.data.source.RemoteDataSource
 import com.jdevs.timeo.data.source.RemoteRepository
 import com.jdevs.timeo.util.ActivitiesConstants

@@ -5,9 +5,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.jdevs.timeo.data.ItemsLiveData
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.TimeoActivity
-import com.jdevs.timeo.data.livedata.ItemsLiveData
+import com.jdevs.timeo.data.Task
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
@@ -115,7 +115,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
         }
     }
 
-    suspend fun saveActivity(activity: TimeoActivity, activityId: String) {
+    suspend fun saveActivity(activity: Task, activityId: String) {
 
         val activityRef = activitiesRef.document(activityId)
 
@@ -135,7 +135,7 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
             .logOnFailure("Failed to save data to Firestore")
     }
 
-    fun addActivity(activity: TimeoActivity) {
+    fun addActivity(activity: Task) {
 
         activitiesRef.add(activity)
             .logOnFailure("Failed to add data to Firestore")

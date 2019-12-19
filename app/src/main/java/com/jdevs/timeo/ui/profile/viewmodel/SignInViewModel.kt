@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.profile.viewmodel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.FirebaseException
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
-import com.jdevs.timeo.data.auth.AuthRepository
+import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.util.launchSuspendingProcess
 
 class SignInViewModel : AuthViewModel() {

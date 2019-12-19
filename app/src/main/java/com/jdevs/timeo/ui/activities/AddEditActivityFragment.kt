@@ -12,7 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ActionBarFragment
-import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.data.Task
 import com.jdevs.timeo.data.source.RemoteRepository
 import com.jdevs.timeo.databinding.AddtaskFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.CreateEditActivityViewModel
@@ -89,7 +89,7 @@ class AddEditActivityFragment : ActionBarFragment(),
             findNavController().navigate(directions)
         } else {
 
-            val activity = TimeoActivity(name)
+            val activity = Task(name)
 
             RemoteRepository.addActivity(activity)
 

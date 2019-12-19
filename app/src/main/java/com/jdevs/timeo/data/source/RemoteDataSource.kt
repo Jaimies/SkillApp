@@ -3,7 +3,7 @@ package com.jdevs.timeo.data.source
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.data.livedata.ItemsLiveData
+import com.jdevs.timeo.data.ItemsLiveData
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.LiveDataConstructor
 

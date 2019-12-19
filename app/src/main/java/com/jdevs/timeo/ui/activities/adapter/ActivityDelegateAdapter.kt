@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.adapter.ViewTypeDelegateAdapter
-import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.data.Task
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityViewModel
@@ -40,7 +40,7 @@ class ActivityDelegateAdapter :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
 
         holder as ViewHolder
-        holder.bindActivity(item as TimeoActivity)
+        holder.bindActivity(item as Task)
     }
 
     class ViewHolder(
@@ -55,7 +55,7 @@ class ActivityDelegateAdapter :
             binding.viewmodel?.navigator = this
         }
 
-        fun bindActivity(activity: TimeoActivity) = binding.viewmodel?.setActivity(activity)
+        fun bindActivity(activity: Task) = binding.viewmodel?.setActivity(activity)
 
         override fun showRecordDialog() =
             RecordDialog(binding.root.context, adapterPosition, createRecord).show()

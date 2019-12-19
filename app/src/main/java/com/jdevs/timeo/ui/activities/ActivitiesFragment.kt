@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.InfiniteScrollListener
 import com.jdevs.timeo.common.ListFragment
-import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.data.Task
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.util.ActivitiesConstants
 
-class ActivitiesFragment : ListFragment<TimeoActivity>(),
+class ActivitiesFragment : ListFragment<Task>(),
     ActivityListViewModel.Navigator {
 
     override val menuId = R.menu.activities_fragment_menu
@@ -117,5 +117,5 @@ class ActivitiesFragment : ListFragment<TimeoActivity>(),
         viewModel.createRecord(getActivity(index).name, time, mAdapter.getId(index))
     }
 
-    private fun getActivity(index: Int) = mAdapter.getItem(index) as TimeoActivity
+    private fun getActivity(index: Int) = mAdapter.getItem(index) as Task
 }

@@ -1,4 +1,4 @@
-package com.jdevs.timeo.data.auth
+package com.jdevs.timeo.data.source
 
 import await
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -50,7 +50,9 @@ object AuthRepository {
 
             if (exception is FirebaseAuthUserCollisionException || exception is KotlinNullPointerException) {
 
-                return signInWithGoogle(credential).await()
+                return signInWithGoogle(
+                    credential
+                ).await()
             }
 
             throw exception

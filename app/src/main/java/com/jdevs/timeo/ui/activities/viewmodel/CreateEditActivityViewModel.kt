@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.activities.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.data.Task
 
 class CreateEditActivityViewModel : ViewModel() {
 
@@ -15,7 +15,7 @@ class CreateEditActivityViewModel : ViewModel() {
     private val _nameError = MutableLiveData("")
     private val _activityExists = MutableLiveData(false)
 
-    fun setActivity(activity: TimeoActivity?) {
+    fun setActivity(activity: Task?) {
 
         name.value = activity?.name.orEmpty()
         _activityExists.value = true

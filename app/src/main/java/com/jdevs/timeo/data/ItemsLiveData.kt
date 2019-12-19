@@ -1,4 +1,4 @@
-package com.jdevs.timeo.data.livedata
+package com.jdevs.timeo.data
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.DocumentChange
@@ -8,9 +8,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.jdevs.timeo.data.Operation
-import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.TimeoActivity
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
@@ -111,7 +108,7 @@ fun activitiesLiveData(
     query,
     setLastVisibleItem,
     onLastItemReached,
-    TimeoActivity::class.java,
+    Task::class.java,
     ActivitiesConstants.FETCH_LIMIT
 )
 

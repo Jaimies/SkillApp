@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.profile.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.data.auth.AuthRepository
+import com.jdevs.timeo.data.source.AuthRepository
 
 class ProfileViewModel : ViewModel() {
 

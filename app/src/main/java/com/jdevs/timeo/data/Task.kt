@@ -12,7 +12,7 @@ import java.util.Date
 
 @Keep
 @Parcelize
-data class TimeoActivity(
+data class Task(
     var name: String = "",
     var totalTime: Long = 0,
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time

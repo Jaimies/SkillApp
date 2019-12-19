@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.activities.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.data.Task
 import com.jdevs.timeo.util.getAvgDailyHours
 import com.jdevs.timeo.util.getHours
 
@@ -19,7 +19,7 @@ class ActivityDetailViewModel : ViewModel() {
     private val _lastWeekTime = MutableLiveData("")
     private val _totalTime = MutableLiveData("")
 
-    fun setActivity(activity: TimeoActivity) {
+    fun setActivity(activity: Task) {
 
         _name.value = activity.name
         _totalTime.value = activity.totalTime.getHours() + "h"

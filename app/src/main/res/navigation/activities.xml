@@ -51,7 +51,7 @@
         <argument
             android:name="activity"
             android:defaultValue="@null"
-            app:argType="com.jdevs.timeo.data.TimeoActivity"
+            app:argType="com.jdevs.timeo.data.Task"
             app:nullable="true" />
 
         <argument
@@ -94,7 +94,7 @@
 
         <argument
             android:name="activity"
-            app:argType="com.jdevs.timeo.data.TimeoActivity" />
+            app:argType="com.jdevs.timeo.data.Task" />
 
         <argument
             android:name="id"

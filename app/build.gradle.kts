@@ -105,7 +105,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
 
     // Kapt
-    kapt("com.android.databinding:compiler:3.1.4")
+    kapt("com.android.databinding:compiler:${Versions.dataBinding}")
 
     // Lint checks
     lintChecks(project(path = ":lint"))

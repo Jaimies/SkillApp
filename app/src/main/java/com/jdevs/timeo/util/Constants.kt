@@ -57,8 +57,3 @@ object ViewConstants {
 
     const val HAS_TEXT_WATCHER = "HAS_TEXT_WATCHER"
 }
-
-object UserConstants {
-
-    const val USERS_COLLECTION = "users"
-}

@@ -13,7 +13,6 @@ import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.RecordsConstants
-import com.jdevs.timeo.util.UserConstants
 import com.jdevs.timeo.util.logOnFailure
 
 @Suppress("TooManyFunctions", "StaticFieldLeak")
@@ -182,9 +181,11 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
     private fun setupRefs(uid: String) {
 
         activitiesRef =
-            firestore.collection("/${UserConstants.USERS_COLLECTION}/$uid/${ActivitiesConstants.COLLECTION}")
+            firestore.collection("/$USERS_COLLECTION/$uid/${ActivitiesConstants.COLLECTION}")
 
         recordsRef =
-            firestore.collection("/${UserConstants.USERS_COLLECTION}/$uid/${RecordsConstants.COLLECTION}")
+            firestore.collection("/$USERS_COLLECTION/$uid/${RecordsConstants.COLLECTION}")
     }
+
+    private const val USERS_COLLECTION = "users"
 }

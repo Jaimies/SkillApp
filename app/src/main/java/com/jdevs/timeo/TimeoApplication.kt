@@ -1,8 +1,8 @@
 package com.jdevs.timeo
 
 import android.app.Application
-import com.jdevs.timeo.data.activitiesLiveData
-import com.jdevs.timeo.data.recordsLiveData
+import com.jdevs.timeo.data.ItemsLiveData.ActivitiesLiveData
+import com.jdevs.timeo.data.ItemsLiveData.RecordsLiveData
 import com.jdevs.timeo.data.source.RemoteDataSource
 import com.jdevs.timeo.data.source.RemoteRepository
 import com.jdevs.timeo.util.ActivitiesConstants
@@ -21,8 +21,8 @@ class TimeoApplication : Application() {
         super.onCreate()
 
         RemoteRepository.initialize(
-            RemoteDataSource(ActivitiesConstants.FETCH_LIMIT, ::activitiesLiveData),
-            RemoteDataSource(RecordsConstants.FETCH_LIMIT, ::recordsLiveData)
+            RemoteDataSource(ActivitiesConstants.FETCH_LIMIT, ::ActivitiesLiveData),
+            RemoteDataSource(RecordsConstants.FETCH_LIMIT, ::RecordsLiveData)
         )
     }
 

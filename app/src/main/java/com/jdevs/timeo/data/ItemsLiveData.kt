@@ -16,7 +16,7 @@ import com.jdevs.timeo.util.OperationTypes.MODIFIED
 import com.jdevs.timeo.util.OperationTypes.REMOVED
 import com.jdevs.timeo.util.RecordsConstants
 
-class ItemsLiveData(
+sealed class ItemsLiveData(
     private var query: Query?,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
     private val onLastItemReached: () -> Unit,
@@ -98,28 +98,28 @@ class ItemsLiveData(
 
         value = Operation(activity, type = operationType, id = docId)
     }
+
+    class ActivitiesLiveData(
+        query: Query?,
+        setLastVisibleItem: (DocumentSnapshot) -> Unit,
+        onLastItemReached: () -> Unit
+    ) : ItemsLiveData(
+        query,
+        setLastVisibleItem,
+        onLastItemReached,
+        Task::class.java,
+        ActivitiesConstants.FETCH_LIMIT
+    )
+
+    class RecordsLiveData(
+        query: Query?,
+        setLastVisibleItem: (DocumentSnapshot) -> Unit,
+        onLastItemReached: () -> Unit
+    ) : ItemsLiveData(
+        query,
+        setLastVisibleItem,
+        onLastItemReached,
+        Record::class.java,
+        RecordsConstants.FETCH_LIMIT
+    )
 }
-
-fun activitiesLiveData(
-    query: Query?,
-    setLastVisibleItem: (DocumentSnapshot) -> Unit,
-    onLastItemReached: () -> Unit
-) = ItemsLiveData(
-    query,
-    setLastVisibleItem,
-    onLastItemReached,
-    Task::class.java,
-    ActivitiesConstants.FETCH_LIMIT
-)
-
-fun recordsLiveData(
-    query: Query?,
-    setLastVisibleItem: (DocumentSnapshot) -> Unit,
-    onLastItemReached: () -> Unit
-) = ItemsLiveData(
-    query,
-    setLastVisibleItem,
-    onLastItemReached,
-    Record::class.java,
-    RecordsConstants.FETCH_LIMIT
-)

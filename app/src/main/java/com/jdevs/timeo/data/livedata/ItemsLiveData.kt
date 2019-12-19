@@ -9,31 +9,34 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.data.Operation
+import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.TimeoActivity
+import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
 import com.jdevs.timeo.util.OperationTypes.FINISHED
 import com.jdevs.timeo.util.OperationTypes.MODIFIED
 import com.jdevs.timeo.util.OperationTypes.REMOVED
+import com.jdevs.timeo.util.RecordsConstants
 
-abstract class ItemsLiveData(
+class ItemsLiveData(
     private var query: Query?,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
-    private val onLastItemReached: () -> Unit
+    private val onLastItemReached: () -> Unit,
+    private val dataType: Class<*>,
+    private val fetchLimit: Long
 ) : LiveData<Operation>(), EventListener<QuerySnapshot> {
 
-    protected abstract val dataType: Class<*>
-    protected abstract val fetchLimit: Long
-
-    private var listenerRegistration: ListenerRegistration? = null
+    private var listener: ListenerRegistration? = null
 
     override fun onActive() {
 
-        listenerRegistration = query?.addSnapshotListener(this)
+        listener = query?.addSnapshotListener(this)
     }
 
     override fun onInactive() {
 
-        listenerRegistration?.remove()
+        listener?.remove()
     }
 
     override fun onEvent(
@@ -99,3 +102,27 @@ abstract class ItemsLiveData(
         value = Operation(activity, type = operationType, id = docId)
     }
 }
+
+fun activitiesLiveData(
+    query: Query?,
+    setLastVisibleItem: (DocumentSnapshot) -> Unit,
+    onLastItemReached: () -> Unit
+) = ItemsLiveData(
+    query,
+    setLastVisibleItem,
+    onLastItemReached,
+    TimeoActivity::class.java,
+    ActivitiesConstants.FETCH_LIMIT
+)
+
+fun recordsLiveData(
+    query: Query?,
+    setLastVisibleItem: (DocumentSnapshot) -> Unit,
+    onLastItemReached: () -> Unit
+) = ItemsLiveData(
+    query,
+    setLastVisibleItem,
+    onLastItemReached,
+    Record::class.java,
+    RecordsConstants.FETCH_LIMIT
+)

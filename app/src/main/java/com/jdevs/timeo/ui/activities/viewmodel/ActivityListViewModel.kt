@@ -2,26 +2,19 @@ package com.jdevs.timeo.ui.activities.viewmodel
 
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.source.RemoteRepository
+import com.jdevs.timeo.util.SingleLiveEvent
 
+@Suppress("UNCHECKED_CAST")
 class ActivityListViewModel : ListViewModel() {
 
-    var navigator: Navigator? = null
     val liveData get() = RemoteRepository.activitiesLiveData
+    val navigateToAddEdit = SingleLiveEvent<Any>()
 
     init {
 
-        RemoteRepository.setupActivitiesSource { navigator?.onLastItemReached() }
-    }
-
-    override fun onFragmentDestroyed() {
-
-        navigator = null
-    }
-
-    override fun hideLoader() {
-
-        super.hideLoader()
-        navigator?.onItemsLoaded()
+        RemoteRepository.setupActivitiesSource {
+            onLastItemReached.call()
+        }
     }
 
     fun createRecord(activityName: String, time: Long, activityId: String) {
@@ -29,9 +22,8 @@ class ActivityListViewModel : ListViewModel() {
         RemoteRepository.addRecord(activityName, time, activityId)
     }
 
-    interface Navigator : ListViewModel.Navigator {
+    fun navigateToAddActivity() {
 
-        fun createActivity()
-        fun onItemsLoaded()
+        navigateToAddEdit.call()
     }
 }

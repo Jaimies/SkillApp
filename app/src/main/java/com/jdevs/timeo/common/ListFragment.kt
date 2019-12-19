@@ -19,8 +19,7 @@ import com.jdevs.timeo.util.OperationTypes.REMOVED
 import com.jdevs.timeo.util.TAG
 
 @Suppress("UNCHECKED_CAST")
-abstract class ListFragment<T : ViewType> : ActionBarFragment(),
-    ListViewModel.Navigator {
+abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
     protected abstract val viewModel: ListViewModel
     protected abstract val mAdapter: ListAdapter
@@ -100,16 +99,5 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment(),
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-
-        super.onDestroy()
-        viewModel.onFragmentDestroyed()
-    }
-
-    override fun onLastItemReached() {
-
-        mAdapter.onLastItemReached()
     }
 }

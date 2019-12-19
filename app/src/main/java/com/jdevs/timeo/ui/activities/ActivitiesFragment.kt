@@ -6,7 +6,8 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.R
@@ -18,17 +19,12 @@ import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.util.ActivitiesConstants
 
-class ActivitiesFragment : ListFragment<Task>(),
-    ActivityListViewModel.Navigator {
+class ActivitiesFragment : ListFragment<Task>() {
 
     override val menuId = R.menu.activities_fragment_menu
     override val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
 
-    override val viewModel by lazy {
-        ViewModelProviders.of(this).get(ActivityListViewModel::class.java).also {
-            it.navigator = this
-        }
-    }
+    override val viewModel: ActivityListViewModel by viewModels()
 
     private lateinit var menu: Menu
     private var isLoaded = false
@@ -38,9 +34,6 @@ class ActivitiesFragment : ListFragment<Task>(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        super.onCreateView(inflater, container, savedInstanceState)
-
         val binding = ActivitiesFragBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel
@@ -63,6 +56,26 @@ class ActivitiesFragment : ListFragment<Task>(),
             }
         }
 
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+
+            if (!isLoading) {
+
+                onItemsLoaded()
+            }
+        }
+
+        viewModel.onLastItemReached.observeEvent(viewLifecycleOwner) {
+
+            mAdapter.onLastItemReached()
+        }
+
+        super.onCreateView(inflater, container, savedInstanceState)
+
+        viewModel.navigateToAddEdit.observeEvent(viewLifecycleOwner) {
+
+            findNavController().navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
+        }
+
         return binding.root
     }
 
@@ -81,7 +94,7 @@ class ActivitiesFragment : ListFragment<Task>(),
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onItemsLoaded() {
+    private fun onItemsLoaded() {
 
         menu.forEach {
 
@@ -89,11 +102,6 @@ class ActivitiesFragment : ListFragment<Task>(),
         }
 
         isLoaded = true
-    }
-
-    override fun createActivity() {
-
-        findNavController().navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
     }
 
     override fun getItems() {

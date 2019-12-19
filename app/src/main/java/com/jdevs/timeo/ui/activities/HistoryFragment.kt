@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
@@ -19,21 +19,11 @@ import com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel
 import com.jdevs.timeo.util.RecordsConstants
 
 class HistoryFragment : ListFragment<Record>(),
-    DialogInterface.OnClickListener,
-    HistoryViewModel.Navigator {
+    DialogInterface.OnClickListener {
 
     override val menuId = R.menu.history_fragment_menu
-    override val mAdapter by lazy {
-        RecordsAdapter(
-            ::showDeleteDialog
-        )
-    }
-
-    override val viewModel by lazy {
-        ViewModelProviders.of(this).get(HistoryViewModel::class.java).also {
-            it.navigator = this
-        }
-    }
+    override val viewModel: HistoryViewModel by viewModels()
+    override val mAdapter by lazy { RecordsAdapter(::showDeleteDialog) }
 
     private var chosenItemIndex = -1
 
@@ -65,6 +55,11 @@ class HistoryFragment : ListFragment<Record>(),
                     )
                 )
             }
+        }
+
+        viewModel.onLastItemReached.observeEvent(viewLifecycleOwner) {
+
+            mAdapter.onLastItemReached()
         }
 
         return binding.root

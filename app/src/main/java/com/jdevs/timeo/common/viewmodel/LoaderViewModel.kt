@@ -10,12 +10,12 @@ open class LoaderViewModel(isLoadingByDefault: Boolean = false) : ViewModel() {
 
     private val _isLoading = MutableLiveData(isLoadingByDefault)
 
-    open fun showLoader() {
+    fun showLoader() {
 
         _isLoading.value = true
     }
 
-    open fun hideLoader() {
+    fun hideLoader() {
 
         _isLoading.value = false
     }

@@ -86,6 +86,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}")
 
     implementation("androidx.core:core-ktx:${Versions.androidxCore}")
+    implementation("androidx.fragment:fragment-ktx:1.2.0-rc04")
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}")
     implementation("androidx.legacy:legacy-support-v4:${Versions.legacy}")

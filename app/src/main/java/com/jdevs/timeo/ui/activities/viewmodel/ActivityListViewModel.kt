@@ -11,10 +11,7 @@ class ActivityListViewModel : ListViewModel() {
 
     init {
 
-        RemoteRepository.setupActivitiesSource {
-
-            onLastItemReached.call()
-        }
+        RemoteRepository.setupActivitiesSource { onLastItemReached.call() }
     }
 
     fun createRecord(activityName: String, time: Long, activityId: String) {

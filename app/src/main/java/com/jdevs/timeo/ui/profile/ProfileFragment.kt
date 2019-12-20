@@ -42,7 +42,7 @@ class ProfileFragment : ActionBarFragment() {
 
             observeEvent(signOut) {
 
-                viewModel.signOut()
+                signOut()
                 navigateToGraph(R.id.overview)
             }
         }

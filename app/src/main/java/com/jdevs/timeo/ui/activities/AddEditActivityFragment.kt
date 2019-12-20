@@ -47,27 +47,24 @@ class AddEditActivityFragment : ActionBarFragment() {
                 getString(if (args.isEdited) R.string.edit_activity else R.string.create_activity)
         }
 
-        viewModel.apply {
+        if (args.isEdited) {
 
-            if (args.isEdited) {
+            viewModel.setActivity(args.activity)
+        }
 
-                setActivity(args.activity)
-            }
+        observeEvent(viewModel.hideKeyboard) {
 
-            observeEvent(hideKeyboard) {
+            hideKeyboard()
+        }
 
-                hideKeyboard()
-            }
+        observeEvent(viewModel.showDeleteDialog) {
 
-            observeEvent(showDeleteDialog) {
+            showDeleteDialog()
+        }
 
-                showDeleteDialog()
-            }
+        observeEvent(viewModel.saveActivity) {
 
-            observeEvent(saveActivity) {
-
-                saveActivity(it!!)
-            }
+            saveActivity(it!!)
         }
 
         return binding.root

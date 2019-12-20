@@ -34,6 +34,9 @@ class ActivitiesFragment : ListFragment<Task>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        super.onCreateView(inflater, container, savedInstanceState)
+
         val binding = ActivitiesFragBinding.inflate(inflater, container, false).also {
 
             it.viewmodel = viewModel

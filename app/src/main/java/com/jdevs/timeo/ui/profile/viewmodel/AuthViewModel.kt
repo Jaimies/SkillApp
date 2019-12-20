@@ -25,9 +25,4 @@ abstract class AuthViewModel : LoaderViewModel() {
         _emailError.value = ""
         _passwordError.value = error
     }
-
-    fun hideKeyboard() {
-
-        hideKeyboard.call()
-    }
 }

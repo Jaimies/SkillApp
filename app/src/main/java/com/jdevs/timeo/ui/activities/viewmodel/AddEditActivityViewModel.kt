@@ -2,16 +2,15 @@ package com.jdevs.timeo.ui.activities.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.jdevs.timeo.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.data.Task
 import com.jdevs.timeo.util.SingleLiveEvent
 
-class AddEditActivityViewModel : ViewModel() {
+class AddEditActivityViewModel : KeyboardHidingViewModel() {
 
     val name = MutableLiveData("")
     val nameError get() = _nameError as LiveData<String>
     val activityExists get() = _activityExists as LiveData<Boolean>
-    val hideKeyboard = SingleLiveEvent<Any>()
     val showDeleteDialog = SingleLiveEvent<Any>()
     val saveActivity = SingleLiveEvent<String>()
 
@@ -37,10 +36,5 @@ class AddEditActivityViewModel : ViewModel() {
     fun showDeleteDialog() {
 
         showDeleteDialog.call()
-    }
-
-    fun hideKeyboard() {
-
-        hideKeyboard.call()
     }
 }

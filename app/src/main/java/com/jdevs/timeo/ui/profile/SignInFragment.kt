@@ -55,28 +55,25 @@ class SignInFragment : Fragment() {
             it.lifecycleOwner = this
         }
 
-        viewModel.apply {
+        observeEvent(viewModel.hideKeyboard) {
 
-            observeEvent(hideKeyboard) {
+            hideKeyboard()
+        }
 
-                hideKeyboard()
-            }
+        observeEvent(viewModel.signIn) {
 
-            observeEvent(signIn) {
+            it!!
+            signIn(it.first, it.second)
+        }
 
-                it!!
-                signIn(it.first, it.second)
-            }
+        observeEvent(viewModel.showGoogleSignInIntent) {
 
-            observeEvent(showGoogleSignInIntent) {
+            showGoogleSignInIntent()
+        }
 
-                showGoogleSignInIntent()
-            }
+        observeEvent(viewModel.navigateToSignUp) {
 
-            observeEvent(navigateToSignUp) {
-
-                findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
-            }
+            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
 
         return binding.root

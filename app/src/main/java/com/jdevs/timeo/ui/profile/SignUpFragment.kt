@@ -43,7 +43,7 @@ class SignUpFragment : Fragment() {
 
         viewModel.hideKeyboard.observeEvent(viewLifecycleOwner) {
 
-            activity?.hideKeyboard()
+            hideKeyboard()
         }
 
         viewModel.navigateToSignIn.observeEvent(viewLifecycleOwner) {

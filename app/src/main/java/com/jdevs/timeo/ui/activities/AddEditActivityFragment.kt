@@ -54,7 +54,7 @@ class AddEditActivityFragment : ActionBarFragment() {
 
         viewModel.hideKeyboard.observeEvent(viewLifecycleOwner) {
 
-            activity?.hideKeyboard()
+            hideKeyboard()
         }
 
         viewModel.showDeleteDialog.observeEvent(viewLifecycleOwner) {
@@ -105,7 +105,7 @@ class AddEditActivityFragment : ActionBarFragment() {
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
         }
 
-        activity?.hideKeyboard()
+        hideKeyboard()
     }
 
     private fun showDeleteDialog() {

@@ -56,7 +56,7 @@ class SignInFragment : Fragment() {
 
         viewModel.hideKeyboard.observeEvent(viewLifecycleOwner) {
 
-            activity?.hideKeyboard()
+            hideKeyboard()
         }
 
         viewModel.signIn.observeEvent(viewLifecycleOwner) {
@@ -98,7 +98,7 @@ class SignInFragment : Fragment() {
 
     private fun showGoogleSignInIntent() {
 
-        activity?.hideKeyboard()
+        hideKeyboard()
         viewModel.showLoader()
 
         val signInIntent = googleSignInClient.signInIntent

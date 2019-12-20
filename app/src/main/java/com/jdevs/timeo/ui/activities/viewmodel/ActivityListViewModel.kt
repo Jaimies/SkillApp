@@ -4,7 +4,6 @@ import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.source.RemoteRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 
-@Suppress("UNCHECKED_CAST")
 class ActivityListViewModel : ListViewModel() {
 
     val liveData get() = RemoteRepository.activitiesLiveData

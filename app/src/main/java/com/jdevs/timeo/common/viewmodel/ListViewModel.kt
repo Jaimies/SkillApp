@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.util.SingleLiveEvent
 
-@Suppress("VariableNaming", "PropertyName", "UNCHECKED_CAST")
+@Suppress("VariableNaming", "PropertyName")
 abstract class ListViewModel : LoaderViewModel(true) {
 
     val onLastItemReached = SingleLiveEvent<Any>()

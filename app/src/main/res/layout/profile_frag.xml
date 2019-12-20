@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.jdevs.timeo.ui.profile.viewmodel.ProfileViewModel" />
     </data>
 
@@ -48,17 +48,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:onClick="@{() -> viewmodel.triggerSignOut()}"
+            android:onClick="@{() -> viewModel.triggerSignOut()}"
             android:text="@string/sign_out"
-            app:hideIf="@{!viewmodel.isSignedIn}" />
+            app:hideIf="@{!viewModel.isSignedIn}" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:onClick="@{() -> viewmodel.navigateToSignIn()}"
+            android:onClick="@{() -> viewModel.navigateToSignIn()}"
             android:text="@string/sign_in"
-            app:hideIf="@{viewmodel.isSignedIn}"
+            app:hideIf="@{viewModel.isSignedIn}"
             tools:visibility="gone" />
     </LinearLayout>
 </layout>

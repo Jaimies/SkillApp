@@ -33,7 +33,7 @@ class RecordDelegateAdapter : ViewTypeDelegateAdapter {
 
         val binding = RecordsItemBinding.inflate(inflater, parent, false).also {
 
-            it.viewmodel = viewModel
+            it.viewModel = viewModel
             it.lifecycleOwner = fragmentActivity
         }
 

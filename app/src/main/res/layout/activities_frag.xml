@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel" />
     </data>
 
@@ -24,7 +24,7 @@
             android:paddingTop="@dimen/padding_large"
             android:paddingEnd="@dimen/padding_default"
             android:paddingBottom="@dimen/padding_default"
-            app:hideIf="@{viewmodel.isEmpty || viewmodel.isLoading}" />
+            app:hideIf="@{viewModel.isEmpty || viewModel.isLoading}" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:hideIf="@{!viewmodel.isEmpty || viewmodel.isLoading}">
+            app:hideIf="@{!viewModel.isEmpty || viewModel.isLoading}">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,13 +43,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default"
-                android:onClick="@{() -> viewmodel.navigateToAddActivity()}"
+                android:onClick="@{() -> viewModel.navigateToAddActivity()}"
                 android:text="@string/create_activity" />
         </LinearLayout>
 
         <include
             android:id="@+id/preloader"
             layout="@layout/preloader"
-            app:hideIf="@{!viewmodel.isLoading}" />
+            app:hideIf="@{!viewModel.isLoading}" />
     </FrameLayout>
 </layout>

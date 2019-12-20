@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.jdevs.timeo.ui.activities.viewmodel.ActivityDetailViewModel" />
     </data>
 
@@ -17,7 +17,7 @@
 
         <TextView
             style="@style/Widget.Timeo.Header.Small"
-            android:text="@{viewmodel.name}"
+            android:text="@{viewModel.name}"
             tools:text="Very very long activity name that just cant't fit" />
 
         <LinearLayout
@@ -43,7 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@{viewmodel.avgDailyTime}"
+                    android:text="@{viewModel.avgDailyTime}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     tools:text="4.1h" />
             </LinearLayout>
@@ -64,7 +64,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@{viewmodel.lastWeekTime}"
+                    android:text="@{viewModel.lastWeekTime}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     tools:text="56h" />
             </LinearLayout>
@@ -85,7 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@{viewmodel.totalTime}"
+                    android:text="@{viewModel.totalTime}"
                     android:textAlignment="textEnd"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     tools:text="830.6h" />

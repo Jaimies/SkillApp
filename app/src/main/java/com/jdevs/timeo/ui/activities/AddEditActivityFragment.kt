@@ -37,7 +37,7 @@ class AddEditActivityFragment : ActionBarFragment() {
 
         val binding = AddtaskFragBinding.inflate(inflater, container, false).also {
 
-            it.viewmodel = viewModel
+            it.viewModel = viewModel
             it.lifecycleOwner = this
         }
 

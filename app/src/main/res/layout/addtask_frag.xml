@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.jdevs.timeo.ui.activities.viewmodel.AddEditActivityViewModel" />
     </data>
 
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/margin_default"
-        android:onClick="@{() -> viewmodel.hideKeyboard()}"
+        android:onClick="@{() -> viewModel.hideKeyboard()}"
         android:orientation="vertical"
         android:paddingStart="@dimen/padding_large"
         android:paddingEnd="@dimen/padding_large"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:editText="@{nameEditText}"
-            app:error="@{viewmodel.nameError}">
+            app:error="@{viewModel.nameError}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_edit_text"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/name"
                 android:inputType="text"
-                android:text="@={viewmodel.name}"
+                android:text="@={viewModel.name}"
                 tools:ignore="Autofill" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -47,9 +47,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_default"
-            android:onClick="@{() -> viewmodel.showDeleteDialog()}"
+            android:onClick="@{() -> viewModel.showDeleteDialog()}"
             android:text="@string/delete_activity"
             android:visibility="gone"
-            app:hideIf="@{!viewmodel.activityExists}" />
+            app:hideIf="@{!viewModel.activityExists}" />
     </LinearLayout>
 </layout>

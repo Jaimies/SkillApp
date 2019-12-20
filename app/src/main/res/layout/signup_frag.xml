@@ -6,19 +6,19 @@
     <data>
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.jdevs.timeo.ui.profile.viewmodel.SignUpViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="@{() -> viewmodel.hideKeyboard()}"
+        android:onClick="@{() -> viewModel.hideKeyboard()}"
         tools:context=".ui.profile.SignInFragment">
 
         <LinearLayout
             style="@style/Widget.Timeo.SignInLayout"
-            android:alpha="@{viewmodel.isLoading ? 0.5f : 1.0f}"
+            android:alpha="@{viewModel.isLoading ? 0.5f : 1.0f}"
             android:orientation="vertical">
 
             <TextView
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:editText="@{emailEditText}"
-                app:error="@{viewmodel.emailError}">
+                app:error="@{viewModel.emailError}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_edit_text"
@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
-                    android:text="@={viewmodel.email}"
+                    android:text="@={viewModel.email}"
                     app:layout_constraintTop_toTopOf="parent" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:editText="@{passwordEditText}"
-                app:error="@{viewmodel.passwordError}">
+                app:error="@{viewModel.passwordError}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_edit_text"
@@ -54,9 +54,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
                     android:inputType="textPassword"
-                    android:text="@={viewmodel.password}"
+                    android:text="@={viewModel.password}"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:onEnterPressed="@{() -> viewmodel.triggerSignUp()}" />
+                    app:onEnterPressed="@{() -> viewModel.triggerSignUp()}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -67,14 +67,14 @@
 
                 <TextView
                     style="@style/Widget.Timeo.AlternativeText"
-                    android:onClick="@{() -> viewmodel.navigateToSignIn()}"
+                    android:onClick="@{() -> viewModel.navigateToSignIn()}"
                     android:text="@string/sign_in_or" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="@{!viewmodel.isLoading}"
-                    android:onClick="@{() -> viewmodel.triggerSignUp()}"
+                    android:enabled="@{!viewModel.isLoading}"
+                    android:onClick="@{() -> viewModel.triggerSignUp()}"
                     android:text="@string/sign_up_button" />
             </LinearLayout>
         </LinearLayout>

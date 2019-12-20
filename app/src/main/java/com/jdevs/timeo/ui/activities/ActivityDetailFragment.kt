@@ -28,7 +28,7 @@ class ActivityDetailFragment : ActionBarFragment() {
         val binding = ActivitydetailFragBinding.inflate(inflater, container, false).also {
 
             it.lifecycleOwner = this
-            it.viewmodel = viewModel
+            it.viewModel = viewModel
         }
 
         viewModel.setActivity(args.activity)

@@ -32,7 +32,7 @@ class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
 
         val binding = ActivitiesItemBinding.inflate(inflater, parent, false).also {
 
-            it.viewmodel = viewModel
+            it.viewModel = viewModel
             it.lifecycleOwner = fragmentActivity
         }
 

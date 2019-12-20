@@ -39,7 +39,7 @@ class ActivitiesFragment : ListFragment<Task>() {
 
         val binding = ActivitiesFragBinding.inflate(inflater, container, false).also {
 
-            it.viewmodel = viewModel
+            it.viewModel = viewModel
             it.lifecycleOwner = this
 
             it.recyclerView.apply {

@@ -51,7 +51,7 @@ class SignInFragment : Fragment() {
 
         val binding = SigninFragBinding.inflate(inflater, container, false).also {
 
-            it.viewmodel = viewModel
+            it.viewModel = viewModel
             it.lifecycleOwner = this
         }
 

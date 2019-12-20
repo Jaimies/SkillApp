@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel" />
     </data>
 
@@ -19,7 +19,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hideIf="@{viewmodel.isEmpty || viewmodel.isLoading}" />
+            app:hideIf="@{viewModel.isEmpty || viewModel.isLoading}" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,11 +28,11 @@
             android:orientation="vertical"
             android:text="@string/there_is_nothing_here_yet"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            app:hideIf="@{!viewmodel.isEmpty || viewmodel.isLoading}" />
+            app:hideIf="@{!viewModel.isEmpty || viewModel.isLoading}" />
 
         <include
             android:id="@+id/preloader"
             layout="@layout/preloader"
-            app:hideIf="@{!viewmodel.isLoading}" />
+            app:hideIf="@{!viewModel.isLoading}" />
     </FrameLayout>
 </layout>

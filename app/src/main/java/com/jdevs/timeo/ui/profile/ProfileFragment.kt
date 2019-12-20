@@ -28,7 +28,7 @@ class ProfileFragment : ActionBarFragment() {
 
         val binding = ProfileFragBinding.inflate(inflater, container, false)
 
-        binding.viewmodel = viewModel.apply {
+        binding.viewModel = viewModel.apply {
 
             if (auth.currentUser?.isAnonymous == false) {
 

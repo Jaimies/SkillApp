@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.jdevs.timeo.ui.activities.viewmodel.RecordViewModel" />
     </data>
 
@@ -21,9 +21,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:onLongClick="@{(view) -> viewmodel.showDeleteDialog()}"
+            android:onLongClick="@{(view) -> viewModel.showDeleteDialog()}"
             android:singleLine="true"
-            android:text="@{viewmodel.name}"
+            android:text="@{viewModel.name}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toStartOf="@+id/time_text_view"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@{viewmodel.time}"
+            android:text="@{viewModel.time}"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="25m" />
     </androidx.constraintlayout.widget.ConstraintLayout>

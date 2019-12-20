@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="viewmodel"
+            name="viewModel"
             type="com.jdevs.timeo.ui.activities.viewmodel.ActivityViewModel" />
     </data>
 
@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/margin_default"
         android:background="@drawable/activities_item_background"
         android:gravity="center_vertical"
-        android:onClick="@{() -> viewmodel.navigateToDetails()}"
+        android:onClick="@{() -> viewModel.navigateToDetails()}"
         android:paddingStart="@dimen/padding_medium"
         android:paddingEnd="@dimen/padding_medium">
 
@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:text="@{viewmodel.name}"
+            android:text="@{viewModel.name}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/total_time"
@@ -40,7 +40,7 @@
             android:gravity="center_vertical"
             android:paddingStart="@dimen/margin_default"
             android:paddingEnd="@dimen/margin_default"
-            android:text="@{viewmodel.totalTime}"
+            android:text="@{viewModel.totalTime}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toStartOf="@+id/plus_button"
             tools:text="820h" />
@@ -50,7 +50,7 @@
             android:layout_width="@dimen/activities_plus_button_size"
             android:layout_height="@dimen/activities_plus_button_size"
             android:background="@drawable/activities_item_plus_button"
-            android:onClick="@{() -> viewmodel.showRecordDialog()}"
+            android:onClick="@{() -> viewModel.showRecordDialog()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

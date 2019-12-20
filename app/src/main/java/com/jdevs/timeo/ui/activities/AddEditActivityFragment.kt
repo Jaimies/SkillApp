@@ -19,6 +19,7 @@ import com.jdevs.timeo.ui.activities.viewmodel.AddEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.getCoroutineIoScope
 import com.jdevs.timeo.util.hideKeyboard
+import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.requireMainActivity
 import kotlinx.coroutines.launch
 
@@ -40,30 +41,33 @@ class AddEditActivityFragment : ActionBarFragment() {
             it.lifecycleOwner = this
         }
 
-        if (args.isEdited) {
-
-            viewModel.setActivity(args.activity)
-        }
-
         requireMainActivity().supportActionBar?.apply {
 
             title =
                 getString(if (args.isEdited) R.string.edit_activity else R.string.create_activity)
         }
 
-        viewModel.hideKeyboard.observeEvent(viewLifecycleOwner) {
+        viewModel.apply {
 
-            hideKeyboard()
-        }
+            if (args.isEdited) {
 
-        viewModel.showDeleteDialog.observeEvent(viewLifecycleOwner) {
+                setActivity(args.activity)
+            }
 
-            showDeleteDialog()
-        }
+            observeEvent(hideKeyboard) {
 
-        viewModel.saveActivity.observeEvent(viewLifecycleOwner) {
+                hideKeyboard()
+            }
 
-            saveActivity(it!!)
+            observeEvent(showDeleteDialog) {
+
+                showDeleteDialog()
+            }
+
+            observeEvent(saveActivity) {
+
+                saveActivity(it!!)
+            }
         }
 
         return binding.root

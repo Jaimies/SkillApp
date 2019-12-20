@@ -17,6 +17,7 @@ import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.ui.activities.adapter.RecordsAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel
 import com.jdevs.timeo.util.RecordsConstants
+import com.jdevs.timeo.util.observeEvent
 
 class HistoryFragment : ListFragment<Record>(),
     DialogInterface.OnClickListener {
@@ -57,7 +58,7 @@ class HistoryFragment : ListFragment<Record>(),
             }
         }
 
-        viewModel.onLastItemReached.observeEvent(viewLifecycleOwner) {
+        observeEvent(viewModel.onLastItemReached) {
 
             mAdapter.onLastItemReached()
         }

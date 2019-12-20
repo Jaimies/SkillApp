@@ -18,6 +18,7 @@ import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.observeEvent
 
 class ActivitiesFragment : ListFragment<Task>() {
 
@@ -55,24 +56,25 @@ class ActivitiesFragment : ListFragment<Task>() {
             }
         }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+        viewModel.apply {
 
-            if (!isLoading) {
+            isLoading.observe(viewLifecycleOwner) { isLoading ->
 
-                onItemsLoaded()
+                if (!isLoading) {
+
+                    onItemsLoaded()
+                }
             }
-        }
 
-        viewModel.onLastItemReached.observeEvent(viewLifecycleOwner) {
+            observeEvent(onLastItemReached) {
 
-            mAdapter.onLastItemReached()
-        }
+                mAdapter.onLastItemReached()
+            }
 
-        super.onCreateView(inflater, container, savedInstanceState)
+            observeEvent(navigateToAddEdit) {
 
-        viewModel.navigateToAddEdit.observeEvent(viewLifecycleOwner) {
-
-            findNavController().navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
+                findNavController().navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
+            }
         }
 
         return binding.root

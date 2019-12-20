@@ -20,8 +20,8 @@ import com.jdevs.timeo.util.INVALID
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.TOO_LONG
 import com.jdevs.timeo.util.TOO_SHORT
-import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.navigateToGraph
+import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
 
@@ -41,20 +41,23 @@ class SignUpFragment : Fragment() {
             it.lifecycleOwner = this
         }
 
-        viewModel.hideKeyboard.observeEvent(viewLifecycleOwner) {
+        viewModel.apply {
 
-            hideKeyboard()
-        }
+            observeEvent(hideKeyboard) {
 
-        viewModel.navigateToSignIn.observeEvent(viewLifecycleOwner) {
+                hideKeyboard()
+            }
 
-            findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
-        }
+            observeEvent(navigateToSignIn) {
 
-        viewModel.signUp.observeEvent(viewLifecycleOwner) {
+                findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
+            }
 
-            it!!
-            signUp(it.first, it.second)
+            observeEvent(signUp) {
+
+                it!!
+                signUp(it.first, it.second)
+            }
         }
 
         return binding.root

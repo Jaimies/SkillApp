@@ -2,6 +2,7 @@ package com.jdevs.timeo.util
 
 import android.util.Log
 import androidx.annotation.MainThread
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.observe
@@ -56,4 +57,9 @@ class SingleLiveEvent<T> : MutableLiveData<T?>() {
     companion object {
         private const val TAG = "SingleLiveEvent"
     }
+}
+
+fun <T> Fragment.observeEvent(event: SingleLiveEvent<T>, onEvent: (T?) -> Unit) {
+
+    event.observeEvent(viewLifecycleOwner) { onEvent(it) }
 }

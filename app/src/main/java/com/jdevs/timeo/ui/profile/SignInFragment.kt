@@ -28,6 +28,7 @@ import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
 import com.jdevs.timeo.util.navigateToGraph
+import com.jdevs.timeo.util.observeEvent
 
 class SignInFragment : Fragment() {
 
@@ -54,25 +55,28 @@ class SignInFragment : Fragment() {
             it.lifecycleOwner = this
         }
 
-        viewModel.hideKeyboard.observeEvent(viewLifecycleOwner) {
+        viewModel.apply {
 
-            hideKeyboard()
-        }
+            observeEvent(hideKeyboard) {
 
-        viewModel.signIn.observeEvent(viewLifecycleOwner) {
+                hideKeyboard()
+            }
 
-            it!!
-            signIn(it.first, it.second)
-        }
+            observeEvent(signIn) {
 
-        viewModel.showGoogleSignInIntent.observeEvent(viewLifecycleOwner) {
+                it!!
+                signIn(it.first, it.second)
+            }
 
-            showGoogleSignInIntent()
-        }
+            observeEvent(showGoogleSignInIntent) {
 
-        viewModel.navigateToSignUp.observeEvent(viewLifecycleOwner) {
+                showGoogleSignInIntent()
+            }
 
-            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+            observeEvent(navigateToSignUp) {
+
+                findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+            }
         }
 
         return binding.root

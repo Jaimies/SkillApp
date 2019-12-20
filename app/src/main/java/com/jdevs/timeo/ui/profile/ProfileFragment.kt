@@ -12,6 +12,7 @@ import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.ProfileFragBinding
 import com.jdevs.timeo.ui.profile.viewmodel.ProfileViewModel
 import com.jdevs.timeo.util.navigateToGraph
+import com.jdevs.timeo.util.observeEvent
 
 class ProfileFragment : ActionBarFragment() {
 
@@ -33,17 +34,17 @@ class ProfileFragment : ActionBarFragment() {
 
                 notifyUserIsSignedIn()
             }
-        }
 
-        viewModel.navigateToSignIn.observeEvent(viewLifecycleOwner) {
+            observeEvent(navigateToSignIn) {
 
-            findNavController().navigate(R.id.action_profileFragment_to_signInFragment)
-        }
+                findNavController().navigate(R.id.action_profileFragment_to_signInFragment)
+            }
 
-        viewModel.signOut.observeEvent(viewLifecycleOwner) {
+            observeEvent(signOut) {
 
-            viewModel.signOut()
-            navigateToGraph(R.id.overview)
+                viewModel.signOut()
+                navigateToGraph(R.id.overview)
+            }
         }
 
         return binding.root

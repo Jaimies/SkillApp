@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/margin_default"
         android:background="@drawable/activities_item_background"
         android:gravity="center_vertical"
-        android:onClick="@{() -> viewmodel.navigator.navigateToDetails()}"
+        android:onClick="@{() -> viewmodel.navigateToDetails()}"
         android:paddingStart="@dimen/padding_medium"
         android:paddingEnd="@dimen/padding_medium">
 
@@ -50,7 +50,7 @@
             android:layout_width="@dimen/activities_plus_button_size"
             android:layout_height="@dimen/activities_plus_button_size"
             android:background="@drawable/activities_item_plus_button"
-            android:onClick="@{() -> viewmodel.navigator.showRecordDialog()}"
+            android:onClick="@{() -> viewmodel.showRecordDialog()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

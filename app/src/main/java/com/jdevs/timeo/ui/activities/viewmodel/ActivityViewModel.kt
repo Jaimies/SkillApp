@@ -4,13 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.Task
+import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.getHours
 
 class ActivityViewModel : ViewModel() {
 
-    var navigator: Navigator? = null
     val name: LiveData<String> get() = _name
     val totalTime: LiveData<String> get() = _totalTime
+    val navigateToDetails = SingleLiveEvent<Any>()
+    val showRecordDialog = SingleLiveEvent<Any>()
 
     private val _name = MutableLiveData("")
     private val _totalTime = MutableLiveData("")
@@ -21,9 +23,13 @@ class ActivityViewModel : ViewModel() {
         _totalTime.value = activity.totalTime.getHours() + "h"
     }
 
-    interface Navigator {
+    fun navigateToDetails() {
 
-        fun showRecordDialog()
-        fun navigateToDetails()
+        navigateToDetails.call()
+    }
+
+    fun showRecordDialog() {
+
+        showRecordDialog.call()
     }
 }

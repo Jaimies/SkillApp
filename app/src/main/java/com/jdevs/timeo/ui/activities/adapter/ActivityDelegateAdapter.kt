@@ -1,10 +1,12 @@
 package com.jdevs.timeo.ui.activities.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.adapter.ViewTypeDelegateAdapter
 import com.jdevs.timeo.data.Task
@@ -13,8 +15,7 @@ import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityViewModel
 import com.jdevs.timeo.util.randomString
 
-class ActivityDelegateAdapter :
-    ViewTypeDelegateAdapter {
+class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -24,17 +25,18 @@ class ActivityDelegateAdapter :
     ): RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
+        val fragmentActivity = parent.context as FragmentActivity
+
+        val viewModel = ViewModelProviders.of(fragmentActivity)
+            .get(randomString(), ActivityViewModel::class.java)
 
         val binding = ActivitiesItemBinding.inflate(inflater, parent, false).also {
 
-            it.viewmodel = ViewModelProviders
-                .of(parent.context as FragmentActivity)
-                .get(randomString(), ActivityViewModel::class.java)
-
-            it.lifecycleOwner = parent.context as FragmentActivity
+            it.viewmodel = viewModel
+            it.lifecycleOwner = fragmentActivity
         }
 
-        return ViewHolder(binding, createRecord, goToDetails)
+        return ViewHolder(binding.root, viewModel, createRecord, goToDetails)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
@@ -44,22 +46,28 @@ class ActivityDelegateAdapter :
     }
 
     class ViewHolder(
-        private val binding: ActivitiesItemBinding,
+        rootView: View,
+        private val viewModel: ActivityViewModel,
         private val createRecord: (Int, Long) -> Unit = { _, _ -> },
         private val navigateToDetails: (Int) -> Unit = {}
-    ) : RecyclerView.ViewHolder(binding.root),
-        ActivityViewModel.Navigator {
+    ) : ListAdapter.ViewHolder(rootView) {
 
         init {
 
-            binding.viewmodel?.navigator = this
+            viewModel.apply {
+
+                navigateToDetails.observeEvent(lifecycleOwner) {
+
+                    navigateToDetails(adapterPosition)
+                }
+
+                showRecordDialog.observeEvent(lifecycleOwner) {
+
+                    RecordDialog(context, adapterPosition, createRecord).show()
+                }
+            }
         }
 
-        fun bindActivity(activity: Task) = binding.viewmodel?.setActivity(activity)
-
-        override fun showRecordDialog() =
-            RecordDialog(binding.root.context, adapterPosition, createRecord).show()
-
-        override fun navigateToDetails() = navigateToDetails(adapterPosition)
+        fun bindActivity(activity: Task) = viewModel.setActivity(activity)
     }
 }

@@ -1,17 +1,17 @@
 package com.jdevs.timeo.ui.activities.viewmodel
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.getFriendlyTime
 
 class RecordViewModel : ViewModel() {
 
-    var navigator: Navigator? = null
     val name: LiveData<String> get() = _name
     val time: LiveData<String> get() = _time
+    val showDeleteDialog = SingleLiveEvent<Any>()
 
     private val _name = MutableLiveData("")
     private val _time = MutableLiveData("")
@@ -22,8 +22,9 @@ class RecordViewModel : ViewModel() {
         _time.value = record.time.getFriendlyTime()
     }
 
-    interface Navigator {
+    fun showDeleteDialog(): Boolean {
 
-        fun deleteRecord(view: View): Boolean
+        showDeleteDialog.call()
+        return false
     }
 }

@@ -1,6 +1,9 @@
 package com.jdevs.timeo.common.adapter
 
+import android.content.Context
 import android.util.SparseArray
+import android.view.View
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.util.AdapterConstants.LOADING
 
@@ -94,5 +97,11 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             items.removeAt(index)
             notifyItemRemoved(index)
         }
+    }
+
+    open class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        protected val context: Context = view.context
+        protected val lifecycleOwner = context as LifecycleOwner
     }
 }

@@ -34,10 +34,4 @@ class ProfileViewModel : ViewModel() {
 
         _isSignedIn.value = true
     }
-
-    interface Navigator {
-
-        fun signIn()
-        fun signOut()
-    }
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
+import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.adapter.ViewTypeDelegateAdapter
 import com.jdevs.timeo.data.Record
@@ -15,8 +16,7 @@ import com.jdevs.timeo.databinding.RecordsItemBinding
 import com.jdevs.timeo.ui.activities.viewmodel.RecordViewModel
 import com.jdevs.timeo.util.randomString
 
-class RecordDelegateAdapter :
-    ViewTypeDelegateAdapter {
+class RecordDelegateAdapter : ViewTypeDelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,16 +26,18 @@ class RecordDelegateAdapter :
     ): ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
+        val fragmentActivity = parent.context as FragmentActivity
+
+        val viewModel =
+            ViewModelProviders.of(fragmentActivity).get(randomString(), RecordViewModel::class.java)
 
         val binding = RecordsItemBinding.inflate(inflater, parent, false).also {
 
-            it.viewmodel = ViewModelProviders.of(parent.context as FragmentActivity)
-                .get(randomString(), RecordViewModel::class.java)
-
-            it.lifecycleOwner = parent.context as FragmentActivity
+            it.viewmodel = viewModel
+            it.lifecycleOwner = fragmentActivity
         }
 
-        return ViewHolder(binding, deleteRecord)
+        return ViewHolder(binding.root, viewModel, deleteRecord)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
@@ -45,14 +47,17 @@ class RecordDelegateAdapter :
     }
 
     class ViewHolder(
-        private val binding: RecordsItemBinding,
+        private val rootView: View,
+        private val viewModel: RecordViewModel,
         private val showDeleteDialog: (Int) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root),
-        RecordViewModel.Navigator {
+    ) : ListAdapter.ViewHolder(rootView) {
 
         init {
 
-            binding.viewmodel?.navigator = this
+            viewModel.showDeleteDialog.observeEvent(lifecycleOwner) {
+
+                showDeleteDialog(adapterPosition)
+            }
         }
 
         fun bindRecord(record: Record) {
@@ -60,19 +65,8 @@ class RecordDelegateAdapter :
             val backgroundColorId =
                 if (adapterPosition.rem(2) == 0) R.color.colorBlackTransparent else android.R.color.transparent
 
-            binding.root.setBackgroundColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    backgroundColorId
-                )
-            )
-
-            binding.viewmodel?.setRecord(record)
-        }
-
-        override fun deleteRecord(view: View) = run {
-            showDeleteDialog(adapterPosition)
-            false
+            rootView.setBackgroundColor(ContextCompat.getColor(context, backgroundColorId))
+            viewModel.setRecord(record)
         }
     }
 }

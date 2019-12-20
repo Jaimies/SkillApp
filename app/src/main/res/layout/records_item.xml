@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:onLongClick="@{(view) -> viewmodel.navigator.deleteRecord(view)}"
+            android:onLongClick="@{(view) -> viewmodel.showDeleteDialog()}"
             android:singleLine="true"
             android:text="@{viewmodel.name}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"

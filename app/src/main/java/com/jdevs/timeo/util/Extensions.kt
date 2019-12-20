@@ -59,7 +59,6 @@ fun ViewGroup.inflate(layoutId: Int): View {
 fun ViewModel.launchSuspendingProcess(
     onFailure: (FirebaseException) -> Unit = {},
     onSuccess: () -> Unit = {},
-    navigator: LoaderViewModel.Navigator? = null,
     logOnFailure: String = "",
     block: suspend () -> Unit
 ) {
@@ -68,8 +67,6 @@ fun ViewModel.launchSuspendingProcess(
 
         showLoader()
     }
-
-    navigator?.hideKeyboard()
 
     viewModelScope.launch {
 

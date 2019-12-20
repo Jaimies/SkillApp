@@ -1,12 +1,13 @@
 package com.jdevs.timeo.ui.profile.viewmodel
 
-import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.launchSuspendingProcess
 
 class SignUpViewModel : AuthViewModel() {
 
-    var navigator: Navigator? = null
+    val signUp = SingleLiveEvent<Pair<String, String>>()
+    val navigateToSignIn = SingleLiveEvent<Any>()
 
     fun createAccount(
         email: String,
@@ -15,7 +16,7 @@ class SignUpViewModel : AuthViewModel() {
         onSuccess: () -> Unit = {}
     ) {
 
-        launchSuspendingProcess(onFailure, onSuccess, navigator) {
+        launchSuspendingProcess(onFailure, onSuccess) {
 
             AuthRepository.createAccount(email, password)
         }
@@ -23,17 +24,11 @@ class SignUpViewModel : AuthViewModel() {
 
     fun triggerSignUp() {
 
-        navigator?.signUp(email.value.orEmpty(), password.value.orEmpty())
+        signUp.value = email.value.orEmpty() to password.value.orEmpty()
     }
 
-    override fun onFragmentDestroyed() {
+    fun navigateToSignIn() {
 
-        navigator = null
-    }
-
-    interface Navigator : LoaderViewModel.Navigator {
-
-        fun navigateToSignIn()
-        fun signUp(email: String, password: String)
+        navigateToSignIn.call()
     }
 }

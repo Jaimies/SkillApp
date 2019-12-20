@@ -6,7 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
@@ -15,30 +15,19 @@ import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.data.Task
 import com.jdevs.timeo.data.source.RemoteRepository
 import com.jdevs.timeo.databinding.AddtaskFragBinding
-import com.jdevs.timeo.ui.activities.viewmodel.CreateEditActivityViewModel
+import com.jdevs.timeo.ui.activities.viewmodel.AddEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.getCoroutineIoScope
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.requireMainActivity
 import kotlinx.coroutines.launch
 
-class AddEditActivityFragment : ActionBarFragment(),
-    CreateEditActivityViewModel.Navigator {
+class AddEditActivityFragment : ActionBarFragment() {
 
     override val menuId = R.menu.addedit_fragment_menu
     private val args: AddEditActivityFragmentArgs by navArgs()
 
-    private val viewModel by lazy {
-        ViewModelProviders.of(this).get(CreateEditActivityViewModel::class.java).also {
-
-            it.navigator = this
-
-            if (args.isEdited) {
-
-                it.setActivity(args.activity)
-            }
-        }
-    }
+    private val viewModel: AddEditActivityViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,16 +41,36 @@ class AddEditActivityFragment : ActionBarFragment(),
             it.lifecycleOwner = this
         }
 
+        if (args.isEdited) {
+
+            viewModel.setActivity(args.activity)
+        }
+
         requireMainActivity().supportActionBar?.apply {
 
             title =
                 getString(if (args.isEdited) R.string.edit_activity else R.string.create_activity)
         }
 
+        viewModel.hideKeyboard.observeEvent(viewLifecycleOwner) {
+
+            activity?.hideKeyboard()
+        }
+
+        viewModel.showDeleteDialog.observeEvent(viewLifecycleOwner) {
+
+            showDeleteDialog()
+        }
+
+        viewModel.saveActivity.observeEvent(viewLifecycleOwner) {
+
+            saveActivity(it!!)
+        }
+
         return binding.root
     }
 
-    override fun saveActivity(name: String) {
+    private fun saveActivity(name: String) {
 
         if (!validateInput(name)) {
 
@@ -96,10 +105,10 @@ class AddEditActivityFragment : ActionBarFragment(),
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
         }
 
-        hideKeyboard()
+        activity?.hideKeyboard()
     }
 
-    override fun showDeleteDialog() {
+    private fun showDeleteDialog() {
 
         val dialog = AlertDialog.Builder(context!!)
             .setIcon(android.R.drawable.ic_delete)
@@ -117,11 +126,6 @@ class AddEditActivityFragment : ActionBarFragment(),
             .setNegativeButton(getString(R.string.no), null)
 
         dialog.show()
-    }
-
-    override fun hideKeyboard() {
-
-        activity?.hideKeyboard()
     }
 
     private fun validateInput(name: String): Boolean {

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -29,15 +29,9 @@ import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
 import com.jdevs.timeo.util.navigateToGraph
 
-class SignInFragment : Fragment(),
-    SignInViewModel.Navigator {
+class SignInFragment : Fragment() {
 
-    private val viewModel by lazy {
-        ViewModelProviders.of(this).get(SignInViewModel::class.java).also {
-            it.navigator = this
-        }
-    }
-
+    private val viewModel: SignInViewModel by viewModels()
     private val googleSignInClient by lazy {
 
         val googleSignInOptions = GoogleSignInOptions.Builder()
@@ -60,21 +54,31 @@ class SignInFragment : Fragment(),
             it.lifecycleOwner = this
         }
 
+        viewModel.hideKeyboard.observeEvent(viewLifecycleOwner) {
+
+            activity?.hideKeyboard()
+        }
+
+        viewModel.signIn.observeEvent(viewLifecycleOwner) {
+
+            it!!
+            signIn(it.first, it.second)
+        }
+
+        viewModel.showGoogleSignInIntent.observeEvent(viewLifecycleOwner) {
+
+            showGoogleSignInIntent()
+        }
+
+        viewModel.navigateToSignUp.observeEvent(viewLifecycleOwner) {
+
+            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+        }
+
         return binding.root
     }
 
-    override fun onDestroy() {
-
-        super.onDestroy()
-        viewModel.onFragmentDestroyed()
-    }
-
-    override fun hideKeyboard() {
-
-        activity?.hideKeyboard()
-    }
-
-    override fun signIn(email: String, password: String) {
+    private fun signIn(email: String, password: String) {
 
         when {
 
@@ -92,19 +96,15 @@ class SignInFragment : Fragment(),
         }
     }
 
-    override fun showGoogleSignInIntent() {
+    private fun showGoogleSignInIntent() {
 
-        hideKeyboard()
+        activity?.hideKeyboard()
         viewModel.showLoader()
 
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
 
         return
-    }
-
-    override fun navigateToSignup() {
-        findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

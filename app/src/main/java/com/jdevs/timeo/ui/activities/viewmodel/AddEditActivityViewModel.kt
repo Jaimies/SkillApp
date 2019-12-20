@@ -4,13 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.Task
+import com.jdevs.timeo.util.SingleLiveEvent
 
-class CreateEditActivityViewModel : ViewModel() {
+class AddEditActivityViewModel : ViewModel() {
 
-    var navigator: Navigator? = null
     val name = MutableLiveData("")
     val nameError get() = _nameError as LiveData<String>
     val activityExists get() = _activityExists as LiveData<Boolean>
+    val hideKeyboard = SingleLiveEvent<Any>()
+    val showDeleteDialog = SingleLiveEvent<Any>()
+    val saveActivity = SingleLiveEvent<String>()
 
     private val _nameError = MutableLiveData("")
     private val _activityExists = MutableLiveData(false)
@@ -28,12 +31,16 @@ class CreateEditActivityViewModel : ViewModel() {
 
     fun triggerSaveActivity() {
 
-        navigator?.saveActivity(name.value.orEmpty())
+        saveActivity.value = name.value.orEmpty()
     }
 
-    interface Navigator {
-        fun saveActivity(name: String)
-        fun showDeleteDialog()
-        fun hideKeyboard()
+    fun showDeleteDialog() {
+
+        showDeleteDialog.call()
+    }
+
+    fun hideKeyboard() {
+
+        hideKeyboard.call()
     }
 }

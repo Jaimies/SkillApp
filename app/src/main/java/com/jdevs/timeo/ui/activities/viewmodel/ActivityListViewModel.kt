@@ -13,6 +13,7 @@ class ActivityListViewModel : ListViewModel() {
     init {
 
         RemoteRepository.setupActivitiesSource {
+
             onLastItemReached.call()
         }
     }

@@ -26,5 +26,8 @@ abstract class AuthViewModel : LoaderViewModel() {
         _passwordError.value = error
     }
 
-    abstract fun onFragmentDestroyed()
+    fun hideKeyboard() {
+
+        hideKeyboard.call()
+    }
 }

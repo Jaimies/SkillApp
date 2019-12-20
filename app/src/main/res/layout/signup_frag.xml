@@ -13,7 +13,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:onClick="@{() -> viewmodel.navigator.hideKeyboard()}"
+        android:onClick="@{() -> viewmodel.hideKeyboard()}"
         tools:context=".ui.profile.SignInFragment">
 
         <LinearLayout
@@ -67,7 +67,7 @@
 
                 <TextView
                     style="@style/Widget.Timeo.AlternativeText"
-                    android:onClick="@{() -> viewmodel.navigator.navigateToSignIn()}"
+                    android:onClick="@{() -> viewmodel.navigateToSignIn()}"
                     android:text="@string/sign_in_or" />
 
                 <com.google.android.material.button.MaterialButton
@@ -81,7 +81,6 @@
 
         <include
             android:id="@+id/preloader"
-            layout="@layout/preloader"
-            app:hideIf="@{!viewmodel.isLoading}" />
+            layout="@layout/preloader" />
     </FrameLayout>
 </layout>

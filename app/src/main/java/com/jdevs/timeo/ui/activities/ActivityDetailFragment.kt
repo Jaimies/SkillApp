@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
@@ -18,11 +18,7 @@ class ActivityDetailFragment : ActionBarFragment() {
     override val menuId = R.menu.activity_detail_fragment_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
 
-    private val viewModel by lazy {
-        ViewModelProviders.of(this).get(ActivityDetailViewModel::class.java).apply {
-            setActivity(args.activity)
-        }
-    }
+    private val viewModel: ActivityDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +31,8 @@ class ActivityDetailFragment : ActionBarFragment() {
             it.lifecycleOwner = this
             it.viewmodel = viewModel
         }
+
+        viewModel.setActivity(args.activity)
 
         return binding.root
     }

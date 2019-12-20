@@ -2,13 +2,15 @@ package com.jdevs.timeo.ui.profile.viewmodel
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.FirebaseException
-import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.launchSuspendingProcess
 
 class SignInViewModel : AuthViewModel() {
 
-    var navigator: Navigator? = null
+    val signIn = SingleLiveEvent<Pair<String, String>>()
+    val showGoogleSignInIntent = SingleLiveEvent<Any>()
+    val navigateToSignUp = SingleLiveEvent<Any>()
 
     fun signInWithGoogle(
         account: GoogleSignInAccount,
@@ -16,7 +18,7 @@ class SignInViewModel : AuthViewModel() {
         onSuccess: () -> Unit = {}
     ) {
 
-        launchSuspendingProcess(onFailure, onSuccess, navigator) {
+        launchSuspendingProcess(onFailure, onSuccess) {
 
             AuthRepository.linkGoogleAccount(account)
         }
@@ -29,7 +31,7 @@ class SignInViewModel : AuthViewModel() {
         onSuccess: () -> Unit = {}
     ) {
 
-        launchSuspendingProcess(onFailure, onSuccess, navigator) {
+        launchSuspendingProcess(onFailure, onSuccess) {
 
             AuthRepository.signIn(email, password)
         }
@@ -37,18 +39,16 @@ class SignInViewModel : AuthViewModel() {
 
     fun triggerSignIn() {
 
-        navigator?.signIn(email.value.orEmpty(), password.value.orEmpty())
+        signIn.value = email.value.orEmpty() to password.value.orEmpty()
     }
 
-    override fun onFragmentDestroyed() {
+    fun showGoogleSignInIntent() {
 
-        navigator = null
+        showGoogleSignInIntent.call()
     }
 
-    interface Navigator : LoaderViewModel.Navigator {
+    fun navigateToSignUp() {
 
-        fun navigateToSignup()
-        fun signIn(email: String, password: String)
-        fun showGoogleSignInIntent()
+        navigateToSignUp.call()
     }
 }

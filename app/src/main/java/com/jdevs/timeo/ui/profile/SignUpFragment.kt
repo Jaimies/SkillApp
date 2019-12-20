@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -25,14 +25,9 @@ import com.jdevs.timeo.util.navigateToGraph
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
 
-class SignUpFragment : Fragment(),
-    SignUpViewModel.Navigator {
+class SignUpFragment : Fragment() {
 
-    private val viewModel by lazy {
-        ViewModelProviders.of(this).get(SignUpViewModel::class.java).also {
-            it.navigator = this
-        }
-    }
+    private val viewModel: SignUpViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,26 +41,26 @@ class SignUpFragment : Fragment(),
             it.lifecycleOwner = this
         }
 
+        viewModel.hideKeyboard.observeEvent(viewLifecycleOwner) {
+
+            activity?.hideKeyboard()
+        }
+
+        viewModel.navigateToSignIn.observeEvent(viewLifecycleOwner) {
+
+            findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
+        }
+
+        viewModel.signUp.observeEvent(viewLifecycleOwner) {
+
+            it!!
+            signUp(it.first, it.second)
+        }
+
         return binding.root
     }
 
-    override fun onDestroy() {
-
-        super.onDestroy()
-        viewModel.onFragmentDestroyed()
-    }
-
-    override fun navigateToSignIn() {
-
-        findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
-    }
-
-    override fun hideKeyboard() {
-
-        activity?.hideKeyboard()
-    }
-
-    override fun signUp(email: String, password: String) {
+    fun signUp(email: String, password: String) {
 
         if (!(validateEmail(email) && validatePassword(password))) {
 

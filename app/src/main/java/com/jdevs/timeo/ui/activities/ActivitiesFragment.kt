@@ -69,11 +69,6 @@ class ActivitiesFragment : ListFragment<Task>() {
                 }
             }
 
-            observeEvent(onLastItemReached) {
-
-                mAdapter.onLastItemReached()
-            }
-
             observeEvent(navigateToAddEdit) {
 
                 findNavController().navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)

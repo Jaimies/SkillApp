@@ -17,6 +17,7 @@ import com.jdevs.timeo.util.OperationTypes.FINISHED
 import com.jdevs.timeo.util.OperationTypes.MODIFIED
 import com.jdevs.timeo.util.OperationTypes.REMOVED
 import com.jdevs.timeo.util.TAG
+import com.jdevs.timeo.util.observeEvent
 
 @Suppress("UNCHECKED_CAST")
 abstract class ListFragment<T : ViewType> : ActionBarFragment() {
@@ -25,7 +26,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
     protected abstract val mAdapter: ListAdapter
     protected lateinit var linearLayoutManager: LinearLayoutManager
 
-    private val liveDatas = mutableListOf<ItemsLiveData>()
+    private val itemLiveDatas = mutableListOf<ItemsLiveData>()
     private var hasObserverAttached = false
 
     abstract fun getItems()
@@ -38,6 +39,11 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
+        observeEvent(viewModel.onLastItemReached) {
+
+            mAdapter.onLastItemReached()
+        }
+
         if (!hasObserverAttached) {
 
             getItems()
@@ -46,7 +52,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
             return view
         }
 
-        liveDatas.forEach {
+        itemLiveDatas.forEach {
 
             if (!it.hasObservers()) {
 
@@ -61,7 +67,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
         if (liveData != null && shouldAddToList) {
 
-            liveDatas.add(liveData)
+            itemLiveDatas.add(liveData)
         }
 
         liveData?.observe(viewLifecycleOwner) { operation ->

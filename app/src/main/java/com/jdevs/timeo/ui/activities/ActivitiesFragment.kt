@@ -23,7 +23,6 @@ class ActivitiesFragment : ListFragment<Task>() {
 
     override val menuId = R.menu.activities_fragment_menu
     override val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
-
     override val viewModel: ActivityListViewModel by viewModels()
 
     private lateinit var menu: Menu

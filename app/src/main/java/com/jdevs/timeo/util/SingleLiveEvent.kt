@@ -19,11 +19,11 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * Note that only one observer is going to be notified of changes.
  */
-class SingleLiveEvent<T> : MutableLiveData<T?>() {
+class SingleLiveEvent<T> : MutableLiveData<T>() {
     private val mPending = AtomicBoolean(false)
 
     @MainThread
-    fun observeEvent(owner: LifecycleOwner?, onChanged: (T?) -> Unit) {
+    fun observeEvent(owner: LifecycleOwner?, onChanged: (T) -> Unit) {
         if (hasActiveObservers()) {
             Log.w(
                 TAG,

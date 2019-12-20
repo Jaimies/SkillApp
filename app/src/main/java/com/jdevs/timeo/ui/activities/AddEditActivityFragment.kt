@@ -26,7 +26,6 @@ class AddEditActivityFragment : ActionBarFragment() {
 
     override val menuId = R.menu.addedit_fragment_menu
     private val args: AddEditActivityFragmentArgs by navArgs()
-
     private val viewModel: AddEditActivityViewModel by viewModels()
 
     override fun onCreateView(
@@ -64,7 +63,7 @@ class AddEditActivityFragment : ActionBarFragment() {
 
         viewModel.saveActivity.observeEvent(viewLifecycleOwner) {
 
-            saveActivity(it!!)
+            saveActivity(it)
         }
 
         return binding.root

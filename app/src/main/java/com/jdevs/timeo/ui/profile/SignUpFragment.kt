@@ -53,7 +53,6 @@ class SignUpFragment : Fragment() {
 
         viewModel.signUp.observeEvent(viewLifecycleOwner) {
 
-            it!!
             signUp(it.first, it.second)
         }
 

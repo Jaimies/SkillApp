@@ -17,7 +17,6 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     override val menuId = R.menu.activity_detail_fragment_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
-
     private val viewModel: ActivityDetailViewModel by viewModels()
 
     override fun onCreateView(

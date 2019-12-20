@@ -61,7 +61,6 @@ class SignInFragment : Fragment() {
 
         viewModel.signIn.observeEvent(viewLifecycleOwner) {
 
-            it!!
             signIn(it.first, it.second)
         }
 

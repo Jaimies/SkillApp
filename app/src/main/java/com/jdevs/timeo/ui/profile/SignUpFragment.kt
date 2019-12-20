@@ -53,13 +53,14 @@ class SignUpFragment : Fragment() {
 
         viewModel.signUp.observeEvent(viewLifecycleOwner) {
 
+            it!!
             signUp(it.first, it.second)
         }
 
         return binding.root
     }
 
-    fun signUp(email: String, password: String) {
+    private fun signUp(email: String, password: String) {
 
         if (!(validateEmail(email) && validatePassword(password))) {
 

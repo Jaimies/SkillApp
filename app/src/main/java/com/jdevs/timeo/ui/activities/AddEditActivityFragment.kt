@@ -63,7 +63,7 @@ class AddEditActivityFragment : ActionBarFragment() {
 
         viewModel.saveActivity.observeEvent(viewLifecycleOwner) {
 
-            saveActivity(it)
+            saveActivity(it!!)
         }
 
         return binding.root

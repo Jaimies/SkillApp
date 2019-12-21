@@ -1,6 +1,7 @@
 package com.jdevs.timeo.ui.activities.viewmodel
 
 import com.jdevs.timeo.common.viewmodel.ListViewModel
+import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.RemoteRepository
 
 class HistoryViewModel : ListViewModel() {
@@ -12,8 +13,8 @@ class HistoryViewModel : ListViewModel() {
         RemoteRepository.setupRecordsSource { onLastItemReached.call() }
     }
 
-    fun deleteRecord(id: String, recordTime: Long, activityId: String) {
+    fun deleteRecord(id: String, record: Record) {
 
-        RemoteRepository.deleteRecord(id, recordTime, activityId)
+        RemoteRepository.deleteRecord(id, record.time, record.activityId)
     }
 }

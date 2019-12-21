@@ -79,14 +79,14 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
             return
         }
 
-        val record = getRecord(chosenItemIndex)
-        val recordTime = record.time
-
-        Snackbar.make(view!!, getString(R.string.record_deleted), Snackbar.LENGTH_SHORT).show()
-
-        viewModel.deleteRecord(mAdapter.getId(chosenItemIndex), recordTime, record.activityId)
+        viewModel.deleteRecord(
+            id = mAdapter.getId(chosenItemIndex),
+            record = getRecord(chosenItemIndex)
+        )
 
         chosenItemIndex = -1
+
+        Snackbar.make(view!!, getString(R.string.record_deleted), Snackbar.LENGTH_SHORT).show()
     }
 
     private fun getRecord(index: Int) = mAdapter.getItem(index) as Record

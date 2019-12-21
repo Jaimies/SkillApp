@@ -27,8 +27,5 @@ class SignUpViewModel : AuthViewModel() {
         signUp.value = email.value.orEmpty() to password.value.orEmpty()
     }
 
-    fun navigateToSignIn() {
-
-        navigateToSignIn.call()
-    }
+    fun navigateToSignIn() = navigateToSignIn.call()
 }

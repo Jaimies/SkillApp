@@ -19,8 +19,5 @@ class ActivityListViewModel : ListViewModel() {
         RemoteRepository.addRecord(activityName, time, activityId)
     }
 
-    fun navigateToAddActivity() {
-
-        navigateToAddEdit.call()
-    }
+    fun navigateToAddActivity() = navigateToAddEdit.call()
 }

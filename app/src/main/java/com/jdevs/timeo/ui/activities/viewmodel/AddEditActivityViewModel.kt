@@ -33,8 +33,5 @@ class AddEditActivityViewModel : KeyboardHidingViewModel() {
         saveActivity.value = name.value.orEmpty()
     }
 
-    fun showDeleteDialog() {
-
-        showDeleteDialog.call()
-    }
+    fun showDeleteDialog() = showDeleteDialog.call()
 }

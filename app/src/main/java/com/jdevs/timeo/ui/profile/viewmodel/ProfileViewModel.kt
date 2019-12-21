@@ -20,18 +20,11 @@ class ProfileViewModel : ViewModel() {
         _isSignedIn.value = false
     }
 
-    fun triggerSignOut() {
-
-        signOut.call()
-    }
-
-    fun navigateToSignIn() {
-
-        navigateToSignIn.call()
-    }
-
     fun notifyUserIsSignedIn() {
 
         _isSignedIn.value = true
     }
+
+    fun triggerSignOut() = signOut.call()
+    fun navigateToSignIn() = navigateToSignIn.call()
 }

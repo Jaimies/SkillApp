@@ -42,13 +42,6 @@ class SignInViewModel : AuthViewModel() {
         signIn.value = email.value.orEmpty() to password.value.orEmpty()
     }
 
-    fun showGoogleSignInIntent() {
-
-        showGoogleSignInIntent.call()
-    }
-
-    fun navigateToSignUp() {
-
-        navigateToSignUp.call()
-    }
+    fun showGoogleSignInIntent() = showGoogleSignInIntent.call()
+    fun navigateToSignUp() = navigateToSignUp.call()
 }

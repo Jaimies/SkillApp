@@ -35,7 +35,6 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int) = items[position].getViewType()
     override fun getItemCount() = items.size
-
     fun getItem(index: Int) = items[index]
     fun getId(index: Int): String = ids[index]
 
@@ -82,6 +81,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun showLoader() {
+
         if (!isLastItemReached && !items.contains(loadingItem)) {
 
             items.add(loadingItem)
@@ -94,12 +94,13 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val index = items.indexOf(loadingItem)
 
         if (index != -1) {
+
             items.removeAt(index)
             notifyItemRemoved(index)
         }
     }
 
-    open class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    abstract class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         protected val context: Context = view.context
         protected val lifecycleOwner = context as LifecycleOwner

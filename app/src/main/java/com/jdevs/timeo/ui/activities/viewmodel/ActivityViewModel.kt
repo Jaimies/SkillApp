@@ -23,13 +23,6 @@ class ActivityViewModel : ViewModel() {
         _totalTime.value = activity.totalTime.getHours() + "h"
     }
 
-    fun navigateToDetails() {
-
-        navigateToDetails.call()
-    }
-
-    fun showRecordDialog() {
-
-        showRecordDialog.call()
-    }
+    fun navigateToDetails() = navigateToDetails.call()
+    fun showRecordDialog() = showRecordDialog.call()
 }

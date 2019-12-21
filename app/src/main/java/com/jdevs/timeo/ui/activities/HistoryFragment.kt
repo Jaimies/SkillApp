@@ -18,8 +18,7 @@ import com.jdevs.timeo.ui.activities.adapter.RecordsAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel
 import com.jdevs.timeo.util.RecordsConstants
 
-class HistoryFragment : ListFragment<Record>(),
-    DialogInterface.OnClickListener {
+class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener {
 
     override val menuId = R.menu.history_fragment_menu
     override val viewModel: HistoryViewModel by viewModels()
@@ -62,16 +61,15 @@ class HistoryFragment : ListFragment<Record>(),
 
     private fun showDeleteDialog(index: Int) {
 
-        val dialog = AlertDialog.Builder(context!!)
+        chosenItemIndex = index
+
+        AlertDialog.Builder(context!!)
             .setIcon(android.R.drawable.ic_delete)
             .setTitle(getString(R.string.are_you_sure))
             .setMessage(getString(R.string.sure_delete_record))
             .setPositiveButton(getString(R.string.yes), this)
             .setNegativeButton(getString(R.string.no), null)
-
-        chosenItemIndex = index
-
-        dialog.show()
+            .show()
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {
@@ -87,6 +85,8 @@ class HistoryFragment : ListFragment<Record>(),
         Snackbar.make(view!!, getString(R.string.record_deleted), Snackbar.LENGTH_SHORT).show()
 
         viewModel.deleteRecord(mAdapter.getId(chosenItemIndex), recordTime, record.activityId)
+
+        chosenItemIndex = -1
     }
 
     private fun getRecord(index: Int) = mAdapter.getItem(index) as Record

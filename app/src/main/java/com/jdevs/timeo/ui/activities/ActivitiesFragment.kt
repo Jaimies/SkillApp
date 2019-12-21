@@ -99,7 +99,11 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
     private fun createRecord(index: Int, time: Long) {
 
-        viewModel.createRecord(getActivity(index).name, time, mAdapter.getId(index))
+        viewModel.createRecord(
+            activityName = getActivity(index).name,
+            time = time,
+            activityId = mAdapter.getId(index)
+        )
     }
 
     private fun getActivity(index: Int) = mAdapter.getItem(index) as Activity

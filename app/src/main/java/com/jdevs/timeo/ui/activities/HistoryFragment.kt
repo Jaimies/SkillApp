@@ -64,13 +64,11 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
 
         viewModel.deleteRecord(
             id = mAdapter.getId(chosenItemIndex),
-            record = getRecord(chosenItemIndex)
+            record = getItem(chosenItemIndex)
         )
 
         chosenItemIndex = -1
 
         Snackbar.make(view!!, getString(R.string.record_deleted), Snackbar.LENGTH_SHORT).show()
     }
-
-    private fun getRecord(index: Int) = mAdapter.getItem(index) as Record
 }

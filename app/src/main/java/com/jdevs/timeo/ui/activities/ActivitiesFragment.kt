@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ListFragment
@@ -44,12 +43,10 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
         viewModel.apply {
 
-            isLoading.observe(viewLifecycleOwner) { isLoading ->
+            observeEvent(onLoaded) {
 
-                if (!isLoading) {
-
-                    onItemsLoaded()
-                }
+                menu.forEach { it.isEnabled = true }
+                isLoaded = true
             }
 
             observeEvent(navigateToAddEdit) {
@@ -76,20 +73,10 @@ class ActivitiesFragment : ListFragment<Activity>() {
         super.onPrepareOptionsMenu(menu)
     }
 
-    private fun onItemsLoaded() {
-
-        menu.forEach {
-
-            it.isEnabled = true
-        }
-
-        isLoaded = true
-    }
-
     private fun navigateToDetails(index: Int) {
 
         val id = mAdapter.getId(index)
-        val activity = getActivity(index)
+        val activity = getItem(index)
 
         val action = ActivitiesFragmentDirections
             .actionActivitiesFragmentToActivityDetailsFragment(activity = activity, id = id)
@@ -100,11 +87,9 @@ class ActivitiesFragment : ListFragment<Activity>() {
     private fun createRecord(index: Int, time: Long) {
 
         viewModel.createRecord(
-            activityName = getActivity(index).name,
+            activityName = getItem(index).name,
             time = time,
             activityId = mAdapter.getId(index)
         )
     }
-
-    private fun getActivity(index: Int) = mAdapter.getItem(index) as Activity
 }

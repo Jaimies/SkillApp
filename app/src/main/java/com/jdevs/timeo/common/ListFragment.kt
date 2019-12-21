@@ -41,7 +41,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
         if (!hasObserverAttached) {
 
-            getItems()
+            observe(viewModel.liveData)
             hasObserverAttached = true
         } else {
 
@@ -56,8 +56,6 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
-
-    protected fun getItems() = observe(viewModel.liveData)
 
     private fun observe(liveData: ItemsLiveData?, shouldAddToList: Boolean = true) {
 
@@ -111,7 +109,12 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         adapter = mAdapter
 
         addOnScrollListener(
-            InfiniteScrollListener(linearLayoutManager, visibleThreshold) { getItems() }
+            InfiniteScrollListener(
+                linearLayoutManager,
+                visibleThreshold
+            ) { observe(viewModel.liveData) }
         )
     }
+
+    protected fun getItem(index: Int) = mAdapter.getItem(index) as T
 }

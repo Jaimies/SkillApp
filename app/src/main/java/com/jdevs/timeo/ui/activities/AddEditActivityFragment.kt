@@ -12,9 +12,9 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ActionBarFragment
-import com.jdevs.timeo.data.Task
+import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.source.RemoteRepository
-import com.jdevs.timeo.databinding.AddtaskFragBinding
+import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.AddEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.getCoroutineIoScope
@@ -35,7 +35,7 @@ class AddEditActivityFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = AddtaskFragBinding.inflate(inflater, container, false).also {
+        val binding = AddactivityFragBinding.inflate(inflater, container, false).also {
 
             it.viewModel = viewModel
             it.lifecycleOwner = this
@@ -98,8 +98,7 @@ class AddEditActivityFragment : ActionBarFragment() {
             findNavController().navigate(directions)
         } else {
 
-            val activity = Task(name)
-
+            val activity = Activity(name)
             RemoteRepository.addActivity(activity)
 
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)

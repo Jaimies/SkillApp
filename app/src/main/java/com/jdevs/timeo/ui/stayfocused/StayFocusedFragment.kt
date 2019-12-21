@@ -15,6 +15,6 @@ class StayFocusedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.stay_focused_frag, container, false)
+        return inflater.inflate(R.layout.stayfocused_frag, container, false)
     }
 }

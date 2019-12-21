@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.activities.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.common.viewmodel.KeyboardHidingViewModel
-import com.jdevs.timeo.data.Task
+import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.util.SingleLiveEvent
 
 class AddEditActivityViewModel : KeyboardHidingViewModel() {
@@ -17,7 +17,7 @@ class AddEditActivityViewModel : KeyboardHidingViewModel() {
     private val _nameError = MutableLiveData("")
     private val _activityExists = MutableLiveData(false)
 
-    fun setActivity(activity: Task?) {
+    fun setActivity(activity: Activity?) {
 
         name.value = activity?.name.orEmpty()
         _activityExists.value = true

@@ -46,12 +46,12 @@
     <fragment
         android:id="@+id/add_edit_activity_fragment_dest"
         android:name="com.jdevs.timeo.ui.activities.AddEditActivityFragment"
-        tools:layout="@layout/addtask_frag">
+        tools:layout="@layout/addactivity_frag">
 
         <argument
             android:name="activity"
             android:defaultValue="@null"
-            app:argType="com.jdevs.timeo.data.Task"
+            app:argType="com.jdevs.timeo.data.Activity"
             app:nullable="true" />
 
         <argument
@@ -94,7 +94,7 @@
 
         <argument
             android:name="activity"
-            app:argType="com.jdevs.timeo.data.Task" />
+            app:argType="com.jdevs.timeo.data.Activity" />
 
         <argument
             android:name="id"

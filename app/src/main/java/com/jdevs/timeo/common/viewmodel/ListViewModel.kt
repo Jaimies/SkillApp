@@ -9,7 +9,6 @@ abstract class ListViewModel : LoaderViewModel(true) {
 
     val onLastItemReached = SingleLiveEvent<Any>()
     val isEmpty: LiveData<Boolean> get() = _isEmpty
-
     private val _isEmpty = MutableLiveData(true)
 
     fun setLength(length: Int) {

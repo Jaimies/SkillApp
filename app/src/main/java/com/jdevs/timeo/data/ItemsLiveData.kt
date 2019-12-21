@@ -107,7 +107,7 @@ sealed class ItemsLiveData(
         query,
         setLastVisibleItem,
         onLastItemReached,
-        Task::class.java,
+        Activity::class.java,
         ActivitiesConstants.FETCH_LIMIT
     )
 

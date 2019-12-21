@@ -25,7 +25,6 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
     protected abstract val viewModel: ListViewModel
     protected abstract val mAdapter: ListAdapter
     protected lateinit var linearLayoutManager: LinearLayoutManager
-
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()
     private var hasObserverAttached = false
 

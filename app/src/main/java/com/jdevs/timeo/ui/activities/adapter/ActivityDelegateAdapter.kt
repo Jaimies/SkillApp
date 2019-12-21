@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.adapter.ViewTypeDelegateAdapter
-import com.jdevs.timeo.data.Task
+import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityViewModel
@@ -42,7 +42,7 @@ class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
 
         holder as ViewHolder
-        holder.bindActivity(item as Task)
+        holder.bindActivity(item as Activity)
     }
 
     class ViewHolder(
@@ -68,6 +68,6 @@ class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
             }
         }
 
-        fun bindActivity(activity: Task) = viewModel.setActivity(activity)
+        fun bindActivity(activity: Activity) = viewModel.setActivity(activity)
     }
 }

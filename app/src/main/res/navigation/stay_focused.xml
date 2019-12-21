@@ -10,5 +10,5 @@
         android:id="@+id/stay_focused_dest"
         android:name="com.jdevs.timeo.ui.stayfocused.StayFocusedFragment"
         android:label="@string/stay_focused"
-        tools:layout="@layout/stay_focused_frag" />
+        tools:layout="@layout/stayfocused_frag" />
 </navigation>

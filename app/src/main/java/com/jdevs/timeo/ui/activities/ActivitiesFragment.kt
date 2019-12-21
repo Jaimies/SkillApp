@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ListFragment
@@ -24,7 +25,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
     override val viewModel: ActivityListViewModel by viewModels()
 
     private lateinit var menu: Menu
-    private var isLoaded = false
+    private var isLoadEventHandled = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +44,13 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
         viewModel.apply {
 
-            observeEvent(onLoaded) {
+            isLoading.observe(viewLifecycleOwner) { isLoading ->
 
-                menu.forEach { it.isEnabled = true }
-                isLoaded = true
+                if (!isLoadEventHandled && !isLoading) {
+
+                    menu.forEach { it.isEnabled = true }
+                    isLoadEventHandled = true
+                }
             }
 
             observeEvent(navigateToAddEdit) {
@@ -62,7 +66,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
         this.menu = menu
 
-        if (!isLoaded) {
+        if (!isLoadEventHandled) {
 
             menu.forEach {
 
@@ -75,11 +79,11 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
     private fun navigateToDetails(index: Int) {
 
-        val id = mAdapter.getId(index)
-        val activity = getItem(index)
-
         val action = ActivitiesFragmentDirections
-            .actionActivitiesFragmentToActivityDetailsFragment(activity = activity, id = id)
+            .actionActivitiesFragmentToActivityDetailsFragment(
+                activity = getItem(index),
+                id = mAdapter.getId(index)
+            )
 
         findNavController().navigate(action)
     }

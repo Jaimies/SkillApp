@@ -20,7 +20,7 @@ sealed class ItemsLiveData(
     private var query: Query?,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
     private val onLastItemReached: () -> Unit,
-    private val dataType: Class<*>,
+    private val type: Class<*>,
     private val fetchLimit: Long
 ) : LiveData<Operation>(), EventListener<QuerySnapshot> {
 
@@ -81,11 +81,11 @@ sealed class ItemsLiveData(
 
         val activity = try {
 
-            documentChange.document.toObject(dataType)
+            documentChange.document.toObject(type)
         } catch (e: RuntimeException) {
 
             e.printStackTrace()
-            dataType.getConstructor().newInstance()
+            type.getConstructor().newInstance()
         }
 
         val docId = documentChange.document.id

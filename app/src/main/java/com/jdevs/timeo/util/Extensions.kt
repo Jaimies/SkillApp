@@ -102,5 +102,10 @@ fun Fragment.navigateToGraph(graphId: Int) {
     }
 }
 
+fun <T> Fragment.observeEvent(event: SingleLiveEvent<T>, onEvent: (T?) -> Unit) {
+
+    event.observeEvent(viewLifecycleOwner) { onEvent(it) }
+}
+
 fun Fragment.requireMainActivity() = requireActivity() as MainActivity
 fun Fragment.getCoroutineIoScope() = (requireActivity().application as TimeoApplication).ioScope

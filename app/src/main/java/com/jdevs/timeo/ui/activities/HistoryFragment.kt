@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.InfiniteScrollListener
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.HistoryFragBinding
@@ -38,22 +36,7 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
 
             it.viewModel = viewModel
             it.lifecycleOwner = this
-
-            it.recyclerView.apply {
-
-                linearLayoutManager = LinearLayoutManager(context)
-
-                layoutManager = linearLayoutManager
-                adapter = mAdapter
-
-                addOnScrollListener(
-                    InfiniteScrollListener(
-                        ::getItems,
-                        linearLayoutManager,
-                        RecordsConstants.VISIBLE_THRESHOLD
-                    )
-                )
-            }
+            it.recyclerView.setup(RecordsConstants.VISIBLE_THRESHOLD)
         }
 
         return binding.root

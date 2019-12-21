@@ -4,9 +4,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class InfiniteScrollListener(
-    private val block: () -> Unit,
     private val layoutManager: LinearLayoutManager,
-    private val visibleThreshold: Int = 0
+    private val visibleThreshold: Int = 0,
+    private val func: () -> Unit
 ) : RecyclerView.OnScrollListener() {
 
     private var previousTotal = 0
@@ -35,7 +35,7 @@ class InfiniteScrollListener(
                 <= (firstVisibleItem + visibleThreshold)
             ) {
 
-                block()
+                func()
                 isLoading = true
             }
         }

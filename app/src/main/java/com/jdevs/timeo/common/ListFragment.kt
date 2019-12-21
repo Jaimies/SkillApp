@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.viewmodel.ListViewModel
@@ -24,7 +25,6 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
     protected abstract val viewModel: ListViewModel
     protected abstract val mAdapter: ListAdapter
-    protected lateinit var linearLayoutManager: LinearLayoutManager
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()
     private var hasObserverAttached = false
 
@@ -101,5 +101,17 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
                 }
             }
         }
+    }
+
+    fun RecyclerView.setup(visibleThreshold: Int) {
+
+        val linearLayoutManager = LinearLayoutManager(context)
+
+        layoutManager = linearLayoutManager
+        adapter = mAdapter
+
+        addOnScrollListener(
+            InfiniteScrollListener(linearLayoutManager, visibleThreshold) { getItems() }
+        )
     }
 }

@@ -9,9 +9,7 @@ import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.InfiniteScrollListener
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
@@ -41,22 +39,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
             it.viewModel = viewModel
             it.lifecycleOwner = this
-
-            it.recyclerView.apply {
-
-                linearLayoutManager = LinearLayoutManager(context)
-
-                layoutManager = linearLayoutManager
-                adapter = mAdapter
-
-                addOnScrollListener(
-                    InfiniteScrollListener(
-                        ::getItems,
-                        linearLayoutManager,
-                        ActivitiesConstants.VISIBLE_THRESHOLD
-                    )
-                )
-            }
+            it.recyclerView.setup(ActivitiesConstants.VISIBLE_THRESHOLD)
         }
 
         viewModel.apply {

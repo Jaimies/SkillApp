@@ -89,10 +89,5 @@ class HistoryFragment : ListFragment<Record>(),
         viewModel.deleteRecord(mAdapter.getId(chosenItemIndex), recordTime, record.activityId)
     }
 
-    override fun getItems() {
-
-        observe(viewModel.recordsLiveData)
-    }
-
     private fun getRecord(index: Int) = mAdapter.getItem(index) as Record
 }

@@ -5,7 +5,7 @@ import com.jdevs.timeo.data.source.RemoteRepository
 
 class HistoryViewModel : ListViewModel() {
 
-    val recordsLiveData get() = RemoteRepository.recordsLiveData
+    override val liveData get() = RemoteRepository.recordsLiveData
 
     init {
 

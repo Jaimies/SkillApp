@@ -103,11 +103,6 @@ class ActivitiesFragment : ListFragment<Activity>() {
         isLoaded = true
     }
 
-    override fun getItems() {
-
-        observe(viewModel.liveData)
-    }
-
     private fun navigateToDetails(index: Int) {
 
         val id = mAdapter.getId(index)

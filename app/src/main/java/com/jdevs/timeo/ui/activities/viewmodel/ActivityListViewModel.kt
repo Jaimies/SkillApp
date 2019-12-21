@@ -6,7 +6,7 @@ import com.jdevs.timeo.util.SingleLiveEvent
 
 class ActivityListViewModel : ListViewModel() {
 
-    val liveData get() = RemoteRepository.activitiesLiveData
+    override val liveData get() = RemoteRepository.activitiesLiveData
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
     init {

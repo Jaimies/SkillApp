@@ -28,15 +28,11 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()
     private var hasObserverAttached = false
 
-    abstract fun getItems()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val view = super.onCreateView(inflater, container, savedInstanceState)
 
         observeEvent(viewModel.onLastItemReached) {
 
@@ -47,22 +43,23 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
             getItems()
             hasObserverAttached = true
+        } else {
 
-            return view
-        }
+            itemLiveDatas.forEach {
 
-        itemLiveDatas.forEach {
+                if (!it.hasObservers()) {
 
-            if (!it.hasObservers()) {
-
-                observe(it, shouldAddToList = false)
+                    observe(it, shouldAddToList = false)
+                }
             }
         }
 
-        return view
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    fun observe(liveData: ItemsLiveData?, shouldAddToList: Boolean = true) {
+    protected fun getItems() = observe(viewModel.liveData)
+
+    private fun observe(liveData: ItemsLiveData?, shouldAddToList: Boolean = true) {
 
         if (liveData != null && shouldAddToList) {
 

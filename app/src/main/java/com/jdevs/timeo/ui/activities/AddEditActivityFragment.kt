@@ -98,7 +98,7 @@ class AddEditActivityFragment : ActionBarFragment() {
             findNavController().navigate(directions)
         } else {
 
-            val activity = Activity(name)
+            val activity = Activity(name = name)
             RemoteRepository.addActivity(activity)
 
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)

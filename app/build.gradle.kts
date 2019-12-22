@@ -105,8 +105,13 @@ dependencies {
     implementation("com.google.firebase:firebase-perf:${Versions.perf}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
 
+    // Room components
+    implementation("androidx.room:room-runtime:${Versions.room}")
+    implementation("androidx.room:room-ktx:${Versions.room}")
+
     // Kapt
     kapt("com.android.databinding:compiler:${Versions.dataBinding}")
+    kapt("androidx.room:room-compiler:${Versions.room}")
 
     // Lint checks
     lintChecks(project(path = ":lint"))
@@ -118,4 +123,5 @@ dependencies {
     // Android Test
     androidTestImplementation("androidx.test:runner:${Versions.androidxTestRunner}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.espresso}")
+    androidTestImplementation("androidx.room:room-testing:${Versions.room}")
 }

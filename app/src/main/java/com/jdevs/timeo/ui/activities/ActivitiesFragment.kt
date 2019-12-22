@@ -22,7 +22,9 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
     override val menuId = R.menu.activities_fragment_menu
     override val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
-    override val viewModel: ActivityListViewModel by viewModels()
+    override val viewModel: ActivityListViewModel by viewModels {
+        ActivityListViewModel.Factory(activity!!.application)
+    }
 
     private lateinit var menu: Menu
     private var isLoadEventHandled = false
@@ -51,6 +53,11 @@ class ActivitiesFragment : ListFragment<Activity>() {
                     menu.forEach { it.isEnabled = true }
                     isLoadEventHandled = true
                 }
+            }
+
+            activities.observe(viewLifecycleOwner) {
+
+                mAdapter.setItems(it)
             }
 
             observeEvent(navigateToAddEdit) {

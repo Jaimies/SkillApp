@@ -23,8 +23,7 @@
             android:paddingStart="@dimen/padding_default"
             android:paddingTop="@dimen/padding_large"
             android:paddingEnd="@dimen/padding_default"
-            android:paddingBottom="@dimen/padding_default"
-            app:hideIf="@{viewModel.isEmpty || viewModel.isLoading}" />
+            android:paddingBottom="@dimen/padding_default" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -47,9 +46,9 @@
                 android:text="@string/create_activity" />
         </LinearLayout>
 
-        <include
-            android:id="@+id/preloader"
-            layout="@layout/preloader"
-            app:hideIf="@{!viewModel.isLoading}" />
+        <!--        <include-->
+        <!--            android:id="@+id/preloader"-->
+        <!--            layout="@layout/preloader"-->
+        <!--            app:hideIf="@{!viewModel.isLoading}" />-->
     </FrameLayout>
 </layout>

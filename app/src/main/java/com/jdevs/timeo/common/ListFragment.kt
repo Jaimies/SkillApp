@@ -41,7 +41,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
         if (!hasObserverAttached) {
 
-            observe(viewModel.liveData)
+//            observe(viewModel.liveData)
             hasObserverAttached = true
         } else {
 

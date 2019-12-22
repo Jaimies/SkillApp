@@ -34,7 +34,9 @@ object RemoteRepository {
         this.recordsDataSource = recordsDataSource
         this.activitiesDataSource = activitiesDataSource
 
-        initializeRefs()
+        initializeActivitiesRef()
+        initializeRecordsRef()
+
         activitiesDataSource.setup(activitiesRef)
         recordsDataSource.setup(recordsRef)
     }
@@ -42,14 +44,14 @@ object RemoteRepository {
     fun setupActivitiesSource(onLastItemCallback: () -> Unit) {
 
         activitiesDataSource.onLastItemCallback = onLastItemCallback
-        initializeRefs()
+        initializeActivitiesRef()
         activitiesDataSource.setup(activitiesRef)
     }
 
     fun setupRecordsSource(onLastItemCallback: () -> Unit) {
 
         recordsDataSource.onLastItemCallback = onLastItemCallback
-        initializeRefs()
+        initializeRecordsRef()
         recordsDataSource.setup(recordsRef)
     }
 
@@ -116,12 +118,17 @@ object RemoteRepository {
         }
     }
 
-    private fun initializeRefs() {
+    private fun initializeActivitiesRef() {
 
-        val uid = auth.currentUser?.uid ?: "null"
+        val uid = auth.currentUser?.uid
 
         activitiesRef =
             firestore.collection("/$USERS_COLLECTION/$uid/${ActivitiesConstants.COLLECTION}")
+    }
+
+    private fun initializeRecordsRef() {
+
+        val uid = auth.currentUser?.uid
 
         recordsRef =
             firestore.collection("/$USERS_COLLECTION/$uid/${RecordsConstants.COLLECTION}")

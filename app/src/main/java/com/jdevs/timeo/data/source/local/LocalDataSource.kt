@@ -31,12 +31,12 @@ class LocalDataSource(
     override suspend fun addRecord(record: Record) {
 
         recordsDao.insert(record)
-        activitiesDao.increaseTime(record.activityLocalId, record.time)
+        activitiesDao.increaseTime(record.activityId, record.time)
     }
 
     override suspend fun deleteRecord(record: Record) {
 
         recordsDao.delete(record)
-        activitiesDao.increaseTime(record.activityLocalId, -record.time)
+        activitiesDao.increaseTime(record.activityId, -record.time)
     }
 }

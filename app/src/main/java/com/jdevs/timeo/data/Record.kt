@@ -34,7 +34,7 @@ data class Record(
     var time: Long = 0,
 
     @ColumnInfo(name = "activity_id")
-    var activityLocalId: Int = 0,
+    var activityId: Int = 0,
 
     @Ignore
     var firestoreActivityId: String = "",

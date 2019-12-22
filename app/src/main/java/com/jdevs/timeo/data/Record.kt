@@ -3,6 +3,7 @@ package com.jdevs.timeo.data
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.ServerTimestamp
@@ -12,7 +13,15 @@ import java.util.Calendar
 import java.util.Date
 
 @Keep
-@Entity(tableName = "records")
+@Entity(
+    tableName = "records",
+    foreignKeys = [ForeignKey(
+        entity = Activity::class,
+        parentColumns = ["id"],
+        childColumns = ["activity_id"],
+        onDelete = ForeignKey.CASCADE
+    )]
+)
 data class Record(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,

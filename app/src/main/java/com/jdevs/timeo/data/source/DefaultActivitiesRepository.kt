@@ -25,11 +25,26 @@ class DefaultActivitiesRepository(
     }
 
     override suspend fun saveActivity(activity: Activity) {
-        localDataSource.saveActivity(activity)
+
+        if (isUserSignedIn) {
+
+            remoteDataSource.saveActivity(activity)
+        } else {
+
+            localDataSource.saveActivity(activity)
+        }
     }
 
-    override suspend fun deleteActivity(activity: Activity) =
-        localDataSource.deleteActivity(activity)
+    override suspend fun deleteActivity(activity: Activity) {
+
+        if (isUserSignedIn) {
+
+            remoteDataSource.deleteActivity(activity)
+        } else {
+
+            localDataSource.deleteActivity(activity)
+        }
+    }
 
     override fun getActivities() = localDataSource.activities
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ListFragment
@@ -15,11 +16,12 @@ import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.ui.activities.adapter.RecordsAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel
 import com.jdevs.timeo.util.RecordsConstants
+import com.jdevs.timeo.util.getViewModelFactory
 
 class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener {
 
     override val menuId = R.menu.history_fragment_menu
-    override val viewModel: HistoryViewModel by viewModels()
+    override val viewModel: HistoryViewModel by viewModels { getViewModelFactory() }
     override val mAdapter by lazy { RecordsAdapter(::showDeleteDialog) }
 
     private var chosenItemIndex = -1
@@ -37,6 +39,11 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
             it.viewModel = viewModel
             it.lifecycleOwner = this
             it.recyclerView.setup(RecordsConstants.VISIBLE_THRESHOLD)
+        }
+
+        viewModel.records.observe(viewLifecycleOwner) {
+
+            mAdapter.setItems(it)
         }
 
         return binding.root
@@ -62,10 +69,7 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
             return
         }
 
-        viewModel.deleteRecord(
-            id = mAdapter.getId(chosenItemIndex),
-            record = getItem(chosenItemIndex)
-        )
+        viewModel.deleteRecord(record = getItem(chosenItemIndex))
 
         chosenItemIndex = -1
 

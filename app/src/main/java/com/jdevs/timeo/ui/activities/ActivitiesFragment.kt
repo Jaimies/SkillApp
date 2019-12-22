@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
@@ -97,9 +98,12 @@ class ActivitiesFragment : ListFragment<Activity>() {
     private fun createRecord(index: Int, time: Long) {
 
         viewModel.createRecord(
-            activityName = getItem(index).name,
-            time = time,
-            activityId = mAdapter.getId(index)
+            Record(
+                name = getItem(index).name,
+                time = time,
+                // TODO: Replace with real id
+                activityId = "mAdapter.getId(index)"
+            )
         )
     }
 }

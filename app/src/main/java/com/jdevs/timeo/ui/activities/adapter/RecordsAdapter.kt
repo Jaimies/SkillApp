@@ -11,10 +11,7 @@ class RecordsAdapter(
 
     init {
 
-        delegateAdapters.put(
-            RECORD,
-            RecordDelegateAdapter()
-        )
+        delegateAdapters.put(RECORD, RecordDelegateAdapter())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

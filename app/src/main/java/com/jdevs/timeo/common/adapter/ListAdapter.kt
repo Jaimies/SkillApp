@@ -5,7 +5,6 @@ import android.util.SparseArray
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.util.AdapterConstants.LOADING
 
 @Suppress("TooManyFunctions")
@@ -90,7 +89,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun setItems(newItems: List<Activity>) {
+    fun setItems(newItems: List<ViewType>) {
 
         items.clear()
         items.addAll(newItems)

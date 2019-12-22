@@ -1,14 +1,16 @@
 package com.jdevs.timeo.data.source
 
+import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.Record
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-class DefaultActivitiesRepository(
-    private val remoteDataSource: ActivitiesDataSource,
-    private val localDataSource: ActivitiesDataSource,
+class DefaultTimeoRepository(
+    private val remoteDataSource: TimeoDataSource,
+    private val localDataSource: TimeoDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : ActivitiesRepository {
+) : TimeoRepository {
 
     private val isUserSignedIn get() = AuthRepository.isUserSignedIn
 
@@ -17,7 +19,6 @@ class DefaultActivitiesRepository(
         if (isUserSignedIn) {
 
             remoteDataSource.addActivity(activity)
-
         } else {
 
             localDataSource.addActivity(activity)
@@ -46,5 +47,28 @@ class DefaultActivitiesRepository(
         }
     }
 
+    override suspend fun addRecord(record: Record) {
+
+        if (isUserSignedIn) {
+
+            remoteDataSource.addRecord(record)
+        } else {
+
+            localDataSource.addRecord(record)
+        }
+    }
+
+    override suspend fun deleteRecord(record: Record) {
+
+        if (isUserSignedIn) {
+
+            remoteDataSource.deleteRecord(record)
+        } else {
+
+            localDataSource.deleteRecord(record)
+        }
+    }
+
     override fun getActivities() = localDataSource.activities
+    override fun getRecords(): LiveData<List<Record>> = localDataSource.records
 }

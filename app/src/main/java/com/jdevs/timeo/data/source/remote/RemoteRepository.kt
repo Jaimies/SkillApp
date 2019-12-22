@@ -7,8 +7,8 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.source.ActivitiesDataSource
 import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
@@ -17,9 +17,10 @@ import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.await
 import com.jdevs.timeo.util.logOnFailure
 
-object RemoteRepository : ActivitiesDataSource {
+object RemoteRepository : TimeoDataSource {
 
     override val activities: LiveData<List<Activity>> = MutableLiveData(emptyList())
+    override val records: LiveData<List<Record>> = MutableLiveData(emptyList())
     val activitiesLiveData: ItemsLiveData? get() = activitiesDataSource.getLiveData()
     val recordsLiveData: ItemsLiveData? get() = recordsDataSource.getLiveData()
 
@@ -56,17 +57,15 @@ object RemoteRepository : ActivitiesDataSource {
         recordsDataSource.setup(recordsRef)
     }
 
-    fun addRecord(activityName: String, time: Long, activityId: String) {
-
-        val record = Record(activityName, time, activityId)
+    override suspend fun addRecord(record: Record) {
 
         val newRecordRef = recordsRef.document()
-        val activityRef = activitiesRef.document(activityId)
+        val activityRef = activitiesRef.document(record.activityId)
 
         firestore.runBatch { batch ->
 
             batch.set(newRecordRef, record)
-            batch.update(activityRef, TOTAL_TIME_PROPERTY, FieldValue.increment(time))
+            batch.update(activityRef, TOTAL_TIME_PROPERTY, FieldValue.increment(record.time))
         }
     }
 
@@ -104,10 +103,11 @@ object RemoteRepository : ActivitiesDataSource {
             .logOnFailure("Failed to delete data to Firestore")
     }
 
-    fun deleteRecord(id: String, recordTime: Long, activityId: String) {
+    override suspend fun deleteRecord(record: Record) {
 
-        val recordRef = recordsRef.document(id)
-        val activityRef = activitiesRef.document(activityId)
+        // TODO: Replace with real id
+        val recordRef = recordsRef.document("id")
+        val activityRef = activitiesRef.document(record.activityId)
 
         firestore.runBatch { batch ->
 
@@ -116,7 +116,7 @@ object RemoteRepository : ActivitiesDataSource {
             batch.update(
                 activityRef,
                 TOTAL_TIME_PROPERTY,
-                FieldValue.increment(-recordTime)
+                FieldValue.increment(-record.time)
             )
         }
     }

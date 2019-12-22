@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.data.Activity
-import com.jdevs.timeo.data.source.ActivitiesRepository
+import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
-class AddEditActivityViewModel(private val repository: ActivitiesRepository) :
+class AddEditActivityViewModel(private val repository: TimeoRepository) :
     KeyboardHidingViewModel() {
 
     val name = MutableLiveData("")

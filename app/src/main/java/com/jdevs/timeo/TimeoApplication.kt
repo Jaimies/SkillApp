@@ -14,8 +14,8 @@ import kotlinx.coroutines.cancel
 
 class TimeoApplication : Application() {
 
-    val activitiesRepository
-        get() = ServiceLocator.provideTasksRepository(this)
+    val repository
+        get() = ServiceLocator.provideLocalRepository(this)
 
     val ioScope = CoroutineScope(Dispatchers.IO + Job())
 

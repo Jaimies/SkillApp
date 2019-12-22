@@ -9,7 +9,7 @@ import androidx.room.Update
 import com.jdevs.timeo.data.Activity
 
 @Dao
-interface ActivityDao {
+interface ActivitiesDao {
 
     @Query("SELECT * FROM activities ORDER BY id DESC")
     fun getActivities(): LiveData<List<Activity>>

@@ -5,6 +5,6 @@ import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.ViewModelFactory
 
 fun Fragment.getViewModelFactory(): ViewModelFactory {
-    val repository = (requireContext().applicationContext as TimeoApplication).activitiesRepository
+    val repository = (requireContext().applicationContext as TimeoApplication).repository
     return ViewModelFactory(repository)
 }

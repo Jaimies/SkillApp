@@ -11,6 +11,9 @@ object AuthRepository {
     val isUserSignedIn
         get() = auth.currentUser != null
 
+    val uid
+        get() = auth.currentUser?.uid
+
     private val auth = FirebaseAuth.getInstance()
 
     suspend fun createAccount(email: String, password: String): AuthResult {

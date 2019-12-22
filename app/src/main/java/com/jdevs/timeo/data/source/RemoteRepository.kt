@@ -1,6 +1,5 @@
 package com.jdevs.timeo.data.source
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,7 +14,6 @@ import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.await
 import com.jdevs.timeo.util.logOnFailure
 
-@Suppress("StaticFieldLeak")
 object RemoteRepository {
 
     val activitiesLiveData: ItemsLiveData? get() = activitiesDataSource.getLiveData()
@@ -26,7 +24,6 @@ object RemoteRepository {
     private lateinit var activitiesDataSource: RemoteDataSource
     private lateinit var recordsDataSource: RemoteDataSource
 
-    private val auth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
 
     fun initialize(activitiesDataSource: RemoteDataSource, recordsDataSource: RemoteDataSource) {
@@ -120,18 +117,14 @@ object RemoteRepository {
 
     private fun initializeActivitiesRef() {
 
-        val uid = auth.currentUser?.uid
-
         activitiesRef =
-            firestore.collection("/$USERS_COLLECTION/$uid/${ActivitiesConstants.COLLECTION}")
+            firestore.collection("/$USERS_COLLECTION/${AuthRepository.uid}/${ActivitiesConstants.COLLECTION}")
     }
 
     private fun initializeRecordsRef() {
 
-        val uid = auth.currentUser?.uid
-
         recordsRef =
-            firestore.collection("/$USERS_COLLECTION/$uid/${RecordsConstants.COLLECTION}")
+            firestore.collection("/$USERS_COLLECTION/${AuthRepository.uid}/${RecordsConstants.COLLECTION}")
     }
 
     private const val USERS_COLLECTION = "users"

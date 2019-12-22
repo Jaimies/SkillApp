@@ -2,9 +2,11 @@ package com.jdevs.timeo.ui.activities.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.util.SingleLiveEvent
+import kotlinx.coroutines.launch
 
 class AddEditActivityViewModel : KeyboardHidingViewModel() {
 
@@ -31,6 +33,11 @@ class AddEditActivityViewModel : KeyboardHidingViewModel() {
     fun triggerSaveActivity() {
 
         saveActivity.value = name.value.orEmpty()
+    }
+
+    fun addActivity(activity: Activity) = viewModelScope.launch {
+
+
     }
 
     fun showDeleteDialog() = showDeleteDialog.call()

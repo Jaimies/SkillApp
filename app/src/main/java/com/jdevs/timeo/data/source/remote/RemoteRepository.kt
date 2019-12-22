@@ -1,10 +1,13 @@
 package com.jdevs.timeo.data.source.remote
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.source.ActivitiesDataSource
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
@@ -14,7 +17,9 @@ import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.await
 import com.jdevs.timeo.util.logOnFailure
 
-object RemoteRepository {
+object RemoteRepository : ActivitiesDataSource {
+
+    override val activities: LiveData<List<Activity>> = MutableLiveData(emptyList())
 
     val activitiesLiveData: ItemsLiveData? get() = activitiesDataSource.getLiveData()
     val recordsLiveData: ItemsLiveData? get() = recordsDataSource.getLiveData()
@@ -42,18 +47,14 @@ object RemoteRepository {
 
         activitiesDataSource.onLastItemCallback = onLastItemCallback
         initializeActivitiesRef()
-        activitiesDataSource.setup(
-            activitiesRef
-        )
+        activitiesDataSource.setup(activitiesRef)
     }
 
     fun setupRecordsSource(onLastItemCallback: () -> Unit) {
 
         recordsDataSource.onLastItemCallback = onLastItemCallback
         initializeRecordsRef()
-        recordsDataSource.setup(
-            recordsRef
-        )
+        recordsDataSource.setup(recordsRef)
     }
 
     fun addRecord(activityName: String, time: Long, activityId: String) {
@@ -90,7 +91,7 @@ object RemoteRepository {
             .logOnFailure("Failed to save data to Firestore")
     }
 
-    fun addActivity(activity: Activity) {
+    override suspend fun addActivity(activity: Activity) {
 
         activitiesRef.add(activity)
             .logOnFailure("Failed to add data to Firestore")

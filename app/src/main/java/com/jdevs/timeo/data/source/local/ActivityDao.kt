@@ -2,6 +2,7 @@ package com.jdevs.timeo.data.source.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.jdevs.timeo.data.Activity
@@ -14,6 +15,9 @@ interface ActivityDao {
 
     @Insert
     suspend fun insert(activity: Activity)
+
+    @Delete
+    suspend fun delete(activity: Activity)
 
     @Query("DELETE FROM activities")
     suspend fun deleteAll()

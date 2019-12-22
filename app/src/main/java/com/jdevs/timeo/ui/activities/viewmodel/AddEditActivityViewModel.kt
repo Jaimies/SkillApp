@@ -42,5 +42,10 @@ class AddEditActivityViewModel(private val repository: ActivitiesRepository) :
         repository.addActivity(activity)
     }
 
+    fun deleteActivity(activity: Activity) = viewModelScope.launch {
+
+        repository.deleteActivity(activity)
+    }
+
     fun showDeleteDialog() = showDeleteDialog.call()
 }

@@ -9,8 +9,6 @@ class ActivitiesLocalDataSource(private val activityDao: ActivityDao) : Activiti
         activityDao.getActivities()
     }
 
-    override suspend fun addActivity(activity: Activity) {
-
-        activityDao.insert(activity)
-    }
+    override suspend fun addActivity(activity: Activity) = activityDao.insert(activity)
+    override suspend fun deleteActivity(activity: Activity) = activityDao.delete(activity)
 }

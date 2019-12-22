@@ -97,9 +97,10 @@ object RemoteRepository : ActivitiesDataSource {
             .logOnFailure("Failed to add data to Firestore")
     }
 
-    fun deleteActivity(activityId: String) {
+    override suspend fun deleteActivity(activity: Activity) {
 
-        activitiesRef.document(activityId).delete()
+        // TODO: Replace with real id
+        activitiesRef.document("activityId").delete()
             .logOnFailure("Failed to delete data to Firestore")
     }
 

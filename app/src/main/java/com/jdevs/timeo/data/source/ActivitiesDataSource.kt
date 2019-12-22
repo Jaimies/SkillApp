@@ -7,4 +7,5 @@ interface ActivitiesDataSource {
 
     val activities: LiveData<List<Activity>>
     suspend fun addActivity(activity: Activity)
+    suspend fun deleteActivity(activity: Activity)
 }

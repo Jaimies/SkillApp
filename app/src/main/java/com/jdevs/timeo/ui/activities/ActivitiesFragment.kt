@@ -88,7 +88,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
         val action = ActivitiesFragmentDirections
             .actionActivitiesFragmentToActivityDetailsFragment(
                 activity = getItem(index),
-                id = mAdapter.getId(index)
+                id = "xKftyze.Aekazker"
             )
 
         findNavController().navigate(action)

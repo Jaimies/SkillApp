@@ -116,7 +116,7 @@ class AddEditActivityFragment : ActionBarFragment() {
             .setMessage(getString(R.string.sure_delete_activity))
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
 
-                RemoteRepository.deleteActivity(args.id ?: return@setPositiveButton)
+                viewModel.deleteActivity(args.activity!!)
 
                 Snackbar
                     .make(view!!, getString(R.string.activity_deleted), Snackbar.LENGTH_LONG).show()

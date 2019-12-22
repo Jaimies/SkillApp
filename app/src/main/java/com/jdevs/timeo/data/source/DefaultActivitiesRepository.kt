@@ -1,6 +1,5 @@
 package com.jdevs.timeo.data.source
 
-import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -25,5 +24,8 @@ class DefaultActivitiesRepository(
         }
     }
 
-    override fun getActivities(): LiveData<List<Activity>> = localDataSource.activities
+    override suspend fun deleteActivity(activity: Activity) =
+        localDataSource.deleteActivity(activity)
+
+    override fun getActivities() = localDataSource.activities
 }

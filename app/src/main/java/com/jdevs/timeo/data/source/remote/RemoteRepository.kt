@@ -20,7 +20,6 @@ import com.jdevs.timeo.util.logOnFailure
 object RemoteRepository : ActivitiesDataSource {
 
     override val activities: LiveData<List<Activity>> = MutableLiveData(emptyList())
-
     val activitiesLiveData: ItemsLiveData? get() = activitiesDataSource.getLiveData()
     val recordsLiveData: ItemsLiveData? get() = recordsDataSource.getLiveData()
 
@@ -71,12 +70,13 @@ object RemoteRepository : ActivitiesDataSource {
         }
     }
 
-    suspend fun saveActivity(activity: Activity, activityId: String) {
+    override suspend fun saveActivity(activity: Activity) {
 
-        val activityRef = activitiesRef.document(activityId)
+        // TODO: Replace with a real id
+        val activityRef = activitiesRef.document("activityId")
 
         val querySnapshot = recordsRef
-            .whereEqualTo(ACTIVITY_ID_PROPERTY, activityId)
+            .whereEqualTo(ACTIVITY_ID_PROPERTY, "activityId")
             .get().await()
 
         firestore.runBatch { batch ->

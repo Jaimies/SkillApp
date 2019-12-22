@@ -5,7 +5,11 @@ import com.jdevs.timeo.data.Activity
 
 interface ActivitiesRepository {
 
-    suspend fun addActivity(activity: Activity)
-    suspend fun deleteActivity(activity: Activity)
     fun getActivities(): LiveData<List<Activity>>
+
+    suspend fun addActivity(activity: Activity)
+
+    suspend fun saveActivity(activity: Activity)
+
+    suspend fun deleteActivity(activity: Activity)
 }

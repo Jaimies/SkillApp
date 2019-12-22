@@ -24,6 +24,10 @@ class DefaultActivitiesRepository(
         }
     }
 
+    override suspend fun saveActivity(activity: Activity) {
+        localDataSource.saveActivity(activity)
+    }
+
     override suspend fun deleteActivity(activity: Activity) =
         localDataSource.deleteActivity(activity)
 

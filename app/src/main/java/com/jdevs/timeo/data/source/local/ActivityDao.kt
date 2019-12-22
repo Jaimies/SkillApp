@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.jdevs.timeo.data.Activity
 
 @Dao
@@ -18,6 +19,9 @@ interface ActivityDao {
 
     @Delete
     suspend fun delete(activity: Activity)
+
+    @Update
+    suspend fun update(activity: Activity)
 
     @Query("DELETE FROM activities")
     suspend fun deleteAll()

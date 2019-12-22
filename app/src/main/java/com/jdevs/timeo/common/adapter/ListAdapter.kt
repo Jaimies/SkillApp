@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.SparseArray
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.util.AdapterConstants.LOADING
 
@@ -19,6 +20,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val loadingItem = object : ViewType {
 
+        override var id = -1
         override fun getViewType() = LOADING
     }
 
@@ -91,9 +93,12 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun setItems(newItems: List<ViewType>) {
 
+        val diffResult = DiffUtil.calculateDiff(DiffCallback(newItems, items))
+
         items.clear()
         items.addAll(newItems)
-        notifyDataSetChanged()
+
+        diffResult.dispatchUpdatesTo(this)
     }
 
     private fun hideLoader() {
@@ -104,6 +109,32 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             items.removeAt(index)
             notifyItemRemoved(index)
+        }
+    }
+
+    class DiffCallback(
+        private var newItems: List<ViewType>,
+        private var oldItems: List<ViewType>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize() = oldItems.size
+
+        override fun getNewListSize() = newItems.size
+
+        override fun areItemsTheSame(
+            oldItemPosition: Int,
+            newItemPosition: Int
+        ): Boolean {
+
+            return oldItems[oldItemPosition].id == newItems[newItemPosition].id
+        }
+
+        override fun areContentsTheSame(
+            oldItemPosition: Int,
+            newItemPosition: Int
+        ): Boolean {
+
+            return oldItems[oldItemPosition] == newItems[newItemPosition]
         }
     }
 

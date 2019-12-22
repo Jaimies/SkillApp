@@ -28,7 +28,7 @@ import java.util.Date
 data class Record(
     @Exclude
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    override var id: Int = 0,
     @Ignore
     var name: String = "",
     var time: Long = 0,

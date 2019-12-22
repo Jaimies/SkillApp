@@ -16,7 +16,7 @@ import java.util.Date
 @Entity(tableName = "activities")
 data class Activity(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    override var id: Int = 0,
 
     var name: String = "",
     var totalTime: Long = 0,

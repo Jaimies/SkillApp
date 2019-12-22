@@ -18,6 +18,7 @@ import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.AddEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.getCoroutineIoScope
+import com.jdevs.timeo.util.getViewModelFactory
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.requireMainActivity
@@ -27,7 +28,7 @@ class AddEditActivityFragment : ActionBarFragment() {
 
     override val menuId = R.menu.addedit_fragment_menu
     private val args: AddEditActivityFragmentArgs by navArgs()
-    private val viewModel: AddEditActivityViewModel by viewModels()
+    private val viewModel: AddEditActivityViewModel by viewModels { getViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater,

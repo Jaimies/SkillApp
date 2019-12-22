@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.source.ActivitiesRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
-class AddEditActivityViewModel : KeyboardHidingViewModel() {
+class AddEditActivityViewModel(private val repository: ActivitiesRepository) :
+    KeyboardHidingViewModel() {
 
     val name = MutableLiveData("")
     val nameError get() = _nameError as LiveData<String>
@@ -37,7 +39,7 @@ class AddEditActivityViewModel : KeyboardHidingViewModel() {
 
     fun addActivity(activity: Activity) = viewModelScope.launch {
 
-
+        repository.addActivity(activity)
     }
 
     fun showDeleteDialog() = showDeleteDialog.call()

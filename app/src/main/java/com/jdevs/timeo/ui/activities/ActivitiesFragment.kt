@@ -16,15 +16,14 @@ import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.getViewModelFactory
 import com.jdevs.timeo.util.observeEvent
 
 class ActivitiesFragment : ListFragment<Activity>() {
 
     override val menuId = R.menu.activities_fragment_menu
     override val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
-    override val viewModel: ActivityListViewModel by viewModels {
-        ActivityListViewModel.Factory(activity!!.application)
-    }
+    override val viewModel: ActivityListViewModel by viewModels { getViewModelFactory() }
 
     private lateinit var menu: Menu
     private var isLoadEventHandled = false

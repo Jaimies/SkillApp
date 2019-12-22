@@ -96,7 +96,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
                 name = activity.name,
                 time = time,
                 // TODO: Replace with real id
-                activityId = "mAdapter.getId(index)",
+                firestoreActivityId = "mAdapter.getId(index)",
                 activityLocalId = activity.id
             )
         )

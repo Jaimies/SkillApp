@@ -5,13 +5,16 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.RecordAndActivity
 
 @Dao
 interface RecordsDao {
 
+    @Transaction
     @Query("SELECT * FROM records ORDER BY id DESC")
-    fun getRecords(): LiveData<List<Record>>
+    fun getRecords(): LiveData<List<RecordAndActivity>>
 
     @Insert
     suspend fun insert(record: Record)

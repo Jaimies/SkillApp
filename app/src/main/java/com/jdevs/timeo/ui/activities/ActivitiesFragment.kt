@@ -105,7 +105,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
                 time = time,
                 // TODO: Replace with real id
                 activityId = "mAdapter.getId(index)",
-                activityIdLocal = activity.id
+                activityLocalId = activity.id
             )
         )
     }

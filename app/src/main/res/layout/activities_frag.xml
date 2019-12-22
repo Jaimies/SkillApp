@@ -23,7 +23,9 @@
             android:paddingStart="@dimen/padding_default"
             android:paddingTop="@dimen/padding_large"
             android:paddingEnd="@dimen/padding_default"
-            android:paddingBottom="@dimen/padding_default" />
+            android:paddingBottom="@dimen/padding_default"
+            tools:itemCount="7"
+            tools:listitem="@layout/activities_item" />
 
         <LinearLayout
             android:layout_width="wrap_content"

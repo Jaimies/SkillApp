@@ -63,19 +63,6 @@ sealed class ItemsLiveData(
         }
     }
 
-    fun setQuery(newQuery: Query?) {
-
-        if (newQuery == query || newQuery == null) {
-
-            return
-        }
-
-        query = newQuery.also {
-
-            it.addSnapshotListener(this)
-        }
-    }
-
     @Suppress("TooGenericExceptionCaught")
     private fun processDocumentChange(documentChange: DocumentChange) {
 

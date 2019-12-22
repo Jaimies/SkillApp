@@ -1,10 +1,10 @@
 package com.jdevs.timeo.data.source
 
-import await
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.jdevs.timeo.util.await
 
 object AuthRepository {
 

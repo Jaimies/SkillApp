@@ -17,8 +17,8 @@ class ActivityListViewModel(application: Application) : ListViewModel() {
 
     override val liveData get() = RemoteRepository.activitiesLiveData
     val navigateToAddEdit = SingleLiveEvent<Any>()
-    private val repository: ActivityRepository
     val activities: LiveData<List<Activity>>
+    private val repository: ActivityRepository
 
     init {
 

@@ -1,6 +1,5 @@
 package com.jdevs.timeo.data.source
 
-import await
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
@@ -13,40 +12,20 @@ import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME_PROPERTY
 import com.jdevs.timeo.util.RecordsConstants
+import com.jdevs.timeo.util.await
 import com.jdevs.timeo.util.logOnFailure
 
-@Suppress("TooManyFunctions", "StaticFieldLeak")
-object RemoteRepository : FirebaseAuth.AuthStateListener {
+@Suppress("StaticFieldLeak")
+object RemoteRepository {
 
-    val activitiesLiveData: ItemsLiveData?
-        get() {
-
-            if (!isUserAuthenticated) {
-
-                return activitiesDataSource.getAwaitingLiveData()
-            }
-
-            return activitiesDataSource.getLiveData()
-        }
-
-    val recordsLiveData: ItemsLiveData?
-        get() {
-
-            if (!isUserAuthenticated) {
-
-                return activitiesDataSource.getAwaitingLiveData()
-            }
-
-            return recordsDataSource.getLiveData()
-        }
+    val activitiesLiveData: ItemsLiveData? get() = activitiesDataSource.getLiveData()
+    val recordsLiveData: ItemsLiveData? get() = recordsDataSource.getLiveData()
 
     private lateinit var activitiesRef: CollectionReference
     private lateinit var recordsRef: CollectionReference
     private lateinit var activitiesDataSource: RemoteDataSource
     private lateinit var recordsDataSource: RemoteDataSource
 
-    private var isUserAuthenticated = true
-    private var prevUid: String? = null
     private val auth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
 
@@ -55,49 +34,23 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
         this.recordsDataSource = recordsDataSource
         this.activitiesDataSource = activitiesDataSource
 
-        initializeRefs {
-
-            activitiesDataSource.setup(activitiesRef)
-            recordsDataSource.setup(recordsRef)
-        }
-    }
-
-    override fun onAuthStateChanged(auth: FirebaseAuth) {
-
-        val uid = auth.currentUser?.uid
-
-        if (uid != null && uid != prevUid) {
-
-            setupRefs(uid)
-            prevUid = uid
-
-            isUserAuthenticated = true
-
-            activitiesDataSource.onUserAuthenticated(activitiesRef)
-            recordsDataSource.onUserAuthenticated(recordsRef)
-
-            auth.removeAuthStateListener(this)
-        }
+        initializeRefs()
+        activitiesDataSource.setup(activitiesRef)
+        recordsDataSource.setup(recordsRef)
     }
 
     fun setupActivitiesSource(onLastItemCallback: () -> Unit) {
 
         activitiesDataSource.onLastItemCallback = onLastItemCallback
-
-        initializeRefs {
-
-            activitiesDataSource.setup(activitiesRef)
-        }
+        initializeRefs()
+        activitiesDataSource.setup(activitiesRef)
     }
 
     fun setupRecordsSource(onLastItemCallback: () -> Unit) {
 
         recordsDataSource.onLastItemCallback = onLastItemCallback
-
-        initializeRefs {
-
-            recordsDataSource.setup(recordsRef)
-        }
+        initializeRefs()
+        recordsDataSource.setup(recordsRef)
     }
 
     fun addRecord(activityName: String, time: Long, activityId: String) {
@@ -163,22 +116,9 @@ object RemoteRepository : FirebaseAuth.AuthStateListener {
         }
     }
 
-    private fun initializeRefs(ifAuthenticated: () -> Unit = {}) {
+    private fun initializeRefs() {
 
-        val uid = auth.currentUser?.uid
-
-        if (uid == null) {
-
-            isUserAuthenticated = false
-            auth.addAuthStateListener(this)
-            return
-        }
-
-        setupRefs(uid)
-        ifAuthenticated()
-    }
-
-    private fun setupRefs(uid: String) {
+        val uid = auth.currentUser?.uid ?: "null"
 
         activitiesRef =
             firestore.collection("/$USERS_COLLECTION/$uid/${ActivitiesConstants.COLLECTION}")

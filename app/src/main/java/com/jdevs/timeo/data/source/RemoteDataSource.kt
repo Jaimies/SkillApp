@@ -23,15 +23,9 @@ class RemoteDataSource(
             }
         }
 
-    private val newQuery
-        get() = ref
-            .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
-            .limit(fetchLimit)
-
     private lateinit var query: Query
     private lateinit var ref: CollectionReference
 
-    private var awaitingLiveData: ItemsLiveData? = null
     private var lastVisibleItem: DocumentSnapshot? = null
     private var isLastItemReached = false
     private var shouldInitializeQuery = true
@@ -41,7 +35,6 @@ class RemoteDataSource(
         lastVisibleItem = null
         isLastItemReached = false
         shouldInitializeQuery = true
-        awaitingLiveData = null
 
         this.ref = ref
     }
@@ -55,7 +48,9 @@ class RemoteDataSource(
 
         if (shouldInitializeQuery) {
 
-            query = newQuery
+            query = ref
+                .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
+                .limit(fetchLimit)
             shouldInitializeQuery = false
         }
 
@@ -67,22 +62,6 @@ class RemoteDataSource(
         }
 
         return livedata(query, ::setLastVisibleItem, ::onLastItemReached)
-    }
-
-    fun getAwaitingLiveData(): ItemsLiveData {
-
-        livedata(null, ::setLastVisibleItem, ::onLastItemReached).also {
-
-            awaitingLiveData = it
-            return it
-        }
-    }
-
-    fun onUserAuthenticated(ref: CollectionReference) {
-
-        this.ref = ref
-        query = newQuery
-        awaitingLiveData?.setQuery(query)
     }
 
     private fun onLastItemReached() {

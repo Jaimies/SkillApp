@@ -97,12 +97,15 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
     private fun createRecord(index: Int, time: Long) {
 
+        val activity = getItem(index)
+
         viewModel.createRecord(
             Record(
-                name = getItem(index).name,
+                name = activity.name,
                 time = time,
                 // TODO: Replace with real id
-                activityId = "mAdapter.getId(index)"
+                activityId = "mAdapter.getId(index)",
+                activityIdLocal = activity.id
             )
         )
     }

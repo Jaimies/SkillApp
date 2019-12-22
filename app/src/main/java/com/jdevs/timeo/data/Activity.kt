@@ -2,7 +2,6 @@ package com.jdevs.timeo.data
 
 import android.os.Parcelable
 import androidx.annotation.Keep
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -17,10 +16,10 @@ import java.util.Date
 @Parcelize
 @Entity(tableName = "activities")
 data class Activity(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
     var name: String = "",
     var totalTime: Long = 0,
-    @ColumnInfo(name = "creation_date")
     @Ignore
     var timestamp: Date = Calendar.getInstance().time
 ) : Parcelable, ViewType {

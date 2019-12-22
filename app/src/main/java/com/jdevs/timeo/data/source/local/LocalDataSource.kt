@@ -19,7 +19,11 @@ class LocalDataSource(
 
     override suspend fun deleteActivity(activity: Activity) = activitiesDao.delete(activity)
 
-    override suspend fun addRecord(record: Record) = recordsDao.insert(record)
+    override suspend fun addRecord(record: Record) {
+
+        recordsDao.insert(record)
+        activitiesDao.increaseTime(record.activityIdLocal, record.time)
+    }
 
     override suspend fun deleteRecord(record: Record) = recordsDao.delete(record)
 }

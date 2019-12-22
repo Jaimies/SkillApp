@@ -1,6 +1,7 @@
 package com.jdevs.timeo.data
 
 import androidx.annotation.Keep
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -14,9 +15,13 @@ import java.util.Date
 @Keep
 @Entity(tableName = "records")
 data class Record(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
     var name: String = "",
     var time: Long = 0,
+    @ColumnInfo(name = "activity_id")
+    var activityIdLocal: Int = 0,
+    @Ignore
     var activityId: String = "",
     @Ignore
     @ServerTimestamp var timestamp: Date = Calendar.getInstance().time

@@ -24,6 +24,7 @@
             android:paddingTop="@dimen/padding_large"
             android:paddingEnd="@dimen/padding_default"
             android:paddingBottom="@dimen/padding_default"
+            app:hideIf="@{viewModel.isEmpty}"
             tools:itemCount="7"
             tools:listitem="@layout/activities_item" />
 
@@ -33,7 +34,7 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="gone">
+            app:hideIf="@{!viewModel.isEmpty}">
 
             <TextView
                 android:layout_width="wrap_content"

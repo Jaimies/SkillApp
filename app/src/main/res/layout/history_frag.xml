@@ -18,7 +18,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:hideIf="@{viewModel.isEmpty}"
+            tools:itemCount="12"
+            tools:listitem="@layout/records_item" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,7 +30,7 @@
             android:orientation="vertical"
             android:text="@string/there_is_nothing_here_yet"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:visibility="gone" />
+            app:hideIf="@{!viewModel.isEmpty}" />
 
         <include
             android:id="@+id/preloader"

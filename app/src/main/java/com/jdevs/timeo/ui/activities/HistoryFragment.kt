@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ListFragment
@@ -39,11 +38,6 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
             it.viewModel = viewModel
             it.lifecycleOwner = this
             it.recyclerView.setup(RecordsConstants.VISIBLE_THRESHOLD)
-        }
-
-        viewModel.records.observe(viewLifecycleOwner) {
-
-            mAdapter.setItems(it)
         }
 
         return binding.root

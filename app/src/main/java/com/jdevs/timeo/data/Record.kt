@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.util.AdapterConstants
@@ -23,6 +24,7 @@ import java.util.Date
     )]
 )
 data class Record(
+    @Exclude
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     var name: String = "",

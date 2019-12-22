@@ -34,10 +34,20 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        observeEvent(viewModel.onLastItemReached) {
+        viewModel.apply {
 
-            mAdapter.onLastItemReached()
+            observeEvent(onLastItemReached) {
+
+                mAdapter.onLastItemReached()
+            }
+
+            items.observe(viewLifecycleOwner) {
+
+                mAdapter.setItems(it)
+                viewModel.setLength(it.size)
+            }
         }
+
 
         if (!hasObserverAttached) {
 

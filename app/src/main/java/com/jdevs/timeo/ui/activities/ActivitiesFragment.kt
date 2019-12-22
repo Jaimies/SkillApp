@@ -44,17 +44,9 @@ class ActivitiesFragment : ListFragment<Activity>() {
             it.recyclerView.setup(ActivitiesConstants.VISIBLE_THRESHOLD)
         }
 
-        viewModel.apply {
+        observeEvent(viewModel.navigateToAddEdit) {
 
-            activities.observe(viewLifecycleOwner) {
-
-                mAdapter.setItems(it)
-            }
-
-            observeEvent(navigateToAddEdit) {
-
-                findNavController().navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
-            }
+            findNavController().navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
         }
 
         return binding.root

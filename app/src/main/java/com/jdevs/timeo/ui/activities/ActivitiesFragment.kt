@@ -46,15 +46,6 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
         viewModel.apply {
 
-            isLoading.observe(viewLifecycleOwner) { isLoading ->
-
-                if (!isLoadEventHandled && !isLoading) {
-
-                    menu.forEach { it.isEnabled = true }
-                    isLoadEventHandled = true
-                }
-            }
-
             activities.observe(viewLifecycleOwner) {
 
                 mAdapter.setItems(it)
@@ -78,6 +69,15 @@ class ActivitiesFragment : ListFragment<Activity>() {
             menu.forEach {
 
                 it.isEnabled = false
+            }
+
+            viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+
+                if (!isLoadEventHandled && !isLoading) {
+
+                    menu.forEach { it.isEnabled = true }
+                    isLoadEventHandled = true
+                }
             }
         }
 

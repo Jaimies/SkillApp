@@ -2,7 +2,7 @@ package com.jdevs.timeo.common.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.data.ItemsLiveData
+import com.jdevs.timeo.data.source.remote.ItemsLiveData
 import com.jdevs.timeo.util.SingleLiveEvent
 
 abstract class ListViewModel : LoaderViewModel() {

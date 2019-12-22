@@ -1,10 +1,10 @@
 package com.jdevs.timeo
 
 import android.app.Application
-import com.jdevs.timeo.data.ItemsLiveData.ActivitiesLiveData
-import com.jdevs.timeo.data.ItemsLiveData.RecordsLiveData
-import com.jdevs.timeo.data.source.RemoteDataSource
-import com.jdevs.timeo.data.source.RemoteRepository
+import com.jdevs.timeo.data.source.remote.ItemsLiveData.ActivitiesLiveData
+import com.jdevs.timeo.data.source.remote.ItemsLiveData.RecordsLiveData
+import com.jdevs.timeo.data.source.remote.RemoteDataSource
+import com.jdevs.timeo.data.source.remote.RemoteRepository
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
 import kotlinx.coroutines.CoroutineScope

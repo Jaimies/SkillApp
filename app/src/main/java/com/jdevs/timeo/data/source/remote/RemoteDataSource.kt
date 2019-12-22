@@ -1,9 +1,8 @@
-package com.jdevs.timeo.data.source
+package com.jdevs.timeo.data.source.remote
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.data.ItemsLiveData
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.LiveDataConstructor
 
@@ -51,6 +50,7 @@ class RemoteDataSource(
             query = ref
                 .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
                 .limit(fetchLimit)
+
             shouldInitializeQuery = false
         }
 
@@ -61,7 +61,7 @@ class RemoteDataSource(
             query = query.startAfter(lastItem)
         }
 
-        return livedata(query, ::setLastVisibleItem, ::onLastItemReached)
+        return livedata(query, { lastVisibleItem = it }, ::onLastItemReached)
     }
 
     private fun onLastItemReached() {
@@ -71,10 +71,5 @@ class RemoteDataSource(
             isLastItemReached = true
             onLastItemCallback()
         }
-    }
-
-    private fun setLastVisibleItem(lastVisibleItem: DocumentSnapshot) {
-
-        this.lastVisibleItem = lastVisibleItem
     }
 }

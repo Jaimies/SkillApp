@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.Activity
-import com.jdevs.timeo.data.source.RemoteRepository
 import com.jdevs.timeo.data.source.local.ActivityRepository
 import com.jdevs.timeo.data.source.local.ActivityRoomDatabase
+import com.jdevs.timeo.data.source.remote.RemoteRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 

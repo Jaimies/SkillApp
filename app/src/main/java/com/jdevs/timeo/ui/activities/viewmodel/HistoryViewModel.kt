@@ -2,7 +2,7 @@ package com.jdevs.timeo.ui.activities.viewmodel
 
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.source.RemoteRepository
+import com.jdevs.timeo.data.source.remote.RemoteRepository
 
 class HistoryViewModel : ListViewModel() {
 

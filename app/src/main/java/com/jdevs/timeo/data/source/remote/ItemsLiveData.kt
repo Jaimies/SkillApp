@@ -1,4 +1,4 @@
-package com.jdevs.timeo.data
+package com.jdevs.timeo.data.source.remote
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.DocumentChange
@@ -8,6 +8,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
+import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.Operation
+import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
@@ -17,7 +20,7 @@ import com.jdevs.timeo.util.OperationTypes.REMOVED
 import com.jdevs.timeo.util.RecordsConstants
 
 sealed class ItemsLiveData(
-    private var query: Query?,
+    private var query: Query,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
     private val onLastItemReached: () -> Unit,
     private val type: Class<*>,
@@ -28,7 +31,7 @@ sealed class ItemsLiveData(
 
     override fun onActive() {
 
-        listener = query?.addSnapshotListener(this)
+        listener = query.addSnapshotListener(this)
     }
 
     override fun onInactive() {
@@ -83,11 +86,15 @@ sealed class ItemsLiveData(
             DocumentChange.Type.REMOVED -> REMOVED
         }
 
-        value = Operation(activity, type = operationType, id = docId)
+        value = Operation(
+            item = activity,
+            type = operationType,
+            id = docId
+        )
     }
 
     class ActivitiesLiveData(
-        query: Query?,
+        query: Query,
         setLastVisibleItem: (DocumentSnapshot) -> Unit,
         onLastItemReached: () -> Unit
     ) : ItemsLiveData(
@@ -99,7 +106,7 @@ sealed class ItemsLiveData(
     )
 
     class RecordsLiveData(
-        query: Query?,
+        query: Query,
         setLastVisibleItem: (DocumentSnapshot) -> Unit,
         onLastItemReached: () -> Unit
     ) : ItemsLiveData(

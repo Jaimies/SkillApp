@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.data.Activity
-import com.jdevs.timeo.data.source.RemoteRepository
+import com.jdevs.timeo.data.source.remote.RemoteRepository
 import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.AddEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH

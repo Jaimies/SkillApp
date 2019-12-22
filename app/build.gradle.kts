@@ -73,6 +73,7 @@ android {
 detekt {
 
     ignoreFailures = true
+    autoCorrect = true
 
     reports {
 

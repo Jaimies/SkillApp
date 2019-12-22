@@ -14,15 +14,17 @@ class ProfileViewModel : ViewModel() {
 
     private val _isSignedIn = MutableLiveData(false)
 
+    init {
+        if (AuthRepository.isUserSignedIn) {
+
+            _isSignedIn.value = true
+        }
+    }
+
     fun signOut() {
 
         AuthRepository.signOut()
         _isSignedIn.value = false
-    }
-
-    fun notifyUserIsSignedIn() {
-
-        _isSignedIn.value = true
     }
 
     fun triggerSignOut() = signOut.call()

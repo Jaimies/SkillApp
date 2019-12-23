@@ -69,7 +69,7 @@ sealed class ItemsLiveData(
     @Suppress("TooGenericExceptionCaught")
     private fun processDocumentChange(documentChange: DocumentChange) {
 
-        val activity = try {
+        val item = try {
 
             documentChange.document.toObject(type)
         } catch (e: RuntimeException) {
@@ -87,7 +87,7 @@ sealed class ItemsLiveData(
         }
 
         value = Operation(
-            item = activity,
+            item = item,
             type = operationType,
             id = docId
         )

@@ -52,7 +52,7 @@ class TimeoRemoteDataSource(
     override suspend fun addRecord(record: Record) {
 
         val newRecordRef = recordsRef.document()
-        val activityRef = activitiesRef.document(record.firestoreActivityId)
+        val activityRef = activitiesRef.document(record.activityId)
 
         firestore.runBatch { batch ->
 
@@ -99,7 +99,7 @@ class TimeoRemoteDataSource(
 
         // TODO: Replace with real id
         val recordRef = recordsRef.document("id")
-        val activityRef = activitiesRef.document(record.firestoreActivityId)
+        val activityRef = activitiesRef.document(record.activityId)
 
         firestore.runBatch { batch ->
 

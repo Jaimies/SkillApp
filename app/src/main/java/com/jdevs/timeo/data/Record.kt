@@ -9,9 +9,8 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.common.adapter.ViewType
-import com.jdevs.timeo.util.AdapterConstants
+import com.jdevs.timeo.util.AdapterConstants.RECORD
 import java.util.Calendar
 import java.util.Date
 
@@ -33,17 +32,18 @@ data class Record(
     var name: String = "",
     var time: Long = 0,
 
+    @Exclude
     @ColumnInfo(name = "activity_id")
-    var activityId: Int = 0,
+    var roomActivityId: Int = 0,
 
     @Ignore
-    var firestoreActivityId: String = "",
+    var activityId: String = "",
 
     @Ignore
-    @ServerTimestamp var timestamp: Date = Calendar.getInstance().time
+    var timestamp: Date = Calendar.getInstance().time
 ) : ViewType {
 
-    override fun getViewType() = AdapterConstants.RECORD
+    override fun getViewType() = RECORD
 }
 
 data class RecordAndActivity(

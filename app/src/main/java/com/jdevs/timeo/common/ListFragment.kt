@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,15 +35,9 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel.items.observe(viewLifecycleOwner) {
-
-            mAdapter.setItems(it)
-            viewModel.setLength(it.size)
-        }
-
         if (!hasObserverAttached) {
 
-            observe(viewModel.liveData)
+            observeLiveData(viewModel.liveData)
             hasObserverAttached = true
         } else {
 
@@ -58,14 +53,14 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private fun observe(liveData: ItemsLiveData?, shouldAddToList: Boolean = true) {
+    private fun observe(liveData: ItemsLiveData, shouldAddToList: Boolean = true) {
 
-        if (liveData != null && shouldAddToList) {
+        if (shouldAddToList) {
 
             itemLiveDatas.add(liveData)
         }
 
-        liveData?.observe(viewLifecycleOwner) { operation ->
+        liveData.observe(viewLifecycleOwner) { operation ->
 
             when (operation.type) {
 
@@ -106,7 +101,25 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         }
     }
 
-    fun RecyclerView.setup(visibleThreshold: Int) {
+    @Suppress("SafeCastWithReturn")
+    private fun observeLiveData(liveData: LiveData<*>?) {
+
+        if (liveData is ItemsLiveData) {
+
+            observe(liveData)
+        } else {
+
+            liveData as? LiveData<List<T>> ?: return
+
+            liveData.observe(viewLifecycleOwner) {
+
+                mAdapter.setItems(it)
+                viewModel.setLength(it.size)
+            }
+        }
+    }
+
+    protected fun RecyclerView.setup(visibleThreshold: Int) {
 
         val linearLayoutManager = LinearLayoutManager(context)
 
@@ -117,7 +130,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
             InfiniteScrollListener(
                 linearLayoutManager,
                 visibleThreshold
-            ) { observe(viewModel.liveData) }
+            ) { observeLiveData(viewModel.liveData) }
         )
     }
 

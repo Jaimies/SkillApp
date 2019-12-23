@@ -1,5 +1,6 @@
 package com.jdevs.timeo.data.source
 
+import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 
@@ -65,8 +66,14 @@ class DefaultTimeoRepository(
         }
     }
 
-    override val activities = localDataSource.activities
-    override val records = localDataSource.records
-    override val activitiesLiveData get() = remoteDataSource.activitiesLiveData
-    override val recordsLiveData get() = remoteDataSource.recordsLiveData
+    override val activitiesLiveData: LiveData<*>?
+        get() = if (isUserSignedIn) mActivitiesLiveData else activities
+
+    override val recordsLiveData: LiveData<*>?
+        get() = if (isUserSignedIn) mRecordsLiveData else records
+
+    private val activities = localDataSource.activities
+    private val records = localDataSource.records
+    private val mActivitiesLiveData get() = remoteDataSource.activitiesLiveData
+    private val mRecordsLiveData get() = remoteDataSource.recordsLiveData
 }

@@ -2,15 +2,12 @@ package com.jdevs.timeo.common.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.common.adapter.ViewType
-import com.jdevs.timeo.data.source.remote.ItemsLiveData
 
 abstract class ListViewModel : LoaderViewModel() {
 
     val isEmpty: LiveData<Boolean> get() = _isEmpty
 
-    abstract val liveData: ItemsLiveData?
-    abstract val items: LiveData<List<ViewType>>
+    abstract val liveData: LiveData<*>?
 
     private val _isEmpty = MutableLiveData(true)
 

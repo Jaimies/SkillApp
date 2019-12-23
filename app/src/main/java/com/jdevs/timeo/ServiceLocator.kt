@@ -24,6 +24,7 @@ object ServiceLocator {
         @VisibleForTesting set
 
     fun provideRepository(context: Context): TimeoRepository {
+
         synchronized(this) {
             return timeoRepository ?: createRepository(context)
         }
@@ -47,11 +48,14 @@ object ServiceLocator {
     }
 
     private fun createDataBase(context: Context): TimeoDatabase {
-        val result = Room.databaseBuilder(
+
+        Room.databaseBuilder(
             context.applicationContext,
             TimeoDatabase::class.java, "activities"
-        ).build()
-        localDatabase = result
-        return result
+        ).build().also {
+
+            localDatabase = it
+            return it
+        }
     }
 }

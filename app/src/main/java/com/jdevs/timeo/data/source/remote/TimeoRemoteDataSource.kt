@@ -63,11 +63,10 @@ class TimeoRemoteDataSource(
 
     override suspend fun saveActivity(activity: Activity) {
 
-        // TODO: Replace with a real id
-        val activityRef = activitiesRef.document("activityId")
+        val activityRef = activitiesRef.document(activity.documentId)
 
         val querySnapshot = recordsRef
-            .whereEqualTo(ACTIVITY_ID_PROPERTY, "activityId")
+            .whereEqualTo(ACTIVITY_ID_PROPERTY, activity.documentId)
             .get().await()
 
         firestore.runBatch { batch ->
@@ -90,15 +89,13 @@ class TimeoRemoteDataSource(
 
     override suspend fun deleteActivity(activity: Activity) {
 
-        // TODO: Replace with real id
-        activitiesRef.document("activityId").delete()
+        activitiesRef.document(activity.documentId).delete()
             .logOnFailure("Failed to delete data to Firestore")
     }
 
     override suspend fun deleteRecord(record: Record) {
 
-        // TODO: Replace with real id
-        val recordRef = recordsRef.document("id")
+        val recordRef = recordsRef.document(record.documentId)
         val activityRef = activitiesRef.document(record.activityId)
 
         firestore.runBatch { batch ->

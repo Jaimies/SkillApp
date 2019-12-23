@@ -89,11 +89,8 @@ class AddEditActivityFragment : ActionBarFragment() {
                 viewModel.saveActivity(activity)
             }
 
-            val directions =
-                AddEditActivityFragmentDirections.actionAddEditFragmentToActivityDetailFragment(
-                    activity = activity,
-                    id = args.id ?: ""
-                )
+            val directions = AddEditActivityFragmentDirections
+                .actionAddEditFragmentToActivityDetailFragment(activity = activity)
 
             findNavController().navigate(directions)
         } else {

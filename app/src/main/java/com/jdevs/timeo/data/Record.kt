@@ -31,7 +31,7 @@ data class Record(
     override var id: Int = 0,
 
     @DocumentId
-    override var documentId: String,
+    override var documentId: String = "",
 
     @Ignore
     var name: String = "",

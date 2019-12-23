@@ -80,8 +80,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
         val action = ActivitiesFragmentDirections
             .actionActivitiesFragmentToActivityDetailsFragment(
-                activity = getItem(index),
-                id = "xKftyze.Aekazker"
+                activity = getItem(index)
             )
 
         findNavController().navigate(action)
@@ -95,8 +94,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
             Record(
                 name = activity.name,
                 time = time,
-                // TODO: Replace with real id
-                activityId = "mAdapter.getId(index)",
+                activityId = activity.documentId,
                 roomActivityId = activity.id
             )
         )

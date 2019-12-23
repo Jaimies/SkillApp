@@ -22,7 +22,7 @@ data class Activity(
     override var id: Int = 0,
 
     @DocumentId
-    override var documentId: String,
+    override var documentId: String = "",
 
     var name: String = "",
     var totalTime: Long = 0,

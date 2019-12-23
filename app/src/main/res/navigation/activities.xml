@@ -55,12 +55,6 @@
             app:nullable="true" />
 
         <argument
-            android:name="id"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-
-        <argument
             android:name="isEdited"
             android:defaultValue="false"
             app:argType="boolean" />
@@ -95,10 +89,6 @@
         <argument
             android:name="activity"
             app:argType="com.jdevs.timeo.data.Activity" />
-
-        <argument
-            android:name="id"
-            app:argType="string" />
 
         <action
             android:id="@+id/action_activityDetailFragment_to_addEditActivityFragment"

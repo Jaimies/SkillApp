@@ -40,10 +40,9 @@ class ActivityDetailFragment : ActionBarFragment() {
 
         return if (item.itemId == R.id.editActivity) {
 
-            val directions =
-                ActivityDetailFragmentDirections.actionActivityDetailFragmentToAddEditActivityFragment(
+            val directions = ActivityDetailFragmentDirections
+                .actionActivityDetailFragmentToAddEditActivityFragment(
                     activity = args.activity,
-                    id = args.id,
                     isEdited = true
                 )
 

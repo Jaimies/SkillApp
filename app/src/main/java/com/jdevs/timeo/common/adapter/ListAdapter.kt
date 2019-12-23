@@ -6,7 +6,11 @@ import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.ui.activities.adapter.ActivityDelegateAdapter
+import com.jdevs.timeo.ui.activities.adapter.RecordDelegateAdapter
+import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 import com.jdevs.timeo.util.AdapterConstants.LOADING
+import com.jdevs.timeo.util.AdapterConstants.RECORD
 
 @Suppress("TooManyFunctions")
 abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -14,7 +18,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val dataItemCount get() = items.filter { it.getViewType() != LOADING }.size
 
     protected val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
-    protected val items = mutableListOf<ViewType>()
+    private val items = mutableListOf<ViewType>()
     private val ids = mutableListOf<String>()
     private var isLastItemReached = false
 
@@ -27,10 +31,13 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     init {
 
         delegateAdapters.put(LOADING, LoadingDelegateAdapter())
+        delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter())
+        delegateAdapters.put(RECORD, RecordDelegateAdapter())
         items.add(loadingItem)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         delegateAdapters.get(getItemViewType(position))
             .onBindViewHolder(holder, items[position])
     }

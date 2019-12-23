@@ -67,6 +67,6 @@ class DefaultTimeoRepository(
 
     override val activities = localDataSource.activities
     override val records = localDataSource.records
-    override val activitiesLiveData = remoteDataSource.activitiesLiveData!!
-    override val recordsLiveData = remoteDataSource.recordsLiveData!!
+    override val activitiesLiveData get() = remoteDataSource.activitiesLiveData!!
+    override val recordsLiveData get() = remoteDataSource.recordsLiveData!!
 }

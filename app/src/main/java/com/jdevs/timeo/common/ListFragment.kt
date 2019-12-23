@@ -41,17 +41,17 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
                 mAdapter.onLastItemReached()
             }
 
-            items.observe(viewLifecycleOwner) {
-
-                mAdapter.setItems(it)
-                viewModel.setLength(it.size)
-            }
+//            items.observe(viewLifecycleOwner) {
+//
+//                mAdapter.setItems(it)
+//                viewModel.setLength(it.size)
+//            }
         }
 
 
         if (!hasObserverAttached) {
 
-//            observe(viewModel.liveData)
+            observe(viewModel.liveData)
             hasObserverAttached = true
         } else {
 

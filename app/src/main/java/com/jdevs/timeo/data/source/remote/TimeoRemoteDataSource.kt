@@ -17,14 +17,14 @@ import com.jdevs.timeo.util.await
 import com.jdevs.timeo.util.logOnFailure
 
 class TimeoRemoteDataSource(
-    private val recordsDataSource: RemoteDataSource,
-    private val activitiesDataSource: RemoteDataSource
+    private val activitiesDataSource: RemoteDataSource,
+    private val recordsDataSource: RemoteDataSource
 ) : TimeoDataSource {
 
     override val activities: LiveData<List<Activity>> = MutableLiveData(emptyList())
     override val records: LiveData<List<Record>> = MutableLiveData(emptyList())
-    override val activitiesLiveData: ItemsLiveData? get() = activitiesDataSource.getLiveData()
-    override val recordsLiveData: ItemsLiveData? get() = recordsDataSource.getLiveData()
+    override val activitiesLiveData get() = activitiesDataSource.getLiveData()
+    override val recordsLiveData get() = recordsDataSource.getLiveData()
 
     private val firestore = FirebaseFirestore.getInstance()
     private val activitiesRef = firestore

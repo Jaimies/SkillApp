@@ -8,6 +8,7 @@ import androidx.room.ForeignKey
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.util.AdapterConstants.RECORD
@@ -28,6 +29,10 @@ data class Record(
     @Exclude
     @PrimaryKey(autoGenerate = true)
     override var id: Int = 0,
+
+    @DocumentId
+    override var documentId: String,
+
     @Ignore
     var name: String = "",
     var time: Long = 0,

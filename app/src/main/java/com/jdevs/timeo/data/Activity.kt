@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
@@ -19,6 +20,9 @@ data class Activity(
     @Exclude
     @PrimaryKey(autoGenerate = true)
     override var id: Int = 0,
+
+    @DocumentId
+    override var documentId: String,
 
     var name: String = "",
     var totalTime: Long = 0,

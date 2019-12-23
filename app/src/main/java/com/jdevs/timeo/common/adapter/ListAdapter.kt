@@ -19,12 +19,12 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     protected val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
     private val items = mutableListOf<ViewType>()
-    private val ids = mutableListOf<String>()
     private var isLastItemReached = false
 
     private val loadingItem = object : ViewType {
 
         override var id = -1
+        override var documentId = ""
         override fun getViewType() = LOADING
     }
 
@@ -45,26 +45,24 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemViewType(position: Int) = items[position].getViewType()
     override fun getItemCount() = items.size
     fun getItem(index: Int) = items[index]
-    fun getId(index: Int): String = ids[index]
 
-    fun addItem(item: ViewType, id: String) = items.apply {
+    fun addItem(item: ViewType) = items.apply {
 
-        if (ids.contains(id)) {
+        if (items.count { it.documentId == item.documentId } > 0) {
 
-            modifyItem(item, id)
+            modifyItem(item)
             return@apply
         }
 
         hideLoader()
         add(item)
-        ids.add(id)
 
         notifyItemInserted(lastIndex)
     }
 
-    fun modifyItem(item: ViewType, id: String) {
+    fun modifyItem(item: ViewType) {
 
-        val index = ids.indexOf(id)
+        val index = items.indexOfFirst { it.documentId == item.documentId }
 
         if (items[index] != item) {
 
@@ -73,12 +71,11 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun removeItem(id: String) {
+    fun removeItem(item: ViewType) {
 
-        val index = ids.indexOf(id)
+        val index = items.indexOfFirst { it.documentId == item.documentId }
 
         items.removeAt(index)
-        ids.removeAt(index)
 
         notifyItemRemoved(index)
     }

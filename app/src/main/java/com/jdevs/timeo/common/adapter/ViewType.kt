@@ -6,6 +6,7 @@ import com.google.firebase.firestore.Exclude
 interface ViewType {
 
     var id: Int
+    var documentId: String
 
     @Exclude
     @Ignore

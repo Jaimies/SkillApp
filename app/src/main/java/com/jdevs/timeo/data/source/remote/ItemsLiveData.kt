@@ -78,19 +78,13 @@ sealed class ItemsLiveData(
             type.getConstructor().newInstance()
         }
 
-        val docId = documentChange.document.id
-
         val operationType = when (documentChange.type) {
             DocumentChange.Type.ADDED -> ADDED
             DocumentChange.Type.MODIFIED -> MODIFIED
             DocumentChange.Type.REMOVED -> REMOVED
         }
 
-        value = Operation(
-            item = item,
-            type = operationType,
-            id = docId
-        )
+        value = Operation(item = item, type = operationType)
     }
 
     class ActivitiesLiveData(

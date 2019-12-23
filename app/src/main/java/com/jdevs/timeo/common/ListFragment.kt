@@ -81,25 +81,25 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
                 ADDED -> {
 
                     val item = operation.item as T
-                    mAdapter.addItem(item, operation.id)
+                    mAdapter.addItem(item)
                 }
 
                 MODIFIED -> {
 
                     val item = operation.item as T
-                    mAdapter.modifyItem(item, operation.id)
+                    mAdapter.modifyItem(item)
                 }
 
                 REMOVED -> {
 
-                    mAdapter.removeItem(operation.id)
+                    val item = operation.item as T
+                    mAdapter.removeItem(item)
                 }
 
                 FINISHED -> {
 
                     viewModel.hideLoader()
                     mAdapter.showLoader()
-
                     viewModel.setLength(mAdapter.dataItemCount)
                 }
 

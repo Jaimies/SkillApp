@@ -28,11 +28,9 @@ object RecordsConstants {
 
 object OperationTypes {
 
-    const val ADDED = 0
-    const val MODIFIED = 1
-    const val REMOVED = 2
-    const val FAILED = 3
-    const val FINISHED = 4
+    const val SUCCESSFUL = 0
+    const val FAILED = 1
+    const val LAST_ITEM_REACHED = 2
 }
 
 object RequestCodes {

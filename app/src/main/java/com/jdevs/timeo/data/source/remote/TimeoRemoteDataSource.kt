@@ -39,16 +39,6 @@ class TimeoRemoteDataSource(
         recordsDataSource.setup(recordsRef)
     }
 
-    fun setOnLastActivityCallback(onLastItemCallback: () -> Unit) {
-
-        activitiesDataSource.onLastItemCallback = onLastItemCallback
-    }
-
-    fun setOnLastRecordCallback(onLastItemCallback: () -> Unit) {
-
-        recordsDataSource.onLastItemCallback = onLastItemCallback
-    }
-
     override suspend fun addRecord(record: Record) {
 
         val newRecordRef = recordsRef.document()

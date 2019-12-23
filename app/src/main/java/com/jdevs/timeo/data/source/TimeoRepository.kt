@@ -8,9 +8,9 @@ import com.jdevs.timeo.data.source.remote.ItemsLiveData
 interface TimeoRepository {
 
     val activities: LiveData<List<Activity>>
-    val activitiesLiveData: ItemsLiveData
+    val activitiesLiveData: ItemsLiveData?
     val records: LiveData<List<Record>>
-    val recordsLiveData: ItemsLiveData
+    val recordsLiveData: ItemsLiveData?
 
     suspend fun addActivity(activity: Activity)
 

@@ -11,17 +11,6 @@ class RemoteDataSource(
     private val livedata: LiveDataConstructor
 ) {
 
-    var onLastItemCallback: () -> Unit = {}
-        set(newCallback) {
-
-            field = newCallback
-
-            if (isLastItemReached) {
-
-                newCallback()
-            }
-        }
-
     private lateinit var query: Query
     private lateinit var ref: CollectionReference
 
@@ -61,15 +50,6 @@ class RemoteDataSource(
             query = query.startAfter(lastItem)
         }
 
-        return livedata(query, { lastVisibleItem = it }, ::onLastItemReached)
-    }
-
-    private fun onLastItemReached() {
-
-        if (!isLastItemReached) {
-
-            isLastItemReached = true
-            onLastItemCallback()
-        }
+        return livedata(query, { lastVisibleItem = it }) { isLastItemReached = true }
     }
 }

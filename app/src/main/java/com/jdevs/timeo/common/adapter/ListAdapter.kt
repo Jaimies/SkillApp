@@ -19,7 +19,6 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     protected val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
     private val items = mutableListOf<ViewType>()
-    private var isLastItemReached = false
 
     private val loadingItem = object : ViewType {
 
@@ -46,53 +45,21 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount() = items.size
     fun getItem(index: Int) = items[index]
 
-    fun addItem(item: ViewType) = items.apply {
+    private fun showLoader() {
 
-        if (items.count { it.documentId == item.documentId } > 0) {
-
-            modifyItem(item)
-            return@apply
-        }
-
-        hideLoader()
-        add(item)
-
-        notifyItemInserted(lastIndex)
-    }
-
-    fun modifyItem(item: ViewType) {
-
-        val index = items.indexOfFirst { it.documentId == item.documentId }
-
-        if (items[index] != item) {
-
-            items[index] = item
-            notifyItemChanged(index)
-        }
-    }
-
-    fun removeItem(item: ViewType) {
-
-        val index = items.indexOfFirst { it.documentId == item.documentId }
-
-        items.removeAt(index)
-
-        notifyItemRemoved(index)
-    }
-
-    fun onLastItemReached() {
-
-        isLastItemReached = true
-        hideLoader()
-    }
-
-    fun showLoader() {
-
-        if (!isLastItemReached && !items.contains(loadingItem)) {
+        if (!items.contains(loadingItem)) {
 
             items.add(loadingItem)
             notifyItemInserted(items.lastIndex)
         }
+    }
+
+    fun addItems(newItems: List<ViewType>) {
+
+        hideLoader()
+        items.addAll(newItems)
+        showLoader()
+        notifyDataSetChanged()
     }
 
     fun setItems(newItems: List<ViewType>) {
@@ -105,7 +72,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         diffResult.dispatchUpdatesTo(this)
     }
 
-    private fun hideLoader() {
+    fun hideLoader() {
 
         val index = items.indexOf(loadingItem)
 

@@ -12,13 +12,10 @@ import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
-import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
-import com.jdevs.timeo.util.OperationTypes.FINISHED
-import com.jdevs.timeo.util.OperationTypes.MODIFIED
-import com.jdevs.timeo.util.OperationTypes.REMOVED
+import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED
+import com.jdevs.timeo.util.OperationTypes.SUCCESSFUL
 import com.jdevs.timeo.util.TAG
-import com.jdevs.timeo.util.observeEvent
 
 @Suppress("UNCHECKED_CAST")
 abstract class ListFragment<T : ViewType> : ActionBarFragment() {
@@ -34,20 +31,11 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel.apply {
+        viewModel.items.observe(viewLifecycleOwner) {
 
-            observeEvent(onLastItemReached) {
-
-                mAdapter.onLastItemReached()
-            }
-
-//            items.observe(viewLifecycleOwner) {
-//
-//                mAdapter.setItems(it)
-//                viewModel.setLength(it.size)
-//            }
+            mAdapter.setItems(it)
+            viewModel.setLength(it.size)
         }
-
 
         if (!hasObserverAttached) {
 
@@ -78,29 +66,18 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
             when (operation.type) {
 
-                ADDED -> {
+                SUCCESSFUL -> {
 
-                    val item = operation.item as T
-                    mAdapter.addItem(item)
-                }
+                    val items = operation.data as List<T>
+                    mAdapter.addItems(items)
 
-                MODIFIED -> {
-
-                    val item = operation.item as T
-                    mAdapter.modifyItem(item)
-                }
-
-                REMOVED -> {
-
-                    val item = operation.item as T
-                    mAdapter.removeItem(item)
-                }
-
-                FINISHED -> {
-
-                    viewModel.hideLoader()
-                    mAdapter.showLoader()
                     viewModel.setLength(mAdapter.dataItemCount)
+                    viewModel.hideLoader()
+                }
+
+                LAST_ITEM_REACHED -> {
+
+                    mAdapter.hideLoader()
                 }
 
                 FAILED -> {

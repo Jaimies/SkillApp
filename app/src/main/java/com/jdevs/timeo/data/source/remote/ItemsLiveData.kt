@@ -1,7 +1,6 @@
 package com.jdevs.timeo.data.source.remote
 
 import androidx.lifecycle.LiveData
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -12,15 +11,13 @@ import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Operation
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.util.ActivitiesConstants
-import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
-import com.jdevs.timeo.util.OperationTypes.FINISHED
-import com.jdevs.timeo.util.OperationTypes.MODIFIED
-import com.jdevs.timeo.util.OperationTypes.REMOVED
+import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED
+import com.jdevs.timeo.util.OperationTypes.SUCCESSFUL
 import com.jdevs.timeo.util.RecordsConstants
 
 sealed class ItemsLiveData(
-    private var query: Query,
+    private val query: Query,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
     private val onLastItemReached: () -> Unit = {},
     private val type: Class<*>,
@@ -50,41 +47,28 @@ sealed class ItemsLiveData(
             return
         }
 
-        for (documentChange in querySnapshot.documentChanges) {
+        val data = querySnapshot.documentChanges.map { documentChange ->
 
-            processDocumentChange(documentChange)
+            try {
+
+                documentChange.document.toObject(type)
+            } catch (e: RuntimeException) {
+
+                e.printStackTrace()
+                type.getConstructor().newInstance()
+            }
         }
 
-        value = Operation(type = FINISHED)
+        value = Operation(data = data, type = SUCCESSFUL)
 
         if (querySnapshot.size() < fetchLimit) {
 
+            value = Operation(type = LAST_ITEM_REACHED)
             onLastItemReached()
         } else {
 
             setLastVisibleItem(querySnapshot.documents.last())
         }
-    }
-
-    @Suppress("TooGenericExceptionCaught")
-    private fun processDocumentChange(documentChange: DocumentChange) {
-
-        val item = try {
-
-            documentChange.document.toObject(type)
-        } catch (e: RuntimeException) {
-
-            e.printStackTrace()
-            type.getConstructor().newInstance()
-        }
-
-        val operationType = when (documentChange.type) {
-            DocumentChange.Type.ADDED -> ADDED
-            DocumentChange.Type.MODIFIED -> MODIFIED
-            DocumentChange.Type.REMOVED -> REMOVED
-        }
-
-        value = Operation(item = item, type = operationType)
     }
 
     class ActivitiesLiveData(

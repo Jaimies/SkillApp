@@ -6,8 +6,8 @@ plugins {
     kotlin("kapt")
 
     id("androidx.navigation.safeargs.kotlin")
-    id("io.fabric")
-    id("com.google.firebase.firebase-perf")
+//    id("io.fabric")
+//    id("com.google.firebase.firebase-perf")
     id("com.google.gms.google-services")
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
@@ -99,12 +99,12 @@ dependencies {
     implementation("com.google.android.material:material:${Versions.material}")
     implementation("joda-time:joda-time:${Versions.jodatime}")
 
-    implementation("com.google.firebase:firebase-firestore:${Versions.firestore}")
     implementation("com.google.firebase:firebase-auth:${Versions.auth}")
-    implementation("com.google.firebase:firebase-analytics:${Versions.analytics}")
-    implementation("com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}")
-    implementation("com.google.firebase:firebase-perf:${Versions.perf}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
+    implementation("com.google.firebase:firebase-firestore:${Versions.firestore}")
+//    implementation("com.google.firebase:firebase-analytics:${Versions.analytics}")
+//    implementation("com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}")
+//    implementation("com.google.firebase:firebase-perf:${Versions.perf}")
 
     // Room components
     implementation("androidx.room:room-runtime:${Versions.room}")

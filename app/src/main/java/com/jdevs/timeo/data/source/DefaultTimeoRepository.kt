@@ -2,13 +2,10 @@ package com.jdevs.timeo.data.source
 
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 
 class DefaultTimeoRepository(
     private val remoteDataSource: TimeoDataSource,
-    private val localDataSource: TimeoDataSource,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val localDataSource: TimeoDataSource
 ) : TimeoRepository {
 
     private val isUserSignedIn get() = AuthRepository.isUserSignedIn

@@ -12,8 +12,11 @@ import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
+import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
 import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED
+import com.jdevs.timeo.util.OperationTypes.MODIFIED
+import com.jdevs.timeo.util.OperationTypes.REMOVED
 import com.jdevs.timeo.util.OperationTypes.SUCCESSFUL
 import com.jdevs.timeo.util.TAG
 
@@ -66,13 +69,28 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
             when (operation.type) {
 
+                ADDED -> {
+
+                    val item = operation.data as T
+                    mAdapter.addItem(item)
+                }
+
+                MODIFIED -> {
+
+                    val item = operation.data as T
+                    mAdapter.modifyItem(item)
+                }
+
+                REMOVED -> {
+
+                    val item = operation.data as T
+                    mAdapter.removeItem(item)
+                }
+
                 SUCCESSFUL -> {
 
-                    val items = operation.data as List<T>
-                    mAdapter.addItems(items)
-
                     viewModel.setLength(mAdapter.dataItemCount)
-                    viewModel.hideLoader()
+                    mAdapter.showLoader()
                 }
 
                 LAST_ITEM_REACHED -> {

@@ -30,7 +30,10 @@ object OperationTypes {
 
     const val SUCCESSFUL = 0
     const val FAILED = 1
-    const val LAST_ITEM_REACHED = 2
+    const val ADDED = 2
+    const val MODIFIED = 3
+    const val REMOVED = 4
+    const val LAST_ITEM_REACHED = 5
 }
 
 object RequestCodes {

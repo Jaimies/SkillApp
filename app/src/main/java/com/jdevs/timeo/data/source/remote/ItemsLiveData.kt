@@ -1,6 +1,7 @@
 package com.jdevs.timeo.data.source.remote
 
 import androidx.lifecycle.LiveData
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -11,8 +12,11 @@ import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Operation
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
 import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED
+import com.jdevs.timeo.util.OperationTypes.MODIFIED
+import com.jdevs.timeo.util.OperationTypes.REMOVED
 import com.jdevs.timeo.util.OperationTypes.SUCCESSFUL
 import com.jdevs.timeo.util.RecordsConstants
 
@@ -47,19 +51,12 @@ sealed class ItemsLiveData(
             return
         }
 
-        val data = querySnapshot.documentChanges.map { documentChange ->
+        for (documentChange in querySnapshot.documentChanges) {
 
-            try {
-
-                documentChange.document.toObject(type)
-            } catch (e: RuntimeException) {
-
-                e.printStackTrace()
-                type.getConstructor().newInstance()
-            }
+            processDocumentChange(documentChange)
         }
 
-        value = Operation(data = data, type = SUCCESSFUL)
+        value = Operation(type = SUCCESSFUL)
 
         if (querySnapshot.size() < fetchLimit) {
 
@@ -69,6 +66,27 @@ sealed class ItemsLiveData(
 
             setLastVisibleItem(querySnapshot.documents.last())
         }
+    }
+
+    @Suppress("TooGenericExceptionCaught")
+    private fun processDocumentChange(documentChange: DocumentChange) {
+
+        val item = try {
+
+            documentChange.document.toObject(type)
+        } catch (e: RuntimeException) {
+
+            e.printStackTrace()
+            type.getConstructor().newInstance()
+        }
+
+        val operationType = when (documentChange.type) {
+            DocumentChange.Type.ADDED -> ADDED
+            DocumentChange.Type.MODIFIED -> MODIFIED
+            DocumentChange.Type.REMOVED -> REMOVED
+        }
+
+        value = Operation(data = item, type = operationType)
     }
 
     class ActivitiesLiveData(

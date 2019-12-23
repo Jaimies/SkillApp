@@ -45,7 +45,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount() = items.size
     fun getItem(index: Int) = items[index]
 
-    private fun showLoader() {
+    fun showLoader() {
 
         if (!items.contains(loadingItem)) {
 
@@ -54,12 +54,37 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun addItems(newItems: List<ViewType>) {
+    fun addItem(item: ViewType) = items.apply {
+
+        if (items.count { it.documentId == item.documentId } > 0) {
+
+            modifyItem(item)
+            return@apply
+        }
 
         hideLoader()
-        items.addAll(newItems)
-        showLoader()
-        notifyDataSetChanged()
+        add(item)
+
+        notifyItemInserted(lastIndex)
+    }
+
+    fun modifyItem(item: ViewType) {
+
+        val index = items.indexOfFirst { it.documentId == item.documentId }
+
+        if (items[index] != item) {
+
+            items[index] = item
+            notifyItemChanged(index)
+        }
+    }
+
+    fun removeItem(item: ViewType) {
+
+        val index = items.indexOfFirst { it.documentId == item.documentId }
+
+        items.removeAt(index)
+        notifyItemRemoved(index)
     }
 
     fun setItems(newItems: List<ViewType>) {

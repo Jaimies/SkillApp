@@ -35,25 +35,11 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        if (!hasObserverAttached) {
-
-            observeLiveData(viewModel.liveData)
-            hasObserverAttached = true
-        } else {
-
-            itemLiveDatas.forEach {
-
-                if (!it.hasObservers()) {
-
-                    observe(it, shouldAddToList = false)
-                }
-            }
-        }
-
+        observeLiveData(viewModel.liveData)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private fun observe(liveData: ItemsLiveData, shouldAddToList: Boolean = true) {
+    private fun observeLiveData(liveData: ItemsLiveData, shouldAddToList: Boolean = true) {
 
         if (shouldAddToList) {
 
@@ -106,15 +92,33 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
         if (liveData is ItemsLiveData) {
 
-            observe(liveData)
-        } else {
+            subscribeToItemsLiveData(liveData)
+            return
+        }
 
-            liveData as? LiveData<List<T>> ?: return
+        liveData as? LiveData<List<T>> ?: return
 
-            liveData.observe(viewLifecycleOwner) {
+        liveData.observe(viewLifecycleOwner) {
 
-                mAdapter.setItems(it)
-                viewModel.setLength(it.size)
+            mAdapter.setItems(it)
+            viewModel.setLength(it.size)
+        }
+    }
+
+    private fun subscribeToItemsLiveData(liveData: ItemsLiveData) {
+
+        if (!hasObserverAttached) {
+
+            observeLiveData(liveData)
+            hasObserverAttached = true
+            return
+        }
+
+        itemLiveDatas.forEach {
+
+            if (!it.hasObservers()) {
+
+                observeLiveData(it, shouldAddToList = false)
             }
         }
     }

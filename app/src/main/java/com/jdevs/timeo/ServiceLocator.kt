@@ -8,29 +8,42 @@ import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.data.source.local.LocalDataSource
 import com.jdevs.timeo.data.source.local.TimeoDatabase
-import com.jdevs.timeo.data.source.remote.RemoteRepository
+import com.jdevs.timeo.data.source.remote.ItemsLiveData.ActivitiesLiveData
+import com.jdevs.timeo.data.source.remote.ItemsLiveData.RecordsLiveData
+import com.jdevs.timeo.data.source.remote.RemoteDataSource
+import com.jdevs.timeo.data.source.remote.TimeoRemoteDataSource
+import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.RecordsConstants
 
 object ServiceLocator {
 
-    private var timeoDatabase: TimeoDatabase? = null
+    private var localDatabase: TimeoDatabase? = null
 
     @Volatile
     var timeoRepository: TimeoRepository? = null
         @VisibleForTesting set
 
-    fun provideLocalRepository(context: Context): TimeoRepository {
+    fun provideRepository(context: Context): TimeoRepository {
         synchronized(this) {
-            return timeoRepository ?: createActivitiesRepository(context)
+            return timeoRepository ?: createRepository(context)
         }
     }
 
-    private fun createActivitiesRepository(context: Context): TimeoRepository {
-        return DefaultTimeoRepository(RemoteRepository, createActivityLocalDataSource(context))
+    private fun createRepository(context: Context): TimeoRepository {
+        return DefaultTimeoRepository(createRemoteDataSource(), createLocalDataSource(context))
     }
 
-    private fun createActivityLocalDataSource(context: Context): TimeoDataSource {
-        val database = timeoDatabase ?: createDataBase(context)
+    private fun createLocalDataSource(context: Context): TimeoDataSource {
+        val database = localDatabase ?: createDataBase(context)
         return LocalDataSource(database.activityDao(), database.recordsDao())
+    }
+
+    private fun createRemoteDataSource(): TimeoDataSource {
+
+        return TimeoRemoteDataSource(
+            RemoteDataSource(ActivitiesConstants.FETCH_LIMIT, ::ActivitiesLiveData),
+            RemoteDataSource(RecordsConstants.FETCH_LIMIT, ::RecordsLiveData)
+        )
     }
 
     private fun createDataBase(context: Context): TimeoDatabase {
@@ -38,7 +51,7 @@ object ServiceLocator {
             context.applicationContext,
             TimeoDatabase::class.java, "activities"
         ).build()
-        timeoDatabase = result
+        localDatabase = result
         return result
     }
 }

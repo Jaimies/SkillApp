@@ -2,7 +2,6 @@ package com.jdevs.timeo.data.source.remote
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.Activity
@@ -17,44 +16,37 @@ import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.await
 import com.jdevs.timeo.util.logOnFailure
 
-object RemoteRepository : TimeoDataSource {
+class TimeoRemoteDataSource(
+    private val recordsDataSource: RemoteDataSource,
+    private val activitiesDataSource: RemoteDataSource
+) : TimeoDataSource {
 
     override val activities: LiveData<List<Activity>> = MutableLiveData(emptyList())
     override val records: LiveData<List<Record>> = MutableLiveData(emptyList())
-    val activitiesLiveData: ItemsLiveData? get() = activitiesDataSource.getLiveData()
-    val recordsLiveData: ItemsLiveData? get() = recordsDataSource.getLiveData()
-
-    private lateinit var activitiesRef: CollectionReference
-    private lateinit var recordsRef: CollectionReference
-    private lateinit var activitiesDataSource: RemoteDataSource
-    private lateinit var recordsDataSource: RemoteDataSource
+    override val activitiesLiveData: ItemsLiveData? get() = activitiesDataSource.getLiveData()
+    override val recordsLiveData: ItemsLiveData? get() = recordsDataSource.getLiveData()
 
     private val firestore = FirebaseFirestore.getInstance()
+    private val activitiesRef = firestore
+        .collection("/$USERS_COLLECTION/${AuthRepository.uid}/${ActivitiesConstants.COLLECTION}")
 
-    fun initialize(activitiesDataSource: RemoteDataSource, recordsDataSource: RemoteDataSource) {
+    private val recordsRef = firestore
+        .collection("/$USERS_COLLECTION/${AuthRepository.uid}/${RecordsConstants.COLLECTION}")
 
-        RemoteRepository.recordsDataSource = recordsDataSource
-        RemoteRepository.activitiesDataSource = activitiesDataSource
-
-        initializeActivitiesRef()
-        initializeRecordsRef()
+    init {
 
         activitiesDataSource.setup(activitiesRef)
         recordsDataSource.setup(recordsRef)
     }
 
-    fun setupActivitiesSource(onLastItemCallback: () -> Unit) {
+    fun setOnLastActivityCallback(onLastItemCallback: () -> Unit) {
 
         activitiesDataSource.onLastItemCallback = onLastItemCallback
-        initializeActivitiesRef()
-        activitiesDataSource.setup(activitiesRef)
     }
 
-    fun setupRecordsSource(onLastItemCallback: () -> Unit) {
+    fun setOnLastRecordCallback(onLastItemCallback: () -> Unit) {
 
         recordsDataSource.onLastItemCallback = onLastItemCallback
-        initializeRecordsRef()
-        recordsDataSource.setup(recordsRef)
     }
 
     override suspend fun addRecord(record: Record) {
@@ -121,17 +113,8 @@ object RemoteRepository : TimeoDataSource {
         }
     }
 
-    private fun initializeActivitiesRef() {
+    companion object {
 
-        activitiesRef =
-            firestore.collection("/$USERS_COLLECTION/${AuthRepository.uid}/${ActivitiesConstants.COLLECTION}")
+        private const val USERS_COLLECTION = "users"
     }
-
-    private fun initializeRecordsRef() {
-
-        recordsRef =
-            firestore.collection("/$USERS_COLLECTION/${AuthRepository.uid}/${RecordsConstants.COLLECTION}")
-    }
-
-    private const val USERS_COLLECTION = "users"
 }

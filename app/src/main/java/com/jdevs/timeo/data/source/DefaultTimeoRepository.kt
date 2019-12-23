@@ -1,6 +1,5 @@
 package com.jdevs.timeo.data.source
 
-import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import kotlinx.coroutines.CoroutineDispatcher
@@ -69,6 +68,8 @@ class DefaultTimeoRepository(
         }
     }
 
-    override fun getActivities() = localDataSource.activities
-    override fun getRecords(): LiveData<List<Record>> = localDataSource.records
+    override val activities = localDataSource.activities
+    override val records = localDataSource.records
+    override val activitiesLiveData = remoteDataSource.activitiesLiveData!!
+    override val recordsLiveData = remoteDataSource.recordsLiveData!!
 }

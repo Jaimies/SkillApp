@@ -21,8 +21,8 @@ import com.jdevs.timeo.util.RecordsConstants
 
 sealed class ItemsLiveData(
     private var query: Query,
-    private val setLastVisibleItem: (DocumentSnapshot) -> Unit,
-    private val onLastItemReached: () -> Unit,
+    private val setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
+    private val onLastItemReached: () -> Unit = {},
     private val type: Class<*>,
     private val fetchLimit: Long
 ) : LiveData<Operation>(), EventListener<QuerySnapshot> {
@@ -95,8 +95,8 @@ sealed class ItemsLiveData(
 
     class ActivitiesLiveData(
         query: Query,
-        setLastVisibleItem: (DocumentSnapshot) -> Unit,
-        onLastItemReached: () -> Unit
+        setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
+        onLastItemReached: () -> Unit = {}
     ) : ItemsLiveData(
         query,
         setLastVisibleItem,
@@ -107,8 +107,8 @@ sealed class ItemsLiveData(
 
     class RecordsLiveData(
         query: Query,
-        setLastVisibleItem: (DocumentSnapshot) -> Unit,
-        onLastItemReached: () -> Unit
+        setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
+        onLastItemReached: () -> Unit = {}
     ) : ItemsLiveData(
         query,
         setLastVisibleItem,

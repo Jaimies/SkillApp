@@ -1,27 +1,23 @@
 package com.jdevs.timeo
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
 import androidx.room.Room
 import com.jdevs.timeo.data.source.DefaultTimeoRepository
 import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.data.source.local.LocalDataSource
 import com.jdevs.timeo.data.source.local.TimeoDatabase
+import com.jdevs.timeo.data.source.remote.CollectionMonitor
 import com.jdevs.timeo.data.source.remote.ItemsLiveData.ActivitiesLiveData
 import com.jdevs.timeo.data.source.remote.ItemsLiveData.RecordsLiveData
 import com.jdevs.timeo.data.source.remote.RemoteDataSource
-import com.jdevs.timeo.data.source.remote.TimeoRemoteDataSource
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
 
 object ServiceLocator {
 
     private var localDatabase: TimeoDatabase? = null
-
-    @Volatile
-    var timeoRepository: TimeoRepository? = null
-        @VisibleForTesting set
+    private var timeoRepository: TimeoRepository? = null
 
     fun provideRepository(context: Context): TimeoRepository {
 
@@ -41,9 +37,9 @@ object ServiceLocator {
 
     private fun createRemoteDataSource(): TimeoDataSource {
 
-        return TimeoRemoteDataSource(
-            RemoteDataSource(ActivitiesConstants.FETCH_LIMIT, ::ActivitiesLiveData),
-            RemoteDataSource(RecordsConstants.FETCH_LIMIT, ::RecordsLiveData)
+        return RemoteDataSource(
+            CollectionMonitor(ActivitiesConstants.FETCH_LIMIT, ::ActivitiesLiveData),
+            CollectionMonitor(RecordsConstants.FETCH_LIMIT, ::RecordsLiveData)
         )
     }
 

@@ -1,55 +1,107 @@
 package com.jdevs.timeo.data.source.remote
 
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
-import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
-import com.jdevs.timeo.util.LiveDataConstructor
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.data.source.TimeoDataSource
+import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
+import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
+import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME_PROPERTY
+import com.jdevs.timeo.util.RecordsConstants
+import com.jdevs.timeo.util.await
+import com.jdevs.timeo.util.logOnFailure
 
 class RemoteDataSource(
-    private val fetchLimit: Long,
-    private val livedata: LiveDataConstructor
-) {
+    private val activitiesDataSource: CollectionMonitor,
+    private val recordsDataSource: CollectionMonitor
+) : TimeoDataSource {
 
-    private lateinit var query: Query
-    private lateinit var ref: CollectionReference
+    override val activities: LiveData<List<Activity>> = MutableLiveData(emptyList())
+    override val records: LiveData<List<Record>> = MutableLiveData(emptyList())
+    override val activitiesLiveData get() = activitiesDataSource.getLiveData()
+    override val recordsLiveData get() = recordsDataSource.getLiveData()
 
-    private var lastVisibleItem: DocumentSnapshot? = null
-    private var isLastItemReached = false
-    private var shouldInitializeQuery = true
+    private val firestore = FirebaseFirestore.getInstance()
+    private val activitiesRef = firestore
+        .collection("/$USERS_COLLECTION/${AuthRepository.uid}/${ActivitiesConstants.COLLECTION}")
 
-    fun setup(ref: CollectionReference) {
+    private val recordsRef = firestore
+        .collection("/$USERS_COLLECTION/${AuthRepository.uid}/${RecordsConstants.COLLECTION}")
 
-        lastVisibleItem = null
-        isLastItemReached = false
-        shouldInitializeQuery = true
+    init {
 
-        this.ref = ref
+        activitiesDataSource.setup(activitiesRef)
+        recordsDataSource.setup(recordsRef)
     }
 
-    fun getLiveData(): ItemsLiveData? {
+    override suspend fun addRecord(record: Record) {
 
-        if (isLastItemReached) {
+        val newRecordRef = recordsRef.document()
+        val activityRef = activitiesRef.document(record.activityId)
 
-            return null
+        firestore.runBatch { batch ->
+
+            batch.set(newRecordRef, record)
+            batch.update(activityRef, TOTAL_TIME_PROPERTY, FieldValue.increment(record.time))
         }
+    }
 
-        if (shouldInitializeQuery) {
+    override suspend fun saveActivity(activity: Activity) {
 
-            query = ref
-                .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
-                .limit(fetchLimit)
+        val activityRef = activitiesRef.document(activity.documentId)
 
-            shouldInitializeQuery = false
+        val querySnapshot = recordsRef
+            .whereEqualTo(ACTIVITY_ID_PROPERTY, activity.documentId)
+            .get().await()
+
+        firestore.runBatch { batch ->
+
+            batch.set(activityRef, activity)
+
+            for (document in querySnapshot.documents) {
+
+                batch.update(document.reference, NAME_PROPERTY, activity.name)
+            }
         }
+            .logOnFailure("Failed to save data to Firestore")
+    }
 
-        val lastItem = lastVisibleItem
+    override suspend fun addActivity(activity: Activity) {
 
-        if (lastItem != null) {
+        activitiesRef.add(activity)
+            .logOnFailure("Failed to add data to Firestore")
+    }
 
-            query = query.startAfter(lastItem)
+    override suspend fun deleteActivity(activity: Activity) {
+
+        activitiesRef.document(activity.documentId).delete()
+            .logOnFailure("Failed to delete data to Firestore")
+    }
+
+    override suspend fun deleteRecord(record: Record) {
+
+        val recordRef = recordsRef.document(record.documentId)
+        val activityRef = activitiesRef.document(record.activityId)
+
+        firestore.runBatch { batch ->
+
+            batch.delete(recordRef)
+
+            batch.update(
+                activityRef,
+                TOTAL_TIME_PROPERTY,
+                FieldValue.increment(-record.time)
+            )
         }
+    }
 
-        return livedata(query, { lastVisibleItem = it }) { isLastItemReached = true }
+    companion object {
+
+        private const val USERS_COLLECTION = "users"
     }
 }

@@ -8,7 +8,7 @@ import com.jdevs.timeo.util.LiveDataConstructor
 
 class CollectionMonitor(
     private val fetchLimit: Long,
-    private val livedata: LiveDataConstructor
+    private val liveData: LiveDataConstructor
 ) {
 
     private lateinit var query: Query
@@ -16,13 +16,11 @@ class CollectionMonitor(
 
     private var lastVisibleItem: DocumentSnapshot? = null
     private var isLastItemReached = false
-    private var shouldInitializeQuery = true
 
     fun setup(ref: CollectionReference) {
 
         lastVisibleItem = null
         isLastItemReached = false
-        shouldInitializeQuery = true
 
         this.ref = ref
     }
@@ -34,13 +32,11 @@ class CollectionMonitor(
             return null
         }
 
-        if (shouldInitializeQuery) {
+        if (!::query.isInitialized) {
 
             query = ref
                 .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
                 .limit(fetchLimit)
-
-            shouldInitializeQuery = false
         }
 
         val lastItem = lastVisibleItem
@@ -50,6 +46,6 @@ class CollectionMonitor(
             query = query.startAfter(lastItem)
         }
 
-        return livedata(query, { lastVisibleItem = it }) { isLastItemReached = true }
+        return liveData(query, { lastVisibleItem = it }) { isLastItemReached = true }
     }
 }

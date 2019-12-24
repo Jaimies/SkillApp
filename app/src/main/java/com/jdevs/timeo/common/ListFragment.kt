@@ -52,6 +52,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
             mAdapter.setItems(it)
             viewModel.setLength(it.size)
+            viewModel.hideLoader()
         }
     }
 
@@ -104,6 +105,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
                 SUCCESSFUL -> {
 
                     viewModel.setLength(mAdapter.dataItemCount)
+                    viewModel.hideLoader()
                     mAdapter.showLoader()
                 }
 

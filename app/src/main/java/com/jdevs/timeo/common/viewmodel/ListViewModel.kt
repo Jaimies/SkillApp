@@ -3,7 +3,7 @@ package com.jdevs.timeo.common.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-abstract class ListViewModel : LoaderViewModel() {
+abstract class ListViewModel : LoaderViewModel(isLoadingByDefault = true) {
 
     abstract val liveData: LiveData<*>?
 

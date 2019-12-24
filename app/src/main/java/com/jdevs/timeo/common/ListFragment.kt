@@ -27,7 +27,6 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
     protected abstract val viewModel: ListViewModel
     protected abstract val mAdapter: ListAdapter
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()
-    private var hasObserverAttached = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,12 +55,11 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         }
     }
 
-    private fun subscribeToItemsLiveData(itemsLiveData: ItemsLiveData?, hasItems: Boolean = true) {
+    private fun subscribeToItemsLiveData(liveData: ItemsLiveData?, hasItems: Boolean = true) {
 
-        if ((!hasObserverAttached || hasItems) && itemsLiveData != null) {
+        if (liveData != null && (itemLiveDatas.isNotEmpty() || hasItems)) {
 
-            observeItemsLiveData(itemsLiveData)
-            hasObserverAttached = true
+            observeItemsLiveData(liveData)
             return
         }
 

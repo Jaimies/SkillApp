@@ -17,7 +17,7 @@ import java.util.Date
 @Parcelize
 @Entity(tableName = "activities")
 data class Activity(
-    @Exclude
+    @get:Exclude
     @PrimaryKey(autoGenerate = true)
     override var id: Int = 0,
 
@@ -31,5 +31,7 @@ data class Activity(
     var timestamp: Date = Calendar.getInstance().time
 ) : Parcelable, ViewType {
 
+    @Exclude
+    @Ignore
     override fun getViewType() = ACTIVITY
 }

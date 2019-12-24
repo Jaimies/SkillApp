@@ -11,9 +11,9 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.util.AdapterConstants.RECORD
-import java.util.Calendar
 import java.util.Date
 
 @Keep
@@ -28,28 +28,31 @@ import java.util.Date
     )]
 )
 data class Record(
-    @Exclude
-    @PrimaryKey(autoGenerate = true)
-    override var id: Int = 0,
-
-    @DocumentId
-    override var documentId: String = "",
-
     @Ignore
     var name: String = "",
     var time: Long = 0,
 
-    @Exclude
-    @ColumnInfo(name = "activity_id")
-    var roomActivityId: Int = 0,
-
     @Ignore
     var activityId: String = "",
 
-    @Ignore
-    var timestamp: Date = Calendar.getInstance().time
+    @get:Exclude
+    @ColumnInfo(name = "activity_id")
+    var roomActivityId: Int = 0
 ) : ViewType {
 
+    @get:Exclude
+    @PrimaryKey(autoGenerate = true)
+    override var id: Int = 0
+
+    @DocumentId
+    override var documentId: String = ""
+
+    @ServerTimestamp
+    @Ignore
+    var timestamp: Date? = null
+
+    @Exclude
+    @Ignore
     override fun getViewType() = RECORD
 }
 

@@ -19,7 +19,7 @@ import java.util.Date
 @Keep
 @Entity(
     tableName = "records",
-    indices = [Index(value = ["activity_id"], unique = true)],
+    indices = [Index(value = ["activity_id"])],
     foreignKeys = [ForeignKey(
         entity = Activity::class,
         parentColumns = ["id"],

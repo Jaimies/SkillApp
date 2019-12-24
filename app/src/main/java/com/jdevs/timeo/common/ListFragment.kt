@@ -39,7 +39,43 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private fun observeLiveData(liveData: ItemsLiveData, shouldAddToList: Boolean = true) {
+    @Suppress("SafeCastWithReturn")
+    private fun observeLiveData(liveData: LiveData<*>?) {
+
+        if (liveData is ItemsLiveData?) {
+
+            subscribeToItemsLiveData(liveData)
+            return
+        }
+
+        liveData as LiveData<List<T>>
+
+        liveData.observe(viewLifecycleOwner) {
+
+            mAdapter.setItems(it)
+            viewModel.setLength(it.size)
+        }
+    }
+
+    private fun subscribeToItemsLiveData(itemsLiveData: ItemsLiveData?) {
+
+        if (!hasObserverAttached && itemsLiveData != null) {
+
+            observeItemsLiveData(itemsLiveData)
+            hasObserverAttached = true
+            return
+        }
+
+        itemLiveDatas.forEach {
+
+            if (!it.hasObservers()) {
+
+                observeItemsLiveData(it, shouldAddToList = false)
+            }
+        }
+    }
+
+    private fun observeItemsLiveData(liveData: ItemsLiveData, shouldAddToList: Boolean = true) {
 
         if (shouldAddToList) {
 
@@ -83,42 +119,6 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
 
                     Log.w(TAG, "Failed to get data from Firestore", operation.exception)
                 }
-            }
-        }
-    }
-
-    @Suppress("SafeCastWithReturn")
-    private fun observeLiveData(liveData: LiveData<*>?) {
-
-        if (liveData is ItemsLiveData) {
-
-            subscribeToItemsLiveData(liveData)
-            return
-        }
-
-        liveData as? LiveData<List<T>> ?: return
-
-        liveData.observe(viewLifecycleOwner) {
-
-            mAdapter.setItems(it)
-            viewModel.setLength(it.size)
-        }
-    }
-
-    private fun subscribeToItemsLiveData(liveData: ItemsLiveData) {
-
-        if (!hasObserverAttached) {
-
-            observeLiveData(liveData)
-            hasObserverAttached = true
-            return
-        }
-
-        itemLiveDatas.forEach {
-
-            if (!it.hasObservers()) {
-
-                observeLiveData(it, shouldAddToList = false)
             }
         }
     }

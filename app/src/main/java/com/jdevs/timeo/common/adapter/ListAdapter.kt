@@ -12,7 +12,6 @@ import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 import com.jdevs.timeo.util.AdapterConstants.LOADING
 import com.jdevs.timeo.util.AdapterConstants.RECORD
 
-@Suppress("TooManyFunctions")
 abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it.getViewType() != LOADING }.size
@@ -42,15 +41,27 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int) = items[position].getViewType()
+
     override fun getItemCount() = items.size
+
     fun getItem(index: Int) = items[index]
 
     fun showLoader() {
 
-        if (!items.contains(loadingItem)) {
+        hideLoader()
 
-            items.add(loadingItem)
-            notifyItemInserted(items.lastIndex)
+        items.add(loadingItem)
+        notifyItemInserted(items.lastIndex)
+    }
+
+    fun hideLoader() {
+
+        val index = items.indexOf(loadingItem)
+
+        if (index != -1) {
+
+            items.removeAt(index)
+            notifyItemRemoved(index)
         }
     }
 
@@ -62,7 +73,6 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             return@apply
         }
 
-        hideLoader()
         add(item)
 
         notifyItemInserted(lastIndex)
@@ -95,17 +105,6 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         items.addAll(newItems)
 
         diffResult.dispatchUpdatesTo(this)
-    }
-
-    fun hideLoader() {
-
-        val index = items.indexOf(loadingItem)
-
-        if (index != -1) {
-
-            items.removeAt(index)
-            notifyItemRemoved(index)
-        }
     }
 
     class DiffCallback(

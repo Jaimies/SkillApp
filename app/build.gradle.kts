@@ -120,6 +120,12 @@ dependencies {
     implementation("androidx.room:room-runtime:${Versions.room}")
     implementation("androidx.room:room-ktx:${Versions.room}")
 
+    // For browsing SQLite database
+    // To enable uncomment the following line, run adb forward tcp:8080 tcp:8080
+    // (/home/alex/Android/Sdk/platform-tools/adb forward tcp:8080 tcp:8080)
+    // and connect to http://localhost:8080
+    // debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
+
     // Kapt
     kapt("com.android.databinding:compiler:${Versions.dataBinding}")
     kapt("androidx.room:room-compiler:${Versions.room}")

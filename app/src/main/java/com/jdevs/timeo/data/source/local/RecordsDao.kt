@@ -12,7 +12,11 @@ import com.jdevs.timeo.data.Record
 interface RecordsDao {
 
     @Transaction
-    @Query("SELECT records.*, activities.name FROM records LEFT JOIN activities ON activities.id = records.activity_id ORDER BY records.id DESC")
+    @Query(
+        """SELECT records.*, activities.name FROM records 
+        LEFT JOIN activities ON activities.id = records.activity_id 
+        ORDER BY records.id DESC"""
+    )
     fun getRecords(): LiveData<List<Record>>
 
     @Insert

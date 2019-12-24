@@ -7,14 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
-import com.jdevs.timeo.MainActivity
-import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
 import com.jdevs.timeo.util.ViewConstants.HAS_TEXT_WATCHER
 import kotlinx.coroutines.launch
@@ -92,20 +88,3 @@ fun ViewModel.launchSuspendingProcess(
     }
 }
 
-fun Fragment.navigateToGraph(graphId: Int) {
-
-    requireMainActivity().navigateToGraph(graphId)
-
-    findNavController().apply {
-
-        popBackStack(graph.id, true)
-    }
-}
-
-fun <T> Fragment.observeEvent(event: SingleLiveEvent<T>, onEvent: (T?) -> Unit) {
-
-    event.observeEvent(viewLifecycleOwner) { onEvent(it) }
-}
-
-fun Fragment.requireMainActivity() = requireActivity() as MainActivity
-fun Fragment.getCoroutineIoScope() = (requireActivity().application as TimeoApplication).ioScope

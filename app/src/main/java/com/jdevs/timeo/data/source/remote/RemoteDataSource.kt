@@ -1,7 +1,5 @@
 package com.jdevs.timeo.data.source.remote
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.Activity
@@ -21,8 +19,6 @@ class RemoteDataSource(
     private val recordsDataSource: CollectionMonitor
 ) : TimeoDataSource {
 
-    override val activities: LiveData<List<Activity>> = MutableLiveData(emptyList())
-    override val records: LiveData<List<Record>> = MutableLiveData(emptyList())
     override val activitiesLiveData get() = activitiesDataSource.getLiveData()
     override val recordsLiveData get() = recordsDataSource.getLiveData()
 

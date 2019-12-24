@@ -3,14 +3,11 @@ package com.jdevs.timeo.data.source
 import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.source.remote.ItemsLiveData
 
 interface TimeoDataSource {
 
-    val activities: LiveData<List<Activity>>
-    val records: LiveData<List<Record>>
-    val activitiesLiveData: ItemsLiveData?
-    val recordsLiveData: ItemsLiveData?
+    val activitiesLiveData: LiveData<*>?
+    val recordsLiveData: LiveData<*>?
 
     suspend fun addActivity(activity: Activity)
 

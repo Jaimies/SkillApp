@@ -3,18 +3,14 @@ package com.jdevs.timeo.data.source.local
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.TimeoDataSource
-import com.jdevs.timeo.data.source.remote.ItemsLiveData
 
 class LocalDataSource(
     private val activitiesDao: ActivitiesDao,
     private val recordsDao: RecordsDao
 ) : TimeoDataSource {
 
-    override val activities = activitiesDao.getActivities()
-    override val records = recordsDao.getRecords()
-
-    override val activitiesLiveData: ItemsLiveData? = null
-    override val recordsLiveData: ItemsLiveData? = null
+    override val activitiesLiveData = activitiesDao.getActivities()
+    override val recordsLiveData = recordsDao.getRecords()
 
     override suspend fun addActivity(activity: Activity) = activitiesDao.insert(activity)
 

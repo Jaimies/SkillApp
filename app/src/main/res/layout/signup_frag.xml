@@ -18,8 +18,7 @@
 
         <LinearLayout
             style="@style/Widget.Timeo.SignInLayout"
-            android:alpha="@{viewModel.isLoading ? 0.5f : 1.0f}"
-            android:orientation="vertical">
+            android:alpha="@{viewModel.isLoading ? 0f : 1f}">
 
             <TextView
                 style="@style/Widget.Timeo.Header.Small"
@@ -40,7 +39,6 @@
                     android:text="@={viewModel.email}"
                     app:layout_constraintTop_toTopOf="parent" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -81,6 +79,7 @@
 
         <include
             android:id="@+id/preloader"
-            layout="@layout/preloader" />
+            layout="@layout/preloader"
+            app:hideIf="@{!viewModel.isLoading}" />
     </FrameLayout>
 </layout>

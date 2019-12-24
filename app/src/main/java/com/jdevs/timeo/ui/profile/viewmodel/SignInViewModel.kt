@@ -40,8 +40,14 @@ class SignInViewModel : AuthViewModel() {
     fun triggerSignIn() {
 
         signIn.value = email.value.orEmpty() to password.value.orEmpty()
+        hideKeyboard()
     }
 
-    fun showGoogleSignInIntent() = showGoogleSignInIntent.call()
+    fun showGoogleSignInIntent() {
+
+        showGoogleSignInIntent.call()
+        hideKeyboard()
+    }
+
     fun navigateToSignUp() = navigateToSignUp.call()
 }

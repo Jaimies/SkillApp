@@ -25,6 +25,7 @@ class SignUpViewModel : AuthViewModel() {
     fun triggerSignUp() {
 
         signUp.value = email.value.orEmpty() to password.value.orEmpty()
+        hideKeyboard()
     }
 
     fun navigateToSignIn() = navigateToSignIn.call()

@@ -1,6 +1,5 @@
 package com.jdevs.timeo.data.source.local
 
-import androidx.lifecycle.Transformations
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.TimeoDataSource
@@ -12,16 +11,7 @@ class LocalDataSource(
 ) : TimeoDataSource {
 
     override val activities = activitiesDao.getActivities()
-
-    override val records = Transformations.map(recordsDao.getRecords()) { list ->
-
-        return@map list.map { recordAndActivity ->
-
-            recordAndActivity.record.also {
-                it.name = recordAndActivity.activity.name
-            }
-        }
-    }
+    override val records = recordsDao.getRecords()
 
     override val activitiesLiveData: ItemsLiveData? = null
     override val recordsLiveData: ItemsLiveData? = null

@@ -7,14 +7,13 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.RecordAndActivity
 
 @Dao
 interface RecordsDao {
 
     @Transaction
-    @Query("SELECT * FROM records ORDER BY id DESC")
-    fun getRecords(): LiveData<List<RecordAndActivity>>
+    @Query("SELECT records.*, activities.name FROM records LEFT JOIN activities ON activities.id = records.activity_id ORDER BY records.id DESC")
+    fun getRecords(): LiveData<List<Record>>
 
     @Insert
     suspend fun insert(record: Record)

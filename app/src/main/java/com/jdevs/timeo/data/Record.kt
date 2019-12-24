@@ -2,13 +2,11 @@ package com.jdevs.timeo.data
 
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Ignore
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
@@ -28,7 +26,6 @@ import java.util.Date
     )]
 )
 data class Record(
-    @Ignore
     var name: String = "",
     var time: Long = 0,
 
@@ -55,13 +52,3 @@ data class Record(
     @Ignore
     override fun getViewType() = RECORD
 }
-
-data class RecordAndActivity(
-    @Embedded
-    var record: Record,
-    @Relation(
-        parentColumn = "activity_id",
-        entityColumn = "id"
-    )
-    var activity: Activity
-)

@@ -29,14 +29,8 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     init {
 
         delegateAdapters.put(LOADING, LoadingDelegateAdapter())
-        delegateAdapters.put(
-            ACTIVITY,
-            ActivityDelegateAdapter()
-        )
-        delegateAdapters.put(
-            RECORD,
-            RecordDelegateAdapter()
-        )
+        delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter())
+        delegateAdapters.put(RECORD, RecordDelegateAdapter())
         items.add(loadingItem)
     }
 

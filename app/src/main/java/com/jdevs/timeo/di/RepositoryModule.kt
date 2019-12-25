@@ -2,17 +2,21 @@ package com.jdevs.timeo.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
+import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.DefaultTimeoRepository
 import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.data.source.local.LocalDataSource
 import com.jdevs.timeo.data.source.local.TimeoDatabase
 import com.jdevs.timeo.data.source.remote.CollectionMonitor
-import com.jdevs.timeo.data.source.remote.ItemsLiveData.ActivitiesLiveData
-import com.jdevs.timeo.data.source.remote.ItemsLiveData.RecordsLiveData
+import com.jdevs.timeo.data.source.remote.ItemsLiveData
 import com.jdevs.timeo.data.source.remote.RemoteDataSource
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
+import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -33,8 +37,8 @@ class RepositoryModule {
     private fun provideRemoteDataSource(): TimeoDataSource {
 
         return RemoteDataSource(
-            CollectionMonitor(ActivitiesConstants.FETCH_LIMIT, ::ActivitiesLiveData),
-            CollectionMonitor(RecordsConstants.FETCH_LIMIT, ::RecordsLiveData)
+            CollectionMonitor(ActivitiesConstants.FETCH_LIMIT, ::createActivitiesLiveData),
+            CollectionMonitor(RecordsConstants.FETCH_LIMIT, ::createRecordsLiveData)
         )
     }
 
@@ -42,9 +46,39 @@ class RepositoryModule {
 
         val database = Room.databaseBuilder(
             context.applicationContext,
-            TimeoDatabase::class.java, "timeo"
+            TimeoDatabase::class.java, DATABASE_NAME
         ).build()
 
         return LocalDataSource(database.activitiesDao(), database.recordsDao())
+    }
+
+    private fun createActivitiesLiveData(
+        query: Query,
+        setLastVisibleItem: (DocumentSnapshot) -> Unit,
+        onLastItemReached: () -> Unit
+    ): ItemsLiveData {
+
+        return ItemsLiveData(
+            query,
+            setLastVisibleItem,
+            onLastItemReached,
+            Activity::class.java,
+            ActivitiesConstants.FETCH_LIMIT
+        )
+    }
+
+    private fun createRecordsLiveData(
+        query: Query,
+        setLastVisibleItem: (DocumentSnapshot) -> Unit,
+        onLastItemReached: () -> Unit
+    ): ItemsLiveData {
+
+        return ItemsLiveData(
+            query,
+            setLastVisibleItem,
+            onLastItemReached,
+            Record::class.java,
+            RecordsConstants.FETCH_LIMIT
+        )
     }
 }

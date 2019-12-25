@@ -2,6 +2,11 @@ package com.jdevs.timeo.util
 
 const val TAG = "Timeo"
 
+object RoomConstants {
+
+    const val DATABASE_NAME = "timeo"
+}
+
 object FirestoreConstants {
 
     const val TIMESTAMP_PROPERTY = "timestamp"

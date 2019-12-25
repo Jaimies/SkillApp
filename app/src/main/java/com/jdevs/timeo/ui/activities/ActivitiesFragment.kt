@@ -15,8 +15,6 @@ import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
-import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
-import com.jdevs.timeo.ui.activities.viewmodel.ActivitiesViewModel
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.observeEvent
 import javax.inject.Inject

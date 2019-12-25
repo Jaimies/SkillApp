@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.activities
+package com.jdevs.timeo.ui.history
 
 import android.content.Context
 import android.content.DialogInterface
@@ -13,8 +13,6 @@ import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.HistoryFragBinding
-import com.jdevs.timeo.ui.activities.adapter.RecordsAdapter
-import com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel
 import com.jdevs.timeo.util.RecordsConstants
 import javax.inject.Inject
 

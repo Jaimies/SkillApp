@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel" />
+            type="com.jdevs.timeo.ui.history.HistoryViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activities.HistoryFragment">
+        tools:context=".ui.history.HistoryFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"

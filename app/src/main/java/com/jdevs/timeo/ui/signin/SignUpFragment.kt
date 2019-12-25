@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.profile
+package com.jdevs.timeo.ui.signin
 
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SignupFragBinding
-import com.jdevs.timeo.ui.profile.viewmodel.SignUpViewModel
 import com.jdevs.timeo.util.EMPTY
 import com.jdevs.timeo.util.INVALID
 import com.jdevs.timeo.util.TAG

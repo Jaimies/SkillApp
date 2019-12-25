@@ -7,14 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.profile.viewmodel.SignUpViewModel" />
+            type="com.jdevs.timeo.ui.signin.SignUpViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="@{() -> viewModel.hideKeyboard()}"
-        tools:context=".ui.profile.SignInFragment">
+        tools:context=".ui.signin.SignInFragment">
 
         <LinearLayout
             style="@style/Widget.Timeo.SignInLayout"

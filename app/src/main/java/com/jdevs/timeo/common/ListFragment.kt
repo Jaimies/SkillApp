@@ -9,8 +9,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.common.adapter.DataUnit
 import com.jdevs.timeo.common.adapter.ListAdapter
-import com.jdevs.timeo.common.adapter.ViewType
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
 import com.jdevs.timeo.util.OperationTypes.ADDED
@@ -22,7 +22,7 @@ import com.jdevs.timeo.util.OperationTypes.SUCCESSFUL
 import com.jdevs.timeo.util.TAG
 
 @Suppress("UNCHECKED_CAST")
-abstract class ListFragment<T : ViewType> : ActionBarFragment() {
+abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
 
     protected abstract val viewModel: ListViewModel
     protected abstract val mAdapter: ListAdapter

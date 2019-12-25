@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.profile.viewmodel
+package com.jdevs.timeo.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

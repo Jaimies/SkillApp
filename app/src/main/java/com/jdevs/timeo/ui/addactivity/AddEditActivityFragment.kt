@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.activities
+package com.jdevs.timeo.ui.addactivity
 
 import android.content.Context
 import android.os.Bundle
@@ -15,7 +15,6 @@ import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.databinding.AddactivityFragBinding
-import com.jdevs.timeo.ui.activities.viewmodel.AddEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.getCoroutineIoScope
 import com.jdevs.timeo.util.hideKeyboard

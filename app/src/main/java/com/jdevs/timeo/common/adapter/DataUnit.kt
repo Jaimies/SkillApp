@@ -1,6 +1,6 @@
 package com.jdevs.timeo.common.adapter
 
-interface ViewType {
+interface DataUnit {
 
     var id: Int
     var documentId: String

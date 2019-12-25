@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.profile
+package com.jdevs.timeo.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater

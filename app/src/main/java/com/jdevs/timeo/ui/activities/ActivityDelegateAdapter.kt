@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.activities.adapter
+package com.jdevs.timeo.ui.activities
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,16 +6,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.common.adapter.DataUnit
+import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
-import com.jdevs.timeo.common.adapter.ViewType
-import com.jdevs.timeo.common.adapter.ViewTypeDelegateAdapter
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
-import com.jdevs.timeo.ui.activities.RecordDialog
-import com.jdevs.timeo.ui.activities.viewmodel.ActivityViewModel
 import com.jdevs.timeo.util.randomString
 
-class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
+class ActivityDelegateAdapter : DelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -39,7 +37,7 @@ class ActivityDelegateAdapter : ViewTypeDelegateAdapter {
         return ViewHolder(binding.root, viewModel, createRecord, goToDetails)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataUnit) {
 
         holder as ViewHolder
         holder.bindActivity(item as Activity)

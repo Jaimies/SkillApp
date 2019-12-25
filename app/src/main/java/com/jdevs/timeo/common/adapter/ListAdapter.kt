@@ -6,8 +6,8 @@ import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.ui.activities.adapter.ActivityDelegateAdapter
-import com.jdevs.timeo.ui.activities.adapter.RecordDelegateAdapter
+import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
+import com.jdevs.timeo.ui.history.RecordDelegateAdapter
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 import com.jdevs.timeo.util.AdapterConstants.LOADING
 import com.jdevs.timeo.util.AdapterConstants.RECORD
@@ -16,10 +16,10 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it.getViewType() != LOADING }.size
 
-    protected val delegateAdapters = SparseArray<ViewTypeDelegateAdapter>()
-    private val items = mutableListOf<ViewType>()
+    protected val delegateAdapters = SparseArray<DelegateAdapter>()
+    private val items = mutableListOf<DataUnit>()
 
-    private val loadingItem = object : ViewType {
+    private val loadingItem = object : DataUnit {
 
         override var id = -1
         override var documentId = ""
@@ -29,8 +29,14 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     init {
 
         delegateAdapters.put(LOADING, LoadingDelegateAdapter())
-        delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter())
-        delegateAdapters.put(RECORD, RecordDelegateAdapter())
+        delegateAdapters.put(
+            ACTIVITY,
+            ActivityDelegateAdapter()
+        )
+        delegateAdapters.put(
+            RECORD,
+            RecordDelegateAdapter()
+        )
         items.add(loadingItem)
     }
 
@@ -65,7 +71,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun addItem(item: ViewType) = items.apply {
+    fun addItem(item: DataUnit) = items.apply {
 
         if (items.count { it.documentId == item.documentId } > 0) {
 
@@ -78,7 +84,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyItemInserted(lastIndex)
     }
 
-    fun modifyItem(item: ViewType) {
+    fun modifyItem(item: DataUnit) {
 
         val index = items.indexOfFirst { it.documentId == item.documentId }
 
@@ -89,7 +95,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun removeItem(item: ViewType) {
+    fun removeItem(item: DataUnit) {
 
         val index = items.indexOfFirst { it.documentId == item.documentId }
 
@@ -97,7 +103,7 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyItemRemoved(index)
     }
 
-    fun setItems(newItems: List<ViewType>) {
+    fun setItems(newItems: List<DataUnit>) {
 
         val diffResult = DiffUtil.calculateDiff(DiffCallback(newItems, items))
 
@@ -108,8 +114,8 @@ abstract class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     class DiffCallback(
-        private var newItems: List<ViewType>,
-        private var oldItems: List<ViewType>
+        private var newItems: List<DataUnit>,
+        private var oldItems: List<DataUnit>
     ) : DiffUtil.Callback() {
 
         override fun getOldListSize() = oldItems.size

@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.profile.viewmodel
+package com.jdevs.timeo.ui.signin
 
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.util.SingleLiveEvent

@@ -39,13 +39,13 @@
 
     <fragment
         android:id="@+id/history_fragment_dest"
-        android:name="com.jdevs.timeo.ui.activities.HistoryFragment"
+        android:name="com.jdevs.timeo.ui.history.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/history_frag" />
 
     <fragment
         android:id="@+id/add_edit_activity_fragment_dest"
-        android:name="com.jdevs.timeo.ui.activities.AddEditActivityFragment"
+        android:name="com.jdevs.timeo.ui.addactivity.AddEditActivityFragment"
         tools:layout="@layout/addactivity_frag">
 
         <argument
@@ -82,7 +82,7 @@
 
     <fragment
         android:id="@+id/activity_detail_fragment_dest"
-        android:name="com.jdevs.timeo.ui.activities.ActivityDetailFragment"
+        android:name="com.jdevs.timeo.ui.activitydetail.ActivityDetailFragment"
         android:label="@string/activity_details"
         tools:layout="@layout/activitydetail_frag">
 

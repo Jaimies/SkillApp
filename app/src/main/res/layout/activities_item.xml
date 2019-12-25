@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.activities.viewmodel.ActivityViewModel" />
+            type="com.jdevs.timeo.ui.activities.ActivityViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

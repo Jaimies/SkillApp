@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.activities
+package com.jdevs.timeo.ui.activitydetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
-import com.jdevs.timeo.ui.activities.viewmodel.ActivityDetailViewModel
 
 class ActivityDetailFragment : ActionBarFragment() {
 
@@ -40,8 +39,8 @@ class ActivityDetailFragment : ActionBarFragment() {
 
         return if (item.itemId == R.id.editActivity) {
 
-            val directions = ActivityDetailFragmentDirections
-                .actionActivityDetailFragmentToAddEditActivityFragment(
+            val directions =
+                ActivityDetailFragmentDirections.actionActivityDetailFragmentToAddEditActivityFragment(
                     activity = args.activity,
                     isEdited = true
                 )

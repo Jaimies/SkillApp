@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.profile
+package com.jdevs.timeo.ui.signin
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SigninFragBinding
-import com.jdevs.timeo.ui.profile.viewmodel.SignInViewModel
 import com.jdevs.timeo.util.RequestCodes.RC_SIGN_IN
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.hideKeyboard

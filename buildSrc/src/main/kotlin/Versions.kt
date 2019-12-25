@@ -12,6 +12,7 @@ object Versions {
     const val room = "2.2.3"
     const val navigation = "2.2.0-rc03"
     const val lifecycleExtensions = "2.1.0"
+    const val fragmentKtx = "1.2.0-rc04"
     const val material = "1.0.0"
     const val jodatime = "2.9.4"
 
@@ -35,7 +36,7 @@ object Versions {
     const val dataBinding = "3.1.4"
 
     // Classpath
-    const val gradle = "4.0.0-alpha06"
+    const val gradle = "4.0.0-alpha07"
     const val gms = "4.3.3"
     const val perfClasspath = "1.3.1"
 

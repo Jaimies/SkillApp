@@ -8,9 +8,11 @@ import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddEditActivityViewModel(private val repository: TimeoRepository) :
-    KeyboardHidingViewModel() {
+class AddEditActivityViewModel @Inject constructor(
+    private val repository: TimeoRepository
+) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData("")
     val nameError get() = _nameError as LiveData<String>

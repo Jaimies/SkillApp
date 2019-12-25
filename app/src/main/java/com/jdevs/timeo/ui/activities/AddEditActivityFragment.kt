@@ -1,33 +1,42 @@
 package com.jdevs.timeo.ui.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
+import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.ui.activities.viewmodel.AddEditActivityViewModel
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.getCoroutineIoScope
-import com.jdevs.timeo.util.getViewModelFactory
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.requireMainActivity
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class AddEditActivityFragment : ActionBarFragment() {
 
     override val menuId = R.menu.addedit_fragment_menu
     private val args: AddEditActivityFragmentArgs by navArgs()
-    private val viewModel: AddEditActivityViewModel by viewModels { getViewModelFactory() }
+
+    @Inject
+    lateinit var viewModel: AddEditActivityViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (activity!!.application as TimeoApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -38,11 +38,11 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private fun observeLiveData(liveData: LiveData<*>?, hasItems: Boolean = true) {
+    private fun observeLiveData(liveData: LiveData<*>?, forceFetchNewItems: Boolean = false) {
 
         if (liveData is ItemsLiveData?) {
 
-            subscribeToItemsLiveData(liveData, hasItems)
+            subscribeToItemsLiveData(liveData, forceFetchNewItems)
             return
         }
 
@@ -56,9 +56,9 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
         }
     }
 
-    private fun subscribeToItemsLiveData(liveData: ItemsLiveData?, hasItems: Boolean = true) {
+    private fun subscribeToItemsLiveData(liveData: ItemsLiveData?, forceFetchNewItems: Boolean) {
 
-        if (liveData != null && (itemLiveDatas.isNotEmpty() || hasItems)) {
+        if (liveData != null && (itemLiveDatas.isEmpty() || forceFetchNewItems)) {
 
             observeItemsLiveData(liveData)
             return
@@ -133,7 +133,7 @@ abstract class ListFragment<T : ViewType> : ActionBarFragment() {
             InfiniteScrollListener(
                 linearLayoutManager,
                 visibleThreshold
-            ) { observeLiveData(viewModel.liveData, hasItems = true) }
+            ) { observeLiveData(viewModel.liveData, forceFetchNewItems = true) }
         )
     }
 

@@ -77,7 +77,7 @@ android {
         }
     }
 
-    buildFeatures.dataBinding = true
+    dataBinding.isEnabled = true
 }
 
 detekt {

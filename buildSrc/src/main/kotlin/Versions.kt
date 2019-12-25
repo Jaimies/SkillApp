@@ -29,14 +29,14 @@ object Versions {
     const val fabric = "1.31.2"
 
     // Static analyzers
-    const val lint = "27.0.0-alpha06"
+    const val lint = "26.5.3"
     const val detekt = "1.2.2"
 
     // Kapt
     const val dataBinding = "3.1.4"
 
     // Classpath
-    const val gradle = "4.0.0-alpha07"
+    const val gradle = "3.5.3"
     const val gms = "4.3.3"
     const val perfClasspath = "1.3.1"
 

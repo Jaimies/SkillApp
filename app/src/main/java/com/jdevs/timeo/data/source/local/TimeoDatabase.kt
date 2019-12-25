@@ -8,6 +8,6 @@ import com.jdevs.timeo.data.Record
 @Database(entities = [Activity::class, Record::class], version = 1, exportSchema = false)
 abstract class TimeoDatabase : RoomDatabase() {
 
-    abstract fun activityDao(): ActivitiesDao
+    abstract fun activitiesDao(): ActivitiesDao
     abstract fun recordsDao(): RecordsDao
 }

@@ -3,7 +3,6 @@ package com.jdevs.timeo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.jdevs.timeo.data.source.TimeoRepository
-import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
 import com.jdevs.timeo.ui.activities.viewmodel.AddEditActivityViewModel
 import com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel
 
@@ -18,8 +17,6 @@ class ViewModelFactory constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(ActivityListViewModel::class.java) ->
-                    ActivityListViewModel(repository)
                 isAssignableFrom(AddEditActivityViewModel::class.java) ->
                     AddEditActivityViewModel(repository)
                 isAssignableFrom(HistoryViewModel::class.java) ->

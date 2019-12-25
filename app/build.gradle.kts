@@ -120,6 +120,10 @@ dependencies {
     implementation("androidx.room:room-runtime:${Versions.room}")
     implementation("androidx.room:room-ktx:${Versions.room}")
 
+    // Dependency injection
+    implementation("com.google.dagger:dagger:${Versions.dagger}")
+    kapt("com.google.dagger:dagger-compiler:${Versions.dagger}")
+
     // For browsing SQLite database
     // To enable uncomment the following line, run adb forward tcp:8080 tcp:8080
     // (/home/alex/Android/Sdk/platform-tools/adb forward tcp:8080 tcp:8080)

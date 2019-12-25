@@ -1,33 +1,41 @@
 package com.jdevs.timeo.ui.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
+import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.ui.activities.adapter.ActivitiesAdapter
-import com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel
+import com.jdevs.timeo.ui.activities.viewmodel.ActivitiesViewModel
 import com.jdevs.timeo.util.ActivitiesConstants
-import com.jdevs.timeo.util.getViewModelFactory
 import com.jdevs.timeo.util.observeEvent
+import javax.inject.Inject
 
 class ActivitiesFragment : ListFragment<Activity>() {
 
     override val menuId = R.menu.activities_fragment_menu
     override val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
-    override val viewModel: ActivityListViewModel by viewModels { getViewModelFactory() }
+
+    @Inject
+    override lateinit var viewModel: ActivitiesViewModel
 
     private lateinit var menu: Menu
     private var isLoadEventHandled = false
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity!!.application as TimeoApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

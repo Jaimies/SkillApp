@@ -2,8 +2,9 @@ package com.jdevs.timeo.data.source
 
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
+import javax.inject.Inject
 
-class DefaultTimeoRepository(
+class DefaultTimeoRepository @Inject constructor(
     private val remoteDataSource: TimeoDataSource,
     private val localDataSource: TimeoDataSource
 ) : TimeoRepository {

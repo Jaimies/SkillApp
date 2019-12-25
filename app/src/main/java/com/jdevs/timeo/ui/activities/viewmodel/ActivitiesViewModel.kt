@@ -6,8 +6,11 @@ import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ActivityListViewModel(private val repository: TimeoRepository) : ListViewModel() {
+class ActivitiesViewModel @Inject constructor(
+    private val repository: TimeoRepository
+) : ListViewModel() {
 
     override val liveData get() = repository.activitiesLiveData
     val navigateToAddEdit = SingleLiveEvent<Any>()

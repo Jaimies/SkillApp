@@ -1,4 +1,4 @@
-package com.jdevs.timeo
+package com.jdevs.timeo.di
 
 import android.content.Context
 import androidx.room.Room
@@ -13,29 +13,24 @@ import com.jdevs.timeo.data.source.remote.ItemsLiveData.RecordsLiveData
 import com.jdevs.timeo.data.source.remote.RemoteDataSource
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
+import dagger.Module
+import dagger.Provides
+import javax.inject.Named
 
-object ServiceLocator {
+@Module
+class RepositoryModule {
 
-    private var localDatabase: TimeoDatabase? = null
-    private var timeoRepository: TimeoRepository? = null
-
+    @Provides
     fun provideRepository(context: Context): TimeoRepository {
 
-        synchronized(this) {
-            return timeoRepository ?: createRepository(context)
-        }
+        return DefaultTimeoRepository(
+            provideRemoteDataSource(),
+            provideLocalDataSource(context)
+        )
     }
 
-    private fun createRepository(context: Context): TimeoRepository {
-        return DefaultTimeoRepository(createRemoteDataSource(), createLocalDataSource(context))
-    }
-
-    private fun createLocalDataSource(context: Context): TimeoDataSource {
-        val database = localDatabase ?: createDataBase(context)
-        return LocalDataSource(database.activitiesDao(), database.recordsDao())
-    }
-
-    private fun createRemoteDataSource(): TimeoDataSource {
+    @Named("remoteDataSource")
+    fun provideRemoteDataSource(): TimeoDataSource {
 
         return RemoteDataSource(
             CollectionMonitor(ActivitiesConstants.FETCH_LIMIT, ::ActivitiesLiveData),
@@ -43,15 +38,14 @@ object ServiceLocator {
         )
     }
 
-    private fun createDataBase(context: Context): TimeoDatabase {
+    @Named("localDataSource")
+    fun provideLocalDataSource(context: Context): TimeoDataSource {
 
-        Room.databaseBuilder(
+        val database = Room.databaseBuilder(
             context.applicationContext,
             TimeoDatabase::class.java, "activities"
-        ).build().also {
+        ).build()
 
-            localDatabase = it
-            return it
-        }
+        return LocalDataSource(database.activitiesDao(), database.recordsDao())
     }
 }

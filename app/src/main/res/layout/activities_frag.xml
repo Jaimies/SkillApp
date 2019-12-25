@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.activities.viewmodel.ActivityListViewModel" />
+            type="com.jdevs.timeo.ui.activities.viewmodel.ActivitiesViewModel" />
     </data>
 
     <FrameLayout

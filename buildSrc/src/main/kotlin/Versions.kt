@@ -15,6 +15,9 @@ object Versions {
     const val material = "1.0.0"
     const val jodatime = "2.9.4"
 
+    // Dependency injection
+    const val dagger = "2.25.2"
+
     // Firebase dependencies
     const val firestore = "21.3.0"
     const val auth = "19.2.0"

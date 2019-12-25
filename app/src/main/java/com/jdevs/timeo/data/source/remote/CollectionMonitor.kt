@@ -17,10 +17,7 @@ class CollectionMonitor(
     private var lastVisibleItem: DocumentSnapshot? = null
     private var isLastItemReached = false
 
-    fun setup(ref: CollectionReference) {
-
-        lastVisibleItem = null
-        isLastItemReached = false
+    fun setRef(ref: CollectionReference) {
 
         this.ref = ref
     }

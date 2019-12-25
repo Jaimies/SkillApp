@@ -15,12 +15,12 @@ import com.jdevs.timeo.util.await
 import com.jdevs.timeo.util.logOnFailure
 
 class RemoteDataSource(
-    private val activitiesDataSource: CollectionMonitor,
-    private val recordsDataSource: CollectionMonitor
+    private val activitiesMonitor: CollectionMonitor,
+    private val recordsMonitor: CollectionMonitor
 ) : TimeoDataSource {
 
-    override val activitiesLiveData get() = activitiesDataSource.getLiveData()
-    override val recordsLiveData get() = recordsDataSource.getLiveData()
+    override val activitiesLiveData get() = activitiesMonitor.getLiveData()
+    override val recordsLiveData get() = recordsMonitor.getLiveData()
 
     private val firestore = FirebaseFirestore.getInstance()
     private val activitiesRef = firestore
@@ -31,8 +31,8 @@ class RemoteDataSource(
 
     init {
 
-        activitiesDataSource.setup(activitiesRef)
-        recordsDataSource.setup(recordsRef)
+        activitiesMonitor.setRef(activitiesRef)
+        recordsMonitor.setRef(recordsRef)
     }
 
     override suspend fun addRecord(record: Record) {

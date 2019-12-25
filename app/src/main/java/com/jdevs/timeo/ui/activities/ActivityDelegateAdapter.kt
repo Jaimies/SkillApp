@@ -19,7 +19,7 @@ class ActivityDelegateAdapter : DelegateAdapter {
         parent: ViewGroup,
         createRecord: (Int, Long) -> Unit,
         goToDetails: (Int) -> Unit,
-        deleteRecord: (Int) -> Unit
+        showDeleteDialog: (Int) -> Unit
     ): RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)

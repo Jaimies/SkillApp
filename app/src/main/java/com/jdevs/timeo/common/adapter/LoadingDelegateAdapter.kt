@@ -12,7 +12,7 @@ class LoadingDelegateAdapter : DelegateAdapter {
         parent: ViewGroup,
         createRecord: (Int, Long) -> Unit,
         goToDetails: (Int) -> Unit,
-        deleteRecord: (Int) -> Unit
+        showDeleteDialog: (Int) -> Unit
     ) = ViewHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataUnit) {}

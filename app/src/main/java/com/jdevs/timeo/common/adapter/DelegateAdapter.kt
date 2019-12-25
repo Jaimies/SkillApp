@@ -9,7 +9,7 @@ interface DelegateAdapter {
         parent: ViewGroup,
         createRecord: (Int, Long) -> Unit = { _, _ -> },
         goToDetails: (Int) -> Unit = {},
-        deleteRecord: (Int) -> Unit = {}
+        showDeleteDialog: (Int) -> Unit = {}
     ): RecyclerView.ViewHolder
 
     fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataUnit)

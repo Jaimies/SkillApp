@@ -11,6 +11,6 @@ class RecordsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         return delegateAdapters.get(viewType)
-            .onCreateViewHolder(parent, deleteRecord = showDeleteDialog)
+            .onCreateViewHolder(parent, showDeleteDialog = showDeleteDialog)
     }
 }

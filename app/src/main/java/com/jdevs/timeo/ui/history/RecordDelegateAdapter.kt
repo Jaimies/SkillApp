@@ -21,7 +21,7 @@ class RecordDelegateAdapter : DelegateAdapter {
         parent: ViewGroup,
         createRecord: (Int, Long) -> Unit,
         goToDetails: (Int) -> Unit,
-        deleteRecord: (Int) -> Unit
+        showDeleteDialog: (Int) -> Unit
     ): ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
@@ -36,7 +36,7 @@ class RecordDelegateAdapter : DelegateAdapter {
             it.lifecycleOwner = fragmentActivity
         }
 
-        return ViewHolder(binding.root, viewModel, deleteRecord)
+        return ViewHolder(binding.root, viewModel, showDeleteDialog)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataUnit) {

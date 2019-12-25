@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.DataUnit
@@ -46,11 +47,11 @@ abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
             return
         }
 
-        liveData as LiveData<List<T>>
+        liveData as LiveData<PagedList<DataUnit>>
 
         liveData.observe(viewLifecycleOwner) {
 
-            mAdapter.setItems(it)
+            mAdapter.submitList(it)
             viewModel.setLength(it.size)
             viewModel.hideLoader()
         }
@@ -137,5 +138,5 @@ abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
         )
     }
 
-    protected fun getItem(index: Int) = mAdapter.getItem(index) as T
+    protected fun getItem(index: Int) = mAdapter.getDataItem(index) as T
 }

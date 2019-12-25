@@ -1,6 +1,6 @@
 package com.jdevs.timeo.data.source.local
 
-import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -17,7 +17,7 @@ interface RecordsDao {
         LEFT JOIN activities ON activities.id = records.activity_id 
         ORDER BY records.id DESC"""
     )
-    fun getRecords(): LiveData<List<Record>>
+    fun getRecords(): DataSource.Factory<Int, Record>
 
     @Insert
     suspend fun insert(record: Record)

@@ -1,6 +1,6 @@
 package com.jdevs.timeo.data.source.local
 
-import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -12,7 +12,7 @@ import com.jdevs.timeo.data.Activity
 interface ActivitiesDao {
 
     @Query("SELECT * FROM activities ORDER BY id DESC")
-    fun getActivities(): LiveData<List<Activity>>
+    fun getActivities(): DataSource.Factory<Int, Activity>
 
     @Insert
     suspend fun insert(activity: Activity)

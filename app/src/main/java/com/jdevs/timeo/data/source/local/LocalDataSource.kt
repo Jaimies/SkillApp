@@ -1,8 +1,13 @@
 package com.jdevs.timeo.data.source.local
 
+import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.TimeoDataSource
+import com.jdevs.timeo.util.PagingConstants.ACTIVITIES_PAGE_SIZE
+import com.jdevs.timeo.util.PagingConstants.RECORDS_PAGE_SIZE
 
 @Suppress("EmptyFunctionBlock")
 class LocalDataSource(
@@ -10,8 +15,18 @@ class LocalDataSource(
     private val recordsDao: RecordsDao
 ) : TimeoDataSource {
 
-    override val activitiesLiveData = activitiesDao.getActivities()
-    override val recordsLiveData = recordsDao.getRecords()
+    override val activitiesLiveData: LiveData<PagedList<Activity>>
+    override val recordsLiveData: LiveData<PagedList<Record>>
+
+    init {
+
+        val activitiesDataSourceFactory = activitiesDao.getActivities()
+        activitiesLiveData =
+            LivePagedListBuilder(activitiesDataSourceFactory, ACTIVITIES_PAGE_SIZE).build()
+
+        val recordsDataSourceFactory = recordsDao.getRecords()
+        recordsLiveData = LivePagedListBuilder(recordsDataSourceFactory, RECORDS_PAGE_SIZE).build()
+    }
 
     override suspend fun addActivity(activity: Activity) = activitiesDao.insert(activity)
 

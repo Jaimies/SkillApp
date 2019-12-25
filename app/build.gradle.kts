@@ -120,6 +120,9 @@ dependencies {
     implementation("androidx.room:room-runtime:${Versions.room}")
     implementation("androidx.room:room-ktx:${Versions.room}")
 
+    // Paging
+    implementation("androidx.paging:paging-runtime:${Versions.paging}")
+
     // Dependency injection
     implementation("com.google.dagger:dagger:${Versions.dagger}")
     kapt("com.google.dagger:dagger-compiler:${Versions.dagger}")

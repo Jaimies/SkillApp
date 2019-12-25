@@ -7,6 +7,12 @@ object RoomConstants {
     const val DATABASE_NAME = "timeo"
 }
 
+object PagingConstants {
+
+    const val ACTIVITIES_PAGE_SIZE = 20
+    const val RECORDS_PAGE_SIZE = 40
+}
+
 object FirestoreConstants {
 
     const val TIMESTAMP_PROPERTY = "timestamp"

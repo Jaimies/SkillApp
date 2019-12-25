@@ -42,4 +42,14 @@ class DefaultTimeoRepository @Inject constructor(
 
         currentDataSource.deleteRecord(record)
     }
+
+    override fun resetActivitiesMonitor() {
+
+        remoteDataSource.resetActivitiesMonitor()
+    }
+
+    override fun resetRecordsMonitor() {
+
+        remoteDataSource.resetRecordsMonitor()
+    }
 }

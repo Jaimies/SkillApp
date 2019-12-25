@@ -15,6 +15,11 @@ class ActivitiesViewModel @Inject constructor(
     override val liveData get() = repository.activitiesLiveData
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
+    init {
+
+        repository.resetActivitiesMonitor()
+    }
+
     fun createRecord(record: Record) = viewModelScope.launch {
 
         repository.addRecord(record)

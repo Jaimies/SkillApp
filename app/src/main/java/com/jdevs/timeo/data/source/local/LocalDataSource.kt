@@ -4,6 +4,7 @@ import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.TimeoDataSource
 
+@Suppress("EmptyFunctionBlock")
 class LocalDataSource(
     private val activitiesDao: ActivitiesDao,
     private val recordsDao: RecordsDao
@@ -29,4 +30,7 @@ class LocalDataSource(
         recordsDao.delete(record)
         activitiesDao.increaseTime(record.roomActivityId, -record.time)
     }
+
+    override fun resetActivitiesMonitor() {}
+    override fun resetRecordsMonitor() {}
 }

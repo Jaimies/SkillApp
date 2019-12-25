@@ -13,6 +13,11 @@ class HistoryViewModel @Inject constructor(
 
     override val liveData get() = repository.recordsLiveData
 
+    init {
+
+        repository.resetRecordsMonitor()
+    }
+
     fun deleteRecord(record: Record) = viewModelScope.launch {
 
         repository.deleteRecord(record)

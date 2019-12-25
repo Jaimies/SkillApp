@@ -16,10 +16,21 @@ class CollectionMonitor(
 
     private var lastVisibleItem: DocumentSnapshot? = null
     private var isLastItemReached = false
+    private val newQuery
+        get() = ref
+            .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
+            .limit(fetchLimit)
 
     fun setRef(ref: CollectionReference) {
 
         this.ref = ref
+    }
+
+    fun reset() {
+
+        lastVisibleItem = null
+        isLastItemReached = false
+        query = newQuery
     }
 
     fun getLiveData(): ItemsLiveData? {
@@ -31,9 +42,7 @@ class CollectionMonitor(
 
         if (!::query.isInitialized) {
 
-            query = ref
-                .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
-                .limit(fetchLimit)
+            query = newQuery
         }
 
         val lastItem = lastVisibleItem

@@ -96,6 +96,16 @@ class RemoteDataSource(
         }
     }
 
+    override fun resetRecordsMonitor() {
+
+        recordsMonitor.reset()
+    }
+
+    override fun resetActivitiesMonitor() {
+
+        activitiesMonitor.reset()
+    }
+
     companion object {
 
         private const val USERS_COLLECTION = "users"

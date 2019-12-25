@@ -33,6 +33,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
         (activity!!.application as TimeoApplication).appComponent.inject(this)
     }
 

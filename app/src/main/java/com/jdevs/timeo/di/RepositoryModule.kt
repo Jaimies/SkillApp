@@ -15,12 +15,13 @@ import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 class RepositoryModule {
 
     @Provides
+    @Singleton
     fun provideRepository(context: Context): TimeoRepository {
 
         return DefaultTimeoRepository(
@@ -29,8 +30,7 @@ class RepositoryModule {
         )
     }
 
-    @Named("remoteDataSource")
-    fun provideRemoteDataSource(): TimeoDataSource {
+    private fun provideRemoteDataSource(): TimeoDataSource {
 
         return RemoteDataSource(
             CollectionMonitor(ActivitiesConstants.FETCH_LIMIT, ::ActivitiesLiveData),
@@ -38,12 +38,11 @@ class RepositoryModule {
         )
     }
 
-    @Named("localDataSource")
-    fun provideLocalDataSource(context: Context): TimeoDataSource {
+    private fun provideLocalDataSource(context: Context): TimeoDataSource {
 
         val database = Room.databaseBuilder(
             context.applicationContext,
-            TimeoDatabase::class.java, "activities"
+            TimeoDatabase::class.java, "timeo"
         ).build()
 
         return LocalDataSource(database.activitiesDao(), database.recordsDao())

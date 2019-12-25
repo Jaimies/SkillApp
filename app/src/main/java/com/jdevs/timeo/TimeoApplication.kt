@@ -10,7 +10,7 @@ import kotlinx.coroutines.cancel
 class TimeoApplication : Application() {
 
     val appComponent by lazy {
-        DaggerAppComponent.factory().create(applicationContext)
+        DaggerAppComponent.factory().create(this)
     }
 
     val ioScope = CoroutineScope(Dispatchers.IO + Job())

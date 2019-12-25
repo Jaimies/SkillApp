@@ -25,12 +25,11 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
     override val menuId = R.menu.activities_fragment_menu
     override val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
+    private lateinit var menu: Menu
+    private var isLoadEventHandled = false
 
     @Inject
     override lateinit var viewModel: ActivitiesViewModel
-
-    private lateinit var menu: Menu
-    private var isLoadEventHandled = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

@@ -1,29 +1,37 @@
 package com.jdevs.timeo.ui.activities
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
+import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.ui.activities.adapter.RecordsAdapter
 import com.jdevs.timeo.ui.activities.viewmodel.HistoryViewModel
 import com.jdevs.timeo.util.RecordsConstants
-import com.jdevs.timeo.util.getViewModelFactory
+import javax.inject.Inject
 
 class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener {
 
     override val menuId = R.menu.history_fragment_menu
-    override val viewModel: HistoryViewModel by viewModels { getViewModelFactory() }
     override val mAdapter by lazy { RecordsAdapter(::showDeleteDialog) }
-
     private var chosenItemIndex = -1
+
+    @Inject
+    override lateinit var viewModel: HistoryViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (activity!!.application as TimeoApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

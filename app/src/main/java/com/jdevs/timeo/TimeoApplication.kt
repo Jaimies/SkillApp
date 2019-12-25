@@ -13,9 +13,6 @@ class TimeoApplication : Application() {
         DaggerAppComponent.factory().create(applicationContext)
     }
 
-    val repository
-        get() = ServiceLocator.provideRepository(this)
-
     val ioScope = CoroutineScope(Dispatchers.IO + Job())
 
     fun onDestroy() {

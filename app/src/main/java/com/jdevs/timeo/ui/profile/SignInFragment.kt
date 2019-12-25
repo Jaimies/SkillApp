@@ -91,7 +91,7 @@ class SignInFragment : Fragment() {
 
                 viewModel.signIn(email, password, ::handleException) {
 
-                    navigateToGraph(R.id.overview)
+                    navigateToOverview()
                 }
             }
         }
@@ -155,7 +155,7 @@ class SignInFragment : Fragment() {
 
         viewModel.signInWithGoogle(account, ::onGoogleSignInFailed) {
 
-            navigateToGraph(R.id.overview)
+            navigateToOverview()
         }
     }
 
@@ -188,5 +188,11 @@ class SignInFragment : Fragment() {
             Log.w(TAG, "Failed to sign in", exception)
             Snackbar.make(view!!, getString(R.string.sign_in_failed), Snackbar.LENGTH_LONG).show()
         }
+    }
+
+    private fun navigateToOverview() {
+
+        viewModel.hideContent()
+        navigateToGraph(R.id.overview)
     }
 }

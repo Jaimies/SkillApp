@@ -18,7 +18,7 @@
 
         <LinearLayout
             style="@style/Widget.Timeo.SignInLayout"
-            android:alpha="@{viewModel.isLoading ? 0f : 1f}">
+            android:alpha="@{viewModel.isContentHidden || viewModel.isLoading ? 0f : 1f}">
 
             <TextView
                 style="@style/Widget.Timeo.Header.Small"
@@ -71,7 +71,6 @@
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="@{!viewModel.isLoading}"
                     android:onClick="@{() -> viewModel.triggerSignIn()}"
                     android:text="@string/sign_in_button" />
 

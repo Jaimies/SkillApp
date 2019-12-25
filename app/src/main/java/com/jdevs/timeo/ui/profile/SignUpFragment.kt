@@ -70,7 +70,7 @@ class SignUpFragment : Fragment() {
 
         viewModel.createAccount(email, password, ::handleException) {
 
-            navigateToGraph(R.id.overview)
+            navigateToOverview()
         }
     }
 
@@ -129,5 +129,11 @@ class SignUpFragment : Fragment() {
                     .show()
             }
         }
+    }
+
+    private fun navigateToOverview() {
+
+        viewModel.hideContent()
+        navigateToGraph(R.id.overview)
     }
 }

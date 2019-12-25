@@ -10,9 +10,11 @@ abstract class AuthViewModel : LoaderViewModel() {
     val password = MutableLiveData("")
     val emailError get() = _emailError as LiveData<String>
     val passwordError get() = _passwordError as LiveData<String>
+    val isContentHidden get() = _isContentHidden as LiveData<Boolean>
 
     private val _emailError = MutableLiveData("")
     private val _passwordError = MutableLiveData("")
+    private val _isContentHidden = MutableLiveData(false)
 
     fun setEmailError(error: String) {
 
@@ -24,5 +26,10 @@ abstract class AuthViewModel : LoaderViewModel() {
 
         _emailError.value = ""
         _passwordError.value = error
+    }
+
+    fun hideContent() {
+
+        _isContentHidden.value = true
     }
 }

@@ -12,8 +12,10 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.DataUnit
+import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.viewmodel.ListViewModel
+import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
 import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
@@ -27,8 +29,11 @@ import com.jdevs.timeo.util.TAG
 abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
 
     protected abstract val viewModel: ListViewModel
-    protected abstract val mAdapter: ListAdapter
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()
+
+    protected abstract val roomAdapter: ListAdapter
+    protected abstract val firestoreAdapter: FirestoreListAdapter
+    private val currentAdapter get() = if (AuthRepository.isUserSignedIn) firestoreAdapter else roomAdapter
 
     @CallSuper
     override fun onCreateView(
@@ -49,11 +54,16 @@ abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
             return
         }
 
+        if (forceFetchNewItems) {
+
+            return
+        }
+
         liveData as LiveData<PagedList<DataUnit>>
 
         liveData.observe(viewLifecycleOwner) {
 
-            mAdapter.submitList(it)
+            roomAdapter.submitList(it)
             viewModel.setLength(it.size)
             viewModel.hideLoader()
         }
@@ -90,31 +100,31 @@ abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
                 ADDED -> {
 
                     val item = operation.data as T
-                    mAdapter.addItem(item)
+                    firestoreAdapter.addItem(item)
                 }
 
                 MODIFIED -> {
 
                     val item = operation.data as T
-                    mAdapter.modifyItem(item)
+                    firestoreAdapter.modifyItem(item)
                 }
 
                 REMOVED -> {
 
                     val item = operation.data as T
-                    mAdapter.removeItem(item)
+                    firestoreAdapter.removeItem(item)
                 }
 
                 SUCCESSFUL -> {
 
-                    viewModel.setLength(mAdapter.dataItemCount)
+                    viewModel.setLength(firestoreAdapter.dataItemCount)
                     viewModel.hideLoader()
-                    mAdapter.showLoader()
+                    firestoreAdapter.showLoader()
                 }
 
                 LAST_ITEM_REACHED -> {
 
-                    mAdapter.hideLoader()
+                    firestoreAdapter.hideLoader()
                 }
 
                 FAILED -> {
@@ -130,15 +140,28 @@ abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
         val linearLayoutManager = LinearLayoutManager(context)
 
         layoutManager = linearLayoutManager
-        adapter = mAdapter
 
-        addOnScrollListener(
-            InfiniteScrollListener(
-                linearLayoutManager,
-                visibleThreshold
-            ) { observeLiveData(viewModel.liveData, forceFetchNewItems = true) }
-        )
+        adapter = currentAdapter
+
+        if (AuthRepository.isUserSignedIn) {
+
+            addOnScrollListener(
+                InfiniteScrollListener(
+                    linearLayoutManager,
+                    visibleThreshold
+                ) { observeLiveData(viewModel.liveData, forceFetchNewItems = true) }
+            )
+        }
     }
 
-    protected fun getItem(index: Int) = mAdapter.getDataItem(index) as T
+    protected fun getItem(position: Int): T {
+
+        return if (AuthRepository.isUserSignedIn) {
+
+            firestoreAdapter.getItem(position)
+        } else {
+
+            roomAdapter.getItem(position)
+        } as T
+    }
 }

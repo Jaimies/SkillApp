@@ -22,7 +22,13 @@ import javax.inject.Inject
 class ActivitiesFragment : ListFragment<Activity>() {
 
     override val menuId = R.menu.activities_fragment_menu
-    override val mAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
+    override val roomAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
+    override val firestoreAdapter by lazy {
+        ActivitiesFirestoreAdapter(
+            ::createRecord,
+            ::navigateToDetails
+        )
+    }
     private lateinit var menu: Menu
     private var isLoadEventHandled = false
 

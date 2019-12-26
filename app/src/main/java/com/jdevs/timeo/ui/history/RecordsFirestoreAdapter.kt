@@ -2,16 +2,15 @@ package com.jdevs.timeo.ui.history
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 
-class RecordsAdapter(
+class RecordsFirestoreAdapter(
     private val showDeleteDialog: (Int) -> Unit = {}
-) : ListAdapter() {
-
-    override val delegateAdapter = RecordDelegateAdapter()
+) : FirestoreListAdapter() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        return delegateAdapter.onCreateViewHolder(parent, showDeleteDialog = showDeleteDialog)
+        return delegateAdapters.get(viewType)
+            .onCreateViewHolder(parent, showDeleteDialog = showDeleteDialog)
     }
 }

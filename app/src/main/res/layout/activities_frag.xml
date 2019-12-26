@@ -34,7 +34,8 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:hideIf="@{!viewModel.isEmpty || viewModel.isLoading}">
+            app:hideIf="@{!viewModel.isEmpty || viewModel.isLoading}"
+            tools:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

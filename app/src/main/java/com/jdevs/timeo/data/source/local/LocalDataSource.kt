@@ -20,12 +20,24 @@ class LocalDataSource(
 
     init {
 
+        var pagedListConfig = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(ACTIVITIES_PAGE_SIZE)
+            .build()
+
         val activitiesDataSourceFactory = activitiesDao.getActivities()
+
         activitiesLiveData =
-            LivePagedListBuilder(activitiesDataSourceFactory, ACTIVITIES_PAGE_SIZE).build()
+            LivePagedListBuilder(activitiesDataSourceFactory, pagedListConfig).build()
+
+        pagedListConfig = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(RECORDS_PAGE_SIZE)
+            .build()
 
         val recordsDataSourceFactory = recordsDao.getRecords()
-        recordsLiveData = LivePagedListBuilder(recordsDataSourceFactory, RECORDS_PAGE_SIZE).build()
+
+        recordsLiveData = LivePagedListBuilder(recordsDataSourceFactory, pagedListConfig).build()
     }
 
     override suspend fun addActivity(activity: Activity) = activitiesDao.insert(activity)

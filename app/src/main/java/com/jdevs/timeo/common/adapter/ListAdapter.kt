@@ -12,14 +12,14 @@ abstract class ListAdapter : PagedListAdapter<DataUnit, RecyclerView.ViewHolder>
 
     protected abstract val delegateAdapter: DelegateAdapter
 
-    override fun getItemViewType(index: Int) = getItem(index).getViewType()
+    override fun getItemViewType(index: Int) = getItem(index)?.getViewType() ?: -1
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        delegateAdapter.onBindViewHolder(holder, getItem(position))
+        delegateAdapter.onBindViewHolder(holder, getItem(position) ?: return)
     }
 
-    public override fun getItem(position: Int) = super.getItem(position)!!
+    public override fun getItem(position: Int) = super.getItem(position)
 
     companion object {
 

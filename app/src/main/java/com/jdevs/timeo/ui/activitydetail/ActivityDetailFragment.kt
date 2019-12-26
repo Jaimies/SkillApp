@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
-import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.util.observeEvent
@@ -62,14 +61,7 @@ class ActivityDetailFragment : ActionBarFragment() {
 
                 RecordDialog(context!!) { time ->
 
-                    addRecord(
-                        Record(
-                            name = args.activity.name,
-                            time = time,
-                            activityId = args.activity.documentId,
-                            roomActivityId = args.activity.id
-                        )
-                    )
+                    addRecord(args.activity, time)
                 }.show()
             }
         }

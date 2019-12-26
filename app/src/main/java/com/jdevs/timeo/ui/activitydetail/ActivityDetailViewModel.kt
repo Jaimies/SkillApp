@@ -42,10 +42,17 @@ class ActivityDetailViewModel @Inject constructor(
         activityLiveData = repository.getActivityById(activity.id, activity.documentId)
     }
 
-    fun showRecordDialog() = showRecordDialog.call()
+    fun addRecord(activity: Activity, time: Long) = viewModelScope.launch {
 
-    fun addRecord(record: Record) = viewModelScope.launch {
+        val record = Record(
+            name = activity.name,
+            time = time,
+            activityId = activity.documentId,
+            roomActivityId = activity.id
+        )
 
         repository.addRecord(record)
     }
+
+    fun showRecordDialog() = showRecordDialog.call()
 }

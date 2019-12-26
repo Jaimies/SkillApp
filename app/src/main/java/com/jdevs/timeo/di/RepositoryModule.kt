@@ -37,8 +37,8 @@ class RepositoryModule {
     private fun provideRemoteDataSource(): TimeoDataSource {
 
         return RemoteDataSource(
-            CollectionMonitor(ActivitiesConstants.FETCH_LIMIT, ::createActivitiesLiveData),
-            CollectionMonitor(RecordsConstants.FETCH_LIMIT, ::createRecordsLiveData)
+            CollectionMonitor(ActivitiesConstants.PAGE_SIZE, ::createActivitiesLiveData),
+            CollectionMonitor(RecordsConstants.PAGE_SIZE, ::createRecordsLiveData)
         )
     }
 
@@ -63,7 +63,7 @@ class RepositoryModule {
             setLastVisibleItem,
             onLastItemReached,
             Activity::class.java,
-            ActivitiesConstants.FETCH_LIMIT
+            ActivitiesConstants.PAGE_SIZE
         )
     }
 
@@ -78,7 +78,7 @@ class RepositoryModule {
             setLastVisibleItem,
             onLastItemReached,
             Record::class.java,
-            RecordsConstants.FETCH_LIMIT
+            RecordsConstants.PAGE_SIZE
         )
     }
 }

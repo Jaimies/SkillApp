@@ -10,7 +10,7 @@ object RoomConstants {
 object PagingConstants {
 
     const val ACTIVITIES_PAGE_SIZE = 20
-    const val RECORDS_PAGE_SIZE = 40
+    const val RECORDS_PAGE_SIZE = 50
 }
 
 object FirestoreConstants {
@@ -24,16 +24,16 @@ object FirestoreConstants {
 object ActivitiesConstants {
 
     const val COLLECTION = "activities"
-    const val FETCH_LIMIT = 12L
-    const val VISIBLE_THRESHOLD = 3
+    const val PAGE_SIZE = 20L
+    const val VISIBLE_THRESHOLD = 5
     const val NAME_MAX_LENGTH = 100
 }
 
 object RecordsConstants {
 
     const val COLLECTION = "records"
-    const val FETCH_LIMIT = 20L
-    const val VISIBLE_THRESHOLD = 2
+    const val PAGE_SIZE = 50L
+    const val VISIBLE_THRESHOLD = 12
     const val RECORD_MIN_TIME = 5
 }
 

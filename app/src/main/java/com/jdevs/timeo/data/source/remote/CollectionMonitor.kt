@@ -7,7 +7,7 @@ import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.LiveDataConstructor
 
 class CollectionMonitor(
-    private val fetchLimit: Long,
+    private val pageSize: Long,
     private val liveData: LiveDataConstructor
 ) {
 
@@ -19,7 +19,7 @@ class CollectionMonitor(
     private val newQuery
         get() = ref
             .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
-            .limit(fetchLimit)
+            .limit(pageSize)
 
     fun setRef(ref: CollectionReference) {
 

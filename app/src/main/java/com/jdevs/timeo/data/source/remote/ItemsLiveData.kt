@@ -21,7 +21,7 @@ class ItemsLiveData(
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
     private val onLastItemReached: () -> Unit = {},
     private val type: Class<*>,
-    private val fetchLimit: Long
+    private val pageSize: Long
 ) : LiveData<Operation>(), EventListener<QuerySnapshot> {
 
     private var listener: ListenerRegistration? = null
@@ -54,7 +54,7 @@ class ItemsLiveData(
 
         value = Operation(type = SUCCESSFUL)
 
-        if (querySnapshot.size() < fetchLimit) {
+        if (querySnapshot.size() < pageSize) {
 
             value = Operation(type = LAST_ITEM_REACHED)
             onLastItemReached()

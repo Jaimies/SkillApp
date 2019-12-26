@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.adapter.DataUnit
@@ -28,7 +28,7 @@ class RecordDelegateAdapter : DelegateAdapter {
         val fragmentActivity = parent.context as FragmentActivity
 
         val viewModel =
-            ViewModelProviders.of(fragmentActivity).get(randomString(), RecordViewModel::class.java)
+            ViewModelProvider(fragmentActivity).get(randomString(), RecordViewModel::class.java)
 
         val binding = RecordsItemBinding.inflate(inflater, parent, false).also {
 

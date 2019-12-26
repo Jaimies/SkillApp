@@ -11,8 +11,8 @@ object Versions {
     const val coroutines = "1.3.2"
     const val room = "2.2.3"
     const val paging = "2.1.1"
-    const val navigation = "2.2.0-rc03"
-    const val lifecycleExtensions = "2.1.0"
+    const val navigation = "2.2.0-rc04"
+    const val lifecycleExtensions = "2.2.0-rc03"
     const val fragmentKtx = "1.2.0-rc04"
     const val material = "1.0.0"
     const val jodatime = "2.9.4"
@@ -20,13 +20,13 @@ object Versions {
     // Dependency injection
     const val dagger = "2.25.2"
 
-    // Firebase dependencies
-    const val firestore = "21.3.0"
+    // Firebase
+    const val firestore = "21.3.1"
     const val auth = "19.2.0"
+    const val gmsAuth = "17.0.0"
     const val analytics = "17.2.1"
     const val crashlytics = "2.10.1"
     const val perf = "19.0.2"
-    const val gmsAuth = "17.0.0"
     const val fabric = "1.31.2"
 
     // Static analyzers

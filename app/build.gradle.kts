@@ -94,31 +94,45 @@ detekt {
 
 dependencies {
 
+    // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}")
 
+    // Core Android libraries and legacy support
     implementation("androidx.core:core-ktx:${Versions.androidxCore}")
-    implementation("androidx.fragment:fragment-ktx:${Versions.fragmentKtx}")
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}")
     implementation("androidx.legacy:legacy-support-v4:${Versions.legacy}")
 
+    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}")
+
+    // Extensions
+    implementation("androidx.fragment:fragment-ktx:${Versions.fragmentKtx}")
+    implementation("androidx.lifecycle:lifecycle-extensions:${Versions.lifecycleExtensions}")
+
+    // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:${Versions.navigation}")
     implementation("androidx.navigation:navigation-ui-ktx:${Versions.navigation}")
-    implementation("androidx.lifecycle:lifecycle-extensions:${Versions.lifecycleExtensions}")
+
+    // Material theme
     implementation("com.google.android.material:material:${Versions.material}")
+
+    // Joda Time
     implementation("joda-time:joda-time:${Versions.jodatime}")
 
+    // Firebase
     implementation("com.google.firebase:firebase-auth:${Versions.auth}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
     implementation("com.google.firebase:firebase-firestore:${Versions.firestore}")
+    debugImplementation("com.google.code.gson:gson:2.8.5")
 //    implementation("com.google.firebase:firebase-analytics:${Versions.analytics}")
 //    implementation("com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}")
 //    implementation("com.google.firebase:firebase-perf:${Versions.perf}")
 
-    // Room components
+    // Room
     implementation("androidx.room:room-runtime:${Versions.room}")
     implementation("androidx.room:room-ktx:${Versions.room}")
+    kapt("androidx.room:room-compiler:${Versions.room}")
 
     // Paging
     implementation("androidx.paging:paging-runtime:${Versions.paging}")
@@ -127,17 +141,10 @@ dependencies {
     implementation("com.google.dagger:dagger:${Versions.dagger}")
     kapt("com.google.dagger:dagger-compiler:${Versions.dagger}")
 
-    // For browsing SQLite database
-    // To enable uncomment the following line, run adb forward tcp:8080 tcp:8080
-    // (/home/alex/Android/Sdk/platform-tools/adb forward tcp:8080 tcp:8080)
-    // and connect to http://localhost:8080
-    // debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
-
-    // Kapt
+    // Data Binding
     kapt("com.android.databinding:compiler:${Versions.dataBinding}")
-    kapt("androidx.room:room-compiler:${Versions.room}")
 
-    // Lint checks
+    // Lint
     lintChecks(project(path = ":lint"))
 
     // Test
@@ -148,4 +155,10 @@ dependencies {
     androidTestImplementation("androidx.test:runner:${Versions.androidxTestRunner}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.espresso}")
     androidTestImplementation("androidx.room:room-testing:${Versions.room}")
+
+    // Browsing SQLite database
+    // To enable uncomment the following line, run adb forward tcp:8080 tcp:8080
+    // (/home/alex/Android/Sdk/platform-tools/adb forward tcp:8080 tcp:8080)
+    // and connect to http://localhost:8080
+    // debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
 }

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.DataUnit
 import com.jdevs.timeo.common.adapter.DelegateAdapter
@@ -25,7 +25,7 @@ class ActivityDelegateAdapter : DelegateAdapter {
         val inflater = LayoutInflater.from(parent.context)
         val fragmentActivity = parent.context as FragmentActivity
 
-        val viewModel = ViewModelProviders.of(fragmentActivity)
+        val viewModel = ViewModelProvider(fragmentActivity)
             .get(randomString(), ActivityViewModel::class.java)
 
         val binding = ActivitiesItemBinding.inflate(inflater, parent, false).also {

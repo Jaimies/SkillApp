@@ -26,6 +26,8 @@ class LocalDataSource(
         getLivePagedList(RECORDS_PAGE_SIZE, recordsDao.getRecords())
     }
 
+    override fun getActivityById(id: Int, documentId: String) = activitiesDao.getActivity(id)
+
     override suspend fun addActivity(activity: Activity) = activitiesDao.insert(activity)
 
     override suspend fun saveActivity(activity: Activity) = activitiesDao.update(activity)

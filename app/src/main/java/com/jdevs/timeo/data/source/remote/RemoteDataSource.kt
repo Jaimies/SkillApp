@@ -1,5 +1,7 @@
 package com.jdevs.timeo.data.source.remote
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,6 +33,22 @@ class RemoteDataSource(
     init {
 
         resetCollectionMonitors()
+    }
+
+    override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
+
+        val activity = activitiesRef.document(documentId)
+        val liveData = MutableLiveData<Activity>()
+
+        activity.addSnapshotListener { documentSnapshot, _ ->
+
+            if (documentSnapshot != null) {
+
+                liveData.value = documentSnapshot.toObject(Activity::class.java)
+            }
+        }
+
+        return liveData
     }
 
     override suspend fun addRecord(record: Record) {

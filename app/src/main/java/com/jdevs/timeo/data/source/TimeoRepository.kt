@@ -9,6 +9,8 @@ interface TimeoRepository {
     val activitiesLiveData: LiveData<*>?
     val recordsLiveData: LiveData<*>?
 
+    fun getActivityById(id: Int, documentId: String): LiveData<Activity>
+
     suspend fun addActivity(activity: Activity)
 
     suspend fun saveActivity(activity: Activity)

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
@@ -30,6 +31,13 @@ class ActivityDetailFragment : ActionBarFragment() {
         (activity!!.application as TimeoApplication).appComponent.inject(this)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+        viewModel.setActivity(args.activity)
+        viewModel.setupActivityLiveData(args.activity)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,7 +52,10 @@ class ActivityDetailFragment : ActionBarFragment() {
 
         viewModel.apply {
 
-            setActivity(args.activity)
+            activityLiveData.observe(viewLifecycleOwner) { activity ->
+
+                setActivity(activity)
+            }
 
             observeEvent(showRecordDialog) {
                 RecordDialog(context!!) { time ->
@@ -60,6 +71,7 @@ class ActivityDetailFragment : ActionBarFragment() {
                 }.show()
             }
         }
+
 
         return binding.root
     }

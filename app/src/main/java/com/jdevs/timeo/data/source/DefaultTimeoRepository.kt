@@ -1,5 +1,6 @@
 package com.jdevs.timeo.data.source
 
+import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import javax.inject.Inject
@@ -17,6 +18,11 @@ class DefaultTimeoRepository @Inject constructor(
 
     override val activitiesLiveData get() = currentDataSource.activitiesLiveData
     override val recordsLiveData get() = currentDataSource.recordsLiveData
+
+    override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
+
+        return currentDataSource.getActivityById(id, documentId)
+    }
 
     override suspend fun addActivity(activity: Activity) {
 

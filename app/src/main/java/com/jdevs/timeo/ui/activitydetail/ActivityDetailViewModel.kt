@@ -3,16 +3,25 @@ package com.jdevs.timeo.ui.activitydetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.source.TimeoRepository
+import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.getAvgDailyHours
 import com.jdevs.timeo.util.getHours
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ActivityDetailViewModel : ViewModel() {
+class ActivityDetailViewModel @Inject constructor(
+    private val repository: TimeoRepository
+) : ViewModel() {
 
     val name: LiveData<String> get() = _name
     val avgDailyTime: LiveData<String> get() = _avgDailyTime
     val lastWeekTime: LiveData<String> get() = _lastWeekTime
     val totalTime: LiveData<String> get() = _totalTime
+    val showRecordDialog = SingleLiveEvent<Any>()
 
     private val _name = MutableLiveData("")
     private val _avgDailyTime = MutableLiveData("")
@@ -25,5 +34,12 @@ class ActivityDetailViewModel : ViewModel() {
         _totalTime.value = activity.totalTime.getHours() + "h"
         _avgDailyTime.value = activity.totalTime.getAvgDailyHours(activity.timestamp) + "h"
         _lastWeekTime.value = "42h"
+    }
+
+    fun showRecordDialog() = showRecordDialog.call()
+
+    fun addRecord(record: Record) = viewModelScope.launch {
+
+        repository.addRecord(record)
     }
 }

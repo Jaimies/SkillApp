@@ -23,8 +23,7 @@ class RecordDialog(
     context: Context,
     private val index: Int,
     private val createRecord: (Int, Long) -> Unit = { _, _ -> }
-) : Dialog(context),
-    View.OnFocusChangeListener {
+) : Dialog(context), View.OnFocusChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

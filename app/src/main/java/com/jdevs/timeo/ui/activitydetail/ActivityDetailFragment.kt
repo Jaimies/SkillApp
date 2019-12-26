@@ -1,22 +1,34 @@
 package com.jdevs.timeo.ui.activitydetail
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
+import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
+import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
+import com.jdevs.timeo.ui.activities.RecordDialog
+import com.jdevs.timeo.util.observeEvent
+import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
 
     override val menuId = R.menu.activity_detail_fragment_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
-    private val viewModel: ActivityDetailViewModel by viewModels()
+
+    @Inject
+    lateinit var viewModel: ActivityDetailViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity!!.application as TimeoApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +42,24 @@ class ActivityDetailFragment : ActionBarFragment() {
             it.viewModel = viewModel
         }
 
-        viewModel.setActivity(args.activity)
+        viewModel.apply {
+
+            setActivity(args.activity)
+
+            observeEvent(showRecordDialog) {
+                RecordDialog(context!!, -1) { _, time ->
+
+                    addRecord(
+                        Record(
+                            name = args.activity.name,
+                            time = time,
+                            activityId = args.activity.documentId,
+                            roomActivityId = args.activity.id
+                        )
+                    )
+                }.show()
+            }
+        }
 
         return binding.root
     }

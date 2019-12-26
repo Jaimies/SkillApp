@@ -2,6 +2,7 @@ package com.jdevs.timeo.di
 
 import android.content.Context
 import com.jdevs.timeo.ui.activities.ActivitiesFragment
+import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragment
 import com.jdevs.timeo.ui.addactivity.AddEditActivityFragment
 import com.jdevs.timeo.ui.history.HistoryFragment
 import dagger.BindsInstance
@@ -20,4 +21,5 @@ interface AppComponent {
     fun inject(fragment: ActivitiesFragment)
     fun inject(fragment: AddEditActivityFragment)
     fun inject(fragment: HistoryFragment)
+    fun inject(fragment: ActivityDetailFragment)
 }

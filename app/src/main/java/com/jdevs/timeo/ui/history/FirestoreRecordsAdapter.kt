@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 
-class RecordsFirestoreAdapter(
+class FirestoreRecordsAdapter(
     private val showDeleteDialog: (Int) -> Unit = {}
 ) : FirestoreListAdapter() {
 

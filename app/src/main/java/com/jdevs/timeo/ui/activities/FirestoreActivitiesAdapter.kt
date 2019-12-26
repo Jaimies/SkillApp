@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 
-class ActivitiesFirestoreAdapter(
+class FirestoreActivitiesAdapter(
     private val createRecord: (Int, Long) -> Unit = { _, _ -> },
     private val navigateToDetails: (Int) -> Unit = {}
 ) : FirestoreListAdapter() {

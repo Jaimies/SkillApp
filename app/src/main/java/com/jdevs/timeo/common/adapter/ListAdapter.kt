@@ -32,6 +32,7 @@ abstract class ListAdapter : PagedListAdapter<DataUnit, RecyclerView.ViewHolder>
             }
 
             override fun areContentsTheSame(oldItem: DataUnit, newItem: DataUnit): Boolean {
+
                 return oldItem === newItem
             }
         }

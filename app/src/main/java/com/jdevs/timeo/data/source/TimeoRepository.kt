@@ -19,7 +19,7 @@ interface TimeoRepository {
 
     suspend fun deleteRecord(record: Record)
 
-    fun resetActivitiesMonitor()
+    fun resetRemoteDataSource()
 
     fun resetRecordsMonitor()
 }

@@ -1,5 +1,6 @@
 package com.jdevs.timeo.data.source.remote
 
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.Activity
@@ -23,16 +24,13 @@ class RemoteDataSource(
     override val recordsLiveData get() = recordsMonitor.getLiveData()
 
     private val firestore = FirebaseFirestore.getInstance()
-    private val activitiesRef = firestore
-        .collection("/$USERS_COLLECTION/${AuthRepository.uid}/${ActivitiesConstants.COLLECTION}")
-
-    private val recordsRef = firestore
-        .collection("/$USERS_COLLECTION/${AuthRepository.uid}/${RecordsConstants.COLLECTION}")
+    private var prevUid = ""
+    private lateinit var activitiesRef: CollectionReference
+    private lateinit var recordsRef: CollectionReference
 
     init {
 
-        activitiesMonitor.setRef(activitiesRef)
-        recordsMonitor.setRef(recordsRef)
+        resetCollectionMonitors()
     }
 
     override suspend fun addRecord(record: Record) {
@@ -101,9 +99,27 @@ class RemoteDataSource(
         recordsMonitor.reset()
     }
 
-    override fun resetActivitiesMonitor() {
+    override fun reset() = resetCollectionMonitors()
 
-        activitiesMonitor.reset()
+    private fun resetCollectionMonitors() {
+
+        val uid = AuthRepository.uid.orEmpty()
+
+        if (uid.isEmpty() || uid == prevUid) {
+
+            return
+        }
+
+        activitiesRef = firestore
+            .collection("/$USERS_COLLECTION/${uid}/${ActivitiesConstants.COLLECTION}")
+
+        recordsRef = firestore
+            .collection("/$USERS_COLLECTION/${uid}/${RecordsConstants.COLLECTION}")
+
+        activitiesMonitor.setRef(activitiesRef)
+        recordsMonitor.setRef(recordsRef)
+
+        prevUid = uid
     }
 
     companion object {

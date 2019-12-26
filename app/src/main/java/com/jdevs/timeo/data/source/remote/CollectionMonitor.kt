@@ -24,6 +24,7 @@ class CollectionMonitor(
     fun setRef(ref: CollectionReference) {
 
         this.ref = ref
+        reset()
     }
 
     fun reset() {
@@ -38,11 +39,6 @@ class CollectionMonitor(
         if (isLastItemReached) {
 
             return null
-        }
-
-        if (!::query.isInitialized) {
-
-            query = newQuery
         }
 
         val lastItem = lastVisibleItem

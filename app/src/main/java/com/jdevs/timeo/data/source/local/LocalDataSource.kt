@@ -1,6 +1,7 @@
 package com.jdevs.timeo.data.source.local
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.jdevs.timeo.data.Activity
@@ -15,29 +16,14 @@ class LocalDataSource(
     private val recordsDao: RecordsDao
 ) : TimeoDataSource {
 
-    override val activitiesLiveData: LiveData<PagedList<Activity>>
-    override val recordsLiveData: LiveData<PagedList<Record>>
+    override val activitiesLiveData by lazy {
 
-    init {
+        getLivePagedList(ACTIVITIES_PAGE_SIZE, activitiesDao.getActivities())
+    }
 
-        var pagedListConfig = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setPageSize(ACTIVITIES_PAGE_SIZE)
-            .build()
+    override val recordsLiveData by lazy {
 
-        val activitiesDataSourceFactory = activitiesDao.getActivities()
-
-        activitiesLiveData =
-            LivePagedListBuilder(activitiesDataSourceFactory, pagedListConfig).build()
-
-        pagedListConfig = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setPageSize(RECORDS_PAGE_SIZE)
-            .build()
-
-        val recordsDataSourceFactory = recordsDao.getRecords()
-
-        recordsLiveData = LivePagedListBuilder(recordsDataSourceFactory, pagedListConfig).build()
+        getLivePagedList(RECORDS_PAGE_SIZE, recordsDao.getRecords())
     }
 
     override suspend fun addActivity(activity: Activity) = activitiesDao.insert(activity)
@@ -60,4 +46,17 @@ class LocalDataSource(
 
     override fun resetActivitiesMonitor() {}
     override fun resetRecordsMonitor() {}
+
+    private fun <T> getLivePagedList(
+        pageSize: Int,
+        factory: DataSource.Factory<Int, T>
+    ): LiveData<PagedList<T>> {
+
+        val pagedListConfig = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(pageSize)
+            .build()
+
+        return LivePagedListBuilder(factory, pagedListConfig).build()
+    }
 }

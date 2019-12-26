@@ -139,6 +139,10 @@ class MainActivity : AppCompatActivity(),
             currentNavController.value?.popBackStack()
         }
 
-        this.graphsToRecreate.addAll(graphsToRecreate)
+        this.graphsToRecreate.apply {
+
+            clear()
+            addAll(graphsToRecreate)
+        }
     }
 }

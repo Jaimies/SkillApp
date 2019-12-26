@@ -2,6 +2,7 @@ package com.jdevs.timeo.common.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.data.DataItem
 
 interface DelegateAdapter {
 
@@ -12,5 +13,5 @@ interface DelegateAdapter {
         showDeleteDialog: (Int) -> Unit = {}
     ): RecyclerView.ViewHolder
 
-    fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataUnit)
+    fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataItem)
 }

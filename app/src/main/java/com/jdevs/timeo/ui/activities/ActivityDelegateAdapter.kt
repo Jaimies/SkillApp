@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.common.adapter.DataUnit
 import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.DataItem
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
 import java.util.UUID
 
@@ -37,7 +37,7 @@ class ActivityDelegateAdapter : DelegateAdapter {
         return ViewHolder(binding.root, viewModel, createRecord, goToDetails)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataUnit) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataItem) {
 
         holder as ViewHolder
         holder.bindActivity(item as Activity)

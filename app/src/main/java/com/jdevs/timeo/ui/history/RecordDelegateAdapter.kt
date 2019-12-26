@@ -8,9 +8,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.adapter.DataUnit
 import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.data.DataItem
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.RecordsItemBinding
 import java.util.UUID
@@ -39,7 +39,7 @@ class RecordDelegateAdapter : DelegateAdapter {
         return ViewHolder(binding.root, viewModel, showDeleteDialog)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataUnit) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataItem) {
 
         holder as ViewHolder
         holder.bindRecord(item as Record)

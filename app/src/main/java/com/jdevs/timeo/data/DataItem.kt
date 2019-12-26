@@ -1,6 +1,6 @@
-package com.jdevs.timeo.common.adapter
+package com.jdevs.timeo.data
 
-interface DataUnit {
+interface DataItem {
 
     var id: Int
     var documentId: String

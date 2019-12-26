@@ -3,6 +3,7 @@ package com.jdevs.timeo.common.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
+import com.jdevs.timeo.data.DataItem
 import com.jdevs.timeo.util.inflate
 
 @Suppress("EmptyFunctionBlock")
@@ -15,7 +16,7 @@ class LoadingDelegateAdapter : DelegateAdapter {
         showDeleteDialog: (Int) -> Unit
     ) = ViewHolder(parent)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataUnit) {}
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: DataItem) {}
 
     class ViewHolder(parent: ViewGroup) :
         RecyclerView.ViewHolder(parent.inflate(R.layout.item_loading))

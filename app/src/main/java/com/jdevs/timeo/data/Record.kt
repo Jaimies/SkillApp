@@ -10,7 +10,6 @@ import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
-import com.jdevs.timeo.common.adapter.DataUnit
 import com.jdevs.timeo.util.AdapterConstants.RECORD
 import java.util.Date
 
@@ -35,7 +34,7 @@ data class Record(
     @get:Exclude
     @ColumnInfo(name = "activity_id")
     var roomActivityId: Int = 0
-) : DataUnit {
+) : DataItem {
 
     @get:Exclude
     @PrimaryKey(autoGenerate = true)

@@ -11,10 +11,10 @@ import androidx.lifecycle.observe
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.common.adapter.DataUnit
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.viewmodel.ListViewModel
+import com.jdevs.timeo.data.DataItem
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
 import com.jdevs.timeo.util.OperationTypes.ADDED
@@ -26,7 +26,7 @@ import com.jdevs.timeo.util.OperationTypes.SUCCESSFUL
 import com.jdevs.timeo.util.TAG
 
 @Suppress("UNCHECKED_CAST")
-abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
+abstract class ListFragment<T : DataItem> : ActionBarFragment() {
 
     protected abstract val viewModel: ListViewModel
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()
@@ -54,7 +54,7 @@ abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
             return
         }
 
-        liveData as LiveData<PagedList<DataUnit>>
+        liveData as LiveData<PagedList<DataItem>>
 
         liveData.observe(viewLifecycleOwner) {
 

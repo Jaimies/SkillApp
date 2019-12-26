@@ -103,7 +103,7 @@ class RemoteDataSource(
 
     private fun resetCollectionMonitors() {
 
-        val uid = AuthRepository.uid.orEmpty()
+        val uid = AuthRepository.uid ?: return
 
         if (uid == prevUid) {
 
@@ -111,16 +111,11 @@ class RemoteDataSource(
             return
         }
 
-        if (uid.isEmpty()) {
-
-            return
-        }
-
         activitiesRef = firestore
-            .collection("/$USERS_COLLECTION/${uid}/${ActivitiesConstants.COLLECTION}")
+            .collection("/$USERS_COLLECTION/$uid/${ActivitiesConstants.COLLECTION}")
 
         recordsRef = firestore
-            .collection("/$USERS_COLLECTION/${uid}/${RecordsConstants.COLLECTION}")
+            .collection("/$USERS_COLLECTION/$uid/${RecordsConstants.COLLECTION}")
 
         activitiesMonitor.setRef(activitiesRef)
         recordsMonitor.setRef(recordsRef)

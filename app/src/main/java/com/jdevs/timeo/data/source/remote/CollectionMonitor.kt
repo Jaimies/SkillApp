@@ -29,6 +29,11 @@ class CollectionMonitor(
 
     fun reset() {
 
+        if (!::ref.isInitialized) {
+
+            return
+        }
+
         lastVisibleItem = null
         isLastItemReached = false
         query = newQuery

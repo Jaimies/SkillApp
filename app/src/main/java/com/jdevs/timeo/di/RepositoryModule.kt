@@ -47,7 +47,9 @@ class RepositoryModule {
         val database = Room.databaseBuilder(
             context.applicationContext,
             TimeoDatabase::class.java, DATABASE_NAME
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
 
         return LocalDataSource(database.activitiesDao(), database.recordsDao())
     }

@@ -61,7 +61,10 @@ class ActivityDelegateAdapter : DelegateAdapter {
 
                 showRecordDialog.observeEvent(lifecycleOwner) {
 
-                    RecordDialog(context, adapterPosition, createRecord).show()
+                    RecordDialog(context) { time ->
+
+                        createRecord(adapterPosition, time)
+                    }.show()
                 }
             }
         }

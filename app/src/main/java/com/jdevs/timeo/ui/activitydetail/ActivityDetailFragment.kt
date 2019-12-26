@@ -47,7 +47,7 @@ class ActivityDetailFragment : ActionBarFragment() {
             setActivity(args.activity)
 
             observeEvent(showRecordDialog) {
-                RecordDialog(context!!, -1) { _, time ->
+                RecordDialog(context!!) { time ->
 
                     addRecord(
                         Record(

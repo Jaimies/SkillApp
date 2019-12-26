@@ -21,8 +21,7 @@ import kotlin.math.roundToInt
 
 class RecordDialog(
     context: Context,
-    private val index: Int,
-    private val createRecord: (Int, Long) -> Unit = { _, _ -> }
+    private val createRecord: (Long) -> Unit = {}
 ) : Dialog(context), View.OnFocusChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,15 +53,14 @@ class RecordDialog(
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
 
-        (v as EditText).apply {
+        v as EditText
 
-            if (hasFocus || text.isEmpty()) {
+        if (v.hasFocus() || v.text.isEmpty()) {
 
-                return
-            }
-
-            validateInput(v)
+            return
         }
+
+        validateInput(v)
     }
 
     private fun validateInput(editText: EditText) {
@@ -99,7 +97,7 @@ class RecordDialog(
 
         val time = (hours to minutes).getMins()
 
-        createRecord(index, time)
+        createRecord(time)
 
         dismiss()
     }

@@ -105,7 +105,13 @@ class RemoteDataSource(
 
         val uid = AuthRepository.uid.orEmpty()
 
-        if (uid.isEmpty() || uid == prevUid) {
+        if (uid == prevUid) {
+
+            activitiesMonitor.reset()
+            return
+        }
+
+        if (uid.isEmpty()) {
 
             return
         }

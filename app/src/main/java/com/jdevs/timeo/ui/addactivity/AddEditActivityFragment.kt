@@ -32,8 +32,8 @@ class AddEditActivityFragment : ActionBarFragment() {
     lateinit var viewModel: AddEditActivityViewModel
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
 
+        super.onAttach(context)
         (activity!!.application as TimeoApplication).appComponent.inject(this)
     }
 

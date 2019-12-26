@@ -27,8 +27,8 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
     override lateinit var viewModel: HistoryViewModel
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
 
+        super.onAttach(context)
         (activity!!.application as TimeoApplication).appComponent.inject(this)
     }
 

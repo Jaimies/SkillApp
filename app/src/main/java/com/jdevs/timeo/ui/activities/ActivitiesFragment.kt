@@ -34,8 +34,8 @@ class ActivitiesFragment : ListFragment<Activity>() {
     override lateinit var viewModel: ActivitiesViewModel
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
 
+        super.onAttach(context)
         (activity!!.application as TimeoApplication).appComponent.inject(this)
     }
 

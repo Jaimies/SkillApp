@@ -27,6 +27,7 @@ class ActivityDetailFragment : ActionBarFragment() {
     lateinit var viewModel: ActivityDetailViewModel
 
     override fun onAttach(context: Context) {
+
         super.onAttach(context)
         (activity!!.application as TimeoApplication).appComponent.inject(this)
     }
@@ -58,6 +59,7 @@ class ActivityDetailFragment : ActionBarFragment() {
             }
 
             observeEvent(showRecordDialog) {
+
                 RecordDialog(context!!) { time ->
 
                     addRecord(

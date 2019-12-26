@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.paging.PagedList
@@ -29,6 +30,7 @@ abstract class ListFragment<T : DataUnit> : ActionBarFragment() {
     protected abstract val mAdapter: ListAdapter
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()
 
+    @CallSuper
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

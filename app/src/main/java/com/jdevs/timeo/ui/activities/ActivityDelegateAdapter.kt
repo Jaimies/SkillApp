@@ -11,7 +11,7 @@ import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
-import com.jdevs.timeo.util.randomString
+import java.util.UUID
 
 class ActivityDelegateAdapter : DelegateAdapter {
 
@@ -26,7 +26,7 @@ class ActivityDelegateAdapter : DelegateAdapter {
         val fragmentActivity = parent.context as FragmentActivity
 
         val viewModel = ViewModelProvider(fragmentActivity)
-            .get(randomString(), ActivityViewModel::class.java)
+            .get(UUID.randomUUID().toString(), ActivityViewModel::class.java)
 
         val binding = ActivitiesItemBinding.inflate(inflater, parent, false).also {
 

@@ -13,7 +13,7 @@ import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.databinding.RecordsItemBinding
-import com.jdevs.timeo.util.randomString
+import java.util.UUID
 
 class RecordDelegateAdapter : DelegateAdapter {
 
@@ -27,8 +27,8 @@ class RecordDelegateAdapter : DelegateAdapter {
         val inflater = LayoutInflater.from(parent.context)
         val fragmentActivity = parent.context as FragmentActivity
 
-        val viewModel =
-            ViewModelProvider(fragmentActivity).get(randomString(), RecordViewModel::class.java)
+        val viewModel = ViewModelProvider(fragmentActivity)
+            .get(UUID.randomUUID().toString(), RecordViewModel::class.java)
 
         val binding = RecordsItemBinding.inflate(inflater, parent, false).also {
 

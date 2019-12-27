@@ -124,7 +124,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:${Versions.auth}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
     implementation("com.google.firebase:firebase-firestore:${Versions.firestore}")
-    debugImplementation("com.google.code.gson:gson:2.8.5")
+    debugImplementation("com.google.code.gson:gson:2.8.6")
 //    implementation("com.google.firebase:firebase-analytics:${Versions.analytics}")
 //    implementation("com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}")
 //    implementation("com.google.firebase:firebase-perf:${Versions.perf}")

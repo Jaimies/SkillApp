@@ -6,6 +6,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.data.source.DefaultTimeoRepository
 import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.data.source.TimeoRepository
@@ -30,7 +31,8 @@ class RepositoryModule {
 
         return DefaultTimeoRepository(
             provideRemoteDataSource(),
-            provideLocalDataSource(context)
+            provideLocalDataSource(context),
+            AuthRepository
         )
     }
 

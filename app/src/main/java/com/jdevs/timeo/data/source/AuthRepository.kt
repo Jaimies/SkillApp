@@ -6,9 +6,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.jdevs.timeo.util.await
 
-object AuthRepository {
+object AuthRepository : UserManager {
 
-    val isUserSignedIn
+    override val isUserSignedIn
         get() = auth.currentUser != null
 
     val uid

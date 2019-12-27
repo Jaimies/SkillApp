@@ -16,12 +16,7 @@ class FakeDataSource(
     private val _activities = MutableLiveData(activityList.toMutableList())
     private val _records = MutableLiveData(recordList.toMutableList())
 
-    override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
-
-        val activity = _activities.value?.single { it.id == id }
-        return MutableLiveData(activity)
-    }
-
+    override fun getActivityById(id: Int, documentId: String) = MutableLiveData(Activity())
     override suspend fun addActivity(activity: Activity) {}
     override suspend fun addRecord(record: Record) {}
     override suspend fun deleteActivity(activity: Activity) {}

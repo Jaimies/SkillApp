@@ -17,9 +17,9 @@ import org.junit.Test
 @Suppress("UNCHECKED_CAST")
 class DefaultTimeoRepositoryTest {
 
-    private val activity1 = Activity(id = 1, name = "Activity 1")
-    private val activity2 = Activity(id = 2, name = "Activity 2")
-    private val activity3 = Activity(id = 3, name = "Activity 3")
+    private val activity1 = Activity(name = "Activity 1")
+    private val activity2 = Activity(name = "Activity 2")
+    private val activity3 = Activity(name = "Activity 3")
     private val record1 = Record(name = "Record 1")
     private val record2 = Record(name = "Record 2")
     private val record3 = Record(name = "Record 3")
@@ -70,32 +70,6 @@ class DefaultTimeoRepositoryTest {
 
         // THEN - Activities are loaded from the remote data source
         assertThat(activities.value, IsEqual(localActivities))
-    }
-
-    @Test
-    fun getActivityById_whenUserIsSignedIn_returnsActivityFromLocalDataSource() {
-
-        // GIVEN - A user is not signed in
-        FakeUserManager.signIn()
-
-        // WHEN - Getting the list of activities from repository
-        val activity = repository.getActivityById(activity1.id, activity1.documentId)
-
-        // THEN - Returns the right activity
-        assertThat(activity.value, IsEqual(activity1))
-    }
-
-    @Test
-    fun getActivityById_whenUserIsNotSignedIn_returnsActivityFromLocalDataSource() {
-
-        // GIVEN - A user is signed in
-        FakeUserManager.signOut()
-
-        // WHEN - Getting the list of activities from repository
-        val activity = repository.getActivityById(activity1.id, activity1.documentId)
-
-        // THEN - Returns the right activity
-        assertThat(activity.value, IsEqual(activity1))
     }
 
     @Test

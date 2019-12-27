@@ -150,7 +150,6 @@ dependencies {
     // Test
     testImplementation("junit:junit:${Versions.junit}")
     testImplementation("org.hamcrest:hamcrest-all:${Versions.hamcrest}")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}")
 
     // Android Test
     androidTestImplementation("androidx.test:runner:${Versions.androidxTestRunner}")

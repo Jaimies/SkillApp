@@ -21,7 +21,7 @@ class ActivityDetailViewModel @Inject constructor(
     val avgDailyTime: LiveData<String> get() = _avgDailyTime
     val lastWeekTime: LiveData<String> get() = _lastWeekTime
     val totalTime: LiveData<String> get() = _totalTime
-    lateinit var activityLiveData: LiveData<Activity>
+    lateinit var activity: LiveData<Activity>
 
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _name = MutableLiveData("")
@@ -39,7 +39,7 @@ class ActivityDetailViewModel @Inject constructor(
 
     fun setupActivityLiveData(activity: Activity) {
 
-        activityLiveData = repository.getActivityById(activity.id, activity.documentId)
+        this.activity = repository.getActivityById(activity.id, activity.documentId)
     }
 
     fun addRecord(activity: Activity, time: Long) = viewModelScope.launch {

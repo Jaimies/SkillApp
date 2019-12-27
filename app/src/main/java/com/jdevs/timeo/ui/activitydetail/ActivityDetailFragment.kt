@@ -52,7 +52,7 @@ class ActivityDetailFragment : ActionBarFragment() {
 
         viewModel.apply {
 
-            activityLiveData.observe(viewLifecycleOwner) { activity ->
+            activity.observe(viewLifecycleOwner) { activity ->
 
                 setActivity(activity)
             }
@@ -61,7 +61,7 @@ class ActivityDetailFragment : ActionBarFragment() {
 
                 RecordDialog(context!!) { time ->
 
-                    addRecord(args.activity, time)
+                    addRecord(activity.value!!, time)
                 }.show()
             }
         }
@@ -76,7 +76,7 @@ class ActivityDetailFragment : ActionBarFragment() {
 
             val directions =
                 ActivityDetailFragmentDirections.actionActivityDetailFragmentToAddEditActivityFragment(
-                    activity = args.activity,
+                    activity = viewModel.activity.value,
                     isEdited = true
                 )
 

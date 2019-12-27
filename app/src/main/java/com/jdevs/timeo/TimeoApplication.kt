@@ -7,13 +7,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 
-class TimeoApplication : Application() {
-
-    val appComponent by lazy {
-        DaggerAppComponent.factory().create(applicationContext)
-    }
+open class TimeoApplication : Application() {
 
     val ioScope = CoroutineScope(Dispatchers.IO + Job())
+
+    val appComponent by lazy { initializeComponent() }
+
+    open fun initializeComponent() = DaggerAppComponent.factory().create(applicationContext)
 
     fun onDestroy() {
 

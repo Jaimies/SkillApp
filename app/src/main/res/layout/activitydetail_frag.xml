@@ -18,6 +18,7 @@
         tools:context=".ui.activitydetail.ActivityDetailFragment">
 
         <TextView
+            android:id="@+id/title"
             style="@style/Widget.Timeo.Header.Small"
             android:text="@{viewModel.name}"
             tools:text="Very very long activity name that just cant't fit" />
@@ -86,6 +87,7 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
                 <TextView
+                    android:id="@+id/total_time"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@{viewModel.totalTime}"

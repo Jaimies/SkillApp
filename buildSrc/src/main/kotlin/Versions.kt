@@ -48,4 +48,7 @@ object Versions {
     // Android Test
     const val androidxTestRunner = "1.2.0"
     const val espresso = "3.2.0"
+    const val fragment = "1.1.0"
+    const val junitExt = "1.1.1"
+    const val androidxTestCore = "1.2.0"
 }

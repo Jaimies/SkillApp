@@ -42,7 +42,7 @@ android {
         versionCode = App.versionCode
         versionName = App.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.jdevs.timeo.TimeoTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -140,6 +140,7 @@ dependencies {
     // Dependency injection
     implementation("com.google.dagger:dagger:${Versions.dagger}")
     kapt("com.google.dagger:dagger-compiler:${Versions.dagger}")
+    kaptAndroidTest("com.google.dagger:dagger-compiler:${Versions.dagger}")
 
     // Data Binding
     kapt("com.android.databinding:compiler:${Versions.dataBinding}")
@@ -152,9 +153,19 @@ dependencies {
     testImplementation("org.hamcrest:hamcrest-all:${Versions.hamcrest}")
 
     // Android Test
+
+    androidTestImplementation("androidx.test.ext:junit:${Versions.junitExt}")
     androidTestImplementation("androidx.test:runner:${Versions.androidxTestRunner}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.espresso}")
     androidTestImplementation("androidx.room:room-testing:${Versions.room}")
+    androidTestImplementation("junit:junit:${Versions.junit}")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}")
+
+    // Testing code should not be included in the main code.
+    // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
+
+    implementation("androidx.fragment:fragment-testing:${Versions.fragment}")
+    implementation("androidx.test:core:${Versions.androidxTestCore}")
 
     // Browsing SQLite database
     // To enable uncomment the following line, run adb forward tcp:8080 tcp:8080

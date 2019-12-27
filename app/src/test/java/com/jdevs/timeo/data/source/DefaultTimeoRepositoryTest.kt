@@ -3,7 +3,6 @@ package com.jdevs.timeo.data.source
 import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
@@ -41,9 +40,7 @@ class DefaultTimeoRepositoryTest {
         localDataSource = FakeDataSource(localActivities, localRecords)
         remoteDataSource = FakeDataSource(remoteActivities, remoteRecords)
 
-        repository = DefaultTimeoRepository(
-            remoteDataSource, localDataSource, FakeUserManager, Dispatchers.Unconfined
-        )
+        repository = DefaultTimeoRepository(remoteDataSource, localDataSource, FakeUserManager)
     }
 
     @Test

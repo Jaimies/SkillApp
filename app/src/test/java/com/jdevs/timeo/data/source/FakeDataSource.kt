@@ -15,11 +15,11 @@ class FakeDataSource(
     recordList: List<Record> = emptyList()
 ) : TimeoDataSource {
 
-    override val activitiesLiveData: LiveData<*>? get() = _activities
-    override val recordsLiveData: LiveData<*>? get() = _records
+    override val activitiesLiveData: LiveData<List<Activity>>? get() = _activities
+    override val recordsLiveData: LiveData<List<Record>>? get() = _records
 
-    private val _activities = MutableLiveData(activityList.toMutableList())
-    private val _records = MutableLiveData(recordList.toMutableList())
+    private val _activities = MutableLiveData(activityList)
+    private val _records = MutableLiveData(recordList)
 
     override suspend fun addActivity(activity: Activity) {
 

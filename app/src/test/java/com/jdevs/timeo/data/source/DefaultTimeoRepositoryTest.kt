@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
 import org.junit.Before
@@ -12,19 +13,20 @@ import org.junit.Test
 /**
  * Unit tests for the implementation of [TimeoRepository]
  */
+@ExperimentalCoroutinesApi
 @Suppress("UNCHECKED_CAST")
 class DefaultTimeoRepositoryTest {
 
-    private val activity1 = Activity(name = "Activity 1")
-    private val activity2 = Activity(name = "Activity 2")
-    private val activity3 = Activity(name = "Activity 3")
+    private val activity1 = Activity(id = 1, name = "Activity 1")
+    private val activity2 = Activity(id = 2, name = "Activity 2")
+    private val activity3 = Activity(id = 3, name = "Activity 3")
     private val record1 = Record(name = "Record 1")
     private val record2 = Record(name = "Record 2")
     private val record3 = Record(name = "Record 3")
 
     private val localActivities = listOf(activity1, activity2)
-    private val remoteActivities = listOf(activity1, activity3)
     private val localRecords = listOf(record1, record2)
+    private val remoteActivities = listOf(activity1, activity3)
     private val remoteRecords = listOf(record1, record3)
 
     private lateinit var remoteDataSource: FakeDataSource
@@ -40,7 +42,7 @@ class DefaultTimeoRepositoryTest {
         remoteDataSource = FakeDataSource(remoteActivities, remoteRecords)
 
         repository = DefaultTimeoRepository(
-            remoteDataSource, localDataSource, FakeUserManager, Dispatchers.Main
+            remoteDataSource, localDataSource, FakeUserManager, Dispatchers.Unconfined
         )
     }
 
@@ -71,6 +73,32 @@ class DefaultTimeoRepositoryTest {
     }
 
     @Test
+    fun getActivityById_whenUserIsSignedIn_returnsActivityFromLocalDataSource() {
+
+        // GIVEN - A user is not signed in
+        FakeUserManager.signIn()
+
+        // WHEN - Getting the list of activities from repository
+        val activity = repository.getActivityById(activity1.id, activity1.documentId)
+
+        // THEN - Returns the right activity
+        assertThat(activity.value, IsEqual(activity1))
+    }
+
+    @Test
+    fun getActivityById_whenUserIsNotSignedIn_returnsActivityFromLocalDataSource() {
+
+        // GIVEN - A user is signed in
+        FakeUserManager.signOut()
+
+        // WHEN - Getting the list of activities from repository
+        val activity = repository.getActivityById(activity1.id, activity1.documentId)
+
+        // THEN - Returns the right activity
+        assertThat(activity.value, IsEqual(activity1))
+    }
+
+    @Test
     fun records_whenUserIsSignedIn_requestsRecordsFromRemoteDataSource() {
 
         // GIVEN - A user is signed in
@@ -95,4 +123,5 @@ class DefaultTimeoRepositoryTest {
         // THEN - Records are loaded from the local data source
         assertThat(activities.value, IsEqual(localRecords))
     }
+
 }

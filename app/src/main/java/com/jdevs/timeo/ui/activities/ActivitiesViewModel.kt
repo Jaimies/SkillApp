@@ -13,7 +13,7 @@ class ActivitiesViewModel @Inject constructor(
     private val repository: TimeoRepository
 ) : ListViewModel() {
 
-    override val liveData get() = repository.activitiesLiveData
+    override val liveData get() = repository.activities
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
     init {

@@ -11,7 +11,7 @@ class HistoryViewModel @Inject constructor(
     private val repository: TimeoRepository
 ) : ListViewModel() {
 
-    override val liveData get() = repository.recordsLiveData
+    override val liveData get() = repository.records
 
     init {
 

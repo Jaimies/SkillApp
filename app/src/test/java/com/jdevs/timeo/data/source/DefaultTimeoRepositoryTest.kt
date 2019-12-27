@@ -9,6 +9,9 @@ import org.hamcrest.core.IsEqual
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * Unit tests for the implementation of [TimeoRepository]
+ */
 @Suppress("UNCHECKED_CAST")
 class DefaultTimeoRepositoryTest {
 
@@ -42,52 +45,52 @@ class DefaultTimeoRepositoryTest {
     }
 
     @Test
-    fun activitiesLiveData_whenUserIsSignedIn_returnsRemoteActivities() {
+    fun activities_whenUserIsSignedIn_requestsActivitiesFromRemoteDataSource() {
 
         // GIVEN - A user is signed in
         FakeUserManager.signIn()
 
         // WHEN - Getting the list of activities from repository
-        val activities = repository.activitiesLiveData as LiveData<List<Activity>>
+        val activities = repository.activities as LiveData<List<Activity>>
 
         // THEN - Activities are loaded from the remote data source
         assertThat(activities.value, IsEqual(remoteActivities))
     }
 
     @Test
-    fun activitiesLiveData_whenUserIsNotSignedIn_returnsLocalActivities() {
+    fun activities_whenUserIsNotSignedIn_requestsActivitiesFromLocalDataSource() {
 
         // GIVEN - A user is not signed in
         FakeUserManager.signOut()
 
         // WHEN - Getting the list of activities from repository
-        val activities = repository.activitiesLiveData as LiveData<List<Activity>>
+        val activities = repository.activities as LiveData<List<Activity>>
 
         // THEN - Activities are loaded from the remote data source
         assertThat(activities.value, IsEqual(localActivities))
     }
 
     @Test
-    fun recordsLiveData_whenUserIsSignedIn_returnsRemoteRecords() {
+    fun records_whenUserIsSignedIn_requestsRecordsFromRemoteDataSource() {
 
         // GIVEN - A user is signed in
         FakeUserManager.signIn()
 
         // WHEN - Getting the list of records from repository
-        val activities = repository.recordsLiveData as LiveData<List<Record>>
+        val activities = repository.records as LiveData<List<Record>>
 
         // THEN - Records are loaded from the remote data source
         assertThat(activities.value, IsEqual(remoteRecords))
     }
 
     @Test
-    fun recordsLiveData_whenUserIsNotSignedIn_returnsLocalRecords() {
+    fun records_whenUserIsNotSignedIn_requestsRecordsFromLocalDataSource() {
 
         // GIVEN - A user is not signed in
         FakeUserManager.signOut()
 
         // WHEN - Getting the list of records from repository
-        val activities = repository.recordsLiveData as LiveData<List<Record>>
+        val activities = repository.records as LiveData<List<Record>>
 
         // THEN - Records are loaded from the local data source
         assertThat(activities.value, IsEqual(localRecords))

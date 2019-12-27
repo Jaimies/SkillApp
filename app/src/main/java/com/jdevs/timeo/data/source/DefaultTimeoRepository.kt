@@ -3,16 +3,12 @@ package com.jdevs.timeo.data.source
 import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DefaultTimeoRepository @Inject constructor(
     private val remoteDataSource: TimeoDataSource,
     private val localDataSource: TimeoDataSource,
-    private val userManager: UserManager,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val userManager: UserManager
 ) : TimeoRepository {
 
     private val isUserSignedIn
@@ -29,27 +25,27 @@ class DefaultTimeoRepository @Inject constructor(
         return currentDataSource.getActivityById(id, documentId)
     }
 
-    override suspend fun addActivity(activity: Activity) = withContext(defaultDispatcher) {
+    override suspend fun addActivity(activity: Activity) {
 
         currentDataSource.addActivity(activity)
     }
 
-    override suspend fun saveActivity(activity: Activity) = withContext(defaultDispatcher) {
+    override suspend fun saveActivity(activity: Activity) {
 
         currentDataSource.saveActivity(activity)
     }
 
-    override suspend fun deleteActivity(activity: Activity) = withContext(defaultDispatcher) {
+    override suspend fun deleteActivity(activity: Activity) {
 
         currentDataSource.deleteActivity(activity)
     }
 
-    override suspend fun addRecord(record: Record) = withContext(defaultDispatcher) {
+    override suspend fun addRecord(record: Record) {
 
         currentDataSource.addRecord(record)
     }
 
-    override suspend fun deleteRecord(record: Record) = withContext(defaultDispatcher) {
+    override suspend fun deleteRecord(record: Record) {
 
         currentDataSource.deleteRecord(record)
     }

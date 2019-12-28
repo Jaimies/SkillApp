@@ -12,7 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
-import com.jdevs.timeo.data.source.FakeAndroidTestUserManager
+import com.jdevs.timeo.data.source.FakeUserManager
 import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.not
@@ -28,7 +28,7 @@ import javax.inject.Inject
 class ProfileFragmentTest {
 
     @Inject
-    lateinit var fakeUserManager: FakeAndroidTestUserManager
+    lateinit var fakeUserManager: FakeUserManager
 
     init {
 

@@ -77,6 +77,19 @@ android {
         }
     }
 
+    sourceSets {
+
+        getByName("androidTest") {
+
+            java.setSrcDirs(listOf("src/sharedTest/kotlin", "src/androidTest/kotlin"))
+        }
+
+        getByName("test") {
+
+            java.setSrcDirs(listOf("src/sharedTest/kotlin", "src/test/kotlin"))
+        }
+    }
+
     dataBinding.isEnabled = true
 }
 

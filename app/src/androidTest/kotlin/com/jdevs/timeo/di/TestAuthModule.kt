@@ -1,6 +1,6 @@
 package com.jdevs.timeo.di
 
-import com.jdevs.timeo.data.source.FakeAndroidTestUserManager
+import com.jdevs.timeo.data.source.FakeUserManager
 import com.jdevs.timeo.data.source.UserManager
 import dagger.Module
 import dagger.Provides
@@ -13,13 +13,13 @@ class TestAuthModule {
     @Singleton
     fun provideUserManager(): UserManager {
 
-        return FakeAndroidTestUserManager
+        return FakeUserManager
     }
 
     @Provides
     @Singleton
-    fun provideFakeUserManager(userManager: UserManager): FakeAndroidTestUserManager {
+    fun provideFakeUserManager(userManager: UserManager): FakeUserManager {
 
-        return userManager as FakeAndroidTestUserManager
+        return userManager as FakeUserManager
     }
 }

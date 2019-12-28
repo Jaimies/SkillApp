@@ -11,7 +11,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FakeAndroidTestRepository @Inject constructor() : TimeoRepository {
+class FakeTimeoRepository @Inject constructor() : TimeoRepository {
 
     private val activitiesList = mutableListOf<Activity>()
     private val recordsList = mutableListOf<Record>()

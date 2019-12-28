@@ -11,15 +11,9 @@ class TestAuthModule {
 
     @Provides
     @Singleton
-    fun provideUserManager(): UserManager {
-
-        return FakeUserManager
-    }
+    fun provideUserManager(): UserManager = FakeUserManager
 
     @Provides
     @Singleton
-    fun provideFakeUserManager(userManager: UserManager): FakeUserManager {
-
-        return userManager as FakeUserManager
-    }
+    fun provideFakeUserManager(userManager: UserManager) = userManager as FakeUserManager
 }

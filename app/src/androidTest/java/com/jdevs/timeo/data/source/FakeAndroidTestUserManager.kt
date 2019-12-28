@@ -3,7 +3,7 @@ package com.jdevs.timeo.data.source
 /**
  * Fakes the Firebase Authentication user manager
  */
-object FakeUserManager : UserManager {
+object FakeAndroidTestUserManager : UserManager {
 
     /**
      * Indicates whether the user is signed in

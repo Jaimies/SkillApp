@@ -45,14 +45,7 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:onClick="@{() -> viewModel.triggerSignOut()}"
-            android:text="@string/sign_out"
-            app:hideIf="@{!viewModel.isSignedIn}" />
-
-        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sign_in_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -60,5 +53,14 @@
             android:text="@string/sign_in"
             app:hideIf="@{viewModel.isSignedIn}"
             tools:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sign_out_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="@{() -> viewModel.triggerSignOut()}"
+            android:text="@string/sign_out"
+            app:hideIf="@{!viewModel.isSignedIn}" />
     </LinearLayout>
 </layout>

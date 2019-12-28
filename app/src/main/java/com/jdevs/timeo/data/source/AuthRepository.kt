@@ -32,5 +32,5 @@ object AuthRepository : UserManager {
         return auth.signInWithCredential(credential).await()
     }
 
-    fun signOut() = auth.signOut()
+    override fun signOut() = auth.signOut()
 }

@@ -2,19 +2,26 @@ package com.jdevs.timeo.data.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
+import com.jdevs.timeo.ItemDataSource
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FakeAndroidTestRepository @Inject constructor() : TimeoRepository {
 
-    override val activities = MutableLiveData(mutableListOf<Activity>())
-    override val records = MutableLiveData(mutableListOf<Record>())
+    private val activitiesList = mutableListOf<Activity>()
+    private val recordsList = mutableListOf<Record>()
+
+    override val activities = MutableLiveData(activitiesList.asPagedList())
+    override val records = MutableLiveData(recordsList.asPagedList())
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 
-        val activity = activities.value
-            ?.singleOrNull { it.id == id || it.documentId == documentId }
+        val activity = activitiesList.singleOrNull { it.id == id || it.documentId == documentId }
             ?: Activity()
 
         return MutableLiveData(activity)
@@ -22,31 +29,56 @@ class FakeAndroidTestRepository @Inject constructor() : TimeoRepository {
 
     override suspend fun addActivity(activity: Activity) {
 
-        activities.value?.add(activity)
+        activitiesList.add(activity)
+        activities.postValue(activitiesList.asPagedList())
     }
 
     override suspend fun addRecord(record: Record) {
 
-        records.value?.add(record)
+        recordsList.add(record)
+        records.postValue(recordsList.asPagedList())
     }
 
     override suspend fun deleteActivity(activity: Activity) {
 
-        activities.value?.remove(activity)
+        activitiesList.remove(activity)
+        activities.postValue(activitiesList.asPagedList())
     }
 
     override suspend fun deleteRecord(record: Record) {
 
-        records.value?.remove(record)
+        recordsList.remove(record)
+        records.postValue(recordsList.asPagedList())
     }
 
     override suspend fun saveActivity(activity: Activity) {
 
-        val index = activities.value?.indexOfFirst { it.id == activity.id } ?: return
-        activities.value?.set(index, activity)
+        val index = activitiesList.indexOfFirst { it.id == activity.id }
+        activitiesList[index] = activity
+        activities.postValue(activitiesList.asPagedList())
     }
 
     override fun resetRecordsMonitor() {}
 
     override fun resetRemoteDataSource() {}
+
+    private fun <T> List<T>.asPagedList(): PagedList<T> {
+
+        return PagedList.Builder<Int, T>(
+            ItemDataSource(this), pagedListConfig
+        )
+            .setFetchExecutor { runBlocking { it.run() } }
+            .setNotifyExecutor { runBlocking { it.run() } }
+            .build()
+    }
+
+    companion object {
+
+        private const val PAGE_SIZE = 50
+
+        private val pagedListConfig = PagedList.Config.Builder()
+            .setInitialLoadSizeHint(PAGE_SIZE)
+            .setPageSize(PAGE_SIZE)
+            .build()
+    }
 }

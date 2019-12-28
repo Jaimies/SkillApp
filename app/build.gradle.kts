@@ -160,6 +160,9 @@ dependencies {
     androidTestImplementation("androidx.room:room-testing:${Versions.room}")
     androidTestImplementation("junit:junit:${Versions.junit}")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}")
+    androidTestImplementation("org.mockito:mockito-core:${Versions.mockito}")
+    androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:${Versions.dexMaker}")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:${Versions.espresso}")
 
     // Testing code should not be included in the main code.
     // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.

@@ -51,4 +51,6 @@ object Versions {
     const val fragment = "1.1.0"
     const val junitExt = "1.1.1"
     const val androidxTestCore = "1.2.0"
+    const val mockito = "3.2.4"
+    const val dexMaker = "2.25.1"
 }

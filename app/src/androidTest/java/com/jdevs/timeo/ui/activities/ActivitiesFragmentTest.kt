@@ -13,12 +13,10 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import androidx.test.platform.app.InstrumentationRegistry
 import com.jdevs.timeo.R
-import com.jdevs.timeo.TimeoTestApplication
 import com.jdevs.timeo.data.Activity
-import com.jdevs.timeo.data.source.TimeoRepository
-import com.jdevs.timeo.di.TestAppComponent
+import com.jdevs.timeo.data.source.FakeAndroidTestRepository
+import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -34,16 +32,13 @@ import javax.inject.Inject
 class ActivitiesFragmentTest {
 
     @Inject
-    lateinit var repository: TimeoRepository
+    lateinit var repository: FakeAndroidTestRepository
 
     @Before
     fun setup() {
 
-        val instrumentation = InstrumentationRegistry.getInstrumentation()
-        val app = instrumentation.targetContext.applicationContext as TimeoTestApplication
-
-        val appComponent = app.appComponent as TestAppComponent
-        appComponent.inject(this)
+        testAppComponent.inject(this)
+        repository.reset()
     }
 
     @Test
@@ -74,6 +69,7 @@ class ActivitiesFragmentTest {
     @Test
     fun noActivities_clickOnAddActivityButton_navigateToAddActivityFragment() {
 
+        // GIVEN - On the activities list screen with no activities
         val scenario = launchFragmentInContainer<ActivitiesFragment>(Bundle(), R.style.Theme_Timeo)
 
         val navController = mock(NavController::class.java)
@@ -83,9 +79,11 @@ class ActivitiesFragmentTest {
             Navigation.setViewNavController(it.requireView(), navController)
         }
 
+        // WHEN - Click on the Create Activity button
         onView(withId(R.id.empty_list_layout)).check(matches(isDisplayed()))
         onView(withId(R.id.create_activity_button)).perform(click())
 
+        // THEN - Verify that we navigate to AddEditActivityFragment
         verify(navController).navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
     }
 }

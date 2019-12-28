@@ -58,6 +58,14 @@ class FakeAndroidTestRepository @Inject constructor() : TimeoRepository {
         activities.postValue(activitiesList.asPagedList())
     }
 
+    fun reset() {
+
+        activitiesList.clear()
+        recordsList.clear()
+        activities.postValue(activitiesList.asPagedList())
+        records.postValue(recordsList.asPagedList())
+    }
+
     override fun resetRecordsMonitor() {}
 
     override fun resetRemoteDataSource() {}

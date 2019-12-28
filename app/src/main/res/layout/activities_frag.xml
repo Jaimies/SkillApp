@@ -29,6 +29,7 @@
             tools:listitem="@layout/activities_item" />
 
         <LinearLayout
+            android:id="@+id/empty_list_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -43,6 +44,7 @@
                 android:text="@string/there_is_nothing_here_yet" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/create_activity_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default"

@@ -16,7 +16,6 @@ import com.jdevs.timeo.data.source.FakeAndroidTestUserManager
 import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.not
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
@@ -31,8 +30,7 @@ class ProfileFragmentTest {
     @Inject
     lateinit var fakeUserManager: FakeAndroidTestUserManager
 
-    @Before
-    fun setup() {
+    init {
 
         testAppComponent.inject(this)
     }
@@ -40,8 +38,10 @@ class ProfileFragmentTest {
     @Test
     fun showProfile_clickSignIn_navigateToSignInFragment() {
 
+        // GIVEN - The user is not signed in
         fakeUserManager.signOut()
 
+        // WHEN - The fragment is launched to show profile
         val scenario = launchFragmentInContainer<ProfileFragment>(Bundle(), R.style.Theme_Timeo)
 
         val navController = mock(NavController::class.java)
@@ -51,20 +51,25 @@ class ProfileFragmentTest {
             Navigation.setViewNavController(it.requireView(), navController)
         }
 
+        // THEN - The sign out button is not displayed
+        onView(withId(R.id.sign_out_btn)).check(matches(not(isDisplayed())))
+
+        // The sign in button is displayed and clicked
         onView(withId(R.id.sign_in_btn))
             .check(matches(isDisplayed()))
             .perform(click())
 
-        onView(withId(R.id.sign_out_btn)).check(matches(not(isDisplayed())))
-
+        // Verify we navigate to SignInFragment
         verify(navController).navigate(R.id.action_profileFragment_to_signInFragment)
     }
 
     @Test
     fun showProfile_clickSignOut_popBackStack() {
 
+        // GIVEN - The user is signed in
         fakeUserManager.signIn()
 
+        // WHEN - The fragment is launched to show profile
         val scenario = launchFragmentInContainer<ProfileFragment>(Bundle(), R.style.Theme_Timeo)
 
         val navController = mock(NavController::class.java)
@@ -74,7 +79,8 @@ class ProfileFragmentTest {
             Navigation.setViewNavController(it.requireView(), navController)
         }
 
-        onView(withId(R.id.sign_in_btn)).check(matches(not(isDisplayed())))
+        // THEN - The sign out button is displayed and the sign in button is not displayed
         onView(withId(R.id.sign_out_btn)).check(matches(isDisplayed()))
+        onView(withId(R.id.sign_in_btn)).check(matches(not(isDisplayed())))
     }
 }

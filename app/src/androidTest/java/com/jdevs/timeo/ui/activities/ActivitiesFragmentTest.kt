@@ -34,10 +34,14 @@ class ActivitiesFragmentTest {
     @Inject
     lateinit var repository: FakeAndroidTestRepository
 
+    init {
+
+        testAppComponent.inject(this)
+    }
+
     @Before
     fun setup() {
 
-        testAppComponent.inject(this)
         repository.reset()
     }
 

@@ -7,9 +7,9 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 import kotlinx.android.parcel.Parcelize
-import java.util.Calendar
 import java.util.Date
 
 @Keep
@@ -27,7 +27,8 @@ data class Activity(
     var totalTime: Long = 0,
 
     @Ignore
-    var timestamp: Date = Calendar.getInstance().time
+    @ServerTimestamp
+    var timestamp: Date? = null
 ) : Parcelable, DataItem {
 
     @Exclude

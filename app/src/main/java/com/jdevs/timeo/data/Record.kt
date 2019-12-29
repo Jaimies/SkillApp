@@ -43,8 +43,8 @@ data class Record(
     @DocumentId
     override var documentId: String = ""
 
-    @ServerTimestamp
     @Ignore
+    @ServerTimestamp
     var timestamp: Date? = null
 
     @Exclude

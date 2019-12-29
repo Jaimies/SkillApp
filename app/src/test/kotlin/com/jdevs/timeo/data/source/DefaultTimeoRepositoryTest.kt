@@ -40,14 +40,14 @@ class DefaultTimeoRepositoryTest {
         localDataSource = FakeDataSource(localActivities, localRecords)
         remoteDataSource = FakeDataSource(remoteActivities, remoteRecords)
 
-        repository = DefaultTimeoRepository(remoteDataSource, localDataSource, FakeUserManager)
+        repository = DefaultTimeoRepository(remoteDataSource, localDataSource, FakeAuthRepository)
     }
 
     @Test
     fun activities_whenUserIsSignedIn_requestsActivitiesFromRemoteDataSource() {
 
         // GIVEN - A user is signed in
-        FakeUserManager.signIn()
+        FakeAuthRepository.signIn()
 
         // WHEN - Getting the list of activities from repository
         val activities = repository.activities as LiveData<List<Activity>>
@@ -60,7 +60,7 @@ class DefaultTimeoRepositoryTest {
     fun activities_whenUserIsNotSignedIn_requestsActivitiesFromLocalDataSource() {
 
         // GIVEN - A user is not signed in
-        FakeUserManager.signOut()
+        FakeAuthRepository.signOut()
 
         // WHEN - Getting the list of activities from repository
         val activities = repository.activities as LiveData<List<Activity>>
@@ -73,7 +73,7 @@ class DefaultTimeoRepositoryTest {
     fun records_whenUserIsSignedIn_requestsRecordsFromRemoteDataSource() {
 
         // GIVEN - A user is signed in
-        FakeUserManager.signIn()
+        FakeAuthRepository.signIn()
 
         // WHEN - Getting the list of records from repository
         val activities = repository.records as LiveData<List<Record>>
@@ -86,7 +86,7 @@ class DefaultTimeoRepositoryTest {
     fun records_whenUserIsNotSignedIn_requestsRecordsFromLocalDataSource() {
 
         // GIVEN - A user is not signed in
-        FakeUserManager.signOut()
+        FakeAuthRepository.signOut()
 
         // WHEN - Getting the list of records from repository
         val activities = repository.records as LiveData<List<Record>>

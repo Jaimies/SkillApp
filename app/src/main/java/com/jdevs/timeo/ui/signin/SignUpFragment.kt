@@ -1,18 +1,19 @@
 package com.jdevs.timeo.ui.signin
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.R
+import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.databinding.SignupFragBinding
 import com.jdevs.timeo.util.EMPTY
 import com.jdevs.timeo.util.INVALID
@@ -24,10 +25,18 @@ import com.jdevs.timeo.util.navigateToGraph
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
+import javax.inject.Inject
 
 class SignUpFragment : Fragment() {
 
-    private val viewModel: SignUpViewModel by viewModels()
+    @Inject
+    lateinit var viewModel: SignUpViewModel
+
+    override fun onAttach(context: Context) {
+
+        super.onAttach(context)
+        (activity!!.application as TimeoApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

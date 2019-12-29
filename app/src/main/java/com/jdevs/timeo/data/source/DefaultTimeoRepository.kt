@@ -8,11 +8,11 @@ import javax.inject.Inject
 class DefaultTimeoRepository @Inject constructor(
     private val remoteDataSource: TimeoDataSource,
     private val localDataSource: TimeoDataSource,
-    private val userManager: UserManager
+    private val authRepository: AuthRepository
 ) : TimeoRepository {
 
     private val isUserSignedIn
-        get() = userManager.isUserSignedIn
+        get() = authRepository.isUserSignedIn
 
     private val currentDataSource
         get() = if (isUserSignedIn) remoteDataSource else localDataSource

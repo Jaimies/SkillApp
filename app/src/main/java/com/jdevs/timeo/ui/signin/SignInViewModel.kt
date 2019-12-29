@@ -5,8 +5,11 @@ import com.google.firebase.FirebaseException
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.launchSuspendingProcess
+import javax.inject.Inject
 
-class SignInViewModel : AuthViewModel() {
+class SignInViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : AuthViewModel() {
 
     val signIn = SingleLiveEvent<Pair<String, String>>()
     val showGoogleSignInIntent = SingleLiveEvent<Any>()
@@ -20,7 +23,7 @@ class SignInViewModel : AuthViewModel() {
 
         launchSuspendingProcess(onFailure, onSuccess) {
 
-            AuthRepository.linkGoogleAccount(account)
+            authRepository.linkGoogleAccount(account)
         }
     }
 
@@ -33,7 +36,7 @@ class SignInViewModel : AuthViewModel() {
 
         launchSuspendingProcess(onFailure, onSuccess) {
 
-            AuthRepository.signIn(email, password)
+            authRepository.signIn(email, password)
         }
     }
 

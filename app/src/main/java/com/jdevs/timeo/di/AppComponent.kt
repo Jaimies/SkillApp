@@ -6,6 +6,8 @@ import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragment
 import com.jdevs.timeo.ui.addactivity.AddEditActivityFragment
 import com.jdevs.timeo.ui.history.HistoryFragment
 import com.jdevs.timeo.ui.profile.ProfileFragment
+import com.jdevs.timeo.ui.signin.SignInFragment
+import com.jdevs.timeo.ui.signin.SignUpFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -24,4 +26,6 @@ interface AppComponent {
     fun inject(fragment: HistoryFragment)
     fun inject(fragment: ActivityDetailFragment)
     fun inject(fragment: ProfileFragment)
+    fun inject(fragment: SignInFragment)
+    fun inject(fragment: SignUpFragment)
 }

@@ -1,7 +1,7 @@
 package com.jdevs.timeo.di
 
-import com.jdevs.timeo.data.source.FakeUserManager
-import com.jdevs.timeo.data.source.UserManager
+import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.data.source.FakeAuthRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,9 +11,10 @@ class TestAuthModule {
 
     @Provides
     @Singleton
-    fun provideUserManager(): UserManager = FakeUserManager
+    fun provideUserManager(): AuthRepository = FakeAuthRepository
 
     @Provides
     @Singleton
-    fun provideFakeUserManager(userManager: UserManager) = userManager as FakeUserManager
+    fun provideFakeUserManager(authRepository: AuthRepository) =
+        authRepository as FakeAuthRepository
 }

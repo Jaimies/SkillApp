@@ -1,18 +1,13 @@
 package com.jdevs.timeo.di
 
 import com.jdevs.timeo.data.source.AuthRepository
-import com.jdevs.timeo.data.source.UserManager
+import com.jdevs.timeo.data.source.DefaultAuthRepository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
 
 @Module
-class AuthModule {
+abstract class AuthModule {
 
-    @Provides
-    @Singleton
-    fun provideUserManager(): UserManager {
-
-        return AuthRepository
-    }
+    @Binds
+    abstract fun provideAuthRepository(authRepository: DefaultAuthRepository): AuthRepository
 }

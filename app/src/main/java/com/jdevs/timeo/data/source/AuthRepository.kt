@@ -2,35 +2,17 @@ package com.jdevs.timeo.data.source
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.jdevs.timeo.util.await
 
-object AuthRepository : UserManager {
+interface AuthRepository {
 
-    override val isUserSignedIn
-        get() = auth.currentUser != null
+    val isUserSignedIn: Boolean
+    val uid: String?
 
-    val uid
-        get() = auth.currentUser?.uid
+    suspend fun createAccount(email: String, password: String): AuthResult
 
-    private val auth = FirebaseAuth.getInstance()
+    suspend fun signIn(email: String, password: String): AuthResult
 
-    suspend fun createAccount(email: String, password: String): AuthResult {
+    suspend fun linkGoogleAccount(account: GoogleSignInAccount): AuthResult
 
-        return auth.createUserWithEmailAndPassword(email, password).await()
-    }
-
-    suspend fun signIn(email: String, password: String): AuthResult {
-
-        return auth.signInWithEmailAndPassword(email, password).await()
-    }
-
-    suspend fun linkGoogleAccount(account: GoogleSignInAccount): AuthResult {
-
-        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-        return auth.signInWithCredential(credential).await()
-    }
-
-    override fun signOut() = auth.signOut()
+    fun signOut()
 }

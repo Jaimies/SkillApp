@@ -19,7 +19,8 @@ import com.jdevs.timeo.util.logOnFailure
 
 class RemoteDataSource(
     private val activitiesMonitor: CollectionMonitor,
-    private val recordsMonitor: CollectionMonitor
+    private val recordsMonitor: CollectionMonitor,
+    private val authRepository: AuthRepository
 ) : TimeoDataSource {
 
     override val activitiesLiveData get() = activitiesMonitor.getLiveData()
@@ -121,7 +122,7 @@ class RemoteDataSource(
 
     private fun resetCollectionMonitors() {
 
-        val uid = AuthRepository.uid ?: return
+        val uid = authRepository.uid ?: return
 
         if (uid == prevUid) {
 

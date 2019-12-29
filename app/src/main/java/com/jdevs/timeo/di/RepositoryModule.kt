@@ -27,20 +27,21 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(context: Context): TimeoRepository {
+    fun provideRepository(context: Context, authRepository: AuthRepository): TimeoRepository {
 
         return DefaultTimeoRepository(
-            provideRemoteDataSource(),
+            provideRemoteDataSource(authRepository),
             provideLocalDataSource(context),
-            AuthRepository
+            authRepository
         )
     }
 
-    private fun provideRemoteDataSource(): TimeoDataSource {
+    private fun provideRemoteDataSource(authRepository: AuthRepository): TimeoDataSource {
 
         return RemoteDataSource(
             CollectionMonitor(ActivitiesConstants.PAGE_SIZE, ::createActivitiesLiveData),
-            CollectionMonitor(RecordsConstants.PAGE_SIZE, ::createRecordsLiveData)
+            CollectionMonitor(RecordsConstants.PAGE_SIZE, ::createRecordsLiveData),
+            authRepository
         )
     }
 

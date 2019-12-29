@@ -3,12 +3,12 @@ package com.jdevs.timeo.ui.profile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.data.source.UserManager
+import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-    private val userManager: UserManager
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     val isSignedIn get() = _isSignedIn as LiveData<Boolean>
@@ -18,7 +18,7 @@ class ProfileViewModel @Inject constructor(
     private val _isSignedIn = MutableLiveData(false)
 
     init {
-        if (userManager.isUserSignedIn) {
+        if (authRepository.isUserSignedIn) {
 
             _isSignedIn.value = true
         }
@@ -26,7 +26,7 @@ class ProfileViewModel @Inject constructor(
 
     fun signOut() {
 
-        userManager.signOut()
+        authRepository.signOut()
         _isSignedIn.value = false
     }
 

@@ -3,8 +3,11 @@ package com.jdevs.timeo.ui.signin
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.launchSuspendingProcess
+import javax.inject.Inject
 
-class SignUpViewModel : AuthViewModel() {
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : AuthViewModel() {
 
     val signUp = SingleLiveEvent<Pair<String, String>>()
     val navigateToSignIn = SingleLiveEvent<Any>()
@@ -18,7 +21,7 @@ class SignUpViewModel : AuthViewModel() {
 
         launchSuspendingProcess(onFailure, onSuccess) {
 
-            AuthRepository.createAccount(email, password)
+            authRepository.createAccount(email, password)
         }
     }
 

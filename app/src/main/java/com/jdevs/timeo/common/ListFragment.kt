@@ -24,6 +24,7 @@ import com.jdevs.timeo.util.OperationTypes.MODIFIED
 import com.jdevs.timeo.util.OperationTypes.REMOVED
 import com.jdevs.timeo.util.OperationTypes.SUCCESSFUL
 import com.jdevs.timeo.util.TAG
+import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
 abstract class ListFragment<T : DataItem> : ActionBarFragment() {
@@ -33,7 +34,10 @@ abstract class ListFragment<T : DataItem> : ActionBarFragment() {
 
     protected abstract val roomAdapter: ListAdapter
     protected abstract val firestoreAdapter: FirestoreListAdapter
-    private val currentAdapter get() = if (AuthRepository.isUserSignedIn) firestoreAdapter else roomAdapter
+    private val currentAdapter get() = if (authRepository.isUserSignedIn) firestoreAdapter else roomAdapter
+
+    @Inject
+    lateinit var authRepository: AuthRepository
 
     @CallSuper
     override fun onCreateView(
@@ -138,7 +142,7 @@ abstract class ListFragment<T : DataItem> : ActionBarFragment() {
 
         adapter = currentAdapter
 
-        if (AuthRepository.isUserSignedIn) {
+        if (authRepository.isUserSignedIn) {
 
             addOnScrollListener(
                 InfiniteScrollListener(
@@ -156,7 +160,7 @@ abstract class ListFragment<T : DataItem> : ActionBarFragment() {
 
     protected fun getItem(position: Int): T {
 
-        return if (AuthRepository.isUserSignedIn) {
+        return if (authRepository.isUserSignedIn) {
 
             firestoreAdapter.getItem(position)
         } else {

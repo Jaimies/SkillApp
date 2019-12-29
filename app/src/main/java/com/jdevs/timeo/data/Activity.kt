@@ -9,6 +9,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.util.Date
 
@@ -31,7 +32,8 @@ data class Activity(
     var timestamp: Date? = null
 ) : Parcelable, DataItem {
 
-    @Exclude
     @Ignore
-    override fun getViewType() = ACTIVITY
+    @get:Exclude
+    @IgnoredOnParcel
+    override val viewType = ACTIVITY
 }

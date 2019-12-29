@@ -5,5 +5,5 @@ interface DataItem {
     var id: Int
     var documentId: String
 
-    fun getViewType(): Int
+    val viewType: Int
 }

@@ -13,7 +13,7 @@ abstract class ListAdapter : PagedListAdapter<DataItem, RecyclerView.ViewHolder>
 
     protected abstract val delegateAdapter: DelegateAdapter
 
-    override fun getItemViewType(index: Int) = getItem(index)?.getViewType() ?: -1
+    override fun getItemViewType(index: Int) = getItem(index)?.viewType ?: -1
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 

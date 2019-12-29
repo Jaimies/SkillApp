@@ -9,7 +9,7 @@ import com.jdevs.timeo.util.AdapterConstants
 
 abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val dataItemCount get() = items.filter { it.getViewType() != AdapterConstants.LOADING }.size
+    val dataItemCount get() = items.filter { it.viewType != AdapterConstants.LOADING }.size
 
     protected val delegateAdapters = SparseArray<DelegateAdapter>()
     private val items = mutableListOf<DataItem>()
@@ -18,7 +18,7 @@ abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
 
         override var id = -1
         override var documentId = ""
-        override fun getViewType() = AdapterConstants.LOADING
+        override val viewType = AdapterConstants.LOADING
     }
 
     init {
@@ -35,7 +35,7 @@ abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     override fun getItemCount() = items.size
-    override fun getItemViewType(position: Int) = items[position].getViewType()
+    override fun getItemViewType(position: Int) = items[position].viewType
 
     fun getItem(position: Int) = items[position]
 

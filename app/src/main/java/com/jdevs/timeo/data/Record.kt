@@ -47,7 +47,7 @@ data class Record(
     @ServerTimestamp
     var timestamp: Date? = null
 
-    @Exclude
     @Ignore
-    override fun getViewType() = RECORD
+    @get:Exclude
+    override val viewType = RECORD
 }

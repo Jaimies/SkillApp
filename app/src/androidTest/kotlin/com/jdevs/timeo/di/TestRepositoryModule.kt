@@ -6,8 +6,8 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-abstract class TestRepositoryModule {
+interface TestRepositoryModule {
 
     @Binds
-    abstract fun provideRepository(repository: FakeTimeoRepository): TimeoRepository
+    fun provideRepository(repository: FakeTimeoRepository): TimeoRepository
 }

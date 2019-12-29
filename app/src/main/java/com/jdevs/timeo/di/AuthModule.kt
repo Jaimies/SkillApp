@@ -6,8 +6,8 @@ import dagger.Binds
 import dagger.Module
 
 @Module
-abstract class AuthModule {
+interface AuthModule {
 
     @Binds
-    abstract fun provideAuthRepository(authRepository: DefaultAuthRepository): AuthRepository
+    fun provideAuthRepository(authRepository: DefaultAuthRepository): AuthRepository
 }

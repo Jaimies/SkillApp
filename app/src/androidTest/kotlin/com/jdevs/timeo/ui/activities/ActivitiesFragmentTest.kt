@@ -15,6 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.source.FakeAuthRepository
 import com.jdevs.timeo.data.source.FakeTimeoRepository
 import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,9 +35,13 @@ class ActivitiesFragmentTest {
     @Inject
     lateinit var repository: FakeTimeoRepository
 
+    @Inject
+    lateinit var fakeAuthRepository: FakeAuthRepository
+
     init {
 
         testAppComponent.inject(this)
+        fakeAuthRepository.signOut()
     }
 
     @Before

@@ -18,6 +18,7 @@ class ProfileViewModel @Inject constructor(
     private val _isSignedIn = MutableLiveData(false)
 
     init {
+
         if (authRepository.isUserSignedIn) {
 
             _isSignedIn.value = true

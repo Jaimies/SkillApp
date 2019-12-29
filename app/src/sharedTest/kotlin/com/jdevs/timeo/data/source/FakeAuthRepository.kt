@@ -1,15 +1,22 @@
 package com.jdevs.timeo.data.source
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import javax.inject.Inject
+import javax.inject.Singleton
+
 /**
- * Fakes the Firebase Authentication user manager
+ * Fakes the Firebase Authentication repository
  */
-object FakeAuthRepository : AuthRepository {
+@Singleton
+class FakeAuthRepository @Inject constructor() : AuthRepository {
 
     /**
      * Indicates whether the user is signed in
      */
-    override var isUserSignedIn = true
+    override var isUserSignedIn = false
         private set
+
+    override val uid = ""
 
     /**
      * Fakes signed in state
@@ -18,6 +25,15 @@ object FakeAuthRepository : AuthRepository {
 
         isUserSignedIn = true
     }
+
+    /**
+     * The following three methods fake the signed in state
+     */
+    override suspend fun createAccount(email: String, password: String) = signIn()
+
+    override suspend fun signIn(email: String, password: String) = signIn()
+
+    override suspend fun linkGoogleAccount(account: GoogleSignInAccount) = signIn()
 
     /**
      * Fakes not signed in state

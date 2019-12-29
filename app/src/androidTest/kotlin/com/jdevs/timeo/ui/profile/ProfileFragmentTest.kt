@@ -64,20 +64,13 @@ class ProfileFragmentTest {
     }
 
     @Test
-    fun showProfile_clickSignOut_popBackStack() {
+    fun showProfile_userIsSignedIn_showsSignOutButton() {
 
         // GIVEN - The user is signed in
         fakeUserManager.signIn()
 
         // WHEN - The fragment is launched to show profile
-        val scenario = launchFragmentInContainer<ProfileFragment>(Bundle(), R.style.Theme_Timeo)
-
-        val navController = mock(NavController::class.java)
-
-        scenario.onFragment {
-
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        launchFragmentInContainer<ProfileFragment>(Bundle(), R.style.Theme_Timeo)
 
         // THEN - The sign out button is displayed and the sign in button is not displayed
         onView(withId(R.id.sign_out_btn)).check(matches(isDisplayed()))

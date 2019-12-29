@@ -1,7 +1,6 @@
 package com.jdevs.timeo.data.source
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.jdevs.timeo.util.await
@@ -19,20 +18,20 @@ class DefaultAuthRepository @Inject constructor() : AuthRepository {
 
     private val auth = FirebaseAuth.getInstance()
 
-    override suspend fun createAccount(email: String, password: String): AuthResult {
+    override suspend fun createAccount(email: String, password: String) {
 
-        return auth.createUserWithEmailAndPassword(email, password).await()
+        auth.createUserWithEmailAndPassword(email, password).await()
     }
 
-    override suspend fun signIn(email: String, password: String): AuthResult {
+    override suspend fun signIn(email: String, password: String) {
 
-        return auth.signInWithEmailAndPassword(email, password).await()
+        auth.signInWithEmailAndPassword(email, password).await()
     }
 
-    override suspend fun linkGoogleAccount(account: GoogleSignInAccount): AuthResult {
+    override suspend fun linkGoogleAccount(account: GoogleSignInAccount) {
 
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-        return auth.signInWithCredential(credential).await()
+        auth.signInWithCredential(credential).await()
     }
 
     override fun signOut() = auth.signOut()

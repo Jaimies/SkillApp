@@ -28,10 +28,10 @@ class DefaultTimeoRepositoryTest {
 
     private lateinit var remoteDataSource: FakeDataSource
     private lateinit var localDataSource: FakeDataSource
+    private lateinit var fakeAuthRepository: FakeAuthRepository
 
     // Class under test
-    private lateinit var timeoRepository: DefaultTimeoRepository
-    private lateinit var fakeAuthRepository: FakeAuthRepository
+    private lateinit var repository: DefaultTimeoRepository
 
     @Before
     fun createRepository() {
@@ -40,8 +40,7 @@ class DefaultTimeoRepositoryTest {
         remoteDataSource = FakeDataSource(remoteActivities, remoteRecords)
 
         fakeAuthRepository = FakeAuthRepository()
-        timeoRepository =
-            DefaultTimeoRepository(remoteDataSource, localDataSource, fakeAuthRepository)
+        repository = DefaultTimeoRepository(remoteDataSource, localDataSource, fakeAuthRepository)
     }
 
     @Test
@@ -50,8 +49,8 @@ class DefaultTimeoRepositoryTest {
         // GIVEN - A user is signed in
         fakeAuthRepository.signIn()
 
-        // WHEN - Getting the list of activities from timeoRepository
-        val activities = timeoRepository.activities as LiveData<List<Activity>>
+        // WHEN - Getting the list of activities from repository
+        val activities = repository.activities as LiveData<List<Activity>>
 
         // THEN - Activities are loaded from the remote data source
         assertThat(activities.value, IsEqual(remoteActivities))
@@ -63,8 +62,8 @@ class DefaultTimeoRepositoryTest {
         // GIVEN - A user is not signed in
         fakeAuthRepository.signOut()
 
-        // WHEN - Getting the list of activities from timeoRepository
-        val activities = timeoRepository.activities as LiveData<List<Activity>>
+        // WHEN - Getting the list of activities from repository
+        val activities = repository.activities as LiveData<List<Activity>>
 
         // THEN - Activities are loaded from the remote data source
         assertThat(activities.value, IsEqual(localActivities))
@@ -76,8 +75,8 @@ class DefaultTimeoRepositoryTest {
         // GIVEN - A user is signed in
         fakeAuthRepository.signIn()
 
-        // WHEN - Getting the list of records from timeoRepository
-        val activities = timeoRepository.records as LiveData<List<Record>>
+        // WHEN - Getting the list of records from repository
+        val activities = repository.records as LiveData<List<Record>>
 
         // THEN - Records are loaded from the remote data source
         assertThat(activities.value, IsEqual(remoteRecords))
@@ -89,8 +88,8 @@ class DefaultTimeoRepositoryTest {
         // GIVEN - A user is not signed in
         fakeAuthRepository.signOut()
 
-        // WHEN - Getting the list of records from timeoRepository
-        val activities = timeoRepository.records as LiveData<List<Record>>
+        // WHEN - Getting the list of records from repository
+        val activities = repository.records as LiveData<List<Record>>
 
         // THEN - Records are loaded from the local data source
         assertThat(activities.value, IsEqual(localRecords))

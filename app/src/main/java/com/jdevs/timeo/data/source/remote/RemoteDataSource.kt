@@ -33,7 +33,7 @@ class RemoteDataSource(
 
     init {
 
-        resetCollectionMonitors()
+        reset()
     }
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
@@ -118,9 +118,7 @@ class RemoteDataSource(
         recordsMonitor.reset()
     }
 
-    override fun reset() = resetCollectionMonitors()
-
-    private fun resetCollectionMonitors() {
+    override fun reset() {
 
         val uid = authRepository.uid ?: return
 

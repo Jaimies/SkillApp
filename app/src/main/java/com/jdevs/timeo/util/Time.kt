@@ -1,9 +1,9 @@
 package com.jdevs.timeo.util
 
 import com.jdevs.timeo.util.Time.HOUR_MINUTES
-import org.joda.time.DateTime
-import org.joda.time.Days
+import java.util.Calendar
 import java.util.Date
+import java.util.concurrent.TimeUnit
 
 fun Long.getFriendlyTime(): String {
 
@@ -46,12 +46,10 @@ fun Pair<Long, Long>.getMins(): Long {
 
 fun Date.getDaysSpentSince(): Int {
 
-    val currentTime = DateTime()
-    val creationTime = DateTime(this)
+    val millisDiff = Calendar.getInstance().timeInMillis - time
+    val daysDiff = TimeUnit.MILLISECONDS.toDays(millisDiff).toInt()
 
-    val daysDiff = Days.daysBetween(creationTime, currentTime)
-
-    return if (daysDiff.days > 0) daysDiff.days + 1 else 1
+    return if (daysDiff > 0) daysDiff + 1 else 1
 }
 
 fun Long.getAvgDailyHours(timestamp: Date): String {

@@ -130,9 +130,6 @@ dependencies {
     // Material theme
     implementation("com.google.android.material:material:${Versions.material}")
 
-    // Joda Time
-    implementation("joda-time:joda-time:${Versions.jodatime}")
-
     // Firebase
     implementation("com.google.firebase:firebase-auth:${Versions.auth}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")

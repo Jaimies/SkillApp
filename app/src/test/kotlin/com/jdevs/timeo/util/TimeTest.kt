@@ -1,5 +1,6 @@
 package com.jdevs.timeo.util
 
+import com.jdevs.timeo.daysAgoDate
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
@@ -8,7 +9,7 @@ import java.util.Date
 /**
  * Unit tests for Time utilities
  */
-class TimeOperationsTest {
+class TimeTest {
 
     /**
      * Test for [Long.getFriendlyTime]

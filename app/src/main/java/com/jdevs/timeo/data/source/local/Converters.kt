@@ -1,13 +1,17 @@
 package com.jdevs.timeo.data.source.local
 
 import androidx.room.TypeConverter
-import java.util.Date
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 class Converters {
 
-    @TypeConverter
-    fun fromTimestamp(value: Long) = Date(value)
+    private val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
     @TypeConverter
-    fun dateToTimestamp(date: Date) = date.time
+    fun toOffsetDateTime(value: String): OffsetDateTime =
+        formatter.parse(value, OffsetDateTime::from)
+
+    @TypeConverter
+    fun fromOffsetDateTime(date: OffsetDateTime): String = date.format(formatter)
 }

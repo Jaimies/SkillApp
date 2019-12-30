@@ -10,8 +10,7 @@ import com.google.firebase.firestore.Exclude
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
-import java.util.Calendar
-import java.util.Date
+import org.threeten.bp.OffsetDateTime
 
 @Keep
 @Parcelize
@@ -26,7 +25,7 @@ data class Activity(
 
     var name: String = "",
     var totalTime: Long = 0,
-    var timestamp: Date = Calendar.getInstance().time
+    var timestamp: OffsetDateTime = OffsetDateTime.now()
 ) : Parcelable, DataItem {
 
     @Ignore

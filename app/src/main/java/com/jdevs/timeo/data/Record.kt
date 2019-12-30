@@ -10,8 +10,7 @@ import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.jdevs.timeo.util.AdapterConstants.RECORD
-import java.util.Calendar
-import java.util.Date
+import org.threeten.bp.OffsetDateTime
 
 @Keep
 @Entity(
@@ -43,7 +42,7 @@ data class Record(
     @DocumentId
     override var documentId: String = ""
 
-    var timestamp: Date = Calendar.getInstance().time
+    var timestamp: OffsetDateTime = OffsetDateTime.now()
 
     @Ignore
     @get:Exclude

@@ -1,9 +1,8 @@
 package com.jdevs.timeo.util
 
 import com.jdevs.timeo.util.Time.HOUR_MINUTES
-import java.util.Calendar
-import java.util.Date
-import java.util.concurrent.TimeUnit
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.temporal.ChronoUnit
 
 fun Long.getFriendlyTime(): String {
 
@@ -44,15 +43,13 @@ fun Pair<Long, Long>.getMins(): Long {
     return first * HOUR_MINUTES + second
 }
 
-fun Date.getDaysSpentSince(): Int {
+fun OffsetDateTime.getDaysSpentSince(): Long {
 
-    val millisDiff = Calendar.getInstance().timeInMillis - time
-    val daysDiff = TimeUnit.MILLISECONDS.toDays(millisDiff).toInt()
-
+    val daysDiff = ChronoUnit.DAYS.between(this, OffsetDateTime.now()) + 1
     return if (daysDiff > 0) daysDiff + 1 else 1
 }
 
-fun Long.getAvgDailyHours(timestamp: Date): String {
+fun Long.getAvgDailyHours(timestamp: OffsetDateTime): String {
 
     val daysCount = timestamp.getDaysSpentSince()
     val avgDailyMins = this / daysCount

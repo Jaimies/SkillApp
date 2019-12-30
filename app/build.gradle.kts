@@ -147,6 +147,9 @@ dependencies {
     // Paging
     implementation("androidx.paging:paging-runtime:${Versions.paging}")
 
+    // java.time.* backport for Android
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
+
     // Dependency injection
     implementation("com.google.dagger:dagger:${Versions.dagger}")
     kapt("com.google.dagger:dagger-compiler:${Versions.dagger}")
@@ -163,7 +166,6 @@ dependencies {
     testImplementation("org.hamcrest:hamcrest-all:${Versions.hamcrest}")
 
     // Android Test
-
     androidTestImplementation("androidx.test.ext:junit:${Versions.junitExt}")
     androidTestImplementation("androidx.test:runner:${Versions.androidxTestRunner}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.espresso}")

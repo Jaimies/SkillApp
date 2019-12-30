@@ -1,6 +1,7 @@
 package com.jdevs.timeo
 
 import android.app.Application
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.jdevs.timeo.di.DaggerAppComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +15,12 @@ open class TimeoApplication : Application() {
     val appComponent by lazy { initializeComponent() }
 
     open fun initializeComponent() = DaggerAppComponent.factory().create(applicationContext)
+
+    override fun onCreate() {
+
+        super.onCreate()
+        AndroidThreeTen.init(this)
+    }
 
     fun onDestroy() {
 

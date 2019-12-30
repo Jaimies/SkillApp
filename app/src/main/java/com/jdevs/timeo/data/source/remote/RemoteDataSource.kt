@@ -45,7 +45,8 @@ class RemoteDataSource(
 
             if (documentSnapshot != null) {
 
-                liveData.value = documentSnapshot.toObject(Activity::class.java)
+                liveData.value =
+                    documentSnapshot.toObject(Activity::class.java).also { it?.setupTimestamp() }
             }
         }
 

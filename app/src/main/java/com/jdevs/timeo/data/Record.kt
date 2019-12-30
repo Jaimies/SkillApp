@@ -9,8 +9,11 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.PropertyName
+import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.util.AdapterConstants.RECORD
 import org.threeten.bp.OffsetDateTime
+import java.util.Date
 
 @Keep
 @Entity(
@@ -33,7 +36,7 @@ data class Record(
     @get:Exclude
     @ColumnInfo(name = "activity_id")
     var roomActivityId: Int = 0
-) : DataItem {
+) : DataItem() {
 
     @get:Exclude
     @PrimaryKey(autoGenerate = true)
@@ -42,7 +45,15 @@ data class Record(
     @DocumentId
     override var documentId: String = ""
 
-    var timestamp: OffsetDateTime = OffsetDateTime.now()
+    @get:Exclude
+    @set:Exclude
+    override var creationDate: OffsetDateTime = OffsetDateTime.now()
+
+    @Ignore
+    @ServerTimestamp
+    @get:PropertyName("timestamp")
+    @set:PropertyName("timestamp")
+    override var firestoreTimestamp: Date? = null
 
     @Ignore
     @get:Exclude

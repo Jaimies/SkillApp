@@ -7,10 +7,12 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.PropertyName
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.OffsetDateTime
+import java.util.Date
 
 @Keep
 @Parcelize
@@ -25,8 +27,16 @@ data class Activity(
 
     var name: String = "",
     var totalTime: Long = 0,
-    var timestamp: OffsetDateTime = OffsetDateTime.now()
-) : Parcelable, DataItem {
+
+    @get:Exclude
+    override var creationDate: OffsetDateTime = OffsetDateTime.now()
+) : Parcelable, DataItem() {
+
+    @Ignore
+    @IgnoredOnParcel
+    @get:PropertyName("timestamp")
+    @set:PropertyName("timestamp")
+    override var firestoreTimestamp: Date? = null
 
     @Ignore
     @get:Exclude

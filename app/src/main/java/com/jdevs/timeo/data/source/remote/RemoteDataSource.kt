@@ -54,6 +54,8 @@ class RemoteDataSource(
 
     override suspend fun addRecord(record: Record) {
 
+        record.setupFirestoreTimestamp()
+
         val newRecordRef = recordsRef.document()
         val activityRef = activitiesRef.document(record.activityId)
 
@@ -67,6 +69,8 @@ class RemoteDataSource(
     override suspend fun saveActivity(activity: Activity) {
 
         val activityRef = activitiesRef.document(activity.documentId)
+
+        activity.setupFirestoreTimestamp()
 
         val querySnapshot = recordsRef
             .whereEqualTo(ACTIVITY_ID_PROPERTY, activity.documentId)
@@ -85,6 +89,8 @@ class RemoteDataSource(
     }
 
     override suspend fun addActivity(activity: Activity) {
+
+        activity.setupFirestoreTimestamp()
 
         activitiesRef.add(activity)
             .logOnFailure("Failed to add data to Firestore")

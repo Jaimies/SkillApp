@@ -6,6 +6,8 @@ import com.jdevs.timeo.data.DataItem
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.history.RecordDelegateAdapter
 import com.jdevs.timeo.util.AdapterConstants
+import org.threeten.bp.OffsetDateTime
+import java.util.Date
 
 abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -14,11 +16,13 @@ abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
     protected val delegateAdapters = SparseArray<DelegateAdapter>()
     private val items = mutableListOf<DataItem>()
 
-    private val loadingItem = object : DataItem {
+    private val loadingItem = object : DataItem() {
 
         override var id = -1
         override var documentId = ""
         override val viewType = AdapterConstants.LOADING
+        override var firestoreTimestamp: Date? = null
+        override var creationDate = OffsetDateTime.now()
     }
 
     init {

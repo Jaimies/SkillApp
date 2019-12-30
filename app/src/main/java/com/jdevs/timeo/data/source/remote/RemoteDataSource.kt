@@ -23,18 +23,24 @@ class RemoteDataSource(
     private val authRepository: AuthRepository
 ) : TimeoDataSource {
 
-    override val activitiesLiveData get() = activitiesMonitor.getLiveData()
-    override val recordsLiveData get() = recordsMonitor.getLiveData()
+    override val activitiesLiveData: ItemsLiveData?
+        get() {
+
+            reset()
+            return activitiesMonitor.getLiveData()
+        }
+
+    override val recordsLiveData: ItemsLiveData?
+        get() {
+
+            reset()
+            return recordsMonitor.getLiveData()
+        }
 
     private val firestore = FirebaseFirestore.getInstance()
     private var prevUid = ""
     private lateinit var activitiesRef: CollectionReference
     private lateinit var recordsRef: CollectionReference
-
-    init {
-
-        reset()
-    }
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 
@@ -120,18 +126,16 @@ class RemoteDataSource(
         }
     }
 
-    override fun resetRecordsMonitor() {
+    override fun resetRecordsMonitor() = recordsMonitor.reset()
 
-        recordsMonitor.reset()
-    }
+    override fun resetActivitiesMonitor() = activitiesMonitor.reset()
 
-    override fun reset() {
+    private fun reset() {
 
         val uid = authRepository.uid ?: return
 
         if (uid == prevUid) {
 
-            activitiesMonitor.reset()
             return
         }
 

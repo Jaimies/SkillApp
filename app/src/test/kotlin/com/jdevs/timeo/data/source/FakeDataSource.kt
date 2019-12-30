@@ -22,6 +22,6 @@ class FakeDataSource(
     override suspend fun deleteActivity(activity: Activity) {}
     override suspend fun deleteRecord(record: Record) {}
     override suspend fun saveActivity(activity: Activity) {}
-    override fun reset() {}
     override fun resetRecordsMonitor() {}
+    override fun resetActivitiesMonitor() {}
 }

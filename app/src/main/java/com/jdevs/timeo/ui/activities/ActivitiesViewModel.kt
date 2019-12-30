@@ -18,7 +18,7 @@ class ActivitiesViewModel @Inject constructor(
 
     init {
 
-        repository.resetRemoteDataSource()
+        repository.resetActivitiesMonitor()
     }
 
     fun createRecord(activity: Activity, time: Long) = viewModelScope.launch {

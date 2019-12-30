@@ -50,19 +50,19 @@ class DefaultTimeoRepository @Inject constructor(
         currentDataSource.deleteRecord(record)
     }
 
-    override fun resetRemoteDataSource() {
-
-        if (isUserSignedIn) {
-
-            remoteDataSource.reset()
-        }
-    }
-
     override fun resetRecordsMonitor() {
 
         if (isUserSignedIn) {
 
             remoteDataSource.resetRecordsMonitor()
+        }
+    }
+
+    override fun resetActivitiesMonitor() {
+
+        if (isUserSignedIn) {
+
+            remoteDataSource.resetActivitiesMonitor()
         }
     }
 }

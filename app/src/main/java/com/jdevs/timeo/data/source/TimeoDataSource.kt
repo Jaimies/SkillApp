@@ -21,7 +21,6 @@ interface TimeoDataSource {
 
     suspend fun deleteRecord(record: Record)
 
-    fun reset()
-
+    fun resetActivitiesMonitor()
     fun resetRecordsMonitor()
 }

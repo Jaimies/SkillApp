@@ -46,7 +46,7 @@ class LocalDataSource(
         activitiesDao.increaseTime(record.roomActivityId, -record.time)
     }
 
-    override fun reset() {}
+    override fun resetActivitiesMonitor() {}
     override fun resetRecordsMonitor() {}
 
     private fun <T> getLivePagedList(

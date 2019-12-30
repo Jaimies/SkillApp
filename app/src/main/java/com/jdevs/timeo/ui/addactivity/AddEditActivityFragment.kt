@@ -135,9 +135,9 @@ class AddEditActivityFragment : ActionBarFragment() {
     private fun validateInput(name: String): Boolean {
 
         when {
+
             name.isEmpty() -> viewModel.setNameError(getString(R.string.name_empty))
             name.length >= NAME_MAX_LENGTH -> viewModel.setNameError(getString(R.string.name_too_long))
-
             else -> return true
         }
 

@@ -148,7 +148,10 @@ dependencies {
     implementation("androidx.paging:paging-runtime:${Versions.paging}")
 
     // java.time.* backport for Android
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.1")
+    implementation("com.jakewharton.threetenabp:threetenabp:${Versions.threeTenABP}")
+
+    // For tests use default ThreeTenBP library
+    testImplementation("org.threeten:threetenbp:${Versions.threeTenBP}")
 
     // Dependency injection
     implementation("com.google.dagger:dagger:${Versions.dagger}")

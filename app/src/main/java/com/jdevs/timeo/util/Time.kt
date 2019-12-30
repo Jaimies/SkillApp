@@ -48,7 +48,7 @@ fun Pair<Long, Long>.getMins(): Long {
 
 fun OffsetDateTime.getDaysSpentSince(): Long {
 
-    val daysDiff = ChronoUnit.DAYS.between(this, OffsetDateTime.now()) + 1
+    val daysDiff = ChronoUnit.DAYS.between(this, OffsetDateTime.now())
     return if (daysDiff > 0) daysDiff + 1 else 1
 }
 

@@ -15,7 +15,10 @@ object Versions {
     const val lifecycleExtensions = "2.2.0-rc03"
     const val fragmentKtx = "1.2.0-rc04"
     const val material = "1.0.0"
-    const val jodatime = "2.9.4"
+
+    // JSR 310 backport
+    const val threeTenBP = "1.4.0"
+    const val threeTenABP = "1.2.1"
 
     // Dependency injection
     const val dagger = "2.25.2"

@@ -1,8 +1,8 @@
 package com.jdevs.timeo
 
-import java.util.Date
+import org.threeten.bp.OffsetDateTime
 
-fun daysAgoDate(daysAgo: Int): Date {
+fun daysAgoDate(daysAgo: Long): OffsetDateTime {
 
-    return Date(Date().time - daysAgo * 24 * 60 * 60 * 1000)
+    return OffsetDateTime.now().minusDays(daysAgo)
 }

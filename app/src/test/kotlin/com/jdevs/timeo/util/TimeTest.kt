@@ -4,7 +4,7 @@ import com.jdevs.timeo.daysAgoDate
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
-import java.util.Date
+import org.threeten.bp.OffsetDateTime
 
 /**
  * Unit tests for Time utilities
@@ -39,8 +39,8 @@ class TimeTest {
     fun getAvgDailyHours_isCorrect() {
 
         val dataset = listOf(
-            238L to 7 to "0.5",
-            444L to 8 to "0.8"
+            238L to 7L to "0.5",
+            444L to 8L to "0.8"
         )
 
         dataset.forEach {
@@ -54,13 +54,13 @@ class TimeTest {
     }
 
     /**
-     * Test for [Date.getDaysSpentSince]
+     * Test for [OffsetDateTime.getDaysSpentSince]
      * The test data is written in the following syntax: <daysAgoStarted>
      */
     @Test
     fun getDaysSpentSince_isCorrect() {
 
-        val dataset = listOf(7, 8, 3, 0)
+        val dataset = listOf(1L, 7L, 8L, 3L, 0L)
 
         dataset.forEach {
 

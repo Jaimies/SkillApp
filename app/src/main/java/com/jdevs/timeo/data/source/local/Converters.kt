@@ -13,7 +13,6 @@ object Converters {
     fun toOffsetDateTime(value: String): OffsetDateTime =
         formatter.parse(value, OffsetDateTime::from)
 
-
     @JvmStatic
     @TypeConverter
     fun fromOffsetDateTime(date: OffsetDateTime): String = date.format(formatter)

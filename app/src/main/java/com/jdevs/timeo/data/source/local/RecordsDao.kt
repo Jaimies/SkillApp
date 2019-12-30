@@ -11,7 +11,7 @@ interface RecordsDao : BaseDao<Record> {
 
     @Transaction
     @Query(
-        """SELECT records.*, activities.name FROM records 
+        """SELECT records.*, activities.name FROM records
         LEFT JOIN activities ON activities.id = records.activity_id 
         ORDER BY records.id DESC"""
     )

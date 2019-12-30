@@ -195,7 +195,7 @@ formatting:
   android: false
   autoCorrect: true
   AnnotationOnSeparateLine:
-    active: false
+    active: true
     autoCorrect: true
   ChainWrapping:
     active: true
@@ -442,7 +442,7 @@ style:
   EqualsNullCall:
     active: true
   EqualsOnSignatureLine:
-    active: false
+    active: true
   ExplicitItLambdaParameter:
     active: false
   ExpressionBodySyntax:
@@ -532,7 +532,7 @@ style:
     active: true
     max: 2
   TrailingWhitespace:
-    active: false
+    active: true
   UnderscoresInNumericLiterals:
     active: false
     acceptableDecimalLength: 5

@@ -12,7 +12,7 @@ interface RecordsDao : BaseDao<Record> {
     @Transaction
     @Query(
         """SELECT records.*, activities.name FROM records
-        LEFT JOIN activities ON activities.id = records.activity_id 
+        LEFT JOIN activities ON activities.id = records.activityId 
         ORDER BY records.id DESC"""
     )
     fun getRecords(): DataSource.Factory<Int, Record>

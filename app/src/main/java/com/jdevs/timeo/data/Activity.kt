@@ -9,6 +9,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
+import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.OffsetDateTime
@@ -22,6 +23,7 @@ data class Activity(
     @PrimaryKey(autoGenerate = true)
     override var id: Int = 0,
 
+    @Ignore
     @DocumentId
     override var documentId: String = "",
 
@@ -34,8 +36,8 @@ data class Activity(
 
     @Ignore
     @IgnoredOnParcel
-    @get:PropertyName("timestamp")
-    @set:PropertyName("timestamp")
+    @get:PropertyName(TIMESTAMP_PROPERTY)
+    @set:PropertyName(TIMESTAMP_PROPERTY)
     override var firestoreTimestamp: Date? = null
 
     @Ignore

@@ -17,8 +17,8 @@ object Versions {
     const val material = "1.0.0"
 
     // JSR 310 backport
-    const val threeTenBP = "1.4.0"
     const val threeTenABP = "1.2.1"
+    const val threeTenBP = "1.4.0"
 
     // Dependency injection
     const val dagger = "2.25.2"

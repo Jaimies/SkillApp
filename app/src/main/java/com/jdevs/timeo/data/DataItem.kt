@@ -1,7 +1,7 @@
 package com.jdevs.timeo.data
 
+import com.jdevs.timeo.util.toDate
 import com.jdevs.timeo.util.toOffsetDate
-import org.threeten.bp.DateTimeUtils
 import org.threeten.bp.OffsetDateTime
 import java.util.Date
 
@@ -16,7 +16,7 @@ abstract class DataItem {
 
     fun setupFirestoreTimestamp() {
 
-        firestoreTimestamp = DateTimeUtils.toDate(creationDate.toInstant())
+        firestoreTimestamp = creationDate.toDate()
     }
 
     fun setupTimestamp() {

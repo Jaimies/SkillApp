@@ -63,6 +63,11 @@ fun Date?.toOffsetDate(): OffsetDateTime {
     }
 }
 
+fun OffsetDateTime.toDate(): Date {
+
+    return DateTimeUtils.toDate(toInstant())
+}
+
 fun Long.getAvgDailyHours(timestamp: OffsetDateTime): String {
 
     val daysCount = timestamp.getDaysSpentSince()

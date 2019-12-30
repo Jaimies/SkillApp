@@ -9,8 +9,8 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.util.AdapterConstants.RECORD
+import java.util.Calendar
 import java.util.Date
 
 @Keep
@@ -43,9 +43,7 @@ data class Record(
     @DocumentId
     override var documentId: String = ""
 
-    @Ignore
-    @ServerTimestamp
-    var timestamp: Date? = null
+    var timestamp: Date = Calendar.getInstance().time
 
     @Ignore
     @get:Exclude

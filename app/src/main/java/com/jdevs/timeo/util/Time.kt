@@ -52,9 +52,9 @@ fun Date.getDaysSpentSince(): Int {
     return if (daysDiff > 0) daysDiff + 1 else 1
 }
 
-fun Long.getAvgDailyHours(timestamp: Date?): String {
+fun Long.getAvgDailyHours(timestamp: Date): String {
 
-    val daysCount = timestamp?.getDaysSpentSince() ?: 1
+    val daysCount = timestamp.getDaysSpentSince()
     val avgDailyMins = this / daysCount
 
     return avgDailyMins.getHours()

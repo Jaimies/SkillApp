@@ -17,7 +17,4 @@ interface ActivitiesDao : BaseDao<Activity> {
 
     @Query("UPDATE activities SET totalTime = totalTime + :by WHERE id = :id")
     suspend fun increaseTime(id: Int, by: Long)
-
-    @Query("DELETE FROM activities")
-    suspend fun deleteAll()
 }

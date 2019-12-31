@@ -16,7 +16,4 @@ interface RecordsDao : BaseDao<Record> {
         ORDER BY records.id DESC"""
     )
     fun getRecords(): DataSource.Factory<Int, Record>
-
-    @Query("DELETE FROM records")
-    suspend fun deleteAll()
 }

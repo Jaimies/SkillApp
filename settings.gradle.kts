@@ -1,3 +1,2 @@
-include(":lint")
-include(":app")
+include(":lint", ":buildSrc", ":app")
 rootProject.name = "Timeo"

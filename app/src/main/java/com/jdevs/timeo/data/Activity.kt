@@ -29,6 +29,7 @@ data class Activity(
 
     var name: String = "",
     var totalTime: Long = 0,
+    var lastWeekTime: Long = 0,
 
     @get:Exclude
     override var creationDate: OffsetDateTime = OffsetDateTime.now()

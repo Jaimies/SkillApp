@@ -12,7 +12,12 @@ interface ActivitiesDao : BaseDao<Activity> {
     @Query("SELECT * FROM activities ORDER BY id DESC")
     fun getActivities(): DataSource.Factory<Int, Activity>
 
-    @Query("SELECT * FROM activities WHERE id = :id")
+    @Query(
+        """SELECT activities.*, SUM(records.time) as lastWeekTime FROM activities 
+        LEFT JOIN records ON activityId = activities.id 
+        AND DATETIME(records.creationDate) > DATETIME('now', '-7 day') 
+        WHERE activities.id = :id"""
+    )
     fun getActivity(id: Int): LiveData<Activity>
 
     @Query("UPDATE activities SET totalTime = totalTime + :by WHERE id = :id")

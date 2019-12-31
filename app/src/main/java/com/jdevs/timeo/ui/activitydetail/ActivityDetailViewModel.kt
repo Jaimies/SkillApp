@@ -34,7 +34,7 @@ class ActivityDetailViewModel @Inject constructor(
         _name.value = activity.name
         _totalTime.value = activity.totalTime.getHours() + "h"
         _avgDailyTime.value = activity.totalTime.getAvgDailyHours(activity.creationDate) + "h"
-        _lastWeekTime.value = "42h"
+        _lastWeekTime.value = activity.lastWeekTime.getHours() + "h"
     }
 
     fun setupActivityLiveData(activity: Activity) {

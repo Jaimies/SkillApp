@@ -18,7 +18,7 @@
 
         <LinearLayout
             style="@style/Widget.Timeo.SignInLayout"
-            android:alpha="@{viewModel.isLoading || viewModel.isContentHidden ? 0f : 1f}">
+            app:hideIf="@{viewModel.isContentHidden || viewModel.isLoading}">
 
             <TextView
                 style="@style/Widget.Timeo.Header.Small"

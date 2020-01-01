@@ -12,7 +12,8 @@ import java.util.Date
 data class RecordMinimal(
     var time: Long = 0,
     var date: Date = Calendar.getInstance().time,
-    @get:Exclude var creationDate: OffsetDateTime = OffsetDateTime.now()
+    @get:Exclude
+    var creationDate: OffsetDateTime = OffsetDateTime.now()
 ) : Parcelable {
 
     fun setupTimestamp() {

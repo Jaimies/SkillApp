@@ -63,6 +63,7 @@ object Time {
 
     const val HOUR_MINUTES = 60
     const val DAY_HOURS = 24
+    const val WEEK_DAYS = 7
 }
 
 object ViewConstants {

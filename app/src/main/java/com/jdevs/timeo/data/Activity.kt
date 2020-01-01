@@ -10,6 +10,7 @@ import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
+import com.jdevs.timeo.util.Time.WEEK_DAYS
 import com.jdevs.timeo.util.getDaysAgo
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
@@ -57,7 +58,7 @@ data class Activity(
 
             record.setupTimestamp()
 
-            if (record.creationDate.getDaysAgo() < 7) {
+            if (record.creationDate.getDaysAgo() < WEEK_DAYS) {
 
                 lastWeekTime += record.time
             }

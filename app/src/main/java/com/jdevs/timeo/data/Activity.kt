@@ -10,6 +10,7 @@ import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
+import com.jdevs.timeo.util.getDaysAgo
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.OffsetDateTime
@@ -30,6 +31,8 @@ data class Activity(
     var name: String = "",
     var totalTime: Long = 0,
     var lastWeekTime: Long = 0,
+    @Ignore
+    var recentRecords: List<RecordMinimal> = emptyList(),
 
     @get:Exclude
     override var creationDate: OffsetDateTime = OffsetDateTime.now()
@@ -45,4 +48,21 @@ data class Activity(
     @get:Exclude
     @IgnoredOnParcel
     override val viewType = ACTIVITY
+
+    fun setupLastWeekTime() {
+
+        var lastWeekTime = 0L
+
+        recentRecords.forEach { record ->
+
+            record.setupTimestamp()
+
+            if (record.creationDate.getDaysAgo() < 7) {
+
+                lastWeekTime += record.time
+            }
+        }
+
+        this.lastWeekTime = lastWeekTime
+    }
 }

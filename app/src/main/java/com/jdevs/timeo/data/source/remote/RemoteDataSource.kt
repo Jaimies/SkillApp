@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.RecordMinimal
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.util.ActivitiesConstants
@@ -51,8 +52,11 @@ class RemoteDataSource(
 
             if (documentSnapshot != null) {
 
-                liveData.value =
-                    documentSnapshot.toObject(Activity::class.java).also { it?.setupTimestamp() }
+                liveData.value = documentSnapshot.toObject(Activity::class.java)?.apply {
+
+                    setupTimestamp()
+                    setupLastWeekTime()
+                }
             }
         }
 
@@ -70,6 +74,11 @@ class RemoteDataSource(
 
             batch.set(newRecordRef, record)
             batch.update(activityRef, TOTAL_TIME_PROPERTY, FieldValue.increment(record.time))
+            batch.update(
+                activityRef,
+                "recentRecords",
+                FieldValue.arrayUnion(RecordMinimal(record.time))
+            )
         }
     }
 

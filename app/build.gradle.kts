@@ -186,8 +186,8 @@ dependencies {
     implementation("androidx.test:core:${Versions.androidxTestCore}")
 
     // Browsing SQLite database
-    // To enable uncomment the following line, run adb forward tcp:8080 tcp:8080
+    // To enable, run adb forward tcp:8080 tcp:8080
     // (/home/alex/Android/Sdk/platform-tools/adb forward tcp:8080 tcp:8080)
     // and connect to http://localhost:8080
-    // debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
+    debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
 }

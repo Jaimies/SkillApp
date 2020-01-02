@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/graphs_item_height"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/title_text_view"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.jdevs.timeo.ui.graphs.GraphViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
-</LinearLayout>
+        android:layout_height="@dimen/graphs_item_height">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/padding_default"
+            android:paddingEnd="@dimen/padding_default"
+            android:text="@{viewModel.time}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            tools:text="10.1h" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/padding_default"
+            android:paddingEnd="@dimen/padding_default"
+            android:text="@{viewModel.time}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            tools:text="02.02.2020" />
+    </LinearLayout>
+</layout>

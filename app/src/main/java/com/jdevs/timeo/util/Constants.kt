@@ -63,6 +63,7 @@ object AdapterConstants {
     const val LOADING = 0
     const val ACTIVITY = 1
     const val RECORD = 2
+    const val STATISTIC = 3
 }
 
 object Time {

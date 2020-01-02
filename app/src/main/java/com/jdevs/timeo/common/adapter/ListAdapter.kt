@@ -7,9 +7,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.data.DataItem
 
-abstract class ListAdapter : PagedListAdapter<DataItem, RecyclerView.ViewHolder>(ITEMS_COMPARATOR) {
+abstract class ListAdapter : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(ITEMS_COMPARATOR) {
 
     protected abstract val delegateAdapter: DelegateAdapter
 
@@ -25,14 +24,14 @@ abstract class ListAdapter : PagedListAdapter<DataItem, RecyclerView.ViewHolder>
     companion object {
 
         @SuppressLint("DiffUtilEquals")
-        private val ITEMS_COMPARATOR = object : DiffUtil.ItemCallback<DataItem>() {
+        private val ITEMS_COMPARATOR = object : DiffUtil.ItemCallback<ViewItem>() {
 
-            override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+            override fun areItemsTheSame(oldItem: ViewItem, newItem: ViewItem): Boolean {
 
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+            override fun areContentsTheSame(oldItem: ViewItem, newItem: ViewItem): Boolean {
 
                 return oldItem === newItem
             }

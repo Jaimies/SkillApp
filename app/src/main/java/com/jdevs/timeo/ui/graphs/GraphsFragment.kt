@@ -22,7 +22,7 @@ class GraphsFragment : Fragment() {
 
         return inflater.inflate(R.layout.graphs_frag, container, false).apply {
 
-            graphs_viewpager.adapter = GraphsPagerAdapter(this@GraphsFragment)
+            graphs_viewpager.adapter = GraphsViewPagerAdapter(this@GraphsFragment)
 
             TabLayoutMediator(graphs_tablayout, graphs_viewpager) { tab, position ->
 

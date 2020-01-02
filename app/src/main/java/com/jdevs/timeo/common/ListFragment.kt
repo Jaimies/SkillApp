@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.DataItem
 import com.jdevs.timeo.data.source.AuthRepository
@@ -58,7 +59,7 @@ abstract class ListFragment<T : DataItem> : ActionBarFragment() {
             return
         }
 
-        liveData as LiveData<PagedList<DataItem>>
+        liveData as LiveData<PagedList<ViewItem>>
 
         liveData.observe(viewLifecycleOwner) {
 

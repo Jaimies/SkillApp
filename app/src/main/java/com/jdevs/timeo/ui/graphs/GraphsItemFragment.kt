@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.R
 import kotlinx.android.synthetic.main.graphs_item_frag.view.recycler_view
 
-class GraphsItemFragment(private val onClick: (View) -> Unit = {}) : Fragment() {
+class GraphsItemFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,7 +21,7 @@ class GraphsItemFragment(private val onClick: (View) -> Unit = {}) : Fragment() 
             it.recycler_view.apply {
 
                 layoutManager = LinearLayoutManager(context)
-                adapter = GraphsRecyclerViewAdapter(onClick)
+                adapter = GraphsRecyclerViewAdapter()
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.time
 
 import com.jdevs.timeo.daysAgoDate
 import org.hamcrest.CoreMatchers.`is`

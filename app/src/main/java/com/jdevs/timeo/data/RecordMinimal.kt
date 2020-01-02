@@ -2,7 +2,7 @@ package com.jdevs.timeo.data
 
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
-import com.jdevs.timeo.util.toOffsetDate
+import com.jdevs.timeo.util.time.toOffsetDate
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.OffsetDateTime
 import java.util.Calendar

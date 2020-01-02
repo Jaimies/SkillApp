@@ -4,10 +4,13 @@ import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import com.jdevs.timeo.data.DayStats
+import com.jdevs.timeo.data.MonthStats
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.RecordStats
-import com.jdevs.timeo.util.getDaysSinceEpoch
-import org.threeten.bp.OffsetDateTime
+import com.jdevs.timeo.data.WeekStats
+import com.jdevs.timeo.util.time.getDaysSinceEpoch
+import com.jdevs.timeo.util.time.getMonthSinceEpoch
+import com.jdevs.timeo.util.time.getWeeksSinceEpoch
 
 @Dao
 interface RecordsDao : BaseDao<Record> {
@@ -16,7 +19,9 @@ interface RecordsDao : BaseDao<Record> {
     suspend fun insertRecord(record: Record) {
 
         insert(record)
-        registerRecord(record.time, OffsetDateTime.now().getDaysSinceEpoch())
+        registerDayStats(record.time, record.creationDate.getDaysSinceEpoch())
+        registerWeekStats(record.time, record.creationDate.getWeeksSinceEpoch())
+        registerMonthStats(record.time, record.creationDate.getMonthSinceEpoch())
     }
 
     @Transaction
@@ -28,14 +33,38 @@ interface RecordsDao : BaseDao<Record> {
     fun getRecords(): DataSource.Factory<Int, Record>
 
     @Query(
-        """INSERT OR REPLACE INTO stats (time, day) VALUES(
-            COALESCE((
-                (SELECT time FROM stats WHERE day = :day) + :time), 
+        """INSERT OR REPLACE INTO dayStats (time, day) VALUES(
+                COALESCE((
+                    (SELECT time FROM dayStats WHERE day = :day) + :time), 
                 :time), :day)
             """
     )
-    fun registerRecord(time: Long, day: Long)
+    fun registerDayStats(time: Long, day: Long)
 
-    @Query("SELECT * FROM stats ORDER BY day DESC")
-    fun getStats(): DataSource.Factory<Int, RecordStats>
+    @Query(
+        """INSERT OR REPLACE INTO weekStats (time, week) VALUES(
+                COALESCE((
+                  (SELECT time FROM weekStats WHERE week = :week) + :time), 
+                :time), :week)
+                """
+    )
+    fun registerWeekStats(time: Long, week: Int)
+
+    @Query(
+        """INSERT OR REPLACE INTO monthStats (time, month) VALUES(
+                COALESCE((
+                  (SELECT time FROM monthStats WHERE month = :month) + :time), 
+                :time), :month)
+                """
+    )
+    fun registerMonthStats(time: Long, month: Short)
+
+    @Query("SELECT * FROM dayStats ORDER BY day DESC")
+    fun getDayStats(): DataSource.Factory<Int, DayStats>
+
+    @Query("SELECT * FROM weekStats ORDER BY week DESC")
+    fun getWeekStats(): DataSource.Factory<Int, WeekStats>
+
+    @Query("SELECT * FROM monthStats ORDER BY month DESC")
+    fun getMonthStats(): DataSource.Factory<Int, MonthStats>
 }

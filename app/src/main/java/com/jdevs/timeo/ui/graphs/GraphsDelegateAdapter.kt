@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
-import com.jdevs.timeo.data.RecordStats
+import com.jdevs.timeo.data.Stats
 import com.jdevs.timeo.databinding.GraphListItemBinding
 import java.util.UUID
 
@@ -41,7 +41,7 @@ class GraphsDelegateAdapter : DelegateAdapter {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
 
         holder as ViewHolder
-        holder.bind(item as RecordStats)
+        holder.bind(item as Stats)
     }
 
     class ViewHolder(
@@ -49,6 +49,6 @@ class GraphsDelegateAdapter : DelegateAdapter {
         view: View
     ) : ListAdapter.ViewHolder(view) {
 
-        fun bind(stats: RecordStats) = viewModel.setStatsInfo(stats)
+        fun bind(stats: Stats) = viewModel.setStats(stats)
     }
 }

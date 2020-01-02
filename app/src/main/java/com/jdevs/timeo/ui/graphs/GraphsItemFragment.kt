@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
-import com.jdevs.timeo.data.RecordStats
+import com.jdevs.timeo.data.DayStats
 import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
 import kotlinx.android.synthetic.main.graphs_item_frag.view.recycler_view
 import javax.inject.Inject
 
-class GraphsItemFragment(private val type: Int) : ListFragment<RecordStats>() {
+class GraphsItemFragment(private val type: Int) : ListFragment<DayStats>() {
 
     override val menuId = -1
 
@@ -39,6 +39,8 @@ class GraphsItemFragment(private val type: Int) : ListFragment<RecordStats>() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        viewModel.setGraphType(type)
 
         super.onCreateView(inflater, container, savedInstanceState)
 

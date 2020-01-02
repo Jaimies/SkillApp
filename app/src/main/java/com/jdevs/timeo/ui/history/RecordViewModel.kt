@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.util.SingleLiveEvent
-import com.jdevs.timeo.util.toFriendlyTime
+import com.jdevs.timeo.util.time.toFriendlyTime
 
 class RecordViewModel : ViewModel() {
 

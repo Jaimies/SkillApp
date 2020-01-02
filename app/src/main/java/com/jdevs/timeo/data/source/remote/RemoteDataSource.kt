@@ -38,7 +38,9 @@ class RemoteDataSource(
             return recordsMonitor.getLiveData()
         }
 
-    override val stats = MutableLiveData<Any>() as LiveData<Any>
+    override val dayStats = MutableLiveData<Any>() as LiveData<Any>
+    override val weekStats = MutableLiveData<Any>() as LiveData<Any>
+    override val monthStats = MutableLiveData<Any>() as LiveData<Any>
 
     private val firestore = FirebaseFirestore.getInstance()
     private var prevUid = ""

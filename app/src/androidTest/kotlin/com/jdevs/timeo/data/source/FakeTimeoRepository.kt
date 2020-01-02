@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.jdevs.timeo.ItemDataSource
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.DayStats
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.RecordStats
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,11 +16,13 @@ class FakeTimeoRepository @Inject constructor() : TimeoRepository {
 
     private val activitiesList = mutableListOf<Activity>()
     private val recordsList = mutableListOf<Record>()
-    private val statsList = mutableListOf<RecordStats>()
+    private val statsList = mutableListOf<DayStats>()
 
     override val activities = MutableLiveData(activitiesList.asPagedList())
     override val records = MutableLiveData(recordsList.asPagedList())
-    override val stats = MutableLiveData(statsList.asPagedList())
+    override val dayStats = MutableLiveData(statsList.asPagedList())
+    override val weekStats = MutableLiveData(statsList.asPagedList())
+    override val monthStats = MutableLiveData(statsList.asPagedList())
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 

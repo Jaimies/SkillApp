@@ -12,7 +12,7 @@ import com.jdevs.timeo.util.RecordsConstants.RECORD_MIN_TIME
 import com.jdevs.timeo.util.Time.DAY_HOURS
 import com.jdevs.timeo.util.Time.HOUR_MINUTES
 import com.jdevs.timeo.util.getScreenDimensions
-import com.jdevs.timeo.util.toMins
+import com.jdevs.timeo.util.time.toMins
 import kotlinx.android.synthetic.main.record_dialog.add_button
 import kotlinx.android.synthetic.main.record_dialog.hours_edit_text
 import kotlinx.android.synthetic.main.record_dialog.minutes_edit_text

@@ -11,7 +11,7 @@ import com.google.firebase.firestore.PropertyName
 import com.jdevs.timeo.util.AdapterConstants.ACTIVITY
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.Time.WEEK_DAYS
-import com.jdevs.timeo.util.getDaysAgo
+import com.jdevs.timeo.util.time.getDaysAgo
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.OffsetDateTime

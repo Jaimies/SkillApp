@@ -19,7 +19,9 @@ class DefaultTimeoRepository @Inject constructor(
 
     override val activities get() = currentDataSource.activities
     override val records get() = currentDataSource.records
-    override val stats get() = currentDataSource.stats
+    override val dayStats get() = currentDataSource.dayStats
+    override val weekStats get() = currentDataSource.weekStats
+    override val monthStats get() = currentDataSource.monthStats
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 

@@ -27,9 +27,19 @@ class LocalDataSource(
         getLivePagedList(RECORDS_PAGE_SIZE, recordsDao.getRecords())
     }
 
-    override val stats by lazy {
+    override val dayStats by lazy {
 
-        getLivePagedList(STATS_PAGE_SIZE, recordsDao.getStats())
+        getLivePagedList(STATS_PAGE_SIZE, recordsDao.getDayStats())
+    }
+
+    override val weekStats by lazy {
+
+        getLivePagedList(STATS_PAGE_SIZE, recordsDao.getWeekStats())
+    }
+
+    override val monthStats by lazy {
+
+        getLivePagedList(STATS_PAGE_SIZE, recordsDao.getMonthStats())
     }
 
     override fun getActivityById(id: Int, documentId: String) = activitiesDao.getActivity(id)

@@ -8,7 +8,9 @@ interface TimeoRepository {
 
     val activities: LiveData<*>?
     val records: LiveData<*>?
-    val stats: LiveData<*>?
+    val dayStats: LiveData<*>?
+    val weekStats: LiveData<*>?
+    val monthStats: LiveData<*>?
 
     fun getActivityById(id: Int, documentId: String): LiveData<Activity>
 

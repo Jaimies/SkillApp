@@ -8,8 +8,8 @@ import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.util.SingleLiveEvent
-import com.jdevs.timeo.util.getAvgDailyHours
-import com.jdevs.timeo.util.toHours
+import com.jdevs.timeo.util.time.getAvgDailyHours
+import com.jdevs.timeo.util.time.toHours
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

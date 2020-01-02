@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-
         android:orientation="vertical"
         tools:context=".ui.activitydetail.ActivityDetailFragment">
 
@@ -21,15 +20,14 @@
             android:id="@+id/title"
             style="@style/Widget.Timeo.Header.Small"
             android:text="@{viewModel.name}"
-            tools:text="Very very long activity name that just cant't fit" />
+            tools:text="Programming" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:paddingStart="@dimen/margin_default"
-            android:paddingEnd="@dimen/margin_default"
-            android:weightSum="3">
+            android:paddingEnd="@dimen/margin_default">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -103,5 +101,24 @@
             android:layout_marginTop="@dimen/margin_default"
             android:onClick="@{() -> viewModel.showRecordDialog()}"
             android:text="@string/add_record" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_default"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/graphs_tablayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/graphs_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="192dp" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

@@ -130,6 +130,9 @@ dependencies {
     // Material theme
     implementation("com.google.android.material:material:${Versions.material}")
 
+    // ViewPager 2
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
     // Firebase
     implementation("com.google.firebase:firebase-auth:${Versions.auth}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")

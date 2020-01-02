@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.tabs.TabLayoutMediator
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
+import com.jdevs.timeo.ui.graphs.GraphsItemFragment
+import com.jdevs.timeo.ui.graphs.GraphsPagerAdapter
 import com.jdevs.timeo.util.observeEvent
 import javax.inject.Inject
 
@@ -48,6 +52,22 @@ class ActivityDetailFragment : ActionBarFragment() {
 
             it.lifecycleOwner = this
             it.viewModel = viewModel
+
+            it.graphsViewpager.adapter = ActivityDetailGraphsAdapter(this) {
+
+                findNavController().navigate(R.id.action_activityDetailFragment_to_graphsFragment)
+            }
+
+            TabLayoutMediator(it.graphsTablayout, it.graphsViewpager) { tab, position ->
+
+                it.graphsViewpager.setCurrentItem(tab.position, true)
+
+                tab.text = when (position) {
+                    0 -> "Day"
+                    1 -> "Week"
+                    else -> "Month"
+                }
+            }.attach()
         }
 
         viewModel.apply {
@@ -86,5 +106,13 @@ class ActivityDetailFragment : ActionBarFragment() {
 
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private class ActivityDetailGraphsAdapter(
+        fragment: Fragment,
+        private val onClick: (View) -> Unit = {}
+    ) : GraphsPagerAdapter(fragment) {
+
+        override fun createFragment(position: Int) = GraphsItemFragment(onClick)
     }
 }

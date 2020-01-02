@@ -14,7 +14,7 @@ object Versions {
     const val navigation = "2.2.0-rc04"
     const val lifecycleExtensions = "2.2.0-rc03"
     const val fragmentKtx = "1.2.0-rc04"
-    const val material = "1.0.0"
+    const val material = "1.1.0-rc01"
 
     // JSR 310 backport
     const val threeTenABP = "1.2.1"

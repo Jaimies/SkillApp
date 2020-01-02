@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,8 +15,6 @@ import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
-import com.jdevs.timeo.ui.graphs.GraphsItemFragment
-import com.jdevs.timeo.ui.graphs.GraphsPagerAdapter
 import com.jdevs.timeo.util.observeEvent
 import javax.inject.Inject
 
@@ -106,13 +103,5 @@ class ActivityDetailFragment : ActionBarFragment() {
 
             super.onOptionsItemSelected(item)
         }
-    }
-
-    private class ActivityDetailGraphsAdapter(
-        fragment: Fragment,
-        private val onClick: (View) -> Unit = {}
-    ) : GraphsPagerAdapter(fragment) {
-
-        override fun createFragment(position: Int) = GraphsItemFragment(onClick)
     }
 }

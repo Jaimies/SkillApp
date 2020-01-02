@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root_view"
     tools:context=".ui.graphs.GraphsItemFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Some data"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+        tools:listitem="@layout/graph_list_item" />
 </FrameLayout>

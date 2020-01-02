@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.util.SingleLiveEvent
-import com.jdevs.timeo.util.getHours
+import com.jdevs.timeo.util.toHours
 
 class ActivityViewModel : ViewModel() {
 
@@ -20,7 +20,7 @@ class ActivityViewModel : ViewModel() {
     fun setActivity(activity: Activity) {
 
         _name.value = activity.name
-        _totalTime.value = activity.totalTime.getHours() + "h"
+        _totalTime.value = activity.totalTime.toHours() + "h"
     }
 
     fun navigateToDetails() = navigateToDetails.call()

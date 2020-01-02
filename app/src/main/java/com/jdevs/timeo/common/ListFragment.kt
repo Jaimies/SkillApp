@@ -15,7 +15,6 @@ import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.common.viewmodel.ListViewModel
-import com.jdevs.timeo.data.DataItem
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
 import com.jdevs.timeo.util.OperationTypes.ADDED
@@ -28,7 +27,7 @@ import com.jdevs.timeo.util.TAG
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-abstract class ListFragment<T : DataItem> : ActionBarFragment() {
+abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
     protected abstract val viewModel: ListViewModel
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()

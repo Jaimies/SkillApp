@@ -16,6 +16,9 @@ data class RecordStats(
     override val viewType = STATISTIC
 
     @get:Ignore
-    override val id: Int
+    override val id
         get() = day.toInt()
+
+    @Ignore
+    override val documentId = ""
 }

@@ -11,8 +11,8 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.util.RecordsConstants.RECORD_MIN_TIME
 import com.jdevs.timeo.util.Time.DAY_HOURS
 import com.jdevs.timeo.util.Time.HOUR_MINUTES
-import com.jdevs.timeo.util.getMins
 import com.jdevs.timeo.util.getScreenDimensions
+import com.jdevs.timeo.util.toMins
 import kotlinx.android.synthetic.main.record_dialog.add_button
 import kotlinx.android.synthetic.main.record_dialog.hours_edit_text
 import kotlinx.android.synthetic.main.record_dialog.minutes_edit_text
@@ -95,7 +95,7 @@ class RecordDialog(
         val hours = hours_edit_text.text.toString().toLongOrNull() ?: 0
         val minutes = minutes_edit_text.text.toString().toLongOrNull() ?: return
 
-        val time = (hours to minutes).getMins()
+        val time = (hours to minutes).toMins()
 
         createRecord(time)
 

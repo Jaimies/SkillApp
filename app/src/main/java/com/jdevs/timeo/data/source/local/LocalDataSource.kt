@@ -9,6 +9,7 @@ import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.util.PagingConstants.ACTIVITIES_PAGE_SIZE
 import com.jdevs.timeo.util.PagingConstants.RECORDS_PAGE_SIZE
+import com.jdevs.timeo.util.PagingConstants.STATS_PAGE_SIZE
 
 @Suppress("EmptyFunctionBlock")
 class LocalDataSource(
@@ -16,14 +17,19 @@ class LocalDataSource(
     private val recordsDao: RecordsDao
 ) : TimeoDataSource {
 
-    override val activitiesLiveData by lazy {
+    override val activities by lazy {
 
         getLivePagedList(ACTIVITIES_PAGE_SIZE, activitiesDao.getActivities())
     }
 
-    override val recordsLiveData by lazy {
+    override val records by lazy {
 
         getLivePagedList(RECORDS_PAGE_SIZE, recordsDao.getRecords())
+    }
+
+    override val stats by lazy {
+
+        getLivePagedList(STATS_PAGE_SIZE, recordsDao.getStats())
     }
 
     override fun getActivityById(id: Int, documentId: String) = activitiesDao.getActivity(id)

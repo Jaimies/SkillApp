@@ -4,6 +4,7 @@ import android.content.Context
 import com.jdevs.timeo.ui.activities.ActivitiesFragment
 import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragment
 import com.jdevs.timeo.ui.addactivity.AddEditActivityFragment
+import com.jdevs.timeo.ui.graphs.GraphsItemFragment
 import com.jdevs.timeo.ui.history.HistoryFragment
 import com.jdevs.timeo.ui.profile.ProfileFragment
 import com.jdevs.timeo.ui.signin.SignInFragment
@@ -28,4 +29,5 @@ interface AppComponent {
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: SignInFragment)
     fun inject(fragment: SignUpFragment)
+    fun inject(fragment: GraphsItemFragment)
 }

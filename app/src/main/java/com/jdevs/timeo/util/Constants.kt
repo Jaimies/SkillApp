@@ -11,6 +11,7 @@ object PagingConstants {
 
     const val ACTIVITIES_PAGE_SIZE = 20
     const val RECORDS_PAGE_SIZE = 50
+    const val STATS_PAGE_SIZE = 40
 }
 
 object FirestoreConstants {
@@ -35,6 +36,11 @@ object RecordsConstants {
     const val PAGE_SIZE = 50L
     const val VISIBLE_THRESHOLD = 12
     const val RECORD_MIN_TIME = 5
+}
+
+object StatsConstants {
+
+    const val VISIBLE_THRESHOLD = 10
 }
 
 object GraphTypes {

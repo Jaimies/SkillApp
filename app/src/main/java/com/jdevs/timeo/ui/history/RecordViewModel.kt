@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.util.SingleLiveEvent
-import com.jdevs.timeo.util.getFriendlyTime
+import com.jdevs.timeo.util.toFriendlyTime
 
 class RecordViewModel : ViewModel() {
 
@@ -19,7 +19,7 @@ class RecordViewModel : ViewModel() {
     fun setRecord(record: Record) {
 
         _name.value = record.name
-        _time.value = record.time.getFriendlyTime()
+        _time.value = record.time.toFriendlyTime()
     }
 
     fun showDeleteDialog(): Boolean {

@@ -9,7 +9,7 @@ import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.getAvgDailyHours
-import com.jdevs.timeo.util.getHours
+import com.jdevs.timeo.util.toHours
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,9 +32,9 @@ class ActivityDetailViewModel @Inject constructor(
     fun setActivity(activity: Activity) {
 
         _name.value = activity.name
-        _totalTime.value = activity.totalTime.getHours() + "h"
+        _totalTime.value = activity.totalTime.toHours() + "h"
         _avgDailyTime.value = activity.totalTime.getAvgDailyHours(activity.creationDate) + "h"
-        _lastWeekTime.value = activity.lastWeekTime.getHours() + "h"
+        _lastWeekTime.value = activity.lastWeekTime.toHours() + "h"
     }
 
     fun setupActivityLiveData(activity: Activity) {

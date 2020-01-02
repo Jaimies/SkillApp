@@ -24,19 +24,21 @@ class RemoteDataSource(
     private val authRepository: AuthRepository
 ) : TimeoDataSource {
 
-    override val activitiesLiveData: ItemsLiveData?
+    override val activities: ItemsLiveData?
         get() {
 
             reset()
             return activitiesMonitor.getLiveData()
         }
 
-    override val recordsLiveData: ItemsLiveData?
+    override val records: ItemsLiveData?
         get() {
 
             reset()
             return recordsMonitor.getLiveData()
         }
+
+    override val stats = MutableLiveData<Any>() as LiveData<Any>
 
     private val firestore = FirebaseFirestore.getInstance()
     private var prevUid = ""

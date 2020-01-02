@@ -12,7 +12,7 @@ import org.threeten.bp.OffsetDateTime
 class TimeTest {
 
     /**
-     * Test for [Long.getFriendlyTime]
+     * Test for [Long.toFriendlyTime]
      * The test data is written in the following syntax: <input> to <expectedOutput>
      */
     @Test
@@ -27,7 +27,7 @@ class TimeTest {
 
         dataset.forEach {
 
-            assertThat(it.first.getFriendlyTime(), `is`(it.second))
+            assertThat(it.first.toFriendlyTime(), `is`(it.second))
         }
     }
 
@@ -71,7 +71,7 @@ class TimeTest {
     }
 
     /**
-     * Test for [Long.getHours]
+     * Test for [Long.toHours]
      * The test data is written in the following syntax: <input> to <expectedOutput>
      */
     @Test
@@ -86,7 +86,7 @@ class TimeTest {
 
         dataset.forEach {
 
-            assertThat(it.first.getHours(), `is`(it.second))
+            assertThat(it.first.toHours(), `is`(it.second))
         }
     }
 
@@ -105,7 +105,7 @@ class TimeTest {
 
         dataset.forEach {
 
-            assertThat(it.first.getMins(), `is`(it.second))
+            assertThat(it.first.toMins(), `is`(it.second))
         }
     }
 }

@@ -2,27 +2,22 @@ package com.jdevs.timeo.common.adapter
 
 import android.util.SparseArray
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.data.DataItem
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.history.RecordDelegateAdapter
 import com.jdevs.timeo.util.AdapterConstants
-import org.threeten.bp.OffsetDateTime
-import java.util.Date
 
 abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it.viewType != AdapterConstants.LOADING }.size
 
     protected val delegateAdapters = SparseArray<DelegateAdapter>()
-    private val items = mutableListOf<DataItem>()
+    private val items = mutableListOf<ViewItem>()
 
-    private val loadingItem = object : DataItem() {
+    private val loadingItem = object : ViewItem {
 
         override var id = -1
         override var documentId = ""
         override val viewType = AdapterConstants.LOADING
-        override var firestoreTimestamp: Date? = null
-        override var creationDate = OffsetDateTime.now()
     }
 
     init {
@@ -62,7 +57,7 @@ abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    fun addItem(item: DataItem) = items.apply {
+    fun addItem(item: ViewItem) = items.apply {
 
         if (items.count { it.documentId == item.documentId } > 0) {
 
@@ -75,7 +70,7 @@ abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
         notifyItemInserted(lastIndex)
     }
 
-    fun modifyItem(item: DataItem) {
+    fun modifyItem(item: ViewItem) {
 
         val index = items.indexOfFirst { it.documentId == item.documentId }
 
@@ -86,7 +81,7 @@ abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    fun removeItem(item: DataItem) {
+    fun removeItem(item: ViewItem) {
 
         val index = items.indexOfFirst { it.documentId == item.documentId }
 

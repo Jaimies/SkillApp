@@ -17,8 +17,9 @@ class DefaultTimeoRepository @Inject constructor(
     private val currentDataSource
         get() = if (isUserSignedIn) remoteDataSource else localDataSource
 
-    override val activities get() = currentDataSource.activitiesLiveData
-    override val records get() = currentDataSource.recordsLiveData
+    override val activities get() = currentDataSource.activities
+    override val records get() = currentDataSource.records
+    override val stats get() = currentDataSource.stats
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 

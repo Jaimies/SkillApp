@@ -8,7 +8,6 @@ import java.util.Date
 
 abstract class DataItem : ViewItem {
 
-    abstract var documentId: String
     abstract var firestoreTimestamp: Date?
     abstract var creationDate: OffsetDateTime
 

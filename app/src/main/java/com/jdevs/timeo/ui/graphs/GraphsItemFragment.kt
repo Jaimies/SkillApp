@@ -1,25 +1,52 @@
 package com.jdevs.timeo.ui.graphs
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.R
+import com.jdevs.timeo.TimeoApplication
+import com.jdevs.timeo.common.ListFragment
+import com.jdevs.timeo.data.RecordStats
+import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
 import kotlinx.android.synthetic.main.graphs_item_frag.view.recycler_view
+import javax.inject.Inject
 
-class GraphsItemFragment(private val type: Int) : Fragment() {
+class GraphsItemFragment(private val type: Int) : ListFragment<RecordStats>() {
+
+    override val menuId = -1
+
+    override val roomAdapter by lazy {
+
+        GraphsRecyclerViewAdapter()
+    }
+
+    override val firestoreAdapter get() = TODO("not implemented")
+
+    @Inject
+    override lateinit var viewModel: GraphsViewModel
+
+    override fun onAttach(context: Context) {
+
+        super.onAttach(context)
+        (activity!!.application as TimeoApplication).appComponent.inject(this)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        super.onCreateView(inflater, container, savedInstanceState)
+
         return inflater.inflate(R.layout.graphs_item_frag, container, false).recycler_view.apply {
 
             layoutManager = LinearLayoutManager(context)
             adapter = GraphsRecyclerViewAdapter()
+            setup(VISIBLE_THRESHOLD)
         }
     }
 }

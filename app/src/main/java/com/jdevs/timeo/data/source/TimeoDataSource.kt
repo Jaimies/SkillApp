@@ -6,8 +6,9 @@ import com.jdevs.timeo.data.Record
 
 interface TimeoDataSource {
 
-    val activitiesLiveData: LiveData<*>?
-    val recordsLiveData: LiveData<*>?
+    val activities: LiveData<*>?
+    val records: LiveData<*>?
+    val stats: LiveData<*>?
 
     fun getActivityById(id: Int, documentId: String): LiveData<Activity>
 

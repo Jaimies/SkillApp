@@ -3,12 +3,13 @@ package com.jdevs.timeo.util
 import com.jdevs.timeo.util.Time.HOUR_MINUTES
 import org.threeten.bp.DateTimeUtils
 import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.temporal.ChronoUnit
 import java.util.Date
 
-fun Long.getFriendlyTime(): String {
+fun Long.toFriendlyTime(): String {
 
     val hours = this / HOUR_MINUTES
     val minutes = this % HOUR_MINUTES
@@ -33,7 +34,7 @@ fun Long.getFriendlyTime(): String {
     return timeString
 }
 
-fun Long.getHours(): String {
+fun Long.toHours(): String {
 
     val time = this / HOUR_MINUTES.toFloat()
 
@@ -42,7 +43,7 @@ fun Long.getHours(): String {
     return if (timeString.takeLast(1) == "0") timeString.dropLast(2) else timeString
 }
 
-fun Pair<Long, Long>.getMins(): Long {
+fun Pair<Long, Long>.toMins(): Long {
 
     return first * HOUR_MINUTES + second
 }
@@ -75,6 +76,11 @@ fun OffsetDateTime.getDaysSinceEpoch(): Long {
     return ChronoUnit.DAYS.between(epoch, this)
 }
 
+fun Long.toFriendlyDate(): String {
+
+    return LocalDate.ofEpochDay(this).toString()
+}
+
 fun OffsetDateTime.toDate(): Date {
 
     return DateTimeUtils.toDate(toInstant())
@@ -85,5 +91,5 @@ fun Long.getAvgDailyHours(timestamp: OffsetDateTime): String {
     val daysCount = timestamp.getDaysSpentSince()
     val avgDailyMins = this / daysCount
 
-    return avgDailyMins.getHours()
+    return avgDailyMins.toHours()
 }

@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.data.RecordStats
-import com.jdevs.timeo.util.getHours
+import com.jdevs.timeo.util.toFriendlyDate
+import com.jdevs.timeo.util.toHours
 
 class GraphViewModel : ViewModel() {
 
@@ -16,7 +17,7 @@ class GraphViewModel : ViewModel() {
 
     fun setStatsInfo(recordStats: RecordStats) {
 
-        _time.value = recordStats.time.getHours()
-        _day.value = "02.01.2020"
+        _time.value = recordStats.time.toHours() + "h"
+        _day.value = recordStats.day.toFriendlyDate()
     }
 }

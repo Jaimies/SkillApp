@@ -36,7 +36,7 @@ class LocalDataSource(
 
     override suspend fun addRecord(record: Record) {
 
-        recordsDao.insert(record)
+        recordsDao.insertRecord(record)
         activitiesDao.increaseTime(record.roomActivityId, record.time)
     }
 

@@ -2,6 +2,7 @@ package com.jdevs.timeo.util
 
 import com.jdevs.timeo.util.Time.HOUR_MINUTES
 import org.threeten.bp.DateTimeUtils
+import org.threeten.bp.Instant
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.temporal.ChronoUnit
@@ -66,6 +67,12 @@ fun Date?.toOffsetDate(): OffsetDateTime {
 
         OffsetDateTime.from(DateTimeUtils.toInstant(this).atOffset(ZoneOffset.UTC))
     }
+}
+
+fun OffsetDateTime.getDaysSinceEpoch(): Long {
+
+    val epoch = Instant.EPOCH.atOffset(OffsetDateTime.now().offset)
+    return ChronoUnit.DAYS.between(epoch, this)
 }
 
 fun OffsetDateTime.toDate(): Date {

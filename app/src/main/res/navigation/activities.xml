@@ -108,7 +108,13 @@
     </fragment>
     <fragment
         android:id="@+id/graphs_fragment_dest"
-        android:name="com.jdevs.timeo.data.source.local.GraphsFragment"
+        android:name="com.jdevs.timeo.ui.graphs.GraphsFragment"
         android:label="Graphs"
-        tools:layout="@layout/graphs_frag" />
+        tools:layout="@layout/graphs_frag">
+
+        <argument
+            android:name="graphType"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 </navigation>

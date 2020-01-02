@@ -37,6 +37,12 @@ object RecordsConstants {
     const val RECORD_MIN_TIME = 5
 }
 
+object GraphTypes {
+
+    const val DAY = 0
+    const val WEEK = 1
+}
+
 object OperationTypes {
 
     const val SUCCESSFUL = 0

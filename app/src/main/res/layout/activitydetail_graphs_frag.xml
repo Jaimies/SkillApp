@@ -6,10 +6,10 @@
     tools:context=".ui.activitydetail.ActivityDetailGraphsFragment">
 
     <TextView
+        android:id="@+id/title_text_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Graphs are perfect"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
 </FrameLayout>

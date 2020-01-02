@@ -50,9 +50,12 @@ class ActivityDetailFragment : ActionBarFragment() {
             it.lifecycleOwner = this
             it.viewModel = viewModel
 
-            it.graphsViewpager.adapter = ActivityDetailGraphsAdapter(this) {
+            it.graphsViewpager.adapter = ActivityDetailGraphsAdapter(this) { graphType ->
 
-                findNavController().navigate(R.id.action_activityDetailFragment_to_graphsFragment)
+                val directions = ActivityDetailFragmentDirections
+                    .actionActivityDetailFragmentToGraphsFragment(graphType)
+
+                findNavController().navigate(directions)
             }
 
             TabLayoutMediator(it.graphsTablayout, it.graphsViewpager) { tab, position ->

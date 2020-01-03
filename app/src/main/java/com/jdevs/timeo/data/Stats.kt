@@ -26,9 +26,7 @@ sealed class Stats : ViewItem {
 @Entity(tableName = "dayStats")
 data class DayStats(
     override var time: Long = 0,
-    @PrimaryKey
-    @get:Exclude
-    var day: Long = 0
+    @PrimaryKey var day: Long = 0
 ) : Stats() {
 
     @get:Ignore
@@ -45,9 +43,7 @@ data class DayStats(
 @Entity(tableName = "weekStats")
 data class WeekStats(
     override var time: Long = 0,
-    @PrimaryKey
-    @get:Exclude
-    var week: Int = 0
+    @PrimaryKey var week: Int = 0
 ) : Stats() {
 
     @get:Ignore
@@ -64,9 +60,7 @@ data class WeekStats(
 @Entity(tableName = "monthStats")
 data class MonthStats(
     override var time: Long = 0,
-    @PrimaryKey
-    @get:Exclude
-    var month: Int = 0
+    @PrimaryKey var month: Int = 0
 ) : Stats() {
 
     @get:Ignore

@@ -8,9 +8,9 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.DayStats
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.RecordMinimal
-import com.jdevs.timeo.data.WeekStats
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
@@ -126,7 +126,7 @@ class RemoteDataSourceImpl(
 
                     if (e.code == FirebaseFirestoreException.Code.NOT_FOUND) {
 
-                        reference.set(WeekStats(record.time))
+                        reference.set(DayStats(record.time, reference.id.toLong()))
                     }
                 }
             }

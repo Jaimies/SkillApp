@@ -43,6 +43,7 @@ object StatsConstants {
     const val DAY_STATS_COLLECTION = "dayStats"
     const val WEEK_STATS_COLLECTION = "weekStats"
     const val MONTH_STATS_COLLECTION = "monthStats"
+    const val DAY_PROPERTY = "day"
     const val PAGE_SIZE = 30L
     const val VISIBLE_THRESHOLD = 8
 }

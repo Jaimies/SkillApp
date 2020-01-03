@@ -21,9 +21,11 @@ import com.jdevs.timeo.data.source.remote.ItemsLiveData
 import com.jdevs.timeo.data.source.remote.RemoteDataSource
 import com.jdevs.timeo.data.source.remote.RemoteDataSourceImpl
 import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
 import com.jdevs.timeo.util.StatsConstants
+import com.jdevs.timeo.util.StatsConstants.DAY_PROPERTY
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -47,9 +49,9 @@ class RepositoryModule {
         return RemoteDataSourceImpl(
             createCollectionMonitor(Activity::class.java, ActivitiesConstants.PAGE_SIZE),
             createCollectionMonitor(Record::class.java, RecordsConstants.PAGE_SIZE),
-            createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE, true),
-            createCollectionMonitor(WeekStats::class.java, StatsConstants.PAGE_SIZE, true),
-            createCollectionMonitor(MonthStats::class.java, StatsConstants.PAGE_SIZE, true),
+            createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY),
+            createCollectionMonitor(WeekStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY),
+            createCollectionMonitor(MonthStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY),
             authRepository
         )
     }
@@ -69,10 +71,10 @@ class RepositoryModule {
     private fun createCollectionMonitor(
         type: Class<out ViewItem>,
         pageSize: Long,
-        orderById: Boolean = false
+        orderBy: String = TIMESTAMP_PROPERTY
     ): CollectionMonitor {
 
-        return CollectionMonitor(pageSize, createLiveData(type, pageSize), orderById)
+        return CollectionMonitor(pageSize, createLiveData(type, pageSize), orderBy)
     }
 
     private fun createLiveData(

@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
+import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.data.DataItem
 import com.jdevs.timeo.data.Operation
 import com.jdevs.timeo.util.OperationTypes.ADDED
@@ -21,7 +22,7 @@ class ItemsLiveData(
     private val query: Query,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
     private val onLastItemReached: () -> Unit = {},
-    private val type: Class<out DataItem>,
+    private val type: Class<out ViewItem>,
     private val pageSize: Long
 ) : LiveData<Operation>(), EventListener<QuerySnapshot> {
 
@@ -77,7 +78,10 @@ class ItemsLiveData(
             type.getConstructor().newInstance()
         }
 
-        item.setupTimestamp()
+        if (item is DataItem) {
+
+            item.setupTimestamp()
+        }
 
         val operationType = when (documentChange.type) {
             DocumentChange.Type.ADDED -> ADDED

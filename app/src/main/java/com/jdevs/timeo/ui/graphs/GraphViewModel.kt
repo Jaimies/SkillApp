@@ -26,7 +26,12 @@ class GraphViewModel : ViewModel() {
 
         _day.value = when (stats) {
 
-            is DayStats -> stats.day.toFriendlyDate()
+            is DayStats -> {
+
+                stats.setupDaysCount()
+                stats.day.toFriendlyDate()
+            }
+            
             is WeekStats -> stats.week.toFriendlyWeek()
             is MonthStats -> stats.month.toFriendlyMonth()
         }

@@ -13,7 +13,7 @@ import com.jdevs.timeo.data.Stats
 import com.jdevs.timeo.databinding.GraphListItemBinding
 import java.util.UUID
 
-class GraphsDelegateAdapter : DelegateAdapter {
+class GraphDelegateAdapter : DelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

@@ -40,7 +40,9 @@ object RecordsConstants {
 
 object StatsConstants {
 
-    const val VISIBLE_THRESHOLD = 10
+    const val DAY_STATS_COLLECTION = "dayStats"
+    const val PAGE_SIZE = 30L
+    const val VISIBLE_THRESHOLD = 8
 }
 
 object GraphTypes {

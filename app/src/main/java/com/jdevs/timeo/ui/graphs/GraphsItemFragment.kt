@@ -17,12 +17,8 @@ class GraphsItemFragment(private val type: Int) : ListFragment<DayStats>() {
 
     override val menuId = -1
 
-    override val adapter by lazy {
-
-        GraphsRecyclerViewAdapter()
-    }
-
-    override val firestoreAdapter get() = TODO("not implemented")
+    override val adapter by lazy { GraphsRecyclerViewAdapter() }
+    override val firestoreAdapter by lazy { FirestoreGraphsAdapter() }
 
     @Inject
     override lateinit var viewModel: GraphsViewModel

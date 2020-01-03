@@ -68,4 +68,12 @@ class DefaultTimeoRepository @Inject constructor(
             remoteDataSource.resetActivitiesMonitor()
         }
     }
+
+    override fun resetStatsMonitor() {
+
+        if (isUserSignedIn) {
+
+            remoteDataSource.resetStatsMonitor()
+        }
+    }
 }

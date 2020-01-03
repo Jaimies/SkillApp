@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.DayStats
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.data.source.DefaultTimeoRepository
@@ -18,6 +19,7 @@ import com.jdevs.timeo.data.source.remote.RemoteDataSource
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
+import com.jdevs.timeo.util.StatsConstants
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -41,6 +43,7 @@ class RepositoryModule {
         return RemoteDataSource(
             CollectionMonitor(ActivitiesConstants.PAGE_SIZE, ::createActivitiesLiveData),
             CollectionMonitor(RecordsConstants.PAGE_SIZE, ::createRecordsLiveData),
+            CollectionMonitor(StatsConstants.PAGE_SIZE, ::createStatsLiveData, orderById = true),
             authRepository
         )
     }
@@ -61,29 +64,29 @@ class RepositoryModule {
         query: Query,
         setLastVisibleItem: (DocumentSnapshot) -> Unit,
         onLastItemReached: () -> Unit
-    ): ItemsLiveData {
-
-        return ItemsLiveData(
-            query,
-            setLastVisibleItem,
-            onLastItemReached,
-            Activity::class.java,
-            ActivitiesConstants.PAGE_SIZE
+    ) =
+        ItemsLiveData(
+            query, setLastVisibleItem, onLastItemReached,
+            Activity::class.java, ActivitiesConstants.PAGE_SIZE
         )
-    }
 
     private fun createRecordsLiveData(
         query: Query,
         setLastVisibleItem: (DocumentSnapshot) -> Unit,
         onLastItemReached: () -> Unit
-    ): ItemsLiveData {
-
-        return ItemsLiveData(
-            query,
-            setLastVisibleItem,
-            onLastItemReached,
-            Record::class.java,
-            RecordsConstants.PAGE_SIZE
+    ) =
+        ItemsLiveData(
+            query, setLastVisibleItem, onLastItemReached,
+            Record::class.java, RecordsConstants.PAGE_SIZE
         )
-    }
+
+    private fun createStatsLiveData(
+        query: Query,
+        setLastVisibleItem: (DocumentSnapshot) -> Unit,
+        onLastItemReached: () -> Unit
+    ) =
+        ItemsLiveData(
+            query, setLastVisibleItem, onLastItemReached,
+            DayStats::class.java, StatsConstants.PAGE_SIZE
+        )
 }

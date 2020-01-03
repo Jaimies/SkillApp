@@ -64,6 +64,7 @@ class LocalDataSource(
 
     override fun resetActivitiesMonitor() {}
     override fun resetRecordsMonitor() {}
+    override fun resetStatsMonitor() {}
 
     private fun <T> DataSource.Factory<Int, T>.toLivePagedList(
         pageSize: Int

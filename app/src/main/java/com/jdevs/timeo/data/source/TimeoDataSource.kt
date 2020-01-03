@@ -26,4 +26,5 @@ interface TimeoDataSource {
 
     fun resetActivitiesMonitor()
     fun resetRecordsMonitor()
+    fun resetStatsMonitor()
 }

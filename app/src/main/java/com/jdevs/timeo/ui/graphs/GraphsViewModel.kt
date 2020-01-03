@@ -11,6 +11,11 @@ class GraphsViewModel @Inject constructor(
     private val repository: TimeoRepository
 ) : ListViewModel() {
 
+    init {
+
+        repository.resetStatsMonitor()
+    }
+
     override val liveData: LiveData<*>?
         get() = when (graphType) {
 

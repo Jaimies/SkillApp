@@ -19,27 +19,27 @@ class LocalDataSource(
 
     override val activities by lazy {
 
-        getLivePagedList(ACTIVITIES_PAGE_SIZE, activitiesDao.getActivities())
+        activitiesDao.getActivities().toLivePagedList(ACTIVITIES_PAGE_SIZE)
     }
 
     override val records by lazy {
 
-        getLivePagedList(RECORDS_PAGE_SIZE, recordsDao.getRecords())
+        recordsDao.getRecords().toLivePagedList(RECORDS_PAGE_SIZE)
     }
 
     override val dayStats by lazy {
 
-        getLivePagedList(STATS_PAGE_SIZE, recordsDao.getDayStats())
+        recordsDao.getDayStats().toLivePagedList(STATS_PAGE_SIZE)
     }
 
     override val weekStats by lazy {
 
-        getLivePagedList(STATS_PAGE_SIZE, recordsDao.getWeekStats())
+        recordsDao.getWeekStats().toLivePagedList(STATS_PAGE_SIZE)
     }
 
     override val monthStats by lazy {
 
-        getLivePagedList(STATS_PAGE_SIZE, recordsDao.getMonthStats())
+        recordsDao.getMonthStats().toLivePagedList(STATS_PAGE_SIZE)
     }
 
     override fun getActivityById(id: Int, documentId: String) = activitiesDao.getActivity(id)
@@ -65,9 +65,8 @@ class LocalDataSource(
     override fun resetActivitiesMonitor() {}
     override fun resetRecordsMonitor() {}
 
-    private fun <T> getLivePagedList(
-        pageSize: Int,
-        factory: DataSource.Factory<Int, T>
+    private fun <T> DataSource.Factory<Int, T>.toLivePagedList(
+        pageSize: Int
     ): LiveData<PagedList<T>> {
 
         val pagedListConfig = PagedList.Config.Builder()
@@ -75,6 +74,6 @@ class LocalDataSource(
             .setPageSize(pageSize)
             .build()
 
-        return LivePagedListBuilder(factory, pagedListConfig).build()
+        return LivePagedListBuilder(this, pagedListConfig).build()
     }
 }

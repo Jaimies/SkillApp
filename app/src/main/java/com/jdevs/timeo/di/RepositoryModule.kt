@@ -11,15 +11,15 @@ import com.jdevs.timeo.data.MonthStats
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.WeekStats
 import com.jdevs.timeo.data.source.AuthRepository
-import com.jdevs.timeo.data.source.DefaultTimeoRepository
 import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.data.source.TimeoRepository
+import com.jdevs.timeo.data.source.TimeoRepositoryImpl
 import com.jdevs.timeo.data.source.local.LocalDataSource
 import com.jdevs.timeo.data.source.local.TimeoDatabase
 import com.jdevs.timeo.data.source.remote.CollectionMonitor
-import com.jdevs.timeo.data.source.remote.DefaultRemoteDataSource
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
-import com.jdevs.timeo.data.source.remote.TimeoRemoteDataSource
+import com.jdevs.timeo.data.source.remote.RemoteDataSource
+import com.jdevs.timeo.data.source.remote.RemoteDataSourceImpl
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
@@ -35,16 +35,16 @@ class RepositoryModule {
     @Singleton
     fun provideRepository(context: Context, authRepository: AuthRepository): TimeoRepository {
 
-        return DefaultTimeoRepository(
+        return TimeoRepositoryImpl(
             provideRemoteDataSource(authRepository),
             provideLocalDataSource(context),
             authRepository
         )
     }
 
-    private fun provideRemoteDataSource(authRepository: AuthRepository): TimeoRemoteDataSource {
+    private fun provideRemoteDataSource(authRepository: AuthRepository): RemoteDataSource {
 
-        return DefaultRemoteDataSource(
+        return RemoteDataSourceImpl(
             createCollectionMonitor(Activity::class.java, ActivitiesConstants.PAGE_SIZE),
             createCollectionMonitor(Record::class.java, RecordsConstants.PAGE_SIZE),
             createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE, true),

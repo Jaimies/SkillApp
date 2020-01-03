@@ -12,7 +12,7 @@ import org.junit.Test
  * Unit tests for the implementation of [TimeoRepository]
  */
 @Suppress("UNCHECKED_CAST")
-class DefaultTimeoRepositoryTest {
+class TimeoRepositoryImplTest {
 
     private val activity1 = Activity(name = "Activity 1")
     private val activity2 = Activity(name = "Activity 2")
@@ -31,7 +31,7 @@ class DefaultTimeoRepositoryTest {
     private lateinit var fakeAuthRepository: FakeAuthRepository
 
     // Class under test
-    private lateinit var repository: DefaultTimeoRepository
+    private lateinit var repository: TimeoRepositoryImpl
 
     @Before
     fun createRepository() {
@@ -40,7 +40,7 @@ class DefaultTimeoRepositoryTest {
         remoteDataSource = FakeRemoteDataSource(remoteActivities, remoteRecords)
 
         fakeAuthRepository = FakeAuthRepository()
-        repository = DefaultTimeoRepository(remoteDataSource, localDataSource, fakeAuthRepository)
+        repository = TimeoRepositoryImpl(remoteDataSource, localDataSource, fakeAuthRepository)
     }
 
     @Test

@@ -2,11 +2,11 @@ package com.jdevs.timeo.data.source
 
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.source.remote.TimeoRemoteDataSource
+import com.jdevs.timeo.data.source.remote.RemoteDataSource
 import javax.inject.Inject
 
-class DefaultTimeoRepository @Inject constructor(
-    private val remoteDataSource: TimeoRemoteDataSource,
+class TimeoRepositoryImpl @Inject constructor(
+    private val remoteDataSource: RemoteDataSource,
     private val localDataSource: TimeoDataSource,
     private val authRepository: AuthRepository
 ) : TimeoRepository {
@@ -37,7 +37,7 @@ class DefaultTimeoRepository @Inject constructor(
 
     override suspend fun deleteRecord(record: Record) = currentDataSource.deleteRecord(record)
 
-    private fun performOnRemote(action: (TimeoRemoteDataSource) -> Unit) {
+    private fun performOnRemote(action: (RemoteDataSource) -> Unit) {
 
         if (isUserSignedIn) {
 

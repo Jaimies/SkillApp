@@ -24,14 +24,14 @@ import com.jdevs.timeo.util.time.getDaysSinceEpoch
 import com.jdevs.timeo.util.time.getMonthSinceEpoch
 import com.jdevs.timeo.util.time.getWeeksSinceEpoch
 
-class DefaultRemoteDataSource(
+class RemoteDataSourceImpl(
     private val activitiesMonitor: CollectionMonitor,
     private val recordsMonitor: CollectionMonitor,
     private val dayStatsMonitor: CollectionMonitor,
     private val weekStatsMonitor: CollectionMonitor,
     private val monthStatsMonitor: CollectionMonitor,
     private val authRepository: AuthRepository
-) : TimeoRemoteDataSource {
+) : RemoteDataSource {
 
     override val activities: ItemsLiveData?
         get() {

@@ -3,13 +3,13 @@ package com.jdevs.timeo.data.source
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.DayStats
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.source.remote.TimeoRemoteDataSource
+import com.jdevs.timeo.data.source.remote.RemoteDataSource
 
 class FakeRemoteDataSource(
     activityList: List<Activity> = emptyList(),
     recordList: List<Record> = emptyList(),
     statsList: List<DayStats> = emptyList()
-) : FakeDataSource(activityList, recordList, statsList), TimeoRemoteDataSource {
+) : FakeDataSource(activityList, recordList, statsList), RemoteDataSource {
 
     override fun resetActivitiesMonitor() {}
 

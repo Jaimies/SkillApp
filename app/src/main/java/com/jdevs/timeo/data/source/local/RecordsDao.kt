@@ -25,6 +25,15 @@ interface RecordsDao : BaseDao<Record> {
     }
 
     @Transaction
+    suspend fun deleteRecord(record: Record) {
+
+        delete(record)
+        registerDayStats(-record.time, record.creationDate.getDaysSinceEpoch())
+        registerWeekStats(-record.time, record.creationDate.getWeeksSinceEpoch())
+        registerMonthStats(-record.time, record.creationDate.getMonthSinceEpoch())
+    }
+
+    @Transaction
     @Query(
         """SELECT records.*, activities.name FROM records
         LEFT JOIN activities ON activities.id = records.activityId 
@@ -59,12 +68,12 @@ interface RecordsDao : BaseDao<Record> {
     )
     fun registerMonthStats(time: Long, month: Short)
 
-    @Query("SELECT * FROM dayStats ORDER BY day DESC")
+    @Query("SELECT * FROM dayStats WHERE time > 0 ORDER BY day DESC")
     fun getDayStats(): DataSource.Factory<Int, DayStats>
 
-    @Query("SELECT * FROM weekStats ORDER BY week DESC")
+    @Query("SELECT * FROM weekStats WHERE time > 0  ORDER BY week DESC")
     fun getWeekStats(): DataSource.Factory<Int, WeekStats>
 
-    @Query("SELECT * FROM monthStats ORDER BY month DESC")
+    @Query("SELECT * FROM monthStats WHERE time > 0 ORDER BY month DESC")
     fun getMonthStats(): DataSource.Factory<Int, MonthStats>
 }

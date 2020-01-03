@@ -58,7 +58,7 @@ class LocalDataSource(
 
     override suspend fun deleteRecord(record: Record) {
 
-        recordsDao.delete(record)
+        recordsDao.deleteRecord(record)
         activitiesDao.increaseTime(record.roomActivityId, -record.time)
     }
 

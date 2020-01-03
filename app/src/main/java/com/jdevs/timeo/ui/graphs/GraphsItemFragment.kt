@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.DayStats
+import com.jdevs.timeo.databinding.GraphsItemFragBinding
 import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
-import kotlinx.android.synthetic.main.graphs_item_frag.view.recycler_view
 import javax.inject.Inject
 
 class GraphsItemFragment(private val type: Int) : ListFragment<DayStats>() {
@@ -44,11 +43,19 @@ class GraphsItemFragment(private val type: Int) : ListFragment<DayStats>() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        return inflater.inflate(R.layout.graphs_item_frag, container, false).recycler_view.apply {
+        val binding = GraphsItemFragBinding.inflate(inflater, container, false).also {
 
-            layoutManager = LinearLayoutManager(context)
-            adapter = GraphsRecyclerViewAdapter()
-            setup(VISIBLE_THRESHOLD)
+            it.viewModel = viewModel
+            it.lifecycleOwner = this
+
+            it.recyclerView.apply {
+
+                layoutManager = LinearLayoutManager(context)
+                adapter = GraphsRecyclerViewAdapter()
+                setup(VISIBLE_THRESHOLD)
+            }
         }
+
+        return binding.root
     }
 }

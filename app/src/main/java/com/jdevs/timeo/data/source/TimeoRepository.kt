@@ -26,5 +26,7 @@ interface TimeoRepository {
 
     fun resetActivitiesMonitor()
     fun resetRecordsMonitor()
-    fun resetStatsMonitor()
+    fun resetDayStatsMonitor()
+    fun resetWeekStatsMonitor()
+    fun resetMonthStatsMonitor()
 }

@@ -43,14 +43,14 @@ fun Long.toFriendlyDate(): String {
     return LocalDate.ofEpochDay(this).toString()
 }
 
-fun Short.toFriendlyMonth(): String {
+fun Int.toFriendlyMonth(): String {
 
     val date = LocalDate.from(EPOCH).plusMonths(toLong())
 
     return "${date.year} - ${date.month}"
 }
 
-fun Short.toFriendlyWeek(): String {
+fun Int.toFriendlyWeek(): String {
 
     val date = LocalDate.from(EPOCH).plusWeeks(toLong())
 

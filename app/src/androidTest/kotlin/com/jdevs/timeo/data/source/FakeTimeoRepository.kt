@@ -73,6 +73,9 @@ class FakeTimeoRepository @Inject constructor() : TimeoRepository {
 
     override fun resetRecordsMonitor() {}
     override fun resetActivitiesMonitor() {}
+    override fun resetDayStatsMonitor() {}
+    override fun resetWeekStatsMonitor() {}
+    override fun resetMonthStatsMonitor() {}
 
     private fun <T> List<T>.asPagedList(): PagedList<T> {
 

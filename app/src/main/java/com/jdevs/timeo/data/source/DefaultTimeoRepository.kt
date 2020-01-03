@@ -69,11 +69,27 @@ class DefaultTimeoRepository @Inject constructor(
         }
     }
 
-    override fun resetStatsMonitor() {
+    override fun resetDayStatsMonitor() {
 
         if (isUserSignedIn) {
 
-            remoteDataSource.resetStatsMonitor()
+            remoteDataSource.resetDayStatsMonitor()
+        }
+    }
+
+    override fun resetWeekStatsMonitor() {
+
+        if (isUserSignedIn) {
+
+            remoteDataSource.resetWeekStatsMonitor()
+        }
+    }
+
+    override fun resetMonthStatsMonitor() {
+
+        if (isUserSignedIn) {
+
+            remoteDataSource.resetMonthStatsMonitor()
         }
     }
 }

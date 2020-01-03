@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.DayStats
+import com.jdevs.timeo.data.MonthStats
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.WeekStats
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.data.source.DefaultTimeoRepository
 import com.jdevs.timeo.data.source.TimeoDataSource
@@ -41,9 +44,11 @@ class RepositoryModule {
     private fun provideRemoteDataSource(authRepository: AuthRepository): TimeoDataSource {
 
         return RemoteDataSource(
-            CollectionMonitor(ActivitiesConstants.PAGE_SIZE, ::createActivitiesLiveData),
-            CollectionMonitor(RecordsConstants.PAGE_SIZE, ::createRecordsLiveData),
-            CollectionMonitor(StatsConstants.PAGE_SIZE, ::createStatsLiveData, orderById = true),
+            createCollectionMonitor(Activity::class.java, ActivitiesConstants.PAGE_SIZE),
+            createCollectionMonitor(Record::class.java, RecordsConstants.PAGE_SIZE),
+            createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE, true),
+            createCollectionMonitor(WeekStats::class.java, StatsConstants.PAGE_SIZE, true),
+            createCollectionMonitor(MonthStats::class.java, StatsConstants.PAGE_SIZE, true),
             authRepository
         )
     }
@@ -60,33 +65,21 @@ class RepositoryModule {
         return LocalDataSource(database.activitiesDao(), database.recordsDao())
     }
 
-    private fun createActivitiesLiveData(
-        query: Query,
-        setLastVisibleItem: (DocumentSnapshot) -> Unit,
-        onLastItemReached: () -> Unit
-    ) =
-        ItemsLiveData(
-            query, setLastVisibleItem, onLastItemReached,
-            Activity::class.java, ActivitiesConstants.PAGE_SIZE
-        )
+    private fun createCollectionMonitor(
+        type: Class<out ViewItem>,
+        pageSize: Long,
+        orderById: Boolean = false
+    ): CollectionMonitor {
 
-    private fun createRecordsLiveData(
-        query: Query,
-        setLastVisibleItem: (DocumentSnapshot) -> Unit,
-        onLastItemReached: () -> Unit
-    ) =
-        ItemsLiveData(
-            query, setLastVisibleItem, onLastItemReached,
-            Record::class.java, RecordsConstants.PAGE_SIZE
-        )
+        return CollectionMonitor(pageSize, createLiveData(type, pageSize), orderById)
+    }
 
-    private fun createStatsLiveData(
-        query: Query,
-        setLastVisibleItem: (DocumentSnapshot) -> Unit,
-        onLastItemReached: () -> Unit
-    ) =
-        ItemsLiveData(
-            query, setLastVisibleItem, onLastItemReached,
-            DayStats::class.java, StatsConstants.PAGE_SIZE
-        )
+    private fun createLiveData(
+        type: Class<out ViewItem>,
+        pageSize: Long
+    ): (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ItemsLiveData =
+        { query, setLastVisibleItem, onLastReached ->
+
+            ItemsLiveData(query, setLastVisibleItem, onLastReached, type, pageSize)
+        }
 }

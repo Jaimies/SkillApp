@@ -41,6 +41,8 @@ object RecordsConstants {
 object StatsConstants {
 
     const val DAY_STATS_COLLECTION = "dayStats"
+    const val WEEK_STATS_COLLECTION = "weekStats"
+    const val MONTH_STATS_COLLECTION = "monthStats"
     const val PAGE_SIZE = 30L
     const val VISIBLE_THRESHOLD = 8
 }
@@ -49,6 +51,7 @@ object GraphTypes {
 
     const val DAY = 0
     const val WEEK = 1
+    const val MONTH = 2
 }
 
 object OperationTypes {

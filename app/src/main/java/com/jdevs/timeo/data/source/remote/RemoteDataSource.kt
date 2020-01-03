@@ -3,13 +3,14 @@ package com.jdevs.timeo.data.source.remote
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.jdevs.timeo.data.Activity
-import com.jdevs.timeo.data.DayStats
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.RecordMinimal
+import com.jdevs.timeo.data.WeekStats
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.util.ActivitiesConstants
@@ -21,11 +22,15 @@ import com.jdevs.timeo.util.StatsConstants
 import com.jdevs.timeo.util.await
 import com.jdevs.timeo.util.logOnFailure
 import com.jdevs.timeo.util.time.getDaysSinceEpoch
+import com.jdevs.timeo.util.time.getMonthSinceEpoch
+import com.jdevs.timeo.util.time.getWeeksSinceEpoch
 
 class RemoteDataSource(
     private val activitiesMonitor: CollectionMonitor,
     private val recordsMonitor: CollectionMonitor,
-    private val statsMonitor: CollectionMonitor,
+    private val dayStatsMonitor: CollectionMonitor,
+    private val weekStatsMonitor: CollectionMonitor,
+    private val monthStatsMonitor: CollectionMonitor,
     private val authRepository: AuthRepository
 ) : TimeoDataSource {
 
@@ -47,17 +52,29 @@ class RemoteDataSource(
         get() {
 
             reset()
-            return statsMonitor.getLiveData()
+            return dayStatsMonitor.getLiveData()
         }
 
-    override val weekStats get() = dayStats
-    override val monthStats get() = dayStats
+    override val weekStats: ItemsLiveData?
+        get() {
+
+            reset()
+            return weekStatsMonitor.getLiveData()
+        }
+    override val monthStats: ItemsLiveData?
+        get() {
+
+            reset()
+            return monthStatsMonitor.getLiveData()
+        }
 
     private val firestore = FirebaseFirestore.getInstance()
     private var prevUid = ""
     private lateinit var activitiesRef: CollectionReference
     private lateinit var recordsRef: CollectionReference
-    private lateinit var statsRef: CollectionReference
+    private lateinit var dayStatsRef: CollectionReference
+    private lateinit var weekStatsRef: CollectionReference
+    private lateinit var monthStatsRef: CollectionReference
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 
@@ -85,7 +102,6 @@ class RemoteDataSource(
 
         val newRecordRef = recordsRef.document()
         val activityRef = activitiesRef.document(record.activityId)
-        val statisticRef = statsRef.document(record.creationDate.getDaysSinceEpoch().toString())
 
         firestore.runBatch { batch ->
 
@@ -100,16 +116,31 @@ class RemoteDataSource(
             )
         }
 
-        try {
+        suspend fun updateStats(vararg refs: DocumentReference) {
 
-            statisticRef.update("time", FieldValue.increment(record.time)).await()
-        } catch (e: FirebaseFirestoreException) {
+            refs.forEach { reference ->
 
-            if (e.code == FirebaseFirestoreException.Code.NOT_FOUND) {
+                try {
 
-                statisticRef.set(DayStats(record.time))
+                    reference.update("time", FieldValue.increment(record.time)).await()
+                } catch (e: FirebaseFirestoreException) {
+
+                    if (e.code == FirebaseFirestoreException.Code.NOT_FOUND) {
+
+                        reference.set(WeekStats(record.time))
+                    }
+                }
             }
         }
+
+        val dayStatsRef =
+            dayStatsRef.document(record.creationDate.getDaysSinceEpoch().toString())
+        val weekStatsRef =
+            weekStatsRef.document(record.creationDate.getWeeksSinceEpoch().toString())
+        val monthStatsRef =
+            monthStatsRef.document(record.creationDate.getMonthSinceEpoch().toString())
+
+        updateStats(dayStatsRef, weekStatsRef, monthStatsRef)
     }
 
     override suspend fun saveActivity(activity: Activity) {
@@ -167,7 +198,9 @@ class RemoteDataSource(
 
     override fun resetRecordsMonitor() = recordsMonitor.reset()
     override fun resetActivitiesMonitor() = activitiesMonitor.reset()
-    override fun resetStatsMonitor() = statsMonitor.reset()
+    override fun resetDayStatsMonitor() = dayStatsMonitor.reset()
+    override fun resetWeekStatsMonitor() = weekStatsMonitor.reset()
+    override fun resetMonthStatsMonitor() = monthStatsMonitor.reset()
 
     private fun reset() {
 
@@ -178,18 +211,18 @@ class RemoteDataSource(
             return
         }
 
-        activitiesRef = firestore
-            .collection("/$USERS_COLLECTION/$uid/${ActivitiesConstants.COLLECTION}")
+        fun createRef(collection: String, monitor: CollectionMonitor) = firestore
+            .collection("/$USERS_COLLECTION/$uid/$collection").also {
 
-        recordsRef = firestore
-            .collection("/$USERS_COLLECTION/$uid/${RecordsConstants.COLLECTION}")
+                monitor.setRef(it)
+            }
 
-        statsRef = firestore
-            .collection("/$USERS_COLLECTION/$uid/${StatsConstants.DAY_STATS_COLLECTION}")
+        activitiesRef = createRef(ActivitiesConstants.COLLECTION, activitiesMonitor)
+        recordsRef = createRef(RecordsConstants.COLLECTION, recordsMonitor)
 
-        activitiesMonitor.setRef(activitiesRef)
-        recordsMonitor.setRef(recordsRef)
-        statsMonitor.setRef(statsRef)
+        dayStatsRef = createRef(StatsConstants.DAY_STATS_COLLECTION, dayStatsMonitor)
+        weekStatsRef = createRef(StatsConstants.WEEK_STATS_COLLECTION, weekStatsMonitor)
+        monthStatsRef = createRef(StatsConstants.MONTH_STATS_COLLECTION, monthStatsMonitor)
 
         prevUid = uid
     }

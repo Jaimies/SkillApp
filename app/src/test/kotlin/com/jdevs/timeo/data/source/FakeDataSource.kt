@@ -30,4 +30,7 @@ class FakeDataSource(
     override suspend fun saveActivity(activity: Activity) {}
     override fun resetRecordsMonitor() {}
     override fun resetActivitiesMonitor() {}
+    override fun resetDayStatsMonitor() {}
+    override fun resetWeekStatsMonitor() {}
+    override fun resetMonthStatsMonitor() {}
 }

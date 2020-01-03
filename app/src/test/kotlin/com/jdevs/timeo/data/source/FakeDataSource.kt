@@ -6,7 +6,7 @@ import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.DayStats
 import com.jdevs.timeo.data.Record
 
-class FakeDataSource(
+open class FakeDataSource(
     activityList: List<Activity> = emptyList(),
     recordList: List<Record> = emptyList(),
     statsList: List<DayStats> = emptyList()
@@ -28,9 +28,4 @@ class FakeDataSource(
     override suspend fun deleteActivity(activity: Activity) {}
     override suspend fun deleteRecord(record: Record) {}
     override suspend fun saveActivity(activity: Activity) {}
-    override fun resetRecordsMonitor() {}
-    override fun resetActivitiesMonitor() {}
-    override fun resetDayStatsMonitor() {}
-    override fun resetWeekStatsMonitor() {}
-    override fun resetMonthStatsMonitor() {}
 }

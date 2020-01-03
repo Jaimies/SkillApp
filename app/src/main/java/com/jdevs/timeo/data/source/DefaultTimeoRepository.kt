@@ -1,12 +1,12 @@
 package com.jdevs.timeo.data.source
 
-import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.source.remote.TimeoRemoteDataSource
 import javax.inject.Inject
 
 class DefaultTimeoRepository @Inject constructor(
-    private val remoteDataSource: TimeoDataSource,
+    private val remoteDataSource: TimeoRemoteDataSource,
     private val localDataSource: TimeoDataSource,
     private val authRepository: AuthRepository
 ) : TimeoRepository {
@@ -23,73 +23,35 @@ class DefaultTimeoRepository @Inject constructor(
     override val weekStats get() = currentDataSource.weekStats
     override val monthStats get() = currentDataSource.monthStats
 
-    override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
+    override fun getActivityById(id: Int, documentId: String) =
+        currentDataSource.getActivityById(id, documentId)
 
-        return currentDataSource.getActivityById(id, documentId)
-    }
+    override suspend fun addActivity(activity: Activity) = currentDataSource.addActivity(activity)
 
-    override suspend fun addActivity(activity: Activity) {
+    override suspend fun saveActivity(activity: Activity) = currentDataSource.saveActivity(activity)
 
-        currentDataSource.addActivity(activity)
-    }
-
-    override suspend fun saveActivity(activity: Activity) {
-
-        currentDataSource.saveActivity(activity)
-    }
-
-    override suspend fun deleteActivity(activity: Activity) {
-
+    override suspend fun deleteActivity(activity: Activity) =
         currentDataSource.deleteActivity(activity)
-    }
 
-    override suspend fun addRecord(record: Record) {
+    override suspend fun addRecord(record: Record) = currentDataSource.addRecord(record)
 
-        currentDataSource.addRecord(record)
-    }
+    override suspend fun deleteRecord(record: Record) = currentDataSource.deleteRecord(record)
 
-    override suspend fun deleteRecord(record: Record) {
-
-        currentDataSource.deleteRecord(record)
-    }
-
-    override fun resetRecordsMonitor() {
+    private fun performOnRemote(action: (TimeoRemoteDataSource) -> Unit) {
 
         if (isUserSignedIn) {
 
-            remoteDataSource.resetRecordsMonitor()
+            action(remoteDataSource)
         }
     }
 
-    override fun resetActivitiesMonitor() {
+    override fun resetActivitiesMonitor() = performOnRemote { it.resetActivitiesMonitor() }
 
-        if (isUserSignedIn) {
+    override fun resetRecordsMonitor() = performOnRemote { it.resetRecordsMonitor() }
 
-            remoteDataSource.resetActivitiesMonitor()
-        }
-    }
+    override fun resetDayStatsMonitor() = performOnRemote { it.resetDayStatsMonitor() }
 
-    override fun resetDayStatsMonitor() {
+    override fun resetWeekStatsMonitor() = performOnRemote { it.resetWeekStatsMonitor() }
 
-        if (isUserSignedIn) {
-
-            remoteDataSource.resetDayStatsMonitor()
-        }
-    }
-
-    override fun resetWeekStatsMonitor() {
-
-        if (isUserSignedIn) {
-
-            remoteDataSource.resetWeekStatsMonitor()
-        }
-    }
-
-    override fun resetMonthStatsMonitor() {
-
-        if (isUserSignedIn) {
-
-            remoteDataSource.resetMonthStatsMonitor()
-        }
-    }
+    override fun resetMonthStatsMonitor() = performOnRemote { it.resetMonthStatsMonitor() }
 }

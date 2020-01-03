@@ -26,8 +26,8 @@ class DefaultTimeoRepositoryTest {
     private val remoteActivities = listOf(activity1, activity3)
     private val remoteRecords = listOf(record1, record3)
 
-    private lateinit var remoteDataSource: FakeDataSource
     private lateinit var localDataSource: FakeDataSource
+    private lateinit var remoteDataSource: FakeRemoteDataSource
     private lateinit var fakeAuthRepository: FakeAuthRepository
 
     // Class under test
@@ -37,7 +37,7 @@ class DefaultTimeoRepositoryTest {
     fun createRepository() {
 
         localDataSource = FakeDataSource(localActivities, localRecords)
-        remoteDataSource = FakeDataSource(remoteActivities, remoteRecords)
+        remoteDataSource = FakeRemoteDataSource(remoteActivities, remoteRecords)
 
         fakeAuthRepository = FakeAuthRepository()
         repository = DefaultTimeoRepository(remoteDataSource, localDataSource, fakeAuthRepository)

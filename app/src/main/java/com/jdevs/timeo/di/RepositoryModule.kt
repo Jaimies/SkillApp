@@ -17,8 +17,9 @@ import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.data.source.local.LocalDataSource
 import com.jdevs.timeo.data.source.local.TimeoDatabase
 import com.jdevs.timeo.data.source.remote.CollectionMonitor
+import com.jdevs.timeo.data.source.remote.DefaultRemoteDataSource
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
-import com.jdevs.timeo.data.source.remote.RemoteDataSource
+import com.jdevs.timeo.data.source.remote.TimeoRemoteDataSource
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
@@ -41,9 +42,9 @@ class RepositoryModule {
         )
     }
 
-    private fun provideRemoteDataSource(authRepository: AuthRepository): TimeoDataSource {
+    private fun provideRemoteDataSource(authRepository: AuthRepository): TimeoRemoteDataSource {
 
-        return RemoteDataSource(
+        return DefaultRemoteDataSource(
             createCollectionMonitor(Activity::class.java, ActivitiesConstants.PAGE_SIZE),
             createCollectionMonitor(Record::class.java, RecordsConstants.PAGE_SIZE),
             createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE, true),

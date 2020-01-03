@@ -12,7 +12,6 @@ import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.RecordMinimal
 import com.jdevs.timeo.data.WeekStats
 import com.jdevs.timeo.data.source.AuthRepository
-import com.jdevs.timeo.data.source.TimeoDataSource
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
@@ -25,14 +24,14 @@ import com.jdevs.timeo.util.time.getDaysSinceEpoch
 import com.jdevs.timeo.util.time.getMonthSinceEpoch
 import com.jdevs.timeo.util.time.getWeeksSinceEpoch
 
-class RemoteDataSource(
+class DefaultRemoteDataSource(
     private val activitiesMonitor: CollectionMonitor,
     private val recordsMonitor: CollectionMonitor,
     private val dayStatsMonitor: CollectionMonitor,
     private val weekStatsMonitor: CollectionMonitor,
     private val monthStatsMonitor: CollectionMonitor,
     private val authRepository: AuthRepository
-) : TimeoDataSource {
+) : TimeoRemoteDataSource {
 
     override val activities: ItemsLiveData?
         get() {
@@ -219,7 +218,6 @@ class RemoteDataSource(
 
         activitiesRef = createRef(ActivitiesConstants.COLLECTION, activitiesMonitor)
         recordsRef = createRef(RecordsConstants.COLLECTION, recordsMonitor)
-
         dayStatsRef = createRef(StatsConstants.DAY_STATS_COLLECTION, dayStatsMonitor)
         weekStatsRef = createRef(StatsConstants.WEEK_STATS_COLLECTION, weekStatsMonitor)
         monthStatsRef = createRef(StatsConstants.MONTH_STATS_COLLECTION, monthStatsMonitor)

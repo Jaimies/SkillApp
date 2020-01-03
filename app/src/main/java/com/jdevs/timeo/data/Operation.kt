@@ -1,7 +1,9 @@
 package com.jdevs.timeo.data
 
+import com.jdevs.timeo.common.adapter.ViewItem
+
 data class Operation(
-    val data: Any? = null,
+    val data: ViewItem? = null,
     val exception: Exception? = null,
     val type: Int
 ) {

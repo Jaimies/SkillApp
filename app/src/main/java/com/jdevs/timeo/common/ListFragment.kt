@@ -32,9 +32,9 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     protected abstract val viewModel: ListViewModel
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()
 
-    protected abstract val roomAdapter: ListAdapter
+    protected abstract val adapter: ListAdapter
     protected abstract val firestoreAdapter: FirestoreListAdapter
-    private val currentAdapter get() = if (authRepository.isUserSignedIn) firestoreAdapter else roomAdapter
+    private val currentAdapter get() = if (authRepository.isUserSignedIn) firestoreAdapter else adapter
 
     @Inject
     lateinit var authRepository: AuthRepository
@@ -62,7 +62,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
         liveData.observe(viewLifecycleOwner) {
 
-            roomAdapter.submitList(it)
+            adapter.submitList(it)
             viewModel.setLength(it.size)
             viewModel.hideLoader()
         }
@@ -98,20 +98,17 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
                 ADDED -> {
 
-                    val item = operation.data as T
-                    firestoreAdapter.addItem(item)
+                    firestoreAdapter.addItem(operation.data!!)
                 }
 
                 MODIFIED -> {
 
-                    val item = operation.data as T
-                    firestoreAdapter.modifyItem(item)
+                    firestoreAdapter.modifyItem(operation.data!!)
                 }
 
                 REMOVED -> {
 
-                    val item = operation.data as T
-                    firestoreAdapter.removeItem(item)
+                    firestoreAdapter.removeItem(operation.data!!)
                 }
 
                 SUCCESSFUL -> {
@@ -165,7 +162,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
             firestoreAdapter.getItem(position)
         } else {
 
-            roomAdapter.getItem(position)
+            adapter.getItem(position)
         } as T
     }
 }

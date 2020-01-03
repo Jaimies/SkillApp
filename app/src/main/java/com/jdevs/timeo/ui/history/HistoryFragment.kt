@@ -19,7 +19,7 @@ import javax.inject.Inject
 class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener {
 
     override val menuId = R.menu.history_fragment_menu
-    override val roomAdapter by lazy { RecordsAdapter(::showDeleteDialog) }
+    override val adapter by lazy { RecordsAdapter(::showDeleteDialog) }
     override val firestoreAdapter by lazy { FirestoreRecordsAdapter(::showDeleteDialog) }
     private var chosenItemIndex = -1
 

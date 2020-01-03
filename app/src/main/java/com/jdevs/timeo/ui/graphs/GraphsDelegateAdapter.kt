@@ -41,7 +41,7 @@ class GraphsDelegateAdapter : DelegateAdapter {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
 
         holder as ViewHolder
-        holder.bind(item as Stats)
+        holder.bindStats(item as Stats)
     }
 
     class ViewHolder(
@@ -49,6 +49,6 @@ class GraphsDelegateAdapter : DelegateAdapter {
         view: View
     ) : ListAdapter.ViewHolder(view) {
 
-        fun bind(stats: Stats) = viewModel.setStats(stats)
+        fun bindStats(stats: Stats) = viewModel.setStats(stats)
     }
 }

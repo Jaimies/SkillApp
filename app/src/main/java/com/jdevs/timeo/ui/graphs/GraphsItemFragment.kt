@@ -17,7 +17,7 @@ class GraphsItemFragment(private val type: Int) : ListFragment<DayStats>() {
 
     override val menuId = -1
 
-    override val roomAdapter by lazy {
+    override val adapter by lazy {
 
         GraphsRecyclerViewAdapter()
     }

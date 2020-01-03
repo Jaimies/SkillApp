@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class ActivitiesFragment : ListFragment<Activity>() {
 
-    override val roomAdapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
+    override val adapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
     override val firestoreAdapter by lazy {
         FirestoreActivitiesAdapter(::createRecord, ::navigateToDetails)
     }

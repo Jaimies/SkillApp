@@ -2,7 +2,6 @@ package com.jdevs.timeo.util.time
 
 import org.threeten.bp.DateTimeUtils
 import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.ZoneOffset
 import java.util.Date
 
 fun Date?.toOffsetDate(): OffsetDateTime {
@@ -12,8 +11,9 @@ fun Date?.toOffsetDate(): OffsetDateTime {
         OffsetDateTime.now()
     } else {
 
-        OffsetDateTime.from(DateTimeUtils.toInstant(this).atOffset(ZoneOffset.UTC))
+        OffsetDateTime.from(DateTimeUtils.toInstant(this).atOffset(currentOffset))
     }
 }
 
-fun OffsetDateTime.toDate(): Date = DateTimeUtils.toDate(toInstant())
+fun OffsetDateTime.toDate(): Date =
+    DateTimeUtils.toDate(toInstant())

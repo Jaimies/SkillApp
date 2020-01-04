@@ -3,11 +3,12 @@ package com.jdevs.timeo.util.time
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.ZoneOffset
 import org.threeten.bp.temporal.ChronoUnit
 import org.threeten.bp.temporal.WeekFields
 import java.util.Locale
 
-private val currentOffset get() = OffsetDateTime.now().offset
+val currentOffset: ZoneOffset get() = OffsetDateTime.now().offset
 private val EPOCH = Instant.EPOCH.atOffset(currentOffset)
 
 fun OffsetDateTime.getDaysSpentSince(): Long {

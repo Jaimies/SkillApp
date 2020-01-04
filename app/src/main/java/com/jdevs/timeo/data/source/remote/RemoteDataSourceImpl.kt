@@ -3,7 +3,6 @@ package com.jdevs.timeo.data.source.remote
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -115,31 +114,7 @@ class RemoteDataSourceImpl(
             )
         }
 
-        suspend fun updateStats(vararg refs: DocumentReference) {
-
-            refs.forEach { reference ->
-
-                try {
-
-                    reference.update("time", FieldValue.increment(record.time)).await()
-                } catch (e: FirebaseFirestoreException) {
-
-                    if (e.code == FirebaseFirestoreException.Code.NOT_FOUND) {
-
-                        reference.set(DayStats(record.time, reference.id.toLong()))
-                    }
-                }
-            }
-        }
-
-        val dayStatsRef =
-            dayStatsRef.document(record.creationDate.getDaysSinceEpoch().toString())
-        val weekStatsRef =
-            weekStatsRef.document(record.creationDate.getWeeksSinceEpoch().toString())
-        val monthStatsRef =
-            monthStatsRef.document(record.creationDate.getMonthSinceEpoch().toString())
-
-        updateStats(dayStatsRef, weekStatsRef, monthStatsRef)
+        updateStats(record)
     }
 
     override suspend fun saveActivity(activity: Activity) {
@@ -175,10 +150,12 @@ class RemoteDataSourceImpl(
     override suspend fun deleteActivity(activity: Activity) {
 
         activitiesRef.document(activity.documentId).delete()
-            .logOnFailure("Failed to delete data to Firestore")
+            .logOnFailure("Failed to delete data from Firestore")
     }
 
     override suspend fun deleteRecord(record: Record) {
+
+        record.setupFirestoreTimestamp()
 
         val recordRef = recordsRef.document(record.documentId)
         val activityRef = activitiesRef.document(record.activityId)
@@ -193,6 +170,8 @@ class RemoteDataSourceImpl(
                 FieldValue.increment(-record.time)
             )
         }
+
+        updateStats(record, true)
     }
 
     override fun resetRecordsMonitor() = recordsMonitor.reset()
@@ -200,6 +179,31 @@ class RemoteDataSourceImpl(
     override fun resetDayStatsMonitor() = dayStatsMonitor.reset()
     override fun resetWeekStatsMonitor() = weekStatsMonitor.reset()
     override fun resetMonthStatsMonitor() = monthStatsMonitor.reset()
+
+    private suspend fun updateStats(record: Record, decrement: Boolean = false) {
+
+        val refs = listOf(
+            dayStatsRef.document(record.creationDate.getDaysSinceEpoch().toString()),
+            weekStatsRef.document(record.creationDate.getWeeksSinceEpoch().toString()),
+            monthStatsRef.document(record.creationDate.getMonthSinceEpoch().toString())
+        )
+
+        val time = if (!decrement) record.time else -record.time
+
+        refs.forEach { ref ->
+
+            try {
+
+                ref.update("time", FieldValue.increment(time)).await()
+            } catch (e: FirebaseFirestoreException) {
+
+                if (e.code == FirebaseFirestoreException.Code.NOT_FOUND) {
+
+                    ref.set(DayStats(time, ref.id.toLong()))
+                }
+            }
+        }
+    }
 
     private fun reset() {
 

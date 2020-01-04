@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.graphs
+package com.jdevs.timeo.ui.stats
 
 import android.content.Context
 import android.os.Bundle
@@ -8,19 +8,19 @@ import android.view.ViewGroup
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.DayStats
-import com.jdevs.timeo.databinding.GraphsPageFragBinding
+import com.jdevs.timeo.databinding.StatsPageFragBinding
 import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
 import javax.inject.Inject
 
-class GraphsItemFragment(private val graphType: Int) : ListFragment<DayStats>() {
+class StatsItemFragment(private val statsType: Int) : ListFragment<DayStats>() {
 
     override val menuId = -1
 
-    override val adapter by lazy { GraphsRecyclerViewAdapter() }
-    override val firestoreAdapter by lazy { FirestoreGraphsAdapter() }
+    override val adapter by lazy { StatsRecyclerViewAdapter() }
+    override val firestoreAdapter by lazy { FirestoreStatsAdapter() }
 
     @Inject
-    override lateinit var viewModel: GraphsViewModel
+    override lateinit var viewModel: StatsViewModel
 
     override fun onAttach(context: Context) {
 
@@ -34,11 +34,11 @@ class GraphsItemFragment(private val graphType: Int) : ListFragment<DayStats>() 
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel.setGraphType(graphType)
+        viewModel.setStatsType(statsType)
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = GraphsPageFragBinding.inflate(inflater, container, false).also {
+        val binding = StatsPageFragBinding.inflate(inflater, container, false).also {
 
             it.viewModel = viewModel
             it.lifecycleOwner = this

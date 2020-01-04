@@ -14,7 +14,7 @@ import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
-import com.jdevs.timeo.ui.graphs.setupTabLayoutMediator
+import com.jdevs.timeo.ui.stats.setupTabLayoutMediator
 import com.jdevs.timeo.util.observeEvent
 import javax.inject.Inject
 
@@ -50,15 +50,15 @@ class ActivityDetailFragment : ActionBarFragment() {
             it.lifecycleOwner = this
             it.viewModel = viewModel
 
-            it.graphsViewpager.adapter = ActivityDetailGraphsAdapter(this) { graphType ->
+            it.statsViewpager.adapter = ActivityDetailStatsAdapter(this) { statsType ->
 
                 val directions = ActivityDetailFragmentDirections
-                    .actionActivityDetailFragmentToGraphsFragment(graphType)
+                    .actionActivityDetailFragmentToStatsFragment(statsType)
 
                 findNavController().navigate(directions)
             }
 
-            setupTabLayoutMediator(it.graphsTablayout, it.graphsViewpager)
+            setupTabLayoutMediator(it.statsTablayout, it.statsViewpager)
         }
 
         viewModel.apply {

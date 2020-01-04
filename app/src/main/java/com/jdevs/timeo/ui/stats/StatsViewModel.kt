@@ -1,18 +1,18 @@
-package com.jdevs.timeo.ui.graphs
+package com.jdevs.timeo.ui.stats
 
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.source.TimeoRepository
-import com.jdevs.timeo.util.GraphTypes.DAY
-import com.jdevs.timeo.util.GraphTypes.MONTH
-import com.jdevs.timeo.util.GraphTypes.WEEK
+import com.jdevs.timeo.util.StatsTypes.DAY
+import com.jdevs.timeo.util.StatsTypes.MONTH
+import com.jdevs.timeo.util.StatsTypes.WEEK
 import javax.inject.Inject
 
-class GraphsViewModel @Inject constructor(
+class StatsViewModel @Inject constructor(
     private val repository: TimeoRepository
 ) : ListViewModel() {
 
     override val liveData
-        get() = when (graphType) {
+        get() = when (statsType) {
 
             DAY -> repository.dayStats
             WEEK -> repository.weekStats
@@ -20,9 +20,9 @@ class GraphsViewModel @Inject constructor(
             else -> null
         }
 
-    fun setGraphType(type: Int) {
+    fun setStatsType(type: Int) {
 
-        graphType = type
+        statsType = type
 
         when (type) {
 
@@ -32,5 +32,5 @@ class GraphsViewModel @Inject constructor(
         }
     }
 
-    private var graphType = DAY
+    private var statsType = DAY
 }

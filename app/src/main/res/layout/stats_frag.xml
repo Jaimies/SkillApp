@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.graphs.GraphsFragment">
+    tools:context=".ui.stats.StatsFragment">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/graphs_tablayout"
+        android:id="@+id/stats_tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorTertiary" />
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/graphs_viewpager"
+        android:id="@+id/stats_viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

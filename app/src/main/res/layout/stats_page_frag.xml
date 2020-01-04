@@ -7,20 +7,20 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.graphs.GraphsViewModel" />
+            type="com.jdevs.timeo.ui.stats.StatsViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.graphs.GraphsItemFragment">
+        tools:context=".ui.stats.StatsItemFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:hideIf="@{viewModel.isEmpty()}"
-            tools:listitem="@layout/graphs_item" />
+            tools:listitem="@layout/stats_item" />
 
         <TextView
             android:layout_width="match_parent"

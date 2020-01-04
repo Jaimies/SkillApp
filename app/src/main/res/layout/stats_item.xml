@@ -6,12 +6,12 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.graphs.GraphViewModel" />
+            type="com.jdevs.timeo.ui.stats.StatisticViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/graphs_item_height">
+        android:layout_height="@dimen/stats_item_height">
 
         <TextView
             android:layout_width="wrap_content"

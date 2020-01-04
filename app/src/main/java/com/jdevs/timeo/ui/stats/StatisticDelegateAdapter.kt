@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.graphs
+package com.jdevs.timeo.ui.stats
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +10,10 @@ import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.data.Stats
-import com.jdevs.timeo.databinding.GraphsItemBinding
+import com.jdevs.timeo.databinding.StatsItemBinding
 import java.util.UUID
 
-class GraphDelegateAdapter : DelegateAdapter {
+class StatisticDelegateAdapter : DelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,10 +26,10 @@ class GraphDelegateAdapter : DelegateAdapter {
         val fragmentActivity = parent.context as FragmentActivity
 
         val viewModel = ViewModelProvider(fragmentActivity).get(
-            UUID.randomUUID().toString(), GraphViewModel::class.java
+            UUID.randomUUID().toString(), StatisticViewModel::class.java
         )
 
-        val binding = GraphsItemBinding.inflate(inflater, parent, false).also {
+        val binding = StatsItemBinding.inflate(inflater, parent, false).also {
 
             it.viewModel = viewModel
             it.lifecycleOwner = fragmentActivity
@@ -45,7 +45,7 @@ class GraphDelegateAdapter : DelegateAdapter {
     }
 
     class ViewHolder(
-        private val viewModel: GraphViewModel,
+        private val viewModel: StatisticViewModel,
         view: View
     ) : ListAdapter.ViewHolder(view) {
 

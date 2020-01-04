@@ -3,8 +3,8 @@ package com.jdevs.timeo.common.adapter
 import android.util.SparseArray
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
-import com.jdevs.timeo.ui.graphs.GraphDelegateAdapter
 import com.jdevs.timeo.ui.history.RecordDelegateAdapter
+import com.jdevs.timeo.ui.stats.StatisticDelegateAdapter
 import com.jdevs.timeo.util.AdapterConstants
 
 abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -26,7 +26,7 @@ abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
         delegateAdapters.put(AdapterConstants.LOADING, LoadingDelegateAdapter())
         delegateAdapters.put(AdapterConstants.ACTIVITY, ActivityDelegateAdapter())
         delegateAdapters.put(AdapterConstants.RECORD, RecordDelegateAdapter())
-        delegateAdapters.put(AdapterConstants.STATISTIC, GraphDelegateAdapter())
+        delegateAdapters.put(AdapterConstants.STATISTIC, StatisticDelegateAdapter())
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

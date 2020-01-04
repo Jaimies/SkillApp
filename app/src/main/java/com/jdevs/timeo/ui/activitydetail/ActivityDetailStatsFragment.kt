@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jdevs.timeo.R
-import com.jdevs.timeo.util.GraphTypes.DAY
-import com.jdevs.timeo.util.GraphTypes.WEEK
-import kotlinx.android.synthetic.main.activitydetail_graph_frag.view.title_text_view
+import com.jdevs.timeo.util.StatsTypes.DAY
+import com.jdevs.timeo.util.StatsTypes.WEEK
+import kotlinx.android.synthetic.main.activitydetail_stats_frag.view.title_text_view
 
-class ActivityDetailGraphsFragment(
+class ActivityDetailStatsFragment(
     private val onClick: (Int) -> Unit,
-    private val graphType: Int
+    private val statsType: Int
 ) : Fragment() {
 
     override fun onCreateView(
@@ -20,11 +20,11 @@ class ActivityDetailGraphsFragment(
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.activitydetail_graph_frag, container, false).apply {
+        return inflater.inflate(R.layout.activitydetail_stats_frag, container, false).apply {
 
             title_text_view.text = getString(
 
-                when (graphType) {
+                when (statsType) {
 
                     DAY -> R.string.day_stats
                     WEEK -> R.string.week_stats
@@ -32,7 +32,7 @@ class ActivityDetailGraphsFragment(
                 }
             )
 
-            setOnClickListener { onClick(graphType) }
+            setOnClickListener { onClick(statsType) }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.graphs
+package com.jdevs.timeo.ui.stats
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import com.jdevs.timeo.util.time.toFriendlyMonth
 import com.jdevs.timeo.util.time.toFriendlyWeek
 import com.jdevs.timeo.util.time.toHours
 
-class GraphViewModel : ViewModel() {
+class StatisticViewModel : ViewModel() {
 
     val day get() = _day as LiveData<String>
     val time get() = _time as LiveData<String>

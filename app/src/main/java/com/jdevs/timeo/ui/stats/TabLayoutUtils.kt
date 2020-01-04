@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.graphs
+package com.jdevs.timeo.ui.stats
 
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout

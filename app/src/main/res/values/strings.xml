@@ -54,6 +54,9 @@
     <string name="settings">Settings</string>
     <string name="your_name">Your name</string>
     <string name="add_record">Add record</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
     <string name="day_stats">Day stats</string>
     <string name="week_stats">Week stats</string>
     <string name="month_stats">Month stats</string>

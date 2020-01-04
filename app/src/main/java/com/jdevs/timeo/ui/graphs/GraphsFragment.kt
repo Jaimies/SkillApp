@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.tabs.TabLayoutMediator
 import com.jdevs.timeo.R
 import kotlinx.android.synthetic.main.graphs_frag.view.graphs_tablayout
 import kotlinx.android.synthetic.main.graphs_frag.view.graphs_viewpager
@@ -20,22 +19,13 @@ class GraphsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.graphs_frag, container, false).apply {
+        return inflater.inflate(R.layout.graphs_frag, container, false).also {
 
-            graphs_viewpager.adapter = GraphsViewPagerAdapter(this@GraphsFragment)
+            it.graphs_viewpager.adapter = GraphsViewPagerAdapter(this)
 
-            TabLayoutMediator(graphs_tablayout, graphs_viewpager) { tab, position ->
+            setupTabLayoutMediator(it.graphs_tablayout, it.graphs_viewpager)
 
-                graphs_viewpager.setCurrentItem(tab.position, true)
-
-                tab.text = when (position) {
-                    0 -> "Day"
-                    1 -> "Week"
-                    else -> "Month"
-                }
-            }.attach()
-
-            graphs_viewpager.setCurrentItem(args.graphType, false)
+            it.graphs_viewpager.setCurrentItem(args.graphType, false)
         }
     }
 }

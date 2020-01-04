@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.tabs.TabLayoutMediator
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
+import com.jdevs.timeo.ui.graphs.setupTabLayoutMediator
 import com.jdevs.timeo.util.observeEvent
 import javax.inject.Inject
 
@@ -58,16 +58,7 @@ class ActivityDetailFragment : ActionBarFragment() {
                 findNavController().navigate(directions)
             }
 
-            TabLayoutMediator(it.graphsTablayout, it.graphsViewpager) { tab, position ->
-
-                it.graphsViewpager.setCurrentItem(tab.position, true)
-
-                tab.text = when (position) {
-                    0 -> "Day"
-                    1 -> "Week"
-                    else -> "Month"
-                }
-            }.attach()
+            setupTabLayoutMediator(it.graphsTablayout, it.graphsViewpager)
         }
 
         viewModel.apply {

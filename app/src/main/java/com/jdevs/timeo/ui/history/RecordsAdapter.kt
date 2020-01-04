@@ -1,7 +1,6 @@
 package com.jdevs.timeo.ui.history
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.ListAdapter
 
 class RecordsAdapter(
@@ -10,8 +9,6 @@ class RecordsAdapter(
 
     override val delegateAdapter = RecordDelegateAdapter()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        return delegateAdapter.onCreateViewHolder(parent, showDeleteDialog = showDeleteDialog)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        delegateAdapter.onCreateViewHolder(parent, showDeleteDialog = showDeleteDialog)
 }

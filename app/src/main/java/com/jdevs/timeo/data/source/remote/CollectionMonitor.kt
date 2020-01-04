@@ -16,7 +16,7 @@ class CollectionMonitor(
 
     private var lastVisibleItem: DocumentSnapshot? = null
     private var isLastItemReached = false
-    private val newQuery: Query
+    private val newQuery
         get() = ref
             .orderBy(orderBy, Query.Direction.DESCENDING)
             .limit(pageSize)

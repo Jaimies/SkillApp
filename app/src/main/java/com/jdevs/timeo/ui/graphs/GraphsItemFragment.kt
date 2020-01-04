@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.data.DayStats
-import com.jdevs.timeo.databinding.GraphsItemFragBinding
+import com.jdevs.timeo.databinding.GraphsPageFragBinding
 import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
 import javax.inject.Inject
 
-class GraphsItemFragment(private val type: Int) : ListFragment<DayStats>() {
+class GraphsItemFragment(private val graphType: Int) : ListFragment<DayStats>() {
 
     override val menuId = -1
 
@@ -35,21 +34,16 @@ class GraphsItemFragment(private val type: Int) : ListFragment<DayStats>() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel.setGraphType(type)
+        viewModel.setGraphType(graphType)
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = GraphsItemFragBinding.inflate(inflater, container, false).also {
+        val binding = GraphsPageFragBinding.inflate(inflater, container, false).also {
 
             it.viewModel = viewModel
             it.lifecycleOwner = this
 
-            it.recyclerView.apply {
-
-                layoutManager = LinearLayoutManager(context)
-                adapter = GraphsRecyclerViewAdapter()
-                setup(VISIBLE_THRESHOLD)
-            }
+            it.recyclerView.setup(VISIBLE_THRESHOLD)
         }
 
         return binding.root

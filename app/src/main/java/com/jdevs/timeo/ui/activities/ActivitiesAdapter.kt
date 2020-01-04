@@ -1,7 +1,6 @@
 package com.jdevs.timeo.ui.activities
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.ListAdapter
 
 class ActivitiesAdapter(
@@ -11,8 +10,6 @@ class ActivitiesAdapter(
 
     override val delegateAdapter = ActivityDelegateAdapter()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        return delegateAdapter.onCreateViewHolder(parent, createRecord, navigateToDetails)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        delegateAdapter.onCreateViewHolder(parent, createRecord, navigateToDetails)
 }

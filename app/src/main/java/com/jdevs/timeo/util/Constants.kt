@@ -45,6 +45,7 @@ object StatsConstants {
     const val MONTH_STATS_COLLECTION = "monthStats"
     const val DAY_PROPERTY = "day"
     const val PAGE_SIZE = 30L
+    const val GRAPH_TYPES_COUNT = 3
     const val VISIBLE_THRESHOLD = 8
 }
 

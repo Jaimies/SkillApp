@@ -31,6 +31,6 @@
             android:paddingEnd="@dimen/padding_default"
             android:text="@{viewModel.day}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            tools:text="02.02.2020" />
+            tools:text="02-01-2020" />
     </LinearLayout>
 </layout>

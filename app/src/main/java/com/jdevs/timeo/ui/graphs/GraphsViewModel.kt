@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.graphs
 
-import androidx.lifecycle.LiveData
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.source.TimeoRepository
 import com.jdevs.timeo.util.GraphTypes.DAY
@@ -12,7 +11,7 @@ class GraphsViewModel @Inject constructor(
     private val repository: TimeoRepository
 ) : ListViewModel() {
 
-    override val liveData: LiveData<*>?
+    override val liveData
         get() = when (graphType) {
 
             DAY -> repository.dayStats
@@ -20,8 +19,6 @@ class GraphsViewModel @Inject constructor(
             MONTH -> repository.monthStats
             else -> null
         }
-
-    private var graphType = DAY
 
     fun setGraphType(type: Int) {
 
@@ -34,4 +31,6 @@ class GraphsViewModel @Inject constructor(
             MONTH -> repository.resetMonthStatsMonitor()
         }
     }
+
+    private var graphType = DAY
 }

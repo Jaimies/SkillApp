@@ -10,7 +10,7 @@ import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.data.Stats
-import com.jdevs.timeo.databinding.GraphListItemBinding
+import com.jdevs.timeo.databinding.GraphsItemBinding
 import java.util.UUID
 
 class GraphDelegateAdapter : DelegateAdapter {
@@ -29,7 +29,7 @@ class GraphDelegateAdapter : DelegateAdapter {
             UUID.randomUUID().toString(), GraphViewModel::class.java
         )
 
-        val binding = GraphListItemBinding.inflate(inflater, parent, false).also {
+        val binding = GraphsItemBinding.inflate(inflater, parent, false).also {
 
             it.viewModel = viewModel
             it.lifecycleOwner = fragmentActivity

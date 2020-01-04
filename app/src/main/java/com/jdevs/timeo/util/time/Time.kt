@@ -37,10 +37,7 @@ fun Long.toHours(): String {
     return if (timeString.takeLast(1) == "0") timeString.dropLast(2) else timeString
 }
 
-fun Pair<Long, Long>.toMins(): Long {
-
-    return first * HOUR_MINUTES + second
-}
+fun Pair<Long, Long>.toMins() = first * HOUR_MINUTES + second
 
 fun Long.getAvgDailyHours(timestamp: OffsetDateTime): String {
 

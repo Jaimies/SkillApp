@@ -16,15 +16,9 @@ fun OffsetDateTime.getDaysSpentSince(): Long {
     return if (daysDiff > 0) daysDiff + 1 else 1
 }
 
-fun OffsetDateTime.getDaysAgo(): Long {
+fun OffsetDateTime.getDaysAgo() = ChronoUnit.DAYS.between(this, OffsetDateTime.now())
 
-    return ChronoUnit.DAYS.between(this, OffsetDateTime.now())
-}
-
-fun OffsetDateTime.getDaysSinceEpoch(): Long {
-
-    return LocalDate.from(this).toEpochDay()
-}
+fun OffsetDateTime.getDaysSinceEpoch() = LocalDate.from(this).toEpochDay()
 
 fun OffsetDateTime.getWeeksSinceEpoch(): Int {
 
@@ -38,10 +32,7 @@ fun OffsetDateTime.getMonthSinceEpoch(): Short {
     return ChronoUnit.MONTHS.between(epoch, this).toShort()
 }
 
-fun Long.toFriendlyDate(): String {
-
-    return LocalDate.ofEpochDay(this).toString()
-}
+fun Long.toFriendlyDate() = LocalDate.ofEpochDay(this).toString()
 
 fun Int.toFriendlyMonth(): String {
 

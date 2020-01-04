@@ -16,7 +16,4 @@ fun Date?.toOffsetDate(): OffsetDateTime {
     }
 }
 
-fun OffsetDateTime.toDate(): Date {
-
-    return DateTimeUtils.toDate(toInstant())
-}
+fun OffsetDateTime.toDate(): Date = DateTimeUtils.toDate(toInstant())

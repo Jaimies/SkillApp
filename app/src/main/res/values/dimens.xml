@@ -15,8 +15,9 @@
     <dimen name="activities_item_height">60dp</dimen>
     <dimen name="activities_plus_button_size">40dp</dimen>
     <dimen name="records_item_height">50dp</dimen>
-    <dimen name="graphs_item_height">60dp</dimen>
     <dimen name="loading_item_height">60dp</dimen>
+    <dimen name="activitydetail_graphs_height">192dp</dimen>
+    <dimen name="graphs_item_height">60dp</dimen>
     <dimen name="dialog_record_corner_radius">12dp</dimen>
     <dimen name="dialog_record_title_height">50dp</dimen>
 </resources>

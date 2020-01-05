@@ -43,7 +43,7 @@ class ActivityDetailFragment : ActionBarFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = ActivitydetailFragBinding.inflate(inflater, container, false).also {
 

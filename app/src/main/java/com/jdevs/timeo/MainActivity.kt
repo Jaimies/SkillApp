@@ -66,10 +66,8 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-
-        return currentNavController.value?.navigateUp(appBarConfiguration) ?: false || super.onSupportNavigateUp()
-    }
+    override fun onSupportNavigateUp() =
+        currentNavController.value?.navigateUp(appBarConfiguration) ?: false || super.onSupportNavigateUp()
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 

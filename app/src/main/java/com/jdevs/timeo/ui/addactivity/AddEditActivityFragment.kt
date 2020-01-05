@@ -41,7 +41,7 @@ class AddEditActivityFragment : ActionBarFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = AddactivityFragBinding.inflate(inflater, container, false).also {
 
@@ -146,14 +146,13 @@ class AddEditActivityFragment : ActionBarFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (item.itemId == R.id.action_save) {
+        return if (item.itemId == R.id.action_save) {
 
             viewModel.triggerSaveActivity()
+            true
         } else {
 
-            return super.onOptionsItemSelected(item)
+            super.onOptionsItemSelected(item)
         }
-
-        return true
     }
 }

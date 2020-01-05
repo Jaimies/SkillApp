@@ -42,7 +42,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         super.onCreateView(inflater, container, savedInstanceState)
 

@@ -51,10 +51,8 @@ fun Task<*>.logOnFailure(message: String = "Failed to perform an operation") {
     addOnFailureListener { Log.w(TAG, message, it) }
 }
 
-fun ViewGroup.inflate(layoutId: Int): View {
-
-    return LayoutInflater.from(context).inflate(layoutId, this, false)
-}
+fun ViewGroup.inflate(layoutId: Int): View =
+    LayoutInflater.from(context).inflate(layoutId, this, false)
 
 fun ViewModel.launchSuspendingProcess(
     onFailure: (FirebaseException) -> Unit = {},

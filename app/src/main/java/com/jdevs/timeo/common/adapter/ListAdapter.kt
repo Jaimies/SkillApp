@@ -26,15 +26,11 @@ abstract class ListAdapter : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>
         @SuppressLint("DiffUtilEquals")
         private val ITEMS_COMPARATOR = object : DiffUtil.ItemCallback<ViewItem>() {
 
-            override fun areItemsTheSame(oldItem: ViewItem, newItem: ViewItem): Boolean {
+            override fun areItemsTheSame(oldItem: ViewItem, newItem: ViewItem) =
+                oldItem.id == newItem.id
 
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: ViewItem, newItem: ViewItem): Boolean {
-
-                return oldItem === newItem
-            }
+            override fun areContentsTheSame(oldItem: ViewItem, newItem: ViewItem) =
+                oldItem === newItem
         }
     }
 

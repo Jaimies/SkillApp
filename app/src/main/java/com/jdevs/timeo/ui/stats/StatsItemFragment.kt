@@ -32,7 +32,7 @@ class StatsItemFragment(private val statsType: Int) : ListFragment<DayStats>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         viewModel.setStatsType(statsType)
 

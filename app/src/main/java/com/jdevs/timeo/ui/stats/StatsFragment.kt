@@ -17,15 +17,12 @@ class StatsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View = inflater.inflate(R.layout.stats_frag, container, false).also {
 
-        return inflater.inflate(R.layout.stats_frag, container, false).also {
+        it.stats_viewpager.adapter = StatsViewPagerAdapter(this)
 
-            it.stats_viewpager.adapter = StatsViewPagerAdapter(this)
+        setupTabLayoutMediator(it.stats_tablayout, it.stats_viewpager)
 
-            setupTabLayoutMediator(it.stats_tablayout, it.stats_viewpager)
-
-            it.stats_viewpager.setCurrentItem(args.statsType, false)
-        }
+        it.stats_viewpager.setCurrentItem(args.statsType, false)
     }
 }

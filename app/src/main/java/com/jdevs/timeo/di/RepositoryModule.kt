@@ -72,10 +72,7 @@ class RepositoryModule {
         type: Class<out ViewItem>,
         pageSize: Long,
         orderBy: String = TIMESTAMP_PROPERTY
-    ): CollectionMonitor {
-
-        return CollectionMonitor(pageSize, createLiveData(type, pageSize), orderBy)
-    }
+    ) = CollectionMonitor(pageSize, createLiveData(type, pageSize), orderBy)
 
     private fun createLiveData(
         type: Class<out ViewItem>,

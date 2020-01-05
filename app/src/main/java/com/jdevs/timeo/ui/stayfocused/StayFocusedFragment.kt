@@ -13,8 +13,5 @@ class StayFocusedFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.stayfocused_frag, container, false)
-    }
+    ): View = inflater.inflate(R.layout.stayfocused_frag, container, false)
 }

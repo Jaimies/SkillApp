@@ -13,8 +13,5 @@ class OverviewFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.overview_frag, container, false)
-    }
+    ): View = inflater.inflate(R.layout.overview_frag, container, false)
 }

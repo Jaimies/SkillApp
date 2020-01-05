@@ -31,7 +31,7 @@ class ProfileFragment : ActionBarFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = ProfileFragBinding.inflate(inflater, container, false)
 

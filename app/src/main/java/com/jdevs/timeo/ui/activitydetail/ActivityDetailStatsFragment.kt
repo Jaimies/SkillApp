@@ -18,21 +18,18 @@ class ActivityDetailStatsFragment(
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View = inflater.inflate(R.layout.activitydetail_stats_frag, container, false).apply {
 
-        return inflater.inflate(R.layout.activitydetail_stats_frag, container, false).apply {
+        title_text_view.text = getString(
 
-            title_text_view.text = getString(
+            when (statsType) {
 
-                when (statsType) {
+                DAY -> R.string.day_stats
+                WEEK -> R.string.week_stats
+                else -> R.string.month_stats
+            }
+        )
 
-                    DAY -> R.string.day_stats
-                    WEEK -> R.string.week_stats
-                    else -> R.string.month_stats
-                }
-            )
-
-            setOnClickListener { onClick(statsType) }
-        }
+        setOnClickListener { onClick(statsType) }
     }
 }

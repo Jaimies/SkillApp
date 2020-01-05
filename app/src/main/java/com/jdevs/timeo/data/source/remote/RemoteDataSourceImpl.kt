@@ -32,47 +32,28 @@ class RemoteDataSourceImpl(
     private val authRepository: AuthRepository
 ) : RemoteDataSource {
 
-    override val activities: ItemsLiveData?
-        get() {
+    override val activities
+        get() = activitiesMonitor.getLiveData().also { reset() }
 
-            reset()
-            return activitiesMonitor.getLiveData()
-        }
+    override val records
+        get() = recordsMonitor.getLiveData().also { reset() }
 
-    override val records: ItemsLiveData?
-        get() {
+    override val dayStats
+        get() = dayStatsMonitor.getLiveData().also { reset() }
 
-            reset()
-            return recordsMonitor.getLiveData()
-        }
+    override val weekStats
+        get() = weekStatsMonitor.getLiveData().also { reset() }
 
-    override val dayStats: ItemsLiveData?
-        get() {
+    override val monthStats
+        get() = monthStatsMonitor.getLiveData().also { reset() }
 
-            reset()
-            return dayStatsMonitor.getLiveData()
-        }
-
-    override val weekStats: ItemsLiveData?
-        get() {
-
-            reset()
-            return weekStatsMonitor.getLiveData()
-        }
-    override val monthStats: ItemsLiveData?
-        get() {
-
-            reset()
-            return monthStatsMonitor.getLiveData()
-        }
-
-    private val firestore = FirebaseFirestore.getInstance()
-    private var prevUid = ""
     private lateinit var activitiesRef: CollectionReference
     private lateinit var recordsRef: CollectionReference
     private lateinit var dayStatsRef: CollectionReference
     private lateinit var weekStatsRef: CollectionReference
     private lateinit var monthStatsRef: CollectionReference
+    private var prevUid = ""
+    private val firestore = FirebaseFirestore.getInstance()
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 
@@ -147,11 +128,9 @@ class RemoteDataSourceImpl(
             .logOnFailure("Failed to add data to Firestore")
     }
 
-    override suspend fun deleteActivity(activity: Activity) {
-
+    override suspend fun deleteActivity(activity: Activity) =
         activitiesRef.document(activity.documentId).delete()
             .logOnFailure("Failed to delete data from Firestore")
-    }
 
     override suspend fun deleteRecord(record: Record) {
 

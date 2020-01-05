@@ -36,7 +36,7 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         super.onCreateView(inflater, container, savedInstanceState)
 

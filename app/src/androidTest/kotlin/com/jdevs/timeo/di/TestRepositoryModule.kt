@@ -1,7 +1,7 @@
 package com.jdevs.timeo.di
 
-import com.jdevs.timeo.data.source.FakeTimeoRepository
-import com.jdevs.timeo.data.source.TimeoRepository
+import com.jdevs.timeo.data.source.FakeRecordsRepository
+import com.jdevs.timeo.data.source.RecordsRepository
 import dagger.Binds
 import dagger.Module
 
@@ -9,5 +9,5 @@ import dagger.Module
 interface TestRepositoryModule {
 
     @Binds
-    fun provideRepository(repository: FakeTimeoRepository): TimeoRepository
+    fun provideRepository(repository: FakeRecordsRepository): RecordsRepository
 }

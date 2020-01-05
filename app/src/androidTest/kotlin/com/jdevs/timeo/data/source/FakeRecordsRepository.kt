@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FakeTimeoRepository @Inject constructor() : TimeoRepository {
+class FakeRecordsRepository @Inject constructor() : RecordsRepository {
 
     private val activitiesList = mutableListOf<Activity>()
     private val recordsList = mutableListOf<Record>()

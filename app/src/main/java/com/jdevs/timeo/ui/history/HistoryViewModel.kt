@@ -3,23 +3,23 @@ package com.jdevs.timeo.ui.history
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.source.TimeoRepository
+import com.jdevs.timeo.usecases.GetRecordsUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HistoryViewModel @Inject constructor(
-    private val repository: TimeoRepository
+    private val getRecordsUseCase: GetRecordsUseCase
 ) : ListViewModel() {
 
-    override val liveData get() = repository.records
+    override val liveData get() = getRecordsUseCase.records
 
     init {
 
-        repository.resetRecordsMonitor()
+        getRecordsUseCase.resetRecords()
     }
 
     fun deleteRecord(record: Record) = viewModelScope.launch {
 
-        repository.deleteRecord(record)
+        getRecordsUseCase.deleteRecord(record)
     }
 }

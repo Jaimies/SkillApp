@@ -5,27 +5,20 @@ import androidx.room.Room
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.common.adapter.ViewItem
-import com.jdevs.timeo.data.Activity
-import com.jdevs.timeo.data.DayStats
-import com.jdevs.timeo.data.MonthStats
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.WeekStats
 import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.data.source.RecordsRepository
+import com.jdevs.timeo.data.source.RecordsRepositoryImpl
 import com.jdevs.timeo.data.source.TimeoDataSource
-import com.jdevs.timeo.data.source.TimeoRepository
-import com.jdevs.timeo.data.source.TimeoRepositoryImpl
 import com.jdevs.timeo.data.source.local.LocalDataSource
 import com.jdevs.timeo.data.source.local.TimeoDatabase
 import com.jdevs.timeo.data.source.remote.CollectionMonitor
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
-import com.jdevs.timeo.data.source.remote.RemoteDataSource
-import com.jdevs.timeo.data.source.remote.RemoteDataSourceImpl
-import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.data.source.remote.RecordsRemoteDataSource
+import com.jdevs.timeo.data.source.remote.RecordsRemoteDataSourceImpl
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
-import com.jdevs.timeo.util.StatsConstants
-import com.jdevs.timeo.util.StatsConstants.DAY_PROPERTY
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -35,23 +28,19 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(context: Context, authRepository: AuthRepository): TimeoRepository {
+    fun provideRepository(context: Context, authRepository: AuthRepository): RecordsRepository {
 
-        return TimeoRepositoryImpl(
+        return RecordsRepositoryImpl(
             provideRemoteDataSource(authRepository),
             provideLocalDataSource(context),
             authRepository
         )
     }
 
-    private fun provideRemoteDataSource(authRepository: AuthRepository): RemoteDataSource {
+    private fun provideRemoteDataSource(authRepository: AuthRepository): RecordsRemoteDataSource {
 
-        return RemoteDataSourceImpl(
-            createCollectionMonitor(Activity::class.java, ActivitiesConstants.PAGE_SIZE),
+        return RecordsRemoteDataSourceImpl(
             createCollectionMonitor(Record::class.java, RecordsConstants.PAGE_SIZE),
-            createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY),
-            createCollectionMonitor(WeekStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY),
-            createCollectionMonitor(MonthStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY),
             authRepository
         )
     }

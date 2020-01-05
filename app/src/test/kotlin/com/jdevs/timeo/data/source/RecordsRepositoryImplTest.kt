@@ -9,10 +9,10 @@ import org.junit.Before
 import org.junit.Test
 
 /**
- * Unit tests for the implementation of [TimeoRepository]
+ * Unit tests for the implementation of [RecordsRepository]
  */
 @Suppress("UNCHECKED_CAST")
-class TimeoRepositoryImplTest {
+class RecordsRepositoryImplTest {
 
     private val activity1 = Activity(name = "Activity 1")
     private val activity2 = Activity(name = "Activity 2")
@@ -31,7 +31,7 @@ class TimeoRepositoryImplTest {
     private lateinit var fakeAuthRepository: FakeAuthRepository
 
     // Class under test
-    private lateinit var repository: TimeoRepositoryImpl
+    private lateinit var repository: RecordsRepositoryImpl
 
     @Before
     fun createRepository() {
@@ -40,7 +40,7 @@ class TimeoRepositoryImplTest {
         remoteDataSource = FakeRemoteDataSource(remoteActivities, remoteRecords)
 
         fakeAuthRepository = FakeAuthRepository()
-        repository = TimeoRepositoryImpl(remoteDataSource, localDataSource, fakeAuthRepository)
+        repository = RecordsRepositoryImpl(remoteDataSource, localDataSource, fakeAuthRepository)
     }
 
     @Test

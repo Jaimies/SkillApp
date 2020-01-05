@@ -4,21 +4,21 @@ import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.source.TimeoRepository
+import com.jdevs.timeo.usecases.GetActivitiesUseCase
 import com.jdevs.timeo.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ActivitiesViewModel @Inject constructor(
-    private val repository: TimeoRepository
+    private val getActivitiesUseCase: GetActivitiesUseCase
 ) : ListViewModel() {
 
-    override val liveData get() = repository.activities
+    override val liveData get() = getActivitiesUseCase.activities
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
     init {
 
-        repository.resetActivitiesMonitor()
+        getActivitiesUseCase.resetActivities()
     }
 
     fun createRecord(activity: Activity, time: Long) = viewModelScope.launch {
@@ -30,7 +30,7 @@ class ActivitiesViewModel @Inject constructor(
             roomActivityId = activity.id
         )
 
-        repository.addRecord(record)
+        getActivitiesUseCase.addRecord(record)
     }
 
     fun navigateToAddActivity() = navigateToAddEdit.call()

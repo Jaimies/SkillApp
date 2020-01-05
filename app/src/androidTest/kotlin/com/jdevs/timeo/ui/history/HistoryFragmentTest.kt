@@ -10,7 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.source.FakeAuthRepository
-import com.jdevs.timeo.data.source.FakeTimeoRepository
+import com.jdevs.timeo.data.source.FakeRecordsRepository
 import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.not
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class HistoryFragmentTest {
 
     @Inject
-    lateinit var repository: FakeTimeoRepository
+    lateinit var repository: FakeRecordsRepository
 
     @Inject
     lateinit var authRepository: FakeAuthRepository

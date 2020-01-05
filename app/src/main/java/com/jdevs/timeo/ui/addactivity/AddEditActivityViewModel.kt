@@ -5,13 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.data.Activity
-import com.jdevs.timeo.usecases.EditActivityUseCase
+import com.jdevs.timeo.usecases.AddActivityUseCase
+import com.jdevs.timeo.usecases.DeleteActivityUseCase
+import com.jdevs.timeo.usecases.SaveActivityUseCase
 import com.jdevs.timeo.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditActivityViewModel @Inject constructor(
-    private val editActivityUseCase: EditActivityUseCase
+    private val addActivityUseCase: AddActivityUseCase,
+    private val saveActivityUseCase: SaveActivityUseCase,
+    private val deleteActivityUseCase: DeleteActivityUseCase
 ) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData("")
@@ -41,17 +45,17 @@ class AddEditActivityViewModel @Inject constructor(
 
     fun addActivity(activity: Activity) = viewModelScope.launch {
 
-        editActivityUseCase.addActivity(activity)
+        addActivityUseCase.addActivity(activity)
     }
 
     fun saveActivity(activity: Activity) = viewModelScope.launch {
 
-        editActivityUseCase.saveActivity(activity)
+        saveActivityUseCase.saveActivity(activity)
     }
 
     fun deleteActivity(activity: Activity) = viewModelScope.launch {
 
-        editActivityUseCase.deleteActivity(activity)
+        deleteActivityUseCase.deleteActivity(activity)
     }
 
     fun showDeleteDialog() = showDeleteDialog.call()

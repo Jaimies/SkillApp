@@ -9,8 +9,7 @@ import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.data.source.RecordsRepository
 import com.jdevs.timeo.data.source.RecordsRepositoryImpl
-import com.jdevs.timeo.data.source.TimeoDataSource
-import com.jdevs.timeo.data.source.local.LocalDataSource
+import com.jdevs.timeo.data.source.local.StatsLocalDataSource
 import com.jdevs.timeo.data.source.local.TimeoDatabase
 import com.jdevs.timeo.data.source.remote.CollectionMonitor
 import com.jdevs.timeo.data.source.remote.ItemsLiveData
@@ -45,7 +44,7 @@ class RepositoryModule {
         )
     }
 
-    private fun provideLocalDataSource(context: Context): TimeoDataSource {
+    private fun provideLocalDataSource(context: Context): StatsLocalDataSource {
 
         val database = Room.databaseBuilder(
             context.applicationContext,
@@ -54,7 +53,7 @@ class RepositoryModule {
             .fallbackToDestructiveMigration()
             .build()
 
-        return LocalDataSource(database.activitiesDao(), database.recordsDao())
+        return StatsLocalDataSource(database)
     }
 
     private fun createCollectionMonitor(

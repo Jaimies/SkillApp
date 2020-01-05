@@ -25,7 +25,7 @@ class RecordsRemoteDataSourceImpl(
 
         val newRecordRef = recordsRef.document()
 
-        return firestore.batch().also { batch ->
+        return db.batch().also { batch ->
 
             batch.set(newRecordRef, record)
         }
@@ -37,7 +37,7 @@ class RecordsRemoteDataSourceImpl(
 
         val recordRef = recordsRef.document(record.documentId)
 
-        return firestore.batch().also { batch ->
+        return db.batch().also { batch ->
 
             batch.delete(recordRef)
         }

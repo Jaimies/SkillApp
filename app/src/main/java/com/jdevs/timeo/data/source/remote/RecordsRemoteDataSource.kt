@@ -2,14 +2,15 @@ package com.jdevs.timeo.data.source.remote
 
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Record
+import com.jdevs.timeo.data.source.RecordsDataSource
 
-interface RecordsRemoteDataSource {
+interface RecordsRemoteDataSource : RecordsDataSource {
 
-    val records: ItemsLiveData?
+    override val records: ItemsLiveData?
 
-    suspend fun addRecord(record: Record): WriteBatch
+    override suspend fun addRecord(record: Record): WriteBatch
 
-    suspend fun deleteRecord(record: Record): WriteBatch
+    override suspend fun deleteRecord(record: Record): WriteBatch
 
     suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch)
 

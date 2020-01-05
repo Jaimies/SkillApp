@@ -1,14 +1,12 @@
 package com.jdevs.timeo.data.source.remote
 
-import org.threeten.bp.OffsetDateTime
+import com.jdevs.timeo.data.source.StatsDataSource
 
-interface StatsRemoteDataSource {
+interface StatsRemoteDataSource : StatsDataSource {
 
-    val dayStats: ItemsLiveData?
-    val weekStats: ItemsLiveData?
-    val monthStats: ItemsLiveData?
-
-    suspend fun updateStats(date: OffsetDateTime, time: Long)
+    override val dayStats: ItemsLiveData?
+    override val weekStats: ItemsLiveData?
+    override val monthStats: ItemsLiveData?
 
     fun resetDayStatsMonitor()
     fun resetWeekStatsMonitor()

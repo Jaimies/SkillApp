@@ -6,12 +6,12 @@ import com.jdevs.timeo.data.source.remote.RecordsRemoteDataSource
 import javax.inject.Inject
 
 class RecordsRepositoryImpl @Inject constructor(
-    private val remoteDataSource: RecordsRemoteDataSource,
-    private val localDataSource: TimeoDataSource,
+    remoteDataSource: RecordsRemoteDataSource,
+    localDataSource: RecordsDataSource,
     authRepository: AuthRepository
-) : BaseRepository(authRepository), RecordsRepository {
-
-    private val currentDataSource get() = if (isUserSignedIn) remoteDataSource else localDataSource
+) : BaseRepository<RecordsRemoteDataSource, RecordsDataSource>(
+    remoteDataSource, localDataSource, authRepository
+), RecordsRepository {
 
     override val records get() = currentDataSource.records
 
@@ -19,13 +19,11 @@ class RecordsRepositoryImpl @Inject constructor(
 
     override suspend fun deleteRecord(record: Record) = currentDataSource.deleteRecord(record)
 
-    override suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch) {
+    override suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch) =
+        performOnRemoteSuspend {
 
-        if (isUserSignedIn) {
-
-            remoteDataSource.renameRecords(activityId, newName, batch)
+            it.renameRecords(activityId, newName, batch)
         }
-    }
 
     override fun resetRecordsMonitor() = performOnRemote { it.resetRecordsMonitor() }
 }

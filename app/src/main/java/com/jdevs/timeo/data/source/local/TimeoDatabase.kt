@@ -19,4 +19,5 @@ abstract class TimeoDatabase : RoomDatabase() {
 
     abstract fun activitiesDao(): ActivitiesDao
     abstract fun recordsDao(): RecordsDao
+    abstract fun statsDao(): StatsDao
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Activity
 
-interface ActivitiesRepository {
+interface ActivitiesDataSource {
 
     val activities: LiveData<*>?
 
@@ -15,8 +15,4 @@ interface ActivitiesRepository {
     suspend fun saveActivity(activity: Activity): WriteBatch?
 
     suspend fun deleteActivity(activity: Activity)
-
-    suspend fun increaseTime(activityId: String, time: Long, batch: WriteBatch)
-
-    fun resetActivitiesMonitor()
 }

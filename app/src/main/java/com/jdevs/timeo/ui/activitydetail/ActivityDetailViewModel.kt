@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.usecases.ActivityDetailsUseCase
+import com.jdevs.timeo.usecases.AddRecordUseCase
+import com.jdevs.timeo.usecases.GetActivityByIdUseCase
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgDailyHours
 import com.jdevs.timeo.util.time.toHours
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ActivityDetailViewModel @Inject constructor(
-    private val activityDetailsUseCase: ActivityDetailsUseCase
+    private val getActivityByIdUseCase: GetActivityByIdUseCase,
+    private val addRecordUseCase: AddRecordUseCase
 ) : ViewModel() {
 
     val name: LiveData<String> get() = _name
@@ -39,7 +41,7 @@ class ActivityDetailViewModel @Inject constructor(
 
     fun setupActivityLiveData(activity: Activity) {
 
-        this.activity = activityDetailsUseCase.getActivityById(activity.id, activity.documentId)
+        this.activity = getActivityByIdUseCase.getActivityById(activity.id, activity.documentId)
     }
 
     fun addRecord(activity: Activity, time: Long) = viewModelScope.launch {
@@ -51,7 +53,7 @@ class ActivityDetailViewModel @Inject constructor(
             roomActivityId = activity.id
         )
 
-        activityDetailsUseCase.addRecord(record)
+        addRecordUseCase.addRecord(record)
     }
 
     fun showRecordDialog() = showRecordDialog.call()

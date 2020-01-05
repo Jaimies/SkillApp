@@ -48,7 +48,7 @@ class ActivitiesRemoteDataSourceImpl(
 
         activity.setupFirestoreTimestamp()
 
-        return firestore.batch().also { batch ->
+        return db.batch().also { batch ->
 
             batch.set(activityRef, activity)
         }

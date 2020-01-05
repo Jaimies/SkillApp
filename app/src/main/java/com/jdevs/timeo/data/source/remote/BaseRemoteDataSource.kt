@@ -7,7 +7,7 @@ abstract class BaseRemoteDataSource(
     private val authRepository: AuthRepository
 ) {
 
-    protected val firestore = FirebaseFirestore.getInstance()
+    protected val db = FirebaseFirestore.getInstance()
     private var prevUid = ""
 
     protected abstract fun resetRefs(uid: String)
@@ -26,8 +26,8 @@ abstract class BaseRemoteDataSource(
         prevUid = uid
     }
 
-    fun createRef(uid: String, collection: String, monitor: CollectionMonitor) = firestore
-        .collection("/$USERS_COLLECTION/$uid/$collection").also {
+    fun createRef(uid: String, collection: String, monitor: CollectionMonitor) =
+        db.collection("/$USERS_COLLECTION/$uid/$collection").also {
 
             monitor.setRef(it)
         }

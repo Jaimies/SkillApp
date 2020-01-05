@@ -1,20 +1,14 @@
 package com.jdevs.timeo.data.source.remote
 
-import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Activity
+import com.jdevs.timeo.data.source.ActivitiesDataSource
 
-interface ActivitiesRemoteDataSource {
+interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
-    val activities: ItemsLiveData?
+    override val activities: ItemsLiveData?
 
-    fun getActivityById(id: Int, documentId: String): LiveData<Activity>
-
-    suspend fun addActivity(activity: Activity)
-
-    suspend fun saveActivity(activity: Activity): WriteBatch
-
-    suspend fun deleteActivity(activity: Activity)
+    override suspend fun saveActivity(activity: Activity): WriteBatch
 
     fun increaseTime(activityId: String, time: Long, batch: WriteBatch)
 

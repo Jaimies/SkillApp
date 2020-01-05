@@ -5,24 +5,19 @@ import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 
 class StatsRepositoryImpl @Inject constructor(
-    private val remoteDataSource: StatsRemoteDataSource,
-    private val localDataSource: TimeoDataSource,
+    remoteDataSource: StatsRemoteDataSource,
+    localDataSource: StatsDataSource,
     authRepository: AuthRepository
-) : BaseRepository(authRepository), StatsRepository {
-
-    private val currentDataSource get() = if (isUserSignedIn) remoteDataSource else localDataSource
+) : BaseRepository<StatsRemoteDataSource, StatsDataSource>(
+    remoteDataSource, localDataSource, authRepository
+), StatsRepository {
 
     override val dayStats get() = currentDataSource.dayStats
     override val weekStats get() = currentDataSource.weekStats
     override val monthStats get() = currentDataSource.monthStats
 
-    override suspend fun updateStats(date: OffsetDateTime, time: Long) {
-
-        if (isUserSignedIn) {
-
-            remoteDataSource.updateStats(date, time)
-        }
-    }
+    override suspend fun updateStats(date: OffsetDateTime, time: Long) =
+        performOnRemoteSuspend { it.updateStats(date, time) }
 
     override fun resetDayStatsMonitor() = performOnRemote { it.resetDayStatsMonitor() }
 

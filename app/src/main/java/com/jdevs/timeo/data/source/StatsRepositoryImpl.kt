@@ -3,7 +3,9 @@ package com.jdevs.timeo.data.source
 import com.jdevs.timeo.data.source.remote.StatsRemoteDataSource
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class StatsRepositoryImpl @Inject constructor(
     remoteDataSource: StatsRemoteDataSource,
     localDataSource: StatsDataSource,

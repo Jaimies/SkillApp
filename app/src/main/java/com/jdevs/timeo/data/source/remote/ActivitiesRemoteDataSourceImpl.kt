@@ -8,14 +8,20 @@ import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.RecordMinimal
 import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.FirestoreConstants
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.logOnFailure
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ActivitiesRemoteDataSourceImpl(
-    private val activitiesMonitor: CollectionMonitor,
+@Singleton
+class ActivitiesRemoteDataSourceImpl @Inject constructor(
     authRepository: AuthRepository
 ) : BaseRemoteDataSource(authRepository), ActivitiesRemoteDataSource {
+
+    private val activitiesMonitor =
+        createCollectionMonitor(Activity::class.java, ActivitiesConstants.PAGE_SIZE)
 
     override val activities
         get() = activitiesMonitor.getLiveData().also { reset() }

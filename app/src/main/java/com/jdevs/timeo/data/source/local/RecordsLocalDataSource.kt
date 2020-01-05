@@ -4,8 +4,11 @@ import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.RecordsDataSource
 import com.jdevs.timeo.util.PagingConstants.RECORDS_PAGE_SIZE
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RecordsLocalDataSource(
+@Singleton
+class RecordsLocalDataSource @Inject constructor(
     private val db: TimeoDatabase
 ) : RecordsDataSource {
 

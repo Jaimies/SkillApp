@@ -4,8 +4,11 @@ import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.source.ActivitiesDataSource
 import com.jdevs.timeo.util.PagingConstants.ACTIVITIES_PAGE_SIZE
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ActivitiesLocalDataSource(
+@Singleton
+class ActivitiesLocalDataSource @Inject constructor(
     private val activitiesDao: ActivitiesDao
 ) : ActivitiesDataSource {
 

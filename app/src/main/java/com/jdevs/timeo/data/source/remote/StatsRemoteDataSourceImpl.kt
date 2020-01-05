@@ -4,7 +4,10 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.jdevs.timeo.data.DayStats
+import com.jdevs.timeo.data.MonthStats
+import com.jdevs.timeo.data.WeekStats
 import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.util.StatsConstants
 import com.jdevs.timeo.util.StatsConstants.DAY_STATS_COLLECTION
 import com.jdevs.timeo.util.StatsConstants.MONTH_STATS_COLLECTION
 import com.jdevs.timeo.util.StatsConstants.WEEK_STATS_COLLECTION
@@ -13,11 +16,11 @@ import com.jdevs.timeo.util.time.getDaysSinceEpoch
 import com.jdevs.timeo.util.time.getMonthSinceEpoch
 import com.jdevs.timeo.util.time.getWeeksSinceEpoch
 import org.threeten.bp.OffsetDateTime
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class StatsRemoteDataSourceImpl(
-    private val dayStatsMonitor: CollectionMonitor,
-    private val weekStatsMonitor: CollectionMonitor,
-    private val monthStatsMonitor: CollectionMonitor,
+@Singleton
+class StatsRemoteDataSourceImpl @Inject constructor(
     authRepository: AuthRepository
 ) : BaseRemoteDataSource(authRepository), StatsRemoteDataSource {
 
@@ -29,6 +32,13 @@ class StatsRemoteDataSourceImpl(
 
     override val monthStats
         get() = monthStatsMonitor.getLiveData().also { reset() }
+
+    private val dayStatsMonitor =
+        createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE)
+    private val weekStatsMonitor =
+        createCollectionMonitor(WeekStats::class.java, StatsConstants.PAGE_SIZE)
+    private val monthStatsMonitor =
+        createCollectionMonitor(MonthStats::class.java, StatsConstants.PAGE_SIZE)
 
     private lateinit var dayStatsRef: CollectionReference
     private lateinit var weekStatsRef: CollectionReference

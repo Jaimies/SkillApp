@@ -2,72 +2,87 @@ package com.jdevs.timeo.di
 
 import android.content.Context
 import androidx.room.Room
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
-import com.jdevs.timeo.common.adapter.ViewItem
-import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.data.source.ActivitiesDataSource
+import com.jdevs.timeo.data.source.ActivitiesRepository
+import com.jdevs.timeo.data.source.ActivitiesRepositoryImpl
+import com.jdevs.timeo.data.source.RecordsDataSource
 import com.jdevs.timeo.data.source.RecordsRepository
 import com.jdevs.timeo.data.source.RecordsRepositoryImpl
+import com.jdevs.timeo.data.source.StatsDataSource
+import com.jdevs.timeo.data.source.StatsRepository
+import com.jdevs.timeo.data.source.StatsRepositoryImpl
+import com.jdevs.timeo.data.source.local.ActivitiesDao
+import com.jdevs.timeo.data.source.local.ActivitiesLocalDataSource
+import com.jdevs.timeo.data.source.local.RecordsLocalDataSource
+import com.jdevs.timeo.data.source.local.StatsDao
 import com.jdevs.timeo.data.source.local.StatsLocalDataSource
 import com.jdevs.timeo.data.source.local.TimeoDatabase
-import com.jdevs.timeo.data.source.remote.CollectionMonitor
-import com.jdevs.timeo.data.source.remote.ItemsLiveData
+import com.jdevs.timeo.data.source.remote.ActivitiesRemoteDataSource
+import com.jdevs.timeo.data.source.remote.ActivitiesRemoteDataSourceImpl
 import com.jdevs.timeo.data.source.remote.RecordsRemoteDataSource
 import com.jdevs.timeo.data.source.remote.RecordsRemoteDataSourceImpl
-import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
-import com.jdevs.timeo.util.RecordsConstants
+import com.jdevs.timeo.data.source.remote.StatsRemoteDataSource
+import com.jdevs.timeo.data.source.remote.StatsRemoteDataSourceImpl
 import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class RepositoryModule {
+abstract class RepositoryModule {
 
-    @Provides
-    @Singleton
-    fun provideRepository(context: Context, authRepository: AuthRepository): RecordsRepository {
+    @Binds
+    abstract fun provideActivitiesRepository(repository: ActivitiesRepositoryImpl): ActivitiesRepository
 
-        return RecordsRepositoryImpl(
-            provideRemoteDataSource(authRepository),
-            provideLocalDataSource(context),
-            authRepository
-        )
-    }
+    @Binds
+    abstract fun provideRecordsRepository(repository: RecordsRepositoryImpl): RecordsRepository
 
-    private fun provideRemoteDataSource(authRepository: AuthRepository): RecordsRemoteDataSource {
+    @Binds
+    abstract fun provideStatsRepository(repository: StatsRepositoryImpl): StatsRepository
 
-        return RecordsRemoteDataSourceImpl(
-            createCollectionMonitor(Record::class.java, RecordsConstants.PAGE_SIZE),
-            authRepository
-        )
-    }
+    @Binds
+    abstract fun provideActivitiesRemoteDataSource(dataSource: ActivitiesRemoteDataSourceImpl): ActivitiesRemoteDataSource
 
-    private fun provideLocalDataSource(context: Context): StatsLocalDataSource {
+    @Binds
+    abstract fun provideRecordsRemoteDataSource(dataSource: RecordsRemoteDataSourceImpl): RecordsRemoteDataSource
 
-        val database = Room.databaseBuilder(
-            context.applicationContext,
-            TimeoDatabase::class.java, DATABASE_NAME
-        )
-            .fallbackToDestructiveMigration()
-            .build()
+    @Binds
+    abstract fun provideStatsRemoteDataSource(dataSource: StatsRemoteDataSourceImpl): StatsRemoteDataSource
 
-        return StatsLocalDataSource(database)
-    }
+    @Binds
+    abstract fun provideActivitiesLocalDataSource(dataSource: ActivitiesLocalDataSource): ActivitiesDataSource
 
-    private fun createCollectionMonitor(
-        type: Class<out ViewItem>,
-        pageSize: Long,
-        orderBy: String = TIMESTAMP_PROPERTY
-    ) = CollectionMonitor(pageSize, createLiveData(type, pageSize), orderBy)
+    @Binds
+    abstract fun provideRecordsLocalDataSource(dataSource: RecordsLocalDataSource): RecordsDataSource
 
-    private fun createLiveData(
-        type: Class<out ViewItem>,
-        pageSize: Long
-    ): (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ItemsLiveData =
-        { query, setLastVisibleItem, onLastReached ->
+    @Binds
+    abstract fun provideStatsLocalDataSource(dataSource: StatsLocalDataSource): StatsDataSource
 
-            ItemsLiveData(query, setLastVisibleItem, onLastReached, type, pageSize)
+    @Module
+    companion object {
+
+        @Provides
+        @Singleton
+        @JvmStatic
+        fun provideDatabase(context: Context): TimeoDatabase {
+
+            return Room.databaseBuilder(
+                context.applicationContext,
+                TimeoDatabase::class.java, DATABASE_NAME
+            )
+                .fallbackToDestructiveMigration()
+                .build()
         }
+
+        @Provides
+        @Singleton
+        @JvmStatic
+        fun provideActivitiesDao(db: TimeoDatabase): ActivitiesDao = db.activitiesDao()
+
+        @Provides
+        @Singleton
+        @JvmStatic
+        fun provideStatsDao(db: TimeoDatabase): StatsDao = db.statsDao()
+    }
 }

@@ -4,7 +4,9 @@ import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.remote.RecordsRemoteDataSource
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RecordsRepositoryImpl @Inject constructor(
     remoteDataSource: RecordsRemoteDataSource,
     localDataSource: RecordsDataSource,

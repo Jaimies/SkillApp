@@ -8,11 +8,16 @@ import com.jdevs.timeo.util.FirestoreConstants
 import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.await
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RecordsRemoteDataSourceImpl(
-    private val recordsMonitor: CollectionMonitor,
+@Singleton
+class RecordsRemoteDataSourceImpl @Inject constructor(
     authRepository: AuthRepository
 ) : BaseRemoteDataSource(authRepository), RecordsRemoteDataSource {
+
+    private val recordsMonitor =
+        createCollectionMonitor(Record::class.java, RecordsConstants.PAGE_SIZE)
 
     override val records
         get() = recordsMonitor.getLiveData().also { reset() }

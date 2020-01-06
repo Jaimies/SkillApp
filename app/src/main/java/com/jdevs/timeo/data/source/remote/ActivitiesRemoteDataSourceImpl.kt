@@ -81,11 +81,14 @@ class ActivitiesRemoteDataSourceImpl @Inject constructor(
             FieldValue.increment(time)
         )
 
-        batch.update(
-            activityRef,
-            RECENT_RECORDS_PROPERTY,
-            if (time > 0) FieldValue.arrayUnion(record) else FieldValue.arrayRemove(record)
-        )
+        if (time > 0) {
+
+            batch.update(
+                activityRef,
+                RECENT_RECORDS_PROPERTY,
+                FieldValue.arrayUnion(record)
+            )
+        }
 
         batch.commit()
     }

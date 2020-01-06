@@ -62,9 +62,9 @@ class FirestoreStatsDataSource @Inject constructor(
     override val monthStats
         get() = monthStatsMonitor.safeAccess().getLiveData()
 
-    private var dayStatsRef: CollectionReference by SafeInit()
-    private var weekStatsRef: CollectionReference by SafeInit()
-    private var monthStatsRef: CollectionReference by SafeInit()
+    private var dayStatsRef: CollectionReference by SafeAccess()
+    private var weekStatsRef: CollectionReference by SafeAccess()
+    private var monthStatsRef: CollectionReference by SafeAccess()
 
     override suspend fun updateStats(date: OffsetDateTime, time: Long) {
 

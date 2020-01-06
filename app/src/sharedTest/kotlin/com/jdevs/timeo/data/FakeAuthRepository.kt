@@ -9,8 +9,7 @@ import javax.inject.Singleton
  * Fakes the Firebase Authentication repository
  */
 @Singleton
-class FakeAuthRepository @Inject constructor() :
-    AuthRepository {
+class FakeAuthRepository @Inject constructor() : AuthRepository {
 
     /**
      * Indicates whether the user is signed in

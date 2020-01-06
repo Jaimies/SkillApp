@@ -9,12 +9,12 @@ import java.util.Date
 
 data class FirestoreRecord(
     @DocumentId
-    var documentId: String,
-    var name: String,
-    var time: Long,
-    var activityId: String,
+    var documentId: String = "",
+    var name: String = "",
+    var time: Long = 0,
+    var activityId: String = "",
     @ServerTimestamp
-    var timestamp: Date
+    var timestamp: Date? = null
 ) : Mapper<Record> {
 
     override fun mapToDomain() = Record(

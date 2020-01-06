@@ -39,7 +39,7 @@ class FirestoreRecordsDataSource @Inject constructor(
     override val records
         get() = recordsMonitor.safeAccess().getLiveData()
 
-    private var recordsRef: CollectionReference by SafeInit()
+    private var recordsRef: CollectionReference by SafeAccess()
 
     override suspend fun addRecord(record: Record): WriteBatch {
 

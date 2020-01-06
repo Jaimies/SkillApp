@@ -40,14 +40,11 @@ abstract class FirestoreDataSource(
         return this
     }
 
-    inner class SafeInit<T : Any> : ReadWriteProperty<Any?, T> {
+    inner class SafeAccess<T : Any> : ReadWriteProperty<Any?, T> {
         private val fieldHolder = FieldHolder<T>()
 
-        override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-
-            reset()
-            return fieldHolder.field
-        }
+        override fun getValue(thisRef: Any?, property: KProperty<*>) =
+            fieldHolder.safeAccess().field
 
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
 

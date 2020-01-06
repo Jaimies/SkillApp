@@ -72,6 +72,7 @@ class ItemsLiveData(
             documentChange.document.toObject(type)
         } catch (e: RuntimeException) {
 
+            e.printStackTrace()
             return
         }
 

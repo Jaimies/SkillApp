@@ -41,7 +41,7 @@ class FirestoreActivitiesDataSource @Inject constructor(
     override val activities
         get() = activitiesMonitor.safeAccess().getLiveData()
 
-    private var activitiesRef: CollectionReference by SafeInit()
+    private var activitiesRef: CollectionReference by SafeAccess()
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 

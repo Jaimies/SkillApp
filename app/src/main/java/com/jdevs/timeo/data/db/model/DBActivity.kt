@@ -19,5 +19,11 @@ data class DBActivity(
     var creationDate: OffsetDateTime = OffsetDateTime.now()
 ) : Mapper<Activity> {
 
-    override fun mapToDomain() = Activity(id, "", name, totalTime, lastWeekTime, creationDate)
+    override fun mapToDomain() = Activity(
+        id = id,
+        name = name,
+        totalTime = totalTime,
+        lastWeekTime = lastWeekTime,
+        creationDate = creationDate
+    )
 }

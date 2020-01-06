@@ -10,9 +10,6 @@ data class Operation(
 
     init {
 
-        if (data != null && exception != null) {
-
-            throw IllegalArgumentException("Both data and exception can't be non-null")
-        }
+        require(data == null || exception == null) { "Both data and exception can't be non-null" }
     }
 }

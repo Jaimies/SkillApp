@@ -29,5 +29,7 @@ data class DBRecord(
     var creationDate: OffsetDateTime = OffsetDateTime.now()
 ) : Mapper<Record> {
 
-    override fun mapToDomain() = Record(id, "", name, time, "", activityId, creationDate)
+    override fun mapToDomain() = Record(
+        id = id, name = name, time = time, roomActivityId = activityId, creationDate = creationDate
+    )
 }

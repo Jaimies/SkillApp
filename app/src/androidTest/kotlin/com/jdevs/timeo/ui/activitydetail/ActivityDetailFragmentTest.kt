@@ -8,7 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
-import com.jdevs.timeo.data.FakeRecordsRepository
+import com.jdevs.timeo.data.FakeActivitiesRepository
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class ActivityDetailFragmentTest {
 
     @Inject
-    lateinit var repository: FakeRecordsRepository
+    lateinit var repository: FakeActivitiesRepository
 
     init {
 

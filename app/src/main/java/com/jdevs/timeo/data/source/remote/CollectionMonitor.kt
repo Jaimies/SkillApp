@@ -3,12 +3,12 @@ package com.jdevs.timeo.data.source.remote
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP_PROPERTY
 import com.jdevs.timeo.util.LiveDataConstructor
 
 class CollectionMonitor(
     private val liveData: LiveDataConstructor,
-    private val pageSize: Long
+    private val pageSize: Long,
+    private val orderBy: String
 ) {
 
     private lateinit var query: Query
@@ -18,7 +18,7 @@ class CollectionMonitor(
     private var isLastItemReached = false
     private val newQuery
         get() = ref
-            .orderBy(TIMESTAMP_PROPERTY, Query.Direction.DESCENDING)
+            .orderBy(orderBy, Query.Direction.DESCENDING)
             .limit(pageSize)
 
     fun setRef(ref: CollectionReference) {

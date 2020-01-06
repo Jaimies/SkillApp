@@ -10,6 +10,7 @@ import com.jdevs.timeo.data.WeekStats
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.util.FirestoreConstants.TIME_PROPERTY
 import com.jdevs.timeo.util.StatsConstants
+import com.jdevs.timeo.util.StatsConstants.DAY_PROPERTY
 import com.jdevs.timeo.util.StatsConstants.DAY_STATS_COLLECTION
 import com.jdevs.timeo.util.StatsConstants.MONTH_STATS_COLLECTION
 import com.jdevs.timeo.util.StatsConstants.WEEK_STATS_COLLECTION
@@ -27,13 +28,13 @@ class StatsRemoteDataSourceImpl @Inject constructor(
 ) : BaseRemoteDataSource(authRepository), StatsRemoteDataSource {
 
     private val dayStatsMonitor =
-        createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE)
+        createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
 
     private val weekStatsMonitor =
-        createCollectionMonitor(WeekStats::class.java, StatsConstants.PAGE_SIZE)
+        createCollectionMonitor(WeekStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
 
     private val monthStatsMonitor =
-        createCollectionMonitor(MonthStats::class.java, StatsConstants.PAGE_SIZE)
+        createCollectionMonitor(MonthStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
 
     override val dayStats
         get() = dayStatsMonitor.safeAccess().getLiveData()

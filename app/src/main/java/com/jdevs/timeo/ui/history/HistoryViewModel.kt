@@ -2,9 +2,9 @@ package com.jdevs.timeo.ui.history
 
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.common.viewmodel.ListViewModel
-import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.domain.usecase.records.DeleteRecordUseCase
-import com.jdevs.timeo.domain.usecase.records.GetRecordsUseCase
+import com.jdevs.timeo.domain.records.DeleteRecordUseCase
+import com.jdevs.timeo.domain.records.GetRecordsUseCase
+import com.jdevs.timeo.model.Record
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.jdevs.timeo.domain.usecase.stats
+package com.jdevs.timeo.domain.stats
 
 import com.jdevs.timeo.data.stats.StatsRepository
 import javax.inject.Inject

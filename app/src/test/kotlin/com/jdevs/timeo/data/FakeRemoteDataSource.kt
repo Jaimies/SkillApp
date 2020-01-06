@@ -1,9 +1,9 @@
 package com.jdevs.timeo.data
 
 import com.jdevs.timeo.data.records.RecordsRemoteDataSource
-import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.domain.model.DayStats
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.model.DayStats
+import com.jdevs.timeo.model.Record
 
 class FakeRemoteDataSource(
     activityList: List<Activity> = emptyList(),

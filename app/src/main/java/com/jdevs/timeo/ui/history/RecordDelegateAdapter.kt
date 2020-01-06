@@ -12,7 +12,7 @@ import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.databinding.RecordsItemBinding
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Record
 import java.util.UUID
 
 class RecordDelegateAdapter : DelegateAdapter {

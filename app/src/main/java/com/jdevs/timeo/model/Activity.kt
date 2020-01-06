@@ -1,4 +1,4 @@
-package com.jdevs.timeo.domain.model
+package com.jdevs.timeo.model
 
 import android.os.Parcelable
 import com.jdevs.timeo.data.db.model.DBActivity

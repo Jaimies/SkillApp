@@ -4,7 +4,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.data.firestore.RecordMinimal
-import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.Time.WEEK_DAYS
 import com.jdevs.timeo.util.time.getDaysAgo
 import com.jdevs.timeo.util.time.toOffsetDate

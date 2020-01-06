@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Repository
 import com.jdevs.timeo.data.auth.AuthRepository
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Record
 import javax.inject.Inject
 import javax.inject.Singleton
 

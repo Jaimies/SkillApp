@@ -1,4 +1,4 @@
-package com.jdevs.timeo.domain.usecase.records
+package com.jdevs.timeo.domain.records
 
 import com.jdevs.timeo.data.records.RecordsRepository
 import javax.inject.Inject

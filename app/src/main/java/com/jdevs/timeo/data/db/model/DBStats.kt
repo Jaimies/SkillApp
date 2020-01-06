@@ -3,9 +3,9 @@ package com.jdevs.timeo.data.db.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.jdevs.timeo.data.Mapper
-import com.jdevs.timeo.domain.model.DayStats
-import com.jdevs.timeo.domain.model.MonthStats
-import com.jdevs.timeo.domain.model.WeekStats
+import com.jdevs.timeo.model.DayStats
+import com.jdevs.timeo.model.MonthStats
+import com.jdevs.timeo.model.WeekStats
 
 @Entity(tableName = "dayStats")
 data class DBDayStats(

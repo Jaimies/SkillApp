@@ -2,8 +2,8 @@ package com.jdevs.timeo.data
 
 import androidx.lifecycle.LiveData
 import com.jdevs.timeo.data.records.DefaultRecordsRepository
-import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.model.Record
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
 import org.junit.Before

@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.jdevs.timeo.ItemDataSource
 import com.jdevs.timeo.data.records.RecordsRepository
-import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.domain.model.DayStats
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.model.DayStats
+import com.jdevs.timeo.model.Record
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton

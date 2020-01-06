@@ -3,7 +3,7 @@ package com.jdevs.timeo.data.firestore.model
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.Mapper
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Record
 import com.jdevs.timeo.util.time.toOffsetDate
 import java.util.Date
 

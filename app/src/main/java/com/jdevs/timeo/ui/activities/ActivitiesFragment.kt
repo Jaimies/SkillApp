@@ -13,7 +13,7 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
-import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.observeEvent
 import javax.inject.Inject

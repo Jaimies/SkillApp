@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.jdevs.timeo.data.Mapper
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Record
 import org.threeten.bp.OffsetDateTime
 
 @Keep

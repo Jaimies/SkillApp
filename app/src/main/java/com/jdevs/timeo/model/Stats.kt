@@ -1,4 +1,4 @@
-package com.jdevs.timeo.domain.model
+package com.jdevs.timeo.model
 
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.util.AdapterConstants.STATISTIC

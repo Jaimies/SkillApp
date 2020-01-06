@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.databinding.StatsPageFragBinding
-import com.jdevs.timeo.domain.model.DayStats
+import com.jdevs.timeo.model.DayStats
 import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
 import javax.inject.Inject
 

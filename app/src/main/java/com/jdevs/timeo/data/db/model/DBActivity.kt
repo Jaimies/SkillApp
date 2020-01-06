@@ -5,7 +5,7 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.jdevs.timeo.data.Mapper
-import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.model.Activity
 import org.threeten.bp.OffsetDateTime
 
 @Keep

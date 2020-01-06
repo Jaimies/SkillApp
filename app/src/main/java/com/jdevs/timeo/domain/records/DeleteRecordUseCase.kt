@@ -1,9 +1,9 @@
-package com.jdevs.timeo.domain.usecase.records
+package com.jdevs.timeo.domain.records
 
 import com.jdevs.timeo.data.activities.ActivitiesRepository
 import com.jdevs.timeo.data.records.RecordsRepository
 import com.jdevs.timeo.data.stats.StatsRepository
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Record
 import javax.inject.Inject
 
 class DeleteRecordUseCase @Inject constructor(

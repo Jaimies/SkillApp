@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.jdevs.timeo.data.db.ActivitiesDao
 import com.jdevs.timeo.data.db.toLivePagedList
-import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.PagingConstants.ACTIVITIES_PAGE_SIZE
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -26,7 +26,7 @@ interface ActivitiesLocalDataSource : ActivitiesDataSource {
 }
 
 @Singleton
-class ActivitiesLocalDataSourceImpl @Inject constructor(
+class RoomActivitiesDataSource @Inject constructor(
     private val activitiesDao: ActivitiesDao
 ) : ActivitiesLocalDataSource {
 

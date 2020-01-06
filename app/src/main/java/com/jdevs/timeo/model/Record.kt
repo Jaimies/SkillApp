@@ -1,4 +1,4 @@
-package com.jdevs.timeo.domain.model
+package com.jdevs.timeo.model
 
 import com.jdevs.timeo.data.db.model.DBRecord
 import com.jdevs.timeo.data.firestore.model.FirestoreRecord

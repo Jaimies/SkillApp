@@ -3,25 +3,25 @@ package com.jdevs.timeo.di
 import android.content.Context
 import androidx.room.Room
 import com.jdevs.timeo.data.activities.ActivitiesLocalDataSource
-import com.jdevs.timeo.data.activities.ActivitiesLocalDataSourceImpl
 import com.jdevs.timeo.data.activities.ActivitiesRemoteDataSource
-import com.jdevs.timeo.data.activities.ActivitiesRemoteDataSourceImpl
 import com.jdevs.timeo.data.activities.ActivitiesRepository
 import com.jdevs.timeo.data.activities.DefaultActivitiesRepository
+import com.jdevs.timeo.data.activities.FirestoreActivitiesDataSource
+import com.jdevs.timeo.data.activities.RoomActivitiesDataSource
 import com.jdevs.timeo.data.db.ActivitiesDao
 import com.jdevs.timeo.data.db.StatsDao
 import com.jdevs.timeo.data.db.TimeoDatabase
 import com.jdevs.timeo.data.records.DefaultRecordsRepository
+import com.jdevs.timeo.data.records.FirestoreRecordsDataSource
 import com.jdevs.timeo.data.records.RecordsDataSource
-import com.jdevs.timeo.data.records.RecordsLocalDataSourceImpl
 import com.jdevs.timeo.data.records.RecordsRemoteDataSource
-import com.jdevs.timeo.data.records.RecordsRemoteDataSourceImpl
 import com.jdevs.timeo.data.records.RecordsRepository
+import com.jdevs.timeo.data.records.RoomRecordsDataSource
 import com.jdevs.timeo.data.stats.DefaultStatsRepository
+import com.jdevs.timeo.data.stats.FirestoreStatsDataSource
+import com.jdevs.timeo.data.stats.RoomStatsDataSource
 import com.jdevs.timeo.data.stats.StatsDataSource
-import com.jdevs.timeo.data.stats.StatsLocalDataSourceImpl
 import com.jdevs.timeo.data.stats.StatsRemoteDataSource
-import com.jdevs.timeo.data.stats.StatsRemoteDataSourceImpl
 import com.jdevs.timeo.data.stats.StatsRepository
 import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
 import dagger.Binds
@@ -42,22 +42,22 @@ abstract class RepositoryModule {
     abstract fun provideStatsRepository(repository: DefaultStatsRepository): StatsRepository
 
     @Binds
-    abstract fun provideActivitiesRemoteDataSource(dataSource: ActivitiesRemoteDataSourceImpl): ActivitiesRemoteDataSource
+    abstract fun provideActivitiesRemoteDataSource(source: FirestoreActivitiesDataSource): ActivitiesRemoteDataSource
 
     @Binds
-    abstract fun provideRecordsRemoteDataSource(dataSource: RecordsRemoteDataSourceImpl): RecordsRemoteDataSource
+    abstract fun provideRecordsRemoteDataSource(source: FirestoreRecordsDataSource): RecordsRemoteDataSource
 
     @Binds
-    abstract fun provideStatsRemoteDataSource(dataSource: StatsRemoteDataSourceImpl): StatsRemoteDataSource
+    abstract fun provideStatsRemoteDataSource(source: FirestoreStatsDataSource): StatsRemoteDataSource
 
     @Binds
-    abstract fun provideActivitiesLocalDataSource(dataSource: ActivitiesLocalDataSourceImpl): ActivitiesLocalDataSource
+    abstract fun provideActivitiesLocalDataSource(source: RoomActivitiesDataSource): ActivitiesLocalDataSource
 
     @Binds
-    abstract fun provideRecordsLocalDataSource(dataSource: RecordsLocalDataSourceImpl): RecordsDataSource
+    abstract fun provideRecordsLocalDataSource(source: RoomRecordsDataSource): RecordsDataSource
 
     @Binds
-    abstract fun provideStatsLocalDataSource(dataSource: StatsLocalDataSourceImpl): StatsDataSource
+    abstract fun provideStatsLocalDataSource(source: RoomStatsDataSource): StatsDataSource
 
     @Module
     companion object {

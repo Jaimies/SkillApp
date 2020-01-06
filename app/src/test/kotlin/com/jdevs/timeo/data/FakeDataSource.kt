@@ -2,9 +2,9 @@ package com.jdevs.timeo.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.domain.model.DayStats
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.model.DayStats
+import com.jdevs.timeo.model.Record
 
 open class FakeDataSource(
     activityList: List<Activity> = emptyList(),

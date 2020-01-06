@@ -40,7 +40,7 @@ interface StatsRemoteDataSource : StatsDataSource {
 }
 
 @Singleton
-class StatsRemoteDataSourceImpl @Inject constructor(
+class FirestoreStatsDataSource @Inject constructor(
     authRepository: AuthRepository
 ) : FirestoreDataSource(authRepository), StatsRemoteDataSource {
 

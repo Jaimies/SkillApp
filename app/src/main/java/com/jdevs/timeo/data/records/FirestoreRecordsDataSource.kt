@@ -7,7 +7,7 @@ import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.data.firestore.model.FirestoreRecord
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.model.Record
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID
 import com.jdevs.timeo.util.FirestoreConstants.NAME
 import com.jdevs.timeo.util.RecordsConstants
@@ -29,7 +29,7 @@ interface RecordsRemoteDataSource : RecordsDataSource {
 }
 
 @Singleton
-class RecordsRemoteDataSourceImpl @Inject constructor(
+class FirestoreRecordsDataSource @Inject constructor(
     authRepository: AuthRepository
 ) : FirestoreDataSource(authRepository), RecordsRemoteDataSource {
 

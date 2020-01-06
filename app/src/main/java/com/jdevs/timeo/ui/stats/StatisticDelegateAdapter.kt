@@ -10,7 +10,7 @@ import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.databinding.StatsItemBinding
-import com.jdevs.timeo.domain.model.Stats
+import com.jdevs.timeo.model.Stats
 import java.util.UUID
 
 class StatisticDelegateAdapter : DelegateAdapter {

@@ -11,7 +11,7 @@ import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.data.firestore.model.FirestoreActivity
-import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.FirestoreConstants.NAME
 import com.jdevs.timeo.util.FirestoreConstants.RECENT_RECORDS
@@ -31,7 +31,7 @@ interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 }
 
 @Singleton
-class ActivitiesRemoteDataSourceImpl @Inject constructor(
+class FirestoreActivitiesDataSource @Inject constructor(
     authRepository: AuthRepository
 ) : FirestoreDataSource(authRepository), ActivitiesRemoteDataSource {
 

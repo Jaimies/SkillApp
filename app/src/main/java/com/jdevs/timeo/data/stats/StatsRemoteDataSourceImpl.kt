@@ -32,6 +32,8 @@ interface StatsRemoteDataSource : StatsDataSource {
     override val weekStats: ItemsLiveData?
     override val monthStats: ItemsLiveData?
 
+    suspend fun updateStats(date: OffsetDateTime, time: Long)
+
     fun resetDayStatsMonitor()
     fun resetWeekStatsMonitor()
     fun resetMonthStatsMonitor()
@@ -81,12 +83,7 @@ class StatsRemoteDataSourceImpl @Inject constructor(
 
                 if (e.code == Code.NOT_FOUND) {
 
-                    ref.set(
-                        DayStats(
-                            time,
-                            ref.id.toLong()
-                        )
-                    )
+                    ref.set(DayStats(time, ref.id.toLong()))
                 }
             }
         }

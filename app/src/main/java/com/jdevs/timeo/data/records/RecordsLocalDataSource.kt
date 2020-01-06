@@ -6,9 +6,13 @@ import com.jdevs.timeo.data.db.TimeoDatabase
 import com.jdevs.timeo.data.db.toLivePagedList
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.util.PagingConstants.RECORDS_PAGE_SIZE
+import com.jdevs.timeo.util.time.getDaysSinceEpoch
+import com.jdevs.timeo.util.time.getMonthSinceEpoch
+import com.jdevs.timeo.util.time.getWeeksSinceEpoch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,6 +43,7 @@ class RecordsLocalDataSource @Inject constructor(
 
                 db.recordsDao().insert(record)
                 db.activitiesDao().increaseTime(record.roomActivityId, record.time)
+                registerStats(record.time, record.creationDate)
             }
         }
 
@@ -53,9 +58,20 @@ class RecordsLocalDataSource @Inject constructor(
 
                 db.recordsDao().delete(record)
                 db.activitiesDao().increaseTime(record.roomActivityId, -record.time)
+                registerStats(-record.time, record.creationDate)
             }
         }
 
         null
+    }
+
+    private fun registerStats(time: Long, creationDate: OffsetDateTime) {
+
+        with(db.statsDao()) {
+
+            registerDayStats(time, creationDate.getDaysSinceEpoch())
+            registerWeekStats(time, creationDate.getWeeksSinceEpoch())
+            registerMonthStats(time, creationDate.getMonthSinceEpoch())
+        }
     }
 }

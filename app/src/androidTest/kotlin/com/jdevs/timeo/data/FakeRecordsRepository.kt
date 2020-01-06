@@ -8,6 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@Suppress("EmptyFunctionBlock")
 class FakeRecordsRepository @Inject constructor() : RecordsRepository {
 
     private val recordsList = mutableListOf<Record>()

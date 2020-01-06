@@ -10,8 +10,5 @@ class TimeoTestRunner : AndroidJUnitRunner() {
         cl: ClassLoader?,
         className: String?,
         context: Context?
-    ): Application {
-
-        return super.newApplication(cl, TimeoTestApplication::class.java.name, context)
-    }
+    ): Application = super.newApplication(cl, TimeoTestApplication::class.java.name, context)
 }

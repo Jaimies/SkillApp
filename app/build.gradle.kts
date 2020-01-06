@@ -97,6 +97,7 @@ detekt {
 
     ignoreFailures = true
     autoCorrect = true
+    input = files("src")
 
     reports {
 

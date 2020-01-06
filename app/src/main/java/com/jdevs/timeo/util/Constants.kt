@@ -20,6 +20,8 @@ object FirestoreConstants {
     const val NAME_PROPERTY = "name"
     const val ACTIVITY_ID_PROPERTY = "activityId"
     const val TOTAL_TIME_PROPERTY = "totalTime"
+    const val RECENT_RECORDS_PROPERTY = "recentRecords"
+    const val TIME_PROPERTY = "time"
 }
 
 object ActivitiesConstants {

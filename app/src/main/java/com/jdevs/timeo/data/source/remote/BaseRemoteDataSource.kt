@@ -2,6 +2,8 @@ package com.jdevs.timeo.data.source.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.data.source.AuthRepository
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 abstract class BaseRemoteDataSource(
     private val authRepository: AuthRepository
@@ -31,6 +33,31 @@ abstract class BaseRemoteDataSource(
 
             monitor.setRef(it)
         }
+
+    fun <T> T.safeAccess(): T {
+
+        reset()
+        return this
+    }
+
+    inner class SafeInit<T : Any> : ReadWriteProperty<Any?, T> {
+        private val fieldHolder = FieldHolder<T>()
+
+        override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+
+            reset()
+            return fieldHolder.field
+        }
+
+        override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+
+            fieldHolder.field = value
+        }
+
+        inner class FieldHolder<T : Any> {
+            lateinit var field: T
+        }
+    }
 
     companion object {
 

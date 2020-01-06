@@ -4,7 +4,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Record
 import com.jdevs.timeo.data.source.AuthRepository
-import com.jdevs.timeo.util.FirestoreConstants
+import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID_PROPERTY
 import com.jdevs.timeo.util.FirestoreConstants.NAME_PROPERTY
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.await
@@ -20,9 +20,9 @@ class RecordsRemoteDataSourceImpl @Inject constructor(
         createCollectionMonitor(Record::class.java, RecordsConstants.PAGE_SIZE)
 
     override val records
-        get() = recordsMonitor.getLiveData().also { reset() }
+        get() = recordsMonitor.safeAccess().getLiveData()
 
-    private lateinit var recordsRef: CollectionReference
+    private var recordsRef: CollectionReference by SafeInit()
 
     override suspend fun addRecord(record: Record): WriteBatch {
 
@@ -51,7 +51,7 @@ class RecordsRemoteDataSourceImpl @Inject constructor(
     override suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch) {
 
         val querySnapshot = recordsRef
-            .whereEqualTo(FirestoreConstants.ACTIVITY_ID_PROPERTY, activityId)
+            .whereEqualTo(ACTIVITY_ID_PROPERTY, activityId)
             .get().await()
 
         for (document in querySnapshot.documents) {

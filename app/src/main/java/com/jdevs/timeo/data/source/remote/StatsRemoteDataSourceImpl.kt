@@ -3,10 +3,12 @@ package com.jdevs.timeo.data.source.remote
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.FirebaseFirestoreException.Code
 import com.jdevs.timeo.data.DayStats
 import com.jdevs.timeo.data.MonthStats
 import com.jdevs.timeo.data.WeekStats
 import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.util.FirestoreConstants.TIME_PROPERTY
 import com.jdevs.timeo.util.StatsConstants
 import com.jdevs.timeo.util.StatsConstants.DAY_STATS_COLLECTION
 import com.jdevs.timeo.util.StatsConstants.MONTH_STATS_COLLECTION
@@ -24,25 +26,27 @@ class StatsRemoteDataSourceImpl @Inject constructor(
     authRepository: AuthRepository
 ) : BaseRemoteDataSource(authRepository), StatsRemoteDataSource {
 
-    override val dayStats
-        get() = dayStatsMonitor.getLiveData().also { reset() }
-
-    override val weekStats
-        get() = weekStatsMonitor.getLiveData().also { reset() }
-
-    override val monthStats
-        get() = monthStatsMonitor.getLiveData().also { reset() }
-
     private val dayStatsMonitor =
         createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE)
+
     private val weekStatsMonitor =
         createCollectionMonitor(WeekStats::class.java, StatsConstants.PAGE_SIZE)
+
     private val monthStatsMonitor =
         createCollectionMonitor(MonthStats::class.java, StatsConstants.PAGE_SIZE)
 
-    private lateinit var dayStatsRef: CollectionReference
-    private lateinit var weekStatsRef: CollectionReference
-    private lateinit var monthStatsRef: CollectionReference
+    override val dayStats
+        get() = dayStatsMonitor.safeAccess().getLiveData()
+
+    override val weekStats
+        get() = weekStatsMonitor.safeAccess().getLiveData()
+
+    override val monthStats
+        get() = monthStatsMonitor.safeAccess().getLiveData()
+
+    private var dayStatsRef: CollectionReference by SafeInit()
+    private var weekStatsRef: CollectionReference by SafeInit()
+    private var monthStatsRef: CollectionReference by SafeInit()
 
     override suspend fun updateStats(date: OffsetDateTime, time: Long) {
 
@@ -56,10 +60,10 @@ class StatsRemoteDataSourceImpl @Inject constructor(
 
             try {
 
-                ref.update("time", FieldValue.increment(time)).await()
+                ref.update(TIME_PROPERTY, FieldValue.increment(time)).await()
             } catch (e: FirebaseFirestoreException) {
 
-                if (e.code == FirebaseFirestoreException.Code.NOT_FOUND) {
+                if (e.code == Code.NOT_FOUND) {
 
                     ref.set(DayStats(time, ref.id.toLong()))
                 }

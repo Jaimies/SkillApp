@@ -9,9 +9,8 @@ import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.data.RecordMinimal
 import com.jdevs.timeo.data.source.AuthRepository
 import com.jdevs.timeo.util.ActivitiesConstants
-import com.jdevs.timeo.util.FirestoreConstants
-import com.jdevs.timeo.util.RecordsConstants
-import com.jdevs.timeo.util.logOnFailure
+import com.jdevs.timeo.util.FirestoreConstants.RECENT_RECORDS_PROPERTY
+import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME_PROPERTY
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,9 +23,9 @@ class ActivitiesRemoteDataSourceImpl @Inject constructor(
         createCollectionMonitor(Activity::class.java, ActivitiesConstants.PAGE_SIZE)
 
     override val activities
-        get() = activitiesMonitor.getLiveData().also { reset() }
+        get() = activitiesMonitor.safeAccess().getLiveData()
 
-    private lateinit var activitiesRef: CollectionReference
+    private var activitiesRef: CollectionReference by SafeInit()
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 
@@ -63,12 +62,13 @@ class ActivitiesRemoteDataSourceImpl @Inject constructor(
     override suspend fun addActivity(activity: Activity) {
 
         activity.setupFirestoreTimestamp()
-        activitiesRef.add(activity).logOnFailure("Failed to add data to Firestore")
+        activitiesRef.add(activity)
     }
 
-    override suspend fun deleteActivity(activity: Activity) =
+    override suspend fun deleteActivity(activity: Activity) {
+
         activitiesRef.document(activity.documentId).delete()
-            .logOnFailure("Failed to delete data from Firestore")
+    }
 
     override fun increaseTime(activityId: String, time: Long, batch: WriteBatch) {
 
@@ -77,13 +77,13 @@ class ActivitiesRemoteDataSourceImpl @Inject constructor(
 
         batch.update(
             activityRef,
-            FirestoreConstants.TOTAL_TIME_PROPERTY,
+            TOTAL_TIME_PROPERTY,
             FieldValue.increment(time)
         )
 
         batch.update(
             activityRef,
-            "recentRecords",
+            RECENT_RECORDS_PROPERTY,
             if (time > 0) FieldValue.arrayUnion(record) else FieldValue.arrayRemove(record)
         )
 
@@ -94,6 +94,6 @@ class ActivitiesRemoteDataSourceImpl @Inject constructor(
 
     override fun resetRefs(uid: String) {
 
-        activitiesRef = createRef(uid, RecordsConstants.COLLECTION, activitiesMonitor)
+        activitiesRef = createRef(uid, ActivitiesConstants.COLLECTION, activitiesMonitor)
     }
 }

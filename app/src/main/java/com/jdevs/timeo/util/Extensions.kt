@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.TimeoApplication
@@ -44,11 +43,6 @@ fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
     })
 
     tag = HAS_TEXT_WATCHER
-}
-
-fun Task<*>.logOnFailure(message: String = "Failed to perform an operation") {
-
-    addOnFailureListener { Log.w(TAG, message, it) }
 }
 
 fun ViewGroup.inflate(layoutId: Int): View =

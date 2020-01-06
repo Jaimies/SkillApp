@@ -8,8 +8,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
-import com.jdevs.timeo.data.Activity
-import com.jdevs.timeo.data.source.FakeRecordsRepository
+import com.jdevs.timeo.data.FakeRecordsRepository
+import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest

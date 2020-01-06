@@ -1,7 +1,7 @@
 package com.jdevs.timeo.di
 
-import com.jdevs.timeo.data.source.FakeRecordsRepository
-import com.jdevs.timeo.data.source.RecordsRepository
+import com.jdevs.timeo.data.FakeRecordsRepository
+import com.jdevs.timeo.data.records.RecordsRepository
 import dagger.Binds
 import dagger.Module
 

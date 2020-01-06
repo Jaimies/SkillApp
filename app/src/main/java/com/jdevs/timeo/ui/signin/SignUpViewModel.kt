@@ -1,6 +1,6 @@
 package com.jdevs.timeo.ui.signin
 
-import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.launchSuspendingProcess
 import javax.inject.Inject

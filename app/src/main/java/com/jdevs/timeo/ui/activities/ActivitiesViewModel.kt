@@ -2,10 +2,10 @@ package com.jdevs.timeo.ui.activities
 
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.common.viewmodel.ListViewModel
-import com.jdevs.timeo.data.Activity
-import com.jdevs.timeo.data.Record
-import com.jdevs.timeo.usecases.AddRecordUseCase
-import com.jdevs.timeo.usecases.GetActivitiesUseCase
+import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.domain.usecase.activities.GetActivitiesUseCase
+import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 import javax.inject.Inject

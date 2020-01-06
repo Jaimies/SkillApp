@@ -2,7 +2,7 @@ package com.jdevs.timeo.ui.signin
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.FirebaseException
-import com.jdevs.timeo.data.source.AuthRepository
+import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.launchSuspendingProcess
 import javax.inject.Inject

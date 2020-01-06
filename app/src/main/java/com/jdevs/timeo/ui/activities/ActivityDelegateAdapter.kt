@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
-import com.jdevs.timeo.data.Activity
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
+import com.jdevs.timeo.domain.model.Activity
 import java.util.UUID
 
 class ActivityDelegateAdapter : DelegateAdapter {

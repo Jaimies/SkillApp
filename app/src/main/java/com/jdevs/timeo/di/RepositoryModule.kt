@@ -2,27 +2,27 @@ package com.jdevs.timeo.di
 
 import android.content.Context
 import androidx.room.Room
-import com.jdevs.timeo.data.source.ActivitiesDataSource
-import com.jdevs.timeo.data.source.ActivitiesRepository
-import com.jdevs.timeo.data.source.ActivitiesRepositoryImpl
-import com.jdevs.timeo.data.source.RecordsDataSource
-import com.jdevs.timeo.data.source.RecordsRepository
-import com.jdevs.timeo.data.source.RecordsRepositoryImpl
-import com.jdevs.timeo.data.source.StatsDataSource
-import com.jdevs.timeo.data.source.StatsRepository
-import com.jdevs.timeo.data.source.StatsRepositoryImpl
-import com.jdevs.timeo.data.source.local.ActivitiesDao
-import com.jdevs.timeo.data.source.local.ActivitiesLocalDataSource
-import com.jdevs.timeo.data.source.local.RecordsLocalDataSource
-import com.jdevs.timeo.data.source.local.StatsDao
-import com.jdevs.timeo.data.source.local.StatsLocalDataSource
-import com.jdevs.timeo.data.source.local.TimeoDatabase
-import com.jdevs.timeo.data.source.remote.ActivitiesRemoteDataSource
-import com.jdevs.timeo.data.source.remote.ActivitiesRemoteDataSourceImpl
-import com.jdevs.timeo.data.source.remote.RecordsRemoteDataSource
-import com.jdevs.timeo.data.source.remote.RecordsRemoteDataSourceImpl
-import com.jdevs.timeo.data.source.remote.StatsRemoteDataSource
-import com.jdevs.timeo.data.source.remote.StatsRemoteDataSourceImpl
+import com.jdevs.timeo.data.activities.ActivitiesDataSource
+import com.jdevs.timeo.data.activities.ActivitiesLocalDataSource
+import com.jdevs.timeo.data.activities.ActivitiesRemoteDataSource
+import com.jdevs.timeo.data.activities.ActivitiesRemoteDataSourceImpl
+import com.jdevs.timeo.data.activities.ActivitiesRepository
+import com.jdevs.timeo.data.activities.DefaultActivitiesRepository
+import com.jdevs.timeo.data.db.ActivitiesDao
+import com.jdevs.timeo.data.db.StatsDao
+import com.jdevs.timeo.data.db.TimeoDatabase
+import com.jdevs.timeo.data.records.DefaultRecordsRepository
+import com.jdevs.timeo.data.records.RecordsDataSource
+import com.jdevs.timeo.data.records.RecordsLocalDataSource
+import com.jdevs.timeo.data.records.RecordsRemoteDataSource
+import com.jdevs.timeo.data.records.RecordsRemoteDataSourceImpl
+import com.jdevs.timeo.data.records.RecordsRepository
+import com.jdevs.timeo.data.stats.DefaultStatsRepository
+import com.jdevs.timeo.data.stats.StatsDataSource
+import com.jdevs.timeo.data.stats.StatsLocalDataSource
+import com.jdevs.timeo.data.stats.StatsRemoteDataSource
+import com.jdevs.timeo.data.stats.StatsRemoteDataSourceImpl
+import com.jdevs.timeo.data.stats.StatsRepository
 import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
 import dagger.Binds
 import dagger.Module
@@ -33,13 +33,13 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun provideActivitiesRepository(repository: ActivitiesRepositoryImpl): ActivitiesRepository
+    abstract fun provideActivitiesRepository(repository: DefaultActivitiesRepository): ActivitiesRepository
 
     @Binds
-    abstract fun provideRecordsRepository(repository: RecordsRepositoryImpl): RecordsRepository
+    abstract fun provideRecordsRepository(repository: DefaultRecordsRepository): RecordsRepository
 
     @Binds
-    abstract fun provideStatsRepository(repository: StatsRepositoryImpl): StatsRepository
+    abstract fun provideStatsRepository(repository: DefaultStatsRepository): StatsRepository
 
     @Binds
     abstract fun provideActivitiesRemoteDataSource(dataSource: ActivitiesRemoteDataSourceImpl): ActivitiesRemoteDataSource

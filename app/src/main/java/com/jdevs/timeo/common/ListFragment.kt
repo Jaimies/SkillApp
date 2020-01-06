@@ -15,8 +15,8 @@ import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.common.viewmodel.ListViewModel
-import com.jdevs.timeo.data.source.AuthRepository
-import com.jdevs.timeo.data.source.remote.ItemsLiveData
+import com.jdevs.timeo.data.auth.AuthRepository
+import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
 import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED

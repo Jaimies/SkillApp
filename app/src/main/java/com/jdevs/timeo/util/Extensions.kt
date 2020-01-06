@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -45,7 +46,7 @@ fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
     tag = HAS_TEXT_WATCHER
 }
 
-fun ViewGroup.inflate(layoutId: Int): View =
+fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
     LayoutInflater.from(context).inflate(layoutId, this, false)
 
 fun ViewModel.launchSuspendingProcess(

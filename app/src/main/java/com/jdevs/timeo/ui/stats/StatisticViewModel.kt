@@ -3,10 +3,10 @@ package com.jdevs.timeo.ui.stats
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.data.DayStats
-import com.jdevs.timeo.data.MonthStats
-import com.jdevs.timeo.data.Stats
-import com.jdevs.timeo.data.WeekStats
+import com.jdevs.timeo.domain.model.DayStats
+import com.jdevs.timeo.domain.model.MonthStats
+import com.jdevs.timeo.domain.model.Stats
+import com.jdevs.timeo.domain.model.WeekStats
 import com.jdevs.timeo.util.time.toFriendlyDate
 import com.jdevs.timeo.util.time.toFriendlyMonth
 import com.jdevs.timeo.util.time.toFriendlyWeek

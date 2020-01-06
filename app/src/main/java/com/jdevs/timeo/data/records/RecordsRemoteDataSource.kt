@@ -6,6 +6,7 @@ import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.data.firestore.model.FirestoreRecord
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID
 import com.jdevs.timeo.util.FirestoreConstants.NAME
@@ -33,7 +34,7 @@ class RecordsRemoteDataSourceImpl @Inject constructor(
 ) : FirestoreDataSource(authRepository), RecordsRemoteDataSource {
 
     private val recordsMonitor =
-        createCollectionMonitor(Record::class.java, RecordsConstants.PAGE_SIZE)
+        createCollectionMonitor(FirestoreRecord::class, RecordsConstants.PAGE_SIZE)
 
     override val records
         get() = recordsMonitor.safeAccess().getLiveData()
@@ -42,19 +43,15 @@ class RecordsRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun addRecord(record: Record): WriteBatch {
 
-        record.setupFirestoreTimestamp()
-
         val newRecordRef = recordsRef.document()
 
         return db.batch().also { batch ->
 
-            batch.set(newRecordRef, record)
+            batch.set(newRecordRef, record.toFirestoreRecord())
         }
     }
 
     override suspend fun deleteRecord(record: Record): WriteBatch {
-
-        record.setupFirestoreTimestamp()
 
         val recordRef = recordsRef.document(record.documentId)
 

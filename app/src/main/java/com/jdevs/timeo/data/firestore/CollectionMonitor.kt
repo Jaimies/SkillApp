@@ -3,9 +3,10 @@ package com.jdevs.timeo.data.firestore
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.common.adapter.ViewItem
-import com.jdevs.timeo.util.FirestoreConstants
+import com.jdevs.timeo.data.Mapper
+import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP
 import com.jdevs.timeo.util.LiveDataConstructor
+import kotlin.reflect.KClass
 
 class CollectionMonitor(
     private val liveData: LiveDataConstructor,
@@ -60,16 +61,13 @@ class CollectionMonitor(
 }
 
 fun createCollectionMonitor(
-    type: Class<out ViewItem>,
+    type: KClass<out Mapper<*>>,
     pageSize: Long,
-    orderBy: String = FirestoreConstants.TIMESTAMP
+    orderBy: String = TIMESTAMP
 ) = CollectionMonitor(createLiveData(type, pageSize), pageSize, orderBy)
 
-private fun createLiveData(
-    type: Class<out ViewItem>,
-    pageSize: Long
-): (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ItemsLiveData =
+private fun createLiveData(type: KClass<out Mapper<*>>, pageSize: Long): LiveDataConstructor =
     { query, setLastVisibleItem, onLastReached ->
 
-        ItemsLiveData(query, setLastVisibleItem, onLastReached, type, pageSize)
+        ItemsLiveData(query, setLastVisibleItem, onLastReached, type.java, pageSize)
     }

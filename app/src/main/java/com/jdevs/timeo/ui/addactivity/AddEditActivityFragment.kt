@@ -87,10 +87,7 @@ class AddEditActivityFragment : ActionBarFragment() {
 
         if (args.isEdited) {
 
-            val activity = args.activity!!.also {
-
-                it.name = name
-            }
+            val activity = args.activity!!.copy(name = name)
 
             getCoroutineIoScope().launch {
 

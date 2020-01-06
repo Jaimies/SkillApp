@@ -27,10 +27,10 @@ interface ActivitiesRepository {
 
 @Singleton
 class DefaultActivitiesRepository @Inject constructor(
-    remoteDataSource: ActivitiesRemoteDataSource,
-    localDataSource: ActivitiesDataSource,
+    private val remoteDataSource: ActivitiesRemoteDataSource,
+    private val localDataSource: ActivitiesLocalDataSource,
     authRepository: AuthRepository
-) : Repository<ActivitiesRemoteDataSource, ActivitiesDataSource>(
+) : Repository<ActivitiesDataSource, ActivitiesRemoteDataSource>(
     remoteDataSource, localDataSource, authRepository
 ), ActivitiesRepository {
 
@@ -41,7 +41,17 @@ class DefaultActivitiesRepository @Inject constructor(
 
     override suspend fun addActivity(activity: Activity) = currentDataSource.addActivity(activity)
 
-    override suspend fun saveActivity(activity: Activity) = currentDataSource.saveActivity(activity)
+    override suspend fun saveActivity(activity: Activity): WriteBatch? {
+
+        return if (isUserSignedIn) {
+
+            localDataSource.saveActivity(activity)
+            null
+        } else {
+
+            remoteDataSource.saveActivity(activity.documentId, activity.name)
+        }
+    }
 
     override suspend fun deleteActivity(activity: Activity) =
         currentDataSource.deleteActivity(activity)

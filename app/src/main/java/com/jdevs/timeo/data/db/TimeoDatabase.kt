@@ -3,14 +3,14 @@ package com.jdevs.timeo.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.domain.model.DayStats
-import com.jdevs.timeo.domain.model.MonthStats
-import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.domain.model.WeekStats
+import com.jdevs.timeo.data.db.model.DBActivity
+import com.jdevs.timeo.data.db.model.DBDayStats
+import com.jdevs.timeo.data.db.model.DBMonthStats
+import com.jdevs.timeo.data.db.model.DBRecord
+import com.jdevs.timeo.data.db.model.DBWeekStats
 
 @Database(
-    entities = [Activity::class, Record::class, DayStats::class, WeekStats::class, MonthStats::class],
+    entities = [DBActivity::class, DBRecord::class, DBDayStats::class, DBWeekStats::class, DBMonthStats::class],
     version = 1,
     exportSchema = false
 )

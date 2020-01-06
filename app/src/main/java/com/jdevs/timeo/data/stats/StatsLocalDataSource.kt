@@ -16,7 +16,7 @@ interface StatsDataSource {
 
 @Singleton
 @Suppress("EmptyFunctionBlock")
-class StatsLocalDataSource @Inject constructor(
+class StatsLocalDataSourceImpl @Inject constructor(
     private val statsDao: StatsDao
 ) : StatsDataSource {
 

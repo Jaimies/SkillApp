@@ -2,8 +2,8 @@ package com.jdevs.timeo.di
 
 import android.content.Context
 import androidx.room.Room
-import com.jdevs.timeo.data.activities.ActivitiesDataSource
 import com.jdevs.timeo.data.activities.ActivitiesLocalDataSource
+import com.jdevs.timeo.data.activities.ActivitiesLocalDataSourceImpl
 import com.jdevs.timeo.data.activities.ActivitiesRemoteDataSource
 import com.jdevs.timeo.data.activities.ActivitiesRemoteDataSourceImpl
 import com.jdevs.timeo.data.activities.ActivitiesRepository
@@ -13,13 +13,13 @@ import com.jdevs.timeo.data.db.StatsDao
 import com.jdevs.timeo.data.db.TimeoDatabase
 import com.jdevs.timeo.data.records.DefaultRecordsRepository
 import com.jdevs.timeo.data.records.RecordsDataSource
-import com.jdevs.timeo.data.records.RecordsLocalDataSource
+import com.jdevs.timeo.data.records.RecordsLocalDataSourceImpl
 import com.jdevs.timeo.data.records.RecordsRemoteDataSource
 import com.jdevs.timeo.data.records.RecordsRemoteDataSourceImpl
 import com.jdevs.timeo.data.records.RecordsRepository
 import com.jdevs.timeo.data.stats.DefaultStatsRepository
 import com.jdevs.timeo.data.stats.StatsDataSource
-import com.jdevs.timeo.data.stats.StatsLocalDataSource
+import com.jdevs.timeo.data.stats.StatsLocalDataSourceImpl
 import com.jdevs.timeo.data.stats.StatsRemoteDataSource
 import com.jdevs.timeo.data.stats.StatsRemoteDataSourceImpl
 import com.jdevs.timeo.data.stats.StatsRepository
@@ -51,13 +51,13 @@ abstract class RepositoryModule {
     abstract fun provideStatsRemoteDataSource(dataSource: StatsRemoteDataSourceImpl): StatsRemoteDataSource
 
     @Binds
-    abstract fun provideActivitiesLocalDataSource(dataSource: ActivitiesLocalDataSource): ActivitiesDataSource
+    abstract fun provideActivitiesLocalDataSource(dataSource: ActivitiesLocalDataSourceImpl): ActivitiesLocalDataSource
 
     @Binds
-    abstract fun provideRecordsLocalDataSource(dataSource: RecordsLocalDataSource): RecordsDataSource
+    abstract fun provideRecordsLocalDataSource(dataSource: RecordsLocalDataSourceImpl): RecordsDataSource
 
     @Binds
-    abstract fun provideStatsLocalDataSource(dataSource: StatsLocalDataSource): StatsDataSource
+    abstract fun provideStatsLocalDataSource(dataSource: StatsLocalDataSourceImpl): StatsDataSource
 
     @Module
     companion object {

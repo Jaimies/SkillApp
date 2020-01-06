@@ -8,9 +8,9 @@ import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.domain.model.DayStats
-import com.jdevs.timeo.domain.model.MonthStats
-import com.jdevs.timeo.domain.model.WeekStats
+import com.jdevs.timeo.data.firestore.model.FirestoreDayStats
+import com.jdevs.timeo.data.firestore.model.FirestoreMonthStats
+import com.jdevs.timeo.data.firestore.model.FirestoreWeekStats
 import com.jdevs.timeo.util.FirestoreConstants.TIME
 import com.jdevs.timeo.util.StatsConstants
 import com.jdevs.timeo.util.StatsConstants.DAY_PROPERTY
@@ -45,13 +45,13 @@ class StatsRemoteDataSourceImpl @Inject constructor(
 ) : FirestoreDataSource(authRepository), StatsRemoteDataSource {
 
     private val dayStatsMonitor =
-        createCollectionMonitor(DayStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
+        createCollectionMonitor(FirestoreDayStats::class, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
 
     private val weekStatsMonitor =
-        createCollectionMonitor(WeekStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
+        createCollectionMonitor(FirestoreWeekStats::class, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
 
     private val monthStatsMonitor =
-        createCollectionMonitor(MonthStats::class.java, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
+        createCollectionMonitor(FirestoreMonthStats::class, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
 
     override val dayStats
         get() = dayStatsMonitor.safeAccess().getLiveData()
@@ -83,7 +83,7 @@ class StatsRemoteDataSourceImpl @Inject constructor(
 
                 if (e.code == Code.NOT_FOUND) {
 
-                    ref.set(DayStats(time, ref.id.toLong()))
+                    ref.set(FirestoreDayStats(time = time, day = ref.id.toLong()))
                 }
             }
         }

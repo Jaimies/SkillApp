@@ -26,7 +26,7 @@ class DefaultRecordsRepository @Inject constructor(
     remoteDataSource: RecordsRemoteDataSource,
     localDataSource: RecordsDataSource,
     authRepository: AuthRepository
-) : Repository<RecordsRemoteDataSource, RecordsDataSource>(
+) : Repository<RecordsDataSource, RecordsRemoteDataSource>(
     remoteDataSource, localDataSource, authRepository
 ), RecordsRepository {
 

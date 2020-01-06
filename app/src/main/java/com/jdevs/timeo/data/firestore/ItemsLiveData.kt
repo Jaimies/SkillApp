@@ -8,8 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.jdevs.timeo.common.adapter.ViewItem
-import com.jdevs.timeo.domain.model.DataItem
+import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
 import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED
@@ -21,7 +20,7 @@ class ItemsLiveData(
     private val query: Query,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
     private val onLastItemReached: () -> Unit = {},
-    private val type: Class<out ViewItem>,
+    private val type: Class<out Mapper<*>>,
     private val pageSize: Long
 ) : LiveData<Operation>(), EventListener<QuerySnapshot> {
 
@@ -73,13 +72,7 @@ class ItemsLiveData(
             documentChange.document.toObject(type)
         } catch (e: RuntimeException) {
 
-            e.printStackTrace()
-            type.getConstructor().newInstance()
-        }
-
-        if (item is DataItem) {
-
-            item.setupTimestamp()
+            return
         }
 
         val operationType = when (documentChange.type) {
@@ -88,6 +81,6 @@ class ItemsLiveData(
             DocumentChange.Type.REMOVED -> REMOVED
         }
 
-        value = Operation(data = item, type = operationType)
+        value = Operation(data = item.mapToDomain(), type = operationType)
     }
 }

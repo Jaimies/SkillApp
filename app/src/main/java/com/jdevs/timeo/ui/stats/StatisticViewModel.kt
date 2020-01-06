@@ -22,7 +22,6 @@ class StatisticViewModel : ViewModel() {
 
     fun setStats(stats: Stats) {
 
-        stats.setupTime()
         _time.value = stats.time.toHours() + "h"
 
         _day.value = when (stats) {

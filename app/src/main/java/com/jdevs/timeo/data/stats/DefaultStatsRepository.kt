@@ -25,7 +25,7 @@ class DefaultStatsRepository @Inject constructor(
     remoteDataSource: StatsRemoteDataSource,
     localDataSource: StatsDataSource,
     authRepository: AuthRepository
-) : Repository<StatsRemoteDataSource, StatsDataSource>(
+) : Repository<StatsDataSource, StatsRemoteDataSource>(
     remoteDataSource, localDataSource, authRepository
 ), StatsRepository {
 

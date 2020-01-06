@@ -10,8 +10,10 @@ import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.data.firestore.model.FirestoreActivity
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.FirestoreConstants.NAME
 import com.jdevs.timeo.util.FirestoreConstants.RECENT_RECORDS
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
 import javax.inject.Inject
@@ -21,7 +23,7 @@ interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
     override val activities: ItemsLiveData?
 
-    override suspend fun saveActivity(activity: Activity): WriteBatch
+    suspend fun saveActivity(id: String, newName: String): WriteBatch
 
     fun increaseTime(activityId: String, time: Long, batch: WriteBatch)
 
@@ -34,7 +36,7 @@ class ActivitiesRemoteDataSourceImpl @Inject constructor(
 ) : FirestoreDataSource(authRepository), ActivitiesRemoteDataSource {
 
     private val activitiesMonitor =
-        createCollectionMonitor(Activity::class.java, ActivitiesConstants.PAGE_SIZE)
+        createCollectionMonitor(FirestoreActivity::class, ActivitiesConstants.PAGE_SIZE)
 
     override val activities
         get() = activitiesMonitor.safeAccess().getLiveData()
@@ -50,33 +52,27 @@ class ActivitiesRemoteDataSourceImpl @Inject constructor(
 
             if (documentSnapshot != null) {
 
-                liveData.value = documentSnapshot.toObject(Activity::class.java)?.apply {
-
-                    setupTimestamp()
-                    setupLastWeekTime()
-                }
+                liveData.value =
+                    documentSnapshot.toObject(FirestoreActivity::class.java)?.run { mapToDomain() }
             }
         }
 
         return liveData
     }
 
-    override suspend fun saveActivity(activity: Activity): WriteBatch {
+    override suspend fun saveActivity(id: String, newName: String): WriteBatch {
 
-        val activityRef = activitiesRef.document(activity.documentId)
-
-        activity.setupFirestoreTimestamp()
+        val activityRef = activitiesRef.document(id)
 
         return db.batch().also { batch ->
 
-            batch.set(activityRef, activity)
+            batch.update(activityRef, NAME, newName)
         }
     }
 
     override suspend fun addActivity(activity: Activity) {
 
-        activity.setupFirestoreTimestamp()
-        activitiesRef.add(activity)
+        activitiesRef.add(activity.toFirestoreActivity())
     }
 
     override suspend fun deleteActivity(activity: Activity) {
@@ -87,21 +83,13 @@ class ActivitiesRemoteDataSourceImpl @Inject constructor(
     override fun increaseTime(activityId: String, time: Long, batch: WriteBatch) {
 
         val activityRef = activitiesRef.document(activityId)
-        val record = RecordMinimal(time)
+        val record = RecordMinimal(time.toInt())
 
-        batch.update(
-            activityRef,
-            TOTAL_TIME,
-            FieldValue.increment(time)
-        )
+        batch.update(activityRef, TOTAL_TIME, FieldValue.increment(time))
 
         if (time > 0) {
 
-            batch.update(
-                activityRef,
-                RECENT_RECORDS,
-                FieldValue.arrayUnion(record)
-            )
+            batch.update(activityRef, RECENT_RECORDS, FieldValue.arrayUnion(record))
         }
 
         batch.commit()

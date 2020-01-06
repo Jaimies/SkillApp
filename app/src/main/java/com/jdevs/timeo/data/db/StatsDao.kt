@@ -3,9 +3,9 @@ package com.jdevs.timeo.data.db
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
-import com.jdevs.timeo.domain.model.DayStats
-import com.jdevs.timeo.domain.model.MonthStats
-import com.jdevs.timeo.domain.model.WeekStats
+import com.jdevs.timeo.data.db.model.DBDayStats
+import com.jdevs.timeo.data.db.model.DBMonthStats
+import com.jdevs.timeo.data.db.model.DBWeekStats
 
 @Dao
 interface StatsDao {
@@ -38,11 +38,11 @@ interface StatsDao {
     fun registerMonthStats(time: Long, month: Short)
 
     @Query("SELECT * FROM dayStats WHERE time > 0 ORDER BY day DESC")
-    fun getDayStats(): DataSource.Factory<Int, DayStats>
+    fun getDayStats(): DataSource.Factory<Int, DBDayStats>
 
     @Query("SELECT * FROM weekStats WHERE time > 0  ORDER BY week DESC")
-    fun getWeekStats(): DataSource.Factory<Int, WeekStats>
+    fun getWeekStats(): DataSource.Factory<Int, DBWeekStats>
 
     @Query("SELECT * FROM monthStats WHERE time > 0 ORDER BY month DESC")
-    fun getMonthStats(): DataSource.Factory<Int, MonthStats>
+    fun getMonthStats(): DataSource.Factory<Int, DBMonthStats>
 }

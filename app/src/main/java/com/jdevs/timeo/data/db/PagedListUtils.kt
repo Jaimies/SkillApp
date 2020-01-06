@@ -4,15 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.jdevs.timeo.data.Mapper
 
-fun <T> DataSource.Factory<Int, T>.toLivePagedList(
+fun <T : Mapper<Model>, Model> DataSource.Factory<Int, T>.toLivePagedList(
     pageSize: Int
-): LiveData<PagedList<T>> {
+): LiveData<PagedList<Model>> {
 
     val pagedListConfig = PagedList.Config.Builder()
         .setEnablePlaceholders(false)
         .setPageSize(pageSize)
         .build()
 
-    return LivePagedListBuilder(this, pagedListConfig).build()
+    val pagedList = map { it.mapToDomain() }
+
+    return LivePagedListBuilder(pagedList, pagedListConfig).build()
 }

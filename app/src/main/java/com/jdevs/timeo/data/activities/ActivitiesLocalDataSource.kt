@@ -1,7 +1,7 @@
 package com.jdevs.timeo.data.activities
 
 import androidx.lifecycle.LiveData
-import com.google.firebase.firestore.WriteBatch
+import androidx.lifecycle.Transformations
 import com.jdevs.timeo.data.db.ActivitiesDao
 import com.jdevs.timeo.data.db.toLivePagedList
 import com.jdevs.timeo.domain.model.Activity
@@ -17,30 +17,35 @@ interface ActivitiesDataSource {
 
     suspend fun addActivity(activity: Activity)
 
-    suspend fun saveActivity(activity: Activity): WriteBatch?
-
     suspend fun deleteActivity(activity: Activity)
 }
 
+interface ActivitiesLocalDataSource : ActivitiesDataSource {
+
+    suspend fun saveActivity(activity: Activity)
+}
+
 @Singleton
-class ActivitiesLocalDataSource @Inject constructor(
+class ActivitiesLocalDataSourceImpl @Inject constructor(
     private val activitiesDao: ActivitiesDao
-) : ActivitiesDataSource {
+) : ActivitiesLocalDataSource {
 
     override val activities by lazy {
 
         activitiesDao.getActivities().toLivePagedList(ACTIVITIES_PAGE_SIZE)
     }
 
-    override fun getActivityById(id: Int, documentId: String) = activitiesDao.getActivity(id)
+    override fun getActivityById(id: Int, documentId: String) =
+        Transformations.map(activitiesDao.getActivity(id)) {
+            it.mapToDomain()
+        }
 
-    override suspend fun addActivity(activity: Activity) = activitiesDao.insert(activity)
+    override suspend fun addActivity(activity: Activity) =
+        activitiesDao.insert(activity.toDBActivity())
 
-    override suspend fun saveActivity(activity: Activity): WriteBatch? {
+    override suspend fun saveActivity(activity: Activity) =
+        activitiesDao.update(activity.toDBActivity())
 
-        activitiesDao.update(activity)
-        return null
-    }
-
-    override suspend fun deleteActivity(activity: Activity) = activitiesDao.delete(activity)
+    override suspend fun deleteActivity(activity: Activity) =
+        activitiesDao.delete(activity.toDBActivity())
 }

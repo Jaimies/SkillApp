@@ -26,7 +26,7 @@ interface RecordsDataSource {
 }
 
 @Singleton
-class RecordsLocalDataSource @Inject constructor(
+class RecordsLocalDataSourceImpl @Inject constructor(
     private val db: TimeoDatabase
 ) : RecordsDataSource {
 
@@ -41,7 +41,7 @@ class RecordsLocalDataSource @Inject constructor(
 
             launch {
 
-                db.recordsDao().insert(record)
+                db.recordsDao().insert(record.toDBRecord())
                 db.activitiesDao().increaseTime(record.roomActivityId, record.time)
                 registerStats(record.time, record.creationDate)
             }
@@ -56,7 +56,7 @@ class RecordsLocalDataSource @Inject constructor(
 
             launch {
 
-                db.recordsDao().delete(record)
+                db.recordsDao().delete(record.toDBRecord())
                 db.activitiesDao().increaseTime(record.roomActivityId, -record.time)
                 registerStats(-record.time, record.creationDate)
             }

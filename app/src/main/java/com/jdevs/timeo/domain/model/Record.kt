@@ -1,62 +1,24 @@
 package com.jdevs.timeo.domain.model
 
-import androidx.annotation.Keep
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Ignore
-import androidx.room.Index
-import androidx.room.PrimaryKey
-import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.PropertyName
-import com.google.firebase.firestore.ServerTimestamp
+import com.jdevs.timeo.data.db.model.DBRecord
+import com.jdevs.timeo.data.firestore.model.FirestoreRecord
 import com.jdevs.timeo.util.AdapterConstants.RECORD
-import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP
+import com.jdevs.timeo.util.time.toDate
 import org.threeten.bp.OffsetDateTime
-import java.util.Date
 
-@Keep
-@Entity(
-    tableName = "records",
-    indices = [Index(value = ["activityId"])],
-    foreignKeys = [ForeignKey(
-        entity = Activity::class,
-        parentColumns = ["id"],
-        childColumns = ["activityId"],
-        onDelete = ForeignKey.CASCADE
-    )]
-)
 data class Record(
-    var name: String = "",
-    var time: Long = 0,
-
-    @Ignore
-    var activityId: String = "",
-
-    @get:Exclude
-    @ColumnInfo(name = "activityId")
-    var roomActivityId: Int = 0
+    override val id: Int = 0,
+    override val documentId: String = "",
+    val name: String,
+    val time: Long,
+    val activityId: String = "",
+    val roomActivityId: Int = 0,
+    override val creationDate: OffsetDateTime = OffsetDateTime.now()
 ) : DataItem() {
 
-    @get:Exclude
-    @PrimaryKey(autoGenerate = true)
-    override var id: Int = 0
-
-    @Ignore
-    @DocumentId
-    override var documentId: String = ""
-
-    @get:Exclude
-    override var creationDate: OffsetDateTime = OffsetDateTime.now()
-
-    @Ignore
-    @ServerTimestamp
-    @get:PropertyName(TIMESTAMP)
-    @set:PropertyName(TIMESTAMP)
-    override var firestoreTimestamp: Date? = null
-
-    @Ignore
-    @get:Exclude
     override val viewType = RECORD
+
+    fun toDBRecord() = DBRecord(id, name, time, roomActivityId, creationDate)
+    fun toFirestoreRecord() =
+        FirestoreRecord(documentId, name, time, activityId, creationDate.toDate())
 }

@@ -3,13 +3,13 @@ package com.jdevs.timeo.data
 import com.jdevs.timeo.data.auth.AuthRepository
 
 @Suppress("UnnecessaryAbstractClass")
-abstract class Repository<Remote : DataSource, DataSource>(
+abstract class Repository<T, Remote : T>(
     private val remoteDataSource: Remote,
-    private val localDataSource: DataSource,
-    private val authRepository: AuthRepository
+    private val localDataSource: T,
+    protected val authRepository: AuthRepository
 ) {
 
-    private val isUserSignedIn
+    protected val isUserSignedIn
         get() = authRepository.isUserSignedIn
 
     protected val currentDataSource

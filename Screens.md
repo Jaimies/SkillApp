@@ -1,14 +1,14 @@
-Screens:
-1. Overview:
+# Screens
+## Onboarding flow
+* A couple of statements on why Timeo and time management are awesome
+* A brief introduction to the greatest Timeo features
+## Overview
 * Recent records
 * Today’s stats
-* A bit more widgets
-2. List of activities and records
-* Probably activities and records
-* Groupable activities
-3. Stay focused?
-* This screen may not be included in the release
-4. Profile
-* Various graphs
-* List of friends and their stats
-* Sign in / Sign up flow
+* Great widgets
+## List of activities and records
+* Activity tracking and outliers mode (10000h) is optional, by default the point of the app is projects, not activities
+## Stay focused
+* A Pomodoro timer with background noise and app blocker
+## Profile
+* Graphs, achievements, plans

@@ -10,7 +10,6 @@ import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.data.firestore.model.FirestoreActivity
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.FirestoreConstants.NAME

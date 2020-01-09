@@ -8,9 +8,6 @@ import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.data.firestore.model.FirestoreDayStats
-import com.jdevs.timeo.data.firestore.model.FirestoreMonthStats
-import com.jdevs.timeo.data.firestore.model.FirestoreWeekStats
 import com.jdevs.timeo.util.FirestoreConstants.TIME
 import com.jdevs.timeo.util.StatsConstants
 import com.jdevs.timeo.util.StatsConstants.DAY_PROPERTY

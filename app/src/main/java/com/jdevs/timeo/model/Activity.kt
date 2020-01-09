@@ -1,8 +1,8 @@
 package com.jdevs.timeo.model
 
 import android.os.Parcelable
-import com.jdevs.timeo.data.db.model.DBActivity
-import com.jdevs.timeo.data.firestore.model.FirestoreActivity
+import com.jdevs.timeo.data.activities.DBActivity
+import com.jdevs.timeo.data.activities.FirestoreActivity
 import com.jdevs.timeo.util.ViewTypes.ACTIVITY
 import com.jdevs.timeo.util.time.toDate
 import kotlinx.android.parcel.IgnoredOnParcel

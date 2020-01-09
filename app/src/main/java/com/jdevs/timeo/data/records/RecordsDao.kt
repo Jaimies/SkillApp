@@ -1,10 +1,10 @@
-package com.jdevs.timeo.data.db
+package com.jdevs.timeo.data.records
 
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.jdevs.timeo.data.db.model.DBRecord
+import com.jdevs.timeo.data.db.BaseDao
 
 @Dao
 interface RecordsDao : BaseDao<DBRecord> {

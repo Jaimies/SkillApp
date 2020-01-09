@@ -6,7 +6,6 @@ import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.data.firestore.model.FirestoreRecord
 import com.jdevs.timeo.model.Record
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID
 import com.jdevs.timeo.util.FirestoreConstants.NAME

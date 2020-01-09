@@ -1,4 +1,4 @@
-package com.jdevs.timeo.data.db.model
+package com.jdevs.timeo.data.stats
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

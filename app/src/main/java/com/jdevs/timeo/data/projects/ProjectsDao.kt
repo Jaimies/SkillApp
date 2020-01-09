@@ -1,9 +1,9 @@
-package com.jdevs.timeo.data.db
+package com.jdevs.timeo.data.projects
 
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
-import com.jdevs.timeo.data.db.model.DBProject
+import com.jdevs.timeo.data.db.BaseDao
 
 @Dao
 interface ProjectsDao : BaseDao<DBProject> {

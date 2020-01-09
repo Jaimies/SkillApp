@@ -1,10 +1,10 @@
-package com.jdevs.timeo.data.db
+package com.jdevs.timeo.data.activities
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
-import com.jdevs.timeo.data.db.model.DBActivity
+import com.jdevs.timeo.data.db.BaseDao
 
 @Dao
 interface ActivitiesDao : BaseDao<DBActivity> {

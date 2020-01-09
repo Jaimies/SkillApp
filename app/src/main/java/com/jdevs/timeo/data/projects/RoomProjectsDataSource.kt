@@ -1,7 +1,6 @@
 package com.jdevs.timeo.data.projects
 
 import androidx.lifecycle.LiveData
-import com.jdevs.timeo.data.db.ProjectsDao
 import com.jdevs.timeo.data.db.toLivePagedList
 import com.jdevs.timeo.model.Project
 import com.jdevs.timeo.util.PagingConstants.PROJECTS_PAGE_SIZE

@@ -1,7 +1,7 @@
 package com.jdevs.timeo.model
 
-import com.jdevs.timeo.data.db.model.DBRecord
-import com.jdevs.timeo.data.firestore.model.FirestoreRecord
+import com.jdevs.timeo.data.records.DBRecord
+import com.jdevs.timeo.data.records.FirestoreRecord
 import com.jdevs.timeo.util.ViewTypes.RECORD
 import com.jdevs.timeo.util.time.toDate
 import org.threeten.bp.OffsetDateTime

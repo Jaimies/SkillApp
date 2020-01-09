@@ -1,6 +1,5 @@
-package com.jdevs.timeo.data.firestore.model
+package com.jdevs.timeo.data.firestore
 
-import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.util.time.WEEK_DAYS
 import com.jdevs.timeo.util.time.getDaysAgo
 

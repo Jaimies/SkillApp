@@ -1,7 +1,6 @@
 package com.jdevs.timeo.data.stats
 
 import androidx.lifecycle.LiveData
-import com.jdevs.timeo.data.db.StatsDao
 import com.jdevs.timeo.data.db.toLivePagedList
 import com.jdevs.timeo.util.PagingConstants.STATS_PAGE_SIZE
 import javax.inject.Inject

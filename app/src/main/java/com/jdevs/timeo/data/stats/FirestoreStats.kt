@@ -1,4 +1,4 @@
-package com.jdevs.timeo.data.firestore.model
+package com.jdevs.timeo.data.stats
 
 import com.google.firebase.firestore.DocumentId
 import com.jdevs.timeo.data.Mapper

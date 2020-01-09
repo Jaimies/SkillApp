@@ -2,7 +2,6 @@ package com.jdevs.timeo.data.activities
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.jdevs.timeo.data.db.ActivitiesDao
 import com.jdevs.timeo.data.db.toLivePagedList
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.PagingConstants.ACTIVITIES_PAGE_SIZE

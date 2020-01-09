@@ -1,11 +1,8 @@
-package com.jdevs.timeo.data.db
+package com.jdevs.timeo.data.stats
 
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
-import com.jdevs.timeo.data.db.model.DBDayStats
-import com.jdevs.timeo.data.db.model.DBMonthStats
-import com.jdevs.timeo.data.db.model.DBWeekStats
 
 @Dao
 interface StatsDao {

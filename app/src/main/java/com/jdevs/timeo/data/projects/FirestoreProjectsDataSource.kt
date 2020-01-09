@@ -4,7 +4,6 @@ import com.google.firebase.firestore.CollectionReference
 import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.data.firestore.model.FirestoreProject
 import com.jdevs.timeo.model.Project
 import com.jdevs.timeo.util.ProjectsConstants
 import javax.inject.Inject

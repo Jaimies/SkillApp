@@ -2,6 +2,7 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
@@ -128,7 +129,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    fun navigateToGraph(graphId: Int, graphsToRecreate: List<Int> = listOf(R.id.activity_list)) {
+    fun navigateToGraph(@IdRes graphId: Int, graphsToRecreate: List<Int> = listOf(R.id.activity_list)) {
 
         bottomNavView.selectedItemId = graphId
 

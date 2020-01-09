@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -85,7 +86,7 @@ fun ViewModel.launchSuspendingProcess(
     }
 }
 
-fun Fragment.navigateToGraph(graphId: Int) {
+fun Fragment.navigateToGraph(@IdRes graphId: Int) {
 
     requireMainActivity()?.navigateToGraph(graphId)
 

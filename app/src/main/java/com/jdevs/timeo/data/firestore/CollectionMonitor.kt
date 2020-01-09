@@ -5,8 +5,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP
-import com.jdevs.timeo.util.LiveDataConstructor
 import kotlin.reflect.KClass
+
+typealias LiveDataConstructor = (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ItemsLiveData
 
 class CollectionMonitor(
     private val liveData: LiveDataConstructor,

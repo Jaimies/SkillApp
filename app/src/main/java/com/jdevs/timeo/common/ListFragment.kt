@@ -96,20 +96,9 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
             when (operation.type) {
 
-                ADDED -> {
-
-                    firestoreAdapter.addItem(operation.data!!)
-                }
-
-                MODIFIED -> {
-
-                    firestoreAdapter.modifyItem(operation.data!!)
-                }
-
-                REMOVED -> {
-
-                    firestoreAdapter.removeItem(operation.data!!)
-                }
+                ADDED -> firestoreAdapter.addItem(operation.data!!)
+                MODIFIED -> firestoreAdapter.modifyItem(operation.data!!)
+                REMOVED -> firestoreAdapter.removeItem(operation.data!!)
 
                 SUCCESSFUL -> {
 
@@ -118,15 +107,8 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
                     firestoreAdapter.showLoader()
                 }
 
-                LAST_ITEM_REACHED -> {
-
-                    firestoreAdapter.hideLoader()
-                }
-
-                FAILED -> {
-
-                    Log.w(TAG, "Failed to get data from Firestore", operation.exception)
-                }
+                LAST_ITEM_REACHED -> firestoreAdapter.hideLoader()
+                FAILED -> Log.w(TAG, "Failed to get data from Firestore", operation.exception)
             }
         }
     }
@@ -134,35 +116,24 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     protected fun RecyclerView.setup(visibleThreshold: Int) {
 
         val linearLayoutManager = LinearLayoutManager(context)
-
         layoutManager = linearLayoutManager
-
         adapter = currentAdapter
 
         if (authRepository.isUserSignedIn) {
 
-            addOnScrollListener(
-                InfiniteScrollListener(
-                    linearLayoutManager,
-                    visibleThreshold
-                ) {
+            addOnScrollListener(InfiniteScrollListener(linearLayoutManager, visibleThreshold) {
 
-                    val liveData = viewModel.liveData as ItemsLiveData?
-
-                    observeItemsLiveData(liveData ?: return@InfiniteScrollListener)
-                }
-            )
+                val liveData = viewModel.liveData as ItemsLiveData?
+                liveData?.let { observeItemsLiveData(it) }
+            })
         }
     }
 
-    protected fun getItem(position: Int): T {
+    protected fun getItem(position: Int) = if (authRepository.isUserSignedIn) {
 
-        return if (authRepository.isUserSignedIn) {
+        firestoreAdapter.getItem(position)
+    } else {
 
-            firestoreAdapter.getItem(position)
-        } else {
-
-            adapter.getItem(position)
-        } as T
-    }
+        adapter.getItem(position)
+    } as T
 }

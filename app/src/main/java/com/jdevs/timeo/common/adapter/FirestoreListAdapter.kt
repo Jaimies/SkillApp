@@ -62,17 +62,16 @@ abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    fun addItem(item: ViewItem) = items.apply {
+    fun addItem(item: ViewItem) {
 
         if (items.count { it.documentId == item.documentId } > 0) {
 
             modifyItem(item)
-            return@apply
+            return
         }
 
-        add(item)
-
-        notifyItemInserted(lastIndex)
+        items.add(item)
+        notifyItemInserted(items.lastIndex)
     }
 
     fun modifyItem(item: ViewItem) {

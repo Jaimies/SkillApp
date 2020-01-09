@@ -41,7 +41,7 @@ class RoomRecordsDataSource @Inject constructor(
 
             launch {
 
-                db.recordsDao().insert(record.toDBRecord())
+                db.recordsDao().insert(record.toDB())
                 db.activitiesDao().increaseTime(record.roomActivityId, record.time)
                 registerStats(record.time, record.creationDate)
             }
@@ -56,7 +56,7 @@ class RoomRecordsDataSource @Inject constructor(
 
             launch {
 
-                db.recordsDao().delete(record.toDBRecord())
+                db.recordsDao().delete(record.toDB())
                 db.activitiesDao().increaseTime(record.roomActivityId, -record.time)
                 registerStats(-record.time, record.creationDate)
             }

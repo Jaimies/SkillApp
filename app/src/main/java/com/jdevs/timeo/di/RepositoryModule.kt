@@ -8,9 +8,13 @@ import com.jdevs.timeo.data.activities.ActivitiesRepository
 import com.jdevs.timeo.data.activities.DefaultActivitiesRepository
 import com.jdevs.timeo.data.activities.FirestoreActivitiesDataSource
 import com.jdevs.timeo.data.activities.RoomActivitiesDataSource
-import com.jdevs.timeo.data.db.ActivitiesDao
-import com.jdevs.timeo.data.db.StatsDao
 import com.jdevs.timeo.data.db.TimeoDatabase
+import com.jdevs.timeo.data.projects.DefaultProjectsRepository
+import com.jdevs.timeo.data.projects.FirestoreProjectsDataSource
+import com.jdevs.timeo.data.projects.ProjectsLocalDataSource
+import com.jdevs.timeo.data.projects.ProjectsRemoteDataSource
+import com.jdevs.timeo.data.projects.ProjectsRepository
+import com.jdevs.timeo.data.projects.RoomProjectsDataSource
 import com.jdevs.timeo.data.records.DefaultRecordsRepository
 import com.jdevs.timeo.data.records.FirestoreRecordsDataSource
 import com.jdevs.timeo.data.records.RecordsDataSource
@@ -36,6 +40,9 @@ abstract class RepositoryModule {
     abstract fun provideActivitiesRepository(repository: DefaultActivitiesRepository): ActivitiesRepository
 
     @Binds
+    abstract fun provideProjectsRepository(repository: DefaultProjectsRepository): ProjectsRepository
+
+    @Binds
     abstract fun provideRecordsRepository(repository: DefaultRecordsRepository): RecordsRepository
 
     @Binds
@@ -45,6 +52,9 @@ abstract class RepositoryModule {
     abstract fun provideActivitiesRemoteDataSource(source: FirestoreActivitiesDataSource): ActivitiesRemoteDataSource
 
     @Binds
+    abstract fun provideProjectsRemoteDataSource(source: FirestoreProjectsDataSource): ProjectsRemoteDataSource
+
+    @Binds
     abstract fun provideRecordsRemoteDataSource(source: FirestoreRecordsDataSource): RecordsRemoteDataSource
 
     @Binds
@@ -52,6 +62,9 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideActivitiesLocalDataSource(source: RoomActivitiesDataSource): ActivitiesLocalDataSource
+
+    @Binds
+    abstract fun provideProjectsLocalDataSource(source: RoomProjectsDataSource): ProjectsLocalDataSource
 
     @Binds
     abstract fun provideRecordsLocalDataSource(source: RoomRecordsDataSource): RecordsDataSource
@@ -78,11 +91,16 @@ abstract class RepositoryModule {
         @Provides
         @Singleton
         @JvmStatic
-        fun provideActivitiesDao(db: TimeoDatabase): ActivitiesDao = db.activitiesDao()
+        fun provideActivitiesDao(db: TimeoDatabase) = db.activitiesDao()
 
         @Provides
         @Singleton
         @JvmStatic
-        fun provideStatsDao(db: TimeoDatabase): StatsDao = db.statsDao()
+        fun provideStatsDao(db: TimeoDatabase) = db.statsDao()
+
+        @Provides
+        @Singleton
+        @JvmStatic
+        fun provideProjectsDao(db: TimeoDatabase) = db.projectsDao()
     }
 }

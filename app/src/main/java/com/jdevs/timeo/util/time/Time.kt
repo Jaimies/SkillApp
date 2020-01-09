@@ -1,6 +1,5 @@
 package com.jdevs.timeo.util.time
 
-import com.jdevs.timeo.util.Time.HOUR_MINUTES
 import org.threeten.bp.OffsetDateTime
 
 fun Long.toFriendlyTime(): String {
@@ -48,3 +47,7 @@ fun Long.getAvgDailyHours(timestamp: OffsetDateTime): String {
 
     return avgDailyMins.toHours()
 }
+
+const val HOUR_MINUTES = 60
+const val DAY_HOURS = 24
+const val WEEK_DAYS = 7

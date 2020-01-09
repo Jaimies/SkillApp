@@ -10,6 +10,7 @@ object RoomConstants {
 object PagingConstants {
 
     const val ACTIVITIES_PAGE_SIZE = 20
+    const val PROJECTS_PAGE_SIZE = 20
     const val RECORDS_PAGE_SIZE = 50
     const val STATS_PAGE_SIZE = 40
 }
@@ -38,6 +39,13 @@ object RecordsConstants {
     const val PAGE_SIZE = 50L
     const val VISIBLE_THRESHOLD = 12
     const val RECORD_MIN_TIME = 5
+}
+
+object ProjectsConstants {
+
+    const val COLLECTION = "projects"
+    const val PAGE_SIZE = 40L
+    const val VISIBLE_THRESHOLD = 10
 }
 
 object StatsConstants {
@@ -73,19 +81,13 @@ object RequestCodes {
     const val RC_SIGN_IN = 0
 }
 
-object AdapterConstants {
+object ViewTypes {
 
     const val LOADING = 0
     const val ACTIVITY = 1
     const val RECORD = 2
-    const val STATISTIC = 3
-}
-
-object Time {
-
-    const val HOUR_MINUTES = 60
-    const val DAY_HOURS = 24
-    const val WEEK_DAYS = 7
+    const val PROJECT = 3
+    const val STATISTIC = 4
 }
 
 object ViewConstants {

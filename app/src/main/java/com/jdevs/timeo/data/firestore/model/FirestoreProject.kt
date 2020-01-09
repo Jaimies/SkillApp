@@ -4,11 +4,11 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.data.firestore.RecordMinimal
-import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.model.Project
 import com.jdevs.timeo.util.time.toOffsetDate
 import java.util.Date
 
-data class FirestoreActivity(
+data class FirestoreProject(
     @DocumentId
     val documentId: String = "",
     val name: String = "",
@@ -16,12 +16,12 @@ data class FirestoreActivity(
     override var recentRecords: List<RecordMinimal> = emptyList(),
     @ServerTimestamp
     var timestamp: Date? = null
-) : Recordable(), Mapper<Activity> {
+) : Recordable(), Mapper<Project> {
 
-    override fun mapToDomain(): Activity {
+    override fun mapToDomain(): Project {
 
         val lastWeekTime = getLastWeekTime()
-        return Activity(
+        return Project(
             documentId = documentId,
             name = name,
             totalTime = totalTime,

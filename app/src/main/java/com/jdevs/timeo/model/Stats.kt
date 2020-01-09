@@ -1,7 +1,7 @@
 package com.jdevs.timeo.model
 
 import com.jdevs.timeo.common.adapter.ViewItem
-import com.jdevs.timeo.util.AdapterConstants.STATISTIC
+import com.jdevs.timeo.util.ViewTypes.STATISTIC
 
 sealed class Stats : ViewItem {
 

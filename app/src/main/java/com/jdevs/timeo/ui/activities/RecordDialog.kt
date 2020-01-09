@@ -9,9 +9,9 @@ import android.view.View
 import android.widget.EditText
 import com.jdevs.timeo.R
 import com.jdevs.timeo.util.RecordsConstants.RECORD_MIN_TIME
-import com.jdevs.timeo.util.Time.DAY_HOURS
-import com.jdevs.timeo.util.Time.HOUR_MINUTES
 import com.jdevs.timeo.util.getScreenDimensions
+import com.jdevs.timeo.util.time.DAY_HOURS
+import com.jdevs.timeo.util.time.HOUR_MINUTES
 import com.jdevs.timeo.util.time.toMins
 import kotlinx.android.synthetic.main.record_dialog.add_button
 import kotlinx.android.synthetic.main.record_dialog.hours_edit_text

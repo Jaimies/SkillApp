@@ -41,11 +41,11 @@ class RoomActivitiesDataSource @Inject constructor(
         }
 
     override suspend fun addActivity(activity: Activity) =
-        activitiesDao.insert(activity.toDBActivity())
+        activitiesDao.insert(activity.toDB())
 
     override suspend fun saveActivity(activity: Activity) =
-        activitiesDao.update(activity.toDBActivity())
+        activitiesDao.update(activity.toDB())
 
     override suspend fun deleteActivity(activity: Activity) =
-        activitiesDao.delete(activity.toDBActivity())
+        activitiesDao.delete(activity.toDB())
 }

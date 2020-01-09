@@ -47,7 +47,7 @@ class FirestoreRecordsDataSource @Inject constructor(
 
         return db.batch().also { batch ->
 
-            batch.set(newRecordRef, record.toFirestoreRecord())
+            batch.set(newRecordRef, record.toFirestore())
         }
     }
 

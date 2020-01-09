@@ -72,7 +72,7 @@ class FirestoreActivitiesDataSource @Inject constructor(
 
     override suspend fun addActivity(activity: Activity) {
 
-        activitiesRef.add(activity.toFirestoreActivity())
+        activitiesRef.add(activity.toFirestore())
     }
 
     override suspend fun deleteActivity(activity: Activity) {

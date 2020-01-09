@@ -2,7 +2,7 @@ package com.jdevs.timeo.model
 
 import com.jdevs.timeo.data.db.model.DBRecord
 import com.jdevs.timeo.data.firestore.model.FirestoreRecord
-import com.jdevs.timeo.util.AdapterConstants.RECORD
+import com.jdevs.timeo.util.ViewTypes.RECORD
 import com.jdevs.timeo.util.time.toDate
 import org.threeten.bp.OffsetDateTime
 
@@ -14,11 +14,11 @@ data class Record(
     val activityId: String = "",
     val roomActivityId: Int = 0,
     override val creationDate: OffsetDateTime = OffsetDateTime.now()
-) : DataItem() {
+) : Entity<DBRecord, FirestoreRecord>, DataItem {
 
     override val viewType = RECORD
 
-    fun toDBRecord() = DBRecord(id, name, time, roomActivityId, creationDate)
-    fun toFirestoreRecord() =
+    override fun toDB() = DBRecord(id, name, time, roomActivityId, creationDate)
+    override fun toFirestore() =
         FirestoreRecord(documentId, name, time, activityId, creationDate.toDate())
 }

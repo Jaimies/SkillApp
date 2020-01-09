@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
+import com.jdevs.timeo.common.adapter.FirestoreListAdapter
+import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.databinding.StatsPageFragBinding
 import com.jdevs.timeo.model.DayStats
 import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
@@ -16,8 +18,8 @@ class StatsItemFragment(private val statsType: Int) : ListFragment<DayStats>() {
 
     override val menuId = -1
 
-    override val adapter by lazy { StatsRecyclerViewAdapter() }
-    override val firestoreAdapter by lazy { FirestoreStatsAdapter() }
+    override val adapter by lazy { ListAdapter(StatisticDelegateAdapter()) }
+    override val firestoreAdapter by lazy { FirestoreListAdapter() }
 
     @Inject
     override lateinit var viewModel: StatsViewModel

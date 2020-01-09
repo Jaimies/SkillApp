@@ -9,12 +9,14 @@ import com.jdevs.timeo.util.ProjectsConstants
 import javax.inject.Inject
 import javax.inject.Singleton
 
-interface ProjectsRemoteDataSource : ProjectsDataSource
+interface ProjectsRemoteDataSource : ProjectsDataSource {
+
+    fun resetMonitor()
+}
 
 @Singleton
-class FirestoreProjectsDataSource @Inject constructor(
-    authRepository: AuthRepository
-) : FirestoreDataSource(authRepository), ProjectsRemoteDataSource {
+class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthRepository) :
+    FirestoreDataSource(authRepository), ProjectsRemoteDataSource {
 
     private val projectsMonitor =
         createCollectionMonitor(FirestoreProject::class, ProjectsConstants.PAGE_SIZE)
@@ -43,4 +45,6 @@ class FirestoreProjectsDataSource @Inject constructor(
 
         projectsRef = createRef(uid, ProjectsConstants.COLLECTION, projectsMonitor)
     }
+
+    override fun resetMonitor() = projectsMonitor.reset()
 }

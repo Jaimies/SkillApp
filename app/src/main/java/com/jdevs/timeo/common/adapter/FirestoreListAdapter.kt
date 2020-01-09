@@ -1,20 +1,27 @@
 package com.jdevs.timeo.common.adapter
 
 import android.util.SparseArray
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.history.RecordDelegateAdapter
+import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.ui.stats.StatisticDelegateAdapter
 import com.jdevs.timeo.util.ViewTypes.ACTIVITY
 import com.jdevs.timeo.util.ViewTypes.LOADING
+import com.jdevs.timeo.util.ViewTypes.PROJECT
 import com.jdevs.timeo.util.ViewTypes.RECORD
 import com.jdevs.timeo.util.ViewTypes.STATISTIC
 
-abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FirestoreListAdapter(
+    private val createRecord: (Int, Long) -> Unit = { _, _ -> },
+    private val goToDetails: (Int) -> Unit = {},
+    private val showDeleteDialog: (Int) -> Unit = {}
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it.viewType != LOADING }.size
 
-    protected val delegateAdapters = SparseArray<DelegateAdapter>()
+    private val delegateAdapters = SparseArray<DelegateAdapter>()
     private val items = mutableListOf<ViewItem>()
 
     private val loadingItem = object : ViewItem {
@@ -28,14 +35,20 @@ abstract class FirestoreListAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
 
         delegateAdapters.put(LOADING, LoadingDelegateAdapter())
         delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter())
+        delegateAdapters.put(PROJECT, ProjectDelegateAdapter())
         delegateAdapters.put(RECORD, RecordDelegateAdapter())
         delegateAdapters.put(STATISTIC, StatisticDelegateAdapter())
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        return delegateAdapters.get(viewType)
+            .onCreateViewHolder(parent, createRecord, goToDetails, showDeleteDialog)
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        delegateAdapters.get(getItemViewType(position))
-            .onBindViewHolder(holder, items[position])
+        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, items[position])
     }
 
     override fun getItemCount() = items.size

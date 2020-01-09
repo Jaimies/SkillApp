@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.activities
+package com.jdevs.timeo.ui.projects
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +8,12 @@ import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.common.adapter.createViewModel
-import com.jdevs.timeo.databinding.ActivitiesItemBinding
-import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.databinding.ProjectsItemBinding
+import com.jdevs.timeo.model.Project
+import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.util.getFragmentActivity
 
-class ActivityDelegateAdapter : DelegateAdapter {
+class ProjectDelegateAdapter : DelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,10 +24,9 @@ class ActivityDelegateAdapter : DelegateAdapter {
 
         val fragmentActivity = parent.getFragmentActivity()
         val inflater = LayoutInflater.from(fragmentActivity)
+        val viewModel = createViewModel(fragmentActivity, ProjectViewModel::class)
 
-        val viewModel = createViewModel(fragmentActivity, ActivityViewModel::class)
-
-        val binding = ActivitiesItemBinding.inflate(inflater, parent, false).also {
+        val binding = ProjectsItemBinding.inflate(inflater, parent, false).also {
 
             it.viewModel = viewModel
             it.lifecycleOwner = fragmentActivity
@@ -38,12 +38,12 @@ class ActivityDelegateAdapter : DelegateAdapter {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
 
         holder as ViewHolder
-        holder.setActivity(item as Activity)
+        holder.setProject(item as Project)
     }
 
     class ViewHolder(
         rootView: View,
-        private val viewModel: ActivityViewModel,
+        private val viewModel: ProjectViewModel,
         private val createRecord: (Int, Long) -> Unit = { _, _ -> },
         private val navigateToDetails: (Int) -> Unit = {}
     ) : ListAdapter.ViewHolder(rootView) {
@@ -52,7 +52,9 @@ class ActivityDelegateAdapter : DelegateAdapter {
 
             viewModel.apply {
 
-                navigateToDetails.observeEvent(lifecycleOwner) { navigateToDetails(adapterPosition) }
+                navigateToDetails.observeEvent(lifecycleOwner) {
+                    navigateToDetails(adapterPosition)
+                }
                 showRecordDialog.observeEvent(lifecycleOwner) {
 
                     RecordDialog(context) { time -> createRecord(adapterPosition, time) }.show()
@@ -60,6 +62,6 @@ class ActivityDelegateAdapter : DelegateAdapter {
             }
         }
 
-        fun setActivity(activity: Activity) = viewModel.setActivity(activity)
+        fun setProject(project: Project) = viewModel.setProject(project)
     }
 }

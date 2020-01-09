@@ -93,6 +93,6 @@ class ActivitiesFragmentTest {
         onView(withId(R.id.create_activity_button)).perform(click())
 
         // THEN - Verify that we navigate to AddEditActivityFragment
-        verify(navController).navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
+        verify(navController).navigate(R.id.action_activitiesFragment_to_addActivityFragment)
     }
 }

@@ -9,5 +9,5 @@ class GetActivitiesUseCase @Inject constructor(
 
     val activities get() = activitiesRepository.activities
 
-    fun resetActivities() = activitiesRepository.resetActivitiesMonitor()
+    fun resetActivities() = activitiesRepository.resetMonitor()
 }

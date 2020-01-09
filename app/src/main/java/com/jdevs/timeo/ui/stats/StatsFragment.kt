@@ -20,9 +20,7 @@ class StatsFragment : Fragment() {
     ): View = inflater.inflate(R.layout.stats_frag, container, false).also {
 
         it.stats_viewpager.adapter = StatsViewPagerAdapter(this)
-
         setupTabLayoutMediator(it.stats_tablayout, it.stats_viewpager)
-
         it.stats_viewpager.setCurrentItem(args.statsType, false)
     }
 }

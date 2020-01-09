@@ -4,31 +4,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
+import com.jdevs.timeo.common.adapter.createViewModel
 import com.jdevs.timeo.databinding.RecordsItemBinding
 import com.jdevs.timeo.model.Record
-import java.util.UUID
+import com.jdevs.timeo.util.getFragmentActivity
 
 class RecordDelegateAdapter : DelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         createRecord: (Int, Long) -> Unit,
-        goToDetails: (Int) -> Unit,
+        navigateToDetails: (Int) -> Unit,
         showDeleteDialog: (Int) -> Unit
     ): ViewHolder {
 
-        val inflater = LayoutInflater.from(parent.context)
-        val fragmentActivity = parent.context as FragmentActivity
+        val fragmentActivity = parent.getFragmentActivity()
+        val inflater = LayoutInflater.from(fragmentActivity)
 
-        val viewModel = ViewModelProvider(fragmentActivity)
-            .get(UUID.randomUUID().toString(), RecordViewModel::class.java)
+        val viewModel = createViewModel(fragmentActivity, RecordViewModel::class)
 
         val binding = RecordsItemBinding.inflate(inflater, parent, false).also {
 

@@ -16,6 +16,8 @@ interface ProjectsRepository {
     suspend fun saveProject(project: Project)
 
     suspend fun deleteProject(project: Project)
+
+    fun resetMonitor()
 }
 
 @Singleton
@@ -34,4 +36,6 @@ class DefaultProjectsRepository @Inject constructor(
     override suspend fun saveProject(project: Project) = currentDataSource.deleteProject(project)
 
     override suspend fun deleteProject(project: Project) = currentDataSource.deleteProject(project)
+
+    override fun resetMonitor() = performOnRemote { it.resetMonitor() }
 }

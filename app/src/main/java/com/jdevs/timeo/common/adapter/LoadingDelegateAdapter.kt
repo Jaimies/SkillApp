@@ -11,7 +11,7 @@ class LoadingDelegateAdapter : DelegateAdapter {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         createRecord: (Int, Long) -> Unit,
-        goToDetails: (Int) -> Unit,
+        navigateToDetails: (Int) -> Unit,
         showDeleteDialog: (Int) -> Unit
     ) = ViewHolder(parent)
 

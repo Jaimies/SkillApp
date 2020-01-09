@@ -10,6 +10,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -38,8 +39,7 @@ fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
 
             block()
             tag = ""
-
-            this@doOnceAfterTextChanged.removeTextChangedListener(this)
+            removeTextChangedListener(this)
         }
     })
 
@@ -48,6 +48,8 @@ fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
 
 fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
     LayoutInflater.from(context).inflate(layoutId, this, false)
+
+fun ViewGroup.getFragmentActivity() = context as FragmentActivity
 
 @Suppress("TooGenericExceptionCaught")
 fun LoaderViewModel.launchSuspendingProcess(

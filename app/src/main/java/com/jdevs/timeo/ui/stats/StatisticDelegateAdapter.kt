@@ -3,31 +3,28 @@ package com.jdevs.timeo.ui.stats
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.DelegateAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
+import com.jdevs.timeo.common.adapter.createViewModel
 import com.jdevs.timeo.databinding.StatsItemBinding
 import com.jdevs.timeo.model.Stats
-import java.util.UUID
+import com.jdevs.timeo.util.getFragmentActivity
 
 class StatisticDelegateAdapter : DelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         createRecord: (Int, Long) -> Unit,
-        goToDetails: (Int) -> Unit,
+        navigateToDetails: (Int) -> Unit,
         showDeleteDialog: (Int) -> Unit
     ): RecyclerView.ViewHolder {
 
-        val inflater = LayoutInflater.from(parent.context)
-        val fragmentActivity = parent.context as FragmentActivity
+        val fragmentActivity = parent.getFragmentActivity()
+        val inflater = LayoutInflater.from(fragmentActivity)
 
-        val viewModel = ViewModelProvider(fragmentActivity).get(
-            UUID.randomUUID().toString(), StatisticViewModel::class.java
-        )
+        val viewModel = createViewModel(fragmentActivity, StatisticViewModel::class)
 
         val binding = StatsItemBinding.inflate(inflater, parent, false).also {
 

@@ -26,7 +26,7 @@ interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
     fun increaseTime(activityId: String, time: Long, batch: WriteBatch)
 
-    fun resetActivitiesMonitor()
+    fun resetMonitor()
 }
 
 @Singleton
@@ -94,7 +94,7 @@ class FirestoreActivitiesDataSource @Inject constructor(
         batch.commit()
     }
 
-    override fun resetActivitiesMonitor() = activitiesMonitor.reset()
+    override fun resetMonitor() = activitiesMonitor.reset()
 
     override fun resetRefs(uid: String) {
 

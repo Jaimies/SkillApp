@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.jdevs.timeo.ui.projects.ProjectViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activities_item_height"
+        android:layout_marginBottom="@dimen/margin_default"
+        android:background="@drawable/activities_item_background"
+        android:gravity="center_vertical"
+        android:onClick="@{() -> viewModel.navigateToDetails()}"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_medium">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@{viewModel.name}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/total_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Project name" />
+
+        <TextView
+            android:id="@+id/total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/margin_default"
+            android:paddingEnd="@dimen/margin_default"
+            android:text="@{viewModel.totalTime}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintEnd_toStartOf="@+id/plus_button"
+            tools:text="1400h" />
+
+        <ImageButton
+            android:id="@+id/plus_button"
+            android:layout_width="@dimen/activities_plus_button_size"
+            android:layout_height="@dimen/activities_plus_button_size"
+            android:background="@drawable/activities_item_plus_button"
+            android:onClick="@{() -> viewModel.showRecordDialog()}"
+            android:tint="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

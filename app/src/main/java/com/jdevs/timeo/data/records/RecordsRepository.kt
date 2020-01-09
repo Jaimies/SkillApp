@@ -18,7 +18,7 @@ interface RecordsRepository {
 
     suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch)
 
-    fun resetRecordsMonitor()
+    fun resetMonitor()
 }
 
 @Singleton
@@ -42,5 +42,5 @@ class DefaultRecordsRepository @Inject constructor(
             it.renameRecords(activityId, newName, batch)
         }
 
-    override fun resetRecordsMonitor() = performOnRemote { it.resetRecordsMonitor() }
+    override fun resetMonitor() = performOnRemote { it.resetMonitor() }
 }

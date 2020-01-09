@@ -3,16 +3,23 @@ package com.jdevs.timeo.common.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class ListAdapter : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(ITEMS_COMPARATOR) {
-
-    protected abstract val delegateAdapter: DelegateAdapter
+class ListAdapter(
+    private val delegateAdapter: DelegateAdapter,
+    private val createRecord: (Int, Long) -> Unit = { _, _ -> },
+    private val goToDetails: (Int) -> Unit = {},
+    private val showDeleteDialog: (Int) -> Unit = {}
+) : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(ITEMS_COMPARATOR) {
 
     override fun getItemViewType(index: Int) = getItem(index)?.viewType ?: -1
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = delegateAdapter
+        .onCreateViewHolder(parent, createRecord, goToDetails, showDeleteDialog)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 

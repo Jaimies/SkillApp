@@ -1,0 +1,63 @@
+package com.jdevs.timeo.ui.projects
+
+
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.jdevs.timeo.R
+import com.jdevs.timeo.TimeoApplication
+import com.jdevs.timeo.common.ListFragment
+import com.jdevs.timeo.common.adapter.FirestoreListAdapter
+import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.databinding.ProjectsFragBinding
+import com.jdevs.timeo.model.Project
+import com.jdevs.timeo.util.ProjectsConstants
+import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.showSnackbar
+import javax.inject.Inject
+
+class ProjectsFragment : ListFragment<Project>() {
+
+    override val adapter by lazy {
+
+        ListAdapter(ProjectDelegateAdapter(), { _, _ -> showSnackbar(R.string.todo) },
+            { showSnackbar(R.string.todo) })
+    }
+
+    override val firestoreAdapter by lazy {
+        FirestoreListAdapter({ _, _ -> showSnackbar(R.string.todo) },
+            { showSnackbar(R.string.todo) })
+    }
+
+    override val menuId = -1
+
+    @Inject
+    override lateinit var viewModel: ProjectsViewModel
+
+    override fun onAttach(context: Context) {
+
+        super.onAttach(context)
+        (activity!!.application as TimeoApplication).appComponent.inject(this)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        super.onCreateView(inflater, container, savedInstanceState)
+
+        ProjectsFragBinding.inflate(inflater, container, false).let {
+
+            it.lifecycleOwner = this
+            it.viewModel = viewModel
+            it.recyclerView.setup(ProjectsConstants.VISIBLE_THRESHOLD)
+
+            observeEvent(viewModel.navigateToAddActivity) { showSnackbar(R.string.todo) }
+
+            return it.root
+        }
+    }
+}

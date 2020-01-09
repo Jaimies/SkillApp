@@ -48,7 +48,7 @@ class FakeActivitiesRepository @Inject constructor() : ActivitiesRepository {
         notifyObservers()
     }
 
-    override fun resetActivitiesMonitor() {}
+    override fun resetMonitor() {}
 
     private fun notifyObservers() = activities.postValue(activityList.asPagedList())
 }

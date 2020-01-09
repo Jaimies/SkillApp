@@ -24,26 +24,29 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
-    private val appBarConfiguration by lazy { AppBarConfiguration(topLevelDestinations) }
+    private val appBarConfiguration by lazyUnsynchronized { AppBarConfiguration(topLevelDestinations) }
     private val graphsToRecreate = mutableListOf<Int>()
 
-    private val navGraphIds by lazy {
-        listOf(
-            R.navigation.overview,
-            R.navigation.activities,
-            R.navigation.stay_focused,
-            R.navigation.profile
-        )
-    }
+    private val navGraphIds = listOf(
+        R.navigation.overview,
+        R.navigation.activities,
+        R.navigation.stay_focused,
+        R.navigation.profile
+    )
 
-    private val topLevelDestinations by lazy {
-        setOf(
-            R.id.overview_fragment_dest,
-            R.id.activities_fragment_dest,
-            R.id.stay_focused_dest,
-            R.id.profile_fragment_dest
-        )
-    }
+    private val topLevelDestinations = setOf(
+        R.id.overview_fragment_dest,
+        R.id.activities_fragment_dest,
+        R.id.stay_focused_dest,
+        R.id.profile_fragment_dest
+    )
+
+    private val knownActions = arrayOf(
+        R.id.action_activitiesFragment_to_addActivityFragment,
+        R.id.action_activitiesFragment_to_projectsFragment,
+        R.id.action_activitiesFragment_to_historyFragment,
+        R.id.action_profileFragment_to_settingsFragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Timeo)
@@ -72,24 +75,11 @@ class MainActivity : AppCompatActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        currentNavController.value?.apply {
+        currentNavController.value?.run {
 
-            when (item.itemId) {
+            if (knownActions.contains(item.itemId)) {
 
-                R.id.action_createActivity -> {
-
-                    navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
-                }
-
-                R.id.action_history -> {
-
-                    navigate(R.id.action_activitiesFragment_to_historyFragment)
-                }
-
-                R.id.action_profileFragment_to_settingsFragment -> {
-
-                    navigate(R.id.action_profileFragment_to_settingsFragment)
-                }
+                navigate(item.itemId)
             }
         }
 

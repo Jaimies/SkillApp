@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.jdevs.timeo.ui.projects.ProjectsViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.projects.ProjectsFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/padding_default"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_default"
+            android:paddingBottom="@dimen/padding_default"
+            app:hideIf="@{viewModel.isEmpty || viewModel.isLoading}"
+            tools:itemCount="7"
+            tools:listitem="@layout/projects_item" />
+
+        <LinearLayout
+            android:id="@+id/empty_list_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:hideIf="@{!viewModel.isEmpty || viewModel.isLoading}"
+            tools:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/there_is_nothing_here_yet" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/create_activity_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:onClick="@{() -> viewModel.navigateToAddActivity()}"
+                android:text="@string/create_activity" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/preloader"
+            layout="@layout/preloader"
+            app:hideIf="@{!viewModel.isLoading}" />
+    </FrameLayout>
+</layout>

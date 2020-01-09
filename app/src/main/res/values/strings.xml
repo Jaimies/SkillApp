@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Timeo</string>
 
+    <string name="todo">TODO : Functionality is not implemented</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="sign_out">Sign out</string>
@@ -61,4 +62,5 @@
     <string name="day_stats">Day stats</string>
     <string name="week_stats">Week stats</string>
     <string name="month_stats">Month stats</string>
+    <string name="projects">Projects</string>
 </resources>

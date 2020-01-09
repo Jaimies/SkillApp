@@ -36,7 +36,7 @@ class FakeRecordsRepository @Inject constructor() : RecordsRepository {
         notifyObservers()
     }
 
-    override fun resetRecordsMonitor() {}
+    override fun resetMonitor() {}
 
     private fun notifyObservers() = records.postValue(recordsList.asPagedList())
 }

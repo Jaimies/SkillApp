@@ -29,8 +29,15 @@
             app:popExitAnim="@anim/slide_out_right" />
 
         <action
-            android:id="@+id/action_activitiesFragment_to_addEditActivityFragment"
+            android:id="@+id/action_activitiesFragment_to_addActivityFragment"
             app:destination="@id/add_edit_activity_fragment_dest"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_activitiesFragment_to_projectsFragment"
+            app:destination="@id/projects_fragment_dest"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
@@ -117,4 +124,8 @@
             android:defaultValue="0"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/projects_fragment_dest"
+        android:name="com.jdevs.timeo.ui.projects.ProjectsFragment"
+        android:label="@string/projects" />
 </navigation>

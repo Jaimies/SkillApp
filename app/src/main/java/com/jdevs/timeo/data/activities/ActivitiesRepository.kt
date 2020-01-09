@@ -22,7 +22,7 @@ interface ActivitiesRepository {
 
     suspend fun increaseTime(activityId: String, time: Long, batch: WriteBatch)
 
-    fun resetActivitiesMonitor()
+    fun resetMonitor()
 }
 
 @Singleton
@@ -62,5 +62,5 @@ class DefaultActivitiesRepository @Inject constructor(
             it.increaseTime(activityId, time, batch)
         }
 
-    override fun resetActivitiesMonitor() = performOnRemote { it.resetActivitiesMonitor() }
+    override fun resetMonitor() = performOnRemote { it.resetMonitor() }
 }

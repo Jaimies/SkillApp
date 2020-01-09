@@ -2,16 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_history"
+        android:id="@+id/action_activitiesFragment_to_historyFragment"
         android:icon="@drawable/ic_list"
         android:title=""
         app:iconTint="@color/menu_item"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_createActivity"
+        android:id="@+id/action_activitiesFragment_to_addActivityFragment"
         android:icon="@drawable/ic_plus_24dp"
         android:title=""
         app:iconTint="@color/menu_item"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_activitiesFragment_to_projectsFragment"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title=""
+        app:iconTint="@color/menu_item"
+        app:showAsAction="ifRoom" />
 </menu>

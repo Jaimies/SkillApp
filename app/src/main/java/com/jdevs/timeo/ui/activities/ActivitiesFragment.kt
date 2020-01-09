@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
+import com.jdevs.timeo.common.adapter.FirestoreListAdapter
+import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.ActivitiesConstants
@@ -20,9 +22,12 @@ import javax.inject.Inject
 
 class ActivitiesFragment : ListFragment<Activity>() {
 
-    override val adapter by lazy { ActivitiesAdapter(::createRecord, ::navigateToDetails) }
+    override val adapter by lazy {
+        ListAdapter(ActivityDelegateAdapter(), ::createRecord, ::navigateToDetails)
+    }
+
     override val firestoreAdapter by lazy {
-        FirestoreActivitiesAdapter(::createRecord, ::navigateToDetails)
+        FirestoreListAdapter(::createRecord, ::navigateToDetails)
     }
 
     override val menuId = R.menu.activities_fragment_menu
@@ -55,7 +60,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
         observeEvent(viewModel.navigateToAddEdit) {
 
-            findNavController().navigate(R.id.action_activitiesFragment_to_addEditActivityFragment)
+            findNavController().navigate(R.id.action_activitiesFragment_to_addActivityFragment)
         }
 
         return binding.root
@@ -67,10 +72,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
         if (!isLoadEventHandled) {
 
-            menu.forEach {
-
-                it.isEnabled = false
-            }
+            menu.forEach { it.isEnabled = false }
 
             viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
 
@@ -88,18 +90,13 @@ class ActivitiesFragment : ListFragment<Activity>() {
     private fun navigateToDetails(index: Int) {
 
         val action = ActivitiesFragmentDirections
-            .actionActivitiesFragmentToActivityDetailsFragment(
-                activity = getItem(index)
-            )
+            .actionActivitiesFragmentToActivityDetailsFragment(activity = getItem(index))
 
         findNavController().navigate(action)
     }
 
     private fun createRecord(index: Int, time: Long) {
 
-        viewModel.createRecord(
-            activity = getItem(index),
-            time = time
-        )
+        viewModel.createRecord(activity = getItem(index), time = time)
     }
 }

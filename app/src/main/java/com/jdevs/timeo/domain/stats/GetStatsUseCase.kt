@@ -3,9 +3,7 @@ package com.jdevs.timeo.domain.stats
 import com.jdevs.timeo.data.stats.StatsRepository
 import javax.inject.Inject
 
-class GetStatsUseCase @Inject constructor(
-    private val statsRepository: StatsRepository
-) {
+class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
 
     val dayStats get() = statsRepository.dayStats
     val weekStats get() = statsRepository.weekStats

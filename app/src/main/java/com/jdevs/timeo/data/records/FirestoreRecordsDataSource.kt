@@ -24,7 +24,7 @@ interface RecordsRemoteDataSource : RecordsDataSource {
 
     suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch)
 
-    fun resetRecordsMonitor()
+    fun resetMonitor()
 }
 
 @Singleton
@@ -79,5 +79,5 @@ class FirestoreRecordsDataSource @Inject constructor(
         recordsRef = createRef(uid, RecordsConstants.COLLECTION, recordsMonitor)
     }
 
-    override fun resetRecordsMonitor() = recordsMonitor.reset()
+    override fun resetMonitor() = recordsMonitor.reset()
 }

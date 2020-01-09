@@ -1,7 +1,6 @@
 package com.jdevs.timeo.ui.signin
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.FirebaseException
 import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.launchSuspendingProcess
@@ -17,7 +16,7 @@ class SignInViewModel @Inject constructor(
 
     fun signInWithGoogle(
         account: GoogleSignInAccount,
-        onFailure: (FirebaseException) -> Unit = {},
+        onFailure: (Exception) -> Unit = {},
         onSuccess: () -> Unit = {}
     ) {
 
@@ -30,7 +29,7 @@ class SignInViewModel @Inject constructor(
     fun signIn(
         email: String,
         password: String,
-        onFailure: (FirebaseException) -> Unit = {},
+        onFailure: (Exception) -> Unit = {},
         onSuccess: () -> Unit = {}
     ) {
 

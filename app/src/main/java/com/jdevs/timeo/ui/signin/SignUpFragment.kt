@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
@@ -21,16 +19,16 @@ import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.TOO_LONG
 import com.jdevs.timeo.util.TOO_SHORT
 import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.navigateToGraph
 import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.showSnackbar
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
 import javax.inject.Inject
 
-class SignUpFragment : Fragment() {
+class SignUpFragment : AuthFragment() {
 
     @Inject
-    lateinit var viewModel: SignUpViewModel
+    override lateinit var viewModel: SignUpViewModel
 
     override fun onAttach(context: Context) {
 
@@ -117,31 +115,24 @@ class SignUpFragment : Fragment() {
 
             is FirebaseAuthWeakPasswordException -> {
 
-                viewModel.setPasswordError(getString(R.string.password_too_weak))
+                setPasswordError(R.string.password_too_weak)
             }
 
             is FirebaseAuthUserCollisionException -> {
 
-                viewModel.setEmailError(getString(R.string.user_already_exists))
+                setEmailError(R.string.user_already_exists)
             }
 
             is FirebaseAuthInvalidCredentialsException -> {
 
-                viewModel.setEmailError(getString(R.string.email_invalid))
+                setEmailError(R.string.email_invalid)
             }
 
             else -> {
 
                 Log.w(TAG, "Failed to sign up", exception)
-                Snackbar.make(view!!, getString(R.string.sign_up_failed), Snackbar.LENGTH_SHORT)
-                    .show()
+                showSnackbar(R.string.sign_up_failed)
             }
         }
-    }
-
-    private fun navigateToOverview() {
-
-        viewModel.hideContent()
-        navigateToGraph(R.id.overview)
     }
 }

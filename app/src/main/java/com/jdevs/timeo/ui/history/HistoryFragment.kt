@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.model.Record
 import com.jdevs.timeo.util.RecordsConstants
+import com.jdevs.timeo.util.showSnackbar
 import javax.inject.Inject
 
 class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener {
@@ -71,9 +71,8 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
         }
 
         viewModel.deleteRecord(record = getItem(chosenItemIndex))
-
         chosenItemIndex = -1
 
-        Snackbar.make(view!!, getString(R.string.record_deleted), Snackbar.LENGTH_SHORT).show()
+        showSnackbar(R.string.record_deleted)
     }
 }

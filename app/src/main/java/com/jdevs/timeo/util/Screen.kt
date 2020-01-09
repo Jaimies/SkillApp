@@ -8,13 +8,8 @@ import android.view.WindowManager
 fun Context.getScreenDimensions(): DisplayMetrics {
 
     val displayMetrics = DisplayMetrics()
-
     val windowService = getSystemService(WINDOW_SERVICE) as WindowManager
 
-    windowService.defaultDisplay.apply {
-
-        getMetrics(displayMetrics)
-    }
-
+    windowService.defaultDisplay.getMetrics(displayMetrics)
     return displayMetrics
 }

@@ -38,14 +38,12 @@ fun Long.toFriendlyDate() = LocalDate.ofEpochDay(this).toString()
 fun Int.toFriendlyMonth(): String {
 
     val date = LocalDate.from(EPOCH).plusMonths(toLong())
-
     return "${date.year} - ${date.month}"
 }
 
 fun Int.toFriendlyWeek(): String {
 
     val date = LocalDate.from(EPOCH).plusWeeks(toLong())
-
     val weekField = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()
 
     return "${date.year} / Week ${date.get(weekField)}"

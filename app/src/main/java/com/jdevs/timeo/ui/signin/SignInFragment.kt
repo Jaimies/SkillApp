@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -15,7 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes.NETWORK_ERROR
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -27,11 +25,11 @@ import com.jdevs.timeo.util.RequestCodes.RC_SIGN_IN
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
-import com.jdevs.timeo.util.navigateToGraph
 import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.showSnackbar
 import javax.inject.Inject
 
-class SignInFragment : Fragment() {
+class SignInFragment : AuthFragment() {
 
     private val googleSignInClient by lazy {
 
@@ -44,7 +42,7 @@ class SignInFragment : Fragment() {
     }
 
     @Inject
-    lateinit var viewModel: SignInViewModel
+    override lateinit var viewModel: SignInViewModel
 
     override fun onAttach(context: Context) {
 
@@ -92,9 +90,9 @@ class SignInFragment : Fragment() {
 
         when {
 
-            email.isEmpty() -> viewModel.setEmailError(getString(R.string.email_empty))
-            !email.isValidEmail() -> viewModel.setEmailError(getString(R.string.email_invalid))
-            password.isEmpty() -> viewModel.setPasswordError(getString(R.string.password_empty))
+            email.isEmpty() -> setEmailError(R.string.email_empty)
+            !email.isValidEmail() -> setEmailError(R.string.email_invalid)
+            password.isEmpty() -> setPasswordError(R.string.password_empty)
 
             else -> {
 
@@ -113,8 +111,6 @@ class SignInFragment : Fragment() {
 
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
-
-        return
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -132,6 +128,7 @@ class SignInFragment : Fragment() {
             } catch (e: ApiException) {
 
                 when (e.statusCode) {
+
                     SIGN_IN_CANCELLED -> {
 
                         Log.i(TAG, "Sign in was cancelled by user")
@@ -139,21 +136,13 @@ class SignInFragment : Fragment() {
 
                     NETWORK_ERROR -> {
 
-                        Snackbar
-                            .make(
-                                view!!, getString(R.string.check_connection),
-                                Snackbar.LENGTH_LONG
-                            ).show()
+                        showSnackbar(R.string.check_connection)
                     }
 
                     else -> {
 
                         Log.w(TAG, "Google sign in failed", e)
-                        Snackbar.make(
-                            view!!,
-                            getString(R.string.google_sign_in_failed),
-                            Snackbar.LENGTH_LONG
-                        ).show()
+                        showSnackbar(R.string.google_sign_in_failed)
                     }
                 }
             }
@@ -171,37 +160,30 @@ class SignInFragment : Fragment() {
     private fun onGoogleSignInFailed(exception: Exception) {
 
         Log.w(TAG, "Google sign in failed", exception)
-        Snackbar.make(view!!, getString(R.string.google_sign_in_failed), Snackbar.LENGTH_SHORT)
-            .show()
+        showSnackbar(R.string.google_sign_in_failed)
     }
 
-    private fun handleException(exception: FirebaseException?) = when (exception) {
+    private fun handleException(exception: Exception) = when (exception as? FirebaseException) {
 
         is FirebaseAuthInvalidCredentialsException -> {
 
-            viewModel.setPasswordError(getString(R.string.password_incorrect))
+            setPasswordError(R.string.password_incorrect)
         }
 
         is FirebaseAuthInvalidUserException -> {
 
-            viewModel.setEmailError(getString(R.string.user_does_not_exist))
+            setPasswordError(R.string.user_does_not_exist)
         }
 
         is FirebaseNetworkException -> {
 
-            Snackbar.make(view!!, getString(R.string.check_connection), Snackbar.LENGTH_LONG).show()
+            showSnackbar(R.string.check_connection)
         }
 
         else -> {
 
             Log.w(TAG, "Failed to sign in", exception)
-            Snackbar.make(view!!, getString(R.string.sign_in_failed), Snackbar.LENGTH_LONG).show()
+            showSnackbar(R.string.sign_in_failed)
         }
-    }
-
-    private fun navigateToOverview() {
-
-        viewModel.hideContent()
-        navigateToGraph(R.id.overview)
     }
 }

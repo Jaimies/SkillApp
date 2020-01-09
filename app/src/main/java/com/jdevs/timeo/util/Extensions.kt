@@ -2,18 +2,17 @@ package com.jdevs.timeo.util
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.FirebaseException
+import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.viewmodel.LoaderViewModel
@@ -50,17 +49,14 @@ fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
 fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
     LayoutInflater.from(context).inflate(layoutId, this, false)
 
-fun ViewModel.launchSuspendingProcess(
-    onFailure: (FirebaseException) -> Unit = {},
+@Suppress("TooGenericExceptionCaught")
+fun LoaderViewModel.launchSuspendingProcess(
+    onFailure: (Exception) -> Unit = {},
     onSuccess: () -> Unit = {},
-    logOnFailure: String = "",
     block: suspend () -> Unit
 ) {
 
-    if (this is LoaderViewModel) {
-
-        showLoader()
-    }
+    showLoader()
 
     viewModelScope.launch {
 
@@ -68,23 +64,18 @@ fun ViewModel.launchSuspendingProcess(
 
             block()
             onSuccess()
-        } catch (exception: FirebaseException) {
-
-            if (logOnFailure != "") {
-
-                Log.w(TAG, logOnFailure, exception)
-            }
+        } catch (exception: Exception) {
 
             onFailure(exception)
         } finally {
 
-            if (this@launchSuspendingProcess is LoaderViewModel) {
-
-                hideLoader()
-            }
+            hideLoader()
         }
     }
 }
+
+fun Fragment.showSnackbar(@StringRes resId: Int) =
+    Snackbar.make(requireView(), resId, Snackbar.LENGTH_LONG).show()
 
 fun Fragment.navigateToGraph(@IdRes graphId: Int) {
 

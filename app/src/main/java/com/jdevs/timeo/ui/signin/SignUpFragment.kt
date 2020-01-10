@@ -11,16 +11,16 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.R
-import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.databinding.SignupFragBinding
 import com.jdevs.timeo.util.EMPTY
 import com.jdevs.timeo.util.INVALID
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.TOO_LONG
 import com.jdevs.timeo.util.TOO_SHORT
+import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.observeEvent
+import com.jdevs.timeo.util.extensions.showSnackbar
 import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.observeEvent
-import com.jdevs.timeo.util.showSnackbar
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class SignUpFragment : AuthFragment() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        (activity!!.application as TimeoApplication).appComponent.inject(this)
+        getAppComponent().inject(this)
     }
 
     override fun onCreateView(

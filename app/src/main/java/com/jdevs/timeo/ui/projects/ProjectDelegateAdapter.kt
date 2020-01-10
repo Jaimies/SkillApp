@@ -11,7 +11,7 @@ import com.jdevs.timeo.common.adapter.createViewModel
 import com.jdevs.timeo.databinding.ProjectsItemBinding
 import com.jdevs.timeo.model.Project
 import com.jdevs.timeo.ui.activities.RecordDialog
-import com.jdevs.timeo.util.getFragmentActivity
+import com.jdevs.timeo.util.extensions.getFragmentActivity
 
 class ProjectDelegateAdapter : DelegateAdapter {
 

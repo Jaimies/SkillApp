@@ -10,14 +10,14 @@ import androidx.core.view.forEach
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
-import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.ActivitiesConstants
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.observeEvent
 import javax.inject.Inject
 
 class ActivitiesFragment : ListFragment<Activity>() {
@@ -40,7 +40,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        (activity!!.application as TimeoApplication).appComponent.inject(this)
+        getAppComponent().inject(this)
     }
 
     override fun onCreateView(

@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.jdevs.timeo.R
-import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.model.Record
 import com.jdevs.timeo.util.RecordsConstants
-import com.jdevs.timeo.util.showSnackbar
+import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.showSnackbar
 import javax.inject.Inject
 
 class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener {
@@ -36,7 +36,7 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        (activity!!.application as TimeoApplication).appComponent.inject(this)
+        getAppComponent().inject(this)
     }
 
     override fun onCreateView(

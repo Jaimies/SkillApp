@@ -12,7 +12,7 @@ import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.common.adapter.createViewModel
 import com.jdevs.timeo.databinding.RecordsItemBinding
 import com.jdevs.timeo.model.Record
-import com.jdevs.timeo.util.getFragmentActivity
+import com.jdevs.timeo.util.extensions.getFragmentActivity
 
 class RecordDelegateAdapter : DelegateAdapter {
 

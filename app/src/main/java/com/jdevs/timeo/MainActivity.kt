@@ -12,9 +12,9 @@ import androidx.navigation.NavOptions
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.jdevs.timeo.util.extensions.setupWithNavController
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.lazyUnsynchronized
-import com.jdevs.timeo.util.setupWithNavController
 import kotlinx.android.synthetic.main.main_act.bottom_nav_view
 import kotlinx.android.synthetic.main.main_act.nav_host_container
 import kotlinx.android.synthetic.main.main_act.toolbar
@@ -23,7 +23,11 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
-    private val appBarConfiguration by lazyUnsynchronized { AppBarConfiguration(topLevelDestinations) }
+    private val appBarConfiguration by lazyUnsynchronized {
+        AppBarConfiguration(
+            topLevelDestinations
+        )
+    }
     private val graphsToRecreate = mutableListOf<Int>()
 
     private val navGraphIds = listOf(

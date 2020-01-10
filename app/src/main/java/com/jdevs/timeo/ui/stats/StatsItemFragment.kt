@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.databinding.StatsPageFragBinding
 import com.jdevs.timeo.model.DayStats
 import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
+import com.jdevs.timeo.util.extensions.getAppComponent
 import javax.inject.Inject
 
 class StatsItemFragment(private val statsType: Int) : ListFragment<DayStats>() {
@@ -27,7 +27,7 @@ class StatsItemFragment(private val statsType: Int) : ListFragment<DayStats>() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        (activity!!.application as TimeoApplication).appComponent.inject(this)
+        getAppComponent().inject(this)
     }
 
 

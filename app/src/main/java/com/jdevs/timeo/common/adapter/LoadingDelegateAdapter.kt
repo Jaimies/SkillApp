@@ -3,7 +3,7 @@ package com.jdevs.timeo.common.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
-import com.jdevs.timeo.util.inflate
+import com.jdevs.timeo.util.extensions.inflate
 
 @Suppress("EmptyFunctionBlock")
 class LoadingDelegateAdapter : DelegateAdapter {

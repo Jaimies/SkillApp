@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.extensions
 
 import android.content.Intent
 import android.util.SparseArray

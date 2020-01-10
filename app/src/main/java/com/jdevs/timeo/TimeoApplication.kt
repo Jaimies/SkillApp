@@ -13,7 +13,8 @@ open class TimeoApplication : Application() {
     val ioScope = CoroutineScope(Dispatchers.IO + Job())
     val appComponent by lazy { initializeComponent() }
 
-    open fun initializeComponent() = DaggerAppComponent.factory().create(applicationContext)
+    protected open fun initializeComponent() =
+        DaggerAppComponent.factory().create(applicationContext)
 
     override fun onCreate() {
 

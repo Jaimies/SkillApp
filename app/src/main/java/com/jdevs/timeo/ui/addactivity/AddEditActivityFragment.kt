@@ -11,16 +11,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
-import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
-import com.jdevs.timeo.util.getCoroutineIoScope
+import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.getCoroutineIoScope
+import com.jdevs.timeo.util.extensions.observeEvent
+import com.jdevs.timeo.util.extensions.requireMainActivity
+import com.jdevs.timeo.util.extensions.showSnackbar
 import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.observeEvent
-import com.jdevs.timeo.util.requireMainActivity
-import com.jdevs.timeo.util.showSnackbar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,7 +36,7 @@ class AddEditActivityFragment : ActionBarFragment() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        (activity!!.application as TimeoApplication).appComponent.inject(this)
+        getAppComponent().inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

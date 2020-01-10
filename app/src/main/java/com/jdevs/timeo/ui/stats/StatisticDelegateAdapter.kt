@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.DelegateAdapter
-import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.common.adapter.PagingAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.common.adapter.createViewModel
 import com.jdevs.timeo.databinding.StatsItemBinding
@@ -44,7 +44,7 @@ class StatisticDelegateAdapter : DelegateAdapter {
     class ViewHolder(
         private val viewModel: StatisticViewModel,
         view: View
-    ) : ListAdapter.ViewHolder(view) {
+    ) : PagingAdapter.ViewHolder(view) {
 
         fun bindStats(stats: Stats) = viewModel.setStats(stats)
     }

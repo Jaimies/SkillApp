@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.adapter.DelegateAdapter
-import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.common.adapter.PagingAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.common.adapter.createViewModel
 import com.jdevs.timeo.databinding.RecordsItemBinding
@@ -47,7 +47,7 @@ class RecordDelegateAdapter : DelegateAdapter {
         private val rootView: View,
         private val viewModel: RecordViewModel,
         private val showDeleteDialog: (Int) -> Unit
-    ) : ListAdapter.ViewHolder(rootView) {
+    ) : PagingAdapter.ViewHolder(rootView) {
 
         init {
 

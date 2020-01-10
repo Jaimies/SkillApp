@@ -12,6 +12,7 @@ import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.ActivitiesConstants.TOP_ACTIVITIES_COUNT
 import com.jdevs.timeo.util.FirestoreConstants.NAME
 import com.jdevs.timeo.util.FirestoreConstants.RECENT_RECORDS
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
@@ -40,6 +41,27 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
         get() = activitiesMonitor.safeAccess().getLiveData()
 
     private var activitiesRef: CollectionReference by SafeAccess()
+
+    override fun getTopActivities(): LiveData<List<Activity>> {
+
+        val liveData = MutableLiveData<List<Activity>>()
+
+        activitiesRef.orderBy(TOTAL_TIME).limit(TOP_ACTIVITIES_COUNT)
+            .addSnapshotListener { querySnapshot, _ ->
+
+                querySnapshot?.run {
+
+                    val newList = documentChanges.map {
+
+                        it.document.toObject(FirestoreActivity::class.java).mapToDomain()
+                    }
+
+                    liveData.value = newList
+                }
+            }
+
+        return liveData
+    }
 
     override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.jdevs.timeo.ui.summary.SummaryViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_default"
+        tools:context=".ui.summary.SummaryFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:onClick="@{() -> viewModel.navigateToProjects()}"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:gravity="center"
+                android:text="@string/your_projects"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/projects_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hideIf="@{viewModel.areProjectsEmpty}"
+                tools:itemCount="5"
+                tools:listitem="@layout/projects_item" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:hideIf="@{!viewModel.areProjectsEmpty}"
+                tools:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/there_is_nothing_here_yet" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/create_project" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_weight="1"
+            android:onClick="@{() -> viewModel.navigateToActivities()}"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:gravity="center"
+                android:text="@string/your_activities"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activities_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hideIf="@{viewModel.areActivitiesEmpty}"
+                tools:itemCount="5"
+                tools:listitem="@layout/activities_item" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:hideIf="@{!viewModel.areActivitiesEmpty}"
+                tools:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/there_is_nothing_here_yet" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:text="@string/create_activity" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

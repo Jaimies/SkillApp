@@ -12,6 +12,9 @@ interface ProjectsDao : BaseDao<DBProject> {
     @Query("SELECT * FROM projects ORDER BY id DESC")
     fun getProjects(): DataSource.Factory<Int, DBProject>
 
+    @Query("SELECT * FROM projects ORDER BY totalTime DESC LIMIT 5")
+    fun getTopProjects(): LiveData<List<DBProject>>
+
     @Query("SELECT * FROM projects WHERE id = :id")
     fun getProjectById(id: Int): LiveData<DBProject>
 }

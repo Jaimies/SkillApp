@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.DelegateAdapter
-import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.common.adapter.PagingAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.common.adapter.createViewModel
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
@@ -46,7 +46,7 @@ class ActivityDelegateAdapter : DelegateAdapter {
         private val viewModel: ActivityViewModel,
         private val createRecord: (Int, Long) -> Unit = { _, _ -> },
         private val navigateToDetails: (Int) -> Unit = {}
-    ) : ListAdapter.ViewHolder(rootView) {
+    ) : PagingAdapter.ViewHolder(rootView) {
 
         init {
 

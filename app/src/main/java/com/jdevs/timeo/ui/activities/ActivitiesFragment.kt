@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
-import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.common.adapter.PagingAdapter
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.util.ActivitiesConstants
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class ActivitiesFragment : ListFragment<Activity>() {
 
     override val adapter by lazy {
-        ListAdapter(ActivityDelegateAdapter(), ::createRecord, ::navigateToDetails)
+        PagingAdapter(ActivityDelegateAdapter(), ::createRecord, ::navigateToDetails)
     }
 
     override val firestoreAdapter by lazy {

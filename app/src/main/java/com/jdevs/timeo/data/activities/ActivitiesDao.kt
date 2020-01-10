@@ -12,6 +12,9 @@ interface ActivitiesDao : BaseDao<DBActivity> {
     @Query("SELECT * FROM activities ORDER BY id DESC")
     fun getActivities(): DataSource.Factory<Int, DBActivity>
 
+    @Query("SELECT * FROM activities ORDER BY totalTime LIMIT 5")
+    fun getTopActivities(): LiveData<List<DBActivity>>
+
     @Query(
         """SELECT activities.*, SUM(records.time) as lastWeekTime FROM activities
         LEFT JOIN records ON activityId = activities.id

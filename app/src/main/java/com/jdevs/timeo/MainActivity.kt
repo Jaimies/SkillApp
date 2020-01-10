@@ -23,16 +23,12 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
-    private val appBarConfiguration by lazyUnsynchronized {
-        AppBarConfiguration(
-            topLevelDestinations
-        )
-    }
+    private val appBarConfiguration by lazyUnsynchronized { AppBarConfiguration(topLevelDestinations) }
     private val graphsToRecreate = mutableListOf<Int>()
 
     private val navGraphIds = listOf(
         R.navigation.overview,
-        R.navigation.activities,
+        R.navigation.summary,
         R.navigation.stay_focused,
         R.navigation.profile
     )
@@ -46,7 +42,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     private val knownActions = arrayOf(
         R.id.action_activitiesFragment_to_addActivityFragment,
-        R.id.action_activitiesFragment_to_projectsFragment,
         R.id.action_activitiesFragment_to_historyFragment,
         R.id.action_profileFragment_to_settingsFragment,
         R.id.action_projectsFragment_to_addProjectFragment

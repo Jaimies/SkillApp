@@ -20,6 +20,8 @@ class FakeActivitiesRepository @Inject constructor() : ActivitiesRepository {
         notifyObservers()
     }
 
+    override fun getTopActivities() = MutableLiveData(activityList.toList())
+
     override fun getActivityById(id: Int, documentId: String) =
         MutableLiveData(activityList.single { it.documentId == documentId })
 

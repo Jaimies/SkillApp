@@ -3,6 +3,7 @@ package com.jdevs.timeo.data.projects
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.jdevs.timeo.data.db.toLivePagedList
+import com.jdevs.timeo.data.mapToDomain
 import com.jdevs.timeo.model.Project
 import com.jdevs.timeo.util.PagingConstants.PROJECTS_PAGE_SIZE
 import javax.inject.Inject
@@ -11,6 +12,8 @@ import javax.inject.Singleton
 interface ProjectsDataSource {
 
     val projects: LiveData<*>?
+
+    fun getTopProjects(): LiveData<List<Project>>
 
     fun getProjectById(id: Int, documentId: String): LiveData<Project>
 
@@ -32,6 +35,9 @@ class RoomProjectsDataSource @Inject constructor(
 
         projectsDao.getProjects().toLivePagedList(PROJECTS_PAGE_SIZE)
     }
+
+    override fun getTopProjects() =
+        Transformations.map(projectsDao.getTopProjects()) { it.mapToDomain() }
 
     override fun getProjectById(id: Int, documentId: String) =
         Transformations.map(projectsDao.getProjectById(id)) {

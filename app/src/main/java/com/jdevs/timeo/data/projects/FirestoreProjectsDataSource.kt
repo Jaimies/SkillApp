@@ -7,7 +7,9 @@ import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.model.Project
+import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
 import com.jdevs.timeo.util.ProjectsConstants
+import com.jdevs.timeo.util.ProjectsConstants.TOP_PROJECTS_COUNT
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,6 +29,27 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
         get() = projectsMonitor.safeAccess().getLiveData()
 
     private var projectsRef by SafeAccess<CollectionReference>()
+
+    override fun getTopProjects(): LiveData<List<Project>> {
+
+        val liveData = MutableLiveData<List<Project>>()
+
+        projectsRef.orderBy(TOTAL_TIME).limit(TOP_PROJECTS_COUNT)
+            .addSnapshotListener { querySnapshot, _ ->
+
+                querySnapshot?.run {
+
+                    val newList = documentChanges.map {
+
+                        it.document.toObject(FirestoreProject::class.java).mapToDomain()
+                    }
+
+                    liveData.value = newList
+                }
+            }
+
+        return liveData
+    }
 
     override fun getProjectById(id: Int, documentId: String): LiveData<Project> {
 

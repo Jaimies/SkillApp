@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.util.ViewConstants
 
 @Suppress("EmptyFunctionBlock")
@@ -38,3 +40,9 @@ fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
     LayoutInflater.from(context).inflate(layoutId, this, false)
 
 fun ViewGroup.getFragmentActivity() = context as FragmentActivity
+
+fun RecyclerView.setupAdapter(adapter: RecyclerView.Adapter<*>) {
+
+    layoutManager = LinearLayoutManager(context)
+    this.adapter = adapter
+}

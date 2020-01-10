@@ -14,10 +14,4 @@
         android:title=""
         app:iconTint="@color/menu_item"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_activitiesFragment_to_projectsFragment"
-        android:icon="@drawable/ic_arrow_forward"
-        android:title=""
-        app:showAsAction="ifRoom" />
 </menu>

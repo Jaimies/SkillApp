@@ -1,49 +1,25 @@
 package com.jdevs.timeo.common.adapter
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-class ListAdapter(
-    private val delegateAdapter: DelegateAdapter,
-    private val createRecord: (Int, Long) -> Unit = { _, _ -> },
-    private val navigateToDetails: (Int) -> Unit = {},
-    private val showDeleteDialog: (Int) -> Unit = {}
-) : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(ITEMS_COMPARATOR) {
+class ListAdapter<T : ViewItem>(private val delegateAdapter: DelegateAdapter) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun getItemViewType(index: Int) = getItem(index)?.viewType ?: -1
+    private val items = mutableListOf<T>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = delegateAdapter
-        .onCreateViewHolder(parent, createRecord, navigateToDetails, showDeleteDialog)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        delegateAdapter.onCreateViewHolder(parent)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
+        delegateAdapter.onBindViewHolder(holder, items[position])
 
-        delegateAdapter.onBindViewHolder(holder, getItem(position) ?: return)
+    fun setItems(newItems: List<T>) {
+
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
     }
 
-    public override fun getItem(position: Int) = super.getItem(position)
-
-    companion object {
-
-        @SuppressLint("DiffUtilEquals")
-        private val ITEMS_COMPARATOR = object : DiffUtil.ItemCallback<ViewItem>() {
-
-            override fun areItemsTheSame(oldItem: ViewItem, newItem: ViewItem) =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: ViewItem, newItem: ViewItem) =
-                oldItem === newItem
-        }
-    }
-
-    abstract class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-        protected val context: Context = view.context
-        protected val lifecycleOwner = context as LifecycleOwner
-    }
+    override fun getItemCount() = items.size
 }

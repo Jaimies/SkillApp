@@ -33,7 +33,7 @@
     <string name="edit_activity">Edit activity</string>
     <string name="edit_project">Edit project</string>
     <string name="history">History</string>
-    <string name="your_activities">Activities</string>
+    <string name="activities">Activities</string>
     <string name="activity_details">Activity details</string>
     <string name="home">Home</string>
     <string name="total_time">Total time</string>
@@ -69,4 +69,7 @@
     <string name="month_stats">Month stats</string>
     <string name="projects">Projects</string>
     <string name="project_details">Project details</string>
+    <string name="your_projects">Your projects</string>
+    <string name="your_activities">Your activities</string>
+    <string name="summary">Summary</string>
 </resources>

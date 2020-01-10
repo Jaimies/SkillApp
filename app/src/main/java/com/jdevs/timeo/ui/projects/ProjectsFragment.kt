@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ListFragment
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
-import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.common.adapter.PagingAdapter
 import com.jdevs.timeo.databinding.ProjectsFragBinding
 import com.jdevs.timeo.model.Project
 import com.jdevs.timeo.util.ProjectsConstants
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class ProjectsFragment : ListFragment<Project>() {
 
     override val adapter by lazy {
-        ListAdapter(
+        PagingAdapter(
             ProjectDelegateAdapter(), { _, _ -> showSnackbar(R.string.todo) }, ::navigateToDetails
         )
     }

@@ -12,6 +12,8 @@ interface ActivitiesRepository {
 
     val activities: LiveData<*>?
 
+    fun getTopActivities(): LiveData<List<Activity>>
+
     fun getActivityById(id: Int, documentId: String): LiveData<Activity>
 
     suspend fun addActivity(activity: Activity)
@@ -35,6 +37,8 @@ class DefaultActivitiesRepository @Inject constructor(
 ), ActivitiesRepository {
 
     override val activities get() = currentDataSource.activities
+
+    override fun getTopActivities() = currentDataSource.getTopActivities()
 
     override fun getActivityById(id: Int, documentId: String) =
         currentDataSource.getActivityById(id, documentId)

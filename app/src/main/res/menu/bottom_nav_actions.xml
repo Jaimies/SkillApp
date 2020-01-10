@@ -9,7 +9,7 @@
     <item
         android:id="@+id/activity_list"
         android:icon="@drawable/ic_today"
-        android:title="@string/your_activities" />
+        android:title="@string/summary" />
 
     <item
         android:id="@+id/stay_focused"

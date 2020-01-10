@@ -12,7 +12,7 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.common.adapter.FirestoreListAdapter
-import com.jdevs.timeo.common.adapter.ListAdapter
+import com.jdevs.timeo.common.adapter.PagingAdapter
 import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.common.viewmodel.ListViewModel
 import com.jdevs.timeo.data.auth.AuthRepository
@@ -32,7 +32,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     protected abstract val viewModel: ListViewModel
     private val itemLiveDatas = mutableListOf<ItemsLiveData>()
 
-    protected abstract val adapter: ListAdapter
+    protected abstract val adapter: PagingAdapter
     protected abstract val firestoreAdapter: FirestoreListAdapter
     private val currentAdapter get() = if (authRepository.isUserSignedIn) firestoreAdapter else adapter
 

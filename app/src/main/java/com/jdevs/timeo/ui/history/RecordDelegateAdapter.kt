@@ -52,7 +52,6 @@ class RecordDelegateAdapter : DelegateAdapter {
         init {
 
             viewModel.showDeleteDialog.observeEvent(lifecycleOwner) {
-
                 showDeleteDialog(adapterPosition)
             }
         }

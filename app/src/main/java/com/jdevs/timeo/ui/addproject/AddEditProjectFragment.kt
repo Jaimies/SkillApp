@@ -89,8 +89,6 @@ class AddEditProjectFragment : ActionBarFragment() {
             viewModel.addProject(project)
             findNavController().navigate(R.id.action_addEditProjectFragment_to_projectsFragment)
         }
-
-        hideKeyboard()
     }
 
     private fun showDeleteDialog() {

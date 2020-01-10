@@ -91,8 +91,6 @@ class AddEditActivityFragment : ActionBarFragment() {
             viewModel.addActivity(activity)
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
         }
-
-        hideKeyboard()
     }
 
     private fun showDeleteDialog() {

@@ -14,19 +14,11 @@
 
         <action
             android:id="@+id/action_profileFragment_to_signInFragment"
-            app:destination="@id/signin_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/signin_fragment_dest" />
 
         <action
             android:id="@+id/action_profileFragment_to_settingsFragment"
-            app:destination="@id/settings_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/settings_fragment_dest" />
     </fragment>
 
     <fragment
@@ -37,11 +29,7 @@
 
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
-            app:destination="@id/signup_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/signup_fragment_dest" />
     </fragment>
 
     <fragment
@@ -52,11 +40,6 @@
         <action
             android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signin_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/signin_fragment_dest"
             app:popUpToInclusive="true" />
     </fragment>
 

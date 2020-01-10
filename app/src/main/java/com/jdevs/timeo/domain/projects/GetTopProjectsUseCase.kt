@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class GetTopProjectsUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
 
-    fun getTopProjects() = projectsRepository.getTopProjects()
+    val topProjects get() = projectsRepository.topProjects
 }

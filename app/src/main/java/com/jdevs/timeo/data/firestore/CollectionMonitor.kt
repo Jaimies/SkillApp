@@ -4,7 +4,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.Mapper
-import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP
+import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
 import kotlin.reflect.KClass
 
 typealias LiveDataConstructor = (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ItemsLiveData
@@ -64,7 +64,7 @@ class CollectionMonitor(
 fun createCollectionMonitor(
     type: KClass<out Mapper<*>>,
     pageSize: Long,
-    orderBy: String = TIMESTAMP
+    orderBy: String = TOTAL_TIME
 ) = CollectionMonitor(createLiveData(type, pageSize), pageSize, orderBy)
 
 private fun createLiveData(type: KClass<out Mapper<*>>, pageSize: Long): LiveDataConstructor =

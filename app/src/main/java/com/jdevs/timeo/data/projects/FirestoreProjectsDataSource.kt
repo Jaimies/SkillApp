@@ -3,6 +3,7 @@ package com.jdevs.timeo.data.projects
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
@@ -34,7 +35,7 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
 
         val liveData = MutableLiveData<List<Project>>()
 
-        projectsRef.orderBy(TOTAL_TIME).limit(TOP_PROJECTS_COUNT)
+        projectsRef.orderBy(TOTAL_TIME, Query.Direction.DESCENDING).limit(TOP_PROJECTS_COUNT)
             .addSnapshotListener { querySnapshot, _ ->
 
                 querySnapshot?.run {

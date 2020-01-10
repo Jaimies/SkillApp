@@ -11,7 +11,7 @@ interface ProjectsRepository {
 
     val projects: LiveData<*>?
 
-    fun getTopProjects(): LiveData<List<Project>>
+    val topProjects: LiveData<List<Project>>
 
     fun getProjectById(id: Int, documentId: String): LiveData<Project>
 
@@ -34,8 +34,7 @@ class DefaultProjectsRepository @Inject constructor(
 ), ProjectsRepository {
 
     override val projects get() = currentDataSource.projects
-
-    override fun getTopProjects() = currentDataSource.getTopProjects()
+    override val topProjects get() = currentDataSource.getTopProjects()
 
     override fun getProjectById(id: Int, documentId: String) =
         currentDataSource.getProjectById(id, documentId)

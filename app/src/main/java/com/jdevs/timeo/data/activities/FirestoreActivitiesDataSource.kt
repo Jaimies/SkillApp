@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
@@ -46,7 +47,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
         val liveData = MutableLiveData<List<Activity>>()
 
-        activitiesRef.orderBy(TOTAL_TIME).limit(TOP_ACTIVITIES_COUNT)
+        activitiesRef.orderBy(TOTAL_TIME, Query.Direction.DESCENDING).limit(TOP_ACTIVITIES_COUNT)
             .addSnapshotListener { querySnapshot, _ ->
 
                 querySnapshot?.run {

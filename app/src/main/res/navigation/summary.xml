@@ -13,18 +13,10 @@
         tools:layout="@layout/summary_frag">
         <action
             android:id="@+id/action_summaryFragment_to_projectsGraph"
-            app:destination="@id/projects_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/projects_fragment_dest" />
         <action
             android:id="@+id/action_summaryFragment_to_activitiesGraph"
-            app:destination="@id/activities_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/activities_fragment_dest" />
     </fragment>
 
     <fragment
@@ -35,18 +27,10 @@
 
         <action
             android:id="@+id/action_projectsFragment_to_projectDetailFragment"
-            app:destination="@id/project_detail_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/project_detail_fragment_dest" />
         <action
             android:id="@+id/action_projectsFragment_to_addProjectFragment"
-            app:destination="@id/add_edit_project_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/add_edit_project_fragment_dest" />
     </fragment>
     <fragment
         android:id="@+id/project_detail_fragment_dest"
@@ -59,11 +43,7 @@
             app:argType="com.jdevs.timeo.model.Project" />
         <action
             android:id="@+id/action_projectDetailFragment_to_addProjectFragment"
-            app:destination="@id/add_edit_project_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/add_edit_project_fragment_dest" />
     </fragment>
     <fragment
         android:id="@+id/add_edit_project_fragment_dest"
@@ -78,10 +58,6 @@
         <action
             android:id="@+id/action_addEditProjectFragment_to_projectsFragment"
             app:destination="@id/projects_fragment_dest"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/projects_fragment_dest"
             app:popUpToInclusive="true" />
     </fragment>
@@ -94,27 +70,15 @@
 
         <action
             android:id="@+id/action_activitiesFragment_to_activityDetailsFragment"
-            app:destination="@id/activity_detail_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/activity_detail_fragment_dest" />
 
         <action
             android:id="@+id/action_activitiesFragment_to_historyFragment"
-            app:destination="@id/history_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/history_fragment_dest" />
 
         <action
             android:id="@+id/action_activitiesFragment_to_addActivityFragment"
-            app:destination="@id/add_edit_activity_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/add_edit_activity_fragment_dest" />
     </fragment>
 
     <fragment
@@ -137,8 +101,6 @@
         <action
             android:id="@+id/action_addEditFragment_to_activitiesFragment"
             app:destination="@id/activities_fragment_dest"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_right"
             app:popUpTo="@id/activities_fragment_dest"
             app:popUpToInclusive="true" />
     </fragment>
@@ -155,19 +117,11 @@
 
         <action
             android:id="@+id/action_activityDetailFragment_to_addEditActivityFragment"
-            app:destination="@id/add_edit_activity_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/add_edit_activity_fragment_dest" />
 
         <action
             android:id="@+id/action_activityDetailFragment_to_statsFragment"
-            app:destination="@id/stats_fragment_dest"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@id/stats_fragment_dest" />
     </fragment>
     <fragment
         android:id="@+id/stats_fragment_dest"

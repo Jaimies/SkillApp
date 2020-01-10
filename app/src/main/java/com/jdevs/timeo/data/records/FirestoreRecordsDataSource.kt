@@ -9,6 +9,7 @@ import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.model.Record
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID
 import com.jdevs.timeo.util.FirestoreConstants.NAME
+import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.await
 import javax.inject.Inject
@@ -33,7 +34,7 @@ class FirestoreRecordsDataSource @Inject constructor(
 ) : FirestoreDataSource(authRepository), RecordsRemoteDataSource {
 
     private val recordsMonitor =
-        createCollectionMonitor(FirestoreRecord::class, RecordsConstants.PAGE_SIZE)
+        createCollectionMonitor(FirestoreRecord::class, RecordsConstants.PAGE_SIZE, TIMESTAMP)
 
     override val records
         get() = recordsMonitor.safeAccess().getLiveData()

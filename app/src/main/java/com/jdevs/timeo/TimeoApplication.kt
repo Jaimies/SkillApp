@@ -22,8 +22,5 @@ open class TimeoApplication : Application() {
         AndroidThreeTen.init(this)
     }
 
-    fun onDestroy() {
-
-        ioScope.coroutineContext.cancel()
-    }
+    fun onDestroy() = ioScope.coroutineContext.cancel()
 }

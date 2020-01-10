@@ -62,22 +62,10 @@
             app:nullable="true" />
 
         <action
-            android:id="@+id/action_addEditFragment_to_activityDetailFragment"
-            app:destination="@id/activity_detail_fragment_dest"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/activity_detail_fragment_dest"
-            app:popUpToInclusive="true" />
-
-        <action
             android:id="@+id/action_addEditFragment_to_activitiesFragment"
             app:destination="@id/activities_fragment_dest"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/activities_fragment_dest"
             app:popUpToInclusive="true" />
     </fragment>
@@ -160,7 +148,6 @@
     <fragment
         android:id="@+id/add_edit_project_fragment_dest"
         android:name="com.jdevs.timeo.ui.addproject.AddEditProjectFragment"
-        android:label="addproject_frag"
         tools:layout="@layout/addproject_frag">
 
         <argument
@@ -173,7 +160,9 @@
             app:destination="@id/projects_fragment_dest"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/projects_fragment_dest"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

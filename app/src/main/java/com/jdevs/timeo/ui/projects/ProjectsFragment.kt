@@ -22,7 +22,6 @@ import javax.inject.Inject
 class ProjectsFragment : ListFragment<Project>() {
 
     override val adapter by lazy {
-
         ListAdapter(
             ProjectDelegateAdapter(), { _, _ -> showSnackbar(R.string.todo) }, ::navigateToDetails
         )

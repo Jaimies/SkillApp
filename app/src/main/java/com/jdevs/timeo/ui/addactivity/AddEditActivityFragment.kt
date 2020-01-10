@@ -84,16 +84,11 @@ class AddEditActivityFragment : ActionBarFragment() {
             val activity = args.activity!!.copy(name = name)
 
             getCoroutineIoScope().launch { viewModel.saveActivity(activity) }
-
-            val directions = AddEditActivityFragmentDirections
-                .actionAddEditFragmentToActivityDetailFragment(activity = activity)
-
-            findNavController().navigate(directions)
+            findNavController().popBackStack()
         } else {
 
             val activity = Activity(name = name)
             viewModel.addActivity(activity)
-
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
         }
 

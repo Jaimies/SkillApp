@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.addactivity.AddEditActivityViewModel" />
+            type="com.jdevs.timeo.ui.addproject.AddEditProjectViewModel" />
     </data>
 
     <LinearLayout
@@ -49,8 +49,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_default"
             android:onClick="@{() -> viewModel.showDeleteDialog()}"
-            android:text="@string/delete_activity"
+            android:text="@string/delete_project"
             android:visibility="gone"
-            app:hideIf="@{!viewModel.activityExists}" />
+            app:hideIf="@{!viewModel.projectExists}" />
     </LinearLayout>
 </layout>

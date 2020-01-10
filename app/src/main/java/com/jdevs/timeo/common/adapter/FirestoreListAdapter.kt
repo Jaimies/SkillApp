@@ -15,7 +15,7 @@ import com.jdevs.timeo.util.ViewTypes.STATISTIC
 
 class FirestoreListAdapter(
     private val createRecord: (Int, Long) -> Unit = { _, _ -> },
-    private val goToDetails: (Int) -> Unit = {},
+    private val navigateToDetails: (Int) -> Unit = {},
     private val showDeleteDialog: (Int) -> Unit = {}
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -43,7 +43,7 @@ class FirestoreListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         return delegateAdapters.get(viewType)
-            .onCreateViewHolder(parent, createRecord, goToDetails, showDeleteDialog)
+            .onCreateViewHolder(parent, createRecord, navigateToDetails, showDeleteDialog)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

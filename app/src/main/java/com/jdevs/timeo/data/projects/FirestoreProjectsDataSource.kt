@@ -1,5 +1,7 @@
 package com.jdevs.timeo.data.projects
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
@@ -25,6 +27,23 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
         get() = projectsMonitor.safeAccess().getLiveData()
 
     private var projectsRef by SafeAccess<CollectionReference>()
+
+    override fun getProjectById(id: Int, documentId: String): LiveData<Project> {
+
+        val project = projectsRef.document(documentId)
+        val liveData = MutableLiveData<Project>()
+
+        project.addSnapshotListener { documentSnapshot, _ ->
+
+            if (documentSnapshot != null) {
+
+                liveData.value =
+                    documentSnapshot.toObject(FirestoreProject::class.java)?.run { mapToDomain() }
+            }
+        }
+
+        return liveData
+    }
 
     override suspend fun addProject(project: Project) {
 

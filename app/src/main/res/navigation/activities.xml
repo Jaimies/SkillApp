@@ -61,11 +61,6 @@
             app:argType="com.jdevs.timeo.model.Activity"
             app:nullable="true" />
 
-        <argument
-            android:name="isEdited"
-            android:defaultValue="false"
-            app:argType="boolean" />
-
         <action
             android:id="@+id/action_addEditFragment_to_activityDetailFragment"
             app:destination="@id/activity_detail_fragment_dest"
@@ -127,5 +122,58 @@
     <fragment
         android:id="@+id/projects_fragment_dest"
         android:name="com.jdevs.timeo.ui.projects.ProjectsFragment"
-        android:label="@string/projects" />
+        android:label="@string/projects"
+        tools:layout="@layout/projects_frag">
+
+        <action
+            android:id="@+id/action_projectsFragment_to_projectDetailFragment"
+            app:destination="@id/project_detail_fragment_dest"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_projectsFragment_to_addProjectFragment"
+            app:destination="@id/add_edit_project_fragment_dest"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/project_detail_fragment_dest"
+        android:name="com.jdevs.timeo.ui.projectdetail.ProjectDetailFragment"
+        android:label="@string/project_details"
+        tools:layout="@layout/projectdetail_frag">
+
+        <argument
+            android:name="project"
+            app:argType="com.jdevs.timeo.model.Project" />
+        <action
+            android:id="@+id/action_projectDetailFragment_to_addProjectFragment"
+            app:destination="@id/add_edit_project_fragment_dest"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/add_edit_project_fragment_dest"
+        android:name="com.jdevs.timeo.ui.addproject.AddEditProjectFragment"
+        android:label="addproject_frag"
+        tools:layout="@layout/addproject_frag">
+
+        <argument
+            android:name="project"
+            android:defaultValue="@null"
+            app:argType="com.jdevs.timeo.model.Project"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_addEditProjectFragment_to_projectsFragment"
+            app:destination="@id/projects_fragment_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
 </navigation>

@@ -1,4 +1,5 @@
-package com.jdevs.timeo.ui.addactivity
+package com.jdevs.timeo.ui.addproject
+
 
 import android.content.Context
 import android.os.Bundle
@@ -13,8 +14,8 @@ import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ActionBarFragment
-import com.jdevs.timeo.databinding.AddactivityFragBinding
-import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.databinding.AddprojectFragBinding
+import com.jdevs.timeo.model.Project
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.getCoroutineIoScope
 import com.jdevs.timeo.util.hideKeyboard
@@ -24,14 +25,14 @@ import com.jdevs.timeo.util.showSnackbar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class AddEditActivityFragment : ActionBarFragment() {
+class AddEditProjectFragment : ActionBarFragment() {
 
-    override val menuId = R.menu.addedit_activity_fragment_menu
-    private val args: AddEditActivityFragmentArgs by navArgs()
     private var isEdited = false
+    private val args: AddEditProjectFragmentArgs by navArgs()
+    override val menuId = R.menu.addedit_project_fragment_menu
 
     @Inject
-    lateinit var viewModel: AddEditActivityViewModel
+    lateinit var viewModel: AddEditProjectViewModel
 
     override fun onAttach(context: Context) {
 
@@ -42,59 +43,51 @@ class AddEditActivityFragment : ActionBarFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        isEdited = args.activity != null
+        isEdited = args.project != null
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = AddactivityFragBinding.inflate(inflater, container, false).also {
+        val binding = AddprojectFragBinding.inflate(inflater, container, false).also {
 
             it.viewModel = viewModel
             it.lifecycleOwner = this
         }
 
         requireMainActivity()?.supportActionBar
-            ?.setTitle(if (isEdited) R.string.edit_activity else R.string.create_activity)
+            ?.setTitle(if (isEdited) R.string.edit_project else R.string.create_project)
 
         if (isEdited) {
 
-            viewModel.setActivity(args.activity)
+            viewModel.setProject(args.project)
         }
 
         observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
         observeEvent(viewModel.showDeleteDialog) { showDeleteDialog() }
-        observeEvent(viewModel.saveActivity) { saveActivity(it!!) }
+        observeEvent(viewModel.saveProject) { saveProject(it!!) }
 
         return binding.root
     }
 
-    private fun saveActivity(name: String) {
+    private fun saveProject(name: String) {
 
         if (!validateInput(name)) {
-
             return
         }
 
         if (isEdited) {
 
-            val activity = args.activity!!.copy(name = name)
-
-            getCoroutineIoScope().launch { viewModel.saveActivity(activity) }
-
-            val directions = AddEditActivityFragmentDirections
-                .actionAddEditFragmentToActivityDetailFragment(activity = activity)
-
-            findNavController().navigate(directions)
+            val project = args.project!!.copy(name = name)
+            getCoroutineIoScope().launch { viewModel.saveProject(project) }
+            findNavController().popBackStack()
         } else {
 
-            val activity = Activity(name = name)
-            viewModel.addActivity(activity)
-
-            findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
+            val project = Project(name = name)
+            viewModel.addProject(project)
+            findNavController().navigate(R.id.action_addEditProjectFragment_to_projectsFragment)
         }
 
         hideKeyboard()
@@ -102,15 +95,15 @@ class AddEditActivityFragment : ActionBarFragment() {
 
     private fun showDeleteDialog() {
 
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setIcon(android.R.drawable.ic_delete)
             .setTitle(R.string.are_you_sure)
-            .setMessage(R.string.sure_delete_activity)
+            .setMessage(R.string.sure_delete_project)
             .setPositiveButton(R.string.yes) { _, _ ->
 
-                viewModel.deleteActivity(args.activity!!)
-                showSnackbar(R.string.activity_deleted)
-                findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
+                viewModel.deleteProject(args.project!!)
+                showSnackbar(R.string.project_deleted)
+                findNavController().navigate(R.id.action_addEditProjectFragment_to_projectsFragment)
             }
             .setNegativeButton(R.string.no, null)
             .show()
@@ -132,7 +125,7 @@ class AddEditActivityFragment : ActionBarFragment() {
 
         return if (item.itemId == R.id.action_save) {
 
-            viewModel.triggerSaveActivity()
+            viewModel.triggerSaveProject()
             true
         } else {
 

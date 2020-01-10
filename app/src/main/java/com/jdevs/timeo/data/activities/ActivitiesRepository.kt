@@ -45,11 +45,11 @@ class DefaultActivitiesRepository @Inject constructor(
 
         return if (isUserSignedIn) {
 
-            localDataSource.saveActivity(activity)
-            null
+            remoteDataSource.saveActivity(activity.documentId, activity.name)
         } else {
 
-            remoteDataSource.saveActivity(activity.documentId, activity.name)
+            localDataSource.saveActivity(activity)
+            null
         }
     }
 

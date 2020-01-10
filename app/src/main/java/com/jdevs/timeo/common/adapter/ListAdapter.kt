@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 class ListAdapter(
     private val delegateAdapter: DelegateAdapter,
     private val createRecord: (Int, Long) -> Unit = { _, _ -> },
-    private val goToDetails: (Int) -> Unit = {},
+    private val navigateToDetails: (Int) -> Unit = {},
     private val showDeleteDialog: (Int) -> Unit = {}
 ) : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(ITEMS_COMPARATOR) {
 
     override fun getItemViewType(index: Int) = getItem(index)?.viewType ?: -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = delegateAdapter
-        .onCreateViewHolder(parent, createRecord, goToDetails, showDeleteDialog)
+        .onCreateViewHolder(parent, createRecord, navigateToDetails, showDeleteDialog)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 

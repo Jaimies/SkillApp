@@ -19,8 +19,7 @@ import kotlinx.android.synthetic.main.main_act.bottom_nav_view
 import kotlinx.android.synthetic.main.main_act.nav_host_container
 import kotlinx.android.synthetic.main.main_act.toolbar
 
-class MainActivity : AppCompatActivity(),
-    NavController.OnDestinationChangedListener {
+class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
@@ -45,7 +44,8 @@ class MainActivity : AppCompatActivity(),
         R.id.action_activitiesFragment_to_addActivityFragment,
         R.id.action_activitiesFragment_to_projectsFragment,
         R.id.action_activitiesFragment_to_historyFragment,
-        R.id.action_profileFragment_to_settingsFragment
+        R.id.action_profileFragment_to_settingsFragment,
+        R.id.action_projectsFragment_to_addProjectFragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

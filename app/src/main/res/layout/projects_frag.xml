@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default"
                 android:onClick="@{() -> viewModel.navigateToAddActivity()}"
-                android:text="@string/create_activity" />
+                android:text="@string/create_project" />
         </LinearLayout>
 
         <include

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.common.ListFragment
@@ -22,16 +23,16 @@ class ProjectsFragment : ListFragment<Project>() {
 
     override val adapter by lazy {
 
-        ListAdapter(ProjectDelegateAdapter(), { _, _ -> showSnackbar(R.string.todo) },
-            { showSnackbar(R.string.todo) })
+        ListAdapter(
+            ProjectDelegateAdapter(), { _, _ -> showSnackbar(R.string.todo) }, ::navigateToDetails
+        )
     }
 
     override val firestoreAdapter by lazy {
-        FirestoreListAdapter({ _, _ -> showSnackbar(R.string.todo) },
-            { showSnackbar(R.string.todo) })
+        FirestoreListAdapter({ _, _ -> showSnackbar(R.string.todo) }, ::navigateToDetails)
     }
 
-    override val menuId = -1
+    override val menuId = R.menu.projects_fragment_menu
 
     @Inject
     override lateinit var viewModel: ProjectsViewModel
@@ -45,7 +46,7 @@ class ProjectsFragment : ListFragment<Project>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
@@ -55,9 +56,19 @@ class ProjectsFragment : ListFragment<Project>() {
             it.viewModel = viewModel
             it.recyclerView.setup(ProjectsConstants.VISIBLE_THRESHOLD)
 
-            observeEvent(viewModel.navigateToAddActivity) { showSnackbar(R.string.todo) }
+            observeEvent(viewModel.navigateToAddActivity) {
+                findNavController().navigate(R.id.action_projectsFragment_to_addProjectFragment)
+            }
 
             return it.root
         }
+    }
+
+    private fun navigateToDetails(index: Int) {
+
+        val directions = ProjectsFragmentDirections
+            .actionProjectsFragmentToProjectDetailFragment(project = getItem(index))
+
+        findNavController().navigate(directions)
     }
 }

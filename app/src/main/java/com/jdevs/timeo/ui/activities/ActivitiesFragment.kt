@@ -89,10 +89,10 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
     private fun navigateToDetails(index: Int) {
 
-        val action = ActivitiesFragmentDirections
+        val directions = ActivitiesFragmentDirections
             .actionActivitiesFragmentToActivityDetailsFragment(activity = getItem(index))
 
-        findNavController().navigate(action)
+        findNavController().navigate(directions)
     }
 
     private fun createRecord(index: Int, time: Long) {

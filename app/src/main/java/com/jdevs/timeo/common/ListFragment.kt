@@ -41,8 +41,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
     @CallSuper
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 

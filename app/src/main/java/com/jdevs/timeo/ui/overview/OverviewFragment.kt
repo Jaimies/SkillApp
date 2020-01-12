@@ -37,7 +37,7 @@ class OverviewFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = OverviewFragBinding.inflate(inflater, container, false).also {
 
@@ -61,7 +61,7 @@ class OverviewFragment : Fragment() {
                 findNavController().navigate(R.id.projects_fragment_dest)
             }
 
-            if (!viewModel.activitiesEnabled.value!!) return@run
+            if (!activitiesEnabled.value!!) return@run
 
             binding.activitiesList.setupAdapter(activitiesAdapter)
 

@@ -128,17 +128,17 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:${Versions.navigation}")
     implementation("androidx.navigation:navigation-ui-ktx:${Versions.navigation}")
 
-    // Material theme
+    // Material components
     implementation("com.google.android.material:material:${Versions.material}")
 
     // ViewPager 2
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.viewpager2:viewpager2:${Versions.viewPager2}")
 
     // Firebase
     implementation("com.google.firebase:firebase-auth:${Versions.auth}")
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
     implementation("com.google.firebase:firebase-firestore:${Versions.firestore}")
-    debugImplementation("com.google.code.gson:gson:2.8.6")
+    debugImplementation("com.google.code.gson:gson:${Versions.gson}")
 //    implementation("com.google.firebase:firebase-analytics:${Versions.analytics}")
 //    implementation("com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}")
 //    implementation("com.google.firebase:firebase-perf:${Versions.perf}")

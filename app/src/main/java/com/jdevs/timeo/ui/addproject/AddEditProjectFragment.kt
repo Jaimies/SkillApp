@@ -57,7 +57,7 @@ class AddEditProjectFragment : ActionBarFragment() {
             it.lifecycleOwner = this
         }
 
-        requireMainActivity()?.supportActionBar
+        requireMainActivity().supportActionBar
             ?.setTitle(if (isEdited) R.string.edit_project else R.string.create_project)
 
         if (isEdited) {

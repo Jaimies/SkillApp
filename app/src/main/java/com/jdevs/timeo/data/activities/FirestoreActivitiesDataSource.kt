@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.auth.AuthRepository
-import com.jdevs.timeo.data.firestore.FirestoreDataSource
+import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
@@ -33,7 +33,7 @@ interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
 @Singleton
 class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepository) :
-    FirestoreDataSource(authRepository), ActivitiesRemoteDataSource {
+    FirestoreListDataSource(authRepository), ActivitiesRemoteDataSource {
 
     private val activitiesMonitor =
         createCollectionMonitor(FirestoreActivity::class, ActivitiesConstants.PAGE_SIZE)

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.auth.AuthRepository
-import com.jdevs.timeo.data.firestore.FirestoreDataSource
+import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.model.Project
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
@@ -21,7 +21,7 @@ interface ProjectsRemoteDataSource : ProjectsDataSource {
 
 @Singleton
 class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthRepository) :
-    FirestoreDataSource(authRepository), ProjectsRemoteDataSource {
+    FirestoreListDataSource(authRepository), ProjectsRemoteDataSource {
 
     private val projectsMonitor =
         createCollectionMonitor(FirestoreProject::class, ProjectsConstants.PAGE_SIZE)

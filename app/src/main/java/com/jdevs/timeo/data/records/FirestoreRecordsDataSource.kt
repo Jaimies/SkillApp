@@ -3,7 +3,7 @@ package com.jdevs.timeo.data.records
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.auth.AuthRepository
-import com.jdevs.timeo.data.firestore.FirestoreDataSource
+import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.model.Record
@@ -31,7 +31,7 @@ interface RecordsRemoteDataSource : RecordsDataSource {
 @Singleton
 class FirestoreRecordsDataSource @Inject constructor(
     authRepository: AuthRepository
-) : FirestoreDataSource(authRepository), RecordsRemoteDataSource {
+) : FirestoreListDataSource(authRepository), RecordsRemoteDataSource {
 
     private val recordsMonitor =
         createCollectionMonitor(FirestoreRecord::class, RecordsConstants.PAGE_SIZE, TIMESTAMP)

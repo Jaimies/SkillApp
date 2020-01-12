@@ -7,6 +7,9 @@ object Versions {
     const val constraintLayout = "1.1.3"
     const val legacy = "1.0.0"
 
+    // ViewPager2
+    const val viewPager2 = "1.0.0"
+
     // Main dependencies
     const val coroutines = "1.3.2"
     const val room = "2.2.3"
@@ -31,6 +34,9 @@ object Versions {
     const val crashlytics = "2.10.1"
     const val perf = "19.0.2"
     const val fabric = "1.31.2"
+
+    // Gson
+    const val gson = "2.8.6"
 
     // Static analyzers
     const val lint = "26.5.3"

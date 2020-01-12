@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }
     }
 
-    fun navigateToGraph(@IdRes graphId: Int, graphsToRecreate: List<Int> = listOf(R.id.activity_list)) {
+    fun navigateToGraph(@IdRes graphId: Int, graphs: List<Int> = listOf(R.navigation.summary)) {
 
         bottomNavView.selectedItemId = graphId
 
@@ -127,10 +127,9 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             currentNavController.value?.popBackStack()
         }
 
-        this.graphsToRecreate.apply {
+        graphs.forEach {
 
-            clear()
-            addAll(graphsToRecreate)
+            if (!graphsToRecreate.contains(it)) graphsToRecreate.add(it)
         }
     }
 }

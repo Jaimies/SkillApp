@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.FirebaseFirestoreException.Code
 import com.jdevs.timeo.data.auth.AuthRepository
-import com.jdevs.timeo.data.firestore.FirestoreDataSource
+import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.util.FirestoreConstants.TIME
@@ -39,7 +39,7 @@ interface StatsRemoteDataSource : StatsDataSource {
 @Singleton
 class FirestoreStatsDataSource @Inject constructor(
     authRepository: AuthRepository
-) : FirestoreDataSource(authRepository), StatsRemoteDataSource {
+) : FirestoreListDataSource(authRepository), StatsRemoteDataSource {
 
     private val dayStatsMonitor =
         createCollectionMonitor(FirestoreDayStats::class, StatsConstants.PAGE_SIZE, DAY_PROPERTY)

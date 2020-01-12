@@ -1,10 +1,8 @@
 package com.jdevs.timeo.data
 
-import com.jdevs.timeo.common.adapter.ViewItem
-
-interface Mapper<T : ViewItem> {
+interface Mapper<T : Any> {
 
     fun mapToDomain(): T
 }
 
-fun <T : ViewItem> List<Mapper<T>>.mapToDomain() = map { it.mapToDomain() }
+fun <T : Any> List<Mapper<T>>.mapToDomain() = map { it.mapToDomain() }

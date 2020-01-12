@@ -38,7 +38,13 @@ class SummaryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
+
+        if (!viewModel.activitiesEnabled) {
+
+            findNavController().navigate(R.id.action_summaryFragment_to_projectsGraph)
+            return null
+        }
 
         val binding = SummaryFragBinding.inflate(inflater, container, false).also {
 

@@ -72,4 +72,5 @@
     <string name="your_projects">Your projects</string>
     <string name="your_activities">Your activities</string>
     <string name="summary">Summary</string>
+    <string name="enable_activities">Enable activities</string>
 </resources>

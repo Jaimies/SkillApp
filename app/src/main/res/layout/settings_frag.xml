@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.settings.SettingsFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.jdevs.timeo.ui.settings.SettingsViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/settings"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_default"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingBottom="@dimen/padding_default"
+        tools:context=".ui.settings.SettingsFragment">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enable_activities"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+        <!--suppress AndroidUnknownAttribute -->
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:onCheckedChanged="@{(switch, isChecked) -> viewModel.setActivitiesEnabled(isChecked)}"
+            app:checked="@{viewModel.activitiesEnabled}" />
+    </LinearLayout>
+</layout>

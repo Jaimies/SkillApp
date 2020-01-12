@@ -5,34 +5,25 @@ import com.jdevs.timeo.data.auth.AuthRepository
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-abstract class FirestoreDataSource(
-    private val authRepository: AuthRepository
-) {
+abstract class FirestoreDataSource(private val authRepository: AuthRepository) {
 
     protected val db = FirebaseFirestore.getInstance()
-    private var prevUid = ""
+    private var mUid = ""
 
     protected abstract fun resetRefs(uid: String)
 
-    protected fun reset() {
+    private fun reset() {
 
         val uid = authRepository.uid ?: return
 
-        if (uid == prevUid) {
+        if (uid == mUid) {
 
             return
         }
 
         resetRefs(uid)
-
-        prevUid = uid
+        mUid = uid
     }
-
-    fun createRef(uid: String, collection: String, monitor: CollectionMonitor) =
-        db.collection("/$USERS_COLLECTION/$uid/$collection").also {
-
-            monitor.setRef(it)
-        }
 
     fun <T> T.safeAccess(): T {
 
@@ -55,9 +46,14 @@ abstract class FirestoreDataSource(
             lateinit var field: T
         }
     }
+}
 
-    companion object {
+abstract class FirestoreListDataSource(authRepository: AuthRepository) :
+    FirestoreDataSource(authRepository) {
 
-        private const val USERS_COLLECTION = "users"
-    }
+    fun createRef(uid: String, collection: String, monitor: CollectionMonitor) =
+        db.collection("/users/$uid/$collection").also {
+
+            monitor.setRef(it)
+        }
 }

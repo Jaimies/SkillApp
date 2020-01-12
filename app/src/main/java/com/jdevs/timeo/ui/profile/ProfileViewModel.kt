@@ -12,10 +12,10 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
 
     val isSignedIn get() = _isSignedIn as LiveData<Boolean>
+    private val _isSignedIn = MutableLiveData(false)
+
     val navigateToSignIn = SingleLiveEvent<Any>()
     val signOut = SingleLiveEvent<Any>()
-
-    private val _isSignedIn = MutableLiveData(false)
 
     init {
 

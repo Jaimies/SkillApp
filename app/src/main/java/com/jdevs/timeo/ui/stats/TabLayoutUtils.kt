@@ -11,8 +11,7 @@ fun setupTabLayoutMediator(tabLayout: TabLayout, viewPager: ViewPager2) {
 
         viewPager.setCurrentItem(tab.position, true)
 
-        tab.text = tabLayout.context.getString(
-
+        tab.setText(
             when (position) {
                 0 -> R.string.day
                 1 -> R.string.week

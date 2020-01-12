@@ -20,8 +20,8 @@ import javax.inject.Inject
 
 class ProjectDetailFragment : ActionBarFragment() {
 
-    override val menuId = R.menu.activity_detail_fragment_menu
     private val args: ProjectDetailFragmentArgs by navArgs()
+    override val menuId = R.menu.activity_detail_fragment_menu
 
     @Inject
     lateinit var viewModel: ProjectDetailViewModel
@@ -67,7 +67,7 @@ class ProjectDetailFragment : ActionBarFragment() {
         return if (item.itemId == R.id.editActivity) {
 
             val directions = ProjectDetailFragmentDirections
-                .actionProjectDetailFragmentToAddProjectFragment(project = viewModel.project.value)
+                .actionProjectDetailFragmentToAddProjectFragment(viewModel.project.value)
 
             findNavController().navigate(directions)
             true

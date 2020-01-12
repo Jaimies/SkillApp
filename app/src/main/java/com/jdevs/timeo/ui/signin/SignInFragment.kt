@@ -62,12 +62,7 @@ class SignInFragment : AuthFragment() {
         }
 
         observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
-
-        observeEvent(viewModel.signIn) {
-
-            it!!
-            signIn(it.first, it.second)
-        }
+        observeEvent(viewModel.signIn) { signIn(it!!.first, it.second) }
 
         observeEvent(viewModel.showGoogleSignInIntent) {
 
@@ -125,15 +120,8 @@ class SignInFragment : AuthFragment() {
 
                 when (e.statusCode) {
 
-                    SIGN_IN_CANCELLED -> {
-
-                        Log.i(TAG, "Sign in was cancelled by user")
-                    }
-
-                    NETWORK_ERROR -> {
-
-                        showSnackbar(R.string.check_connection)
-                    }
+                    SIGN_IN_CANCELLED -> Log.i(TAG, "Sign in was cancelled by user")
+                    NETWORK_ERROR -> showSnackbar(R.string.check_connection)
 
                     else -> {
 

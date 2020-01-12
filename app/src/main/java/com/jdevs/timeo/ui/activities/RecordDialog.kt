@@ -30,7 +30,6 @@ class RecordDialog(
         setContentView(R.layout.record_dialog)
 
         val dimensions = context.getScreenDimensions()
-
         val width = (dimensions.widthPixels * WIDTH).roundToInt()
         val height = (dimensions.heightPixels * HEIGHT).roundToInt()
 
@@ -55,11 +54,7 @@ class RecordDialog(
 
         v as EditText
 
-        if (v.hasFocus() || v.text.isEmpty()) {
-
-            return
-        }
-
+        if (v.hasFocus() || v.text.isEmpty()) return
         validateInput(v)
     }
 
@@ -68,22 +63,17 @@ class RecordDialog(
         editText.apply {
 
             val isHours = id == R.id.hours_edit_text
-
             val maxValue = if (isHours) DAY_HOURS - 1 else HOUR_MINUTES - 1
             val minValue = if (isHours) 0 else RECORD_MIN_TIME
-
             val value = text.toString().toIntOrNull() ?: return
 
-            if (value > maxValue) {
-
-                setText(maxValue.toString())
-                return
-            }
-
-            if (value < minValue) {
-
-                setText(minValue.toString())
-            }
+            setText(
+                when {
+                    value > maxValue -> maxValue
+                    value < minValue -> maxValue
+                    else -> return
+                }.toString()
+            )
         }
     }
 
@@ -96,9 +86,7 @@ class RecordDialog(
         val minutes = minutes_edit_text.text.toString().toLongOrNull() ?: return
 
         val time = (hours to minutes).toMins()
-
         createRecord(time)
-
         dismiss()
     }
 

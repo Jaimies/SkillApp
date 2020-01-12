@@ -38,7 +38,6 @@ abstract class FirestoreDataSource(private val authRepository: AuthRepository) {
             fieldHolder.safeAccess().field
 
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-
             fieldHolder.field = value
         }
 

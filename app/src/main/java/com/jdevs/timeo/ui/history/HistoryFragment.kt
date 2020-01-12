@@ -21,17 +21,16 @@ import javax.inject.Inject
 class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener {
 
     override val adapter by lazy {
-
         PagingAdapter(RecordDelegateAdapter(), showDeleteDialog = ::showDeleteDialog)
     }
 
     override val firestoreAdapter by lazy { FirestoreListAdapter(showDeleteDialog = ::showDeleteDialog) }
 
-    override val menuId = -1
-    private var chosenItemIndex = -1
-
     @Inject
     override lateinit var viewModel: HistoryViewModel
+
+    private var chosenItemIndex = -1
+    override val menuId = -1
 
     override fun onAttach(context: Context) {
 

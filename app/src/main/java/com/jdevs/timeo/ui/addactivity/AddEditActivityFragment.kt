@@ -26,12 +26,12 @@ import javax.inject.Inject
 
 class AddEditActivityFragment : ActionBarFragment() {
 
+    @Inject
+    lateinit var viewModel: AddEditActivityViewModel
+
     override val menuId = R.menu.addedit_activity_fragment_menu
     private val args: AddEditActivityFragmentArgs by navArgs()
     private var isEdited = false
-
-    @Inject
-    lateinit var viewModel: AddEditActivityViewModel
 
     override fun onAttach(context: Context) {
 

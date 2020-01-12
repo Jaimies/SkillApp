@@ -19,17 +19,18 @@ class ProjectDetailViewModel @Inject constructor(
     private val addRecordUseCase: AddRecordUseCase
 ) : ViewModel() {
 
+    lateinit var project: LiveData<Project>
+
     val name: LiveData<String> get() = _name
     val avgDailyTime: LiveData<String> get() = _avgDailyTime
     val lastWeekTime: LiveData<String> get() = _lastWeekTime
     val totalTime: LiveData<String> get() = _totalTime
-    lateinit var project: LiveData<Project>
-
-    val showRecordDialog = SingleLiveEvent<Any>()
-    private val _name = MutableLiveData("")
     private val _avgDailyTime = MutableLiveData("")
     private val _lastWeekTime = MutableLiveData("")
     private val _totalTime = MutableLiveData("")
+    private val _name = MutableLiveData("")
+
+    val showRecordDialog = SingleLiveEvent<Any>()
 
     fun setProject(project: Project) {
 

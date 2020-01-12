@@ -20,11 +20,11 @@ import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
 
-    override val menuId = R.menu.activity_detail_fragment_menu
-    private val args: ActivityDetailFragmentArgs by navArgs()
-
     @Inject
     lateinit var viewModel: ActivityDetailViewModel
+
+    override val menuId = R.menu.activity_detail_fragment_menu
+    private val args: ActivityDetailFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {
 
@@ -77,7 +77,7 @@ class ActivityDetailFragment : ActionBarFragment() {
         return if (item.itemId == R.id.editActivity) {
 
             val directions = ActivityDetailFragmentDirections
-                .actionActivityDetailFragmentToAddEditActivityFragment(activity = viewModel.activity.value!!)
+                .actionActivityDetailFragmentToAddEditActivityFragment(viewModel.activity.value!!)
 
             findNavController().navigate(directions)
 

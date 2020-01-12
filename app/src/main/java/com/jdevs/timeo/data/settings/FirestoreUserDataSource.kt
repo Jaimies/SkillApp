@@ -15,7 +15,8 @@ interface UserDataSource {
 }
 
 class FirestoreUserDataSource @Inject constructor(authRepository: AuthRepository) :
-    FirestoreDataSource(authRepository), UserDataSource {
+    FirestoreDataSource(authRepository),
+    UserDataSource {
 
     private var userRef: DocumentReference? = null
         get() = field.safeAccess()
@@ -23,7 +24,6 @@ class FirestoreUserDataSource @Inject constructor(authRepository: AuthRepository
     override fun getUser(): LiveData<User> {
 
         val liveData = MutableLiveData<User>()
-
         userRef?.addSnapshotListener { documentSnapshot, _ ->
 
             documentSnapshot?.run {

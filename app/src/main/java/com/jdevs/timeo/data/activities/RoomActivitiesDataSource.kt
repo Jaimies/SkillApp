@@ -28,9 +28,8 @@ interface ActivitiesLocalDataSource : ActivitiesDataSource {
 }
 
 @Singleton
-class RoomActivitiesDataSource @Inject constructor(
-    private val activitiesDao: ActivitiesDao
-) : ActivitiesLocalDataSource {
+class RoomActivitiesDataSource @Inject constructor(private val activitiesDao: ActivitiesDao) :
+    ActivitiesLocalDataSource {
 
     override val activities by lazy {
 

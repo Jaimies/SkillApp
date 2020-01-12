@@ -21,11 +21,11 @@ class AddEditProjectViewModel @Inject constructor(
     val name = MutableLiveData("")
     val nameError get() = _nameError as LiveData<String>
     val projectExists get() = _projectExists as LiveData<Boolean>
-    val showDeleteDialog = SingleLiveEvent<Any>()
-    val saveProject = SingleLiveEvent<String>()
-
     private val _nameError = MutableLiveData("")
     private val _projectExists = MutableLiveData(false)
+
+    val showDeleteDialog = SingleLiveEvent<Any>()
+    val saveProject = SingleLiveEvent<String>()
 
     fun setProject(project: Project?) {
 

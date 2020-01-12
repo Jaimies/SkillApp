@@ -14,9 +14,7 @@ interface StatsDataSource {
 }
 
 @Singleton
-class RoomStatsDataSource @Inject constructor(
-    private val statsDao: StatsDao
-) : StatsDataSource {
+class RoomStatsDataSource @Inject constructor(private val statsDao: StatsDao) : StatsDataSource {
 
     override val dayStats by lazy {
 

@@ -16,10 +16,10 @@ import javax.inject.Inject
 
 class ProfileFragment : ActionBarFragment() {
 
-    override val menuId = R.menu.profile_fragment_menu
-
     @Inject
     lateinit var viewModel: ProfileViewModel
+
+    override val menuId = R.menu.profile_fragment_menu
 
     override fun onAttach(context: Context) {
 

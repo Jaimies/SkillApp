@@ -33,7 +33,8 @@ interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
 @Singleton
 class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepository) :
-    FirestoreListDataSource(authRepository), ActivitiesRemoteDataSource {
+    FirestoreListDataSource(authRepository),
+    ActivitiesRemoteDataSource {
 
     private val activitiesMonitor =
         createCollectionMonitor(FirestoreActivity::class, ActivitiesConstants.PAGE_SIZE)

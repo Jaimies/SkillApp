@@ -30,14 +30,14 @@ import javax.inject.Inject
 abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
     protected abstract val viewModel: ListViewModel
-    private val itemLiveDatas = mutableListOf<ItemsLiveData>()
-
     protected abstract val adapter: PagingAdapter
     protected abstract val firestoreAdapter: FirestoreListAdapter
     private val currentAdapter get() = if (authRepository.isUserSignedIn) firestoreAdapter else adapter
 
     @Inject
     lateinit var authRepository: AuthRepository
+
+    private val itemLiveDatas = mutableListOf<ItemsLiveData>()
 
     @CallSuper
     override fun onCreateView(

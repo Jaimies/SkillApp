@@ -16,10 +16,10 @@ import javax.inject.Inject
 
 class StatsItemFragment(private val statsType: Int) : ListFragment<DayStats>() {
 
-    override val menuId = -1
-
     override val adapter by lazy { PagingAdapter(StatisticDelegateAdapter()) }
     override val firestoreAdapter by lazy { FirestoreListAdapter() }
+
+    override val menuId = -1
 
     @Inject
     override lateinit var viewModel: StatsViewModel

@@ -26,9 +26,7 @@ interface RecordsDataSource {
 }
 
 @Singleton
-class RoomRecordsDataSource @Inject constructor(
-    private val db: TimeoDatabase
-) : RecordsDataSource {
+class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) : RecordsDataSource {
 
     override val records by lazy {
 

@@ -37,9 +37,9 @@ interface StatsRemoteDataSource : StatsDataSource {
 }
 
 @Singleton
-class FirestoreStatsDataSource @Inject constructor(
-    authRepository: AuthRepository
-) : FirestoreListDataSource(authRepository), StatsRemoteDataSource {
+class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepository) :
+    FirestoreListDataSource(authRepository),
+    StatsRemoteDataSource {
 
     private val dayStatsMonitor =
         createCollectionMonitor(FirestoreDayStats::class, StatsConstants.PAGE_SIZE, DAY_PROPERTY)

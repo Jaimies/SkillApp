@@ -23,13 +23,13 @@ class OverviewViewModel @Inject constructor(
     val areProjectsEmpty get() = _areProjectsEmpty as LiveData<Boolean>
     val areActivitiesLoading get() = _areActivitiesLoading as LiveData<Boolean>
     val areActivitiesEmpty get() = _areActivitiesEmpty as LiveData<Boolean>
-    val navigateToProjects = SingleLiveEvent<Any>()
-    val navigateToActivities = SingleLiveEvent<Any>()
-
     private val _areProjectsLoading = MutableLiveData(true)
     private val _areProjectsEmpty = MutableLiveData(false)
     private val _areActivitiesLoading = MutableLiveData(true)
     private val _areActivitiesEmpty = MutableLiveData(false)
+
+    val navigateToProjects = SingleLiveEvent<Any>()
+    val navigateToActivities = SingleLiveEvent<Any>()
 
     fun setProjectsSize(size: Int) {
 

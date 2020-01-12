@@ -21,7 +21,8 @@ interface ProjectsRemoteDataSource : ProjectsDataSource {
 
 @Singleton
 class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthRepository) :
-    FirestoreListDataSource(authRepository), ProjectsRemoteDataSource {
+    FirestoreListDataSource(authRepository),
+    ProjectsRemoteDataSource {
 
     private val projectsMonitor =
         createCollectionMonitor(FirestoreProject::class, ProjectsConstants.PAGE_SIZE)

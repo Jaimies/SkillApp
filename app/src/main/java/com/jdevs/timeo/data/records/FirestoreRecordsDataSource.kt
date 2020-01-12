@@ -29,9 +29,9 @@ interface RecordsRemoteDataSource : RecordsDataSource {
 }
 
 @Singleton
-class FirestoreRecordsDataSource @Inject constructor(
-    authRepository: AuthRepository
-) : FirestoreListDataSource(authRepository), RecordsRemoteDataSource {
+class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthRepository) :
+    FirestoreListDataSource(authRepository),
+    RecordsRemoteDataSource {
 
     private val recordsMonitor =
         createCollectionMonitor(FirestoreRecord::class, RecordsConstants.PAGE_SIZE, TIMESTAMP)

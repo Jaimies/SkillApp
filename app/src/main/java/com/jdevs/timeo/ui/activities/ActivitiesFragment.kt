@@ -30,12 +30,13 @@ class ActivitiesFragment : ListFragment<Activity>() {
         FirestoreListAdapter(::createRecord, ::navigateToDetails)
     }
 
+    @Inject
+    override lateinit var viewModel: ActivitiesViewModel
+
+
     override val menuId = R.menu.activities_fragment_menu
     private lateinit var menu: Menu
     private var isLoadEventHandled = false
-
-    @Inject
-    override lateinit var viewModel: ActivitiesViewModel
 
     override fun onAttach(context: Context) {
 

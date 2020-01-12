@@ -48,16 +48,11 @@ class SignUpFragment : AuthFragment() {
         }
 
         observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
+        observeEvent(viewModel.signUp) { signUp(it!!.first, it.second) }
 
         observeEvent(viewModel.navigateToSignIn) {
 
             findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
-        }
-
-        observeEvent(viewModel.signUp) {
-
-            it!!
-            signUp(it.first, it.second)
         }
 
         return binding.root
@@ -70,24 +65,20 @@ class SignUpFragment : AuthFragment() {
             return
         }
 
-        viewModel.createAccount(email, password, ::handleException) {
-
-            navigateToOverview()
-        }
+        viewModel.createAccount(email, password, ::handleException, ::navigateToOverview)
     }
 
     private fun validatePassword(password: String): Boolean {
 
         val error = when (password.validatePassword()) {
 
-            EMPTY -> getString(R.string.password_empty)
-            TOO_SHORT -> getString(R.string.password_too_short)
-            TOO_LONG -> getString(R.string.password_too_long)
+            EMPTY -> R.string.password_empty
+            TOO_SHORT -> R.string.password_too_short
+            TOO_LONG -> R.string.password_too_long
             else -> return true
         }
 
-        viewModel.setPasswordError(error)
-
+        setPasswordError(error)
         return false
     }
 
@@ -95,13 +86,12 @@ class SignUpFragment : AuthFragment() {
 
         val error = when (email.validateEmail()) {
 
-            EMPTY -> getString(R.string.email_empty)
-            INVALID -> getString(R.string.email_invalid)
+            EMPTY -> R.string.email_empty
+            INVALID -> R.string.email_invalid
             else -> return true
         }
 
-        viewModel.setEmailError(error)
-
+        setEmailError(error)
         return false
     }
 

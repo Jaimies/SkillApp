@@ -22,11 +22,11 @@ import javax.inject.Inject
 
 class OverviewFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModel: OverviewViewModel
-
     private val projectsAdapter by lazy { ListAdapter<Project>(ProjectDelegateAdapter()) }
     private val activitiesAdapter by lazy { ListAdapter<Activity>(ActivityDelegateAdapter()) }
+
+    @Inject
+    lateinit var viewModel: OverviewViewModel
 
     override fun onAttach(context: Context) {
 

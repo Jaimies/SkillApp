@@ -44,16 +44,13 @@ class DefaultActivitiesRepository @Inject constructor(
 
     override suspend fun addActivity(activity: Activity) = currentDataSource.addActivity(activity)
 
-    override suspend fun saveActivity(activity: Activity): WriteBatch? {
+    override suspend fun saveActivity(activity: Activity) = if (isUserSignedIn) {
 
-        return if (isUserSignedIn) {
+        remoteDataSource.saveActivity(activity.documentId, activity.name)
+    } else {
 
-            remoteDataSource.saveActivity(activity.documentId, activity.name)
-        } else {
-
-            localDataSource.saveActivity(activity)
-            null
-        }
+        localDataSource.saveActivity(activity)
+        null
     }
 
     override suspend fun deleteActivity(activity: Activity) =

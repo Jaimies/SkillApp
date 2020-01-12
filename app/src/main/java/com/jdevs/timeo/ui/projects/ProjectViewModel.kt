@@ -11,11 +11,11 @@ class ProjectViewModel : ViewModel() {
 
     val name: LiveData<String> get() = _name
     val totalTime: LiveData<String> get() = _totalTime
-    val navigateToDetails = SingleLiveEvent<Any>()
-    val showRecordDialog = SingleLiveEvent<Any>()
-
     private val _name = MutableLiveData("")
     private val _totalTime = MutableLiveData("")
+
+    val navigateToDetails = SingleLiveEvent<Any>()
+    val showRecordDialog = SingleLiveEvent<Any>()
 
     fun setProject(project: Project) {
 

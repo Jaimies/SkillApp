@@ -10,6 +10,5 @@ class ActivityDetailStatsAdapter(
 ) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount() = STATS_TYPES_COUNT
-
     override fun createFragment(position: Int) = ActivityDetailStatsFragment(onClick, position)
 }

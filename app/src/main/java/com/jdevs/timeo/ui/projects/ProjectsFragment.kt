@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.common.ListFragment
@@ -17,7 +16,6 @@ import com.jdevs.timeo.model.Project
 import com.jdevs.timeo.util.ProjectsConstants
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.observeEvent
-import com.jdevs.timeo.util.extensions.requireMainActivity
 import com.jdevs.timeo.util.extensions.showSnackbar
 import javax.inject.Inject
 
@@ -51,14 +49,6 @@ class ProjectsFragment : ListFragment<Project>() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        if (!viewModel.activitiesEnabled) {
-
-            requireMainActivity().supportActionBar?.setDisplayHomeAsUpEnabled(false)
-            requireActivity().onBackPressedDispatcher.addCallback(this) {
-                requireMainActivity().navigateToGraph(R.id.overview, listOf())
-            }
-        }
-
         ProjectsFragBinding.inflate(inflater, container, false).let {
 
             it.lifecycleOwner = this
@@ -66,7 +56,7 @@ class ProjectsFragment : ListFragment<Project>() {
             it.recyclerView.setup(ProjectsConstants.VISIBLE_THRESHOLD)
 
             observeEvent(viewModel.navigateToAddActivity) {
-                findNavController().navigate(R.id.action_projectsFragment_to_addProjectFragment)
+                findNavController().navigate(R.id.addproject_fragment_dest)
             }
 
             return it.root

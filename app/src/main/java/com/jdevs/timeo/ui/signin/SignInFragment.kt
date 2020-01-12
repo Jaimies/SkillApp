@@ -62,10 +62,7 @@ class SignInFragment : AuthFragment() {
             it.lifecycleOwner = this
         }
 
-        observeEvent(viewModel.hideKeyboard) {
-
-            hideKeyboard()
-        }
+        observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
 
         observeEvent(viewModel.signIn) {
 

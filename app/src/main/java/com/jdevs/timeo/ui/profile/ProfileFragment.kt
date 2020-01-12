@@ -39,7 +39,7 @@ class ProfileFragment : ActionBarFragment() {
 
             observeEvent(navigateToSignIn) {
 
-                findNavController().navigate(R.id.action_profileFragment_to_signInFragment)
+                findNavController().navigate(R.id.signin_fragment_dest)
             }
 
             observeEvent(signOut) {

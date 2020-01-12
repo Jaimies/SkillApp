@@ -10,16 +10,7 @@
         android:id="@+id/profile_fragment_dest"
         android:name="com.jdevs.timeo.ui.profile.ProfileFragment"
         android:label="@string/profile"
-        tools:layout="@layout/profile_frag">
-
-        <action
-            android:id="@+id/action_profileFragment_to_signInFragment"
-            app:destination="@id/signin_fragment_dest" />
-
-        <action
-            android:id="@+id/action_profileFragment_to_settingsFragment"
-            app:destination="@id/settings_fragment_dest" />
-    </fragment>
+        tools:layout="@layout/profile_frag" />
 
     <fragment
         android:id="@+id/signin_fragment_dest"
@@ -29,7 +20,9 @@
 
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
-            app:destination="@id/signup_fragment_dest" />
+            app:destination="@id/signup_fragment_dest"
+            app:popUpTo="@id/profile_fragment_dest"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -40,7 +33,8 @@
         <action
             android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signin_fragment_dest"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/profile_fragment_dest"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

@@ -48,10 +48,7 @@ class SignUpFragment : AuthFragment() {
             it.lifecycleOwner = this
         }
 
-        observeEvent(viewModel.hideKeyboard) {
-
-            hideKeyboard()
-        }
+        observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
 
         observeEvent(viewModel.navigateToSignIn) {
 

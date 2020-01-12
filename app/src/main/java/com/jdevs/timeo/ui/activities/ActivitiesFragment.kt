@@ -60,7 +60,7 @@ class ActivitiesFragment : ListFragment<Activity>() {
 
         observeEvent(viewModel.navigateToAddEdit) {
 
-            findNavController().navigate(R.id.action_activitiesFragment_to_addActivityFragment)
+            findNavController().navigate(R.id.addactivity_fragment_dest)
         }
 
         return binding.root

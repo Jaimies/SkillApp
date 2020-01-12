@@ -27,10 +27,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         listOf(R.navigation.overview, R.navigation.calendar, R.navigation.profile)
 
     private val knownActions = arrayOf(
-        R.id.action_activitiesFragment_to_addActivityFragment,
-        R.id.action_activitiesFragment_to_historyFragment,
-        R.id.action_profileFragment_to_settingsFragment,
-        R.id.action_projectsFragment_to_addProjectFragment
+        R.id.addactivity_fragment_dest,
+        R.id.addproject_fragment_dest,
+        R.id.history_fragment_dest,
+        R.id.settings_fragment_dest
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

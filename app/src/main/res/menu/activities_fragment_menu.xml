@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_activitiesFragment_to_historyFragment"
+        android:id="@+id/history_fragment_dest"
         android:icon="@drawable/ic_list"
         android:title=""
         app:iconTint="@color/menu_item"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_activitiesFragment_to_addActivityFragment"
+        android:id="@+id/addactivity_fragment_dest"
         android:icon="@drawable/ic_plus_24dp"
         android:title=""
         app:iconTint="@color/menu_item"

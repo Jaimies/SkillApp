@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_profileFragment_to_settingsFragment"
+        android:id="@+id/settings_fragment_dest"
         android:icon="@drawable/ic_settings"
         android:title=""
         app:showAsAction="always" />

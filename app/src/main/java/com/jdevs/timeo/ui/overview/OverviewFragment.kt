@@ -17,7 +17,6 @@ import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.observeEvent
-import com.jdevs.timeo.util.extensions.setupAdapter
 import javax.inject.Inject
 
 class OverviewFragment : Fragment() {
@@ -55,9 +54,10 @@ class OverviewFragment : Fragment() {
                 projectsAdapter.setItems(list)
                 setProjectsSize(list.size)
             }
+
             observeEvent(navigateToProjects) {
 
-                findNavController().navigate(R.id.action_overviewFragment_to_projectsFragment)
+                findNavController().navigate(R.id.projects_fragment_dest)
             }
 
             if (!viewModel.activitiesEnabled.value!!) return@run
@@ -72,7 +72,7 @@ class OverviewFragment : Fragment() {
 
             observeEvent(navigateToActivities) {
 
-                findNavController().navigate(R.id.action_overviewFragment_to_activitiesFragment)
+                findNavController().navigate(R.id.activities_fragment_dest)
             }
         }
 

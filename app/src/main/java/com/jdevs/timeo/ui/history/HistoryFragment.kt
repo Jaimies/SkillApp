@@ -27,7 +27,7 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
 
     override val firestoreAdapter by lazy { FirestoreListAdapter(showDeleteDialog = ::showDeleteDialog) }
 
-    override val menuId = R.menu.history_fragment_menu
+    override val menuId = -1
     private var chosenItemIndex = -1
 
     @Inject

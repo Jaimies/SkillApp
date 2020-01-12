@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_projectsFragment_to_addProjectFragment"
+        android:id="@+id/addproject_fragment_dest"
         android:icon="@drawable/ic_plus_24dp"
         android:title=""
         app:iconTint="@color/menu_item"

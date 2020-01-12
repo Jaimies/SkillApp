@@ -17,6 +17,7 @@ import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.observeEvent
+import com.jdevs.timeo.util.extensions.setupAdapter
 import javax.inject.Inject
 
 class OverviewFragment : Fragment() {

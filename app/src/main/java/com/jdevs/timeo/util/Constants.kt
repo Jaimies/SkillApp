@@ -31,7 +31,7 @@ object ActivitiesConstants {
     const val PAGE_SIZE = 20L
     const val VISIBLE_THRESHOLD = 5
     const val NAME_MAX_LENGTH = 100
-    const val TOP_ACTIVITIES_COUNT = 5L
+    const val TOP_ACTIVITIES_COUNT = 3L
 }
 
 object RecordsConstants {
@@ -47,7 +47,7 @@ object ProjectsConstants {
     const val COLLECTION = "projects"
     const val PAGE_SIZE = 40L
     const val VISIBLE_THRESHOLD = 10
-    const val TOP_PROJECTS_COUNT = 5L
+    const val TOP_PROJECTS_COUNT = 3L
 }
 
 object StatsConstants {

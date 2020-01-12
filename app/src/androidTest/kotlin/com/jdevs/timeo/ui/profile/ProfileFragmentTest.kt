@@ -28,7 +28,7 @@ import javax.inject.Inject
 class ProfileFragmentTest {
 
     @Inject
-    lateinit var fakeUserManager: FakeAuthRepository
+    lateinit var fakeAuthRepository: FakeAuthRepository
 
     init {
 
@@ -39,7 +39,7 @@ class ProfileFragmentTest {
     fun showProfile_clickSignIn_navigateToSignInFragment() {
 
         // GIVEN - The user is not signed in
-        fakeUserManager.signOut()
+        fakeAuthRepository.signOut()
 
         // WHEN - The fragment is launched to show profile
         val scenario = launchFragmentInContainer<ProfileFragment>(Bundle(), R.style.Theme_Timeo)
@@ -60,14 +60,14 @@ class ProfileFragmentTest {
             .perform(click())
 
         // Verify we navigate to SignInFragment
-        verify(navController).navigate(R.id.action_profileFragment_to_signInFragment)
+        verify(navController).navigate(R.id.signin_fragment_dest)
     }
 
     @Test
     fun showProfile_userIsSignedIn_showsSignOutButton() {
 
         // GIVEN - The user is signed in
-        fakeUserManager.signIn()
+        fakeAuthRepository.signIn()
 
         // WHEN - The fragment is launched to show profile
         launchFragmentInContainer<ProfileFragment>(Bundle(), R.style.Theme_Timeo)

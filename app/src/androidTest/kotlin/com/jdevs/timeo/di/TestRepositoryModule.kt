@@ -3,10 +3,12 @@ package com.jdevs.timeo.di
 import com.jdevs.timeo.data.FakeActivitiesRepository
 import com.jdevs.timeo.data.FakeProjectsRepository
 import com.jdevs.timeo.data.FakeRecordsRepository
+import com.jdevs.timeo.data.FakeSettingsRepository
 import com.jdevs.timeo.data.FakeStatsRepository
 import com.jdevs.timeo.data.activities.ActivitiesRepository
 import com.jdevs.timeo.data.projects.ProjectsRepository
 import com.jdevs.timeo.data.records.RecordsRepository
+import com.jdevs.timeo.data.settings.SettingsRepository
 import com.jdevs.timeo.data.stats.StatsRepository
 import dagger.Binds
 import dagger.Module
@@ -25,4 +27,7 @@ interface TestRepositoryModule {
 
     @Binds
     fun provideStatsRepository(repository: FakeStatsRepository): StatsRepository
+
+    @Binds
+    fun provideSettingsRepository(repository: FakeSettingsRepository): SettingsRepository
 }

@@ -1,12 +1,13 @@
 package com.jdevs.timeo.data.settings
 
 import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import javax.inject.Inject
 
 interface SettingsRepository {
 
-    val activitiesEnabled: MutableLiveData<Boolean>
+    val activitiesEnabled: LiveData<Boolean>
 
     fun setActivitiesEnabled(isEnabled: Boolean)
 }

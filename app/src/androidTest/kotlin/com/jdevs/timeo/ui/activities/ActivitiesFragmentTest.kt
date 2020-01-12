@@ -15,7 +15,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.FakeActivitiesRepository
-import com.jdevs.timeo.data.FakeAuthRepository
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,13 +34,9 @@ class ActivitiesFragmentTest {
     @Inject
     lateinit var repository: FakeActivitiesRepository
 
-    @Inject
-    lateinit var fakeAuthRepository: FakeAuthRepository
-
     init {
 
         testAppComponent.inject(this)
-        fakeAuthRepository.signOut()
     }
 
     @Before
@@ -93,6 +88,6 @@ class ActivitiesFragmentTest {
         onView(withId(R.id.create_activity_button)).perform(click())
 
         // THEN - Verify that we navigate to AddEditActivityFragment
-        verify(navController).navigate(R.id.action_activitiesFragment_to_addActivityFragment)
+        verify(navController).navigate(R.id.addactivity_fragment_dest)
     }
 }

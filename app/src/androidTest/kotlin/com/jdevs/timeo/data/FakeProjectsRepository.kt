@@ -26,7 +26,7 @@ class FakeProjectsRepository @Inject constructor() : ProjectsRepository {
         notifyObservers()
     }
 
-    override fun getTopProjects() = MutableLiveData(projectsList.toList())
+    override val topProjects get() = MutableLiveData(projectsList.toList())
 
     override fun getProjectById(id: Int, documentId: String): LiveData<Project> {
 

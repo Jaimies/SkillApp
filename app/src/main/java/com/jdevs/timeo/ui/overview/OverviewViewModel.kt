@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.summary
+package com.jdevs.timeo.ui.overview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import com.jdevs.timeo.domain.settings.GetSettingsUseCase
 import com.jdevs.timeo.util.SingleLiveEvent
 import javax.inject.Inject
 
-class SummaryViewModel @Inject constructor(
+class OverviewViewModel @Inject constructor(
     private val getTopProjectsUseCase: GetTopProjectsUseCase,
     private val getTopActivitiesUseCase: GetTopActivitiesUseCase,
     private val getSettingsUseCase: GetSettingsUseCase
@@ -17,7 +17,7 @@ class SummaryViewModel @Inject constructor(
 
     val topProjects get() = getTopProjectsUseCase.topProjects
     val topActivities get() = getTopActivitiesUseCase.topActivities
-    val activitiesEnabled get() = getSettingsUseCase.activitiesEnabled.value!!
+    val activitiesEnabled get() = getSettingsUseCase.activitiesEnabled
 
     val areProjectsLoading get() = _areProjectsLoading as LiveData<Boolean>
     val areProjectsEmpty get() = _areProjectsEmpty as LiveData<Boolean>

@@ -9,8 +9,6 @@ import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.jdevs.timeo.util.extensions.setupWithNavController
 import com.jdevs.timeo.util.hideKeyboard
@@ -23,22 +21,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
-    private val appBarConfiguration by lazyUnsynchronized { AppBarConfiguration(topLevelDestinations) }
     private val graphsToRecreate = mutableListOf<Int>()
 
-    private val navGraphIds = listOf(
-        R.navigation.overview,
-        R.navigation.summary,
-        R.navigation.stay_focused,
-        R.navigation.profile
-    )
-
-    private val topLevelDestinations = setOf(
-        R.id.overview_fragment_dest,
-        R.id.activities_fragment_dest,
-        R.id.stay_focused_dest,
-        R.id.profile_fragment_dest
-    )
+    private val navGraphIds =
+        listOf(R.navigation.overview, R.navigation.calendar, R.navigation.profile)
 
     private val knownActions = arrayOf(
         R.id.action_activitiesFragment_to_addActivityFragment,
@@ -70,7 +56,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     override fun onSupportNavigateUp() =
-        currentNavController.value?.navigateUp(appBarConfiguration) ?: false || super.onSupportNavigateUp()
+        currentNavController.value?.navigateUp() ?: false || super.onSupportNavigateUp()
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -118,7 +104,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }
     }
 
-    fun navigateToGraph(@IdRes graphId: Int, graphs: List<Int> = listOf(R.navigation.summary)) {
+    fun navigateToGraph(@IdRes graphId: Int, graphs: List<Int> = listOf(R.navigation.overview)) {
 
         bottomNavView.selectedItemId = graphId
 

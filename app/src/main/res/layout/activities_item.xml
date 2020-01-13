@@ -10,51 +10,89 @@
             type="com.jdevs.timeo.ui.activities.ActivityViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/activities_item_height"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_default"
-        android:background="@drawable/activities_item_background"
-        android:gravity="center_vertical"
-        android:onClick="@{() -> viewModel.navigateToDetails()}"
-        android:paddingStart="@dimen/padding_medium"
-        android:paddingEnd="@dimen/padding_medium">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activities_item_height"
+            android:background="@drawable/activities_item_background"
             android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="@{viewModel.name}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/total_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Activity name" />
+            android:onClick="@{() -> viewModel.navigateToDetails()}"
+            android:paddingStart="@dimen/padding_medium"
+            android:paddingEnd="@dimen/padding_medium">
 
-        <TextView
-            android:id="@+id/total_time"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/margin_default"
-            android:paddingEnd="@dimen/margin_default"
-            android:text="@{viewModel.totalTime}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            app:layout_constraintEnd_toStartOf="@+id/plus_button"
-            tools:text="820h" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@{viewModel.name}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/total_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Activity name" />
 
-        <ImageButton
-            android:id="@+id/plus_button"
-            android:layout_width="@dimen/activities_plus_button_size"
-            android:layout_height="@dimen/activities_plus_button_size"
-            android:background="@drawable/activities_item_plus_button"
-            android:onClick="@{() -> viewModel.showRecordDialog()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+            <TextView
+                android:id="@+id/total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/margin_default"
+                android:paddingEnd="@dimen/margin_default"
+                android:text="@{viewModel.totalTime}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintEnd_toStartOf="@+id/plus_button"
+                tools:text="820h" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                android:id="@+id/plus_button"
+                android:layout_width="@dimen/activities_plus_button_size"
+                android:layout_height="@dimen/activities_plus_button_size"
+                android:background="@drawable/activities_item_plus_button"
+                android:onClick="@{() -> viewModel.showRecordDialog()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_tiny">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.prevMilestone}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                tools:text="0h" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.nextMilestone}"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    tools:text="25h" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="@{viewModel.gradientPercentage}"
+            android:progressDrawable="@drawable/activity_progressbar" />
+    </LinearLayout>
 </layout>

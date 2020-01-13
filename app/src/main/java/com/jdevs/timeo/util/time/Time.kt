@@ -32,9 +32,12 @@ fun Long.toHours(): String {
     val time = this / HOUR_MINUTES.toFloat()
 
     val timeString = "%.1f".format(time)
-
     return if (timeString.takeLast(1) == "0") timeString.dropLast(2) else timeString
 }
+
+fun Long.getProgress() = toInt().rem(TWENTY_FIVE_HOURS) * PERCENT_COUNT / TWENTY_FIVE_HOURS
+fun Long.getPrevMilestone() = toInt() - rem(TWENTY_FIVE_HOURS)
+fun Long.getNextMilestone() = getPrevMilestone() + TWENTY_FIVE_HOURS
 
 fun Int.toHours() = toLong().toHours()
 
@@ -51,3 +54,5 @@ fun Long.getAvgDailyHours(timestamp: OffsetDateTime): String {
 const val HOUR_MINUTES = 60
 const val DAY_HOURS = 24
 const val WEEK_DAYS = 7
+private const val TWENTY_FIVE_HOURS = 25 * 60
+private const val PERCENT_COUNT = 100

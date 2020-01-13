@@ -2,12 +2,12 @@ package com.jdevs.timeo.ui.activitydetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.domain.activities.GetActivityByIdUseCase
 import com.jdevs.timeo.domain.records.AddRecordUseCase
 import com.jdevs.timeo.model.Activity
 import com.jdevs.timeo.model.Record
+import com.jdevs.timeo.ui.activities.ActivityDataViewModel
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgDailyHours
 import com.jdevs.timeo.util.time.toHours
@@ -17,24 +17,19 @@ import javax.inject.Inject
 class ActivityDetailViewModel @Inject constructor(
     private val getActivityByIdUseCase: GetActivityByIdUseCase,
     private val addRecordUseCase: AddRecordUseCase
-) : ViewModel() {
+) : ActivityDataViewModel() {
 
-    val name: LiveData<String> get() = _name
     val avgDailyTime: LiveData<String> get() = _avgDailyTime
     val lastWeekTime: LiveData<String> get() = _lastWeekTime
-    val totalTime: LiveData<String> get() = _totalTime
-    private val _name = MutableLiveData("")
     private val _avgDailyTime = MutableLiveData("")
     private val _lastWeekTime = MutableLiveData("")
-    private val _totalTime = MutableLiveData("")
 
     val showRecordDialog = SingleLiveEvent<Any>()
     lateinit var activity: LiveData<Activity>
 
-    fun setActivity(activity: Activity) {
+    override fun setActivity(activity: Activity) {
 
-        _name.value = activity.name
-        _totalTime.value = activity.totalTime.toHours() + "h"
+        super.setActivity(activity)
         _avgDailyTime.value = activity.totalTime.getAvgDailyHours(activity.creationDate) + "h"
         _lastWeekTime.value = activity.lastWeekTime.toHours() + "h"
     }

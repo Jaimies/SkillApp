@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activitydetail.ActivityDetailStatsFragment">
+    tools:context=".ui.activitydetail.ActivityDetailStatsAdapter">
 
     <TextView
         android:id="@+id/title_text_view"
@@ -12,5 +12,4 @@
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         tools:text="Day stats" />
-
 </FrameLayout>

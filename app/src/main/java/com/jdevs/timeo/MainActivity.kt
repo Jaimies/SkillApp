@@ -2,9 +2,11 @@ package com.jdevs.timeo
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -17,8 +19,10 @@ import kotlinx.android.synthetic.main.main_act.bottom_nav_view
 import kotlinx.android.synthetic.main.main_act.nav_host_container
 import kotlinx.android.synthetic.main.main_act.toolbar
 
-class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
+class MainActivity : AppCompatActivity(),
+    NavController.OnDestinationChangedListener {
 
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
     private val graphsToRecreate = mutableListOf<Int>()
@@ -51,6 +55,15 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
                 setupActionBarWithNavController(navController)
                 navController.addOnDestinationChangedListener(this)
+            }
+        }
+
+        viewModel.run {
+
+            if (selectedItemId != -1 && selectedItemId != bottomNavView.selectedItemId) {
+
+                bottomNavView.selectedItemId = selectedItemId
+                bottomNavView.jumpDrawablesToCurrentState()
             }
         }
     }
@@ -98,8 +111,9 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     override fun onDestroy() {
         super.onDestroy()
 
-        if (isFinishing) {
+        viewModel.setSelectedItemId(bottomNavView.selectedItemId)
 
+        if (isFinishing) {
             (application as TimeoApplication).onDestroy()
         }
     }
@@ -116,6 +130,16 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         graphs.forEach {
 
             if (!graphsToRecreate.contains(it)) graphsToRecreate.add(it)
+        }
+    }
+
+    class MainViewModel : ViewModel() {
+
+        var selectedItemId = -1
+            private set
+
+        fun setSelectedItemId(id: Int) {
+            selectedItemId = id
         }
     }
 }

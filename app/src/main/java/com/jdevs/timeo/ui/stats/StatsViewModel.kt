@@ -6,7 +6,9 @@ import com.jdevs.timeo.util.StatsTypes.DAY
 import com.jdevs.timeo.util.StatsTypes.MONTH
 import com.jdevs.timeo.util.StatsTypes.WEEK
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class StatsViewModel @Inject constructor(
     private val getStatsUseCase: GetStatsUseCase
 ) : ListViewModel() {

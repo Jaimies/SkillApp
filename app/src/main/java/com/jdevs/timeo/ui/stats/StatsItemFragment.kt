@@ -11,14 +11,14 @@ import com.jdevs.timeo.common.adapter.PagingAdapter
 import com.jdevs.timeo.databinding.StatsPageFragBinding
 import com.jdevs.timeo.model.DayStats
 import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
+import com.jdevs.timeo.util.StatsTypes.DAY
 import com.jdevs.timeo.util.extensions.getAppComponent
 import javax.inject.Inject
 
-class StatsItemFragment(private val statsType: Int) : ListFragment<DayStats>() {
+class StatsItemFragment : ListFragment<DayStats>() {
 
     override val adapter by lazy { PagingAdapter(StatisticDelegateAdapter()) }
     override val firestoreAdapter by lazy { FirestoreListAdapter() }
-
     override val menuId = -1
 
     @Inject
@@ -30,14 +30,12 @@ class StatsItemFragment(private val statsType: Int) : ListFragment<DayStats>() {
         getAppComponent().inject(this)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        viewModel.setStatsType(statsType)
-
+        viewModel.setStatsType(arguments?.getInt(TYPE) ?: DAY)
         super.onCreateView(inflater, container, savedInstanceState)
 
         val binding = StatsPageFragBinding.inflate(inflater, container, false).also {
@@ -49,5 +47,10 @@ class StatsItemFragment(private val statsType: Int) : ListFragment<DayStats>() {
         }
 
         return binding.root
+    }
+
+    companion object {
+
+        const val TYPE = "type"
     }
 }

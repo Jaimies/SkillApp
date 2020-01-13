@@ -49,7 +49,7 @@ class ActivityDetailFragment : ActionBarFragment() {
             it.lifecycleOwner = this
             it.viewModel = viewModel
 
-            it.statsViewpager.adapter = ActivityDetailStatsAdapter(this) { statsType ->
+            it.statsViewpager.adapter = ActivityDetailStatsAdapter { statsType ->
 
                 val directions = ActivityDetailFragmentDirections
                     .actionActivityDetailFragmentToStatsFragment(statsType)

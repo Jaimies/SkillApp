@@ -30,10 +30,6 @@ object Versions {
     const val firestore = "21.3.1"
     const val auth = "19.2.0"
     const val gmsAuth = "17.0.0"
-    const val analytics = "17.2.1"
-    const val crashlytics = "2.10.1"
-    const val perf = "19.0.2"
-    const val fabric = "1.31.2"
 
     // Gson
     const val gson = "2.8.6"
@@ -48,7 +44,6 @@ object Versions {
     // Classpath
     const val gradle = "3.5.3"
     const val gms = "4.3.3"
-    const val perfClasspath = "1.3.1"
 
     // Test
     const val junit = "4.12"
@@ -62,4 +57,7 @@ object Versions {
     const val androidxTestCore = "1.2.0"
     const val mockito = "3.2.4"
     const val dexMaker = "2.25.1"
+
+    // Android-Debug-Database
+    const val debugDb = "1.0.6"
 }

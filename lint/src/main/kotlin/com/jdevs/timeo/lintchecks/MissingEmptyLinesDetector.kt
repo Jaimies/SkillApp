@@ -63,13 +63,10 @@ class MissingEmptyLinesDetector : Detector(), Detector.UastScanner {
     @Suppress("TooManyFunctions")
     class MethodBlocksHandler(private val context: JavaContext) : UElementHandler() {
 
-        override fun visitForEachExpression(node: UForEachExpression) {
+        override fun visitForEachExpression(node: UForEachExpression) =
             checkWhiteSpaceAroundBlock(node)
-        }
 
-        override fun visitForExpression(node: UForExpression) {
-            checkWhiteSpaceAroundBlock(node)
-        }
+        override fun visitForExpression(node: UForExpression) = checkWhiteSpaceAroundBlock(node)
 
         override fun visitIfExpression(node: UIfExpression) {
             if (node.thenExpression !is UBlockExpression) {
@@ -79,21 +76,15 @@ class MissingEmptyLinesDetector : Detector(), Detector.UastScanner {
             checkWhiteSpaceAroundBlock(node)
         }
 
-        override fun visitWhileExpression(node: UWhileExpression) {
-            checkWhiteSpaceAroundBlock(node)
-        }
+        override fun visitWhileExpression(node: UWhileExpression) = checkWhiteSpaceAroundBlock(node)
 
-        override fun visitDoWhileExpression(node: UDoWhileExpression) {
+        override fun visitDoWhileExpression(node: UDoWhileExpression) =
             checkWhiteSpaceAroundBlock(node)
-        }
 
-        override fun visitSwitchExpression(node: USwitchExpression) {
+        override fun visitSwitchExpression(node: USwitchExpression) =
             checkWhiteSpaceAroundBlock(node)
-        }
 
-        override fun visitTryExpression(node: UTryExpression) {
-            checkWhiteSpaceAroundBlock(node)
-        }
+        override fun visitTryExpression(node: UTryExpression) = checkWhiteSpaceAroundBlock(node)
 
         private fun checkWhiteSpaceAroundBlock(node: UElement) {
             checkWhiteSpaceAroundBlock(node, true)
@@ -157,10 +148,8 @@ class MissingEmptyLinesDetector : Detector(), Detector.UastScanner {
         private fun getBraceNodeIElementType(forward: Boolean) = if (forward) "RBRACE" else "LBRACE"
 
         private fun createQuickFix() = LintFix.create()
-            .name("Add extra line")
-            .replace()
-            .text("\n")
-            .with("\n\n")
+            .name("Add extra line").replace()
+            .text("\n").with("\n\n")
             .autoFix(true, true)
             .build()
     }

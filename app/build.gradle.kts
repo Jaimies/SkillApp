@@ -6,8 +6,6 @@ plugins {
     kotlin("kapt")
 
     id("androidx.navigation.safeargs.kotlin")
-//    id("io.fabric")
-//    id("com.google.firebase.firebase-perf")
     id("com.google.gms.google-services")
     id("io.gitlab.arturbosch.detekt") version Versions.detekt
 }
@@ -63,29 +61,20 @@ android {
             isShrinkResources = true
 
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
 
             signingConfig = signingConfigs.getByName("release")
-            manifestPlaceholders = mapOf("crashlyticsEnabled" to true)
-        }
-
-        getByName("debug") {
-
-            manifestPlaceholders = mapOf("crashlyticsEnabled" to false)
         }
     }
 
     sourceSets {
 
         getByName("androidTest") {
-
             java.setSrcDirs(listOf("src/sharedTest/kotlin", "src/androidTest/kotlin"))
         }
 
         getByName("test") {
-
             java.setSrcDirs(listOf("src/sharedTest/kotlin", "src/test/kotlin"))
         }
     }
@@ -109,16 +98,16 @@ detekt {
 dependencies {
 
     // Kotlin
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}")
+    implementation(kotlin("stdlib-jdk7", Versions.kotlin))
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}")
 
     // Core Android libraries and legacy support
     implementation("androidx.core:core-ktx:${Versions.androidxCore}")
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}")
     implementation("androidx.legacy:legacy-support-v4:${Versions.legacy}")
-
-    // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}")
 
     // Extensions
     implementation("androidx.fragment:fragment-ktx:${Versions.fragmentKtx}")
@@ -139,9 +128,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:${Versions.gmsAuth}")
     implementation("com.google.firebase:firebase-firestore:${Versions.firestore}")
     debugImplementation("com.google.code.gson:gson:${Versions.gson}")
-//    implementation("com.google.firebase:firebase-analytics:${Versions.analytics}")
-//    implementation("com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}")
-//    implementation("com.google.firebase:firebase-perf:${Versions.perf}")
 
     // Room
     implementation("androidx.room:room-runtime:${Versions.room}")
@@ -193,5 +179,5 @@ dependencies {
     // To enable, run adb forward tcp:8080 tcp:8080
     // (/home/alex/Android/Sdk/platform-tools/adb forward tcp:8080 tcp:8080)
     // and connect to http://localhost:8080
-    debugImplementation("com.amitshekhar.android:debug-db:1.0.6")
+    debugImplementation("com.amitshekhar.android:debug-db:${Versions.debugDb}")
 }

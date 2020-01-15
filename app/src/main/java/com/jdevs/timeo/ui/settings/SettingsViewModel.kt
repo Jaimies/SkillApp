@@ -1,8 +1,8 @@
 package com.jdevs.timeo.ui.settings
 
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.domain.settings.GetSettingsUseCase
-import com.jdevs.timeo.domain.settings.UpdateSettingsUseCase
+import com.jdevs.timeo.domain.usecase.settings.GetSettingsUseCase
+import com.jdevs.timeo.domain.usecase.settings.UpdateSettingsUseCase
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(

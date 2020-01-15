@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.model.Project
+import com.jdevs.timeo.domain.model.Project
+import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
 import com.jdevs.timeo.util.ProjectsConstants
 import com.jdevs.timeo.util.ProjectsConstants.TOP_PROJECTS_COUNT

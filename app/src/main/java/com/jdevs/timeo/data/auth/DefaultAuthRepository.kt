@@ -3,23 +3,10 @@ package com.jdevs.timeo.data.auth
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.await
 import javax.inject.Inject
 import javax.inject.Singleton
-
-interface AuthRepository {
-
-    val isUserSignedIn: Boolean
-    val uid: String?
-
-    suspend fun createAccount(email: String, password: String)
-
-    suspend fun signIn(email: String, password: String)
-
-    suspend fun linkGoogleAccount(account: GoogleSignInAccount)
-
-    fun signOut()
-}
 
 @Singleton
 class DefaultAuthRepository @Inject constructor() : AuthRepository {

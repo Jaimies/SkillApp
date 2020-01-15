@@ -1,14 +1,13 @@
 package com.jdevs.timeo.ui.signin
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.jdevs.timeo.data.auth.AuthRepository
+import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.extensions.launchSuspendingProcess
 import javax.inject.Inject
 
-class SignInViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-) : AuthViewModel() {
+class SignInViewModel @Inject constructor(private val authRepository: AuthRepository) :
+    AuthViewModel() {
 
     val signIn = SingleLiveEvent<Pair<String, String>>()
     val showGoogleSignInIntent = SingleLiveEvent<Any>()

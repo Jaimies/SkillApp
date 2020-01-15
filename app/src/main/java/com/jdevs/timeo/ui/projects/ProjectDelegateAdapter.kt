@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.common.adapter.DelegateAdapter
-import com.jdevs.timeo.common.adapter.PagingAdapter
-import com.jdevs.timeo.common.adapter.ViewItem
-import com.jdevs.timeo.common.adapter.createViewModel
 import com.jdevs.timeo.databinding.ProjectsItemBinding
-import com.jdevs.timeo.model.Project
+import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.ui.activities.RecordDialog
+import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
+import com.jdevs.timeo.ui.common.adapter.PagingAdapter
+import com.jdevs.timeo.ui.common.adapter.ViewItem
+import com.jdevs.timeo.ui.common.adapter.createViewModel
 import com.jdevs.timeo.util.extensions.getFragmentActivity
 
 class ProjectDelegateAdapter : DelegateAdapter {

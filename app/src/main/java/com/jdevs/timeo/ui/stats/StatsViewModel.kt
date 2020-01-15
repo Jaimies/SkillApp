@@ -1,7 +1,7 @@
 package com.jdevs.timeo.ui.stats
 
-import com.jdevs.timeo.common.viewmodel.ListViewModel
-import com.jdevs.timeo.domain.stats.GetStatsUseCase
+import com.jdevs.timeo.domain.usecase.stats.GetStatsUseCase
+import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.StatsTypes.DAY
 import com.jdevs.timeo.util.StatsTypes.MONTH
 import com.jdevs.timeo.util.StatsTypes.WEEK

@@ -3,8 +3,8 @@ package com.jdevs.timeo.data.settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentReference
-import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
+import com.jdevs.timeo.domain.repository.AuthRepository
 import javax.inject.Inject
 
 interface UserDataSource {

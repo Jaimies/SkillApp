@@ -1,7 +1,7 @@
 package com.jdevs.timeo.util.extensions
 
 import androidx.lifecycle.viewModelScope
-import com.jdevs.timeo.common.viewmodel.LoaderViewModel
+import com.jdevs.timeo.ui.common.viewmodel.LoaderViewModel
 import kotlinx.coroutines.launch
 
 @Suppress("TooGenericExceptionCaught")

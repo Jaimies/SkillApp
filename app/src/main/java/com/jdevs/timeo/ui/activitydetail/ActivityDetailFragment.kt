@@ -10,9 +10,9 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
+import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.stats.setupTabLayoutMediator
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.observeEvent

@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.ListFragment
-import com.jdevs.timeo.common.adapter.FirestoreListAdapter
-import com.jdevs.timeo.common.adapter.PagingAdapter
 import com.jdevs.timeo.databinding.HistoryFragBinding
-import com.jdevs.timeo.model.Record
+import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.ui.common.ListFragment
+import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
+import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.showSnackbar

@@ -1,7 +1,7 @@
 package com.jdevs.timeo.ui.projects
 
-import com.jdevs.timeo.common.viewmodel.ListViewModel
-import com.jdevs.timeo.domain.projects.GetProjectsUseCase
+import com.jdevs.timeo.domain.usecase.projects.GetProjectsUseCase
+import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.SingleLiveEvent
 import javax.inject.Inject
 

@@ -2,8 +2,8 @@ package com.jdevs.timeo.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.data.projects.ProjectsRepository
-import com.jdevs.timeo.model.Project
+import com.jdevs.timeo.domain.model.Project
+import com.jdevs.timeo.domain.repository.ProjectsRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

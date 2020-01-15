@@ -2,11 +2,11 @@ package com.jdevs.timeo.data.records
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.WriteBatch
-import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.model.Record
+import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID
 import com.jdevs.timeo.util.FirestoreConstants.NAME
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP

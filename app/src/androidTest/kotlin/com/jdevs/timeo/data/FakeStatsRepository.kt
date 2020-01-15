@@ -1,10 +1,10 @@
 package com.jdevs.timeo.data
 
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.data.stats.StatsRepository
-import com.jdevs.timeo.model.DayStats
-import com.jdevs.timeo.model.MonthStats
-import com.jdevs.timeo.model.WeekStats
+import com.jdevs.timeo.domain.model.DayStats
+import com.jdevs.timeo.domain.model.MonthStats
+import com.jdevs.timeo.domain.model.WeekStats
+import com.jdevs.timeo.domain.repository.StatsRepository
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -10,11 +10,11 @@ import androidx.core.view.forEach
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.ListFragment
-import com.jdevs.timeo.common.adapter.FirestoreListAdapter
-import com.jdevs.timeo.common.adapter.PagingAdapter
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
-import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.ui.common.ListFragment
+import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
+import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.observeEvent

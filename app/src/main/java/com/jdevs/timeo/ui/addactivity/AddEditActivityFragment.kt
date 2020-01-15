@@ -11,9 +11,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.AddactivityFragBinding
-import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.getCoroutineIoScope

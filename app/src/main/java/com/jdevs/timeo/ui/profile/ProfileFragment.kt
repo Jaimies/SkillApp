@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.ActionBarFragment
 import com.jdevs.timeo.databinding.ProfileFragBinding
+import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.navigateToGraph
 import com.jdevs.timeo.util.extensions.observeEvent

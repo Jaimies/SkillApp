@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.jdevs.timeo.data.settings.DefaultSettingsRepository
 import com.jdevs.timeo.data.settings.FirestoreUserDataSource
-import com.jdevs.timeo.data.settings.SettingsRepository
 import com.jdevs.timeo.data.settings.UserDataSource
+import com.jdevs.timeo.domain.repository.SettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

@@ -9,7 +9,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.data.activities.DBActivity
-import com.jdevs.timeo.model.Record
+import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.util.time.toOffsetDate
 import org.threeten.bp.OffsetDateTime
 import java.util.Date

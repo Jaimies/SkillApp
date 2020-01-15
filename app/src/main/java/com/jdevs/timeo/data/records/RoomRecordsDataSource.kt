@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.db.TimeoDatabase
 import com.jdevs.timeo.data.db.toLivePagedList
-import com.jdevs.timeo.model.Record
+import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.util.PagingConstants.RECORDS_PAGE_SIZE
 import com.jdevs.timeo.util.time.getDaysSinceEpoch
 import com.jdevs.timeo.util.time.getMonthSinceEpoch

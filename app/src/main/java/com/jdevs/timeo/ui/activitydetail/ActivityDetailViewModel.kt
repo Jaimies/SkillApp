@@ -3,10 +3,10 @@ package com.jdevs.timeo.ui.activitydetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.jdevs.timeo.domain.activities.GetActivityByIdUseCase
-import com.jdevs.timeo.domain.records.AddRecordUseCase
-import com.jdevs.timeo.model.Activity
-import com.jdevs.timeo.model.Record
+import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.domain.usecase.activities.GetActivityByIdUseCase
+import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.ui.activities.ActivityDataViewModel
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgDailyHours

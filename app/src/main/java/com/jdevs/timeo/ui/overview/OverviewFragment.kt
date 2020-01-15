@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
-import com.jdevs.timeo.common.adapter.ListAdapter
 import com.jdevs.timeo.databinding.OverviewFragBinding
-import com.jdevs.timeo.model.Activity
-import com.jdevs.timeo.model.Project
+import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
+import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.observeEvent

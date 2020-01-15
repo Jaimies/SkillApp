@@ -4,10 +4,10 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.FirebaseFirestoreException.Code
-import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.FirestoreConstants.TIME
 import com.jdevs.timeo.util.StatsConstants
 import com.jdevs.timeo.util.StatsConstants.DAY_PROPERTY

@@ -8,8 +8,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.jdevs.timeo.common.adapter.ViewItem
 import com.jdevs.timeo.data.Mapper
+import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
 import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED

@@ -5,11 +5,11 @@ import com.jdevs.timeo.data.FakeProjectsRepository
 import com.jdevs.timeo.data.FakeRecordsRepository
 import com.jdevs.timeo.data.FakeSettingsRepository
 import com.jdevs.timeo.data.FakeStatsRepository
-import com.jdevs.timeo.data.activities.ActivitiesRepository
-import com.jdevs.timeo.data.projects.ProjectsRepository
-import com.jdevs.timeo.data.records.RecordsRepository
-import com.jdevs.timeo.data.settings.SettingsRepository
-import com.jdevs.timeo.data.stats.StatsRepository
+import com.jdevs.timeo.domain.repository.ActivitiesRepository
+import com.jdevs.timeo.domain.repository.ProjectsRepository
+import com.jdevs.timeo.domain.repository.RecordsRepository
+import com.jdevs.timeo.domain.repository.SettingsRepository
+import com.jdevs.timeo.domain.repository.StatsRepository
 import dagger.Binds
 import dagger.Module
 

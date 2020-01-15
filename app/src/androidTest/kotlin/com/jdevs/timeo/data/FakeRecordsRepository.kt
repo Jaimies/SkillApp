@@ -2,8 +2,8 @@ package com.jdevs.timeo.data
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.WriteBatch
-import com.jdevs.timeo.data.records.RecordsRepository
-import com.jdevs.timeo.model.Record
+import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.domain.repository.RecordsRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

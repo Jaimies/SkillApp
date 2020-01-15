@@ -1,7 +1,7 @@
 package com.jdevs.timeo.data.firestore
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.jdevs.timeo.data.auth.AuthRepository
+import com.jdevs.timeo.domain.repository.AuthRepository
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 

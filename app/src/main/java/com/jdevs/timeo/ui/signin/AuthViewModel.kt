@@ -2,7 +2,7 @@ package com.jdevs.timeo.ui.signin
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.common.viewmodel.LoaderViewModel
+import com.jdevs.timeo.ui.common.viewmodel.LoaderViewModel
 
 abstract class AuthViewModel : LoaderViewModel() {
 

@@ -1,6 +1,6 @@
 package com.jdevs.timeo.data
 
-import com.jdevs.timeo.data.auth.AuthRepository
+import com.jdevs.timeo.domain.repository.AuthRepository
 
 @Suppress("UnnecessaryAbstractClass")
 abstract class Repository<T, Remote : T>(

@@ -1,7 +1,7 @@
 package com.jdevs.timeo.di
 
-import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.auth.DefaultAuthRepository
+import com.jdevs.timeo.domain.repository.AuthRepository
 import dagger.Binds
 import dagger.Module
 

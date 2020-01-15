@@ -3,9 +3,9 @@ package com.jdevs.timeo.ui.overview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.domain.activities.GetTopActivitiesUseCase
-import com.jdevs.timeo.domain.projects.GetTopProjectsUseCase
-import com.jdevs.timeo.domain.settings.GetSettingsUseCase
+import com.jdevs.timeo.domain.usecase.activities.GetTopActivitiesUseCase
+import com.jdevs.timeo.domain.usecase.projects.GetTopProjectsUseCase
+import com.jdevs.timeo.domain.usecase.settings.GetSettingsUseCase
 import com.jdevs.timeo.util.SingleLiveEvent
 import javax.inject.Inject
 

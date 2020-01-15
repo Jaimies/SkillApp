@@ -1,7 +1,7 @@
 package com.jdevs.timeo.data
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.jdevs.timeo.data.auth.AuthRepository
+import com.jdevs.timeo.domain.repository.AuthRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

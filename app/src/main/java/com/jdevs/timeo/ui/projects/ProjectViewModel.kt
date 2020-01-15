@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.projects
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.model.Project
+import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.time.toHours
 

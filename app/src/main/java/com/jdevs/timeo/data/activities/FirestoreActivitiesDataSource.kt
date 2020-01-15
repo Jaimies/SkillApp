@@ -6,12 +6,12 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.WriteBatch
-import com.jdevs.timeo.data.auth.AuthRepository
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.model.Activity
+import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.ActivitiesConstants.TOP_ACTIVITIES_COUNT
 import com.jdevs.timeo.util.FirestoreConstants.NAME

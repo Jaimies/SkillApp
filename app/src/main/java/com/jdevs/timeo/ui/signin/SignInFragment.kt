@@ -38,7 +38,7 @@ class SignInFragment : AuthFragment() {
             .requestEmail()
             .build()
 
-        GoogleSignIn.getClient(context!!, googleSignInOptions)
+        GoogleSignIn.getClient(requireContext(), googleSignInOptions)
     }
 
     @Inject
@@ -63,11 +63,7 @@ class SignInFragment : AuthFragment() {
 
         observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
         observeEvent(viewModel.signIn) { signIn(it!!.first, it.second) }
-
-        observeEvent(viewModel.showGoogleSignInIntent) {
-
-            showGoogleSignInIntent()
-        }
+        observeEvent(viewModel.showGoogleSignInIntent) { showGoogleSignInIntent() }
 
         observeEvent(viewModel.navigateToSignUp) {
 
@@ -100,8 +96,7 @@ class SignInFragment : AuthFragment() {
         hideKeyboard()
         viewModel.showLoader()
 
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
+        startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -135,10 +130,7 @@ class SignInFragment : AuthFragment() {
 
     private fun linkGoogleAccount(account: GoogleSignInAccount) {
 
-        viewModel.signInWithGoogle(account, ::onGoogleSignInFailed) {
-
-            navigateToOverview()
-        }
+        viewModel.signInWithGoogle(account, ::onGoogleSignInFailed, ::navigateToOverview)
     }
 
     private fun onGoogleSignInFailed(exception: Exception) {

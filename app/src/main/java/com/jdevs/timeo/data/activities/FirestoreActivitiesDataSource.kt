@@ -51,15 +51,9 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
         activitiesRef.orderBy(TOTAL_TIME, Query.Direction.DESCENDING).limit(TOP_ACTIVITIES_COUNT)
             .addSnapshotListener { querySnapshot, _ ->
 
-                querySnapshot?.run {
-
-                    val newList = documentChanges.map {
-
-                        it.document.toObject(FirestoreActivity::class.java).mapToDomain()
-                    }
-
-                    liveData.value = newList
-                }
+                querySnapshot?.documents?.mapNotNull {
+                    it.toObject(FirestoreActivity::class.java)?.mapToDomain()
+                }?.let { liveData.value = it }
             }
 
         return liveData
@@ -72,10 +66,8 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
         activity.addSnapshotListener { documentSnapshot, _ ->
 
-            if (documentSnapshot != null) {
-
-                liveData.value =
-                    documentSnapshot.toObject(FirestoreActivity::class.java)?.run { mapToDomain() }
+            documentSnapshot?.toObject(FirestoreActivity::class.java)?.let {
+                liveData.value = it.mapToDomain()
             }
         }
 

@@ -39,15 +39,9 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
         projectsRef.orderBy(TOTAL_TIME, Query.Direction.DESCENDING).limit(TOP_PROJECTS_COUNT)
             .addSnapshotListener { querySnapshot, _ ->
 
-                querySnapshot?.run {
-
-                    val newList = documentChanges.map {
-
-                        it.document.toObject(FirestoreProject::class.java).mapToDomain()
-                    }
-
-                    liveData.value = newList
-                }
+                querySnapshot?.documents?.mapNotNull {
+                    it.toObject(FirestoreProject::class.java)?.mapToDomain()
+                }?.let { liveData.value = it }
             }
 
         return liveData
@@ -60,10 +54,8 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
 
         project.addSnapshotListener { documentSnapshot, _ ->
 
-            if (documentSnapshot != null) {
-
-                liveData.value =
-                    documentSnapshot.toObject(FirestoreProject::class.java)?.run { mapToDomain() }
+            documentSnapshot?.toObject(FirestoreProject::class.java)?.let {
+                liveData.value = it.mapToDomain()
             }
         }
 

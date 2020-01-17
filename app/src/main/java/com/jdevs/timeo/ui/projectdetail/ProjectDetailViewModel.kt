@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProjectDetailViewModel @Inject constructor(
-    private val getActivityById: GetProjectByIdUseCase,
+    private val getProjectById: GetProjectByIdUseCase,
     private val addRecord: AddRecordUseCase
 ) : ViewModel() {
 
@@ -42,7 +42,7 @@ class ProjectDetailViewModel @Inject constructor(
 
     fun setupProjectLiveData(project: Project) {
 
-        this.project = getActivityById(project.id, project.documentId)
+        this.project = getProjectById(project.id, project.documentId)
     }
 
     fun addRecord(project: Project, time: Long) = viewModelScope.launch {

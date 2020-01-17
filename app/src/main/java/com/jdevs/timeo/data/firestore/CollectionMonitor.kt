@@ -64,8 +64,8 @@ class CollectionMonitor(
 
 fun <T : Any> createCollectionMonitor(
     type: KClass<out T>,
-    pageSize: Long,
     mapper: Mapper<T, ViewItem>,
+    pageSize: Long,
     orderBy: String = TOTAL_TIME
 ) = CollectionMonitor(createLiveData(type, pageSize, mapper), pageSize, orderBy)
 

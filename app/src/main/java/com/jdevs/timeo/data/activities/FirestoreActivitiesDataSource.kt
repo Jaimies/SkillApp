@@ -41,9 +41,8 @@ class FirestoreActivitiesDataSource @Inject constructor(
 
     private val activitiesMonitor =
         createCollectionMonitor(
-            FirestoreActivity::class,
-            ACTIVITIES_FIRESTORE_PAGE_SIZE,
-            domainMapper
+            FirestoreActivity::class, domainMapper,
+            ACTIVITIES_FIRESTORE_PAGE_SIZE
         )
 
     override val activities
@@ -60,7 +59,6 @@ class FirestoreActivitiesDataSource @Inject constructor(
     override suspend fun saveActivity(id: String, newName: String): WriteBatch {
 
         val activityRef = activitiesRef.document(id)
-
         return db.batch().also { it.update(activityRef, NAME, newName) }
     }
 

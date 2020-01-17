@@ -28,7 +28,7 @@ class FirestoreProjectsDataSource @Inject constructor(
     ProjectsRemoteDataSource {
 
     private val projectsMonitor =
-        createCollectionMonitor(FirestoreProject::class, FIRESTORE_PROJECTS_PAGE_SIZE, domainMapper)
+        createCollectionMonitor(FirestoreProject::class, domainMapper, FIRESTORE_PROJECTS_PAGE_SIZE)
 
     override val projects
         get() = projectsMonitor.safeAccess().getLiveData()

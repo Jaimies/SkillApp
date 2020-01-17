@@ -40,10 +40,8 @@ class FirestoreRecordsDataSource @Inject constructor(
 
     private val recordsMonitor =
         createCollectionMonitor(
-            FirestoreRecord::class,
-            FIRESTORE_RECORDS_PAGE_SIZE,
-            domainMapper,
-            TIMESTAMP
+            FirestoreRecord::class, domainMapper,
+            FIRESTORE_RECORDS_PAGE_SIZE, TIMESTAMP
         )
 
     override val records

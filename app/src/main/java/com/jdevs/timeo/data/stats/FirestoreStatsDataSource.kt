@@ -48,26 +48,20 @@ class FirestoreStatsDataSource @Inject constructor(
 
     private val dayStatsMonitor =
         createCollectionMonitor(
-            FirestoreDayStats::class,
-            FIRESTORE_STATS_PAGE_SIZE,
-            dayStatsMapper,
-            DAY_PROPERTY
+            FirestoreDayStats::class, dayStatsMapper,
+            FIRESTORE_STATS_PAGE_SIZE, DAY_PROPERTY
         )
 
     private val weekStatsMonitor =
         createCollectionMonitor(
-            FirestoreWeekStats::class,
-            FIRESTORE_STATS_PAGE_SIZE,
-            weekStatsMapper,
-            DAY_PROPERTY
+            FirestoreWeekStats::class, weekStatsMapper,
+            FIRESTORE_STATS_PAGE_SIZE, DAY_PROPERTY
         )
 
     private val monthStatsMonitor =
         createCollectionMonitor(
-            FirestoreMonthStats::class,
-            FIRESTORE_STATS_PAGE_SIZE,
-            monthStatsMapper,
-            DAY_PROPERTY
+            FirestoreMonthStats::class, monthStatsMapper,
+            FIRESTORE_STATS_PAGE_SIZE, DAY_PROPERTY
         )
 
     override val dayStats

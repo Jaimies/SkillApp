@@ -21,7 +21,8 @@ class ItemsLiveData(
     private val query: Query,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
     private val onLastItemReached: () -> Unit = {},
-    private val type: Class<out Mapper<*>>,
+    private val type: Class<*>,
+    private val mapper: Mapper<Any, ViewItem>,
     private val pageSize: Long
 ) : LiveData<Operation>(), EventListener<QuerySnapshot> {
 
@@ -37,10 +38,7 @@ class ItemsLiveData(
         listener?.remove()
     }
 
-    override fun onEvent(
-        querySnapshot: QuerySnapshot?,
-        exception: FirebaseFirestoreException?
-    ) {
+    override fun onEvent(querySnapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
 
         if (exception != null || querySnapshot == null) {
 
@@ -83,6 +81,6 @@ class ItemsLiveData(
             DocumentChange.Type.REMOVED -> REMOVED
         }
 
-        value = Operation(data = item.mapToDomain() as ViewItem, type = operationType)
+        value = Operation(mapper.map(item), type = operationType)
     }
 }

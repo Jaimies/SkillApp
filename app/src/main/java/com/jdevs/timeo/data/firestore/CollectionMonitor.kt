@@ -4,10 +4,11 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.Mapper
+import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
 import kotlin.reflect.KClass
 
-typealias LiveDataConstructor = (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ItemsLiveData
+typealias  LiveDataConstructor = (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ItemsLiveData
 
 class CollectionMonitor(
     private val liveData: LiveDataConstructor,
@@ -61,14 +62,24 @@ class CollectionMonitor(
     }
 }
 
-fun createCollectionMonitor(
-    type: KClass<out Mapper<*>>,
+fun <T : Any> createCollectionMonitor(
+    type: KClass<out T>,
     pageSize: Long,
+    mapper: Mapper<T, ViewItem>,
     orderBy: String = TOTAL_TIME
-) = CollectionMonitor(createLiveData(type, pageSize), pageSize, orderBy)
+) = CollectionMonitor(createLiveData(type, pageSize, mapper), pageSize, orderBy)
 
-private fun createLiveData(type: KClass<out Mapper<*>>, pageSize: Long): LiveDataConstructor =
+@Suppress("UNCHECKED_CAST")
+private fun <T : Any> createLiveData(
+    type: KClass<out T>,
+    pageSize: Long,
+    mapper: Mapper<T, ViewItem>
+): LiveDataConstructor =
     { query, setLastVisibleItem, onLastReached ->
 
-        ItemsLiveData(query, setLastVisibleItem, onLastReached, type.java, pageSize)
+        ItemsLiveData(
+            query, setLastVisibleItem, onLastReached,
+            type.java, mapper as Mapper<Any, ViewItem>,
+            pageSize
+        )
     }

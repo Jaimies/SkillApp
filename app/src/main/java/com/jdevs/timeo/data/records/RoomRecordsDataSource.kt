@@ -26,11 +26,15 @@ interface RecordsDataSource {
 }
 
 @Singleton
-class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) : RecordsDataSource {
+class RoomRecordsDataSource @Inject constructor(
+    private val db: TimeoDatabase,
+    private val mapper: DBRecordMapper,
+    private val domainMapper: DBDomainRecordMapper
+) : RecordsDataSource {
 
     override val records by lazy {
 
-        db.recordsDao().getRecords().toLivePagedList(RECORDS_PAGE_SIZE)
+        db.recordsDao().getRecords().toLivePagedList(RECORDS_PAGE_SIZE, domainMapper)
     }
 
     override suspend fun addRecord(record: Record): WriteBatch? = withContext(Dispatchers.IO) {
@@ -39,7 +43,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
 
             launch {
 
-                db.recordsDao().insert(record.toDB())
+                db.recordsDao().insert(mapper.map(record))
                 db.activitiesDao().increaseTime(record.roomActivityId, record.time)
                 registerStats(record.time, record.creationDate)
             }
@@ -54,7 +58,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
 
             launch {
 
-                db.recordsDao().delete(record.toDB())
+                db.recordsDao().delete(mapper.map(record))
                 db.activitiesDao().increaseTime(record.roomActivityId, -record.time)
                 registerStats(-record.time, record.creationDate)
             }

@@ -28,7 +28,7 @@ object FirestoreConstants {
 object ActivitiesConstants {
 
     const val COLLECTION = "activities"
-    const val PAGE_SIZE = 20L
+    const val ACTIVITIES_FIRESTORE_PAGE_SIZE = 20L
     const val VISIBLE_THRESHOLD = 5
     const val NAME_MAX_LENGTH = 100
     const val TOP_ACTIVITIES_COUNT = 3L
@@ -37,7 +37,7 @@ object ActivitiesConstants {
 object RecordsConstants {
 
     const val COLLECTION = "records"
-    const val PAGE_SIZE = 50L
+    const val FIRESTORE_RECORDS_PAGE_SIZE = 50L
     const val VISIBLE_THRESHOLD = 12
     const val RECORD_MIN_TIME = 5
 }
@@ -45,7 +45,7 @@ object RecordsConstants {
 object ProjectsConstants {
 
     const val COLLECTION = "projects"
-    const val PAGE_SIZE = 40L
+    const val FIRESTORE_PROJECTS_PAGE_SIZE = 40L
     const val VISIBLE_THRESHOLD = 10
     const val TOP_PROJECTS_COUNT = 3L
 }
@@ -56,7 +56,7 @@ object StatsConstants {
     const val WEEK_STATS_COLLECTION = "weekStats"
     const val MONTH_STATS_COLLECTION = "monthStats"
     const val DAY_PROPERTY = "day"
-    const val PAGE_SIZE = 30L
+    const val FIRESTORE_STATS_PAGE_SIZE = 30L
     const val STATS_TYPES_COUNT = 3
     const val VISIBLE_THRESHOLD = 8
 }

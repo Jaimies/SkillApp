@@ -7,7 +7,7 @@ abstract class Recordable {
 
     abstract val recentRecords: List<RecordMinimal>
 
-    protected fun getLastWeekTime(): Int {
+    fun getLastWeekTime(): Int {
 
         return recentRecords
             .filter { it.creationDate.getDaysAgo() < WEEK_DAYS }

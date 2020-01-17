@@ -13,6 +13,7 @@ import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.ActivitiesConstants
+import com.jdevs.timeo.util.ActivitiesConstants.ACTIVITIES_FIRESTORE_PAGE_SIZE
 import com.jdevs.timeo.util.ActivitiesConstants.TOP_ACTIVITIES_COUNT
 import com.jdevs.timeo.util.FirestoreConstants.NAME
 import com.jdevs.timeo.util.FirestoreConstants.RECENT_RECORDS
@@ -32,12 +33,19 @@ interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 }
 
 @Singleton
-class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepository) :
-    FirestoreListDataSource(authRepository),
+class FirestoreActivitiesDataSource @Inject constructor(
+    authRepository: AuthRepository,
+    private val mapper: FirestoreActivityMapper,
+    private val domainMapper: FirestoreDomainMapper
+) : FirestoreListDataSource(authRepository),
     ActivitiesRemoteDataSource {
 
     private val activitiesMonitor =
-        createCollectionMonitor(FirestoreActivity::class, ActivitiesConstants.PAGE_SIZE)
+        createCollectionMonitor(
+            FirestoreActivity::class,
+            ACTIVITIES_FIRESTORE_PAGE_SIZE,
+            domainMapper
+        )
 
     override val activities
         get() = activitiesMonitor.safeAccess().getLiveData()
@@ -52,8 +60,8 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
             .addSnapshotListener { querySnapshot, _ ->
 
                 querySnapshot?.documents?.mapNotNull {
-                    it.toObject(FirestoreActivity::class.java)?.mapToDomain()
-                }?.let { liveData.value = it }
+                    it.toObject(FirestoreActivity::class.java)
+                }?.let { liveData.value = it.map(domainMapper::map) }
             }
 
         return liveData
@@ -67,7 +75,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
         activity.addSnapshotListener { documentSnapshot, _ ->
 
             documentSnapshot?.toObject(FirestoreActivity::class.java)?.let {
-                liveData.value = it.mapToDomain()
+                liveData.value = domainMapper.map(it)
             }
         }
 
@@ -86,7 +94,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
     override suspend fun addActivity(activity: Activity) {
 
-        activitiesRef.add(activity.toFirestore())
+        activitiesRef.add(mapper.map(activity))
     }
 
     override suspend fun deleteActivity(activity: Activity) {

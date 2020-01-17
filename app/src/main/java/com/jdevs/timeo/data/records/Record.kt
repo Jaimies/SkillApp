@@ -7,10 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
-import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.data.activities.DBActivity
-import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.util.time.toOffsetDate
 import org.threeten.bp.OffsetDateTime
 import java.util.Date
 
@@ -32,12 +29,7 @@ data class DBRecord(
     var time: Long = 0,
     var activityId: Int = 0,
     var creationDate: OffsetDateTime = OffsetDateTime.now()
-) : Mapper<Record> {
-
-    override fun mapToDomain() = Record(
-        id = id, name = name, time = time, roomActivityId = activityId, creationDate = creationDate
-    )
-}
+)
 
 @Keep
 data class FirestoreRecord(
@@ -48,13 +40,4 @@ data class FirestoreRecord(
     var activityId: String = "",
     @ServerTimestamp
     var timestamp: Date? = null
-) : Mapper<Record> {
-
-    override fun mapToDomain() = Record(
-        documentId = documentId,
-        name = name,
-        time = time,
-        activityId = activityId,
-        creationDate = timestamp.toOffsetDate()
-    )
-}
+)

@@ -10,6 +10,7 @@ import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
 import com.jdevs.timeo.util.ProjectsConstants
+import com.jdevs.timeo.util.ProjectsConstants.FIRESTORE_PROJECTS_PAGE_SIZE
 import com.jdevs.timeo.util.ProjectsConstants.TOP_PROJECTS_COUNT
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,12 +21,16 @@ interface ProjectsRemoteDataSource : ProjectsDataSource {
 }
 
 @Singleton
-class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthRepository) :
+class FirestoreProjectsDataSource @Inject constructor(
+    authRepository: AuthRepository,
+    private val mapper: FirestoreProjectMapper,
+    private val domainMapper: FirestoreDomainProjectMapper
+) :
     FirestoreListDataSource(authRepository),
     ProjectsRemoteDataSource {
 
     private val projectsMonitor =
-        createCollectionMonitor(FirestoreProject::class, ProjectsConstants.PAGE_SIZE)
+        createCollectionMonitor(FirestoreProject::class, FIRESTORE_PROJECTS_PAGE_SIZE, domainMapper)
 
     override val projects
         get() = projectsMonitor.safeAccess().getLiveData()
@@ -40,8 +45,8 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
             .addSnapshotListener { querySnapshot, _ ->
 
                 querySnapshot?.documents?.mapNotNull {
-                    it.toObject(FirestoreProject::class.java)?.mapToDomain()
-                }?.let { liveData.value = it }
+                    it.toObject(FirestoreProject::class.java)
+                }?.let { liveData.value = it.map(domainMapper::map) }
             }
 
         return liveData
@@ -55,7 +60,7 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
         project.addSnapshotListener { documentSnapshot, _ ->
 
             documentSnapshot?.toObject(FirestoreProject::class.java)?.let {
-                liveData.value = it.mapToDomain()
+                liveData.value = domainMapper.map(it)
             }
         }
 
@@ -64,12 +69,12 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
 
     override suspend fun addProject(project: Project) {
 
-        projectsRef.add(project.toFirestore())
+        projectsRef.add(mapper.map(project))
     }
 
     override suspend fun saveProject(project: Project) {
 
-        projectsRef.document(project.documentId).set(project.toFirestore())
+        projectsRef.document(project.documentId).set(mapper.map(project))
     }
 
     override suspend fun deleteProject(project: Project) {

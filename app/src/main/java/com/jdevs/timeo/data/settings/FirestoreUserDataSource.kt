@@ -14,7 +14,10 @@ interface UserDataSource {
     fun updateUserPreferences(field: String, value: Any)
 }
 
-class FirestoreUserDataSource @Inject constructor(authRepository: AuthRepository) :
+class FirestoreUserDataSource @Inject constructor(
+    authRepository: AuthRepository,
+    private val mapper: FirestoreUserMapper
+) :
     FirestoreDataSource(authRepository),
     UserDataSource {
 
@@ -29,7 +32,7 @@ class FirestoreUserDataSource @Inject constructor(authRepository: AuthRepository
             documentSnapshot?.run {
 
                 val newUser = toObject(FirestoreUser::class.java)
-                newUser?.let { liveData.value = it.mapToDomain() }
+                newUser?.let { liveData.value = mapper.map(it) }
             }
         }
 

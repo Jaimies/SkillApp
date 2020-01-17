@@ -3,7 +3,6 @@ package com.jdevs.timeo.data.projects
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.jdevs.timeo.data.db.toLivePagedList
-import com.jdevs.timeo.data.mapToDomain
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.util.PagingConstants.PROJECTS_PAGE_SIZE
 import javax.inject.Inject
@@ -28,25 +27,25 @@ interface ProjectsLocalDataSource : ProjectsDataSource
 
 @Singleton
 class RoomProjectsDataSource @Inject constructor(
-    private val projectsDao: ProjectsDao
+    private val projectsDao: ProjectsDao,
+    private val mapper: DBProjectMapper,
+    private val domainMapper: DBDomainProjectMapper
 ) : ProjectsLocalDataSource {
 
     override val projects by lazy {
 
-        projectsDao.getProjects().toLivePagedList(PROJECTS_PAGE_SIZE)
+        projectsDao.getProjects().toLivePagedList(PROJECTS_PAGE_SIZE, domainMapper)
     }
 
     override fun getTopProjects() =
-        Transformations.map(projectsDao.getTopProjects()) { it.mapToDomain() }
+        Transformations.map(projectsDao.getTopProjects()) { it.map(domainMapper::map) }
 
     override fun getProjectById(id: Int, documentId: String) =
-        Transformations.map(projectsDao.getProjectById(id)) {
-            it.mapToDomain()
-        }
+        Transformations.map(projectsDao.getProjectById(id)) { domainMapper.map(it) }
 
-    override suspend fun addProject(project: Project) = projectsDao.insert(project.toDB())
+    override suspend fun addProject(project: Project) = projectsDao.insert(mapper.map(project))
 
-    override suspend fun saveProject(project: Project) = projectsDao.update(project.toDB())
+    override suspend fun saveProject(project: Project) = projectsDao.update(mapper.map(project))
 
-    override suspend fun deleteProject(project: Project) = projectsDao.delete(project.toDB())
+    override suspend fun deleteProject(project: Project) = projectsDao.delete(mapper.map(project))
 }

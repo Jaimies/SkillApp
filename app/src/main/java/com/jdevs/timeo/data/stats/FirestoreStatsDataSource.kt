@@ -9,9 +9,9 @@ import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.FirestoreConstants.TIME
-import com.jdevs.timeo.util.StatsConstants
 import com.jdevs.timeo.util.StatsConstants.DAY_PROPERTY
 import com.jdevs.timeo.util.StatsConstants.DAY_STATS_COLLECTION
+import com.jdevs.timeo.util.StatsConstants.FIRESTORE_STATS_PAGE_SIZE
 import com.jdevs.timeo.util.StatsConstants.MONTH_STATS_COLLECTION
 import com.jdevs.timeo.util.StatsConstants.WEEK_STATS_COLLECTION
 import com.jdevs.timeo.util.await
@@ -37,18 +37,38 @@ interface StatsRemoteDataSource : StatsDataSource {
 }
 
 @Singleton
-class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepository) :
+class FirestoreStatsDataSource @Inject constructor(
+    authRepository: AuthRepository,
+    dayStatsMapper: FirestoreStatsMapper,
+    weekStatsMapper: FirestoreWeekStatsMapper,
+    monthStatsMapper: FirestoreMonthStatsMapper
+) :
     FirestoreListDataSource(authRepository),
     StatsRemoteDataSource {
 
     private val dayStatsMonitor =
-        createCollectionMonitor(FirestoreDayStats::class, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
+        createCollectionMonitor(
+            FirestoreDayStats::class,
+            FIRESTORE_STATS_PAGE_SIZE,
+            dayStatsMapper,
+            DAY_PROPERTY
+        )
 
     private val weekStatsMonitor =
-        createCollectionMonitor(FirestoreWeekStats::class, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
+        createCollectionMonitor(
+            FirestoreWeekStats::class,
+            FIRESTORE_STATS_PAGE_SIZE,
+            weekStatsMapper,
+            DAY_PROPERTY
+        )
 
     private val monthStatsMonitor =
-        createCollectionMonitor(FirestoreMonthStats::class, StatsConstants.PAGE_SIZE, DAY_PROPERTY)
+        createCollectionMonitor(
+            FirestoreMonthStats::class,
+            FIRESTORE_STATS_PAGE_SIZE,
+            monthStatsMapper,
+            DAY_PROPERTY
+        )
 
     override val dayStats
         get() = dayStatsMonitor.safeAccess().getLiveData()

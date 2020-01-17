@@ -14,20 +14,25 @@ interface StatsDataSource {
 }
 
 @Singleton
-class RoomStatsDataSource @Inject constructor(private val statsDao: StatsDao) : StatsDataSource {
+class RoomStatsDataSource @Inject constructor(
+    private val statsDao: StatsDao,
+    dayStatsMapper: DBDayStatsMapper,
+    weekStatsMapper: DBWeekStatsMapper,
+    monthStatsMapper: DBMonthStatsMapper
+) : StatsDataSource {
 
     override val dayStats by lazy {
 
-        statsDao.getDayStats().toLivePagedList(STATS_PAGE_SIZE)
+        statsDao.getDayStats().toLivePagedList(STATS_PAGE_SIZE, dayStatsMapper)
     }
 
     override val weekStats by lazy {
 
-        statsDao.getWeekStats().toLivePagedList(STATS_PAGE_SIZE)
+        statsDao.getWeekStats().toLivePagedList(STATS_PAGE_SIZE, weekStatsMapper)
     }
 
     override val monthStats by lazy {
 
-        statsDao.getMonthStats().toLivePagedList(STATS_PAGE_SIZE)
+        statsDao.getMonthStats().toLivePagedList(STATS_PAGE_SIZE, monthStatsMapper)
     }
 }

@@ -5,11 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
-import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.Recordable
-import com.jdevs.timeo.domain.model.Project
-import com.jdevs.timeo.util.time.toOffsetDate
 import org.threeten.bp.OffsetDateTime
 import java.util.Date
 
@@ -22,17 +19,7 @@ data class DBProject(
     var totalTime: Long = 0,
     var lastWeekTime: Int = 0,
     var creationDate: OffsetDateTime = OffsetDateTime.now()
-) : Mapper<Project> {
-
-    override fun mapToDomain() =
-        Project(
-            id = id,
-            name = name,
-            totalTime = totalTime,
-            lastWeekTime = lastWeekTime,
-            creationDate = creationDate
-        )
-}
+)
 
 @Keep
 data class FirestoreProject(
@@ -43,17 +30,4 @@ data class FirestoreProject(
     override var recentRecords: List<RecordMinimal> = emptyList(),
     @ServerTimestamp
     var timestamp: Date? = null
-) : Recordable(), Mapper<Project> {
-
-    override fun mapToDomain(): Project {
-
-        val lastWeekTime = getLastWeekTime()
-        return Project(
-            documentId = documentId,
-            name = name,
-            totalTime = totalTime,
-            lastWeekTime = lastWeekTime,
-            creationDate = timestamp.toOffsetDate()
-        )
-    }
-}
+) : Recordable()

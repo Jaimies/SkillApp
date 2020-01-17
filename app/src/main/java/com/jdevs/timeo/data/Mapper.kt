@@ -1,8 +1,6 @@
 package com.jdevs.timeo.data
 
-interface Mapper<T : Any> {
+interface Mapper<in I, out O> {
 
-    fun mapToDomain(): T
+    fun map(input: I): O
 }
-
-fun <T : Any> List<Mapper<T>>.mapToDomain() = map { it.mapToDomain() }

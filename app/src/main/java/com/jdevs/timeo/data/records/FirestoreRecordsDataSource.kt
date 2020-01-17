@@ -11,6 +11,7 @@ import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID
 import com.jdevs.timeo.util.FirestoreConstants.NAME
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP
 import com.jdevs.timeo.util.RecordsConstants
+import com.jdevs.timeo.util.RecordsConstants.FIRESTORE_RECORDS_PAGE_SIZE
 import com.jdevs.timeo.util.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,12 +30,21 @@ interface RecordsRemoteDataSource : RecordsDataSource {
 }
 
 @Singleton
-class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthRepository) :
+class FirestoreRecordsDataSource @Inject constructor(
+    authRepository: AuthRepository,
+    private val mapper: FirestoreRecordMapper,
+    domainMapper: FirestoreDomainRecordMapper
+) :
     FirestoreListDataSource(authRepository),
     RecordsRemoteDataSource {
 
     private val recordsMonitor =
-        createCollectionMonitor(FirestoreRecord::class, RecordsConstants.PAGE_SIZE, TIMESTAMP)
+        createCollectionMonitor(
+            FirestoreRecord::class,
+            FIRESTORE_RECORDS_PAGE_SIZE,
+            domainMapper,
+            TIMESTAMP
+        )
 
     override val records
         get() = recordsMonitor.safeAccess().getLiveData()
@@ -47,7 +57,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
         return db.batch().also { batch ->
 
-            batch.set(newRecordRef, record.toFirestore())
+            batch.set(newRecordRef, mapper.map(record))
         }
     }
 

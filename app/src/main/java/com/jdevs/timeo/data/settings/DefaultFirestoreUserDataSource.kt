@@ -10,27 +10,30 @@ import javax.inject.Singleton
 
 interface UserDataSource {
 
-    fun getUser(): LiveData<User>?
+    fun enablePreference(name: String, isEnabled: Boolean)
+}
 
-    fun updateUserPreferences(field: String, value: Any)
+interface FirestoreUserDataSource : UserDataSource {
+
+    fun getUser(): LiveData<User>?
 }
 
 @Singleton
-class FirestoreUserDataSource @Inject constructor(
+class DefaultFirestoreUserDataSource @Inject constructor(
     authRepository: AuthRepository,
     private val mapper: FirestoreUserMapper
 ) :
     FirestoreDataSource(authRepository),
-    UserDataSource {
+    FirestoreUserDataSource {
 
     private var userRef: DocumentReference? = null
         get() = field.safeAccess()
 
     override fun getUser() = userRef?.monitor(FirestoreUser::class, mapper)
 
-    override fun updateUserPreferences(field: String, value: Any) {
+    override fun enablePreference(name: String, isEnabled: Boolean) {
 
-        userRef?.update(field, value)
+        userRef?.update(name, isEnabled)
     }
 
     override fun resetRefs(uid: String) {

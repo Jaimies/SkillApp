@@ -2,9 +2,11 @@ package com.jdevs.timeo.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.jdevs.timeo.data.settings.DefaultFirestoreUserDataSource
+import com.jdevs.timeo.data.settings.DefaultLocalUserDataSource
 import com.jdevs.timeo.data.settings.DefaultSettingsRepository
 import com.jdevs.timeo.data.settings.FirestoreUserDataSource
-import com.jdevs.timeo.data.settings.UserDataSource
+import com.jdevs.timeo.data.settings.LocalUserDataSource
 import com.jdevs.timeo.domain.repository.SettingsRepository
 import dagger.Binds
 import dagger.Module
@@ -18,7 +20,10 @@ abstract class SettingsModule {
     abstract fun provideSettingsRepository(settingsRepository: DefaultSettingsRepository): SettingsRepository
 
     @Binds
-    abstract fun provideUserDataSource(dataSource: FirestoreUserDataSource): UserDataSource
+    abstract fun provideFirestoreUserDataSource(dataSource: DefaultFirestoreUserDataSource): FirestoreUserDataSource
+
+    @Binds
+    abstract fun provideSharedPrefsUserDataSource(dataSource: DefaultLocalUserDataSource): LocalUserDataSource
 
     @Module
     companion object {

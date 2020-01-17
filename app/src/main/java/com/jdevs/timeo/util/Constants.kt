@@ -91,8 +91,3 @@ object ViewTypes {
     const val PROJECT = 3
     const val STATISTIC = 4
 }
-
-object ViewConstants {
-
-    const val HAS_TEXT_WATCHER = "HAS_TEXT_WATCHER"
-}

@@ -10,12 +10,11 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.util.ViewConstants
 
 @Suppress("EmptyFunctionBlock")
 fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
 
-    if (tag == ViewConstants.HAS_TEXT_WATCHER) {
+    if (tag == HAS_TEXT_WATCHER) {
 
         return
     }
@@ -33,7 +32,7 @@ fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
         }
     })
 
-    tag = ViewConstants.HAS_TEXT_WATCHER
+    tag = HAS_TEXT_WATCHER
 }
 
 fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
@@ -46,3 +45,5 @@ fun RecyclerView.setupAdapter(adapter: RecyclerView.Adapter<*>) {
     layoutManager = LinearLayoutManager(context)
     this.adapter = adapter
 }
+
+private const val HAS_TEXT_WATCHER = "HAS_TEXT_WATCHER"

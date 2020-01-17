@@ -1,15 +1,14 @@
 package com.jdevs.timeo.data.activities
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.data.firestore.monitorCollection
+import com.jdevs.timeo.data.firestore.monitorDocument
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.ActivitiesConstants
@@ -52,44 +51,17 @@ class FirestoreActivitiesDataSource @Inject constructor(
 
     private var activitiesRef: CollectionReference by SafeAccess()
 
-    override fun getTopActivities(): LiveData<List<Activity>> {
+    override fun getTopActivities() = activitiesRef
+        .monitorCollection(FirestoreActivity::class, domainMapper, TOP_ACTIVITIES_COUNT)
 
-        val liveData = MutableLiveData<List<Activity>>()
-
-        activitiesRef.orderBy(TOTAL_TIME, Query.Direction.DESCENDING).limit(TOP_ACTIVITIES_COUNT)
-            .addSnapshotListener { querySnapshot, _ ->
-
-                querySnapshot?.documents?.mapNotNull {
-                    it.toObject(FirestoreActivity::class.java)
-                }?.let { liveData.value = it.map(domainMapper::map) }
-            }
-
-        return liveData
-    }
-
-    override fun getActivityById(id: Int, documentId: String): LiveData<Activity> {
-
-        val activity = activitiesRef.document(documentId)
-        val liveData = MutableLiveData<Activity>()
-
-        activity.addSnapshotListener { documentSnapshot, _ ->
-
-            documentSnapshot?.toObject(FirestoreActivity::class.java)?.let {
-                liveData.value = domainMapper.map(it)
-            }
-        }
-
-        return liveData
-    }
+    override fun getActivityById(id: Int, documentId: String) =
+        activitiesRef.monitorDocument(documentId, FirestoreActivity::class, domainMapper)
 
     override suspend fun saveActivity(id: String, newName: String): WriteBatch {
 
         val activityRef = activitiesRef.document(id)
 
-        return db.batch().also { batch ->
-
-            batch.update(activityRef, NAME, newName)
-        }
+        return db.batch().also { it.update(activityRef, NAME, newName) }
     }
 
     override suspend fun addActivity(activity: Activity) {

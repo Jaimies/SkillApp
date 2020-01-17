@@ -51,8 +51,5 @@ abstract class FirestoreListDataSource(authRepository: AuthRepository) :
     FirestoreDataSource(authRepository) {
 
     fun createRef(uid: String, collection: String, monitor: CollectionMonitor) =
-        db.collection("/users/$uid/$collection").also {
-
-            monitor.setRef(it)
-        }
+        db.collection("/users/$uid/$collection").also { monitor.setRef(it) }
 }

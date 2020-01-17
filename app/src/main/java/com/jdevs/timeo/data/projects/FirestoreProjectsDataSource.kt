@@ -1,14 +1,12 @@
 package com.jdevs.timeo.data.projects
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.data.firestore.monitorCollection
+import com.jdevs.timeo.data.firestore.monitorDocument
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.repository.AuthRepository
-import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
 import com.jdevs.timeo.util.ProjectsConstants
 import com.jdevs.timeo.util.ProjectsConstants.FIRESTORE_PROJECTS_PAGE_SIZE
 import com.jdevs.timeo.util.ProjectsConstants.TOP_PROJECTS_COUNT
@@ -37,35 +35,11 @@ class FirestoreProjectsDataSource @Inject constructor(
 
     private var projectsRef by SafeAccess<CollectionReference>()
 
-    override fun getTopProjects(): LiveData<List<Project>> {
+    override fun getTopProjects() =
+        projectsRef.monitorCollection(FirestoreProject::class, domainMapper, TOP_PROJECTS_COUNT)
 
-        val liveData = MutableLiveData<List<Project>>()
-
-        projectsRef.orderBy(TOTAL_TIME, Query.Direction.DESCENDING).limit(TOP_PROJECTS_COUNT)
-            .addSnapshotListener { querySnapshot, _ ->
-
-                querySnapshot?.documents?.mapNotNull {
-                    it.toObject(FirestoreProject::class.java)
-                }?.let { liveData.value = it.map(domainMapper::map) }
-            }
-
-        return liveData
-    }
-
-    override fun getProjectById(id: Int, documentId: String): LiveData<Project> {
-
-        val project = projectsRef.document(documentId)
-        val liveData = MutableLiveData<Project>()
-
-        project.addSnapshotListener { documentSnapshot, _ ->
-
-            documentSnapshot?.toObject(FirestoreProject::class.java)?.let {
-                liveData.value = domainMapper.map(it)
-            }
-        }
-
-        return liveData
-    }
+    override fun getProjectById(id: Int, documentId: String) =
+        projectsRef.monitorDocument(documentId, FirestoreProject::class, domainMapper)
 
     override suspend fun addProject(project: Project) {
 

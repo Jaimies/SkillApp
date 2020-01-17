@@ -54,21 +54,13 @@ class FirestoreRecordsDataSource @Inject constructor(
     override suspend fun addRecord(record: Record): WriteBatch {
 
         val newRecordRef = recordsRef.document()
-
-        return db.batch().also { batch ->
-
-            batch.set(newRecordRef, mapper.map(record))
-        }
+        return db.batch().also { it.set(newRecordRef, mapper.map(record)) }
     }
 
     override suspend fun deleteRecord(record: Record): WriteBatch {
 
         val recordRef = recordsRef.document(record.documentId)
-
-        return db.batch().also { batch ->
-
-            batch.delete(recordRef)
-        }
+        return db.batch().also { it.delete(recordRef) }
     }
 
     override suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch) {

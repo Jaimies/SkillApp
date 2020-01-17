@@ -102,7 +102,10 @@ class FirestoreListAdapter(
 
         val index = items.indexOfFirst { it.documentId == item.documentId }
 
-        items.removeAt(index)
-        notifyItemRemoved(index)
+        runCatching {
+
+            items.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
 }

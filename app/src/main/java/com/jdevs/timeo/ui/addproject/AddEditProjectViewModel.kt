@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditProjectViewModel @Inject constructor(
-    private val addProjectUseCase: AddProjectUseCase,
+    private val addProject: AddProjectUseCase,
     private val saveProjectUseCase: SaveProjectUseCase,
-    private val deleteProjectUseCase: DeleteProjectUseCase
+    private val deleteProject: DeleteProjectUseCase
 ) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData("")
@@ -45,17 +45,17 @@ class AddEditProjectViewModel @Inject constructor(
 
     fun addProject(project: Project) = viewModelScope.launch {
 
-        addProjectUseCase.addProject(project)
+        addProject.invoke(project)
     }
 
     fun saveProject(project: Project) = viewModelScope.launch {
 
-        saveProjectUseCase.saveProject(project)
+        saveProjectUseCase.invoke(project)
     }
 
     fun deleteProject(project: Project) = viewModelScope.launch {
 
-        deleteProjectUseCase.deleteProject(project)
+        deleteProject.invoke(project)
     }
 
     fun showDeleteDialog() = showDeleteDialog.call()

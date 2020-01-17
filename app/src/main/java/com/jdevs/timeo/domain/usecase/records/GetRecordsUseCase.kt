@@ -5,7 +5,6 @@ import javax.inject.Inject
 
 class GetRecordsUseCase @Inject constructor(private val recordsRepository: RecordsRepository) {
 
-    val records get() = recordsRepository.records
-
+    operator fun invoke() = recordsRepository.records
     fun resetRecords() = recordsRepository.resetMonitor()
 }

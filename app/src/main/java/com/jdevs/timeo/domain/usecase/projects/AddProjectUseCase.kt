@@ -6,5 +6,5 @@ import javax.inject.Inject
 
 class AddProjectUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
 
-    suspend fun addProject(project: Project) = projectsRepository.addProject(project)
+    suspend operator fun invoke(project: Project) = projectsRepository.addProject(project)
 }

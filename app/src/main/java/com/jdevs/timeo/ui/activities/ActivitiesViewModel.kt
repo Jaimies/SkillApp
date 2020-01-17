@@ -11,16 +11,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ActivitiesViewModel @Inject constructor(
-    private val getActivitiesUseCase: GetActivitiesUseCase,
-    private val addRecordUseCase: AddRecordUseCase
+    private val getActivities: GetActivitiesUseCase,
+    private val addRecord: AddRecordUseCase
 ) : ListViewModel() {
 
-    override val liveData get() = getActivitiesUseCase.activities
+    override val liveData get() = getActivities()
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
     init {
 
-        getActivitiesUseCase.resetActivities()
+        getActivities.resetActivities()
     }
 
     fun createRecord(activity: Activity, time: Long) = viewModelScope.launch {
@@ -32,7 +32,7 @@ class ActivitiesViewModel @Inject constructor(
             roomActivityId = activity.id
         )
 
-        addRecordUseCase.addRecord(record)
+        addRecord(record)
     }
 
     fun navigateToAddActivity() = navigateToAddEdit.call()

@@ -5,7 +5,6 @@ import javax.inject.Inject
 
 class GetActivitiesUseCase @Inject constructor(private val activitiesRepository: ActivitiesRepository) {
 
-    val activities get() = activitiesRepository.activities
-
+    operator fun invoke() = activitiesRepository.activities
     fun resetActivities() = activitiesRepository.resetMonitor()
 }

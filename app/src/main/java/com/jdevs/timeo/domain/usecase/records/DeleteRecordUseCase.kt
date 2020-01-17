@@ -12,7 +12,7 @@ class DeleteRecordUseCase @Inject constructor(
     private val statsRepository: StatsRepository
 ) {
 
-    suspend fun deleteRecord(record: Record) {
+    suspend operator fun invoke(record: Record) {
 
         recordsRepository.deleteRecord(record)?.let { batch ->
 

@@ -5,15 +5,15 @@ import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.SingleLiveEvent
 import javax.inject.Inject
 
-class ProjectsViewModel @Inject constructor(private val getProjectsUseCase: GetProjectsUseCase) :
+class ProjectsViewModel @Inject constructor(private val getProjects: GetProjectsUseCase) :
     ListViewModel() {
 
     init {
 
-        getProjectsUseCase.resetMonitor()
+        getProjects.resetMonitor()
     }
 
-    override val liveData get() = getProjectsUseCase.projects
+    override val liveData get() = getProjects()
 
     val navigateToAddActivity = SingleLiveEvent<Any>()
     fun navigateToAddActivity() = navigateToAddActivity.call()

@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditActivityViewModel @Inject constructor(
-    private val addActivityUseCase: AddActivityUseCase,
+    private val addActivity: AddActivityUseCase,
     private val saveActivityUseCase: SaveActivityUseCase,
-    private val deleteActivityUseCase: DeleteActivityUseCase
+    private val deleteActivity: DeleteActivityUseCase
 ) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData("")
@@ -45,17 +45,17 @@ class AddEditActivityViewModel @Inject constructor(
 
     fun addActivity(activity: Activity) = viewModelScope.launch {
 
-        addActivityUseCase.addActivity(activity)
+        addActivity.invoke(activity)
     }
 
     fun saveActivity(activity: Activity) = viewModelScope.launch {
 
-        saveActivityUseCase.saveActivity(activity)
+        saveActivityUseCase.invoke(activity)
     }
 
     fun deleteActivity(activity: Activity) = viewModelScope.launch {
 
-        deleteActivityUseCase.deleteActivity(activity)
+        deleteActivity.invoke(activity)
     }
 
     fun showDeleteDialog() = showDeleteDialog.call()

@@ -6,14 +6,14 @@ import com.jdevs.timeo.domain.usecase.settings.UpdateSettingsUseCase
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
-    private val updateSettingsUseCase: UpdateSettingsUseCase,
-    getSettingsUseCase: GetSettingsUseCase
+    private val updateSettings: UpdateSettingsUseCase,
+    settings: GetSettingsUseCase
 ) : ViewModel() {
 
-    val activitiesEnabled = getSettingsUseCase.activitiesEnabled
+    val activitiesEnabled = settings.activitiesEnabled
 
     fun setActivitiesEnabled(isEnabled: Boolean) {
 
-        updateSettingsUseCase.setActivitiesEnabled(isEnabled)
+        updateSettings.setActivitiesEnabled(isEnabled)
     }
 }

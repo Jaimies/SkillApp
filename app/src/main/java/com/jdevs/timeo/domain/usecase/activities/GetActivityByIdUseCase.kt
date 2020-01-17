@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class GetActivityByIdUseCase @Inject constructor(private val activitiesRepository: ActivitiesRepository) {
 
-    fun getActivityById(id: Int, documentId: String) =
+    operator fun invoke(id: Int, documentId: String) =
         activitiesRepository.getActivityById(id, documentId)
 }

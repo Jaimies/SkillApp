@@ -9,16 +9,14 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StatsViewModel @Inject constructor(
-    private val getStatsUseCase: GetStatsUseCase
-) : ListViewModel() {
+class StatsViewModel @Inject constructor(private val stats: GetStatsUseCase) : ListViewModel() {
 
     override val liveData
         get() = when (statsType) {
 
-            DAY -> getStatsUseCase.dayStats
-            WEEK -> getStatsUseCase.weekStats
-            MONTH -> getStatsUseCase.monthStats
+            DAY -> stats.dayStats
+            WEEK -> stats.weekStats
+            MONTH -> stats.monthStats
             else -> null
         }
 
@@ -28,9 +26,9 @@ class StatsViewModel @Inject constructor(
 
         when (type) {
 
-            DAY -> getStatsUseCase.resetDayStats()
-            WEEK -> getStatsUseCase.resetWeekStats()
-            MONTH -> getStatsUseCase.resetMonthStats()
+            DAY -> stats.resetDayStats()
+            WEEK -> stats.resetWeekStats()
+            MONTH -> stats.resetMonthStats()
         }
     }
 

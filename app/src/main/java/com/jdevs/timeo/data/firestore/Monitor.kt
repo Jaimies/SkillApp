@@ -3,6 +3,7 @@ package com.jdevs.timeo.data.firestore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
@@ -29,15 +30,14 @@ fun <I : Any, O> CollectionReference.monitorCollection(
     return liveData
 }
 
-fun <I : Any, O> CollectionReference.monitorDocument(
-    documentId: String,
+fun <I : Any, O> DocumentReference.monitor(
     type: KClass<I>,
     mapper: Mapper<I, O>
 ): LiveData<O> {
 
     val liveData = MutableLiveData<O>()
 
-    document(documentId).addSnapshotListener { documentSnapshot, _ ->
+    addSnapshotListener { documentSnapshot, _ ->
 
         documentSnapshot?.toObject(type.java)?.let { liveData.value = mapper.map(it) }
     }

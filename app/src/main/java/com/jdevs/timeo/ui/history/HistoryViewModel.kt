@@ -9,19 +9,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HistoryViewModel @Inject constructor(
-    private val getRecordsUseCase: GetRecordsUseCase,
-    private val deleteRecordUseCase: DeleteRecordUseCase
+    private val getRecords: GetRecordsUseCase,
+    private val deleteRecord: DeleteRecordUseCase
 ) : ListViewModel() {
 
-    override val liveData get() = getRecordsUseCase.records
+    override val liveData get() = getRecords()
 
     init {
 
-        getRecordsUseCase.resetRecords()
+        getRecords.resetRecords()
     }
 
     fun deleteRecord(record: Record) = viewModelScope.launch {
 
-        deleteRecordUseCase.deleteRecord(record)
+        deleteRecord.invoke(record)
     }
 }

@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class GetProjectByIdUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
 
-    fun getProjectById(id: Int, documentId: String) =
+    operator fun invoke(id: Int, documentId: String) =
         projectsRepository.getProjectById(id, documentId)
 }

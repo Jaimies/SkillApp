@@ -6,5 +6,5 @@ import javax.inject.Inject
 
 class DeleteProjectUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
 
-    suspend fun deleteProject(project: Project) = projectsRepository.deleteProject(project)
+    suspend operator fun invoke(project: Project) = projectsRepository.deleteProject(project)
 }

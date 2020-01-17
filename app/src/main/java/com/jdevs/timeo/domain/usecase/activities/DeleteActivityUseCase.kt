@@ -6,5 +6,5 @@ import javax.inject.Inject
 
 class DeleteActivityUseCase @Inject constructor(private val activitiesRepository: ActivitiesRepository) {
 
-    suspend fun deleteActivity(activity: Activity) = activitiesRepository.deleteActivity(activity)
+    suspend operator fun invoke(activity: Activity) = activitiesRepository.deleteActivity(activity)
 }

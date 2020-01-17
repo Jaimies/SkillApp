@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class GetTopActivitiesUseCase @Inject constructor(private val activitiesRepository: ActivitiesRepository) {
 
-    val topActivities get() = activitiesRepository.topActivities
+    operator fun invoke() = activitiesRepository.topActivities
 }

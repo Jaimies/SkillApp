@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ActivityDetailViewModel @Inject constructor(
-    private val getActivityByIdUseCase: GetActivityByIdUseCase,
-    private val addRecordUseCase: AddRecordUseCase
+    private val getActivityById: GetActivityByIdUseCase,
+    private val addRecord: AddRecordUseCase
 ) : ActivityDataViewModel() {
 
     val avgDailyTime: LiveData<String> get() = _avgDailyTime
@@ -36,7 +36,7 @@ class ActivityDetailViewModel @Inject constructor(
 
     fun setupActivityLiveData(activity: Activity) {
 
-        this.activity = getActivityByIdUseCase.getActivityById(activity.id, activity.documentId)
+        this.activity = getActivityById(activity.id, activity.documentId)
     }
 
     fun addRecord(activity: Activity, time: Long) = viewModelScope.launch {
@@ -48,7 +48,7 @@ class ActivityDetailViewModel @Inject constructor(
             roomActivityId = activity.id
         )
 
-        addRecordUseCase.addRecord(record)
+        addRecord(record)
     }
 
     fun showRecordDialog() = showRecordDialog.call()

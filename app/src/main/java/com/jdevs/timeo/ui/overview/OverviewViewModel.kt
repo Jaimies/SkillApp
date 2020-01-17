@@ -10,14 +10,14 @@ import com.jdevs.timeo.util.SingleLiveEvent
 import javax.inject.Inject
 
 class OverviewViewModel @Inject constructor(
-    private val getTopProjectsUseCase: GetTopProjectsUseCase,
-    private val getTopActivitiesUseCase: GetTopActivitiesUseCase,
-    private val getSettingsUseCase: GetSettingsUseCase
+    private val getTopProjects: GetTopProjectsUseCase,
+    private val getTopActivities: GetTopActivitiesUseCase,
+    private val settings: GetSettingsUseCase
 ) : ViewModel() {
 
-    val topProjects get() = getTopProjectsUseCase.topProjects
-    val topActivities get() = getTopActivitiesUseCase.topActivities
-    val activitiesEnabled get() = getSettingsUseCase.activitiesEnabled
+    val topProjects get() = getTopProjects()
+    val topActivities get() = getTopActivities()
+    val activitiesEnabled get() = settings.activitiesEnabled
 
     val areProjectsLoading get() = _areProjectsLoading as LiveData<Boolean>
     val areProjectsEmpty get() = _areProjectsEmpty as LiveData<Boolean>

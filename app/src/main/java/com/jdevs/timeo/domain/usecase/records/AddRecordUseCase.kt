@@ -12,7 +12,7 @@ class AddRecordUseCase @Inject constructor(
     private val statsRepository: StatsRepository
 ) {
 
-    suspend fun addRecord(record: Record) {
+    suspend operator fun invoke(record: Record) {
 
         recordsRepository.addRecord(record)?.let { batch ->
 

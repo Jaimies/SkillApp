@@ -10,7 +10,7 @@ class SaveActivityUseCase @Inject constructor(
     private val recordsRepository: RecordsRepository
 ) {
 
-    suspend fun saveActivity(activity: Activity) {
+    suspend operator fun invoke(activity: Activity) {
 
         activitiesRepository.saveActivity(activity)?.let { batch ->
 

@@ -6,5 +6,5 @@ import javax.inject.Inject
 
 class SaveProjectUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
 
-    suspend fun saveProject(project: Project) = projectsRepository.saveProject(project)
+    suspend operator fun invoke(project: Project) = projectsRepository.saveProject(project)
 }

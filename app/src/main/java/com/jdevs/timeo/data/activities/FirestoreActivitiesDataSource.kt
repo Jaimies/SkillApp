@@ -7,8 +7,8 @@ import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.data.firestore.monitor
 import com.jdevs.timeo.data.firestore.monitorCollection
-import com.jdevs.timeo.data.firestore.monitorDocument
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.ActivitiesConstants
@@ -55,7 +55,7 @@ class FirestoreActivitiesDataSource @Inject constructor(
         .monitorCollection(FirestoreActivity::class, domainMapper, TOP_ACTIVITIES_COUNT)
 
     override fun getActivityById(id: Int, documentId: String) =
-        activitiesRef.monitorDocument(documentId, FirestoreActivity::class, domainMapper)
+        activitiesRef.document(documentId).monitor(FirestoreActivity::class, domainMapper)
 
     override suspend fun saveActivity(id: String, newName: String): WriteBatch {
 

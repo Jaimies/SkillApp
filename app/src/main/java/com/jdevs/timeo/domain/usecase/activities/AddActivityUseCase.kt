@@ -6,5 +6,5 @@ import javax.inject.Inject
 
 class AddActivityUseCase @Inject constructor(private val activitiesRepository: ActivitiesRepository) {
 
-    suspend fun addActivity(activity: Activity) = activitiesRepository.addActivity(activity)
+    suspend operator fun invoke(activity: Activity) = activitiesRepository.addActivity(activity)
 }

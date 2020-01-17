@@ -3,8 +3,8 @@ package com.jdevs.timeo.data.projects
 import com.google.firebase.firestore.CollectionReference
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.data.firestore.monitor
 import com.jdevs.timeo.data.firestore.monitorCollection
-import com.jdevs.timeo.data.firestore.monitorDocument
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.ProjectsConstants
@@ -39,7 +39,7 @@ class FirestoreProjectsDataSource @Inject constructor(
         projectsRef.monitorCollection(FirestoreProject::class, domainMapper, TOP_PROJECTS_COUNT)
 
     override fun getProjectById(id: Int, documentId: String) =
-        projectsRef.monitorDocument(documentId, FirestoreProject::class, domainMapper)
+        projectsRef.document(documentId).monitor(FirestoreProject::class, domainMapper)
 
     override suspend fun addProject(project: Project) {
 

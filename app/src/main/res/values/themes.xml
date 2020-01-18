@@ -20,7 +20,5 @@
         <item name="android:textColorPrimary">@color/colorTextSecondary</item>
     </style>
 
-    <style name="Theme.Timeo.Splash">
-        <item name="android:windowBackground">@drawable/ic_launcher</item>
-    </style>
+    <style name="Theme.Timeo.Splash" />
 </resources>

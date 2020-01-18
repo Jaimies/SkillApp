@@ -10,10 +10,11 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape>
+                <corners android:radius="@dimen/border_radius_50_percent" />
                 <gradient
                     android:angle="180"
-                    android:endColor="#FF00FF00"
-                    android:startColor="#FFFF0000" />
+                    android:endColor="#FFE3C907"
+                    android:startColor="#FF00A99D" />
             </shape>
         </clip>
     </item>

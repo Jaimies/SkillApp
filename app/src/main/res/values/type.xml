@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.Timeo.Headline1" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+</resources>

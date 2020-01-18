@@ -25,24 +25,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/section_background"
                 android:onClick="@{() -> viewModel.navigateToProjects()}"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="@dimen/padding_default">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_large"
-                    android:gravity="center"
-                    android:text="@string/your_projects"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:paddingStart="@dimen/padding_default"
+                    android:paddingEnd="@dimen/padding_default"
+                    android:text="@string/projects"
+                    android:textAppearance="@style/TextAppearance.Timeo.Headline1" />
+
+                <View style="@style/Widget.Timeo.Divider" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/projects_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hideIf="@{viewModel.areProjectsEmpty}"
-                    tools:itemCount="5"
-                    tools:listitem="@layout/projects_item" />
+                    tools:itemCount="3"
+                    tools:listitem="@layout/projects_item"
+                    tools:theme="@style/ThemeOverlay.Timeo.ListItem" />
 
                 <include
                     android:id="@+id/projects_preloader"
@@ -60,7 +66,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/there_is_nothing_here_yet" />
+                        android:text="@string/there_is_nothing_here_yet"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="wrap_content"
@@ -74,25 +81,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default"
+                android:background="@drawable/section_background"
                 android:onClick="@{() -> viewModel.navigateToActivities()}"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/padding_default"
                 app:hideIf="@{!viewModel.activitiesEnabled}">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_large"
-                    android:gravity="center"
-                    android:text="@string/your_activities"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:paddingStart="@dimen/padding_default"
+                    android:paddingEnd="@dimen/padding_default"
+                    android:text="@string/activities"
+                    android:textAppearance="@style/TextAppearance.Timeo.Headline1" />
+
+                <View style="@style/Widget.Timeo.Divider" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activities_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hideIf="@{viewModel.areActivitiesEmpty}"
-                    tools:itemCount="5"
-                    tools:listitem="@layout/activities_item" />
+                    tools:itemCount="3"
+                    tools:listitem="@layout/activities_item"
+                    tools:theme="@style/ThemeOverlay.Timeo.ListItem" />
 
                 <include
                     android:id="@+id/activities_preloader"
@@ -110,7 +123,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/there_is_nothing_here_yet" />
+                        android:text="@string/there_is_nothing_here_yet"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="wrap_content"

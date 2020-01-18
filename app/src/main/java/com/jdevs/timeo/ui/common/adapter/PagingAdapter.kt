@@ -41,9 +41,9 @@ class PagingAdapter(
         }
     }
 
-    abstract class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    abstract class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
-        protected val context: Context = view.context
-        protected val lifecycleOwner = context as LifecycleOwner
+        protected val context: Context get() = view.context
+        protected val lifecycleOwner get() = context as LifecycleOwner
     }
 }

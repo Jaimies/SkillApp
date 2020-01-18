@@ -43,7 +43,6 @@ class OverviewFragment : Fragment() {
 
             it.lifecycleOwner = this
             it.viewModel = viewModel
-
         }
 
         viewModel.run {

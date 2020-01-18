@@ -13,6 +13,6 @@
 
     <item
         android:id="@+id/profile"
-        android:icon="@drawable/ic_account"
+        android:icon="@drawable/ic_profile"
         android:title="@string/profile" />
 </menu>

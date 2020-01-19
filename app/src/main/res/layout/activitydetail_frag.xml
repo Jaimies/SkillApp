@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -14,142 +15,225 @@
         android:layout_height="match_parent"
         android:scrollbars="none">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="@dimen/margin_default"
-            android:paddingEnd="@dimen/margin_default"
+            android:paddingStart="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
             tools:context=".ui.activitydetail.ActivityDetailFragment">
 
             <TextView
                 android:id="@+id/title"
-                style="@style/Widget.Timeo.Header.Small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:paddingEnd="16dp"
+                android:singleLine="true"
                 android:text="@{viewModel.name}"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline1"
+                app:layout_constraintEnd_toStartOf="@id/header_time_barrier"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry"
                 tools:text="Programming" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="false">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/daily_average"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{viewModel.avgDailyTime}"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        tools:text="4.1h" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/last_week"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{viewModel.lastWeekTime}"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        tools:text="56h" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/total_time"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
-
-                    <TextView
-                        android:id="@+id/total_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@{viewModel.totalTime}"
-                        android:textAlignment="textEnd"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        tools:text="830.6h" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
+            <TextView
+                android:id="@+id/total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_default"
-                android:onClick="@{() -> viewModel.showRecordDialog()}"
-                android:text="@string/add_record" />
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:text="@{viewModel.totalTime}"
+                android:textAlignment="textEnd"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/header_time_barrier"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="820h" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/total_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:paddingBottom="10dp"
+                android:text="@string/total"
+                android:textAppearance="@style/TextAppearance.Timeo.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/header_time_barrier"
+                app:layout_constraintTop_toBottomOf="@+id/total" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.prevMilestone}"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                    tools:text="0h" />
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/header_time_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="left"
+                app:constraint_referenced_ids="total,total_label" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end">
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/header_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="total_label,title,total" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.nextMilestone}"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                        tools:text="25h" />
-                </LinearLayout>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_surf"
+                app:layout_constraintEnd_toStartOf="@+id/days_spent_label"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header_barrier"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/per_week_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/per_week"
+                android:textAppearance="@style/TextAppearance.Timeo.Body1"
+                app:layout_constraintBottom_toTopOf="@id/info_barrier"
+                app:layout_constraintEnd_toStartOf="@+id/last_week_label"
+                app:layout_constraintStart_toEndOf="@+id/days_spent_label"
+                app:layout_constraintTop_toBottomOf="@id/per_week" />
+
+            <TextView
+                android:id="@+id/per_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.avgWeekTime}"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                app:layout_constraintBottom_toTopOf="@+id/per_week_label"
+                app:layout_constraintEnd_toEndOf="@+id/per_week_label"
+                app:layout_constraintStart_toStartOf="@+id/per_week_label"
+                app:layout_constraintTop_toBottomOf="@id/total_label"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="4h" />
+
+            <TextView
+                android:id="@+id/last_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.lastWeekTime}"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                app:layout_constraintBottom_toTopOf="@+id/last_week_label"
+                app:layout_constraintEnd_toEndOf="@+id/last_week_label"
+                app:layout_constraintStart_toStartOf="@+id/last_week_label"
+                app:layout_constraintTop_toBottomOf="@id/header_barrier"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="56h" />
+
+            <TextView
+                android:id="@+id/last_week_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/last_week"
+                android:textAppearance="@style/TextAppearance.Timeo.Body1"
+                app:layout_constraintBottom_toTopOf="@id/info_barrier"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/per_week_label"
+                app:layout_constraintTop_toBottomOf="@+id/last_week" />
+
+            <TextView
+                android:id="@+id/days_spent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.daysSpent}"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                app:layout_constraintBottom_toTopOf="@+id/days_spent_label"
+                app:layout_constraintEnd_toEndOf="@+id/days_spent_label"
+                app:layout_constraintStart_toStartOf="@+id/days_spent_label"
+                app:layout_constraintTop_toBottomOf="@id/header_barrier"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="120" />
+
+            <TextView
+                android:id="@+id/days_spent_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/days"
+                android:textAppearance="@style/TextAppearance.Timeo.Body1"
+                app:layout_constraintBottom_toTopOf="@id/info_barrier"
+                app:layout_constraintEnd_toStartOf="@+id/per_week_label"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@id/days_spent" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/info_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="last_week_label,imageView,last_week,per_week_label,per_week,days_spent,days_spent_label" />
 
             <ProgressBar
+                android:id="@+id/progressBar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="30dp"
                 android:progress="@{viewModel.gradientPercentage}"
-                android:progressDrawable="@drawable/activity_progressbar" />
+                android:progressDrawable="@drawable/activity_progressbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/info_barrier"
+                tools:progress="50" />
+
+            <!--            <com.google.android.material.button.MaterialButton-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center_horizontal"-->
+            <!--                android:layout_marginTop="@dimen/margin_default"-->
+            <!--                android:onClick="@{() -> viewModel.showRecordDialog()}"-->
+            <!--                android:text="@string/add_record" />-->
+
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/linearLayout2"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                tools:layout_editor_absoluteX="36dp">-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@{viewModel.prevMilestone}"-->
+            <!--                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"-->
+            <!--                    tools:text="0h" />-->
+
+            <!--                <LinearLayout-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:gravity="end">-->
+
+            <!--                    <TextView-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:text="@{viewModel.nextMilestone}"-->
+            <!--                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"-->
+            <!--                        tools:text="25h" />-->
+            <!--                </LinearLayout>-->
+            <!--            </LinearLayout>-->
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/stats_tablayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_default"
-                android:background="@color/colorTertiary" />
+                android:layout_marginTop="45dp"
+                android:background="@color/colorTertiary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/stats_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/activitydetail_graphs_height" />
-        </LinearLayout>
+                android:layout_height="@dimen/activitydetail_graphs_height"
+                app:layout_constraintTop_toBottomOf="@id/stats_tablayout" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

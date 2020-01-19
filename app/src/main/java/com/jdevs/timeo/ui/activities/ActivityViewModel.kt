@@ -20,9 +20,9 @@ open class ActivityDataViewModel : ViewModel() {
     val nextMilestone: LiveData<String> get() = _nextMilestone
     private val _name = MutableLiveData("")
     private val _totalTime = MutableLiveData("")
-    private val _gradientPercentage = MutableLiveData(0)
-    private val _prevMilestone = MutableLiveData("0h")
-    private val _nextMilestone = MutableLiveData("0h")
+    private val _gradientPercentage = MutableLiveData<Int>()
+    private val _prevMilestone = MutableLiveData("")
+    private val _nextMilestone = MutableLiveData("")
 
     @CallSuper
     open fun setActivity(activity: Activity) {

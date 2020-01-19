@@ -14,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_xlarge"
         android:paddingTop="@dimen/padding_default"
-        android:paddingEnd="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_xlarge"
         android:paddingBottom="@dimen/padding_default"
         tools:context=".ui.settings.SettingsFragment">
 

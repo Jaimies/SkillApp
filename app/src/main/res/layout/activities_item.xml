@@ -31,13 +31,13 @@
                 android:singleLine="true"
                 android:text="@{viewModel.name}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline1"
-                app:layout_constraintEnd_toStartOf="@+id/total_time"
+                app:layout_constraintEnd_toStartOf="@+id/total"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Activity name" />
 
             <TextView
-                android:id="@+id/total_time"
+                android:id="@+id/total"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"

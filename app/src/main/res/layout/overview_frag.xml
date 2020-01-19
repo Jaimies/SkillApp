@@ -45,11 +45,10 @@
                     android:id="@+id/projects_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:theme="@style/ThemeOverlay.Timeo.ListItem"
                     app:hideIf="@{viewModel.areProjectsEmpty}"
-                    app:theme="@style/ThemeOverlay.Timeo.ListItem"
                     tools:itemCount="3"
-                    tools:listitem="@layout/projects_item"
-                    tools:theme="@style/ThemeOverlay.Timeo.ListItem" />
+                    tools:listitem="@layout/projects_item" />
 
                 <include
                     android:id="@+id/projects_preloader"
@@ -103,11 +102,10 @@
                     android:id="@+id/activities_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:theme="@style/ThemeOverlay.Timeo.ListItem"
                     app:hideIf="@{viewModel.areActivitiesEmpty}"
-                    app:theme="@style/ThemeOverlay.Timeo.ListItem"
                     tools:itemCount="3"
-                    tools:listitem="@layout/activities_item"
-                    tools:theme="@style/ThemeOverlay.Timeo.ListItem" />
+                    tools:listitem="@layout/activities_item" />
 
                 <include
                     android:id="@+id/activities_preloader"

@@ -9,7 +9,7 @@ import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.projects.GetProjectByIdUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.util.SingleLiveEvent
-import com.jdevs.timeo.util.time.getAvgDailyHours
+import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.toHours
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,10 +22,10 @@ class ProjectDetailViewModel @Inject constructor(
     lateinit var project: LiveData<Project>
 
     val name: LiveData<String> get() = _name
-    val avgDailyTime: LiveData<String> get() = _avgDailyTime
+    val avgWeekTime: LiveData<String> get() = _avgWeekTime
     val lastWeekTime: LiveData<String> get() = _lastWeekTime
     val totalTime: LiveData<String> get() = _totalTime
-    private val _avgDailyTime = MutableLiveData("")
+    private val _avgWeekTime = MutableLiveData("")
     private val _lastWeekTime = MutableLiveData("")
     private val _totalTime = MutableLiveData("")
     private val _name = MutableLiveData("")
@@ -36,7 +36,7 @@ class ProjectDetailViewModel @Inject constructor(
 
         _name.value = project.name
         _totalTime.value = project.totalTime.toHours() + "h"
-        _avgDailyTime.value = project.totalTime.getAvgDailyHours(project.creationDate) + "h"
+        _avgWeekTime.value = project.totalTime.getAvgWeekHours(project.creationDate) + "h"
         _lastWeekTime.value = project.lastWeekTime.toHours() + "h"
     }
 

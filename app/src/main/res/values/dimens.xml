@@ -3,10 +3,12 @@
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_large">20dp</dimen>
+    <dimen name="margin_xlarge">32dp</dimen>
     <dimen name="padding_tiny">4dp</dimen>
     <dimen name="padding_default">16dp</dimen>
     <dimen name="padding_medium">8dp</dimen>
-    <dimen name="padding_large">32dp</dimen>
+    <dimen name="padding_large">20dp</dimen>
+    <dimen name="padding_xlarge">32dp</dimen>
     <dimen name="elevation_default">4dp</dimen>
     <dimen name="border_radius_50_percent">10000dp</dimen>
     <dimen name="avatar_size">150dp</dimen>

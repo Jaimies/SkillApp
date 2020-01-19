@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="TextAppearance.Timeo.Headline1" parent="TextAppearance.MaterialComponents.Headline5">
+    <style name="TextAppearance" />
+
+    <style name="TextAppearance.Timeo">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Timeo.Headline1">
         <item name="fontFamily">@font/montserrat_regular</item>
         <item name="android:textSize">25sp</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="TextAppearance.Timeo.Headline2">
+        <item name="android:lineSpacingMultiplier">1.3</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:layout_height">40sp</item>
+    </style>
+
+    <style name="TextAppearance.Timeo.Body1">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">normal</item>
     </style>
 </resources>

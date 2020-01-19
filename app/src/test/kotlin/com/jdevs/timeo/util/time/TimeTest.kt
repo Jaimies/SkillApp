@@ -32,15 +32,15 @@ class TimeTest {
     }
 
     /**
-     * Test for [Long.getAvgDailyHours]
+     * Test for [Long.getAvgWeekHours]
      * The test data is written in the following syntax: <totalMins> to <daysAgoStarted> to <expectedOutput>
      */
     @Test
-    fun getAvgDailyHours_isCorrect() {
+    fun getAvgWeekHours_isCorrect() {
 
         val dataset = listOf(
-            238L to 7L to "0.5",
-            444L to 8L to "0.8"
+            238L to 7L to "2",
+            444L to 8L to "3.7"
         )
 
         dataset.forEach {
@@ -49,7 +49,7 @@ class TimeTest {
             val expectedOutput = it.second
             val date = daysAgoDate(it.first.second)
 
-            assertThat(mins.getAvgDailyHours(date), `is`(expectedOutput))
+            assertThat(mins.getAvgWeekHours(date), `is`(expectedOutput))
         }
     }
 

@@ -35,9 +35,10 @@
     <string name="history">History</string>
     <string name="activities">Activities</string>
     <string name="activity_details">Activity details</string>
-    <string name="total_time">Total time</string>
-    <string name="last_week">Last 7 days</string>
-    <string name="daily_average">Daily average</string>
+    <string name="total">total</string>
+    <string name="last_week">last 7 days</string>
+    <string name="per_week">per week</string>
+    <string name="days">days</string>
     <string name="sign_in_failed">Sign in failed</string>
     <string name="google_sign_in_failed">Google sign in failed</string>
     <string name="sign_up_failed">Sign up failed</string>

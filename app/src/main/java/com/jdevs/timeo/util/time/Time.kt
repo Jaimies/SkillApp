@@ -1,6 +1,7 @@
 package com.jdevs.timeo.util.time
 
 import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.temporal.ChronoUnit
 
 fun Long.toFriendlyTime(): String {
 
@@ -30,8 +31,8 @@ fun Long.toFriendlyTime(): String {
 fun Long.toHours(): String {
 
     val time = this / HOUR_MINUTES.toFloat()
-
     val timeString = "%.1f".format(time)
+
     return if (timeString.takeLast(1) == "0") timeString.dropLast(2) else timeString
 }
 
@@ -43,12 +44,12 @@ fun Int.toHours() = toLong().toHours()
 
 fun Pair<Long, Long>.toMins() = first * HOUR_MINUTES + second
 
-fun Long.getAvgDailyHours(timestamp: OffsetDateTime): String {
+fun Long.getAvgWeekHours(timestamp: OffsetDateTime): String {
 
-    val daysCount = timestamp.getDaysSpentSince()
-    val avgDailyMins = this / daysCount
+    val weekCount = ChronoUnit.WEEKS.between(timestamp, OffsetDateTime.now()) + 1
+    val avgMins = this / if (weekCount > 0) weekCount else 1
 
-    return avgDailyMins.toHours()
+    return avgMins.toHours()
 }
 
 const val HOUR_MINUTES = 60

@@ -39,15 +39,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/daily_average"
+                    android:text="@string/per_week"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@{viewModel.avgDailyTime}"
+                    android:text="@{viewModel.avgWeekTime}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    tools:text="4.1h" />
+                    tools:text="40h" />
             </LinearLayout>
 
             <LinearLayout
@@ -81,11 +81,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/total_time"
+                    android:text="@string/total"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
                 <TextView
-                    android:id="@+id/total_time"
+                    android:id="@+id/total"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@{viewModel.totalTime}"

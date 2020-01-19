@@ -51,6 +51,6 @@ class ActivityDetailFragmentTest {
         // THEN - Activity details are displayed on the screen
         // Make sure that both title and hours count are displayed correctly
         onView(withId(R.id.title)).check(matches(withText("Activity name")))
-        onView(withId(R.id.total_time)).check(matches(withText("0h")))
+        onView(withId(R.id.total)).check(matches(withText("0h")))
     }
 }

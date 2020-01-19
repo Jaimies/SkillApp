@@ -11,6 +11,7 @@
     <dimen name="border_radius_50_percent">10000dp</dimen>
     <dimen name="avatar_size">150dp</dimen>
     <dimen name="activities_item_height">50dp</dimen>
+    <dimen name="progressbar_gradient_width">1dp</dimen>
     <dimen name="activities_plus_button_size">40dp</dimen>
     <dimen name="records_item_height">50dp</dimen>
     <dimen name="loading_item_height">60dp</dimen>

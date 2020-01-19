@@ -1,9 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape>
+            <corners android:radius="@dimen/border_radius_50_percent" />
             <gradient
-                android:endColor="@android:color/transparent"
-                android:startColor="@android:color/transparent" />
+                android:angle="180"
+                android:endColor="#FFE3C907"
+                android:startColor="#FF00A99D" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="@dimen/progressbar_gradient_width"
+        android:left="@dimen/progressbar_gradient_width"
+        android:right="@dimen/progressbar_gradient_width"
+        android:top="@dimen/progressbar_gradient_width">
+        <shape>
+            <corners android:radius="@dimen/border_radius_50_percent" />
+            <solid android:color="?attr/listItemBackground" />
         </shape>
     </item>
 

@@ -21,9 +21,8 @@ class StatisticDelegateAdapter : DelegateAdapter {
         showDeleteDialog: (Int) -> Unit
     ): RecyclerView.ViewHolder {
 
+        val inflater = LayoutInflater.from(parent.context)
         val fragmentActivity = parent.getFragmentActivity()
-        val inflater = LayoutInflater.from(fragmentActivity)
-
         val viewModel = createViewModel(fragmentActivity, StatisticViewModel::class)
 
         val binding = StatsItemBinding.inflate(inflater, parent, false).also {

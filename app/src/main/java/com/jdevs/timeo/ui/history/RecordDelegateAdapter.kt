@@ -23,9 +23,8 @@ class RecordDelegateAdapter : DelegateAdapter {
         showDeleteDialog: (Int) -> Unit
     ): ViewHolder {
 
+        val inflater = LayoutInflater.from(parent.context)
         val fragmentActivity = parent.getFragmentActivity()
-        val inflater = LayoutInflater.from(fragmentActivity)
-
         val viewModel = createViewModel(fragmentActivity, RecordViewModel::class)
 
         val binding = RecordsItemBinding.inflate(inflater, parent, false).also {

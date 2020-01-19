@@ -1,5 +1,7 @@
 package com.jdevs.timeo.util.extensions
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -38,7 +40,10 @@ fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
 fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
     LayoutInflater.from(context).inflate(layoutId, this, false)
 
-fun ViewGroup.getFragmentActivity() = context as FragmentActivity
+fun ViewGroup.getFragmentActivity(): FragmentActivity = context.getBaseContext()
+
+inline fun <reified T> Context.getBaseContext() =
+    if (this is T) this else (this as ContextWrapper).baseContext as T
 
 fun RecyclerView.setupAdapter(adapter: RecyclerView.Adapter<*>) {
 

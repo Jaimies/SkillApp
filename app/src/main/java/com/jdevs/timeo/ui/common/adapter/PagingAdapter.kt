@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.util.extensions.getBaseContext
 
 class PagingAdapter(
     private val delegateAdapter: DelegateAdapter,
@@ -44,6 +45,6 @@ class PagingAdapter(
     abstract class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
         protected val context: Context get() = view.context
-        protected val lifecycleOwner get() = context as LifecycleOwner
+        protected val lifecycleOwner: LifecycleOwner get() = context.getBaseContext()
     }
 }

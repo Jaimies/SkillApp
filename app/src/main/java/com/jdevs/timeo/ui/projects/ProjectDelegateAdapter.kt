@@ -22,8 +22,8 @@ class ProjectDelegateAdapter : DelegateAdapter {
         showDeleteDialog: (Int) -> Unit
     ): RecyclerView.ViewHolder {
 
+        val inflater = LayoutInflater.from(parent.context)
         val fragmentActivity = parent.getFragmentActivity()
-        val inflater = LayoutInflater.from(fragmentActivity)
         val viewModel = createViewModel(fragmentActivity, ProjectViewModel::class)
 
         val binding = ProjectsItemBinding.inflate(inflater, parent, false).also {

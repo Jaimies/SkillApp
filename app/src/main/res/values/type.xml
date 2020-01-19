@@ -14,7 +14,6 @@
     </style>
 
     <style name="TextAppearance.Timeo.Headline2">
-        <item name="android:lineSpacingMultiplier">1.3</item>
         <item name="fontFamily">@font/montserrat_regular</item>
         <item name="android:textSize">30sp</item>
         <item name="android:layout_height">40sp</item>

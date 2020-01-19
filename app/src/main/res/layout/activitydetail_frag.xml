@@ -81,7 +81,7 @@
                 app:constraint_referenced_ids="total_label,title,total" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -161,7 +161,7 @@
                 android:textAppearance="@style/TextAppearance.Timeo.Body1"
                 app:layout_constraintBottom_toTopOf="@id/info_barrier"
                 app:layout_constraintEnd_toStartOf="@+id/per_week_label"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/icon"
                 app:layout_constraintTop_toBottomOf="@id/days_spent" />
 
             <androidx.constraintlayout.widget.Barrier
@@ -169,7 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="last_week_label,imageView,last_week,per_week_label,per_week,days_spent,days_spent_label" />
+                app:constraint_referenced_ids="last_week_label,icon,last_week,per_week_label,per_week,days_spent,days_spent_label" />
 
             <ProgressBar
                 android:id="@+id/progressBar"

@@ -6,7 +6,6 @@
     <color name="colorAccent">#FFEAD442</color>
     <color name="colorBlackTransparent">#45000000</color>
     <color name="colorYellow">#FFFFFF00</color>
-    <color name="colorWhiteTransparent">#80FFFFFF</color>
     <color name="colorTextPrimary">#FF362C1C</color>
     <color name="colorTextSecondary">#FF3B6639</color>
     <color name="colorMenuItemUnselected">#FF514B3A</color>

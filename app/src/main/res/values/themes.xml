@@ -5,8 +5,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="enabledMenuItemColor">@color/colorTextSecondary</item>
-        <item name="disabledMenuItemColor">@color/colorWhiteTransparent</item>
         <item name="android:windowBackground">@color/colorSecondary</item>
         <item name="android:textColorPrimary">@color/colorTextPrimary</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>

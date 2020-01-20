@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 @Suppress("EmptyFunctionBlock")
 fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
 
-    if (tag == HAS_TEXT_WATCHER) {
-
-        return
-    }
+    if (tag == HAS_TEXT_WATCHER) return
 
     addTextChangedListener(object : TextWatcher {
 
@@ -45,9 +42,12 @@ fun ViewGroup.getFragmentActivity(): FragmentActivity = context.getBaseContext()
 inline fun <reified T> Context.getBaseContext() =
     if (this is T) this else (this as ContextWrapper).baseContext as T
 
-fun RecyclerView.setupAdapter(adapter: RecyclerView.Adapter<*>) {
+fun RecyclerView.setupAdapter(
+    adapter: RecyclerView.Adapter<*>,
+    @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL
+) {
 
-    layoutManager = LinearLayoutManager(context)
+    layoutManager = LinearLayoutManager(context, orientation, false)
     this.adapter = adapter
 }
 

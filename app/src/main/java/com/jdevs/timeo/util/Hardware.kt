@@ -17,6 +17,8 @@ fun Context.getScreenDimensions(): DisplayMetrics {
     return displayMetrics
 }
 
+fun Context.dpToPx(dp: Int) = (dp * resources.displayMetrics.density).toInt()
+
 fun Activity.hideKeyboard() {
 
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager

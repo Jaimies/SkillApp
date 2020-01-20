@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="100dp"
+    android:layout_height="125dp"
+    android:background="@drawable/rounded_corners">
+
+    <TextView
+        android:id="@+id/achievement_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="15dp"
+        android:drawablePadding="15dp"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.Timeo.Body1.Capitalized"
+        tools:drawableTop="@drawable/ic_award"
+        tools:text="@string/_500_hours" />
+</FrameLayout>

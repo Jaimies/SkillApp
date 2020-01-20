@@ -9,13 +9,16 @@ import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.common.ActionBarFragment
+import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
 import com.jdevs.timeo.ui.stats.setupTabLayoutMediator
 import com.jdevs.timeo.util.extensions.getAppComponent
 import com.jdevs.timeo.util.extensions.observeEvent
+import com.jdevs.timeo.util.extensions.setupAdapter
 import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
@@ -25,6 +28,7 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     override val menuId = R.menu.activity_detail_fragment_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
+    private val adapter by lazy { AchievementsAdapter() }
 
     override fun onAttach(context: Context) {
 
@@ -48,7 +52,6 @@ class ActivityDetailFragment : ActionBarFragment() {
 
             it.lifecycleOwner = this
             it.viewModel = viewModel
-
             it.statsViewpager.adapter = ActivityDetailStatsAdapter { statsType ->
 
                 val directions = ActivityDetailFragmentDirections
@@ -58,6 +61,8 @@ class ActivityDetailFragment : ActionBarFragment() {
             }
 
             setupTabLayoutMediator(it.statsTablayout, it.statsViewpager)
+            it.achievementsList.setupAdapter(adapter, RecyclerView.HORIZONTAL)
+            it.achievementsList.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
         }
 
         viewModel.apply {
@@ -80,11 +85,14 @@ class ActivityDetailFragment : ActionBarFragment() {
                 .actionActivityDetailFragmentToAddEditActivityFragment(viewModel.activity.value!!)
 
             findNavController().navigate(directions)
-
             true
         } else {
 
             super.onOptionsItemSelected(item)
         }
+    }
+
+    companion object {
+        private const val ACHIEVEMENTS_ITEM_SPACING = 20
     }
 }

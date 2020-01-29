@@ -28,7 +28,6 @@
             android:id="@+id/name_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:editText="@{nameEditText}"
             app:error="@{viewModel.nameError}">
 
             <com.google.android.material.textfield.TextInputEditText

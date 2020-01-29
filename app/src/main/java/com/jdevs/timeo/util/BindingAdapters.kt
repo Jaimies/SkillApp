@@ -2,7 +2,6 @@ package com.jdevs.timeo.util
 
 import android.view.KeyEvent
 import android.view.View
-import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.textfield.TextInputLayout
@@ -14,8 +13,8 @@ fun hideIf(view: View, shouldHide: Boolean) {
     view.visibility = if (shouldHide) View.GONE else View.VISIBLE
 }
 
-@BindingAdapter("error", "editText", requireAll = true)
-fun setError(textInputLayout: TextInputLayout, error: String, editText: EditText) {
+@BindingAdapter("error")
+fun setError(textInputLayout: TextInputLayout, error: String) {
 
     if (error.isEmpty()) {
 
@@ -24,8 +23,7 @@ fun setError(textInputLayout: TextInputLayout, error: String, editText: EditText
     }
 
     textInputLayout.error = error
-
-    editText.apply {
+    textInputLayout.editText?.apply {
 
         requestFocus()
         setSelection(length())

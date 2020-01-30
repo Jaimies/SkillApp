@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.util.extensions.inflate
@@ -41,7 +42,7 @@ class AchievementsAdapter : RecyclerView.Adapter<AchievementsAdapter.ViewHolder>
         fun setText(@StringRes resId: Int) = view.achievement_text.setText(resId)
         fun setDrawable(@DrawableRes resId: Int) {
 
-            val drawable = view.achievement_text.context.getDrawable(resId)
+            val drawable = ContextCompat.getDrawable(view.achievement_text.context, resId)
             drawable?.setAutoBounds()
             view.achievement_text.setCompoundDrawables(null, drawable, null, null)
         }

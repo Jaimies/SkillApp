@@ -7,6 +7,9 @@ object Versions {
     const val constraintLayout = "1.1.3"
     const val legacy = "1.0.0"
 
+    // Multidex
+    const val multidex = "2.0.1"
+
     // ViewPager2
     const val viewPager2 = "1.0.0"
 

@@ -40,6 +40,8 @@ android {
         versionCode = App.versionCode
         versionName = App.versionName
 
+        multiDexEnabled = true
+
         testInstrumentationRunner = "com.jdevs.timeo.TimeoTestRunner"
 
         javaCompileOptions {
@@ -65,6 +67,11 @@ android {
             )
 
             signingConfig = signingConfigs.getByName("release")
+        }
+
+        getByName("debug") {
+
+            multiDexEnabled = true
         }
     }
 
@@ -108,6 +115,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:${Versions.appcompat}")
     implementation("androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}")
     implementation("androidx.legacy:legacy-support-v4:${Versions.legacy}")
+
+    // Multidex
+    debugImplementation("androidx.multidex:multidex:${Versions.multidex}")
 
     // Extensions
     implementation("androidx.fragment:fragment-ktx:${Versions.fragmentKtx}")

@@ -210,41 +210,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/stats_viewpager"
                 tools:itemCount="1"
                 tools:listitem="@layout/achievements_item" />
-
-            <!--            <com.google.android.material.button.MaterialButton-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_gravity="center_horizontal"-->
-            <!--                android:layout_marginTop="@dimen/margin_default"-->
-            <!--                android:onClick="@{() -> viewModel.showRecordDialog()}"-->
-            <!--                android:text="@string/add_record" />-->
-
-            <!--            <LinearLayout-->
-            <!--                android:id="@+id/linearLayout2"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                tools:layout_editor_absoluteX="36dp">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="@{viewModel.prevMilestone}"-->
-            <!--                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"-->
-            <!--                    tools:text="0h" />-->
-
-            <!--                <LinearLayout-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:gravity="end">-->
-
-            <!--                    <TextView-->
-            <!--                        android:layout_width="wrap_content"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:text="@{viewModel.nextMilestone}"-->
-            <!--                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"-->
-            <!--                        tools:text="25h" />-->
-            <!--                </LinearLayout>-->
-            <!--            </LinearLayout>-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

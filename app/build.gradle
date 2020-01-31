@@ -1,0 +1,169 @@
+plugins {
+
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
+    id 'io.gitlab.arturbosch.detekt' version '1.2.2'
+}
+
+android {
+
+    kotlinOptions.jvmTarget = "1.8"
+    signingConfigs {
+        release {
+            storeFile = file(Signing.keyPath)
+            storePassword = Signing.storePassword
+            keyAlias = Signing.keyAlias
+            keyPassword = Signing.keyPassword
+        }
+    }
+
+    compileSdkVersion App.compileSdk
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+
+        applicationId App.applicationId
+        minSdkVersion App.minSdk
+        targetSdkVersion App.targetSdk
+        versionCode App.versionCode
+        versionName App.versionName
+        multiDexEnabled = true
+
+        testInstrumentationRunner = 'com.jdevs.timeo.TimeoTestRunner'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = true
+            shrinkResources = true
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+
+            signingConfig = signingConfigs.release
+        }
+        debug.multiDexEnabled = true
+    }
+
+    sourceSets {
+
+        androidTest.java.srcDirs = ['src/sharedTest/kotlin', 'src/androidTest/kotlin']
+        test.java.srcDirs = ['src/sharedTest/kotlin', 'src/test/kotlin']
+    }
+
+    dataBinding.enabled = true
+}
+
+detekt {
+    ignoreFailures = true
+    autoCorrect = true
+    input = files("src")
+
+    reports {
+        xml.enabled = false
+        txt.enabled = false
+    }
+}
+
+dependencies {
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$Versions.coroutines"
+
+    // Core Android libraries and legacy support
+    implementation "androidx.core:core-ktx:$Versions.androidxCore"
+    implementation "androidx.appcompat:appcompat:$Versions.appcompat"
+    implementation "androidx.constraintlayout:constraintlayout:$Versions.constraintLayout"
+    implementation "androidx.legacy:legacy-support-v4:$Versions.legacy"
+
+    // Multidex
+    debugImplementation "androidx.multidex:multidex:$Versions.multidex"
+
+    // Extensions
+    implementation "androidx.fragment:fragment-ktx:$Versions.fragmentKtx"
+    implementation "androidx.lifecycle:lifecycle-extensions:$Versions.lifecycleExtensions"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$Versions.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$Versions.navigation"
+
+    // Material components
+    implementation "com.google.android.material:material:$Versions.material"
+
+    // ViewPager 2
+    implementation "androidx.viewpager2:viewpager2:$Versions.viewPager2"
+
+    // Firebase
+    implementation "com.google.firebase:firebase-auth:$Versions.auth"
+    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
+    implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
+    debugImplementation "com.google.code.gson:gson:$Versions.gson"
+
+    // Room
+    implementation "androidx.room:room-runtime:$Versions.room"
+    implementation "androidx.room:room-ktx:$Versions.room"
+    kapt("androidx.room:room-compiler:$Versions.room")
+
+    // Paging
+    implementation "androidx.paging:paging-runtime:$Versions.paging"
+
+    // java.time.* backport for Android
+    implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
+
+    // For tests use default ThreeTenBP library
+    testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
+
+    // Dependency injection
+    implementation "com.google.dagger:dagger:$Versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$Versions.dagger"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$Versions.dagger"
+
+    // Data Binding
+    kapt "com.android.databinding:compiler:$Versions.dataBinding"
+
+    // Lint
+    lintChecks project(':lint')
+
+    // Test
+    testImplementation "junit:junit:$Versions.junit"
+    testImplementation "org.hamcrest:hamcrest-all:$Versions.hamcrest"
+
+    // Android Test
+    androidTestImplementation "androidx.test.ext:junit:$Versions.junitExt"
+    androidTestImplementation "androidx.test:runner:$Versions.androidxTestRunner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$Versions.espresso"
+    androidTestImplementation "androidx.room:room-testing:$Versions.room"
+    androidTestImplementation "junit:junit:$Versions.junit"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$Versions.coroutines"
+    androidTestImplementation "org.mockito:mockito-core:$Versions.mockito"
+    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$Versions.dexMaker"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$Versions.espresso"
+
+    // Testing code should not be included in the main code.
+    // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
+
+    implementation "androidx.fragment:fragment-testing:$Versions.fragment"
+    implementation "androidx.test:core:$Versions.androidxTestCore"
+
+    // Browsing SQLite database
+    // To enable, run adb forward tcp:8080 tcp:8080
+    // (/home/alex/Android/Sdk/platform-tools/adb forward tcp:8080 tcp:8080)
+    // and connect to http://localhost:8080
+    debugImplementation "com.amitshekhar.android:debug-db:$Versions.debugDb"
+}

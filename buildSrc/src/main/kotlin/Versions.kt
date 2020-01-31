@@ -17,10 +17,10 @@ object Versions {
     const val coroutines = "1.3.2"
     const val room = "2.2.3"
     const val paging = "2.1.1"
-    const val navigation = "2.2.0-rc04"
-    const val lifecycleExtensions = "2.2.0-rc03"
-    const val fragmentKtx = "1.2.0-rc04"
-    const val material = "1.1.0-rc01"
+    const val navigation = "2.2.0"
+    const val lifecycleExtensions = "2.2.0"
+    const val fragmentKtx = "1.2.0"
+    const val material = "1.2.0-alpha04"
 
     // JSR 310 backport
     const val threeTenABP = "1.2.1"
@@ -55,7 +55,7 @@ object Versions {
     // Android Test
     const val androidxTestRunner = "1.2.0"
     const val espresso = "3.2.0"
-    const val fragment = "1.1.0"
+    const val fragment = "1.2.0"
     const val junitExt = "1.1.1"
     const val androidxTestCore = "1.2.0"
     const val mockito = "3.2.4"

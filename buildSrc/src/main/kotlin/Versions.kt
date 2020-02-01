@@ -39,7 +39,6 @@ object Versions {
 
     // Static analyzers
     const val lint = "26.5.3"
-    const val detekt = "1.2.2"
 
     // Kapt
     const val dataBinding = "3.1.4"

@@ -10,7 +10,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-@Suppress("EmptyFunctionBlock")
 class FakeStatsRepository @Inject constructor() : StatsRepository {
 
     private val dayStatsList = mutableListOf<DayStats>()

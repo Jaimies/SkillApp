@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-@Suppress("EmptyFunctionBlock")
 fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
 
     if (tag == HAS_TEXT_WATCHER) return

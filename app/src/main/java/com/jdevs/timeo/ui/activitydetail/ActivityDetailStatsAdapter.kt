@@ -9,7 +9,6 @@ import com.jdevs.timeo.util.StatsTypes
 import com.jdevs.timeo.util.extensions.inflate
 import kotlinx.android.synthetic.main.activitydetail_stats_item.view.title_text_view
 
-@Suppress("EmptyFunctionBlock")
 class ActivityDetailStatsAdapter(private val onClick: (Int) -> Unit = {}) :
     RecyclerView.Adapter<ActivityDetailStatsAdapter.ViewHolder>() {
 

@@ -16,12 +16,12 @@ class AchievementsAdapter : RecyclerView.Adapter<AchievementsAdapter.ViewHolder>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(parent.inflate(R.layout.achievements_item))
 
-    override fun getItemCount() = 7
+    override fun getItemCount() = ACHIEVEMENTS_COUNT
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.setText(
-            when (position % AWARDS_COUNT) {
+            when (position % ACHIEVEMENTS_TOTAL_COUNT) {
                 0 -> R.string._500_hours
                 1 -> R.string.nice
                 else -> R.string.cool
@@ -29,7 +29,7 @@ class AchievementsAdapter : RecyclerView.Adapter<AchievementsAdapter.ViewHolder>
         )
 
         holder.setDrawable(
-            when (position % AWARDS_COUNT) {
+            when (position % ACHIEVEMENTS_TOTAL_COUNT) {
                 0 -> R.drawable.ic_award
                 1 -> R.drawable.ic_flower
                 else -> R.drawable.ic_snow
@@ -49,6 +49,7 @@ class AchievementsAdapter : RecyclerView.Adapter<AchievementsAdapter.ViewHolder>
     }
 
     companion object {
-        private const val AWARDS_COUNT = 3
+        private const val ACHIEVEMENTS_TOTAL_COUNT = 3
+        private const val ACHIEVEMENTS_COUNT = 7
     }
 }

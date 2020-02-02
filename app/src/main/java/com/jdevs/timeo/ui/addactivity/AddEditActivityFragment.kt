@@ -121,14 +121,13 @@ class AddEditActivityFragment : ActionBarFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        return if (item.itemId == R.id.action_save) {
+        if (item.itemId == R.id.action_save) {
 
             viewModel.triggerSaveActivity()
-            true
-        } else {
-
-            super.onOptionsItemSelected(item)
+            return true
         }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setNameError(@StringRes resId: Int) = viewModel.setNameError(getString(resId))

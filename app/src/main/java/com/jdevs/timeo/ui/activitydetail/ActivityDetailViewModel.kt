@@ -41,6 +41,7 @@ class ActivityDetailViewModel @Inject constructor(
     fun setupActivityLiveData(activity: Activity) {
 
         this.activity = getActivityById(activity.id, activity.documentId)
+        setActivity(activity)
     }
 
     fun addRecord(activity: Activity, time: Long) = viewModelScope.launch {

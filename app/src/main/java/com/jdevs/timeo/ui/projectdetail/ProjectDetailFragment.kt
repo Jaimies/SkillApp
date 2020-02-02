@@ -35,7 +35,6 @@ class ProjectDetailFragment : ActionBarFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        viewModel.setProject(args.project)
         viewModel.setupProjectLiveData(args.project)
     }
 
@@ -64,16 +63,15 @@ class ProjectDetailFragment : ActionBarFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        return if (item.itemId == R.id.editActivity) {
+        if (item.itemId == R.id.editActivity) {
 
             val directions = ProjectDetailFragmentDirections
                 .actionProjectDetailFragmentToAddProjectFragment(viewModel.project.value)
 
             findNavController().navigate(directions)
-            true
-        } else {
-
-            super.onOptionsItemSelected(item)
+            return true
         }
+
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -23,7 +23,7 @@ fun setError(textInputLayout: TextInputLayout, error: String) {
     }
 
     textInputLayout.error = error
-    textInputLayout.editText?.apply {
+    textInputLayout.editText?.run {
 
         requestFocus()
         setSelection(length())

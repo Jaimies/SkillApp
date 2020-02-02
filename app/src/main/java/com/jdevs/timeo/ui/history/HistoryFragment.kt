@@ -61,10 +61,10 @@ class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener 
 
         AlertDialog.Builder(context!!)
             .setIcon(android.R.drawable.ic_delete)
-            .setTitle(getString(R.string.are_you_sure))
-            .setMessage(getString(R.string.sure_delete_record))
-            .setPositiveButton(getString(R.string.yes), this)
-            .setNegativeButton(getString(R.string.no), null)
+            .setTitle(R.string.are_you_sure)
+            .setMessage(R.string.sure_delete_record)
+            .setPositiveButton(R.string.yes, this)
+            .setNegativeButton(R.string.no, null)
             .show()
     }
 

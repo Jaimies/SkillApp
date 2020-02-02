@@ -8,24 +8,12 @@ fun getFriendlyTime(totalMinutes: Long): String {
     val hours = totalMinutes / HOUR_MINUTES
     val minutes = totalMinutes % HOUR_MINUTES
 
-    var timeString = ""
+    val builder = StringBuilder()
 
-    if (hours != 0L) {
+    if (hours != 0L) builder.append("${hours}h")
+    if (minutes != 0L) builder.append(" ${minutes}m")
 
-        timeString += "${hours}h"
-    }
-
-    if (minutes != 0L) {
-
-        if (hours != 0L) {
-
-            timeString += " "
-        }
-
-        timeString += "${minutes}m"
-    }
-
-    return timeString
+    return builder.trim().toString()
 }
 
 fun getHours(totalMinutes: Long): String {

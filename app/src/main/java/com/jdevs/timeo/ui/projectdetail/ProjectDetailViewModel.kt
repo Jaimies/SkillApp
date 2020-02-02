@@ -43,6 +43,7 @@ class ProjectDetailViewModel @Inject constructor(
     fun setupProjectLiveData(project: Project) {
 
         this.project = getProjectById(project.id, project.documentId)
+        setProject(project)
     }
 
     fun addRecord(project: Project, time: Long) = viewModelScope.launch {

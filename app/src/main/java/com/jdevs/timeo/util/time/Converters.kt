@@ -6,13 +6,12 @@ import java.util.Date
 
 fun Date?.toOffsetDate(): OffsetDateTime {
 
-    return if (this == null) {
+    if (this == null) {
 
-        OffsetDateTime.now()
-    } else {
-
-        OffsetDateTime.from(DateTimeUtils.toInstant(this).atOffset(currentOffset))
+        return OffsetDateTime.now()
     }
+
+    return OffsetDateTime.from(DateTimeUtils.toInstant(this).atOffset(currentOffset))
 }
 
 fun OffsetDateTime.toDate(): Date = DateTimeUtils.toDate(toInstant())

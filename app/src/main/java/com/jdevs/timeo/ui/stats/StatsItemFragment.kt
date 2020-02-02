@@ -42,7 +42,6 @@ class StatsItemFragment : ListFragment<DayStats>() {
 
             it.viewModel = viewModel
             it.lifecycleOwner = this
-
             it.recyclerView.setup(VISIBLE_THRESHOLD)
         }
 

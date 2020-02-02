@@ -39,7 +39,6 @@ class ActivityDetailFragment : ActionBarFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        viewModel.setActivity(args.activity)
         viewModel.setupActivityLiveData(args.activity)
     }
 
@@ -79,17 +78,16 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        return if (item.itemId == R.id.editActivity) {
+        if (item.itemId == R.id.editActivity) {
 
             val directions = ActivityDetailFragmentDirections
                 .actionActivityDetailFragmentToAddEditActivityFragment(viewModel.activity.value!!)
 
             findNavController().navigate(directions)
-            true
-        } else {
-
-            super.onOptionsItemSelected(item)
+            return true
         }
+
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

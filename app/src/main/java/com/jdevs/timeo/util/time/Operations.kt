@@ -18,7 +18,6 @@ fun OffsetDateTime.getDaysSpentSince(): Long {
 }
 
 fun OffsetDateTime.getDaysAgo() = ChronoUnit.DAYS.between(this, OffsetDateTime.now())
-
 fun OffsetDateTime.getDaysSinceEpoch() = LocalDate.from(this).toEpochDay()
 
 fun OffsetDateTime.getWeeksSinceEpoch(): Int {

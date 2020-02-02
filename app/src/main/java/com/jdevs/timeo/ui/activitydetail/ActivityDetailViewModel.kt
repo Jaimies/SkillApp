@@ -11,7 +11,7 @@ import com.jdevs.timeo.ui.activities.ActivityDataViewModel
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
-import com.jdevs.timeo.util.time.toHours
+import com.jdevs.timeo.util.time.getHours
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,8 +33,8 @@ class ActivityDetailViewModel @Inject constructor(
     override fun setActivity(activity: Activity) {
 
         super.setActivity(activity)
-        _avgWeekTime.value = activity.totalTime.getAvgWeekHours(activity.creationDate) + "h"
-        _lastWeekTime.value = activity.lastWeekTime.toHours() + "h"
+        _avgWeekTime.value = getAvgWeekHours(activity.totalTime, activity.creationDate) + "h"
+        _lastWeekTime.value = getHours(activity.lastWeekTime) + "h"
         _daysSpent.value = activity.creationDate.getDaysSpentSince().toString()
     }
 

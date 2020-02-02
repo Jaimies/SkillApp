@@ -78,7 +78,7 @@ class SignInFragment : AuthFragment() {
         when {
 
             email.isEmpty() -> setEmailError(R.string.email_empty)
-            !email.isValidEmail() -> setEmailError(R.string.email_invalid)
+            !isValidEmail(email) -> setEmailError(R.string.email_invalid)
             password.isEmpty() -> setPasswordError(R.string.password_empty)
 
             else -> {

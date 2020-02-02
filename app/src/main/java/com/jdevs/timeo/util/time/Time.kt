@@ -3,10 +3,10 @@ package com.jdevs.timeo.util.time
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.temporal.ChronoUnit
 
-fun Long.toFriendlyTime(): String {
+fun getFriendlyTime(totalMinutes: Long): String {
 
-    val hours = this / HOUR_MINUTES
-    val minutes = this % HOUR_MINUTES
+    val hours = totalMinutes / HOUR_MINUTES
+    val minutes = totalMinutes % HOUR_MINUTES
 
     var timeString = ""
 
@@ -28,28 +28,30 @@ fun Long.toFriendlyTime(): String {
     return timeString
 }
 
-fun Long.toHours(): String {
+fun getHours(totalMinutes: Long): String {
 
-    val time = this / HOUR_MINUTES.toFloat()
+    val time = totalMinutes / HOUR_MINUTES.toFloat()
     val timeString = "%.1f".format(time)
 
     return if (timeString.takeLast(1) == "0") timeString.dropLast(2) else timeString
 }
 
-fun Long.getProgress() = toInt().rem(TWENTY_FIVE_HOURS) * PERCENT_COUNT / TWENTY_FIVE_HOURS
-fun Long.getPrevMilestone() = toInt() - rem(TWENTY_FIVE_HOURS)
-fun Long.getNextMilestone() = getPrevMilestone() + TWENTY_FIVE_HOURS
+fun getHours(totalMinutes: Int) = getHours(totalMinutes.toLong())
+fun getMins(hours: Long, minutes: Long) = hours * HOUR_MINUTES + minutes
+fun getProgress(minutes: Long) =
+    minutes.toInt().rem(TWENTY_FIVE_HOURS) * PERCENT_COUNT / TWENTY_FIVE_HOURS
 
-fun Int.toHours() = toLong().toHours()
+fun getPrevMilestone(time: Long) =
+    time.toInt() - time.toInt().rem(TWENTY_FIVE_HOURS) * PERCENT_COUNT / TWENTY_FIVE_HOURS
 
-fun Pair<Long, Long>.toMins() = first * HOUR_MINUTES + second
+fun getNextMilestone(minutes: Long) = getPrevMilestone(minutes) + TWENTY_FIVE_HOURS
 
-fun Long.getAvgWeekHours(timestamp: OffsetDateTime): String {
+fun getAvgWeekHours(time: Long, startedAt: OffsetDateTime): String {
 
-    val weekCount = ChronoUnit.WEEKS.between(timestamp, OffsetDateTime.now()) + 1
-    val avgMins = this / if (weekCount > 0) weekCount else 1
+    val weekCount = ChronoUnit.WEEKS.between(startedAt, OffsetDateTime.now()) + 1
+    val avgMins = time / if (weekCount > 0) weekCount else 1
 
-    return avgMins.toHours()
+    return getHours(avgMins)
 }
 
 const val HOUR_MINUTES = 60

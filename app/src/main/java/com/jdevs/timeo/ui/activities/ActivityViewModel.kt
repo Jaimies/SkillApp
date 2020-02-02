@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.util.SingleLiveEvent
+import com.jdevs.timeo.util.time.getHours
 import com.jdevs.timeo.util.time.getNextMilestone
 import com.jdevs.timeo.util.time.getPrevMilestone
 import com.jdevs.timeo.util.time.getProgress
-import com.jdevs.timeo.util.time.toHours
 
 open class ActivityDataViewModel : ViewModel() {
 
@@ -28,10 +28,10 @@ open class ActivityDataViewModel : ViewModel() {
     open fun setActivity(activity: Activity) {
 
         _name.value = activity.name
-        _totalTime.value = activity.totalTime.toHours() + "h"
-        _gradientPercentage.value = activity.totalTime.getProgress()
-        _prevMilestone.value = activity.totalTime.getPrevMilestone().toHours() + "h"
-        _nextMilestone.value = activity.totalTime.getNextMilestone().toHours() + "h"
+        _totalTime.value = getHours(activity.totalTime) + "h"
+        _gradientPercentage.value = getProgress(activity.totalTime)
+        _prevMilestone.value = getHours(getPrevMilestone(activity.totalTime)) + "h"
+        _nextMilestone.value = getHours(getNextMilestone(activity.totalTime)) + "h"
     }
 }
 

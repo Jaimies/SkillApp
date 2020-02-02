@@ -2,20 +2,20 @@ package com.jdevs.timeo.util
 
 import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
 
-fun String.isValidEmail() = EMAIL_ADDRESS.matcher(this).matches()
+fun isValidEmail(email: String) = EMAIL_ADDRESS.matcher(email).matches()
 
-fun String.validatePassword() = when {
+fun validatePassword(password: String) = when {
 
-    isEmpty() -> EMPTY
-    length < PASSWORD_MIN_LENGTH -> TOO_SHORT
-    length > PASSWORD_MAX_LENGTH -> TOO_LONG
+    password.isEmpty() -> EMPTY
+    password.length < PASSWORD_MIN_LENGTH -> TOO_SHORT
+    password.length > PASSWORD_MAX_LENGTH -> TOO_LONG
     else -> VALID
 }
 
-fun String.validateEmail() = when {
+fun validateEmail(email: String) = when {
 
-    isEmpty() -> EMPTY
-    !isValidEmail() -> INVALID
+    email.isEmpty() -> EMPTY
+    !isValidEmail(email) -> INVALID
     else -> VALID
 }
 

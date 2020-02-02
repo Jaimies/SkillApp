@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(),
             graphsToRecreate.remove(graphId)
         }
 
-        hideKeyboard()
+        window.decorView.hideKeyboard()
     }
 
     override fun onDestroy() {

@@ -7,10 +7,10 @@ import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.Stats
 import com.jdevs.timeo.domain.model.WeekStats
-import com.jdevs.timeo.util.time.toFriendlyDate
-import com.jdevs.timeo.util.time.toFriendlyMonth
-import com.jdevs.timeo.util.time.toFriendlyWeek
-import com.jdevs.timeo.util.time.toHours
+import com.jdevs.timeo.util.time.getFriendlyDate
+import com.jdevs.timeo.util.time.getFriendlyMonth
+import com.jdevs.timeo.util.time.getFriendlyWeek
+import com.jdevs.timeo.util.time.getHours
 
 class StatisticViewModel : ViewModel() {
 
@@ -22,13 +22,13 @@ class StatisticViewModel : ViewModel() {
 
     fun setStats(stats: Stats) {
 
-        _time.value = stats.time.toHours() + "h"
+        _time.value = getHours(stats.time) + "h"
 
         _day.value = when (stats) {
 
-            is DayStats -> stats.day.toFriendlyDate()
-            is WeekStats -> stats.week.toFriendlyWeek()
-            is MonthStats -> stats.month.toFriendlyMonth()
+            is DayStats -> getFriendlyDate(stats.day)
+            is WeekStats -> getFriendlyWeek(stats.week)
+            is MonthStats -> getFriendlyMonth(stats.month)
         }
     }
 }

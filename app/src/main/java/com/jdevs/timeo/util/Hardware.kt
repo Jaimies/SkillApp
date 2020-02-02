@@ -1,6 +1,7 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.jdevs.timeo.util
 
-import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
 import android.view.View
@@ -19,12 +20,9 @@ fun Context.getScreenDimensions(): DisplayMetrics {
 
 fun Context.dpToPx(dp: Int) = (dp * resources.displayMetrics.density).toInt()
 
-fun Activity.hideKeyboard() {
-
-    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    val view = currentFocus ?: View(this)
-
-    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }
 
-fun Fragment.hideKeyboard() = activity?.hideKeyboard()
+inline fun Fragment.hideKeyboard() = view?.hideKeyboard()

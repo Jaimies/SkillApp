@@ -10,7 +10,7 @@ import com.jdevs.timeo.domain.usecase.projects.GetProjectByIdUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.util.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
-import com.jdevs.timeo.util.time.toHours
+import com.jdevs.timeo.util.time.getHours
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,9 +35,9 @@ class ProjectDetailViewModel @Inject constructor(
     fun setProject(project: Project) {
 
         _name.value = project.name
-        _totalTime.value = project.totalTime.toHours() + "h"
-        _avgWeekTime.value = project.totalTime.getAvgWeekHours(project.creationDate) + "h"
-        _lastWeekTime.value = project.lastWeekTime.toHours() + "h"
+        _totalTime.value = getHours(project.totalTime) + "h"
+        _avgWeekTime.value = getAvgWeekHours(project.totalTime, project.creationDate) + "h"
+        _lastWeekTime.value = getHours(project.lastWeekTime) + "h"
     }
 
     fun setupProjectLiveData(project: Project) {

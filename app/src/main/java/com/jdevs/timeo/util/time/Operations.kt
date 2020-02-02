@@ -33,17 +33,17 @@ fun OffsetDateTime.getMonthSinceEpoch(): Short {
     return ChronoUnit.MONTHS.between(epoch, this).toShort()
 }
 
-fun Long.toFriendlyDate() = LocalDate.ofEpochDay(this).toString()
+fun getFriendlyDate(day: Long) = LocalDate.ofEpochDay(day).toString()
 
-fun Int.toFriendlyMonth(): String {
+fun getFriendlyMonth(month: Int): String {
 
-    val date = LocalDate.from(EPOCH).plusMonths(toLong())
+    val date = LocalDate.from(EPOCH).plusMonths(month.toLong())
     return "${date.year} - ${date.month}"
 }
 
-fun Int.toFriendlyWeek(): String {
+fun getFriendlyWeek(week: Int): String {
 
-    val date = LocalDate.from(EPOCH).plusWeeks(toLong())
+    val date = LocalDate.from(EPOCH).plusWeeks(week.toLong())
     val weekField = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()
 
     return "${date.year} / Week ${date.get(weekField)}"

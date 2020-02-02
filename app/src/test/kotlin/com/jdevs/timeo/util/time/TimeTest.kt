@@ -12,7 +12,7 @@ import org.threeten.bp.OffsetDateTime
 class TimeTest {
 
     /**
-     * Test for [Long.toFriendlyTime]
+     * Test for [getFriendlyTime]
      * The test data is written in the following syntax: <input> to <expectedOutput>
      */
     @Test
@@ -27,12 +27,12 @@ class TimeTest {
 
         dataset.forEach {
 
-            assertThat(it.first.toFriendlyTime(), `is`(it.second))
+            assertThat(getFriendlyTime(it.first), `is`(it.second))
         }
     }
 
     /**
-     * Test for [Long.getAvgWeekHours]
+     * Test for [getAvgWeekHours]
      * The test data is written in the following syntax: <totalMins> to <daysAgoStarted> to <expectedOutput>
      */
     @Test
@@ -49,7 +49,7 @@ class TimeTest {
             val expectedOutput = it.second
             val date = daysAgoDate(it.first.second)
 
-            assertThat(mins.getAvgWeekHours(date), `is`(expectedOutput))
+            assertThat(getAvgWeekHours(mins, date), `is`(expectedOutput))
         }
     }
 
@@ -71,7 +71,7 @@ class TimeTest {
     }
 
     /**
-     * Test for [Long.toHours]
+     * Test for [getHours]
      * The test data is written in the following syntax: <input> to <expectedOutput>
      */
     @Test
@@ -86,7 +86,7 @@ class TimeTest {
 
         dataset.forEach {
 
-            assertThat(it.first.toHours(), `is`(it.second))
+            assertThat(getHours(it.first), `is`(it.second))
         }
     }
 
@@ -105,7 +105,7 @@ class TimeTest {
 
         dataset.forEach {
 
-            assertThat(it.first.toMins(), `is`(it.second))
+            assertThat(getMins(it.first.first, it.first.second), `is`(it.second))
         }
     }
 }

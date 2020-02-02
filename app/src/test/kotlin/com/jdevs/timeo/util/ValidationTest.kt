@@ -6,7 +6,7 @@ import org.junit.Test
 
 /**
  * Unit tests for Validation utilities
- * Tests are for methods [String.validateEmail] and [String.validatePassword]
+ * Tests are for methods [validateEmail] and [validatePassword]
  */
 class ValidationTest {
 
@@ -15,7 +15,7 @@ class ValidationTest {
 
         val password = "complex_passWord1234"
 
-        assertThat(password.validatePassword(), `is`(VALID))
+        assertThat(validatePassword(password), `is`(VALID))
     }
 
     @Test
@@ -23,7 +23,7 @@ class ValidationTest {
 
         val password = ""
 
-        assertThat(password.validatePassword(), `is`(EMPTY))
+        assertThat(validatePassword(password), `is`(EMPTY))
     }
 
     @Test
@@ -31,7 +31,7 @@ class ValidationTest {
 
         val password = "short"
 
-        assertThat(password.validatePassword(), `is`(TOO_SHORT))
+        assertThat(validatePassword(password), `is`(TOO_SHORT))
     }
 
     @Test
@@ -39,7 +39,7 @@ class ValidationTest {
 
         val password = "tooLongComplexPasswordThatExceedsTheMaximalLength"
 
-        assertThat(password.validatePassword(), `is`(TOO_LONG))
+        assertThat(validatePassword(password), `is`(TOO_LONG))
     }
 
     @Test
@@ -47,7 +47,7 @@ class ValidationTest {
 
         val email = "john.doe@gmail.com"
 
-        assertThat(email.validateEmail(), `is`(VALID))
+        assertThat(validateEmail(email), `is`(VALID))
     }
 
     @Test
@@ -55,7 +55,7 @@ class ValidationTest {
 
         val email = ""
 
-        assertThat(email.validateEmail(), `is`(EMPTY))
+        assertThat(validateEmail(email), `is`(EMPTY))
     }
 
     @Test
@@ -65,7 +65,7 @@ class ValidationTest {
 
         emails.forEach {
 
-            assertThat(it.validateEmail(), `is`(INVALID))
+            assertThat(validateEmail(it), `is`(INVALID))
         }
     }
 }

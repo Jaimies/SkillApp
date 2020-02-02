@@ -60,7 +60,7 @@ class SignUpFragment : AuthFragment() {
 
     private fun signUp(email: String, password: String) {
 
-        if (!(validateEmail(email) && validatePassword(password))) {
+        if (!(checkEmail(email) && checkPassword(password))) {
 
             return
         }
@@ -68,9 +68,9 @@ class SignUpFragment : AuthFragment() {
         viewModel.createAccount(email, password, ::handleException, ::navigateToOverview)
     }
 
-    private fun validatePassword(password: String): Boolean {
+    private fun checkPassword(password: String): Boolean {
 
-        val error = when (password.validatePassword()) {
+        val error = when (validatePassword(password)) {
 
             EMPTY -> R.string.password_empty
             TOO_SHORT -> R.string.password_too_short
@@ -82,9 +82,9 @@ class SignUpFragment : AuthFragment() {
         return false
     }
 
-    private fun validateEmail(email: String): Boolean {
+    private fun checkEmail(email: String): Boolean {
 
-        val error = when (email.validateEmail()) {
+        val error = when (validateEmail(email)) {
 
             EMPTY -> R.string.email_empty
             INVALID -> R.string.email_invalid

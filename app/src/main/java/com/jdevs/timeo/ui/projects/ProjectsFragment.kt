@@ -14,7 +14,7 @@ import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.ProjectsConstants
-import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.observeEvent
 import com.jdevs.timeo.util.extensions.showSnackbar
 import javax.inject.Inject
@@ -39,7 +39,7 @@ class ProjectsFragment : ListFragment<Project>() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        getAppComponent().inject(this)
+        appComponent.inject(this)
     }
 
     override fun onCreateView(

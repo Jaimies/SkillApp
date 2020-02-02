@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProfileFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
-import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.navigateToGraph
 import com.jdevs.timeo.util.extensions.observeEvent
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class ProfileFragment : ActionBarFragment() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        getAppComponent().inject(this)
+        appComponent.inject(this)
     }
 
     override fun onCreateView(

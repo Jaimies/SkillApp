@@ -10,7 +10,7 @@ import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.ui.common.adapter.createViewModel
-import com.jdevs.timeo.util.extensions.getFragmentActivity
+import com.jdevs.timeo.util.extensions.fragmentActivity
 
 class StatisticDelegateAdapter : DelegateAdapter {
 
@@ -22,7 +22,7 @@ class StatisticDelegateAdapter : DelegateAdapter {
     ): RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
-        val fragmentActivity = parent.getFragmentActivity()
+        val fragmentActivity = parent.fragmentActivity
         val viewModel = createViewModel(fragmentActivity, StatisticViewModel::class)
 
         val binding = StatsItemBinding.inflate(inflater, parent, false).also {

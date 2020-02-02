@@ -15,10 +15,10 @@ import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
-import com.jdevs.timeo.util.extensions.getAppComponent
-import com.jdevs.timeo.util.extensions.getCoroutineIoScope
+import com.jdevs.timeo.util.extensions.appComponent
+import com.jdevs.timeo.util.extensions.application
+import com.jdevs.timeo.util.extensions.mainActivity
 import com.jdevs.timeo.util.extensions.observeEvent
-import com.jdevs.timeo.util.extensions.requireMainActivity
 import com.jdevs.timeo.util.extensions.showSnackbar
 import com.jdevs.timeo.util.hideKeyboard
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ class AddEditActivityFragment : ActionBarFragment() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        getAppComponent().inject(this)
+        appComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +56,7 @@ class AddEditActivityFragment : ActionBarFragment() {
             it.lifecycleOwner = this
         }
 
-        requireMainActivity().supportActionBar
-            ?.setTitle(if (isEdited) R.string.edit_activity else R.string.create_activity)
+        mainActivity.supportActionBar?.setTitle(if (isEdited) R.string.edit_activity else R.string.create_activity)
 
         if (isEdited) {
 
@@ -82,7 +81,7 @@ class AddEditActivityFragment : ActionBarFragment() {
 
             val activity = args.activity!!.copy(name = name)
 
-            getCoroutineIoScope().launch { viewModel.saveActivity(activity) }
+            application.ioScope.launch { viewModel.saveActivity(activity) }
             findNavController().popBackStack()
         } else {
 

@@ -36,7 +36,7 @@ inline fun EditText.doOnceAfterTextChanged(crossinline block: () -> Unit) {
 fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
     LayoutInflater.from(context).inflate(layoutId, this, false)
 
-fun ViewGroup.getFragmentActivity(): FragmentActivity = context.getBaseContext()
+val ViewGroup.fragmentActivity get() = context.getBaseContext() as FragmentActivity
 
 inline fun <reified T> Context.getBaseContext() =
     if (this is T) this else (this as ContextWrapper).baseContext as T

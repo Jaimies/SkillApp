@@ -22,7 +22,7 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SigninFragBinding
 import com.jdevs.timeo.util.RequestCodes.RC_SIGN_IN
 import com.jdevs.timeo.util.TAG
-import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.observeEvent
 import com.jdevs.timeo.util.extensions.showSnackbar
 import com.jdevs.timeo.util.hideKeyboard
@@ -47,7 +47,7 @@ class SignInFragment : AuthFragment() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        getAppComponent().inject(this)
+        appComponent.inject(this)
     }
 
     override fun onCreateView(

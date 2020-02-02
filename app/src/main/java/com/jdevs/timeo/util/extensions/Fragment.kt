@@ -14,7 +14,7 @@ fun Fragment.showSnackbar(@StringRes resId: Int) =
 
 fun Fragment.navigateToGraph(@IdRes graphId: Int) {
 
-    requireMainActivity().navigateToGraph(graphId)
+    mainActivity.navigateToGraph(graphId)
 
     findNavController().run {
 
@@ -27,7 +27,6 @@ inline fun <T> Fragment.observeEvent(event: SingleLiveEvent<T>, crossinline onEv
     event.observeEvent(viewLifecycleOwner) { onEvent(it) }
 }
 
-fun Fragment.requireMainActivity() = requireActivity() as MainActivity
-fun Fragment.getApplication() = requireActivity().application as TimeoApplication
-fun Fragment.getCoroutineIoScope() = getApplication().ioScope
-fun Fragment.getAppComponent() = getApplication().appComponent
+val Fragment.mainActivity get() = requireActivity() as MainActivity
+val Fragment.application get() = requireActivity().application as TimeoApplication
+val Fragment.appComponent get() = application.appComponent

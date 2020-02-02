@@ -17,7 +17,7 @@ import com.jdevs.timeo.util.INVALID
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.TOO_LONG
 import com.jdevs.timeo.util.TOO_SHORT
-import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.observeEvent
 import com.jdevs.timeo.util.extensions.showSnackbar
 import com.jdevs.timeo.util.hideKeyboard
@@ -33,7 +33,7 @@ class SignUpFragment : AuthFragment() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        getAppComponent().inject(this)
+        appComponent.inject(this)
     }
 
     override fun onCreateView(

@@ -15,7 +15,7 @@ import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
-import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.observeEvent
 import com.jdevs.timeo.util.extensions.setupAdapter
 import javax.inject.Inject
@@ -31,7 +31,7 @@ class OverviewFragment : Fragment() {
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        getAppComponent().inject(this)
+        appComponent.inject(this)
     }
 
     override fun onCreateView(

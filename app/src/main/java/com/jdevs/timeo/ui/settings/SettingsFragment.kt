@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jdevs.timeo.databinding.SettingsFragBinding
-import com.jdevs.timeo.util.extensions.getAppComponent
+import com.jdevs.timeo.util.extensions.appComponent
 import javax.inject.Inject
 
 class SettingsFragment : Fragment() {
@@ -17,7 +17,7 @@ class SettingsFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        getAppComponent().inject(this)
+        appComponent.inject(this)
     }
 
     override fun onCreateView(

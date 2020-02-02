@@ -12,7 +12,7 @@ import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.ui.common.adapter.createViewModel
-import com.jdevs.timeo.util.extensions.getFragmentActivity
+import com.jdevs.timeo.util.extensions.fragmentActivity
 
 class RecordDelegateAdapter : DelegateAdapter {
 
@@ -24,7 +24,7 @@ class RecordDelegateAdapter : DelegateAdapter {
     ): ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
-        val fragmentActivity = parent.getFragmentActivity()
+        val fragmentActivity = parent.fragmentActivity
         val viewModel = createViewModel(fragmentActivity, RecordViewModel::class)
 
         val binding = RecordsItemBinding.inflate(inflater, parent, false).also {

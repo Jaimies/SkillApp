@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-fun EditText.doOnceAfterTextChanged(block: () -> Unit) {
+inline fun EditText.doOnceAfterTextChanged(crossinline block: () -> Unit) {
 
     if (tag == HAS_TEXT_WATCHER) return
 
@@ -50,4 +50,4 @@ fun RecyclerView.setupAdapter(
     this.adapter = adapter
 }
 
-private const val HAS_TEXT_WATCHER = "HAS_TEXT_WATCHER"
+const val HAS_TEXT_WATCHER = "HAS_TEXT_WATCHER"

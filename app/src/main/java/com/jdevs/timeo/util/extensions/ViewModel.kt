@@ -5,10 +5,10 @@ import com.jdevs.timeo.ui.common.viewmodel.LoaderViewModel
 import kotlinx.coroutines.launch
 
 @Suppress("TooGenericExceptionCaught")
-fun LoaderViewModel.launchSuspendingProcess(
-    onFailure: (Exception) -> Unit = {},
-    onSuccess: () -> Unit = {},
-    block: suspend () -> Unit
+inline fun LoaderViewModel.launchSuspendingProcess(
+    crossinline onFailure: (Exception) -> Unit = {},
+    crossinline onSuccess: () -> Unit = {},
+    crossinline block: suspend () -> Unit
 ) {
 
     showLoader()

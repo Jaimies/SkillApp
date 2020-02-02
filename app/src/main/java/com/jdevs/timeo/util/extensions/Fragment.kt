@@ -16,13 +16,13 @@ fun Fragment.navigateToGraph(@IdRes graphId: Int) {
 
     requireMainActivity().navigateToGraph(graphId)
 
-    findNavController().apply {
+    findNavController().run {
 
         popBackStack(graph.id, true)
     }
 }
 
-fun <T> Fragment.observeEvent(event: SingleLiveEvent<T>, onEvent: (T?) -> Unit) {
+inline fun <T> Fragment.observeEvent(event: SingleLiveEvent<T>, crossinline onEvent: (T?) -> Unit) {
 
     event.observeEvent(viewLifecycleOwner) { onEvent(it) }
 }

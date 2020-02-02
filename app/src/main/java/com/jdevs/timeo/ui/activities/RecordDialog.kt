@@ -55,32 +55,23 @@ class RecordDialog(
         v as EditText
 
         if (v.hasFocus() || v.text.isEmpty()) return
-        validateInput(v)
+        v.validateInput()
     }
 
-    private fun validateInput(editText: EditText) {
+    private fun EditText.validateInput() {
 
-        editText.apply {
+        val isHours = id == R.id.hours_edit_text
+        val maxValue = if (isHours) DAY_HOURS - 1 else HOUR_MINUTES - 1
+        val minValue = if (isHours) 0 else RECORD_MIN_TIME
+        val value = text.toString().toIntOrNull() ?: return
 
-            val isHours = id == R.id.hours_edit_text
-            val maxValue = if (isHours) DAY_HOURS - 1 else HOUR_MINUTES - 1
-            val minValue = if (isHours) 0 else RECORD_MIN_TIME
-            val value = text.toString().toIntOrNull() ?: return
-
-            setText(
-                when {
-                    value > maxValue -> maxValue
-                    value < minValue -> maxValue
-                    else -> return
-                }.toString()
-            )
-        }
+        setText(value.coerceIn(minValue, maxValue).toString())
     }
 
     private fun createRecord() {
 
-        validateInput(hours_edit_text)
-        validateInput(minutes_edit_text)
+        hours_edit_text.validateInput()
+        minutes_edit_text.validateInput()
 
         val hours = hours_edit_text.text.toString().toLongOrNull() ?: 0
         val minutes = minutes_edit_text.text.toString().toLongOrNull() ?: return

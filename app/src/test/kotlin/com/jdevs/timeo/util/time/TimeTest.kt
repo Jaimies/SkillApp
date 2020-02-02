@@ -7,7 +7,7 @@ import org.junit.Test
 import org.threeten.bp.OffsetDateTime
 
 /**
- * Unit tests for Time utilities
+ * Tests for time utilities
  */
 class TimeTest {
 
@@ -65,7 +65,6 @@ class TimeTest {
         dataset.forEach {
 
             val date = daysAgoDate(it)
-
             assertThat(date.getDaysSpentSince(), `is`(it + 1))
         }
     }
@@ -91,7 +90,7 @@ class TimeTest {
     }
 
     /**
-     * Test for [Pair<Long, Long>.getMins]
+     * Test for [getMins]
      * The test data is written in the following syntax: <mins> to <hours> to <expectedOutput>
      */
     @Test

@@ -73,12 +73,10 @@ class MainActivity : AppCompatActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        currentNavController.value?.run {
+        if (knownActions.contains(item.itemId)) {
 
-            if (knownActions.contains(item.itemId)) {
-
-                navigate(item.itemId)
-            }
+            currentNavController.value?.navigate(item.itemId)
+            return true
         }
 
         return false
@@ -111,7 +109,7 @@ class MainActivity : AppCompatActivity(),
     override fun onDestroy() {
         super.onDestroy()
 
-        viewModel.setSelectedItemId(bottomNavView.selectedItemId)
+        viewModel.selectedItemId = bottomNavView.selectedItemId
 
         if (isFinishing) {
             (application as TimeoApplication).onDestroy()
@@ -136,10 +134,5 @@ class MainActivity : AppCompatActivity(),
     class MainViewModel : ViewModel() {
 
         var selectedItemId = -1
-            private set
-
-        fun setSelectedItemId(id: Int) {
-            selectedItemId = id
-        }
     }
 }

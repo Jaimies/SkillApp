@@ -12,7 +12,7 @@ plugins {
 
 android {
 
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = '1.8'
     signingConfigs {
         release {
             storeFile = file(Signing.keyPath)
@@ -23,7 +23,7 @@ android {
     }
 
     compileSdkVersion App.compileSdk
-    buildToolsVersion "29.0.2"
+    buildToolsVersion '29.0.2'
     defaultConfig {
 
         applicationId App.applicationId
@@ -39,8 +39,8 @@ android {
             annotationProcessorOptions {
                 arguments = [
                         "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"]
+                        "room.incremental"     : 'true',
+                        "room.expandProjection": 'true']
             }
         }
     }
@@ -69,7 +69,7 @@ android {
 detekt {
     ignoreFailures = true
     autoCorrect = true
-    input = files("src")
+    input = files('src')
 
     reports {
         xml.enabled = false
@@ -117,7 +117,7 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:$Versions.room"
     implementation "androidx.room:room-ktx:$Versions.room"
-    kapt("androidx.room:room-compiler:$Versions.room")
+    kapt "androidx.room:room-compiler:$Versions.room"
 
     // Paging
     implementation "androidx.paging:paging-runtime:$Versions.paging"
@@ -161,8 +161,7 @@ dependencies {
     implementation "androidx.test:core:$Versions.androidxTestCore"
 
     // Browsing SQLite database
-    // To enable, run adb forward tcp:8080 tcp:8080
-    // (/home/alex/Android/Sdk/platform-tools/adb forward tcp:8080 tcp:8080)
+    // To enable, run $ adb forward tcp:8080 tcp:8080
     // and connect to http://localhost:8080
     debugImplementation "com.amitshekhar.android:debug-db:$Versions.debugDb"
 }

@@ -1,3 +1,4 @@
+@Suppress("unused")
 object Signing {
     const val keyPath = "/home/alex/StudioProjects/Timeo/signing.jks"
     const val keyPassword = "PASSWORD"

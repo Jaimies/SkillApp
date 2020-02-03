@@ -1,3 +1,4 @@
+@Suppress("unused")
 object Versions {
     const val kotlin = "1.3.61"
 
@@ -30,7 +31,7 @@ object Versions {
     const val dagger = "2.25.2"
 
     // Firebase
-    const val firestore = "21.3.1"
+    const val firestore = "21.4.0"
     const val auth = "19.2.0"
     const val gmsAuth = "17.0.0"
 

@@ -1,3 +1,4 @@
+@Suppress("unused")
 object App {
     const val compileSdk = 29
     const val targetSdk = 29

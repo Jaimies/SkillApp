@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.domain.usecase.activities.GetTopActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.projects.GetTopProjectsUseCase
 import com.jdevs.timeo.domain.usecase.settings.GetSettingsUseCase
-import com.jdevs.timeo.util.SingleLiveEvent
+import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import javax.inject.Inject
 
 class OverviewViewModel @Inject constructor(

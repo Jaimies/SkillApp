@@ -6,7 +6,7 @@ import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
-import com.jdevs.timeo.util.SingleLiveEvent
+import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

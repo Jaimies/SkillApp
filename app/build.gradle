@@ -49,9 +49,7 @@ android {
         release {
             minifyEnabled = true
             shrinkResources = true
-            proguardFiles getDefaultProguardFile(
-                    'proguard-android-optimize.txt'),
-                    'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             signingConfig = signingConfigs.release
         }
@@ -101,6 +99,7 @@ dependencies {
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$Versions.navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$Versions.navigation"
+    implementation project(':lib')
 
     // Material components
     implementation "com.google.android.material:material:$Versions.material"
@@ -112,6 +111,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:$Versions.auth"
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
     implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$Versions.coroutinesPlay"
     debugImplementation "com.google.code.gson:gson:$Versions.gson"
 
     // Room

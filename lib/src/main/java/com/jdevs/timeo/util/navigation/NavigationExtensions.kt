@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util.extensions
+package com.jdevs.timeo.util.navigation
 
 import android.content.Intent
 import android.util.SparseArray
@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.jdevs.timeo.R
+import com.jdevs.timeo.navigation.R
 
 /**
  * Manages the various graphs needed for a [BottomNavigationView].
@@ -92,10 +92,10 @@ fun BottomNavigationView.setupWithNavController(
                     // to it, creating the fixed started destination.
                     fragmentManager.beginTransaction()
                         .setCustomAnimations(
-                            R.anim.nav_default_enter_anim,
-                            R.anim.nav_default_exit_anim,
-                            R.anim.nav_default_pop_enter_anim,
-                            R.anim.nav_default_pop_exit_anim
+                            R.anim.fragment_open_enter,
+                            R.anim.fragment_open_exit,
+                            R.anim.fragment_open_enter,
+                            R.anim.fragment_open_exit
                         )
                         .attach(selectedFragment)
                         .setPrimaryNavigationFragment(selectedFragment)

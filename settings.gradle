@@ -1,2 +1,2 @@
-include ':lint', ':buildSrc', ':app'
+include ':lint', ':buildSrc', ':app', ':lib'
 rootProject.name = 'Timeo'

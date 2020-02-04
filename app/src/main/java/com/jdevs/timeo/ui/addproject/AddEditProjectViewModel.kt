@@ -8,7 +8,7 @@ import com.jdevs.timeo.domain.usecase.projects.AddProjectUseCase
 import com.jdevs.timeo.domain.usecase.projects.DeleteProjectUseCase
 import com.jdevs.timeo.domain.usecase.projects.SaveProjectUseCase
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
-import com.jdevs.timeo.util.SingleLiveEvent
+import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

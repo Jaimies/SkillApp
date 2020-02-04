@@ -8,7 +8,7 @@ import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetActivityByIdUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.ui.activities.ActivityDataViewModel
-import com.jdevs.timeo.util.SingleLiveEvent
+import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
 import com.jdevs.timeo.util.time.getHours

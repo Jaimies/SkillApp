@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.TimeoApplication
-import com.jdevs.timeo.util.SingleLiveEvent
+import com.jdevs.timeo.util.livedata.SingleLiveEvent
 
 fun Fragment.showSnackbar(@StringRes resId: Int) =
     Snackbar.make(requireView(), resId, Snackbar.LENGTH_LONG).show()

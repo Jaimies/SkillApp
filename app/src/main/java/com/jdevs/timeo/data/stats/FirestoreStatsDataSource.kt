@@ -14,10 +14,10 @@ import com.jdevs.timeo.util.StatsConstants.DAY_STATS_COLLECTION
 import com.jdevs.timeo.util.StatsConstants.FIRESTORE_STATS_PAGE_SIZE
 import com.jdevs.timeo.util.StatsConstants.MONTH_STATS_COLLECTION
 import com.jdevs.timeo.util.StatsConstants.WEEK_STATS_COLLECTION
-import com.jdevs.timeo.util.await
 import com.jdevs.timeo.util.time.getDaysSinceEpoch
 import com.jdevs.timeo.util.time.getMonthSinceEpoch
 import com.jdevs.timeo.util.time.getWeeksSinceEpoch
+import kotlinx.coroutines.tasks.await
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton

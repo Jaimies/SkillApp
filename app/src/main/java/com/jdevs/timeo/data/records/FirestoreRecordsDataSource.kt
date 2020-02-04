@@ -12,7 +12,7 @@ import com.jdevs.timeo.util.FirestoreConstants.NAME
 import com.jdevs.timeo.util.FirestoreConstants.TIMESTAMP
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.RecordsConstants.FIRESTORE_RECORDS_PAGE_SIZE
-import com.jdevs.timeo.util.await
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 

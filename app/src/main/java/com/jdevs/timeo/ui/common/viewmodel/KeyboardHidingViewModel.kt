@@ -1,7 +1,7 @@
 package com.jdevs.timeo.ui.common.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.util.SingleLiveEvent
+import com.jdevs.timeo.util.livedata.SingleLiveEvent
 
 abstract class KeyboardHidingViewModel : ViewModel() {
 

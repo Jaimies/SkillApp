@@ -8,7 +8,7 @@ import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.projects.GetProjectByIdUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
-import com.jdevs.timeo.util.SingleLiveEvent
+import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getHours
 import kotlinx.coroutines.launch

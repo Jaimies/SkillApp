@@ -18,15 +18,13 @@ import javax.inject.Singleton
 
 interface RecordsRemoteDataSource : RecordsDataSource {
 
-    override val records: ItemsLiveData?
+    val records: List<ItemsLiveData>
 
     override suspend fun addRecord(record: Record): WriteBatch
 
     override suspend fun deleteRecord(record: Record): WriteBatch
 
     suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch)
-
-    fun resetMonitor()
 }
 
 @Singleton
@@ -45,7 +43,7 @@ class FirestoreRecordsDataSource @Inject constructor(
         )
 
     override val records
-        get() = recordsMonitor.safeAccess().getLiveData()
+        get() = recordsMonitor.safeAccess().getLiveDataList()
 
     private var recordsRef: CollectionReference by SafeAccess()
 
@@ -79,6 +77,4 @@ class FirestoreRecordsDataSource @Inject constructor(
 
         recordsRef = createRef(uid, RecordsConstants.COLLECTION, recordsMonitor)
     }
-
-    override fun resetMonitor() = recordsMonitor.reset()
 }

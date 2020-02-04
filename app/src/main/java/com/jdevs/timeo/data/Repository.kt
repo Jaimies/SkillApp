@@ -6,7 +6,7 @@ import com.jdevs.timeo.domain.repository.AuthRepository
 abstract class Repository<T, Remote : T>(
     private val remoteDataSource: Remote,
     private val localDataSource: T,
-    protected val authRepository: AuthRepository
+    private val authRepository: AuthRepository
 ) {
 
     protected val isUserSignedIn
@@ -15,15 +15,7 @@ abstract class Repository<T, Remote : T>(
     protected val currentDataSource
         get() = if (isUserSignedIn) remoteDataSource else localDataSource
 
-    protected fun performOnRemote(action: (Remote) -> Unit) {
-
-        if (isUserSignedIn) {
-
-            action(remoteDataSource)
-        }
-    }
-
-    protected suspend fun performOnRemoteSuspend(action: suspend (Remote) -> Unit) {
+    protected suspend fun performOnRemote(action: suspend (Remote) -> Unit) {
 
         if (isUserSignedIn) {
 

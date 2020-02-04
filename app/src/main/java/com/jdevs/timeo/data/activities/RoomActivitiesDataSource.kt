@@ -2,6 +2,7 @@ package com.jdevs.timeo.data.activities
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import androidx.paging.PagedList
 import com.jdevs.timeo.data.db.toLivePagedList
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.util.PagingConstants.ACTIVITIES_PAGE_SIZE
@@ -9,8 +10,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface ActivitiesDataSource {
-
-    val activities: LiveData<*>?
 
     fun getTopActivities(): LiveData<List<Activity>>
 
@@ -22,6 +21,8 @@ interface ActivitiesDataSource {
 }
 
 interface ActivitiesLocalDataSource : ActivitiesDataSource {
+
+    val activities: LiveData<PagedList<Activity>>
 
     suspend fun saveActivity(activity: Activity)
 }

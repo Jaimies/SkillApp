@@ -1,16 +1,20 @@
 package com.jdevs.timeo.data.stats
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.jdevs.timeo.data.db.toLivePagedList
+import com.jdevs.timeo.domain.model.DayStats
+import com.jdevs.timeo.domain.model.MonthStats
+import com.jdevs.timeo.domain.model.WeekStats
 import com.jdevs.timeo.util.PagingConstants.STATS_PAGE_SIZE
 import javax.inject.Inject
 import javax.inject.Singleton
 
-interface StatsDataSource {
+interface StatsLocalDataSource {
 
-    val dayStats: LiveData<*>?
-    val weekStats: LiveData<*>?
-    val monthStats: LiveData<*>?
+    val dayStats: LiveData<PagedList<DayStats>>
+    val weekStats: LiveData<PagedList<WeekStats>>
+    val monthStats: LiveData<PagedList<MonthStats>>
 }
 
 @Singleton
@@ -19,7 +23,7 @@ class RoomStatsDataSource @Inject constructor(
     dayStatsMapper: DBDayStatsMapper,
     weekStatsMapper: DBWeekStatsMapper,
     monthStatsMapper: DBMonthStatsMapper
-) : StatsDataSource {
+) : StatsLocalDataSource {
 
     override val dayStats by lazy {
 

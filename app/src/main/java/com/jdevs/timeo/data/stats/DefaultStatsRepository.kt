@@ -1,6 +1,5 @@
 package com.jdevs.timeo.data.stats
 
-import com.jdevs.timeo.data.Repository
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.domain.repository.StatsRepository
 import org.threeten.bp.OffsetDateTime
@@ -9,23 +8,23 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultStatsRepository @Inject constructor(
-    remoteDataSource: StatsRemoteDataSource,
-    localDataSource: StatsDataSource,
-    authRepository: AuthRepository
-) : Repository<StatsDataSource, StatsRemoteDataSource>(
-    remoteDataSource, localDataSource, authRepository
-), StatsRepository {
+    private val remoteDataSource: StatsRemoteDataSource,
+    private val localDataSource: StatsLocalDataSource,
+    private val authRepository: AuthRepository
+) : StatsRepository {
 
-    override val dayStats get() = currentDataSource.dayStats
-    override val weekStats get() = currentDataSource.weekStats
-    override val monthStats get() = currentDataSource.monthStats
+    override val dayStats get() = localDataSource.dayStats
+    override val weekStats get() = localDataSource.weekStats
+    override val monthStats get() = localDataSource.monthStats
+    override val dayStatsRemote get() = remoteDataSource.dayStats
+    override val weekStatsRemote get() = remoteDataSource.weekStats
+    override val monthStatsRemote get() = remoteDataSource.monthStats
 
-    override suspend fun updateStats(date: OffsetDateTime, time: Long) =
-        performOnRemoteSuspend { it.updateStats(date, time) }
+    override suspend fun updateStats(date: OffsetDateTime, time: Long) {
 
-    override fun resetDayStatsMonitor() = performOnRemote { it.resetDayStatsMonitor() }
+        if (authRepository.isUserSignedIn) {
 
-    override fun resetWeekStatsMonitor() = performOnRemote { it.resetWeekStatsMonitor() }
-
-    override fun resetMonthStatsMonitor() = performOnRemote { it.resetMonthStatsMonitor() }
+            remoteDataSource.updateStats(date, time)
+        }
+    }
 }

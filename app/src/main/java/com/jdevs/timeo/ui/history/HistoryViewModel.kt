@@ -13,12 +13,8 @@ class HistoryViewModel @Inject constructor(
     private val deleteRecord: DeleteRecordUseCase
 ) : ListViewModel() {
 
-    override val liveData get() = getRecords()
-
-    init {
-
-        getRecords.resetRecords()
-    }
+    override val localLiveData get() = getRecords.records
+    override val remoteLiveDatas get() = getRecords.recordsRemote
 
     fun deleteRecord(record: Record) = viewModelScope.launch {
 

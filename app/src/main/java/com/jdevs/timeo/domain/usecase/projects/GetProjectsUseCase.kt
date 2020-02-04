@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class GetProjectsUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
 
-    operator fun invoke() = projectsRepository.projects
-    fun resetMonitor() = projectsRepository.resetMonitor()
+    val projects get() = projectsRepository.projects
+    val projectsRemote get() = projectsRepository.projectsRemote
 }

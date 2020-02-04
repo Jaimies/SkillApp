@@ -11,25 +11,26 @@ import javax.inject.Singleton
 @Singleton
 class StatsViewModel @Inject constructor(private val stats: GetStatsUseCase) : ListViewModel() {
 
-    override val liveData
+    override val localLiveData
         get() = when (statsType) {
 
             DAY -> stats.dayStats
             WEEK -> stats.weekStats
             MONTH -> stats.monthStats
-            else -> null
+            else -> throw IllegalArgumentException("Unknown stats type $statsType")
+        }
+
+    override val remoteLiveDatas
+        get() = when (statsType) {
+            DAY -> stats.dayStatsRemote
+            WEEK -> stats.weekStatsRemote
+            MONTH -> stats.monthStatsRemote
+            else -> throw IllegalArgumentException("Unknown stats type $statsType")
         }
 
     fun setStatsType(type: Int) {
 
         statsType = type
-
-        when (type) {
-
-            DAY -> stats.resetDayStats()
-            WEEK -> stats.resetWeekStats()
-            MONTH -> stats.resetMonthStats()
-        }
     }
 
     private var statsType = DAY

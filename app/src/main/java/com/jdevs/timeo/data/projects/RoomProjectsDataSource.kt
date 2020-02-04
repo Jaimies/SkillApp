@@ -2,6 +2,7 @@ package com.jdevs.timeo.data.projects
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import androidx.paging.PagedList
 import com.jdevs.timeo.data.db.toLivePagedList
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.util.PagingConstants.PROJECTS_PAGE_SIZE
@@ -9,8 +10,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface ProjectsDataSource {
-
-    val projects: LiveData<*>?
 
     fun getTopProjects(): LiveData<List<Project>>
 
@@ -23,7 +22,10 @@ interface ProjectsDataSource {
     suspend fun deleteProject(project: Project)
 }
 
-interface ProjectsLocalDataSource : ProjectsDataSource
+interface ProjectsLocalDataSource : ProjectsDataSource {
+
+    val projects: LiveData<PagedList<Project>>
+}
 
 @Singleton
 class RoomProjectsDataSource @Inject constructor(

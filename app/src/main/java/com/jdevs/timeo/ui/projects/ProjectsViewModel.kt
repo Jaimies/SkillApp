@@ -8,12 +8,8 @@ import javax.inject.Inject
 class ProjectsViewModel @Inject constructor(private val getProjects: GetProjectsUseCase) :
     ListViewModel() {
 
-    init {
-
-        getProjects.resetMonitor()
-    }
-
-    override val liveData get() = getProjects()
+    override val localLiveData get() = getProjects.projects
+    override val remoteLiveDatas get() = getProjects.projectsRemote
 
     val navigateToAddActivity = SingleLiveEvent<Any>()
     fun navigateToAddActivity() = navigateToAddActivity.call()

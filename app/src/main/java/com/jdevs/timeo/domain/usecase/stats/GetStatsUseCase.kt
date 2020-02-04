@@ -8,8 +8,7 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
     val dayStats get() = statsRepository.dayStats
     val weekStats get() = statsRepository.weekStats
     val monthStats get() = statsRepository.monthStats
-
-    fun resetDayStats() = statsRepository.resetDayStatsMonitor()
-    fun resetWeekStats() = statsRepository.resetWeekStatsMonitor()
-    fun resetMonthStats() = statsRepository.resetMonthStatsMonitor()
+    val dayStatsRemote get() = statsRepository.dayStatsRemote
+    val weekStatsRemote get() = statsRepository.weekStatsRemote
+    val monthStatsRemote get() = statsRepository.monthStatsRemote
 }

@@ -13,7 +13,7 @@ class FirestoreActivityMapper @Inject constructor() : Mapper<Activity, Firestore
     }
 }
 
-class FirestoreDomainMapper @Inject constructor() : Mapper<FirestoreActivity, Activity> {
+class FirestoreDomainActivityMapper @Inject constructor() : Mapper<FirestoreActivity, Activity> {
 
     override fun map(input: FirestoreActivity) = input.run {
         Activity(

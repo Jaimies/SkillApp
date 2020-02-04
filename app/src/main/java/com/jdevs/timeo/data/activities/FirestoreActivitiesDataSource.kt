@@ -22,20 +22,18 @@ import javax.inject.Singleton
 
 interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
-    override val activities: ItemsLiveData?
+    val activities: List<ItemsLiveData>
 
     suspend fun saveActivity(id: String, newName: String): WriteBatch
 
     fun increaseTime(activityId: String, time: Long, batch: WriteBatch)
-
-    fun resetMonitor()
 }
 
 @Singleton
 class FirestoreActivitiesDataSource @Inject constructor(
     authRepository: AuthRepository,
     private val mapper: FirestoreActivityMapper,
-    private val domainMapper: FirestoreDomainMapper
+    private val domainMapper: FirestoreDomainActivityMapper
 ) : FirestoreListDataSource(authRepository),
     ActivitiesRemoteDataSource {
 
@@ -45,8 +43,7 @@ class FirestoreActivitiesDataSource @Inject constructor(
             ACTIVITIES_FIRESTORE_PAGE_SIZE
         )
 
-    override val activities
-        get() = activitiesMonitor.safeAccess().getLiveData()
+    override val activities get() = activitiesMonitor.getLiveDataList()
 
     private var activitiesRef: CollectionReference by SafeAccess()
 
@@ -86,8 +83,6 @@ class FirestoreActivitiesDataSource @Inject constructor(
 
         batch.commit()
     }
-
-    override fun resetMonitor() = activitiesMonitor.reset()
 
     override fun resetRefs(uid: String) {
 

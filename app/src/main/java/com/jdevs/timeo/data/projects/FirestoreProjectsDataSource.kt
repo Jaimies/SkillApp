@@ -2,6 +2,7 @@ package com.jdevs.timeo.data.projects
 
 import com.google.firebase.firestore.CollectionReference
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
+import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
 import com.jdevs.timeo.data.firestore.monitor
 import com.jdevs.timeo.data.firestore.monitorCollection
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 
 interface ProjectsRemoteDataSource : ProjectsDataSource {
 
-    fun resetMonitor()
+    val projects: List<ItemsLiveData>
 }
 
 @Singleton
@@ -31,7 +32,7 @@ class FirestoreProjectsDataSource @Inject constructor(
         createCollectionMonitor(FirestoreProject::class, domainMapper, FIRESTORE_PROJECTS_PAGE_SIZE)
 
     override val projects
-        get() = projectsMonitor.safeAccess().getLiveData()
+        get() = projectsMonitor.safeAccess().getLiveDataList()
 
     private var projectsRef by SafeAccess<CollectionReference>()
 
@@ -60,6 +61,4 @@ class FirestoreProjectsDataSource @Inject constructor(
 
         projectsRef = createRef(uid, ProjectsConstants.COLLECTION, projectsMonitor)
     }
-
-    override fun resetMonitor() = projectsMonitor.reset()
 }

@@ -9,14 +9,15 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultProjectsRepository @Inject constructor(
-    remoteDataSource: ProjectsRemoteDataSource,
-    localDataSource: ProjectsLocalDataSource,
+    private val remoteDataSource: ProjectsRemoteDataSource,
+    private val localDataSource: ProjectsLocalDataSource,
     authRepository: AuthRepository
 ) : Repository<ProjectsDataSource, ProjectsRemoteDataSource>(
     remoteDataSource, localDataSource, authRepository
 ), ProjectsRepository {
 
-    override val projects get() = currentDataSource.projects
+    override val projects get() = localDataSource.projects
+    override val projectsRemote get() = remoteDataSource.projects
     override val topProjects get() = currentDataSource.getTopProjects()
 
     override fun getProjectById(id: Int, documentId: String) =
@@ -27,6 +28,4 @@ class DefaultProjectsRepository @Inject constructor(
     override suspend fun saveProject(project: Project) = currentDataSource.saveProject(project)
 
     override suspend fun deleteProject(project: Project) = currentDataSource.deleteProject(project)
-
-    override fun resetMonitor() = performOnRemote { it.resetMonitor() }
 }

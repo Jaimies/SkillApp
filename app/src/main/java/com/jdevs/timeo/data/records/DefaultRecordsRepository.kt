@@ -10,24 +10,23 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultRecordsRepository @Inject constructor(
-    remoteDataSource: RecordsRemoteDataSource,
-    localDataSource: RecordsDataSource,
+    private val remoteDataSource: RecordsRemoteDataSource,
+    private val localDataSource: RecordsLocalDataSource,
     authRepository: AuthRepository
 ) : Repository<RecordsDataSource, RecordsRemoteDataSource>(
     remoteDataSource, localDataSource, authRepository
 ), RecordsRepository {
 
-    override val records get() = currentDataSource.records
+    override val records get() = localDataSource.records
+    override val recordsRemote get() = remoteDataSource.records
 
     override suspend fun addRecord(record: Record) = currentDataSource.addRecord(record)
 
     override suspend fun deleteRecord(record: Record) = currentDataSource.deleteRecord(record)
 
     override suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch) =
-        performOnRemoteSuspend {
+        performOnRemote {
 
             it.renameRecords(activityId, newName, batch)
         }
-
-    override fun resetMonitor() = performOnRemote { it.resetMonitor() }
 }

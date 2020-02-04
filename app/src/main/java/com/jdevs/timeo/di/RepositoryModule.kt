@@ -15,13 +15,13 @@ import com.jdevs.timeo.data.projects.ProjectsRemoteDataSource
 import com.jdevs.timeo.data.projects.RoomProjectsDataSource
 import com.jdevs.timeo.data.records.DefaultRecordsRepository
 import com.jdevs.timeo.data.records.FirestoreRecordsDataSource
-import com.jdevs.timeo.data.records.RecordsDataSource
+import com.jdevs.timeo.data.records.RecordsLocalDataSource
 import com.jdevs.timeo.data.records.RecordsRemoteDataSource
 import com.jdevs.timeo.data.records.RoomRecordsDataSource
 import com.jdevs.timeo.data.stats.DefaultStatsRepository
 import com.jdevs.timeo.data.stats.FirestoreStatsDataSource
 import com.jdevs.timeo.data.stats.RoomStatsDataSource
-import com.jdevs.timeo.data.stats.StatsDataSource
+import com.jdevs.timeo.data.stats.StatsLocalDataSource
 import com.jdevs.timeo.data.stats.StatsRemoteDataSource
 import com.jdevs.timeo.domain.repository.ActivitiesRepository
 import com.jdevs.timeo.domain.repository.ProjectsRepository
@@ -67,10 +67,10 @@ abstract class RepositoryModule {
     abstract fun provideProjectsLocalDataSource(source: RoomProjectsDataSource): ProjectsLocalDataSource
 
     @Binds
-    abstract fun provideRecordsLocalDataSource(source: RoomRecordsDataSource): RecordsDataSource
+    abstract fun provideRecordsLocalDataSource(source: RoomRecordsDataSource): RecordsLocalDataSource
 
     @Binds
-    abstract fun provideStatsLocalDataSource(source: RoomStatsDataSource): StatsDataSource
+    abstract fun provideStatsLocalDataSource(source: RoomStatsDataSource): StatsLocalDataSource
 
     @Module
     companion object {

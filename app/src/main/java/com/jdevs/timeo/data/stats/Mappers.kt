@@ -8,17 +8,17 @@ import com.jdevs.timeo.domain.model.WeekStats
 import javax.inject.Inject
 
 
-class DBDayStatsMapper @Inject constructor() : Mapper<DBDayStats, Stats> {
+class DBDayStatsMapper @Inject constructor() : Mapper<DBDayStats, DayStats> {
 
     override fun map(input: DBDayStats) = input.run { DayStats(time = time, day = day) }
 }
 
-class DBWeekStatsMapper @Inject constructor() : Mapper<DBWeekStats, Stats> {
+class DBWeekStatsMapper @Inject constructor() : Mapper<DBWeekStats, WeekStats> {
 
     override fun map(input: DBWeekStats) = input.run { WeekStats(time = time, week = week) }
 }
 
-class DBMonthStatsMapper @Inject constructor() : Mapper<DBMonthStats, Stats> {
+class DBMonthStatsMapper @Inject constructor() : Mapper<DBMonthStats, MonthStats> {
 
     override fun map(input: DBMonthStats) = input.run { MonthStats(time = time, month = month) }
 }

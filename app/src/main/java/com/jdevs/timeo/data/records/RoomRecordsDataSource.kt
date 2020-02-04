@@ -1,6 +1,7 @@
 package com.jdevs.timeo.data.records
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.db.TimeoDatabase
 import com.jdevs.timeo.data.db.toLivePagedList
@@ -18,11 +19,14 @@ import javax.inject.Singleton
 
 interface RecordsDataSource {
 
-    val records: LiveData<*>?
-
     suspend fun addRecord(record: Record): WriteBatch?
 
     suspend fun deleteRecord(record: Record): WriteBatch?
+}
+
+interface RecordsLocalDataSource : RecordsDataSource {
+
+    val records: LiveData<PagedList<Record>>
 }
 
 @Singleton
@@ -30,7 +34,7 @@ class RoomRecordsDataSource @Inject constructor(
     private val db: TimeoDatabase,
     private val mapper: DBRecordMapper,
     private val domainMapper: DBDomainRecordMapper
-) : RecordsDataSource {
+) : RecordsLocalDataSource {
 
     override val records by lazy {
 

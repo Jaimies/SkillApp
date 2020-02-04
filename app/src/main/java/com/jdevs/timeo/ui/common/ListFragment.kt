@@ -37,25 +37,27 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     @Inject
     lateinit var authRepository: AuthRepository
 
-    private val itemLiveDatas = mutableListOf<ItemsLiveData>()
-
     @CallSuper
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        observeLiveData(viewModel.liveData)
+        if (authRepository.isUserSignedIn) {
+
+            for (liveData in viewModel.remoteLiveDatas) {
+
+                observeItemsLiveData(liveData)
+            }
+        } else {
+
+            observeLiveData(viewModel.localLiveData)
+        }
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private fun observeLiveData(liveData: LiveData<*>?) {
-
-        if (liveData is ItemsLiveData?) {
-
-            subscribeToItemsLiveData(liveData)
-            return
-        }
+    private fun observeLiveData(liveData: LiveData<out PagedList<*>>) {
 
         liveData as LiveData<PagedList<ViewItem>>
 
@@ -67,28 +69,11 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
         }
     }
 
-    private fun subscribeToItemsLiveData(liveData: ItemsLiveData?) {
+    private fun observeItemsLiveData(liveData: ItemsLiveData) {
 
-        if (liveData != null && itemLiveDatas.isEmpty()) {
+        if (liveData.hasObservers()) {
 
-            observeItemsLiveData(liveData)
             return
-        }
-
-        itemLiveDatas.forEach {
-
-            if (!it.hasObservers()) {
-
-                observeItemsLiveData(it, shouldAddToList = false)
-            }
-        }
-    }
-
-    private fun observeItemsLiveData(liveData: ItemsLiveData, shouldAddToList: Boolean = true) {
-
-        if (shouldAddToList) {
-
-            itemLiveDatas.add(liveData)
         }
 
         liveData.observe(viewLifecycleOwner) { operation ->
@@ -122,8 +107,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
             addOnScrollListener(InfiniteScrollListener(linearLayoutManager, visibleThreshold) {
 
-                val liveData = viewModel.liveData as ItemsLiveData?
-                liveData?.let { observeItemsLiveData(it) }
+                viewModel.remoteLiveDatas.forEach(::observeItemsLiveData)
             })
         }
     }

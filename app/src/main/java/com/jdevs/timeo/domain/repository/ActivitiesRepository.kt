@@ -1,12 +1,15 @@
 package com.jdevs.timeo.domain.repository
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.google.firebase.firestore.WriteBatch
+import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.domain.model.Activity
 
 interface ActivitiesRepository {
 
-    val activities: LiveData<*>?
+    val activities: LiveData<PagedList<Activity>>
+    val activitiesRemote: List<ItemsLiveData>
 
     val topActivities: LiveData<List<Activity>>
 
@@ -19,6 +22,4 @@ interface ActivitiesRepository {
     suspend fun deleteActivity(activity: Activity)
 
     suspend fun increaseTime(activityId: String, time: Long, batch: WriteBatch)
-
-    fun resetMonitor()
 }

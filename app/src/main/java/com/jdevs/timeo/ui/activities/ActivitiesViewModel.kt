@@ -15,13 +15,9 @@ class ActivitiesViewModel @Inject constructor(
     private val addRecord: AddRecordUseCase
 ) : ListViewModel() {
 
-    override val liveData get() = getActivities()
+    override val localLiveData get() = getActivities.activities
+    override val remoteLiveDatas get() = getActivities.activitiesRemote
     val navigateToAddEdit = SingleLiveEvent<Any>()
-
-    init {
-
-        getActivities.resetActivities()
-    }
 
     fun createRecord(activity: Activity, time: Long) = viewModelScope.launch {
 

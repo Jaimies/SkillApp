@@ -23,17 +23,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-interface StatsRemoteDataSource : StatsDataSource {
+interface StatsRemoteDataSource {
 
-    override val dayStats: ItemsLiveData?
-    override val weekStats: ItemsLiveData?
-    override val monthStats: ItemsLiveData?
+    val dayStats: List<ItemsLiveData>
+    val weekStats: List<ItemsLiveData>
+    val monthStats: List<ItemsLiveData>
 
     suspend fun updateStats(date: OffsetDateTime, time: Long)
-
-    fun resetDayStatsMonitor()
-    fun resetWeekStatsMonitor()
-    fun resetMonthStatsMonitor()
 }
 
 @Singleton
@@ -65,13 +61,13 @@ class FirestoreStatsDataSource @Inject constructor(
         )
 
     override val dayStats
-        get() = dayStatsMonitor.safeAccess().getLiveData()
+        get() = dayStatsMonitor.safeAccess().getLiveDataList()
 
     override val weekStats
-        get() = weekStatsMonitor.safeAccess().getLiveData()
+        get() = weekStatsMonitor.safeAccess().getLiveDataList()
 
     override val monthStats
-        get() = monthStatsMonitor.safeAccess().getLiveData()
+        get() = monthStatsMonitor.safeAccess().getLiveDataList()
 
     private var dayStatsRef: CollectionReference by SafeAccess()
     private var weekStatsRef: CollectionReference by SafeAccess()
@@ -106,8 +102,4 @@ class FirestoreStatsDataSource @Inject constructor(
         weekStatsRef = createRef(uid, WEEK_STATS_COLLECTION, weekStatsMonitor)
         monthStatsRef = createRef(uid, MONTH_STATS_COLLECTION, monthStatsMonitor)
     }
-
-    override fun resetDayStatsMonitor() = dayStatsMonitor.reset()
-    override fun resetWeekStatsMonitor() = weekStatsMonitor.reset()
-    override fun resetMonthStatsMonitor() = monthStatsMonitor.reset()
 }

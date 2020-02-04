@@ -26,39 +26,33 @@ class CollectionMonitor(
             .orderBy(orderBy, Query.Direction.DESCENDING)
             .limit(pageSize)
 
+    private val liveDatas = mutableListOf<ItemsLiveData>()
+
     fun setRef(ref: CollectionReference) {
 
         this.ref = ref
-        reset()
-    }
-
-    fun reset() {
-
-        if (!::ref.isInitialized) {
-
-            return
-        }
-
         lastVisibleItem = null
         isLastItemReached = false
         query = newQuery
+        liveDatas.clear()
     }
 
-    fun getLiveData(): ItemsLiveData? {
-
-        if (isLastItemReached) {
-
-            return null
-        }
+    fun getLiveDataList(): List<ItemsLiveData> {
 
         val lastItem = lastVisibleItem
 
-        if (lastItem != null) {
+        if (!isLastItemReached) {
 
-            query = query.startAfter(lastItem)
+            if (lastItem != null) {
+
+                query = query.startAfter(lastItem)
+            }
+
+            val liveData = liveData(query, { lastVisibleItem = it }) { isLastItemReached = true }
+            liveDatas.add(liveData)
         }
 
-        return liveData(query, { lastVisibleItem = it }) { isLastItemReached = true }
+        return liveDatas
     }
 }
 

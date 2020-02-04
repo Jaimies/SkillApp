@@ -17,7 +17,8 @@ class DefaultActivitiesRepository @Inject constructor(
     remoteDataSource, localDataSource, authRepository
 ), ActivitiesRepository {
 
-    override val activities get() = currentDataSource.activities
+    override val activities get() = localDataSource.activities
+    override val activitiesRemote get() = remoteDataSource.activities
     override val topActivities get() = currentDataSource.getTopActivities()
 
     override fun getActivityById(id: Int, documentId: String) =
@@ -38,10 +39,8 @@ class DefaultActivitiesRepository @Inject constructor(
         currentDataSource.deleteActivity(activity)
 
     override suspend fun increaseTime(activityId: String, time: Long, batch: WriteBatch) =
-        performOnRemoteSuspend {
+        performOnRemote {
 
             it.increaseTime(activityId, time, batch)
         }
-
-    override fun resetMonitor() = performOnRemote { it.resetMonitor() }
 }

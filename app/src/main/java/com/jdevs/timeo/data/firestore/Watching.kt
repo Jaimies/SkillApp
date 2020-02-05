@@ -9,7 +9,7 @@ import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
 import kotlin.reflect.KClass
 
-fun <I : Any, O> CollectionReference.monitorCollection(
+fun <I : Any, O> CollectionReference.watchCollection(
     type: KClass<I>,
     mapper: Mapper<I, O>,
     limit: Long,
@@ -30,7 +30,7 @@ fun <I : Any, O> CollectionReference.monitorCollection(
     return liveData
 }
 
-fun <I : Any, O> DocumentReference.monitor(
+fun <I : Any, O> DocumentReference.watch(
     type: KClass<I>,
     mapper: Mapper<I, O>
 ): LiveData<O> {

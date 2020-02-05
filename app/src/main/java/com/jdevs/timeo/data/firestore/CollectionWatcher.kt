@@ -4,13 +4,14 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.Mapper
+import com.jdevs.timeo.domain.model.DataItem
 import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
 import kotlin.reflect.KClass
 
-typealias  LiveDataConstructor = (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ItemsLiveData
+private typealias LiveDataConstructor = (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ListLiveData
 
-class CollectionMonitor(
+class CollectionWatcher(
     private val liveData: LiveDataConstructor,
     private val pageSize: Long,
     private val orderBy: String
@@ -26,7 +27,7 @@ class CollectionMonitor(
             .orderBy(orderBy, Query.Direction.DESCENDING)
             .limit(pageSize)
 
-    private val liveDatas = mutableListOf<ItemsLiveData>()
+    private val liveDatas = mutableListOf<ListLiveData>()
 
     fun setRef(ref: CollectionReference) {
 
@@ -37,7 +38,7 @@ class CollectionMonitor(
         liveDatas.clear()
     }
 
-    fun getLiveDataList(): List<ItemsLiveData> {
+    fun getLiveDataList(): List<ListLiveData> {
 
         val lastItem = lastVisibleItem
 
@@ -61,19 +62,18 @@ fun <T : Any> createCollectionMonitor(
     mapper: Mapper<T, ViewItem>,
     pageSize: Long,
     orderBy: String = TOTAL_TIME
-) = CollectionMonitor(createLiveData(type, pageSize, mapper), pageSize, orderBy)
+) = CollectionWatcher(createLiveData(type, pageSize, mapper), pageSize, orderBy)
 
 @Suppress("UNCHECKED_CAST")
 private fun <T : Any> createLiveData(
     type: KClass<out T>,
     pageSize: Long,
     mapper: Mapper<T, ViewItem>
-): LiveDataConstructor =
-    { query, setLastVisibleItem, onLastReached ->
+): LiveDataConstructor = { query, setLastVisibleItem, onLastReached ->
 
-        ItemsLiveData(
-            query, setLastVisibleItem, onLastReached,
-            type.java, mapper as Mapper<Any, ViewItem>,
-            pageSize
-        )
-    }
+    ListLiveData(
+        query, setLastVisibleItem, onLastReached,
+        type.java, mapper as Mapper<Any, DataItem>,
+        pageSize
+    )
+}

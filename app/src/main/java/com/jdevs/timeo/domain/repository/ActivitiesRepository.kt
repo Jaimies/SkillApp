@@ -3,13 +3,13 @@ package com.jdevs.timeo.domain.repository
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.google.firebase.firestore.WriteBatch
-import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.Operation
 
 interface ActivitiesRepository {
 
     val activities: LiveData<PagedList<Activity>>
-    val activitiesRemote: List<ItemsLiveData>
+    val activitiesRemote: List<LiveData<Operation>>
 
     val topActivities: LiveData<List<Activity>>
 

@@ -9,7 +9,8 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.data.Mapper
-import com.jdevs.timeo.ui.common.adapter.ViewItem
+import com.jdevs.timeo.domain.model.DataItem
+import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
 import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED
@@ -17,12 +18,12 @@ import com.jdevs.timeo.util.OperationTypes.MODIFIED
 import com.jdevs.timeo.util.OperationTypes.REMOVED
 import com.jdevs.timeo.util.OperationTypes.SUCCESSFUL
 
-class ItemsLiveData(
+class ListLiveData(
     private val query: Query,
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
     private val onLastItemReached: () -> Unit = {},
     private val type: Class<*>,
-    private val mapper: Mapper<Any, ViewItem>,
+    private val mapper: Mapper<Any, DataItem>,
     private val pageSize: Long
 ) : LiveData<Operation>(), EventListener<QuerySnapshot> {
 

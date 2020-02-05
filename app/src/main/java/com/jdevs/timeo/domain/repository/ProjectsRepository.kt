@@ -2,13 +2,13 @@ package com.jdevs.timeo.domain.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.jdevs.timeo.data.firestore.ItemsLiveData
+import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Project
 
 interface ProjectsRepository {
 
     val projects: LiveData<PagedList<Project>>
-    val projectsRemote: List<ItemsLiveData>
+    val projectsRemote: List<LiveData<Operation>>
 
     val topProjects: LiveData<List<Project>>
 

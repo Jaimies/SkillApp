@@ -1,15 +1,16 @@
 package com.jdevs.timeo.data.activities
 
+import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
-import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.data.firestore.monitor
-import com.jdevs.timeo.data.firestore.monitorCollection
+import com.jdevs.timeo.data.firestore.watch
+import com.jdevs.timeo.data.firestore.watchCollection
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.ActivitiesConstants.ACTIVITIES_FIRESTORE_PAGE_SIZE
@@ -22,7 +23,7 @@ import javax.inject.Singleton
 
 interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
-    val activities: List<ItemsLiveData>
+    val activities: List<LiveData<Operation>>
 
     suspend fun saveActivity(id: String, newName: String): WriteBatch
 
@@ -48,10 +49,10 @@ class FirestoreActivitiesDataSource @Inject constructor(
     private var activitiesRef: CollectionReference by SafeAccess()
 
     override fun getTopActivities() = activitiesRef
-        .monitorCollection(FirestoreActivity::class, domainMapper, TOP_ACTIVITIES_COUNT)
+        .watchCollection(FirestoreActivity::class, domainMapper, TOP_ACTIVITIES_COUNT)
 
     override fun getActivityById(id: Int, documentId: String) =
-        activitiesRef.document(documentId).monitor(FirestoreActivity::class, domainMapper)
+        activitiesRef.document(documentId).watch(FirestoreActivity::class, domainMapper)
 
     override suspend fun saveActivity(id: String, newName: String): WriteBatch {
 

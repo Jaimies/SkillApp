@@ -1,10 +1,11 @@
 package com.jdevs.timeo.data.records
 
+import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
-import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.FirestoreConstants.ACTIVITY_ID
@@ -18,7 +19,7 @@ import javax.inject.Singleton
 
 interface RecordsRemoteDataSource : RecordsDataSource {
 
-    val records: List<ItemsLiveData>
+    val records: List<LiveData<Operation>>
 
     override suspend fun addRecord(record: Record): WriteBatch
 

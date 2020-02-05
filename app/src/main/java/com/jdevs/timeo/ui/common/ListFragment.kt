@@ -11,7 +11,7 @@ import androidx.lifecycle.observe
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.data.firestore.ItemsLiveData
+import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
@@ -69,7 +69,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
         }
     }
 
-    private fun observeItemsLiveData(liveData: ItemsLiveData) {
+    private fun observeItemsLiveData(liveData: LiveData<Operation>) {
 
         if (liveData.hasObservers()) {
 

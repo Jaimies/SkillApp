@@ -1,11 +1,12 @@
 package com.jdevs.timeo.data.projects
 
+import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
-import com.jdevs.timeo.data.firestore.ItemsLiveData
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
-import com.jdevs.timeo.data.firestore.monitor
-import com.jdevs.timeo.data.firestore.monitorCollection
+import com.jdevs.timeo.data.firestore.watch
+import com.jdevs.timeo.data.firestore.watchCollection
+import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.ProjectsConstants
@@ -16,7 +17,7 @@ import javax.inject.Singleton
 
 interface ProjectsRemoteDataSource : ProjectsDataSource {
 
-    val projects: List<ItemsLiveData>
+    val projects: List<LiveData<Operation>>
 }
 
 @Singleton
@@ -37,10 +38,10 @@ class FirestoreProjectsDataSource @Inject constructor(
     private var projectsRef by SafeAccess<CollectionReference>()
 
     override fun getTopProjects() =
-        projectsRef.monitorCollection(FirestoreProject::class, domainMapper, TOP_PROJECTS_COUNT)
+        projectsRef.watchCollection(FirestoreProject::class, domainMapper, TOP_PROJECTS_COUNT)
 
     override fun getProjectById(id: Int, documentId: String) =
-        projectsRef.document(documentId).monitor(FirestoreProject::class, domainMapper)
+        projectsRef.document(documentId).watch(FirestoreProject::class, domainMapper)
 
     override suspend fun addProject(project: Project) {
 

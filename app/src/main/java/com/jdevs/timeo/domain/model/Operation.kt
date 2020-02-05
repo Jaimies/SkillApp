@@ -1,9 +1,7 @@
-package com.jdevs.timeo.data.firestore
-
-import com.jdevs.timeo.ui.common.adapter.ViewItem
+package com.jdevs.timeo.domain.model
 
 data class Operation(
-    val data: ViewItem? = null,
+    val data: DataItem? = null,
     val exception: Exception? = null,
     val type: Int
 ) {

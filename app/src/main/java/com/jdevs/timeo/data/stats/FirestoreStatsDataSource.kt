@@ -7,7 +7,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.FirebaseFirestoreException.Code
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.domain.model.DayStats
+import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.Operation
+import com.jdevs.timeo.domain.model.WeekStats
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.util.FirestoreConstants.TIME
 import com.jdevs.timeo.util.StatsConstants.DAY_PROPERTY
@@ -26,39 +29,31 @@ import javax.inject.Singleton
 
 interface StatsRemoteDataSource {
 
-    val dayStats: List<LiveData<Operation>>
-    val weekStats: List<LiveData<Operation>>
-    val monthStats: List<LiveData<Operation>>
+    val dayStats: List<LiveData<Operation<DayStats>>>
+    val weekStats: List<LiveData<Operation<WeekStats>>>
+    val monthStats: List<LiveData<Operation<MonthStats>>>
 
     suspend fun updateStats(date: OffsetDateTime, time: Long)
 }
 
 @Singleton
-class FirestoreStatsDataSource @Inject constructor(
-    authRepository: AuthRepository,
-    dayStatsMapper: FirestoreStatsMapper,
-    weekStatsMapper: FirestoreWeekStatsMapper,
-    monthStatsMapper: FirestoreMonthStatsMapper
-) :
+class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepository) :
     FirestoreListDataSource(authRepository),
     StatsRemoteDataSource {
 
     private val dayStatsMonitor =
         createCollectionMonitor(
-            FirestoreDayStats::class, dayStatsMapper,
-            FIRESTORE_STATS_PAGE_SIZE, DAY_PROPERTY
+            FIRESTORE_STATS_PAGE_SIZE, FirestoreDayStats::mapToDomain, DAY_PROPERTY
         )
 
     private val weekStatsMonitor =
         createCollectionMonitor(
-            FirestoreWeekStats::class, weekStatsMapper,
-            FIRESTORE_STATS_PAGE_SIZE, DAY_PROPERTY
+            FIRESTORE_STATS_PAGE_SIZE, FirestoreWeekStats::mapToDomain, DAY_PROPERTY
         )
 
     private val monthStatsMonitor =
         createCollectionMonitor(
-            FirestoreMonthStats::class, monthStatsMapper,
-            FIRESTORE_STATS_PAGE_SIZE, DAY_PROPERTY
+            FIRESTORE_STATS_PAGE_SIZE, FirestoreMonthStats::mapToDomain, DAY_PROPERTY
         )
 
     override val dayStats

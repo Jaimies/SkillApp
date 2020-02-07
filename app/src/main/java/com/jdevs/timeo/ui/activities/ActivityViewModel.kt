@@ -4,7 +4,7 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.ui.model.ActivityItem
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getHours
 import com.jdevs.timeo.util.time.getNextMilestone
@@ -25,7 +25,7 @@ open class ActivityDataViewModel : ViewModel() {
     private val _nextMilestone = MutableLiveData("")
 
     @CallSuper
-    open fun setActivity(activity: Activity) {
+    open fun setActivity(activity: ActivityItem) {
 
         _name.value = activity.name
         _totalTime.value = getHours(activity.totalTime) + "h"

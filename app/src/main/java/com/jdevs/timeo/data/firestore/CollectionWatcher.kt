@@ -3,16 +3,12 @@ package com.jdevs.timeo.data.firestore
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.data.Mapper
-import com.jdevs.timeo.domain.model.DataItem
-import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
-import kotlin.reflect.KClass
 
-private typealias LiveDataConstructor = (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ListLiveData
+private typealias LiveDataConstructor<T> = (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ListLiveData<*, T>
 
-class CollectionWatcher(
-    private val liveData: LiveDataConstructor,
+class CollectionWatcher<T : Any>(
+    private val liveData: LiveDataConstructor<T>,
     private val pageSize: Long,
     private val orderBy: String
 ) {
@@ -27,7 +23,7 @@ class CollectionWatcher(
             .orderBy(orderBy, Query.Direction.DESCENDING)
             .limit(pageSize)
 
-    private val liveDatas = mutableListOf<ListLiveData>()
+    private val liveDatas = mutableListOf<ListLiveData<*, T>>()
 
     fun setRef(ref: CollectionReference) {
 
@@ -38,7 +34,7 @@ class CollectionWatcher(
         liveDatas.clear()
     }
 
-    fun getLiveDataList(): List<ListLiveData> {
+    fun getLiveDataList(): List<ListLiveData<*, T>> {
 
         val lastItem = lastVisibleItem
 
@@ -57,23 +53,14 @@ class CollectionWatcher(
     }
 }
 
-fun <T : Any> createCollectionMonitor(
-    type: KClass<out T>,
-    mapper: Mapper<T, ViewItem>,
+inline fun <reified T : Any, O : Any> createCollectionMonitor(
     pageSize: Long,
+    noinline mapper: (T) -> O,
     orderBy: String = TOTAL_TIME
-) = CollectionWatcher(createLiveData(type, pageSize, mapper), pageSize, orderBy)
+) = CollectionWatcher(createLiveData(T::class.java, pageSize, mapper), pageSize, orderBy)
 
-@Suppress("UNCHECKED_CAST")
-private fun <T : Any> createLiveData(
-    type: KClass<out T>,
-    pageSize: Long,
-    mapper: Mapper<T, ViewItem>
-): LiveDataConstructor = { query, setLastVisibleItem, onLastReached ->
+fun <T : Any, O : Any> createLiveData(type: Class<T>, pageSize: Long, mapper: (T) -> O)
+        : LiveDataConstructor<O> = { query, setLastVisibleItem, onLastReached ->
 
-    ListLiveData(
-        query, setLastVisibleItem, onLastReached,
-        type.java, mapper as Mapper<Any, DataItem>,
-        pageSize
-    )
+    ListLiveData(query, setLastVisibleItem, onLastReached, type, mapper, pageSize)
 }

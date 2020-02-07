@@ -1,30 +1,39 @@
 package com.jdevs.timeo.ui.stats
 
+import com.jdevs.timeo.domain.model.DayStats
+import com.jdevs.timeo.domain.model.MonthStats
+import com.jdevs.timeo.domain.model.WeekStats
 import com.jdevs.timeo.domain.usecase.stats.GetStatsUseCase
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
+import com.jdevs.timeo.ui.model.StatsItem
+import com.jdevs.timeo.ui.model.mapToPresentation
+import com.jdevs.timeo.util.PagingConstants.STATS_PAGE_SIZE
 import com.jdevs.timeo.util.StatsTypes.DAY
 import com.jdevs.timeo.util.StatsTypes.MONTH
 import com.jdevs.timeo.util.StatsTypes.WEEK
+import com.jdevs.timeo.util.mapTo
+import com.jdevs.timeo.util.toPagedList
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StatsViewModel @Inject constructor(private val stats: GetStatsUseCase) : ListViewModel() {
+class StatsViewModel @Inject constructor(private val stats: GetStatsUseCase) :
+    ListViewModel<StatsItem>() {
 
     override val localLiveData
         get() = when (statsType) {
 
-            DAY -> stats.dayStats
-            WEEK -> stats.weekStats
-            MONTH -> stats.monthStats
+            DAY -> stats.dayStats.toPagedList(STATS_PAGE_SIZE, DayStats::mapToPresentation)
+            WEEK -> stats.weekStats.toPagedList(STATS_PAGE_SIZE, WeekStats::mapToPresentation)
+            MONTH -> stats.monthStats.toPagedList(STATS_PAGE_SIZE, MonthStats::mapToPresentation)
             else -> throw IllegalArgumentException("Unknown stats type $statsType")
         }
 
     override val remoteLiveDatas
         get() = when (statsType) {
-            DAY -> stats.dayStatsRemote
-            WEEK -> stats.weekStatsRemote
-            MONTH -> stats.monthStatsRemote
+            DAY -> stats.dayStatsRemote.mapTo(DayStats::mapToPresentation)
+            WEEK -> stats.weekStatsRemote.mapTo(WeekStats::mapToPresentation)
+            MONTH -> stats.monthStatsRemote.mapTo(MonthStats::mapToPresentation)
             else -> throw IllegalArgumentException("Unknown stats type $statsType")
         }
 

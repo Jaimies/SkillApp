@@ -1,11 +1,9 @@
 package com.jdevs.timeo.data.activities
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.paging.PagedList
-import com.jdevs.timeo.data.db.toLivePagedList
+import androidx.lifecycle.Transformations.map
+import androidx.paging.DataSource
 import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.util.PagingConstants.ACTIVITIES_PAGE_SIZE
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,42 +13,35 @@ interface ActivitiesDataSource {
 
     fun getActivityById(id: Int, documentId: String): LiveData<Activity>
 
-    suspend fun addActivity(activity: Activity)
+    suspend fun addActivity(name: String)
 
     suspend fun deleteActivity(activity: Activity)
 }
 
 interface ActivitiesLocalDataSource : ActivitiesDataSource {
 
-    val activities: LiveData<PagedList<Activity>>
+    val activities: DataSource.Factory<Int, Activity>
 
     suspend fun saveActivity(activity: Activity)
 }
 
 @Singleton
-class RoomActivitiesDataSource @Inject constructor(
-    private val activitiesDao: ActivitiesDao,
-    private val mapper: DBActivityMapper,
-    private val domainMapper: DBDomainActivityMapper
-) : ActivitiesLocalDataSource {
+class RoomActivitiesDataSource @Inject constructor(private val activitiesDao: ActivitiesDao) :
+    ActivitiesLocalDataSource {
 
-    override val activities by lazy {
-
-        activitiesDao.getActivities().toLivePagedList(ACTIVITIES_PAGE_SIZE, domainMapper)
-    }
+    override val activities by lazy { activitiesDao.getActivities().map(DBActivity::mapToDomain) }
 
     override fun getTopActivities() =
-        Transformations.map(activitiesDao.getTopActivities()) { it.map(domainMapper::map) }
+        map(activitiesDao.getTopActivities()) { it.map(DBActivity::mapToDomain) }
 
     override fun getActivityById(id: Int, documentId: String) =
-        Transformations.map(activitiesDao.getActivity(id)) { domainMapper.map(it) }
+        map(activitiesDao.getActivity(id), DBActivity::mapToDomain)
 
-    override suspend fun addActivity(activity: Activity) =
-        activitiesDao.insert(mapper.map(activity))
+    override suspend fun addActivity(name: String) = activitiesDao.insert(DBActivity(name = name))
 
     override suspend fun saveActivity(activity: Activity) =
-        activitiesDao.update(mapper.map(activity))
+        activitiesDao.update(activity.mapToDB())
 
     override suspend fun deleteActivity(activity: Activity) =
-        activitiesDao.delete(mapper.map(activity))
+        activitiesDao.delete(activity.mapToDB())
 }

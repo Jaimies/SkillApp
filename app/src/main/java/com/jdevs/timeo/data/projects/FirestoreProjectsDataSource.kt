@@ -17,20 +17,16 @@ import javax.inject.Singleton
 
 interface ProjectsRemoteDataSource : ProjectsDataSource {
 
-    val projects: List<LiveData<Operation>>
+    val projects: List<LiveData<Operation<Project>>>
 }
 
 @Singleton
-class FirestoreProjectsDataSource @Inject constructor(
-    authRepository: AuthRepository,
-    private val mapper: FirestoreProjectMapper,
-    private val domainMapper: FirestoreDomainProjectMapper
-) :
+class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthRepository) :
     FirestoreListDataSource(authRepository),
     ProjectsRemoteDataSource {
 
     private val projectsMonitor =
-        createCollectionMonitor(FirestoreProject::class, domainMapper, FIRESTORE_PROJECTS_PAGE_SIZE)
+        createCollectionMonitor(FIRESTORE_PROJECTS_PAGE_SIZE, FirestoreProject::mapToDomain)
 
     override val projects
         get() = projectsMonitor.safeAccess().getLiveDataList()
@@ -38,19 +34,19 @@ class FirestoreProjectsDataSource @Inject constructor(
     private var projectsRef by SafeAccess<CollectionReference>()
 
     override fun getTopProjects() =
-        projectsRef.watchCollection(FirestoreProject::class, domainMapper, TOP_PROJECTS_COUNT)
+        projectsRef.watchCollection(FirestoreProject::mapToDomain, TOP_PROJECTS_COUNT)
 
     override fun getProjectById(id: Int, documentId: String) =
-        projectsRef.document(documentId).watch(FirestoreProject::class, domainMapper)
+        projectsRef.document(documentId).watch(FirestoreProject::mapToDomain)
 
-    override suspend fun addProject(project: Project) {
+    override suspend fun addProject(name: String) {
 
-        projectsRef.add(mapper.map(project))
+        projectsRef.add(FirestoreProject(name = name))
     }
 
     override suspend fun saveProject(project: Project) {
 
-        projectsRef.document(project.documentId).set(mapper.map(project))
+        projectsRef.document(project.documentId).set(project.mapToFirestore())
     }
 
     override suspend fun deleteProject(project: Project) {

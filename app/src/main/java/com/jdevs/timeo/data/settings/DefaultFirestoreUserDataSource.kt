@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.DocumentReference
 import com.jdevs.timeo.data.firestore.FirestoreDataSource
 import com.jdevs.timeo.data.firestore.watch
+import com.jdevs.timeo.domain.model.User
 import com.jdevs.timeo.domain.repository.AuthRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,17 +20,14 @@ interface FirestoreUserDataSource : UserDataSource {
 }
 
 @Singleton
-class DefaultFirestoreUserDataSource @Inject constructor(
-    authRepository: AuthRepository,
-    private val mapper: FirestoreUserMapper
-) :
+class DefaultFirestoreUserDataSource @Inject constructor(authRepository: AuthRepository) :
     FirestoreDataSource(authRepository),
     FirestoreUserDataSource {
 
     private var userRef: DocumentReference? = null
         get() = field.safeAccess()
 
-    override fun getUser() = userRef?.watch(FirestoreUser::class, mapper)
+    override fun getUser() = userRef?.watch(FirestoreUser::mapToDomain)
 
     override fun enablePreference(name: String, isEnabled: Boolean) {
 

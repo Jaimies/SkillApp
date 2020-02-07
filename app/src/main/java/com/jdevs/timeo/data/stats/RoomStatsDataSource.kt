@@ -1,42 +1,24 @@
 package com.jdevs.timeo.data.stats
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import com.jdevs.timeo.data.db.toLivePagedList
+import androidx.paging.DataSource
 import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.WeekStats
-import com.jdevs.timeo.util.PagingConstants.STATS_PAGE_SIZE
 import javax.inject.Inject
 import javax.inject.Singleton
 
 interface StatsLocalDataSource {
 
-    val dayStats: LiveData<PagedList<DayStats>>
-    val weekStats: LiveData<PagedList<WeekStats>>
-    val monthStats: LiveData<PagedList<MonthStats>>
+    val dayStats: DataSource.Factory<Int, DayStats>
+    val weekStats: DataSource.Factory<Int, WeekStats>
+    val monthStats: DataSource.Factory<Int, MonthStats>
 }
 
 @Singleton
-class RoomStatsDataSource @Inject constructor(
-    private val statsDao: StatsDao,
-    dayStatsMapper: DBDayStatsMapper,
-    weekStatsMapper: DBWeekStatsMapper,
-    monthStatsMapper: DBMonthStatsMapper
-) : StatsLocalDataSource {
+class RoomStatsDataSource @Inject constructor(private val statsDao: StatsDao) :
+    StatsLocalDataSource {
 
-    override val dayStats by lazy {
-
-        statsDao.getDayStats().toLivePagedList(STATS_PAGE_SIZE, dayStatsMapper)
-    }
-
-    override val weekStats by lazy {
-
-        statsDao.getWeekStats().toLivePagedList(STATS_PAGE_SIZE, weekStatsMapper)
-    }
-
-    override val monthStats by lazy {
-
-        statsDao.getMonthStats().toLivePagedList(STATS_PAGE_SIZE, monthStatsMapper)
-    }
+    override val dayStats by lazy { statsDao.getDayStats().map(DBDayStats::mapToDomain) }
+    override val weekStats by lazy { statsDao.getWeekStats().map(DBWeekStats::mapToDomain) }
+    override val monthStats by lazy { statsDao.getMonthStats().map(DBMonthStats::mapToDomain) }
 }

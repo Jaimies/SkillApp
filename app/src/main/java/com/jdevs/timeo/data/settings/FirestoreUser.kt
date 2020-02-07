@@ -1,9 +1,11 @@
 package com.jdevs.timeo.data.settings
 
-data class User(val name: String, val email: String, val activitiesEnabled: Boolean)
+import com.jdevs.timeo.domain.model.User
 
 data class FirestoreUser(
     var name: String = "",
     var email: String = "",
     var activitiesEnabled: Boolean = false
 )
+
+fun FirestoreUser.mapToDomain() = User(name, email, activitiesEnabled)

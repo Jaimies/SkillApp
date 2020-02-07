@@ -50,6 +50,6 @@ abstract class FirestoreDataSource(private val authRepository: AuthRepository) {
 abstract class FirestoreListDataSource(authRepository: AuthRepository) :
     FirestoreDataSource(authRepository) {
 
-    protected fun createRef(uid: String, collection: String, watcher: CollectionWatcher) =
+    protected fun createRef(uid: String, collection: String, watcher: CollectionWatcher<*>) =
         db.collection("/users/$uid/$collection").also { watcher.setRef(it) }
 }

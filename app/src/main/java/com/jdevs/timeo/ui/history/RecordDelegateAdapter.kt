@@ -7,11 +7,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.RecordsItemBinding
-import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.ui.common.adapter.createViewModel
+import com.jdevs.timeo.ui.model.RecordItem
+import com.jdevs.timeo.ui.model.ViewItem
 import com.jdevs.timeo.util.extensions.fragmentActivity
 
 class RecordDelegateAdapter : DelegateAdapter {
@@ -39,7 +39,7 @@ class RecordDelegateAdapter : DelegateAdapter {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
 
         holder as ViewHolder
-        holder.bindRecord(item as Record)
+        holder.bindRecord(item as RecordItem)
     }
 
     class ViewHolder(
@@ -55,7 +55,7 @@ class RecordDelegateAdapter : DelegateAdapter {
             }
         }
 
-        fun bindRecord(record: Record) {
+        fun bindRecord(record: RecordItem) {
 
             val backgroundColorId =
                 if (adapterPosition.rem(2) == 0) R.color.colorBlackTransparent else android.R.color.transparent

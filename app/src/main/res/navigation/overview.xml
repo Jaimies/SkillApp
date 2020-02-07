@@ -30,7 +30,7 @@
 
         <argument
             android:name="project"
-            app:argType="com.jdevs.timeo.domain.model.Project" />
+            app:argType="com.jdevs.timeo.ui.model.ProjectItem" />
 
         <action
             android:id="@+id/action_projectDetailFragment_to_addProjectFragment"
@@ -44,7 +44,7 @@
         <argument
             android:name="project"
             android:defaultValue="@null"
-            app:argType="com.jdevs.timeo.domain.model.Project"
+            app:argType="com.jdevs.timeo.ui.model.ProjectItem"
             app:nullable="true" />
 
         <action
@@ -79,7 +79,7 @@
         <argument
             android:name="activity"
             android:defaultValue="@null"
-            app:argType="com.jdevs.timeo.domain.model.Activity"
+            app:argType="com.jdevs.timeo.ui.model.ActivityItem"
             app:nullable="true" />
 
         <action
@@ -97,7 +97,7 @@
 
         <argument
             android:name="activity"
-            app:argType="com.jdevs.timeo.domain.model.Activity" />
+            app:argType="com.jdevs.timeo.ui.model.ActivityItem" />
 
         <action
             android:id="@+id/action_activityDetailFragment_to_addEditActivityFragment"

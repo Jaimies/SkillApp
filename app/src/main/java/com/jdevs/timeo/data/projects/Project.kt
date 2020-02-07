@@ -7,6 +7,9 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.Recordable
+import com.jdevs.timeo.domain.model.Project
+import com.jdevs.timeo.util.time.toDate
+import com.jdevs.timeo.util.time.toOffsetDate
 import org.threeten.bp.OffsetDateTime
 import java.util.Date
 
@@ -31,3 +34,24 @@ data class FirestoreProject(
     @ServerTimestamp
     var timestamp: Date? = null
 ) : Recordable()
+
+fun Project.mapToFirestore() =
+    FirestoreProject(documentId, name, totalTime, timestamp = creationDate.toDate())
+
+fun Project.mapToDB() = DBProject(id, name, totalTime, lastWeekTime, creationDate)
+
+fun FirestoreProject.mapToDomain() = Project(
+    documentId = documentId,
+    name = name,
+    totalTime = totalTime,
+    lastWeekTime = getLastWeekTime(),
+    creationDate = timestamp.toOffsetDate()
+)
+
+fun DBProject.mapToDomain() = Project(
+    id,
+    name = name,
+    totalTime = totalTime,
+    lastWeekTime = lastWeekTime,
+    creationDate = creationDate
+)

@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddprojectFragBinding
-import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.ActivitiesConstants.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.extensions.appComponent
@@ -85,8 +84,7 @@ class AddEditProjectFragment : ActionBarFragment() {
             findNavController().popBackStack()
         } else {
 
-            val project = Project(name = name)
-            viewModel.addProject(project)
+            viewModel.addProject(name)
             findNavController().navigate(R.id.action_addEditProjectFragment_to_projectsFragment)
         }
     }

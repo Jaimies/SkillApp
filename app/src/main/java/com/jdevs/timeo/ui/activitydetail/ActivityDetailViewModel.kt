@@ -2,12 +2,15 @@ package com.jdevs.timeo.ui.activitydetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetActivityByIdUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.ui.activities.ActivityDataViewModel
+import com.jdevs.timeo.ui.model.ActivityItem
+import com.jdevs.timeo.ui.model.mapToPresentation
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
@@ -28,9 +31,9 @@ class ActivityDetailViewModel @Inject constructor(
     private val _daysSpent = MutableLiveData("")
 
     val showRecordDialog = SingleLiveEvent<Any>()
-    lateinit var activity: LiveData<Activity>
+    lateinit var activity: LiveData<ActivityItem>
 
-    override fun setActivity(activity: Activity) {
+    override fun setActivity(activity: ActivityItem) {
 
         super.setActivity(activity)
         _avgWeekTime.value = getAvgWeekHours(activity.totalTime, activity.creationDate) + "h"
@@ -38,13 +41,14 @@ class ActivityDetailViewModel @Inject constructor(
         _daysSpent.value = activity.creationDate.getDaysSpentSince().toString()
     }
 
-    fun setupActivityLiveData(activity: Activity) {
+    fun setupActivityLiveData(activity: ActivityItem) {
 
-        this.activity = getActivityById(activity.id, activity.documentId)
+        this.activity =
+            map(getActivityById(activity.id, activity.documentId), Activity::mapToPresentation)
         setActivity(activity)
     }
 
-    fun addRecord(activity: Activity, time: Long) = viewModelScope.launch {
+    fun addRecord(activity: ActivityItem, time: Long) = viewModelScope.launch {
 
         val record = Record(
             name = activity.name,

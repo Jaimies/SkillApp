@@ -3,11 +3,12 @@ package com.jdevs.timeo.ui.addproject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.usecase.projects.AddProjectUseCase
 import com.jdevs.timeo.domain.usecase.projects.DeleteProjectUseCase
 import com.jdevs.timeo.domain.usecase.projects.SaveProjectUseCase
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
+import com.jdevs.timeo.ui.model.ProjectItem
+import com.jdevs.timeo.ui.model.mapToDomain
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,7 +28,7 @@ class AddEditProjectViewModel @Inject constructor(
     val showDeleteDialog = SingleLiveEvent<Any>()
     val saveProject = SingleLiveEvent<String>()
 
-    fun setProject(project: Project?) {
+    fun setProject(project: ProjectItem?) {
 
         name.value = project?.name.orEmpty()
         _projectExists.value = true
@@ -43,19 +44,19 @@ class AddEditProjectViewModel @Inject constructor(
         saveProject.value = name.value.orEmpty()
     }
 
-    fun addProject(project: Project) = viewModelScope.launch {
+    fun addProject(name: String) = viewModelScope.launch {
 
-        addProject.invoke(project)
+        addProject.invoke(name)
     }
 
-    fun saveProject(project: Project) = viewModelScope.launch {
+    fun saveProject(project: ProjectItem) = viewModelScope.launch {
 
-        saveProjectUseCase.invoke(project)
+        saveProjectUseCase.invoke(project.mapToDomain())
     }
 
-    fun deleteProject(project: Project) = viewModelScope.launch {
+    fun deleteProject(project: ProjectItem) = viewModelScope.launch {
 
-        deleteProject.invoke(project)
+        deleteProject.invoke(project.mapToDomain())
     }
 
     fun showDeleteDialog() = showDeleteDialog.call()

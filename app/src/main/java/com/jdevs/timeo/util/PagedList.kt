@@ -1,13 +1,12 @@
-package com.jdevs.timeo.data.db
+package com.jdevs.timeo.util
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.jdevs.timeo.data.Mapper
 
-fun <I, O> DataSource.Factory<Int, I>.toLivePagedList(
-    pageSize: Int, mapper: Mapper<I, O>
+fun <I, O> DataSource.Factory<Int, I>.toPagedList(
+    pageSize: Int, mapper: (I) -> O
 ): LiveData<PagedList<O>> {
 
     val pagedListConfig = PagedList.Config.Builder()
@@ -15,7 +14,7 @@ fun <I, O> DataSource.Factory<Int, I>.toLivePagedList(
         .setPageSize(pageSize)
         .build()
 
-    val pagedList = map(mapper::map)
+    val pagedList = map(mapper)
 
     return LivePagedListBuilder(pagedList, pagedListConfig).build()
 }

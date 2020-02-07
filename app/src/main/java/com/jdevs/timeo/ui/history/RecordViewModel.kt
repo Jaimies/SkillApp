@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.history
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.ui.model.RecordItem
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getFriendlyTime
 
@@ -16,7 +16,7 @@ class RecordViewModel : ViewModel() {
     private val _name = MutableLiveData("")
     private val _time = MutableLiveData("")
 
-    fun setRecord(record: Record) {
+    fun setRecord(record: RecordItem) {
 
         _name.value = record.name
         _time.value = getFriendlyTime(record.time)

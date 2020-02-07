@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
-import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.ui.common.adapter.createViewModel
+import com.jdevs.timeo.ui.model.ActivityItem
+import com.jdevs.timeo.ui.model.ViewItem
 import com.jdevs.timeo.util.extensions.fragmentActivity
 
 class ActivityDelegateAdapter : DelegateAdapter {
@@ -37,7 +37,7 @@ class ActivityDelegateAdapter : DelegateAdapter {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
 
         holder as ViewHolder
-        holder.setActivity(item as Activity)
+        holder.setActivity(item as ActivityItem)
     }
 
     class ViewHolder(
@@ -58,6 +58,6 @@ class ActivityDelegateAdapter : DelegateAdapter {
             }
         }
 
-        fun setActivity(activity: Activity) = viewModel.setActivity(activity)
+        fun setActivity(activity: ActivityItem) = viewModel.setActivity(activity)
     }
 }

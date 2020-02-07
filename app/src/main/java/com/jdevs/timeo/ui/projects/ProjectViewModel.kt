@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.projects
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jdevs.timeo.domain.model.Project
+import com.jdevs.timeo.ui.model.ProjectItem
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getHours
 
@@ -17,7 +17,7 @@ class ProjectViewModel : ViewModel() {
     val navigateToDetails = SingleLiveEvent<Any>()
     val showRecordDialog = SingleLiveEvent<Any>()
 
-    fun setProject(project: Project) {
+    fun setProject(project: ProjectItem) {
 
         _name.value = project.name
         _totalTime.value = getHours(project.totalTime) + "h"

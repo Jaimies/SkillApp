@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.history.RecordDelegateAdapter
+import com.jdevs.timeo.ui.model.ViewItem
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.ui.stats.StatisticDelegateAdapter
 import com.jdevs.timeo.util.ViewTypes.ACTIVITY

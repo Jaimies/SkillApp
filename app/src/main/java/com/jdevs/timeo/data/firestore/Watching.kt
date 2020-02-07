@@ -5,13 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
-import com.jdevs.timeo.data.Mapper
 import com.jdevs.timeo.util.FirestoreConstants.TOTAL_TIME
-import kotlin.reflect.KClass
 
-fun <I : Any, O> CollectionReference.watchCollection(
-    type: KClass<I>,
-    mapper: Mapper<I, O>,
+inline fun <reified I : Any, O> CollectionReference.watchCollection(
+    crossinline mapper: (I) -> O,
     limit: Long,
     orderBy: String = TOTAL_TIME,
     direction: Query.Direction = Query.Direction.DESCENDING
@@ -23,23 +20,20 @@ fun <I : Any, O> CollectionReference.watchCollection(
         .addSnapshotListener { querySnapshot, _ ->
 
             querySnapshot?.documents?.mapNotNull {
-                it.toObject(type.java)
-            }?.let { liveData.value = it.map(mapper::map) }
+                it.toObject(I::class.java)
+            }?.let { liveData.value = it.map(mapper) }
         }
 
     return liveData
 }
 
-fun <I : Any, O> DocumentReference.watch(
-    type: KClass<I>,
-    mapper: Mapper<I, O>
-): LiveData<O> {
+inline fun <reified I : Any, O> DocumentReference.watch(crossinline mapper: (I) -> O): LiveData<O> {
 
     val liveData = MutableLiveData<O>()
 
     addSnapshotListener { documentSnapshot, _ ->
 
-        documentSnapshot?.toObject(type.java)?.let { liveData.value = mapper.map(it) }
+        documentSnapshot?.toObject(I::class.java)?.let { liveData.value = mapper(it) }
     }
 
     return liveData

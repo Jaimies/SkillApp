@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 interface RecordsRemoteDataSource : RecordsDataSource {
 
-    val records: List<LiveData<Operation>>
+    val records: List<LiveData<Operation<Record>>>
 
     override suspend fun addRecord(record: Record): WriteBatch
 
@@ -29,18 +29,13 @@ interface RecordsRemoteDataSource : RecordsDataSource {
 }
 
 @Singleton
-class FirestoreRecordsDataSource @Inject constructor(
-    authRepository: AuthRepository,
-    private val mapper: FirestoreRecordMapper,
-    domainMapper: FirestoreDomainRecordMapper
-) :
+class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthRepository) :
     FirestoreListDataSource(authRepository),
     RecordsRemoteDataSource {
 
     private val recordsMonitor =
         createCollectionMonitor(
-            FirestoreRecord::class, domainMapper,
-            FIRESTORE_RECORDS_PAGE_SIZE, TIMESTAMP
+            FIRESTORE_RECORDS_PAGE_SIZE, FirestoreRecord::mapToDomain, TIMESTAMP
         )
 
     override val records
@@ -51,7 +46,7 @@ class FirestoreRecordsDataSource @Inject constructor(
     override suspend fun addRecord(record: Record): WriteBatch {
 
         val newRecordRef = recordsRef.document()
-        return db.batch().also { it.set(newRecordRef, mapper.map(record)) }
+        return db.batch().also { it.set(newRecordRef, record.mapToFirestore()) }
     }
 
     override suspend fun deleteRecord(record: Record): WriteBatch {

@@ -2,6 +2,7 @@ package com.jdevs.timeo.ui.common.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.ui.model.ViewItem
 
 class ListAdapter<T : ViewItem>(private val delegateAdapter: DelegateAdapter) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

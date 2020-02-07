@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.databinding.StatsItemBinding
-import com.jdevs.timeo.domain.model.Stats
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.ui.common.adapter.createViewModel
+import com.jdevs.timeo.ui.model.StatsItem
+import com.jdevs.timeo.ui.model.ViewItem
 import com.jdevs.timeo.util.extensions.fragmentActivity
 
 class StatisticDelegateAdapter : DelegateAdapter {
@@ -37,7 +37,7 @@ class StatisticDelegateAdapter : DelegateAdapter {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
 
         holder as ViewHolder
-        holder.bindStats(item as Stats)
+        holder.bindStats(item as StatsItem)
     }
 
     class ViewHolder(
@@ -45,6 +45,6 @@ class StatisticDelegateAdapter : DelegateAdapter {
         view: View
     ) : PagingAdapter.ViewHolder(view) {
 
-        fun bindStats(stats: Stats) = viewModel.setStats(stats)
+        fun bindStats(stats: StatsItem) = viewModel.setStats(stats)
     }
 }

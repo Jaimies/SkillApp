@@ -3,6 +3,9 @@ package com.jdevs.timeo.data.stats
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
+import com.jdevs.timeo.domain.model.DayStats
+import com.jdevs.timeo.domain.model.MonthStats
+import com.jdevs.timeo.domain.model.WeekStats
 
 @Suppress("UnnecessaryAbstractClass")
 abstract class FirestoreStats {
@@ -43,3 +46,10 @@ data class DBMonthStats(
     var time: Long = 0,
     @PrimaryKey var month: Int = 0
 )
+
+fun DBDayStats.mapToDomain() = DayStats(time = time, day = day)
+fun DBWeekStats.mapToDomain() = WeekStats(time = time, week = week)
+fun DBMonthStats.mapToDomain() = MonthStats(time = time, month = month)
+fun FirestoreDayStats.mapToDomain() = DayStats(documentId, time, day)
+fun FirestoreWeekStats.mapToDomain() = WeekStats(documentId, time, day)
+fun FirestoreMonthStats.mapToDomain() = MonthStats(documentId, time, day)

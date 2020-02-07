@@ -2,10 +2,14 @@ package com.jdevs.timeo.ui.overview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
+import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.usecase.activities.GetTopActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.projects.GetTopProjectsUseCase
 import com.jdevs.timeo.domain.usecase.settings.GetSettingsUseCase
+import com.jdevs.timeo.ui.model.mapToPresentation
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import javax.inject.Inject
 
@@ -15,8 +19,8 @@ class OverviewViewModel @Inject constructor(
     private val settings: GetSettingsUseCase
 ) : ViewModel() {
 
-    val topProjects get() = getTopProjects()
-    val topActivities get() = getTopActivities()
+    val topProjects get() = map(getTopProjects()) { it.map(Project::mapToPresentation) }
+    val topActivities get() = map(getTopActivities()) { it.map(Activity::mapToPresentation) }
     val activitiesEnabled get() = settings.activitiesEnabled
 
     val areProjectsLoading get() = _areProjectsLoading as LiveData<Boolean>

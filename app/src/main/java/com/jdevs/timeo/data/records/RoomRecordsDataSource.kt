@@ -1,12 +1,9 @@
 package com.jdevs.timeo.data.records
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
+import androidx.paging.DataSource
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.db.TimeoDatabase
-import com.jdevs.timeo.data.db.toLivePagedList
 import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.util.PagingConstants.RECORDS_PAGE_SIZE
 import com.jdevs.timeo.util.time.getDaysSinceEpoch
 import com.jdevs.timeo.util.time.getMonthSinceEpoch
 import com.jdevs.timeo.util.time.getWeeksSinceEpoch
@@ -26,20 +23,14 @@ interface RecordsDataSource {
 
 interface RecordsLocalDataSource : RecordsDataSource {
 
-    val records: LiveData<PagedList<Record>>
+    val records: DataSource.Factory<Int, Record>
 }
 
 @Singleton
-class RoomRecordsDataSource @Inject constructor(
-    private val db: TimeoDatabase,
-    private val mapper: DBRecordMapper,
-    private val domainMapper: DBDomainRecordMapper
-) : RecordsLocalDataSource {
+class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
+    RecordsLocalDataSource {
 
-    override val records by lazy {
-
-        db.recordsDao().getRecords().toLivePagedList(RECORDS_PAGE_SIZE, domainMapper)
-    }
+    override val records by lazy { db.recordsDao().getRecords().map(DBRecord::mapToDomain) }
 
     override suspend fun addRecord(record: Record): WriteBatch? = withContext(Dispatchers.IO) {
 
@@ -47,7 +38,7 @@ class RoomRecordsDataSource @Inject constructor(
 
             launch {
 
-                db.recordsDao().insert(mapper.map(record))
+                db.recordsDao().insert(record.mapToDB())
                 db.activitiesDao().increaseTime(record.roomActivityId, record.time)
                 registerStats(record.time, record.creationDate)
             }
@@ -62,7 +53,7 @@ class RoomRecordsDataSource @Inject constructor(
 
             launch {
 
-                db.recordsDao().delete(mapper.map(record))
+                db.recordsDao().delete(record.mapToDB())
                 db.activitiesDao().increaseTime(record.roomActivityId, -record.time)
                 registerStats(-record.time, record.creationDate)
             }

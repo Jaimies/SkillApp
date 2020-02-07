@@ -23,7 +23,7 @@ import javax.inject.Singleton
 
 interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
-    val activities: List<LiveData<Operation>>
+    val activities: List<LiveData<Operation<Activity>>>
 
     suspend fun saveActivity(id: String, newName: String): WriteBatch
 
@@ -31,28 +31,22 @@ interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 }
 
 @Singleton
-class FirestoreActivitiesDataSource @Inject constructor(
-    authRepository: AuthRepository,
-    private val mapper: FirestoreActivityMapper,
-    private val domainMapper: FirestoreDomainActivityMapper
-) : FirestoreListDataSource(authRepository),
+class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepository) :
+    FirestoreListDataSource(authRepository),
     ActivitiesRemoteDataSource {
 
     private val activitiesMonitor =
-        createCollectionMonitor(
-            FirestoreActivity::class, domainMapper,
-            ACTIVITIES_FIRESTORE_PAGE_SIZE
-        )
+        createCollectionMonitor(ACTIVITIES_FIRESTORE_PAGE_SIZE, FirestoreActivity::mapToDomain)
 
     override val activities get() = activitiesMonitor.getLiveDataList()
 
     private var activitiesRef: CollectionReference by SafeAccess()
 
-    override fun getTopActivities() = activitiesRef
-        .watchCollection(FirestoreActivity::class, domainMapper, TOP_ACTIVITIES_COUNT)
+    override fun getTopActivities() =
+        activitiesRef.watchCollection(FirestoreActivity::mapToDomain, TOP_ACTIVITIES_COUNT)
 
     override fun getActivityById(id: Int, documentId: String) =
-        activitiesRef.document(documentId).watch(FirestoreActivity::class, domainMapper)
+        activitiesRef.document(documentId).watch(FirestoreActivity::mapToDomain)
 
     override suspend fun saveActivity(id: String, newName: String): WriteBatch {
 
@@ -60,9 +54,9 @@ class FirestoreActivitiesDataSource @Inject constructor(
         return db.batch().also { it.update(activityRef, NAME, newName) }
     }
 
-    override suspend fun addActivity(activity: Activity) {
+    override suspend fun addActivity(name: String) {
 
-        activitiesRef.add(mapper.map(activity))
+        activitiesRef.add(FirestoreActivity(name = name))
     }
 
     override suspend fun deleteActivity(activity: Activity) {

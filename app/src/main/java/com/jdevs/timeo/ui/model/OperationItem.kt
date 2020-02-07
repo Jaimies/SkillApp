@@ -1,6 +1,6 @@
-package com.jdevs.timeo.domain.model
+package com.jdevs.timeo.ui.model
 
-data class Operation<T : Any>(
+data class OperationItem<T : ViewItem>(
     val data: T? = null,
     val exception: Exception? = null,
     val type: Int

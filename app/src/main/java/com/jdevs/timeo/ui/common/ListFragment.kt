@@ -11,12 +11,12 @@ import androidx.lifecycle.observe
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
+import com.jdevs.timeo.ui.model.OperationItem
+import com.jdevs.timeo.ui.model.ViewItem
 import com.jdevs.timeo.util.OperationTypes.ADDED
 import com.jdevs.timeo.util.OperationTypes.FAILED
 import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED
@@ -29,7 +29,7 @@ import javax.inject.Inject
 @Suppress("UNCHECKED_CAST")
 abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
-    protected abstract val viewModel: ListViewModel
+    protected abstract val viewModel: ListViewModel<T>
     protected abstract val adapter: PagingAdapter
     protected abstract val firestoreAdapter: FirestoreListAdapter
     private val currentAdapter get() = if (authRepository.isUserSignedIn) firestoreAdapter else adapter
@@ -69,7 +69,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
         }
     }
 
-    private fun observeItemsLiveData(liveData: LiveData<Operation>) {
+    private fun observeItemsLiveData(liveData: LiveData<out OperationItem<out T>>) {
 
         if (liveData.hasObservers()) {
 

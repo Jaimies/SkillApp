@@ -24,7 +24,7 @@ class DefaultActivitiesRepository @Inject constructor(
     override fun getActivityById(id: Int, documentId: String) =
         currentDataSource.getActivityById(id, documentId)
 
-    override suspend fun addActivity(activity: Activity) = currentDataSource.addActivity(activity)
+    override suspend fun addActivity(name: String) = currentDataSource.addActivity(name)
 
     override suspend fun saveActivity(activity: Activity) = if (isUserSignedIn) {
 

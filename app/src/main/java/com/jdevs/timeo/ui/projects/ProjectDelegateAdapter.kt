@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.databinding.ProjectsItemBinding
-import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.ui.common.adapter.ViewItem
 import com.jdevs.timeo.ui.common.adapter.createViewModel
+import com.jdevs.timeo.ui.model.ProjectItem
+import com.jdevs.timeo.ui.model.ViewItem
 import com.jdevs.timeo.util.extensions.fragmentActivity
 
 class ProjectDelegateAdapter : DelegateAdapter {
@@ -38,7 +38,7 @@ class ProjectDelegateAdapter : DelegateAdapter {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
 
         holder as ViewHolder
-        holder.setProject(item as Project)
+        holder.setProject(item as ProjectItem)
     }
 
     class ViewHolder(
@@ -59,6 +59,6 @@ class ProjectDelegateAdapter : DelegateAdapter {
             }
         }
 
-        fun setProject(project: Project) = viewModel.setProject(project)
+        fun setProject(project: ProjectItem) = viewModel.setProject(project)
     }
 }

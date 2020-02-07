@@ -1,11 +1,9 @@
 package com.jdevs.timeo.data.projects
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.paging.PagedList
-import com.jdevs.timeo.data.db.toLivePagedList
+import androidx.lifecycle.Transformations.map
+import androidx.paging.DataSource
 import com.jdevs.timeo.domain.model.Project
-import com.jdevs.timeo.util.PagingConstants.PROJECTS_PAGE_SIZE
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +13,7 @@ interface ProjectsDataSource {
 
     fun getProjectById(id: Int, documentId: String): LiveData<Project>
 
-    suspend fun addProject(project: Project)
+    suspend fun addProject(name: String)
 
     suspend fun saveProject(project: Project)
 
@@ -24,30 +22,24 @@ interface ProjectsDataSource {
 
 interface ProjectsLocalDataSource : ProjectsDataSource {
 
-    val projects: LiveData<PagedList<Project>>
+    val projects: DataSource.Factory<Int, Project>
 }
 
 @Singleton
-class RoomProjectsDataSource @Inject constructor(
-    private val projectsDao: ProjectsDao,
-    private val mapper: DBProjectMapper,
-    private val domainMapper: DBDomainProjectMapper
-) : ProjectsLocalDataSource {
+class RoomProjectsDataSource @Inject constructor(private val projectsDao: ProjectsDao) :
+    ProjectsLocalDataSource {
 
-    override val projects by lazy {
-
-        projectsDao.getProjects().toLivePagedList(PROJECTS_PAGE_SIZE, domainMapper)
-    }
+    override val projects by lazy { projectsDao.getProjects().map(DBProject::mapToDomain) }
 
     override fun getTopProjects() =
-        Transformations.map(projectsDao.getTopProjects()) { it.map(domainMapper::map) }
+        map(projectsDao.getTopProjects()) { it.map(DBProject::mapToDomain) }
 
     override fun getProjectById(id: Int, documentId: String) =
-        Transformations.map(projectsDao.getProjectById(id)) { domainMapper.map(it) }
+        map(projectsDao.getProjectById(id), DBProject::mapToDomain)
 
-    override suspend fun addProject(project: Project) = projectsDao.insert(mapper.map(project))
+    override suspend fun addProject(name: String) = projectsDao.insert(DBProject(name = name))
 
-    override suspend fun saveProject(project: Project) = projectsDao.update(mapper.map(project))
+    override suspend fun saveProject(project: Project) = projectsDao.update(project.mapToDB())
 
-    override suspend fun deleteProject(project: Project) = projectsDao.delete(mapper.map(project))
+    override suspend fun deleteProject(project: Project) = projectsDao.delete(project.mapToDB())
 }

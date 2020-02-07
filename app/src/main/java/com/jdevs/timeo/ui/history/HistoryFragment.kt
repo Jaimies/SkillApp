@@ -9,16 +9,16 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.HistoryFragBinding
-import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
+import com.jdevs.timeo.ui.model.RecordItem
 import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.showSnackbar
 import javax.inject.Inject
 
-class HistoryFragment : ListFragment<Record>(), DialogInterface.OnClickListener {
+class HistoryFragment : ListFragment<RecordItem>(), DialogInterface.OnClickListener {
 
     override val adapter by lazy {
         PagingAdapter(RecordDelegateAdapter(), showDeleteDialog = ::showDeleteDialog)

@@ -34,15 +34,6 @@ android {
         multiDexEnabled = true
 
         testInstrumentationRunner = 'com.jdevs.timeo.TimeoTestRunner'
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : 'true',
-                        "room.expandProjection": 'true']
-            }
-        }
     }
 
     buildTypes {
@@ -89,8 +80,16 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$Versions.constraintLayout"
     implementation "androidx.legacy:legacy-support-v4:$Versions.legacy"
 
-    // The domain layer
+    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
+
+    // The domain and data layers
+    implementation project(':shared')
     implementation project(':domain')
+    implementation project(':data')
+
+    implementation "androidx.room:room-ktx:$Versions.room"
+    implementation "com.google.firebase:firebase-auth:$Versions.auth"
+    implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
 
     // Multidex
     debugImplementation "androidx.multidex:multidex:$Versions.multidex"
@@ -110,20 +109,8 @@ dependencies {
     // ViewPager 2
     implementation "androidx.viewpager2:viewpager2:$Versions.viewPager2"
 
-    // Firebase
-    implementation "com.google.firebase:firebase-auth:$Versions.auth"
-    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
-    implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$Versions.coroutinesPlay"
-    debugImplementation "com.google.code.gson:gson:$Versions.gson"
-
-    // Room
-    implementation "androidx.room:room-runtime:$Versions.room"
-    implementation "androidx.room:room-ktx:$Versions.room"
-    kapt "androidx.room:room-compiler:$Versions.room"
-
     // Paging
-    implementation "androidx.paging:paging-runtime:$Versions.paging"
+    implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
     // java.time.* backport for Android
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
@@ -150,7 +137,6 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$Versions.junitExt"
     androidTestImplementation "androidx.test:runner:$Versions.androidxTestRunner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$Versions.espresso"
-    androidTestImplementation "androidx.room:room-testing:$Versions.room"
     androidTestImplementation "junit:junit:$Versions.junit"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$Versions.coroutines"
     androidTestImplementation "org.mockito:mockito-core:$Versions.mockito"

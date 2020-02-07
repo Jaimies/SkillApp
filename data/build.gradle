@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+
+android {
+
+    compileSdkVersion App.compileSdk
+    buildToolsVersion '29.0.2'
+
+    defaultConfig {
+
+        minSdkVersion App.minSdk
+        targetSdkVersion App.targetSdk
+        versionCode App.versionCode
+        versionName App.versionName
+        testInstrumentationRunner = 'com.jdevs.timeo.TimeoTestRunner'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : 'true',
+                        "room.expandProjection": 'true']
+            }
+        }
+    }
+
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
+    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
+
+    implementation project(':shared')
+
+    // Room
+    implementation "androidx.room:room-runtime:$Versions.room"
+    implementation "androidx.room:room-ktx:$Versions.room"
+    kapt "androidx.room:room-compiler:$Versions.room"
+
+    implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
+
+    // Firebase
+    implementation "com.google.firebase:firebase-auth:$Versions.auth"
+    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
+    implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$Versions.coroutinesPlay"
+
+
+    // java.time.* backport for Android
+    implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
+
+    // For tests use default ThreeTenBP library
+    testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
+
+    // Dependency injection
+    implementation "com.google.dagger:dagger:$Versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$Versions.dagger"
+
+    implementation project(':domain')
+}

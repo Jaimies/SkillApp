@@ -15,10 +15,11 @@ import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.model.ActivityItem
-import com.jdevs.timeo.util.ActivitiesConstants
 import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.observeEvent
 import javax.inject.Inject
+
+private const val ACTIVITIES_VISIBLE_THRESHOLD = 5
 
 class ActivitiesFragment : ListFragment<ActivityItem>() {
 
@@ -54,7 +55,7 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
             it.viewModel = viewModel
             it.lifecycleOwner = this
-            it.recyclerView.setup(ActivitiesConstants.VISIBLE_THRESHOLD)
+            it.recyclerView.setup(ACTIVITIES_VISIBLE_THRESHOLD)
         }
 
         observeEvent(viewModel.navigateToAddEdit) {

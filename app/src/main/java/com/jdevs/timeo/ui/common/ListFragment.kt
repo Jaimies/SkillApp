@@ -12,17 +12,17 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.domain.repository.AuthRepository
+import com.jdevs.timeo.shared.OperationTypes.ADDED
+import com.jdevs.timeo.shared.OperationTypes.FAILED
+import com.jdevs.timeo.shared.OperationTypes.LAST_ITEM_REACHED
+import com.jdevs.timeo.shared.OperationTypes.MODIFIED
+import com.jdevs.timeo.shared.OperationTypes.REMOVED
+import com.jdevs.timeo.shared.OperationTypes.SUCCESSFUL
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.ui.model.OperationItem
 import com.jdevs.timeo.ui.model.ViewItem
-import com.jdevs.timeo.util.OperationTypes.ADDED
-import com.jdevs.timeo.util.OperationTypes.FAILED
-import com.jdevs.timeo.util.OperationTypes.LAST_ITEM_REACHED
-import com.jdevs.timeo.util.OperationTypes.MODIFIED
-import com.jdevs.timeo.util.OperationTypes.REMOVED
-import com.jdevs.timeo.util.OperationTypes.SUCCESSFUL
 import com.jdevs.timeo.util.TAG
 import javax.inject.Inject
 

@@ -6,3 +6,12 @@ interface ViewItem {
     val documentId: String
     val viewType: Int
 }
+
+object ViewType {
+
+    const val LOADING = 0
+    const val ACTIVITY = 1
+    const val RECORD = 2
+    const val PROJECT = 3
+    const val STATISTIC = 4
+}

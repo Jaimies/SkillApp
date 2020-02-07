@@ -13,10 +13,11 @@ import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.model.RecordItem
-import com.jdevs.timeo.util.RecordsConstants
 import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.showSnackbar
 import javax.inject.Inject
+
+private const val RECORDS_VISIBLE_THRESHOLD = 12
 
 class HistoryFragment : ListFragment<RecordItem>(), DialogInterface.OnClickListener {
 
@@ -49,7 +50,7 @@ class HistoryFragment : ListFragment<RecordItem>(), DialogInterface.OnClickListe
 
             it.viewModel = viewModel
             it.lifecycleOwner = this
-            it.recyclerView.setup(RecordsConstants.VISIBLE_THRESHOLD)
+            it.recyclerView.setup(RECORDS_VISIBLE_THRESHOLD)
         }
 
         return binding.root

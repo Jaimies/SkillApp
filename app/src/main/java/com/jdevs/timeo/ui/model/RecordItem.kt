@@ -1,7 +1,7 @@
 package com.jdevs.timeo.ui.model
 
 import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.util.ViewTypes.RECORD
+import com.jdevs.timeo.ui.model.ViewType.RECORD
 import org.threeten.bp.OffsetDateTime
 
 data class RecordItem(

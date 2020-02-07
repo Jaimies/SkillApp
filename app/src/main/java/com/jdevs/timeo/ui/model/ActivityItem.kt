@@ -2,7 +2,7 @@ package com.jdevs.timeo.ui.model
 
 import android.os.Parcelable
 import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.util.ViewTypes.ACTIVITY
+import com.jdevs.timeo.ui.model.ViewType.ACTIVITY
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.OffsetDateTime

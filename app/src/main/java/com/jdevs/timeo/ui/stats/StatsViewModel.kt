@@ -6,15 +6,16 @@ import com.jdevs.timeo.domain.model.WeekStats
 import com.jdevs.timeo.domain.usecase.stats.GetStatsUseCase
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.ui.model.StatsItem
+import com.jdevs.timeo.ui.model.StatsTypes.DAY
+import com.jdevs.timeo.ui.model.StatsTypes.MONTH
+import com.jdevs.timeo.ui.model.StatsTypes.WEEK
 import com.jdevs.timeo.ui.model.mapToPresentation
-import com.jdevs.timeo.util.PagingConstants.STATS_PAGE_SIZE
-import com.jdevs.timeo.util.StatsTypes.DAY
-import com.jdevs.timeo.util.StatsTypes.MONTH
-import com.jdevs.timeo.util.StatsTypes.WEEK
 import com.jdevs.timeo.util.mapTo
 import com.jdevs.timeo.util.toPagedList
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private const val STATS_PAGE_SIZE = 40
 
 @Singleton
 class StatsViewModel @Inject constructor(private val stats: GetStatsUseCase) :

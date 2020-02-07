@@ -3,14 +3,14 @@ package com.jdevs.timeo.ui.stats
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jdevs.timeo.data.util.getFriendlyDate
+import com.jdevs.timeo.data.util.getFriendlyMonth
+import com.jdevs.timeo.data.util.getFriendlyWeek
+import com.jdevs.timeo.data.util.getHours
 import com.jdevs.timeo.ui.model.DayStatsItem
 import com.jdevs.timeo.ui.model.MonthStatsItem
 import com.jdevs.timeo.ui.model.StatsItem
 import com.jdevs.timeo.ui.model.WeekStatsItem
-import com.jdevs.timeo.util.time.getFriendlyDate
-import com.jdevs.timeo.util.time.getFriendlyMonth
-import com.jdevs.timeo.util.time.getFriendlyWeek
-import com.jdevs.timeo.util.time.getHours
 
 class StatisticViewModel : ViewModel() {
 

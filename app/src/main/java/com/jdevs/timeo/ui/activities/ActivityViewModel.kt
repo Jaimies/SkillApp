@@ -4,12 +4,12 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jdevs.timeo.data.util.getHours
+import com.jdevs.timeo.data.util.getNextMilestone
+import com.jdevs.timeo.data.util.getPrevMilestone
+import com.jdevs.timeo.data.util.getProgress
 import com.jdevs.timeo.ui.model.ActivityItem
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
-import com.jdevs.timeo.util.time.getHours
-import com.jdevs.timeo.util.time.getNextMilestone
-import com.jdevs.timeo.util.time.getPrevMilestone
-import com.jdevs.timeo.util.time.getProgress
 
 open class ActivityDataViewModel : ViewModel() {
 

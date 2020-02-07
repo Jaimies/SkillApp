@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.history.RecordDelegateAdapter
 import com.jdevs.timeo.ui.model.ViewItem
+import com.jdevs.timeo.ui.model.ViewType.ACTIVITY
+import com.jdevs.timeo.ui.model.ViewType.LOADING
+import com.jdevs.timeo.ui.model.ViewType.PROJECT
+import com.jdevs.timeo.ui.model.ViewType.RECORD
+import com.jdevs.timeo.ui.model.ViewType.STATISTIC
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.ui.stats.StatisticDelegateAdapter
-import com.jdevs.timeo.util.ViewTypes.ACTIVITY
-import com.jdevs.timeo.util.ViewTypes.LOADING
-import com.jdevs.timeo.util.ViewTypes.PROJECT
-import com.jdevs.timeo.util.ViewTypes.RECORD
-import com.jdevs.timeo.util.ViewTypes.STATISTIC
 
 class FirestoreListAdapter(
     private val createRecord: (Int, Long) -> Unit = { _, _ -> },

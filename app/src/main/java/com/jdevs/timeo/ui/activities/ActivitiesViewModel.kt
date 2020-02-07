@@ -8,12 +8,13 @@ import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.ui.model.ActivityItem
 import com.jdevs.timeo.ui.model.mapToPresentation
-import com.jdevs.timeo.util.PagingConstants.ACTIVITIES_PAGE_SIZE
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.mapTo
 import com.jdevs.timeo.util.toPagedList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val ACTIVITIES_PAGE_SIZE = 20
 
 class ActivitiesViewModel @Inject constructor(
     private val getActivities: GetActivitiesUseCase,

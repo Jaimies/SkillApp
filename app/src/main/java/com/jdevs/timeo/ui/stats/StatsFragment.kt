@@ -10,6 +10,8 @@ import com.jdevs.timeo.R
 import kotlinx.android.synthetic.main.stats_frag.view.stats_tablayout
 import kotlinx.android.synthetic.main.stats_frag.view.stats_viewpager
 
+const val STATS_TYPES_COUNT = 3
+
 class StatsFragment : Fragment() {
 
     private val args: StatsFragmentArgs by navArgs()

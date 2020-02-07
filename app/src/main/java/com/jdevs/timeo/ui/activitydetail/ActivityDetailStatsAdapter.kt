@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
-import com.jdevs.timeo.util.StatsConstants.STATS_TYPES_COUNT
-import com.jdevs.timeo.util.StatsTypes
+import com.jdevs.timeo.ui.model.StatsTypes
+import com.jdevs.timeo.ui.stats.STATS_TYPES_COUNT
 import com.jdevs.timeo.util.extensions.inflate
 import kotlinx.android.synthetic.main.activitydetail_stats_item.view.title_text_view
 

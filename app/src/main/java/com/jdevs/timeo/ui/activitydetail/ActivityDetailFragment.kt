@@ -21,6 +21,8 @@ import com.jdevs.timeo.util.extensions.observeEvent
 import com.jdevs.timeo.util.extensions.setupAdapter
 import javax.inject.Inject
 
+private const val ACHIEVEMENTS_ITEM_SPACING = 20
+
 class ActivityDetailFragment : ActionBarFragment() {
 
     @Inject
@@ -88,9 +90,5 @@ class ActivityDetailFragment : ActionBarFragment() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    companion object {
-        private const val ACHIEVEMENTS_ITEM_SPACING = 20
     }
 }

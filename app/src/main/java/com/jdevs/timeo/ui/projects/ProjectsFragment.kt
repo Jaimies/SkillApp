@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.projects
 
-
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,11 +12,12 @@ import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.model.ProjectItem
-import com.jdevs.timeo.util.ProjectsConstants
 import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.observeEvent
 import com.jdevs.timeo.util.extensions.showSnackbar
 import javax.inject.Inject
+
+private const val PROJECTS_VISIBLE_THRESHOLD = 10
 
 class ProjectsFragment : ListFragment<ProjectItem>() {
 
@@ -53,7 +53,7 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
 
             it.lifecycleOwner = this
             it.viewModel = viewModel
-            it.recyclerView.setup(ProjectsConstants.VISIBLE_THRESHOLD)
+            it.recyclerView.setup(PROJECTS_VISIBLE_THRESHOLD)
 
             observeEvent(viewModel.navigateToAddActivity) {
                 findNavController().navigate(R.id.addproject_fragment_dest)

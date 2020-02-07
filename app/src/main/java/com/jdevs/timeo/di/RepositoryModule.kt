@@ -1,7 +1,6 @@
 package com.jdevs.timeo.di
 
 import android.content.Context
-import androidx.room.Room
 import com.jdevs.timeo.data.activities.ActivitiesLocalDataSource
 import com.jdevs.timeo.data.activities.ActivitiesRemoteDataSource
 import com.jdevs.timeo.data.activities.DefaultActivitiesRepository
@@ -27,7 +26,6 @@ import com.jdevs.timeo.domain.repository.ActivitiesRepository
 import com.jdevs.timeo.domain.repository.ProjectsRepository
 import com.jdevs.timeo.domain.repository.RecordsRepository
 import com.jdevs.timeo.domain.repository.StatsRepository
-import com.jdevs.timeo.util.RoomConstants.DATABASE_NAME
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -78,15 +76,7 @@ abstract class RepositoryModule {
         @Provides
         @Singleton
         @JvmStatic
-        fun provideDatabase(context: Context): TimeoDatabase {
-
-            return Room.databaseBuilder(
-                context.applicationContext,
-                TimeoDatabase::class.java, DATABASE_NAME
-            )
-                .fallbackToDestructiveMigration()
-                .build()
-        }
+        fun provideDatabase(context: Context) = TimeoDatabase.create(context)
 
         @Provides
         @Singleton

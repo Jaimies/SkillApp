@@ -10,8 +10,7 @@ import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.model.StatsItem
-import com.jdevs.timeo.util.StatsConstants.VISIBLE_THRESHOLD
-import com.jdevs.timeo.util.StatsTypes.DAY
+import com.jdevs.timeo.ui.model.StatsTypes.DAY
 import com.jdevs.timeo.util.extensions.appComponent
 import javax.inject.Inject
 
@@ -42,7 +41,7 @@ class StatsItemFragment : ListFragment<StatsItem>() {
 
             it.viewModel = viewModel
             it.lifecycleOwner = this
-            it.recyclerView.setup(VISIBLE_THRESHOLD)
+            it.recyclerView.setup(STATS_VISIBLE_THRESHOLD)
         }
 
         return binding.root
@@ -51,5 +50,6 @@ class StatsItemFragment : ListFragment<StatsItem>() {
     companion object {
 
         const val TYPE = "type"
+        private const val STATS_VISIBLE_THRESHOLD = 8
     }
 }

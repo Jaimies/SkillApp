@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SigninFragBinding
-import com.jdevs.timeo.util.RequestCodes.RC_SIGN_IN
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.observeEvent
@@ -28,6 +27,8 @@ import com.jdevs.timeo.util.extensions.showSnackbar
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
 import javax.inject.Inject
+
+private const val RC_SIGN_IN = 0
 
 class SignInFragment : AuthFragment() {
 
@@ -95,7 +96,6 @@ class SignInFragment : AuthFragment() {
 
         hideKeyboard()
         viewModel.showLoader()
-
         startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
     }
 

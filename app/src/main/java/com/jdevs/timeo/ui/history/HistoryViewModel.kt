@@ -8,11 +8,12 @@ import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.ui.model.RecordItem
 import com.jdevs.timeo.ui.model.mapToDomain
 import com.jdevs.timeo.ui.model.mapToPresentation
-import com.jdevs.timeo.util.PagingConstants.RECORDS_PAGE_SIZE
 import com.jdevs.timeo.util.mapTo
 import com.jdevs.timeo.util.toPagedList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val RECORDS_PAGE_SIZE = 50
 
 class HistoryViewModel @Inject constructor(
     private val getRecords: GetRecordsUseCase,

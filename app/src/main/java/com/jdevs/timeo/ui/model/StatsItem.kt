@@ -3,12 +3,19 @@ package com.jdevs.timeo.ui.model
 import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.WeekStats
-import com.jdevs.timeo.util.ViewTypes.STATISTIC
+import com.jdevs.timeo.ui.model.ViewType.STATISTIC
 
 sealed class StatsItem : ViewItem {
 
     abstract val time: Long
     override val viewType = STATISTIC
+}
+
+object StatsTypes {
+
+    const val DAY = 0
+    const val WEEK = 1
+    const val MONTH = 2
 }
 
 data class DayStatsItem(

@@ -5,11 +5,12 @@ import com.jdevs.timeo.domain.usecase.projects.GetProjectsUseCase
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.ui.model.ProjectItem
 import com.jdevs.timeo.ui.model.mapToPresentation
-import com.jdevs.timeo.util.PagingConstants.PROJECTS_PAGE_SIZE
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.mapTo
 import com.jdevs.timeo.util.toPagedList
 import javax.inject.Inject
+
+private const val PROJECTS_PAGE_SIZE = 20
 
 class ProjectsViewModel @Inject constructor(private val getProjects: GetProjectsUseCase) :
     ListViewModel<ProjectItem>() {

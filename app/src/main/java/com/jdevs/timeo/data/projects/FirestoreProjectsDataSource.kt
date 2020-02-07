@@ -3,7 +3,7 @@ package com.jdevs.timeo.data.projects
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
-import com.jdevs.timeo.data.firestore.createCollectionMonitor
+import com.jdevs.timeo.data.firestore.createCollectionWatcher
 import com.jdevs.timeo.data.firestore.watch
 import com.jdevs.timeo.data.firestore.watchCollection
 import com.jdevs.timeo.domain.model.Operation
@@ -25,11 +25,11 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
     FirestoreListDataSource(authRepository),
     ProjectsRemoteDataSource {
 
-    private val projectsMonitor =
-        createCollectionMonitor(FIRESTORE_PROJECTS_PAGE_SIZE, FirestoreProject::mapToDomain)
+    private val projectsWatcher =
+        createCollectionWatcher(FIRESTORE_PROJECTS_PAGE_SIZE, FirestoreProject::mapToDomain)
 
     override val projects
-        get() = projectsMonitor.safeAccess().getLiveDataList()
+        get() = projectsWatcher.safeAccess().getLiveDataList()
 
     private var projectsRef by SafeAccess<CollectionReference>()
 
@@ -56,6 +56,6 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
 
     override fun resetRefs(uid: String) {
 
-        projectsRef = createRef(uid, ProjectsConstants.COLLECTION, projectsMonitor)
+        projectsRef = createRef(uid, ProjectsConstants.COLLECTION, projectsWatcher)
     }
 }

@@ -6,7 +6,6 @@ import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.WeekStats
-import org.threeten.bp.OffsetDateTime
 
 interface StatsRepository {
 
@@ -16,6 +15,4 @@ interface StatsRepository {
     val weekStatsRemote: List<LiveData<Operation<WeekStats>>>
     val monthStats: DataSource.Factory<Int, MonthStats>
     val monthStatsRemote: List<LiveData<Operation<MonthStats>>>
-
-    suspend fun updateStats(date: OffsetDateTime, time: Long)
 }

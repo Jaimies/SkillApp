@@ -53,7 +53,7 @@ class CollectionWatcher<T : Any>(
     }
 }
 
-inline fun <reified T : Any, O : Any> createCollectionMonitor(
+inline fun <reified T : Any, O : Any> createCollectionWatcher(
     pageSize: Long,
     noinline mapper: (T) -> O,
     orderBy: String = TOTAL_TIME

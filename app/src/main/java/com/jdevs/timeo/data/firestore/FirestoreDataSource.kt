@@ -1,5 +1,6 @@
 package com.jdevs.timeo.data.firestore
 
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jdevs.timeo.domain.repository.AuthRepository
 import kotlin.properties.ReadWriteProperty
@@ -50,6 +51,12 @@ abstract class FirestoreDataSource(private val authRepository: AuthRepository) {
 abstract class FirestoreListDataSource(authRepository: AuthRepository) :
     FirestoreDataSource(authRepository) {
 
-    protected fun createRef(uid: String, collection: String, watcher: CollectionWatcher<*>) =
-        db.collection("/users/$uid/$collection").also { watcher.setRef(it) }
+    protected fun createRef(
+        uid: String,
+        collection: String,
+        watcher: CollectionWatcher<*>? = null
+    ): CollectionReference {
+
+        return db.collection("/users/$uid/$collection").also { watcher?.setRef(it) }
+    }
 }

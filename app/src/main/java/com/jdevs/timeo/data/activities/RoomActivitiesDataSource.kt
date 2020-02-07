@@ -15,14 +15,14 @@ interface ActivitiesDataSource {
 
     suspend fun addActivity(name: String)
 
+    suspend fun saveActivity(activity: Activity)
+
     suspend fun deleteActivity(activity: Activity)
 }
 
 interface ActivitiesLocalDataSource : ActivitiesDataSource {
 
     val activities: DataSource.Factory<Int, Activity>
-
-    suspend fun saveActivity(activity: Activity)
 }
 
 @Singleton

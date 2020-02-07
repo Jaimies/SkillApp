@@ -1,6 +1,5 @@
 package com.jdevs.timeo.data.records
 
-import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.Repository
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.AuthRepository
@@ -23,10 +22,4 @@ class DefaultRecordsRepository @Inject constructor(
     override suspend fun addRecord(record: Record) = currentDataSource.addRecord(record)
 
     override suspend fun deleteRecord(record: Record) = currentDataSource.deleteRecord(record)
-
-    override suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch) =
-        performOnRemote {
-
-            it.renameRecords(activityId, newName, batch)
-        }
 }

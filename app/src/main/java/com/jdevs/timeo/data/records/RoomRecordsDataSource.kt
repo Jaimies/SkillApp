@@ -1,7 +1,6 @@
 package com.jdevs.timeo.data.records
 
 import androidx.paging.DataSource
-import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.db.TimeoDatabase
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.util.time.getDaysSinceEpoch
@@ -16,9 +15,9 @@ import javax.inject.Singleton
 
 interface RecordsDataSource {
 
-    suspend fun addRecord(record: Record): WriteBatch?
+    suspend fun addRecord(record: Record)
 
-    suspend fun deleteRecord(record: Record): WriteBatch?
+    suspend fun deleteRecord(record: Record)
 }
 
 interface RecordsLocalDataSource : RecordsDataSource {
@@ -32,7 +31,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
 
     override val records by lazy { db.recordsDao().getRecords().map(DBRecord::mapToDomain) }
 
-    override suspend fun addRecord(record: Record): WriteBatch? = withContext(Dispatchers.IO) {
+    override suspend fun addRecord(record: Record) = withContext(Dispatchers.IO) {
 
         db.runInTransaction {
 
@@ -43,11 +42,9 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
                 registerStats(record.time, record.creationDate)
             }
         }
-
-        null
     }
 
-    override suspend fun deleteRecord(record: Record): WriteBatch? = withContext(Dispatchers.IO) {
+    override suspend fun deleteRecord(record: Record) = withContext(Dispatchers.IO) {
 
         db.runInTransaction {
 
@@ -58,8 +55,6 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
                 registerStats(-record.time, record.creationDate)
             }
         }
-
-        null
     }
 
     private fun registerStats(time: Long, creationDate: OffsetDateTime) {

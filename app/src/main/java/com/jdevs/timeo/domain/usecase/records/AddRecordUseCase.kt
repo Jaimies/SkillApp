@@ -1,23 +1,13 @@
 package com.jdevs.timeo.domain.usecase.records
 
 import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.domain.repository.ActivitiesRepository
 import com.jdevs.timeo.domain.repository.RecordsRepository
-import com.jdevs.timeo.domain.repository.StatsRepository
 import javax.inject.Inject
 
-class AddRecordUseCase @Inject constructor(
-    private val activitiesRepository: ActivitiesRepository,
-    private val recordsRepository: RecordsRepository,
-    private val statsRepository: StatsRepository
-) {
+class AddRecordUseCase @Inject constructor(private val recordsRepository: RecordsRepository) {
 
     suspend operator fun invoke(record: Record) {
 
-        recordsRepository.addRecord(record)?.let { batch ->
-
-            activitiesRepository.increaseTime(record.activityId, record.time, batch)
-            statsRepository.updateStats(record.creationDate, record.time)
-        }
+        recordsRepository.addRecord(record)
     }
 }

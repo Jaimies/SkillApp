@@ -89,6 +89,9 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$Versions.constraintLayout"
     implementation "androidx.legacy:legacy-support-v4:$Versions.legacy"
 
+    // The domain layer
+    implementation project(':domain')
+
     // Multidex
     debugImplementation "androidx.multidex:multidex:$Versions.multidex"
 

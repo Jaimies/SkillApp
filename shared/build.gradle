@@ -3,5 +3,13 @@ plugins {
 }
 
 dependencies {
+
+    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
+
+    // java.time.* backport for Android
+    implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
+
+    // For tests use default ThreeTenBP library
+    testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
 }

@@ -8,10 +8,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import com.jdevs.timeo.R
-import com.jdevs.timeo.data.util.DAY_HOURS
-import com.jdevs.timeo.data.util.HOUR_MINUTES
-import com.jdevs.timeo.data.util.getMins
+import com.jdevs.timeo.shared.time.DAY_HOURS
+import com.jdevs.timeo.shared.time.HOUR_MINUTES
 import com.jdevs.timeo.util.getScreenDimensions
+import com.jdevs.timeo.util.time.getMins
 import kotlinx.android.synthetic.main.record_dialog.add_button
 import kotlinx.android.synthetic.main.record_dialog.hours_edit_text
 import kotlinx.android.synthetic.main.record_dialog.minutes_edit_text
@@ -22,9 +22,9 @@ private const val WIDTH = 0.9
 private const val HEIGHT = 0.35
 private const val RECORD_MIN_TIME = 5
 
-class RecordDialog(
-    context: Context, private val createRecord: (Long) -> Unit = {}
-) : Dialog(context), View.OnFocusChangeListener {
+class RecordDialog(context: Context, private val createRecord: (Long) -> Unit = {}) :
+    View.OnFocusChangeListener,
+    Dialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

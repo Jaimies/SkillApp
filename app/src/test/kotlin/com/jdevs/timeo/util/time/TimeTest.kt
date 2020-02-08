@@ -1,10 +1,5 @@
 package com.jdevs.timeo.util.time
 
-import com.jdevs.timeo.data.util.getAvgWeekHours
-import com.jdevs.timeo.data.util.getDaysSpentSince
-import com.jdevs.timeo.data.util.getFriendlyTime
-import com.jdevs.timeo.data.util.getHours
-import com.jdevs.timeo.data.util.getMins
 import com.jdevs.timeo.daysAgoDate
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat

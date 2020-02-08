@@ -80,13 +80,18 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$Versions.constraintLayout"
     implementation "androidx.legacy:legacy-support-v4:$Versions.legacy"
 
+    // Google Play services
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
 
     // The domain and data layers
-    implementation project(':shared')
     implementation project(':domain')
     implementation project(':data')
 
+    // Shared and lib modules
+    implementation project(':shared')
+    implementation project(':lib')
+
+    // Room and Firebase
     implementation "androidx.room:room-ktx:$Versions.room"
     implementation "com.google.firebase:firebase-auth:$Versions.auth"
     implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
@@ -94,14 +99,13 @@ dependencies {
     // Multidex
     debugImplementation "androidx.multidex:multidex:$Versions.multidex"
 
-    // Extensions
+    // Fragment and Lifecycle extensions
     implementation "androidx.fragment:fragment-ktx:$Versions.fragmentKtx"
     implementation "androidx.lifecycle:lifecycle-extensions:$Versions.lifecycleExtensions"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$Versions.navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$Versions.navigation"
-    implementation project(':lib')
 
     // Material components
     implementation "com.google.android.material:material:$Versions.material"

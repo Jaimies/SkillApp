@@ -2,10 +2,10 @@ package com.jdevs.timeo.data.records
 
 import androidx.paging.DataSource
 import com.jdevs.timeo.data.db.TimeoDatabase
-import com.jdevs.timeo.data.util.getDaysSinceEpoch
-import com.jdevs.timeo.data.util.getMonthSinceEpoch
-import com.jdevs.timeo.data.util.getWeeksSinceEpoch
 import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.shared.time.getDaysSinceEpoch
+import com.jdevs.timeo.shared.time.getMonthSinceEpoch
+import com.jdevs.timeo.shared.time.getWeeksSinceEpoch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -19,12 +19,12 @@ import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionWatcher
 import com.jdevs.timeo.data.stats.FirestoreDayStats
-import com.jdevs.timeo.data.util.getDaysSinceEpoch
-import com.jdevs.timeo.data.util.getMonthSinceEpoch
-import com.jdevs.timeo.data.util.getWeeksSinceEpoch
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.AuthRepository
+import com.jdevs.timeo.shared.time.getDaysSinceEpoch
+import com.jdevs.timeo.shared.time.getMonthSinceEpoch
+import com.jdevs.timeo.shared.time.getWeeksSinceEpoch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await

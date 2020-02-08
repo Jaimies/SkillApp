@@ -36,13 +36,15 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
 
+    // The domain layer and shared module
     implementation project(':shared')
+    implementation project(':domain')
 
     // Room
-    implementation "androidx.room:room-runtime:$Versions.room"
     implementation "androidx.room:room-ktx:$Versions.room"
     kapt "androidx.room:room-compiler:$Versions.room"
 
+    // Paging
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
     // Firebase
@@ -50,7 +52,6 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
     implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$Versions.coroutinesPlay"
-
 
     // java.time.* backport for Android
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
@@ -62,5 +63,4 @@ dependencies {
     implementation "com.google.dagger:dagger:$Versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$Versions.dagger"
 
-    implementation project(':domain')
 }

@@ -4,9 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.viewModelScope
-import com.jdevs.timeo.data.util.getAvgWeekHours
-import com.jdevs.timeo.data.util.getDaysSpentSince
-import com.jdevs.timeo.data.util.getHours
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetActivityByIdUseCase
@@ -15,6 +12,9 @@ import com.jdevs.timeo.ui.activities.ActivityDataViewModel
 import com.jdevs.timeo.ui.model.ActivityItem
 import com.jdevs.timeo.ui.model.mapToPresentation
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
+import com.jdevs.timeo.util.time.getAvgWeekHours
+import com.jdevs.timeo.util.time.getDaysSpentSince
+import com.jdevs.timeo.util.time.getHours
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

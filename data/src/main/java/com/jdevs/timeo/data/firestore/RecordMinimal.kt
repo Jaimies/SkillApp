@@ -1,7 +1,7 @@
 package com.jdevs.timeo.data.firestore
 
 import com.google.firebase.firestore.Exclude
-import com.jdevs.timeo.data.util.toOffsetDate
+import com.jdevs.timeo.shared.time.toOffsetDate
 import java.util.Calendar
 import java.util.Date
 

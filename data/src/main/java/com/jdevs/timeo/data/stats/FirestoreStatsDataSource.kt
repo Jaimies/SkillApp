@@ -16,7 +16,6 @@ import com.jdevs.timeo.domain.repository.AuthRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 interface StatsRemoteDataSource {
 
     val dayStats: List<LiveData<Operation<DayStats>>>

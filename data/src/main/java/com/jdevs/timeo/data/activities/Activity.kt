@@ -1,6 +1,5 @@
 package com.jdevs.timeo.data.activities
 
-
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,8 +7,8 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.Recordable
-import com.jdevs.timeo.data.util.toOffsetDate
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.shared.time.toOffsetDate
 import org.threeten.bp.OffsetDateTime
 import java.util.Date
 

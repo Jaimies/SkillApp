@@ -4,10 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.records.DeleteRecordUseCase
 import com.jdevs.timeo.domain.usecase.records.GetRecordsUseCase
+import com.jdevs.timeo.model.RecordItem
+import com.jdevs.timeo.model.mapToDomain
+import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
-import com.jdevs.timeo.ui.model.RecordItem
-import com.jdevs.timeo.ui.model.mapToDomain
-import com.jdevs.timeo.ui.model.mapToPresentation
 import com.jdevs.timeo.util.mapTo
 import com.jdevs.timeo.util.toPagedList
 import kotlinx.coroutines.launch

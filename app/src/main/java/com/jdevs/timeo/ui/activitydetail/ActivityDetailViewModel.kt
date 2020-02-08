@@ -8,9 +8,9 @@ import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetActivityByIdUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
+import com.jdevs.timeo.model.ActivityItem
+import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.activities.ActivityDataViewModel
-import com.jdevs.timeo.ui.model.ActivityItem
-import com.jdevs.timeo.ui.model.mapToPresentation
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince

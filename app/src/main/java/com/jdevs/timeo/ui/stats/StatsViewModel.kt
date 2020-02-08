@@ -4,12 +4,12 @@ import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.WeekStats
 import com.jdevs.timeo.domain.usecase.stats.GetStatsUseCase
+import com.jdevs.timeo.model.StatsItem
+import com.jdevs.timeo.model.StatsTypes.DAY
+import com.jdevs.timeo.model.StatsTypes.MONTH
+import com.jdevs.timeo.model.StatsTypes.WEEK
+import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
-import com.jdevs.timeo.ui.model.StatsItem
-import com.jdevs.timeo.ui.model.StatsTypes.DAY
-import com.jdevs.timeo.ui.model.StatsTypes.MONTH
-import com.jdevs.timeo.ui.model.StatsTypes.WEEK
-import com.jdevs.timeo.ui.model.mapToPresentation
 import com.jdevs.timeo.util.mapTo
 import com.jdevs.timeo.util.toPagedList
 import javax.inject.Inject

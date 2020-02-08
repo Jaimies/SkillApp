@@ -17,11 +17,11 @@ import java.util.Date
 @Entity(tableName = "projects")
 data class DBProject(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-    var name: String = "",
-    var totalTime: Long = 0,
-    var lastWeekTime: Int = 0,
-    var creationDate: OffsetDateTime = OffsetDateTime.now()
+    val id: Int = 0,
+    val name: String = "",
+    val totalTime: Long = 0,
+    val lastWeekTime: Int = 0,
+    val creationDate: OffsetDateTime = OffsetDateTime.now()
 )
 
 @Keep
@@ -30,9 +30,9 @@ data class FirestoreProject(
     val documentId: String = "",
     val name: String = "",
     val totalTime: Long = 0,
-    override var recentRecords: List<RecordMinimal> = emptyList(),
+    override val recentRecords: List<RecordMinimal> = emptyList(),
     @ServerTimestamp
-    var timestamp: Date? = null
+    val timestamp: Date? = null
 ) : Recordable()
 
 fun Project.mapToFirestore() =

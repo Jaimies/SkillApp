@@ -48,8 +48,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
     private val recordsWatcher =
         createCollectionWatcher(PAGE_SIZE, FirestoreRecord::mapToDomain, TIMESTAMP)
 
-    override val records
-        get() = recordsWatcher.safeAccess().getLiveDataList()
+    override val records get() = recordsWatcher.safeAccess().getLiveDataList()
 
     private var recordsRef: CollectionReference by SafeAccess()
     private var activitiesRef: CollectionReference by SafeAccess()

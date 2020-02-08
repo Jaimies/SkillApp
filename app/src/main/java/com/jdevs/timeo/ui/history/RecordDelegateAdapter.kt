@@ -7,11 +7,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.RecordsItemBinding
+import com.jdevs.timeo.model.RecordItem
+import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.adapter.createViewModel
-import com.jdevs.timeo.ui.model.RecordItem
-import com.jdevs.timeo.ui.model.ViewItem
 import com.jdevs.timeo.util.extensions.fragmentActivity
 
 class RecordDelegateAdapter : DelegateAdapter {

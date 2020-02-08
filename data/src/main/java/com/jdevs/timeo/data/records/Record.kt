@@ -27,22 +27,21 @@ import java.util.Date
 )
 data class DBRecord(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-    var name: String = "",
-    var time: Long = 0,
-    var activityId: Int = 0,
-    var creationDate: OffsetDateTime = OffsetDateTime.now()
+    val id: Int = 0,
+    val name: String = "",
+    val time: Long = 0,
+    val activityId: Int = 0,
+    val creationDate: OffsetDateTime = OffsetDateTime.now()
 )
 
 @Keep
 data class FirestoreRecord(
     @DocumentId
-    var documentId: String = "",
-    var name: String = "",
-    var time: Long = 0,
-    var activityId: String = "",
-    @ServerTimestamp
-    var timestamp: Date? = null
+    val documentId: String = "",
+    val name: String = "",
+    val time: Long = 0,
+    val activityId: String = "",
+    @ServerTimestamp val timestamp: Date? = null
 )
 
 fun FirestoreRecord.mapToDomain() = Record(

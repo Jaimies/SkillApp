@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.domain.usecase.projects.AddProjectUseCase
 import com.jdevs.timeo.domain.usecase.projects.DeleteProjectUseCase
 import com.jdevs.timeo.domain.usecase.projects.SaveProjectUseCase
+import com.jdevs.timeo.model.ProjectItem
+import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
-import com.jdevs.timeo.ui.model.ProjectItem
-import com.jdevs.timeo.ui.model.mapToDomain
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 import javax.inject.Inject

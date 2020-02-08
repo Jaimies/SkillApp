@@ -11,41 +11,21 @@ import com.jdevs.timeo.domain.model.WeekStats
 abstract class FirestoreStats {
 
     @DocumentId
-    var documentId = ""
+    val documentId = ""
 }
 
-data class FirestoreDayStats(
-    var time: Long = 0,
-    var day: Long = 0
-) : FirestoreStats()
-
-data class FirestoreWeekStats(
-    var time: Long = 0,
-    val day: Int = 0
-) : FirestoreStats()
-
-data class FirestoreMonthStats(
-    var time: Long = 0,
-    val day: Int = 0
-) : FirestoreStats()
+data class FirestoreDayStats(val time: Long = 0, val day: Long = 0) : FirestoreStats()
+data class FirestoreWeekStats(val time: Long = 0, val day: Int = 0) : FirestoreStats()
+data class FirestoreMonthStats(val time: Long = 0, val day: Int = 0) : FirestoreStats()
 
 @Entity(tableName = "dayStats")
-data class DBDayStats(
-    var time: Long = 0,
-    @PrimaryKey var day: Long = 0
-)
+data class DBDayStats(val time: Long = 0, @PrimaryKey val day: Long = 0)
 
 @Entity(tableName = "weekStats")
-data class DBWeekStats(
-    var time: Long = 0,
-    @PrimaryKey var week: Int = 0
-)
+data class DBWeekStats(val time: Long = 0, @PrimaryKey val week: Int = 0)
 
 @Entity(tableName = "monthStats")
-data class DBMonthStats(
-    var time: Long = 0,
-    @PrimaryKey var month: Int = 0
-)
+data class DBMonthStats(val time: Long = 0, @PrimaryKey val month: Int = 0)
 
 fun DBDayStats.mapToDomain() = DayStats(time = time, day = day)
 fun DBWeekStats.mapToDomain() = WeekStats(time = time, week = week)

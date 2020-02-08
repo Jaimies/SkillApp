@@ -1,20 +1,20 @@
-package com.jdevs.timeo.ui.model
+package com.jdevs.timeo.model
 
 import android.os.Parcelable
 import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.ui.model.ViewType.ACTIVITY
+import com.jdevs.timeo.model.ViewType.ACTIVITY
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.OffsetDateTime
 
 @Parcelize
 data class ActivityItem(
-    override val id: Int = 0,
-    override val documentId: String = "",
+    override val id: Int,
+    override val documentId: String,
     val name: String,
-    val totalTime: Long = 0,
-    val lastWeekTime: Int = 0,
-    val creationDate: OffsetDateTime = OffsetDateTime.now()
+    val totalTime: Long,
+    val lastWeekTime: Int,
+    val creationDate: OffsetDateTime
 ) : ViewItem, Parcelable {
 
     @IgnoredOnParcel

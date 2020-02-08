@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
+import com.jdevs.timeo.model.ActivityItem
+import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.adapter.createViewModel
-import com.jdevs.timeo.ui.model.ActivityItem
-import com.jdevs.timeo.ui.model.ViewItem
 import com.jdevs.timeo.util.extensions.fragmentActivity
 
 class ActivityDelegateAdapter : DelegateAdapter {

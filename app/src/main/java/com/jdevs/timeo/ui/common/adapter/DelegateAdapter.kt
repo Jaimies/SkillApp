@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.ui.model.ViewItem
+import com.jdevs.timeo.model.ViewItem
 import java.util.UUID
 import kotlin.reflect.KClass
 

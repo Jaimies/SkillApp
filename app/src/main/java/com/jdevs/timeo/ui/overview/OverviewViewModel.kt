@@ -9,7 +9,7 @@ import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.usecase.activities.GetTopActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.projects.GetTopProjectsUseCase
 import com.jdevs.timeo.domain.usecase.settings.GetSettingsUseCase
-import com.jdevs.timeo.ui.model.mapToPresentation
+import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import javax.inject.Inject
 

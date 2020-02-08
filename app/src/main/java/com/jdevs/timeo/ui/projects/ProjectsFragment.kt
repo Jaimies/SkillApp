@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProjectsFragBinding
+import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.ui.model.ProjectItem
 import com.jdevs.timeo.util.extensions.appComponent
 import com.jdevs.timeo.util.extensions.observeEvent
 import com.jdevs.timeo.util.extensions.showSnackbar

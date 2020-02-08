@@ -37,14 +37,9 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     private val monthStatsWatcher =
         createCollectionWatcher(PAGE_SIZE, FirestoreMonthStats::mapToDomain, DAY)
 
-    override val dayStats
-        get() = dayStatsWatcher.safeAccess().getLiveDataList()
-
-    override val weekStats
-        get() = weekStatsWatcher.safeAccess().getLiveDataList()
-
-    override val monthStats
-        get() = monthStatsWatcher.safeAccess().getLiveDataList()
+    override val dayStats get() = dayStatsWatcher.safeAccess().getLiveDataList()
+    override val weekStats get() = weekStatsWatcher.safeAccess().getLiveDataList()
+    override val monthStats get() = monthStatsWatcher.safeAccess().getLiveDataList()
 
     private var dayStatsRef: CollectionReference by SafeAccess()
     private var weekStatsRef: CollectionReference by SafeAccess()

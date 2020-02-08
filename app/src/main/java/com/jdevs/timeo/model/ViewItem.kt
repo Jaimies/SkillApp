@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.model
+package com.jdevs.timeo.model
 
 interface ViewItem {
 

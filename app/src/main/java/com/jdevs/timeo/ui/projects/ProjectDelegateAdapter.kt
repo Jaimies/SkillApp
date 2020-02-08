@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.databinding.ProjectsItemBinding
+import com.jdevs.timeo.model.ProjectItem
+import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.adapter.createViewModel
-import com.jdevs.timeo.ui.model.ProjectItem
-import com.jdevs.timeo.ui.model.ViewItem
 import com.jdevs.timeo.util.extensions.fragmentActivity
 
 class ProjectDelegateAdapter : DelegateAdapter {

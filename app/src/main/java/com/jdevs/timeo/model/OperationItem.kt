@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.model
+package com.jdevs.timeo.model
 
 data class OperationItem<T : ViewItem>(
     val data: T? = null,

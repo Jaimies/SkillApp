@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jdevs.timeo.databinding.StatsPageFragBinding
+import com.jdevs.timeo.model.StatsItem
+import com.jdevs.timeo.model.StatsTypes.DAY
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.ui.model.StatsItem
-import com.jdevs.timeo.ui.model.StatsTypes.DAY
 import com.jdevs.timeo.util.extensions.appComponent
 import javax.inject.Inject
 

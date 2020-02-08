@@ -1,9 +1,9 @@
-package com.jdevs.timeo.ui.model
+package com.jdevs.timeo.model
 
 import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.WeekStats
-import com.jdevs.timeo.ui.model.ViewType.STATISTIC
+import com.jdevs.timeo.model.ViewType.STATISTIC
 
 sealed class StatsItem : ViewItem {
 
@@ -18,28 +18,22 @@ object StatsTypes {
     const val MONTH = 2
 }
 
-data class DayStatsItem(
-    override val documentId: String = "",
-    override val time: Long,
-    val day: Long
-) : StatsItem() {
+data class DayStatsItem(override val documentId: String, override val time: Long, val day: Long) :
+    StatsItem() {
 
     override val id
         get() = day.toInt()
 }
 
-data class WeekStatsItem(
-    override val documentId: String = "",
-    override val time: Long,
-    val week: Int
-) : StatsItem() {
+data class WeekStatsItem(override val documentId: String, override val time: Long, val week: Int) :
+    StatsItem() {
 
     override val id
         get() = week
 }
 
 data class MonthStatsItem(
-    override val documentId: String = "",
+    override val documentId: String,
     override val time: Long,
     val month: Int
 ) : StatsItem() {

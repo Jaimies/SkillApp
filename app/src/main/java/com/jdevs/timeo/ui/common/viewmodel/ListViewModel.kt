@@ -3,8 +3,8 @@ package com.jdevs.timeo.ui.common.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
-import com.jdevs.timeo.ui.model.OperationItem
-import com.jdevs.timeo.ui.model.ViewItem
+import com.jdevs.timeo.model.OperationItem
+import com.jdevs.timeo.model.ViewItem
 
 abstract class ListViewModel<T : ViewItem> : LoaderViewModel(isLoadingByDefault = true) {
 

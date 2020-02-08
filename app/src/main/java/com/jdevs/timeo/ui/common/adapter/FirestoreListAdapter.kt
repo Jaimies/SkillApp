@@ -3,14 +3,14 @@ package com.jdevs.timeo.ui.common.adapter
 import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.model.ViewItem
+import com.jdevs.timeo.model.ViewType.ACTIVITY
+import com.jdevs.timeo.model.ViewType.LOADING
+import com.jdevs.timeo.model.ViewType.PROJECT
+import com.jdevs.timeo.model.ViewType.RECORD
+import com.jdevs.timeo.model.ViewType.STATISTIC
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.history.RecordDelegateAdapter
-import com.jdevs.timeo.ui.model.ViewItem
-import com.jdevs.timeo.ui.model.ViewType.ACTIVITY
-import com.jdevs.timeo.ui.model.ViewType.LOADING
-import com.jdevs.timeo.ui.model.ViewType.PROJECT
-import com.jdevs.timeo.ui.model.ViewType.RECORD
-import com.jdevs.timeo.ui.model.ViewType.STATISTIC
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.ui.stats.StatisticDelegateAdapter
 
@@ -27,8 +27,8 @@ class FirestoreListAdapter(
 
     private val loadingItem = object : ViewItem {
 
-        override var id = -1
-        override var documentId = ""
+        override val id = -1
+        override val documentId = ""
         override val viewType = LOADING
     }
 

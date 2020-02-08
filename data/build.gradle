@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+
+    id 'io.gitlab.arturbosch.detekt' version '1.5.0'
 }
 
 android {
@@ -29,6 +31,17 @@ android {
     }
 
     kotlinOptions.jvmTarget = '1.8'
+}
+
+detekt {
+    ignoreFailures = true
+    autoCorrect = true
+    input = files('src')
+
+    reports {
+        xml.enabled = false
+        txt.enabled = false
+    }
 }
 
 dependencies {

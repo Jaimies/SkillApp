@@ -7,7 +7,5 @@ import java.util.Date
 
 data class RecordMinimal(val time: Int = 0, val date: Date = Calendar.getInstance().time) {
 
-    @get:Exclude
-    val creationDate
-        get() = date.toOffsetDate()
+    val creationDate @Exclude get() = date.toOffsetDate()
 }

@@ -46,7 +46,10 @@ detekt {
 
 dependencies {
 
+    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
+
+    // Play Auth
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
 
     // The domain layer and shared module
@@ -75,5 +78,4 @@ dependencies {
     // Dependency injection
     implementation "com.google.dagger:dagger:$Versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$Versions.dagger"
-
 }

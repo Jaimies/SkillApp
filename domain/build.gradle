@@ -37,8 +37,13 @@ detekt {
 
 dependencies {
 
+    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
+
+    // Play auth
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
+
+    // Paging
     implementation "androidx.paging:paging-runtime:$Versions.paging"
 
     // java.time.* backport for Android

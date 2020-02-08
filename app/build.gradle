@@ -75,12 +75,18 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$Versions.coroutines"
 
     // Core Android libraries and legacy support
-    implementation "androidx.core:core-ktx:$Versions.androidxCore"
     implementation "androidx.appcompat:appcompat:$Versions.appcompat"
+
+    // Androidx Core extensions
+    implementation "androidx.core:core-ktx:$Versions.androidxCore"
+
+    // ConstraintLayout
     implementation "androidx.constraintlayout:constraintlayout:$Versions.constraintLayout"
+
+    // Legacy support
     implementation "androidx.legacy:legacy-support-v4:$Versions.legacy"
 
-    // Google Play services
+    // Play Auth
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
 
     // The domain and data layers
@@ -107,7 +113,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$Versions.navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$Versions.navigation"
 
-    // Material components
+    // Material
     implementation "com.google.android.material:material:$Versions.material"
 
     // ViewPager 2

@@ -14,7 +14,6 @@ import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.AuthRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -46,22 +45,19 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
     override suspend fun saveActivity(activity: Activity) = withContext<Unit>(Dispatchers.IO) {
 
+        val querySnapshot = recordsRef
+            .whereEqualTo(ACTIVITY_ID, activity.id)
+            .get().await()
+
         db.runBatch { batch ->
 
-            launch {
+            for (document in querySnapshot.documents) {
 
-                val querySnapshot = recordsRef
-                    .whereEqualTo(ACTIVITY_ID, activity.id)
-                    .get().await()
-
-                for (document in querySnapshot.documents) {
-
-                    batch.update(document.reference, NAME, activity.name)
-                }
-
-                val activityRef = activitiesRef.document(activity.id)
-                batch.update(activityRef, NAME, activity.name)
+                batch.update(document.reference, NAME, activity.name)
             }
+
+            val activityRef = activitiesRef.document(activity.id)
+            batch.update(activityRef, NAME, activity.name)
         }
     }
 

@@ -30,11 +30,7 @@ class ActivitiesViewModel @Inject constructor(
 
     fun createRecord(activity: ActivityItem, time: Long) = viewModelScope.launch {
 
-        val record = Record(
-            name = activity.name, time = time,
-            activityId = activity.documentId, roomActivityId = activity.id
-        )
-
+        val record = Record(name = activity.name, time = time, activityId = activity.id)
         addRecord(record)
     }
 

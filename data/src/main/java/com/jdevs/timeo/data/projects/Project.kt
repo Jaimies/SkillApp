@@ -31,22 +31,16 @@ data class FirestoreProject(
     val name: String = "",
     val totalTime: Long = 0,
     override val recentRecords: List<RecordMinimal> = emptyList(),
-    @ServerTimestamp val timestamp: Date? = null
+    @ServerTimestamp
+    val timestamp: Date? = null
 ) : Recordable()
 
 fun Project.mapToFirestore() =
-    FirestoreProject(documentId, name, totalTime, timestamp = creationDate.toDate())
+    FirestoreProject(id, name, totalTime, timestamp = creationDate.toDate())
 
-fun Project.mapToDB() = DBProject(id, name, totalTime, lastWeekTime, creationDate)
+fun Project.mapToDB() = DBProject(id.toInt(), name, totalTime, lastWeekTime, creationDate)
 
-fun FirestoreProject.mapToDomain() = Project(
-    documentId = documentId,
-    name = name,
-    totalTime = totalTime,
-    lastWeekTime = getLastWeekTime(),
-    creationDate = timestamp.toOffsetDate()
-)
+fun FirestoreProject.mapToDomain() =
+    Project(documentId, name, totalTime, getLastWeekTime(), timestamp.toOffsetDate())
 
-fun DBProject.mapToDomain() = Project(
-    id, name = name, totalTime = totalTime, lastWeekTime = lastWeekTime, creationDate = creationDate
-)
+fun DBProject.mapToDomain() = Project(id.toString(), name, totalTime, lastWeekTime, creationDate)

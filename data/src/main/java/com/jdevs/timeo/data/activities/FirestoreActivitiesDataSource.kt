@@ -41,8 +41,8 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     override fun getTopActivities() =
         activitiesRef.watchCollection(FirestoreActivity::mapToDomain, TOP_ACTIVITIES_COUNT)
 
-    override fun getActivityById(id: Int, documentId: String) =
-        activitiesRef.document(documentId).watch(FirestoreActivity::mapToDomain)
+    override fun getActivityById(id: String) =
+        activitiesRef.document(id).watch(FirestoreActivity::mapToDomain)
 
     override suspend fun saveActivity(activity: Activity) = withContext<Unit>(Dispatchers.IO) {
 
@@ -51,7 +51,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
             launch {
 
                 val querySnapshot = recordsRef
-                    .whereEqualTo(ACTIVITY_ID, activity.documentId)
+                    .whereEqualTo(ACTIVITY_ID, activity.id)
                     .get().await()
 
                 for (document in querySnapshot.documents) {
@@ -59,7 +59,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
                     batch.update(document.reference, NAME, activity.name)
                 }
 
-                val activityRef = activitiesRef.document(activity.documentId)
+                val activityRef = activitiesRef.document(activity.id)
                 batch.update(activityRef, NAME, activity.name)
             }
         }
@@ -72,7 +72,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
     override suspend fun deleteActivity(activity: Activity) {
 
-        activitiesRef.document(activity.documentId).delete()
+        activitiesRef.document(activity.id).delete()
     }
 
     override fun resetRefs(uid: String) {

@@ -72,7 +72,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
         db.runBatch { batch ->
 
-            val recordRef = recordsRef.document(record.documentId)
+            val recordRef = recordsRef.document(record.id)
             batch.delete(recordRef)
 
             increaseActivityTime(record.activityId, -record.time, batch)

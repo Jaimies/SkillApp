@@ -32,8 +32,8 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
     override fun getTopProjects() =
         projectsRef.watchCollection(FirestoreProject::mapToDomain, TOP_PROJECTS_COUNT)
 
-    override fun getProjectById(id: Int, documentId: String) =
-        projectsRef.document(documentId).watch(FirestoreProject::mapToDomain)
+    override fun getProjectById(id: String) =
+        projectsRef.document(id).watch(FirestoreProject::mapToDomain)
 
     override suspend fun addProject(name: String) {
 
@@ -42,12 +42,12 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
 
     override suspend fun saveProject(project: Project) {
 
-        projectsRef.document(project.documentId).set(project.mapToFirestore())
+        projectsRef.document(project.id).set(project.mapToFirestore())
     }
 
     override suspend fun deleteProject(project: Project) {
 
-        projectsRef.document(project.documentId).delete()
+        projectsRef.document(project.id).delete()
     }
 
     override fun resetRefs(uid: String) {

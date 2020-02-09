@@ -46,17 +46,13 @@ class ProjectDetailViewModel @Inject constructor(
     fun setupProjectLiveData(project: ProjectItem) {
 
         this.project =
-            map(getProjectById(project.id, project.documentId), Project::mapToPresentation)
+            map(getProjectById(project.id), Project::mapToPresentation)
         setProject(project)
     }
 
     fun addRecord(project: ProjectItem, time: Long) = viewModelScope.launch {
 
-        val record = Record(
-            name = project.name, time = time,
-            activityId = project.documentId, roomActivityId = project.id
-        )
-
+        val record = Record(name = project.name, time = time, activityId = project.id)
         addRecord(record)
     }
 

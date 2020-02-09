@@ -38,7 +38,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
             launch {
 
                 db.recordsDao().insert(record.mapToDB())
-                db.activitiesDao().increaseTime(record.roomActivityId, record.time)
+                db.activitiesDao().increaseTime(record.activityId.toInt(), record.time)
                 registerStats(record.time, record.creationDate)
             }
         }
@@ -51,7 +51,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
             launch {
 
                 db.recordsDao().delete(record.mapToDB())
-                db.activitiesDao().increaseTime(record.roomActivityId, -record.time)
+                db.activitiesDao().increaseTime(record.activityId.toInt(), -record.time)
                 registerStats(-record.time, record.creationDate)
             }
         }

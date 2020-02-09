@@ -18,30 +18,15 @@ object StatsTypes {
     const val MONTH = 2
 }
 
-data class DayStatsItem(override val documentId: String, override val time: Long, val day: Long) :
-    StatsItem() {
+data class DayStatsItem(override val id: String, override val time: Long, val day: Long) :
+    StatsItem()
 
-    override val id
-        get() = day.toInt()
-}
+data class WeekStatsItem(override val id: String, override val time: Long, val week: Int) :
+    StatsItem()
 
-data class WeekStatsItem(override val documentId: String, override val time: Long, val week: Int) :
-    StatsItem() {
+data class MonthStatsItem(override val id: String, override val time: Long, val month: Int) :
+    StatsItem()
 
-    override val id
-        get() = week
-}
-
-data class MonthStatsItem(
-    override val documentId: String,
-    override val time: Long,
-    val month: Int
-) : StatsItem() {
-
-    override val id
-        get() = month
-}
-
-fun DayStats.mapToPresentation() = DayStatsItem(documentId, time, day)
-fun WeekStats.mapToPresentation() = WeekStatsItem(documentId, time, week)
-fun MonthStats.mapToPresentation() = MonthStatsItem(documentId, time, month)
+fun DayStats.mapToPresentation() = DayStatsItem(id, time, day)
+fun WeekStats.mapToPresentation() = WeekStatsItem(id, time, week)
+fun MonthStats.mapToPresentation() = MonthStatsItem(id, time, month)

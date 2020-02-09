@@ -20,8 +20,7 @@ class DefaultProjectsRepository @Inject constructor(
     override val projectsRemote get() = remoteDataSource.projects
     override val topProjects get() = currentDataSource.getTopProjects()
 
-    override fun getProjectById(id: Int, documentId: String) =
-        currentDataSource.getProjectById(id, documentId)
+    override fun getProjectById(id: String) = currentDataSource.getProjectById(id)
 
     override suspend fun addProject(name: String) = currentDataSource.addProject(name)
 

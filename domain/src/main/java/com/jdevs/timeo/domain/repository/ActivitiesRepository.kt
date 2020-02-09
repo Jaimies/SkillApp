@@ -12,7 +12,7 @@ interface ActivitiesRepository {
 
     val topActivities: LiveData<List<Activity>>
 
-    fun getActivityById(id: Int, documentId: String): LiveData<Activity>
+    fun getActivityById(id: String): LiveData<Activity>
 
     suspend fun addActivity(name: String)
 

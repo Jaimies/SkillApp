@@ -43,19 +43,13 @@ class ActivityDetailViewModel @Inject constructor(
 
     fun setupActivityLiveData(activity: ActivityItem) {
 
-        this.activity =
-            map(getActivityById(activity.id, activity.documentId), Activity::mapToPresentation)
+        this.activity = map(getActivityById(activity.id), Activity::mapToPresentation)
         setActivity(activity)
     }
 
     fun addRecord(activity: ActivityItem, time: Long) = viewModelScope.launch {
 
-        val record = Record(
-            name = activity.name,
-            time = time,
-            activityId = activity.documentId,
-            roomActivityId = activity.id
-        )
+        val record = Record(name = activity.name, time = time, activityId = activity.id)
 
         addRecord(record)
     }

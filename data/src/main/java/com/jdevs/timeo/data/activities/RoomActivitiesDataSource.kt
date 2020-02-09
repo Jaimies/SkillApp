@@ -11,7 +11,7 @@ interface ActivitiesDataSource {
 
     fun getTopActivities(): LiveData<List<Activity>>
 
-    fun getActivityById(id: Int, documentId: String): LiveData<Activity>
+    fun getActivityById(id: String): LiveData<Activity>
 
     suspend fun addActivity(name: String)
 
@@ -34,8 +34,8 @@ class RoomActivitiesDataSource @Inject constructor(private val activitiesDao: Ac
     override fun getTopActivities() =
         map(activitiesDao.getTopActivities()) { it.map(DBActivity::mapToDomain) }
 
-    override fun getActivityById(id: Int, documentId: String) =
-        map(activitiesDao.getActivity(id), DBActivity::mapToDomain)
+    override fun getActivityById(id: String) =
+        map(activitiesDao.getActivity(id.toInt()), DBActivity::mapToDomain)
 
     override suspend fun addActivity(name: String) = activitiesDao.insert(DBActivity(name = name))
 

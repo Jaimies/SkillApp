@@ -9,8 +9,7 @@ import org.threeten.bp.OffsetDateTime
 
 @Parcelize
 data class ActivityItem(
-    override val id: Int,
-    override val documentId: String,
+    override val id: String,
     val name: String,
     val totalTime: Long,
     val lastWeekTime: Int,
@@ -21,8 +20,6 @@ data class ActivityItem(
     override val viewType = ACTIVITY
 }
 
-fun Activity.mapToPresentation() =
-    ActivityItem(id, documentId, name, totalTime, lastWeekTime, creationDate)
+fun Activity.mapToPresentation() = ActivityItem(id, name, totalTime, lastWeekTime, creationDate)
 
-fun ActivityItem.mapToDomain() =
-    Activity(id, documentId, name, totalTime, lastWeekTime, creationDate)
+fun ActivityItem.mapToDomain() = Activity(id, name, totalTime, lastWeekTime, creationDate)

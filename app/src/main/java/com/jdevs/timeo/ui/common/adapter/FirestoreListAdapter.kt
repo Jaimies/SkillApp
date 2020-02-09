@@ -27,8 +27,7 @@ class FirestoreListAdapter(
 
     private val loadingItem = object : ViewItem {
 
-        override val id = -1
-        override val documentId = ""
+        override val id = ""
         override val viewType = LOADING
     }
 
@@ -78,7 +77,7 @@ class FirestoreListAdapter(
 
     fun addItem(item: ViewItem) {
 
-        if (items.count { it.documentId == item.documentId } > 0) {
+        if (items.count { it.id == item.id } > 0) {
 
             modifyItem(item)
             return
@@ -90,7 +89,7 @@ class FirestoreListAdapter(
 
     fun modifyItem(item: ViewItem) {
 
-        val index = items.indexOfFirst { it.documentId == item.documentId }
+        val index = items.indexOfFirst { it.id == item.id }
 
         if (items[index] != item) {
 
@@ -101,7 +100,7 @@ class FirestoreListAdapter(
 
     fun removeItem(item: ViewItem) {
 
-        val index = items.indexOfFirst { it.documentId == item.documentId }
+        val index = items.indexOfFirst { it.id == item.id }
 
         runCatching {
 

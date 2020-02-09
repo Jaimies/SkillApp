@@ -41,21 +41,15 @@ data class FirestoreRecord(
     val name: String = "",
     val time: Long = 0,
     val activityId: String = "",
-    @ServerTimestamp val timestamp: Date? = null
+    @ServerTimestamp
+    val timestamp: Date? = null
 )
 
-fun FirestoreRecord.mapToDomain() = Record(
-    documentId = documentId,
-    name = name,
-    time = time,
-    activityId = activityId,
-    creationDate = timestamp.toOffsetDate()
-)
+fun FirestoreRecord.mapToDomain() =
+    Record(documentId, name, time, activityId, timestamp.toOffsetDate())
 
-fun DBRecord.mapToDomain() = Record(
-    id, name = name, time = time, roomActivityId = activityId, creationDate = creationDate
-)
+fun DBRecord.mapToDomain() = Record(id.toString(), name, time, activityId.toString(), creationDate)
 
-fun Record.mapToDB() = DBRecord(id, name, time, roomActivityId, creationDate)
-fun Record.mapToFirestore() =
-    FirestoreRecord(documentId, name, time, activityId, creationDate.toDate())
+fun Record.mapToDB() = DBRecord(id.toIntOrNull() ?: 0, name, time, activityId.toInt(), creationDate)
+
+fun Record.mapToFirestore() = FirestoreRecord(id, name, time, activityId, creationDate.toDate())

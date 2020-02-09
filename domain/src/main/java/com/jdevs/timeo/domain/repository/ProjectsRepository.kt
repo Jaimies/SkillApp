@@ -12,7 +12,7 @@ interface ProjectsRepository {
 
     val topProjects: LiveData<List<Project>>
 
-    fun getProjectById(id: Int, documentId: String): LiveData<Project>
+    fun getProjectById(id: String): LiveData<Project>
 
     suspend fun addProject(name: String)
 

@@ -3,8 +3,7 @@ package com.jdevs.timeo.domain.model
 import org.threeten.bp.OffsetDateTime
 
 data class Activity(
-    val id: Int = 0,
-    val documentId: String = "",
+    val id: String = "",
     val name: String,
     val totalTime: Long,
     val lastWeekTime: Int,

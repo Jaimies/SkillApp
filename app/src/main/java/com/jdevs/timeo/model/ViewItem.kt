@@ -2,8 +2,7 @@ package com.jdevs.timeo.model
 
 interface ViewItem {
 
-    val id: Int
-    val documentId: String
+    val id: String
     val viewType: Int
 }
 

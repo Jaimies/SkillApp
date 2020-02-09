@@ -11,7 +11,7 @@ import com.jdevs.timeo.model.StatsTypes.WEEK
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.mapTo
-import com.jdevs.timeo.util.toPagedList
+import com.jdevs.timeo.util.toLiveData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,9 +24,9 @@ class StatsViewModel @Inject constructor(private val stats: GetStatsUseCase) :
     override val localLiveData
         get() = when (statsType) {
 
-            DAY -> stats.dayStats.toPagedList(STATS_PAGE_SIZE, DayStats::mapToPresentation)
-            WEEK -> stats.weekStats.toPagedList(STATS_PAGE_SIZE, WeekStats::mapToPresentation)
-            MONTH -> stats.monthStats.toPagedList(STATS_PAGE_SIZE, MonthStats::mapToPresentation)
+            DAY -> stats.dayStats.toLiveData(STATS_PAGE_SIZE, DayStats::mapToPresentation)
+            WEEK -> stats.weekStats.toLiveData(STATS_PAGE_SIZE, WeekStats::mapToPresentation)
+            MONTH -> stats.monthStats.toLiveData(STATS_PAGE_SIZE, MonthStats::mapToPresentation)
             else -> throw IllegalArgumentException("Unknown stats type $statsType")
         }
 

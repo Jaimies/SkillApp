@@ -9,7 +9,7 @@ import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.mapTo
-import com.jdevs.timeo.util.toPagedList
+import com.jdevs.timeo.util.toLiveData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ class HistoryViewModel @Inject constructor(
 ) : ListViewModel<RecordItem>() {
 
     override val localLiveData
-        get() = getRecords.records.toPagedList(RECORDS_PAGE_SIZE, Record::mapToPresentation)
+        get() = getRecords.records.toLiveData(RECORDS_PAGE_SIZE, Record::mapToPresentation)
 
     override val remoteLiveDatas get() = getRecords.recordsRemote.mapTo(Record::mapToPresentation)
 

@@ -7,7 +7,7 @@ import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.mapTo
-import com.jdevs.timeo.util.toPagedList
+import com.jdevs.timeo.util.toLiveData
 import javax.inject.Inject
 
 private const val PROJECTS_PAGE_SIZE = 20
@@ -16,7 +16,7 @@ class ProjectsViewModel @Inject constructor(private val getProjects: GetProjects
     ListViewModel<ProjectItem>() {
 
     override val localLiveData
-        get() = getProjects.projects.toPagedList(PROJECTS_PAGE_SIZE, Project::mapToPresentation)
+        get() = getProjects.projects.toLiveData(PROJECTS_PAGE_SIZE, Project::mapToPresentation)
 
     override val remoteLiveDatas get() = getProjects.projectsRemote.mapTo(Project::mapToPresentation)
 

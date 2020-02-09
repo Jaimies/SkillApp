@@ -7,9 +7,7 @@ import org.threeten.bp.temporal.ChronoUnit
 fun getProgress(minutes: Long) =
     minutes.toInt().rem(TWENTY_FIVE_HOURS) * PERCENT_COUNT / TWENTY_FIVE_HOURS
 
-fun getPrevMilestone(time: Long) =
-    time.toInt() - time.toInt().rem(TWENTY_FIVE_HOURS) * PERCENT_COUNT / TWENTY_FIVE_HOURS
-
+fun getPrevMilestone(time: Long) = time.toInt() - time.toInt().rem(TWENTY_FIVE_HOURS)
 fun getNextMilestone(minutes: Long) = getPrevMilestone(minutes) + TWENTY_FIVE_HOURS
 
 fun getAvgWeekHours(time: Long, startedAt: OffsetDateTime): String {

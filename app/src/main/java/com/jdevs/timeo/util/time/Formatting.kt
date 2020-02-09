@@ -42,3 +42,5 @@ fun getHours(totalMinutes: Long): String {
 
     return if (timeString.takeLast(1) == "0") timeString.dropLast(2) else timeString
 }
+
+fun getHours(totalMinutes: Int) = getHours(totalMinutes.toLong())

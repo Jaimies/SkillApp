@@ -1,6 +1,7 @@
 package com.jdevs.timeo.ui.activities
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.toLiveData
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetActivitiesUseCase
@@ -10,7 +11,6 @@ import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.mapTo
-import com.jdevs.timeo.util.toLiveData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +22,8 @@ class ActivitiesViewModel @Inject constructor(
 ) : ListViewModel<ActivityItem>() {
 
     override val localLiveData
-        get() =
-            getActivities.activities.toLiveData(ACTIVITIES_PAGE_SIZE, Activity::mapToPresentation)
+        get() = getActivities.activities
+            .map(Activity::mapToPresentation).toLiveData(ACTIVITIES_PAGE_SIZE)
 
     override val remoteLiveDatas get() = getActivities.activitiesRemote.mapTo(Activity::mapToPresentation)
     val navigateToAddEdit = SingleLiveEvent<Any>()

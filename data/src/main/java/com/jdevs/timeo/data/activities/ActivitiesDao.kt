@@ -9,10 +9,10 @@ import com.jdevs.timeo.data.db.BaseDao
 @Dao
 interface ActivitiesDao : BaseDao<DBActivity> {
 
-    @Query("SELECT * FROM activities ORDER BY id DESC")
+    @Query("SELECT * FROM activities ORDER BY totalTime DESC")
     fun getActivities(): DataSource.Factory<Int, DBActivity>
 
-    @Query("SELECT * FROM activities ORDER BY totalTime LIMIT 5")
+    @Query("SELECT * FROM activities ORDER BY totalTime DESC LIMIT 3")
     fun getTopActivities(): LiveData<List<DBActivity>>
 
     @Query(

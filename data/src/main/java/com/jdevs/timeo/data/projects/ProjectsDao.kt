@@ -9,10 +9,10 @@ import com.jdevs.timeo.data.db.BaseDao
 @Dao
 interface ProjectsDao : BaseDao<DBProject> {
 
-    @Query("SELECT * FROM projects ORDER BY id DESC")
+    @Query("SELECT * FROM projects ORDER BY totalTime DESC")
     fun getProjects(): DataSource.Factory<Int, DBProject>
 
-    @Query("SELECT * FROM projects ORDER BY totalTime DESC LIMIT 5")
+    @Query("SELECT * FROM projects ORDER BY totalTime DESC LIMIT 3")
     fun getTopProjects(): LiveData<List<DBProject>>
 
     @Query("SELECT * FROM projects WHERE id = :id")

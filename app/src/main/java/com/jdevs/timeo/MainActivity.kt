@@ -120,11 +120,6 @@ class MainActivity : AppCompatActivity(),
 
         bottomNavView.selectedItemId = graphId
 
-        nav_host_container.post {
-
-            currentNavController.value?.popBackStack()
-        }
-
         graphs.forEach {
 
             if (!graphsToRecreate.contains(it)) graphsToRecreate.add(it)

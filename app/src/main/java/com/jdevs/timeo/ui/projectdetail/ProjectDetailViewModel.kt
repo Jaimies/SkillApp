@@ -13,6 +13,7 @@ import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
+import com.jdevs.timeo.util.time.getDaysSpentSince
 import com.jdevs.timeo.util.time.getHours
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,19 +26,25 @@ class ProjectDetailViewModel @Inject constructor(
     lateinit var project: LiveData<ProjectItem>
 
     val name: LiveData<String> get() = _name
+    val description: LiveData<String> get() = _description
+    val daysSpent: LiveData<String> get() = _daysSpent
     val avgWeekTime: LiveData<String> get() = _avgWeekTime
     val lastWeekTime: LiveData<String> get() = _lastWeekTime
     val totalTime: LiveData<String> get() = _totalTime
+    private val _name = MutableLiveData("")
+    private val _description = MutableLiveData("")
+    private val _daysSpent = MutableLiveData("")
     private val _avgWeekTime = MutableLiveData("")
     private val _lastWeekTime = MutableLiveData("")
     private val _totalTime = MutableLiveData("")
-    private val _name = MutableLiveData("")
 
     val showRecordDialog = SingleLiveEvent<Any>()
 
     fun setProject(project: ProjectItem) {
 
         _name.value = project.name
+        _description.value = project.name
+        _daysSpent.value = project.creationDate.getDaysSpentSince().toString()
         _totalTime.value = getHours(project.totalTime) + "h"
         _avgWeekTime.value = getAvgWeekHours(project.totalTime, project.creationDate) + "h"
         _lastWeekTime.value = getHours(project.lastWeekTime) + "h"

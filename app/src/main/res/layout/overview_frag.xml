@@ -37,7 +37,7 @@
                     android:paddingStart="@dimen/padding_default"
                     android:paddingEnd="@dimen/padding_default"
                     android:text="@string/projects"
-                    android:textAppearance="@style/TextAppearance.Timeo.Headline1" />
+                    android:textAppearance="@style/TextAppearance.Timeo.Headline2" />
 
                 <View style="@style/Widget.Timeo.Divider" />
 
@@ -94,7 +94,7 @@
                     android:paddingStart="@dimen/padding_default"
                     android:paddingEnd="@dimen/padding_default"
                     android:text="@string/activities"
-                    android:textAppearance="@style/TextAppearance.Timeo.Headline1" />
+                    android:textAppearance="@style/TextAppearance.Timeo.Headline2" />
 
                 <View style="@style/Widget.Timeo.Divider" />
 

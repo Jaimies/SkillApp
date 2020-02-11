@@ -28,12 +28,11 @@
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
                 android:paddingEnd="16dp"
                 android:singleLine="true"
                 android:text="@{viewModel.name}"
-                android:textAppearance="@style/TextAppearance.Timeo.Headline1"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline2"
                 app:layout_constraintEnd_toStartOf="@id/header_time_barrier"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,14 +40,14 @@
                 tools:text="Programming" />
 
             <TextView
-                android:id="@+id/total"
+                android:id="@+id/total_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:text="@{viewModel.totalTime}"
                 android:textAlignment="textEnd"
-                android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/header_time_barrier"
                 app:layout_constraintTop_toTopOf="parent"
@@ -64,14 +63,14 @@
                 android:textAppearance="@style/TextAppearance.Timeo.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/header_time_barrier"
-                app:layout_constraintTop_toBottomOf="@+id/total" />
+                app:layout_constraintTop_toBottomOf="@+id/total_time" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/header_time_barrier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="left"
-                app:constraint_referenced_ids="total,total_label" />
+                app:constraint_referenced_ids="total_time,total_label" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/header_barrier"
@@ -79,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="total_label,title,total" />
+                app:constraint_referenced_ids="total_label,title,total_time" />
 
             <ImageView
                 android:id="@+id/icon"
@@ -87,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_surf"
-                app:layout_constraintEnd_toStartOf="@+id/days_spent_label"
+                app:layout_constraintEnd_toStartOf="@id/days_spent_label"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/header_barrier"
@@ -109,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.avgWeekTime}"
-                android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline3"
                 app:layout_constraintBottom_toTopOf="@+id/per_week_label"
                 app:layout_constraintEnd_toEndOf="@+id/per_week_label"
                 app:layout_constraintStart_toStartOf="@+id/per_week_label"
@@ -122,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.lastWeekTime}"
-                android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline3"
                 app:layout_constraintBottom_toTopOf="@+id/last_week_label"
                 app:layout_constraintEnd_toEndOf="@+id/last_week_label"
                 app:layout_constraintStart_toStartOf="@+id/last_week_label"
@@ -146,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.daysSpent}"
-                android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                android:textAppearance="@style/TextAppearance.Timeo.Headline3"
                 app:layout_constraintBottom_toTopOf="@+id/days_spent_label"
                 app:layout_constraintEnd_toEndOf="@+id/days_spent_label"
                 app:layout_constraintStart_toStartOf="@+id/days_spent_label"

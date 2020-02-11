@@ -14,7 +14,7 @@ interface ProjectsRepository {
 
     fun getProjectById(id: String): LiveData<Project>
 
-    suspend fun addProject(name: String)
+    suspend fun addProject(name: String, description: String)
 
     suspend fun saveProject(project: Project)
 

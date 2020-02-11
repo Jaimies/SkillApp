@@ -14,12 +14,12 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddprojectFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.NAME_MAX_LENGTH
-import com.jdevs.timeo.util.extensions.appComponent
-import com.jdevs.timeo.util.extensions.application
-import com.jdevs.timeo.util.extensions.mainActivity
-import com.jdevs.timeo.util.extensions.observeEvent
-import com.jdevs.timeo.util.extensions.showSnackbar
+import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.application
 import com.jdevs.timeo.util.hideKeyboard
+import com.jdevs.timeo.util.mainActivity
+import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.showSnackbar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -65,12 +65,12 @@ class AddEditProjectFragment : ActionBarFragment() {
 
         observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
         observeEvent(viewModel.showDeleteDialog) { showDeleteDialog() }
-        observeEvent(viewModel.saveProject) { saveProject(it!!) }
+        observeEvent(viewModel.saveProject) { saveProject(it!!.first, it.second) }
 
         return binding.root
     }
 
-    private fun saveProject(name: String) {
+    private fun saveProject(name: String, description: String) {
 
         if (!validateInput(name)) {
             return
@@ -78,12 +78,12 @@ class AddEditProjectFragment : ActionBarFragment() {
 
         if (isEdited) {
 
-            val project = args.project!!.copy(name = name)
+            val project = args.project!!.copy(name = name, description = description)
             application.ioScope.launch { viewModel.saveProject(project) }
             findNavController().popBackStack()
         } else {
 
-            viewModel.addProject(name)
+            viewModel.addProject(name, description)
             findNavController().navigate(R.id.action_addEditProjectFragment_to_projectsFragment)
         }
     }

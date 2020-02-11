@@ -35,9 +35,9 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
     override fun getProjectById(id: String) =
         projectsRef.document(id).watch(FirestoreProject::mapToDomain)
 
-    override suspend fun addProject(name: String) {
+    override suspend fun addProject(name: String, description: String) {
 
-        projectsRef.add(FirestoreProject(name = name))
+        projectsRef.add(FirestoreProject(name = name, description = description))
     }
 
     override suspend fun saveProject(project: Project) {

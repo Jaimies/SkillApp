@@ -43,7 +43,7 @@ class ProjectDetailViewModel @Inject constructor(
     fun setProject(project: ProjectItem) {
 
         _name.value = project.name
-        _description.value = project.name
+        _description.value = project.description
         _daysSpent.value = project.creationDate.getDaysSpentSince().toString()
         _totalTime.value = getHours(project.totalTime) + "h"
         _avgWeekTime.value = getAvgWeekHours(project.totalTime, project.creationDate) + "h"
@@ -52,8 +52,7 @@ class ProjectDetailViewModel @Inject constructor(
 
     fun setupProjectLiveData(project: ProjectItem) {
 
-        this.project =
-            map(getProjectById(project.id), Project::mapToPresentation)
+        this.project = map(getProjectById(project.id), Project::mapToPresentation)
         setProject(project)
     }
 

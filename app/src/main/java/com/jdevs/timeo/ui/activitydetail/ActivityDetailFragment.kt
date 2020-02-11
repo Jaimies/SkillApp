@@ -16,9 +16,9 @@ import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
 import com.jdevs.timeo.ui.stats.setupTabLayoutMediator
-import com.jdevs.timeo.util.extensions.appComponent
-import com.jdevs.timeo.util.extensions.observeEvent
-import com.jdevs.timeo.util.extensions.setupAdapter
+import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.setupAdapter
 import javax.inject.Inject
 
 private const val ACHIEVEMENTS_ITEM_SPACING = 20

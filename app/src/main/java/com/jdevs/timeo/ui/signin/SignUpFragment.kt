@@ -17,10 +17,10 @@ import com.jdevs.timeo.util.INVALID
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.TOO_LONG
 import com.jdevs.timeo.util.TOO_SHORT
-import com.jdevs.timeo.util.extensions.appComponent
-import com.jdevs.timeo.util.extensions.observeEvent
-import com.jdevs.timeo.util.extensions.showSnackbar
+import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.hideKeyboard
+import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.showSnackbar
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
 import javax.inject.Inject

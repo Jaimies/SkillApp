@@ -144,6 +144,7 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_default"
             android:onClick="@{() -> viewModel.showRecordDialog()}"
             android:text="@string/add_record"
             app:layout_constraintEnd_toEndOf="parent"

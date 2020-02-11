@@ -21,11 +21,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SigninFragBinding
 import com.jdevs.timeo.util.TAG
-import com.jdevs.timeo.util.extensions.appComponent
-import com.jdevs.timeo.util.extensions.observeEvent
-import com.jdevs.timeo.util.extensions.showSnackbar
+import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
+import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.showSnackbar
 import javax.inject.Inject
 
 private const val RC_SIGN_IN = 0

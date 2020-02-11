@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jdevs.timeo.databinding.SettingsFragBinding
-import com.jdevs.timeo.util.extensions.appComponent
+import com.jdevs.timeo.util.appComponent
 import javax.inject.Inject
 
 class SettingsFragment : Fragment() {

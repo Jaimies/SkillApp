@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.model.StatsTypes
 import com.jdevs.timeo.ui.stats.STATS_TYPES_COUNT
-import com.jdevs.timeo.util.extensions.inflate
+import com.jdevs.timeo.util.inflate
 import kotlinx.android.synthetic.main.activitydetail_stats_item.view.title_text_view
 
 class ActivityDetailStatsAdapter(private val onClick: (Int) -> Unit = {}) :

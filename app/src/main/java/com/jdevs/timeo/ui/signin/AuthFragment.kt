@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.signin
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.jdevs.timeo.R
-import com.jdevs.timeo.util.extensions.navigateToGraph
+import com.jdevs.timeo.util.navigateToGraph
 
 abstract class AuthFragment : Fragment() {
 

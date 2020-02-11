@@ -14,12 +14,12 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.NAME_MAX_LENGTH
-import com.jdevs.timeo.util.extensions.appComponent
-import com.jdevs.timeo.util.extensions.application
-import com.jdevs.timeo.util.extensions.mainActivity
-import com.jdevs.timeo.util.extensions.observeEvent
-import com.jdevs.timeo.util.extensions.showSnackbar
+import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.application
 import com.jdevs.timeo.util.hideKeyboard
+import com.jdevs.timeo.util.mainActivity
+import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.showSnackbar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

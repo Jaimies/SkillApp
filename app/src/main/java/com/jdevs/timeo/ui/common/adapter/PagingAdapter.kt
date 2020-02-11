@@ -9,7 +9,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.model.ViewItem
-import com.jdevs.timeo.util.extensions.getBaseContext
+import com.jdevs.timeo.util.getBaseContext
 
 class PagingAdapter(
     private val delegateAdapter: DelegateAdapter,

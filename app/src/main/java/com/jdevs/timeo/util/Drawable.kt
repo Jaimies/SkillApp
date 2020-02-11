@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util.extensions
+package com.jdevs.timeo.util
 
 import android.graphics.drawable.Drawable
 

@@ -22,7 +22,8 @@ class DefaultProjectsRepository @Inject constructor(
 
     override fun getProjectById(id: String) = currentDataSource.getProjectById(id)
 
-    override suspend fun addProject(name: String) = currentDataSource.addProject(name)
+    override suspend fun addProject(name: String, description: String) =
+        currentDataSource.addProject(name, description)
 
     override suspend fun saveProject(project: Project) = currentDataSource.saveProject(project)
 

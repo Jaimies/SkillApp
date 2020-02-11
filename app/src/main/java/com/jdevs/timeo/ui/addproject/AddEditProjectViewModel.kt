@@ -20,17 +20,19 @@ class AddEditProjectViewModel @Inject constructor(
 ) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData("")
+    val description = MutableLiveData("")
     val nameError get() = _nameError as LiveData<String>
     val projectExists get() = _projectExists as LiveData<Boolean>
     private val _nameError = MutableLiveData("")
     private val _projectExists = MutableLiveData(false)
 
     val showDeleteDialog = SingleLiveEvent<Any>()
-    val saveProject = SingleLiveEvent<String>()
+    val saveProject = SingleLiveEvent<Pair<String, String>>()
 
     fun setProject(project: ProjectItem?) {
 
         name.value = project?.name.orEmpty()
+        description.value = project?.description.orEmpty()
         _projectExists.value = true
     }
 
@@ -41,12 +43,12 @@ class AddEditProjectViewModel @Inject constructor(
 
     fun triggerSaveProject() {
 
-        saveProject.value = name.value.orEmpty()
+        saveProject.value = name.value.orEmpty() to description.value.orEmpty()
     }
 
-    fun addProject(name: String) = viewModelScope.launch {
+    fun addProject(name: String, description: String) = viewModelScope.launch {
 
-        addProject.invoke(name)
+        addProject.invoke(name, description)
     }
 
     fun saveProject(project: ProjectItem) = viewModelScope.launch {

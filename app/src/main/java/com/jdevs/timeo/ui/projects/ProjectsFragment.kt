@@ -12,9 +12,9 @@ import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.util.extensions.appComponent
-import com.jdevs.timeo.util.extensions.observeEvent
-import com.jdevs.timeo.util.extensions.showSnackbar
+import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.showSnackbar
 import javax.inject.Inject
 
 private const val PROJECTS_VISIBLE_THRESHOLD = 10

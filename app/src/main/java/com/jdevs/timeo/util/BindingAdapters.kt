@@ -5,7 +5,6 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.textfield.TextInputLayout
-import com.jdevs.timeo.util.extensions.doOnceAfterTextChanged
 
 @BindingAdapter("hideIf")
 fun hideIf(view: View, shouldHide: Boolean) {

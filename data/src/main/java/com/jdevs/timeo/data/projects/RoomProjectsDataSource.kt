@@ -13,7 +13,7 @@ interface ProjectsDataSource {
 
     fun getProjectById(id: String): LiveData<Project>
 
-    suspend fun addProject(name: String)
+    suspend fun addProject(name: String, description: String)
 
     suspend fun saveProject(project: Project)
 
@@ -37,7 +37,8 @@ class RoomProjectsDataSource @Inject constructor(private val projectsDao: Projec
     override fun getProjectById(id: String) =
         map(projectsDao.getProjectById(id.toInt()), DBProject::mapToDomain)
 
-    override suspend fun addProject(name: String) = projectsDao.insert(DBProject(name = name))
+    override suspend fun addProject(name: String, description: String) =
+        projectsDao.insert(DBProject(name = name, description = description))
 
     override suspend fun saveProject(project: Project) = projectsDao.update(project.mapToDB())
 

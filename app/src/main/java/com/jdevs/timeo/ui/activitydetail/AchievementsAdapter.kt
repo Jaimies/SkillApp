@@ -7,8 +7,8 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
-import com.jdevs.timeo.util.extensions.inflate
-import com.jdevs.timeo.util.extensions.setAutoBounds
+import com.jdevs.timeo.util.inflate
+import com.jdevs.timeo.util.setAutoBounds
 import kotlinx.android.synthetic.main.achievements_item.view.achievement_text
 
 class AchievementsAdapter : RecyclerView.Adapter<AchievementsAdapter.ViewHolder>() {

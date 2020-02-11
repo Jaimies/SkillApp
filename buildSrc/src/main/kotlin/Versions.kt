@@ -3,7 +3,7 @@ object Versions {
     const val kotlin = "1.3.61"
 
     // Core dependencies
-    const val androidxCore = "1.1.0"
+    const val androidxCore = "1.2.0"
     const val appcompat = "1.1.0"
     const val constraintLayout = "1.1.3"
     const val legacy = "1.0.0"

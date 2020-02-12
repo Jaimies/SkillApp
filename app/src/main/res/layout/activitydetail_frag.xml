@@ -62,8 +62,8 @@
                 android:text="@string/total"
                 android:textAppearance="@style/TextAppearance.Timeo.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/header_time_barrier"
-                app:layout_constraintTop_toBottomOf="@+id/total_time" />
+                app:layout_constraintStart_toStartOf="@id/header_time_barrier"
+                app:layout_constraintTop_toBottomOf="@id/total_time" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/header_time_barrier"
@@ -99,8 +99,8 @@
                 android:text="@string/per_week"
                 android:textAppearance="@style/TextAppearance.Timeo.Body1"
                 app:layout_constraintBottom_toTopOf="@id/info_barrier"
-                app:layout_constraintEnd_toStartOf="@+id/last_week_label"
-                app:layout_constraintStart_toEndOf="@+id/days_spent_label"
+                app:layout_constraintEnd_toStartOf="@id/last_week_label"
+                app:layout_constraintStart_toEndOf="@id/days_spent_label"
                 app:layout_constraintTop_toBottomOf="@id/per_week" />
 
             <TextView
@@ -109,9 +109,9 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.avgWeekTime}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline3"
-                app:layout_constraintBottom_toTopOf="@+id/per_week_label"
-                app:layout_constraintEnd_toEndOf="@+id/per_week_label"
-                app:layout_constraintStart_toStartOf="@+id/per_week_label"
+                app:layout_constraintBottom_toTopOf="@id/per_week_label"
+                app:layout_constraintEnd_toEndOf="@id/per_week_label"
+                app:layout_constraintStart_toStartOf="@id/per_week_label"
                 app:layout_constraintTop_toBottomOf="@id/total_label"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="4h" />
@@ -122,9 +122,9 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.lastWeekTime}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline3"
-                app:layout_constraintBottom_toTopOf="@+id/last_week_label"
-                app:layout_constraintEnd_toEndOf="@+id/last_week_label"
-                app:layout_constraintStart_toStartOf="@+id/last_week_label"
+                app:layout_constraintBottom_toTopOf="@id/last_week_label"
+                app:layout_constraintEnd_toEndOf="@id/last_week_label"
+                app:layout_constraintStart_toStartOf="@id/last_week_label"
                 app:layout_constraintTop_toBottomOf="@id/header_barrier"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="56h" />
@@ -137,8 +137,8 @@
                 android:textAppearance="@style/TextAppearance.Timeo.Body1"
                 app:layout_constraintBottom_toTopOf="@id/info_barrier"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/per_week_label"
-                app:layout_constraintTop_toBottomOf="@+id/last_week" />
+                app:layout_constraintStart_toEndOf="@id/per_week_label"
+                app:layout_constraintTop_toBottomOf="@id/last_week" />
 
             <TextView
                 android:id="@+id/days_spent"
@@ -146,9 +146,9 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.daysSpent}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline3"
-                app:layout_constraintBottom_toTopOf="@+id/days_spent_label"
-                app:layout_constraintEnd_toEndOf="@+id/days_spent_label"
-                app:layout_constraintStart_toStartOf="@+id/days_spent_label"
+                app:layout_constraintBottom_toTopOf="@id/days_spent_label"
+                app:layout_constraintEnd_toEndOf="@id/days_spent_label"
+                app:layout_constraintStart_toStartOf="@id/days_spent_label"
                 app:layout_constraintTop_toBottomOf="@id/header_barrier"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="120" />
@@ -160,8 +160,8 @@
                 android:text="@string/days"
                 android:textAppearance="@style/TextAppearance.Timeo.Body1"
                 app:layout_constraintBottom_toTopOf="@id/info_barrier"
-                app:layout_constraintEnd_toStartOf="@+id/per_week_label"
-                app:layout_constraintStart_toEndOf="@+id/icon"
+                app:layout_constraintEnd_toStartOf="@id/per_week_label"
+                app:layout_constraintStart_toEndOf="@id/icon"
                 app:layout_constraintTop_toBottomOf="@id/days_spent" />
 
             <androidx.constraintlayout.widget.Barrier
@@ -172,7 +172,7 @@
                 app:constraint_referenced_ids="last_week_label,icon,last_week,per_week_label,per_week,days_spent,days_spent_label" />
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/progress"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="0dp"
                 android:layout_height="52dp"
@@ -184,29 +184,24 @@
                 app:layout_constraintTop_toBottomOf="@id/info_barrier"
                 tools:progress="50" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/stats_tablayout"
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lineChart"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@color/colorTertiary"
+                android:layout_height="@dimen/stats_height"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:background="@drawable/rounded_corners"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progressBar" />
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/stats_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activitydetail_graphs_height"
-                app:layout_constraintTop_toBottomOf="@id/stats_tablayout" />
+                app:layout_constraintTop_toBottomOf="@id/progress" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/achievements_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/stats_viewpager"
+                app:layout_constraintTop_toBottomOf="@id/lineChart"
                 tools:itemCount="1"
                 tools:listitem="@layout/achievements_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>

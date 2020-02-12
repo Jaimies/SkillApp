@@ -10,14 +10,17 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.data.Entry
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.common.ActionBarFragment
+import com.jdevs.timeo.ui.common.WeekDayFormatter
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
-import com.jdevs.timeo.ui.stats.setupTabLayoutMediator
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.createLineData
 import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.setup
 import com.jdevs.timeo.util.setupAdapter
 import javax.inject.Inject
 
@@ -44,6 +47,7 @@ class ActivityDetailFragment : ActionBarFragment() {
         viewModel.setupActivityLiveData(args.activity)
     }
 
+    @Suppress("MagicNumber")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,15 +57,20 @@ class ActivityDetailFragment : ActionBarFragment() {
 
             it.lifecycleOwner = this
             it.viewModel = viewModel
-            it.statsViewpager.adapter = ActivityDetailStatsAdapter { statsType ->
 
-                val directions = ActivityDetailFragmentDirections
-                    .actionActivityDetailFragmentToStatsFragment(statsType)
+            val entries = listOf(
+                Entry(1f, 6.2f, ""),
+                Entry(2f, 3f, ""),
+                Entry(3f, 5f, ""),
+                Entry(4f, 12.1f, ""),
+                Entry(5f, 1f, ""),
+                Entry(6f, 4f, ""),
+                Entry(7f, 9f, "")
+            )
 
-                findNavController().navigate(directions)
-            }
+            it.lineChart.data = requireContext().createLineData(entries)
+            it.lineChart.setup(16f, 8f, WeekDayFormatter())
 
-            setupTabLayoutMediator(it.statsTablayout, it.statsViewpager)
             it.achievementsList.setupAdapter(adapter, RecyclerView.HORIZONTAL)
             it.achievementsList.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
         }

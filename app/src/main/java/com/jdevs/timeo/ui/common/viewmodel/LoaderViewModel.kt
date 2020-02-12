@@ -20,6 +20,7 @@ open class LoaderViewModel(isLoadingByDefault: Boolean = false) : KeyboardHiding
         _isLoading.value = false
     }
 
+    @Suppress("TooGenericExceptionCaught")
     inline fun launchSuspendingProcess(
         crossinline onFailure: (Exception) -> Unit = {},
         crossinline onSuccess: () -> Unit = {},

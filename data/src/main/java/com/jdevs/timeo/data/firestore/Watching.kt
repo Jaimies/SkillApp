@@ -11,12 +11,13 @@ inline fun <reified I : Any, O> CollectionReference.watchCollection(
     crossinline mapper: (I) -> O,
     limit: Long,
     orderBy: String = TOTAL_TIME,
-    direction: Query.Direction = Query.Direction.DESCENDING
+    direction: Query.Direction = Query.Direction.DESCENDING,
+    query: CollectionReference.() -> Query = { this }
 ): LiveData<List<O>> {
 
     val liveData = MutableLiveData<List<O>>()
 
-    orderBy(orderBy, direction).limit(limit)
+    query().orderBy(orderBy, direction).limit(limit)
         .addSnapshotListener { querySnapshot, _ ->
 
             querySnapshot?.documents?.mapNotNull {

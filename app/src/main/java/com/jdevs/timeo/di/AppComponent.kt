@@ -13,7 +13,6 @@ import com.jdevs.timeo.ui.projects.ProjectsFragment
 import com.jdevs.timeo.ui.settings.SettingsFragment
 import com.jdevs.timeo.ui.signin.SignInFragment
 import com.jdevs.timeo.ui.signin.SignUpFragment
-import com.jdevs.timeo.ui.stats.StatsItemFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -38,6 +37,5 @@ interface AppComponent {
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: SignInFragment)
     fun inject(fragment: SignUpFragment)
-    fun inject(fragment: StatsItemFragment)
     fun inject(fragment: SettingsFragment)
 }

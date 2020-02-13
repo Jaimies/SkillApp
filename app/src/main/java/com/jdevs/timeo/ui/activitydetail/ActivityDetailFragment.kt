@@ -10,7 +10,6 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mikephil.charting.data.Entry
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
@@ -58,17 +57,13 @@ class ActivityDetailFragment : ActionBarFragment() {
             it.lifecycleOwner = this
             it.viewModel = viewModel
 
-            val entries = listOf(
-                Entry(1f, 6.2f, ""),
-                Entry(2f, 3f, ""),
-                Entry(3f, 5f, ""),
-                Entry(4f, 12.1f, ""),
-                Entry(5f, 1f, ""),
-                Entry(6f, 4f, ""),
-                Entry(7f, 9f, "")
-            )
+            viewModel.stats.observe(viewLifecycleOwner) { list ->
 
-            it.lineChart.data = requireContext().createLineData(entries)
+                it.lineChart.data = requireContext().createLineData(list)
+                it.lineChart.notifyDataSetChanged()
+                it.lineChart.invalidate()
+            }
+
             it.lineChart.setup(16f, 8f, WeekDayFormatter())
 
             it.achievementsList.setupAdapter(adapter, RecyclerView.HORIZONTAL)

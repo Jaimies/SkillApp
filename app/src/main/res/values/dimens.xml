@@ -17,7 +17,6 @@
     <dimen name="records_item_height">50dp</dimen>
     <dimen name="loading_item_height">60dp</dimen>
     <dimen name="stats_height">150dp</dimen>
-    <dimen name="stats_item_height">60dp</dimen>
     <dimen name="dialog_record_corner_radius">12dp</dimen>
     <dimen name="dialog_record_title_height">50dp</dimen>
 </resources>

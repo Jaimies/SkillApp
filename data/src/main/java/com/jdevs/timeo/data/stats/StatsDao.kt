@@ -1,6 +1,6 @@
 package com.jdevs.timeo.data.stats
 
-import androidx.paging.DataSource
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 
@@ -34,12 +34,19 @@ interface StatsDao {
     )
     fun registerMonthStats(time: Long, month: Short)
 
-    @Query("SELECT * FROM dayStats WHERE time > 0 ORDER BY day DESC")
-    fun getDayStats(): DataSource.Factory<Int, DBDayStats>
+    @Query(
+        """
+        SELECT * FROM dayStats
+        WHERE date(day * 86400, 'unixepoch') > date('now', '-7 day') 
+        AND date(day * 86400, 'unixepoch') <= date('now') 
+        AND time > 0 
+        ORDER BY day LIMIT 7"""
+    )
+    fun getDayStats(): LiveData<List<DBDayStats>>
 
-    @Query("SELECT * FROM weekStats WHERE time > 0  ORDER BY week DESC")
-    fun getWeekStats(): DataSource.Factory<Int, DBWeekStats>
+    @Query("SELECT * FROM weekStats ORDER BY week LIMIT 7")
+    fun getWeekStats(): LiveData<List<DBWeekStats>>
 
-    @Query("SELECT * FROM monthStats WHERE time > 0 ORDER BY month DESC")
-    fun getMonthStats(): DataSource.Factory<Int, DBMonthStats>
+    @Query("SELECT * FROM monthStats ORDER BY month LIMIT 7")
+    fun getMonthStats(): LiveData<List<DBMonthStats>>
 }

@@ -102,20 +102,5 @@
         <action
             android:id="@+id/action_activityDetailFragment_to_addEditActivityFragment"
             app:destination="@id/addactivity_fragment_dest" />
-
-        <action
-            android:id="@+id/action_activityDetailFragment_to_statsFragment"
-            app:destination="@id/stats_fragment_dest" />
-    </fragment>
-    <fragment
-        android:id="@+id/stats_fragment_dest"
-        android:name="com.jdevs.timeo.ui.stats.StatsFragment"
-        android:label="@string/stats"
-        tools:layout="@layout/stats_frag">
-
-        <argument
-            android:name="statsType"
-            android:defaultValue="0"
-            app:argType="integer" />
     </fragment>
 </navigation>

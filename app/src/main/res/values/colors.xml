@@ -2,7 +2,6 @@
 <resources>
     <color name="colorPrimary">#86AB6A</color>
     <color name="colorSecondary">#E8EFE8</color>
-    <color name="colorTertiary">#2DBAED</color>
     <color name="colorAccent">#EAD442</color>
     <color name="colorBlackTransparent">#45000000</color>
     <color name="colorYellow">#FFFF00</color>

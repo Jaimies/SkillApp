@@ -95,7 +95,7 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
         findNavController().navigate(directions)
     }
 
-    private fun createRecord(index: Int, time: Long) {
+    private fun createRecord(index: Int, time: Int) {
 
         viewModel.createRecord(activity = getItem(index), time = time)
     }

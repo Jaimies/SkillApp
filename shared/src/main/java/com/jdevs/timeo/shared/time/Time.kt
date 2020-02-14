@@ -26,9 +26,9 @@ fun Date?.toOffsetDate(): OffsetDateTime {
 fun OffsetDateTime.toDate(): Date = DateTimeUtils.toDate(toInstant())
 
 fun OffsetDateTime.getDaysAgo() = DAYS.between(this, OffsetDateTime.now())
-fun OffsetDateTime.getDaysSinceEpoch() = LocalDate.from(this).toEpochDay()
+fun OffsetDateTime.getDaysSinceEpoch() = LocalDate.from(this).toEpochDay().toInt()
 fun OffsetDateTime.getWeeksSinceEpoch() = WEEKS.between(EPOCH, this).toInt()
-fun OffsetDateTime.getMonthSinceEpoch() = MONTHS.between(EPOCH, this).toShort()
+fun OffsetDateTime.getMonthSinceEpoch() = MONTHS.between(EPOCH, this).toInt()
 
 const val WEEK_DAYS = 7
 const val DAY_HOURS = 24

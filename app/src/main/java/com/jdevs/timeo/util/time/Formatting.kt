@@ -2,15 +2,15 @@ package com.jdevs.timeo.util.time
 
 import com.jdevs.timeo.shared.time.HOUR_MINUTES
 
-fun getFriendlyTime(totalMinutes: Long): String {
+fun getFriendlyTime(totalMinutes: Int): String {
 
     val hours = totalMinutes / HOUR_MINUTES
     val minutes = totalMinutes % HOUR_MINUTES
 
     val builder = StringBuilder()
 
-    if (hours != 0L) builder.append("${hours}h")
-    if (minutes != 0L) builder.append(" ${minutes}m")
+    if (hours != 0) builder.append("${hours}h")
+    if (minutes != 0) builder.append(" ${minutes}m")
 
     return builder.trim().toString()
 }

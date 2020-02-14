@@ -22,7 +22,7 @@ private const val WIDTH = 0.9
 private const val HEIGHT = 0.35
 private const val RECORD_MIN_TIME = 5
 
-class RecordDialog(context: Context, private val createRecord: (Long) -> Unit = {}) :
+class RecordDialog(context: Context, private val createRecord: (Int) -> Unit = {}) :
     View.OnFocusChangeListener,
     Dialog(context) {
 
@@ -75,8 +75,8 @@ class RecordDialog(context: Context, private val createRecord: (Long) -> Unit = 
         hours_edit_text.validateInput()
         minutes_edit_text.validateInput()
 
-        val hours = hours_edit_text.text.toString().toLongOrNull() ?: 0
-        val minutes = minutes_edit_text.text.toString().toLongOrNull() ?: return
+        val hours = hours_edit_text.text.toString().toIntOrNull() ?: 0
+        val minutes = minutes_edit_text.text.toString().toIntOrNull() ?: return
 
         val time = getMins(hours, minutes)
         createRecord(time)

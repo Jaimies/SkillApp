@@ -13,7 +13,7 @@ import com.jdevs.timeo.util.getBaseContext
 
 class PagingAdapter(
     private val delegateAdapter: DelegateAdapter,
-    private val createRecord: (Int, Long) -> Unit = { _, _ -> },
+    private val createRecord: (Int, Int) -> Unit = { _, _ -> },
     private val navigateToDetails: (Int) -> Unit = {},
     private val showDeleteDialog: (Int) -> Unit = {}
 ) : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(ITEMS_COMPARATOR) {

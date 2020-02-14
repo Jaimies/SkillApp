@@ -11,6 +11,8 @@ import com.jdevs.timeo.data.firestore.watchCollection
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.shared.time.WEEK_DAYS
 import com.jdevs.timeo.shared.time.getDaysSinceEpoch
+import com.jdevs.timeo.shared.time.getMonthSinceEpoch
+import com.jdevs.timeo.shared.time.getWeeksSinceEpoch
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,8 +25,16 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     StatsRemoteDataSource {
 
     override val dayStats get() = dayStatsRef.watchCollection(FirestoreDayStats::mapToDomain)
-    override val weekStats get() = weekStatsRef.watchCollection(FirestoreWeekStats::mapToDomain)
-    override val monthStats get() = monthStatsRef.watchCollection(FirestoreMonthStats::mapToDomain)
+
+    override val weekStats
+        get() = weekStatsRef.watchCollection(
+            FirestoreWeekStats::mapToDomain, OffsetDateTime::getWeeksSinceEpoch
+        )
+
+    override val monthStats
+        get() = monthStatsRef.watchCollection(
+            FirestoreMonthStats::mapToDomain, OffsetDateTime::getMonthSinceEpoch
+        )
 
     private var dayStatsRef: CollectionReference by SafeAccess()
     private var weekStatsRef: CollectionReference by SafeAccess()
@@ -37,10 +47,13 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
         monthStatsRef = createRef(uid, MONTH_STATS_COLLECTION)
     }
 
-    private inline fun <reified I : Any, O> CollectionReference.watchCollection(crossinline mapper: (I) -> O) =
+    private inline fun <reified I : Any, O> CollectionReference.watchCollection(
+        crossinline mapper: (I) -> O,
+        crossinline converter: OffsetDateTime.() -> Int = OffsetDateTime::getDaysSinceEpoch
+    ) =
         watchCollection(mapper, WEEK_DAYS.toLong(), DAY, ASCENDING) {
 
-            this.whereGreaterThan(DAY, OffsetDateTime.now().getDaysSinceEpoch() - WEEK_DAYS)
-                .whereLessThanOrEqualTo(DAY, OffsetDateTime.now().getDaysSinceEpoch())
+            this.whereGreaterThan(DAY, OffsetDateTime.now().converter() - WEEK_DAYS)
+                .whereLessThanOrEqualTo(DAY, OffsetDateTime.now().converter())
         }
 }

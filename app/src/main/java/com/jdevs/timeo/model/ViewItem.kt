@@ -12,5 +12,4 @@ object ViewType {
     const val ACTIVITY = 1
     const val RECORD = 2
     const val PROJECT = 3
-    const val STATISTIC = 4
 }

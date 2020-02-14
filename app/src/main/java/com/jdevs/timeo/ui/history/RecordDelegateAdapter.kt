@@ -18,7 +18,7 @@ class RecordDelegateAdapter : DelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        createRecord: (Int, Long) -> Unit,
+        createRecord: (Int, Int) -> Unit,
         navigateToDetails: (Int) -> Unit,
         showDeleteDialog: (Int) -> Unit
     ): ViewHolder {

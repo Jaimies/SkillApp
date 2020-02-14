@@ -14,16 +14,12 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.common.ActionBarFragment
-import com.jdevs.timeo.ui.common.WeekDayFormatter
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
 import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.createLineData
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setup
 import com.jdevs.timeo.util.setupAdapter
 import javax.inject.Inject
-
-private const val ACHIEVEMENTS_ITEM_SPACING = 20
 
 class ActivityDetailFragment : ActionBarFragment() {
 
@@ -46,36 +42,27 @@ class ActivityDetailFragment : ActionBarFragment() {
         viewModel.setupActivityLiveData(args.activity)
     }
 
-    @Suppress("MagicNumber")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = ActivitydetailFragBinding.inflate(inflater, container, false).also {
+        val binding = ActivitydetailFragBinding.inflate(inflater, container, false)
 
-            it.lifecycleOwner = this
-            it.viewModel = viewModel
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
-            viewModel.stats.observe(viewLifecycleOwner) { list ->
+        binding.lineChart.setup(CHART_TEXT_SIZE, CHART_OFFSET)
 
-                it.lineChart.data = requireContext().createLineData(list)
-                it.lineChart.notifyDataSetChanged()
-                it.lineChart.invalidate()
-            }
+        binding.achievementsList.setupAdapter(adapter, RecyclerView.HORIZONTAL)
+        binding.achievementsList.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
 
-            it.lineChart.setup(16f, 8f, WeekDayFormatter())
+        viewModel.run {
 
-            it.achievementsList.setupAdapter(adapter, RecyclerView.HORIZONTAL)
-            it.achievementsList.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
-        }
-
-        viewModel.apply {
-
-            activity.observe(viewLifecycleOwner) { activity -> setActivity(activity) }
+            activity.observe(viewLifecycleOwner, viewModel::setActivity)
 
             observeEvent(showRecordDialog) {
-                RecordDialog(context!!) { time -> addRecord(activity.value!!, time) }.show()
+                RecordDialog(requireContext()) { time -> addRecord(activity.value!!, time) }.show()
             }
         }
 
@@ -94,5 +81,11 @@ class ActivityDetailFragment : ActionBarFragment() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        private const val ACHIEVEMENTS_ITEM_SPACING = 20
+        private const val CHART_TEXT_SIZE = 16f
+        private const val CHART_OFFSET = 8f
     }
 }

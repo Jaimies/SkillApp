@@ -13,7 +13,7 @@ interface DelegateAdapter {
 
     fun onCreateViewHolder(
         parent: ViewGroup,
-        createRecord: (Int, Long) -> Unit = { _, _ -> },
+        createRecord: (Int, Int) -> Unit = { _, _ -> },
         navigateToDetails: (Int) -> Unit = {},
         showDeleteDialog: (Int) -> Unit = {}
     ): RecyclerView.ViewHolder

@@ -57,7 +57,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
         }
     }
 
-    private fun registerStats(time: Long, creationDate: OffsetDateTime) {
+    private fun registerStats(time: Int, creationDate: OffsetDateTime) {
 
         with(db.statsDao()) {
 

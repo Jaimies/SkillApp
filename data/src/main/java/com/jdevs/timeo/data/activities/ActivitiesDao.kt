@@ -24,5 +24,5 @@ interface ActivitiesDao : BaseDao<DBActivity> {
     fun getActivity(id: Int): LiveData<DBActivity>
 
     @Query("UPDATE activities SET totalTime = totalTime + :by WHERE id = :id")
-    suspend fun increaseTime(id: Int, by: Long)
+    suspend fun increaseTime(id: Int, by: Int)
 }

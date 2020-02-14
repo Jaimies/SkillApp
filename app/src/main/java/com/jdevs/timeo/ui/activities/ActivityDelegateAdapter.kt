@@ -16,7 +16,7 @@ class ActivityDelegateAdapter : DelegateAdapter {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        createRecord: (Int, Long) -> Unit,
+        createRecord: (Int, Int) -> Unit,
         navigateToDetails: (Int) -> Unit,
         showDeleteDialog: (Int) -> Unit
     ): RecyclerView.ViewHolder {
@@ -43,7 +43,7 @@ class ActivityDelegateAdapter : DelegateAdapter {
     class ViewHolder(
         rootView: View,
         private val viewModel: ActivityViewModel,
-        private val createRecord: (Int, Long) -> Unit = { _, _ -> },
+        private val createRecord: (Int, Int) -> Unit = { _, _ -> },
         private val navigateToDetails: (Int) -> Unit = {}
     ) : PagingAdapter.ViewHolder(rootView) {
 

@@ -13,7 +13,7 @@ import com.jdevs.timeo.ui.history.RecordDelegateAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 
 class FirestoreListAdapter(
-    private val createRecord: (Int, Long) -> Unit = { _, _ -> },
+    private val createRecord: (Int, Int) -> Unit = { _, _ -> },
     private val navigateToDetails: (Int) -> Unit = {},
     private val showDeleteDialog: (Int) -> Unit = {}
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

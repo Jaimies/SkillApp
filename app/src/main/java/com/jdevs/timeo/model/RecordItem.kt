@@ -7,7 +7,7 @@ import org.threeten.bp.OffsetDateTime
 data class RecordItem(
     override val id: String,
     val name: String,
-    val time: Long,
+    val time: Int,
     val activityId: String,
     val creationDate: OffsetDateTime
 ) : ViewItem {

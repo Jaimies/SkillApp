@@ -56,7 +56,7 @@ class ProjectDetailViewModel @Inject constructor(
         setProject(project)
     }
 
-    fun addRecord(project: ProjectItem, time: Long) = viewModelScope.launch {
+    fun addRecord(project: ProjectItem, time: Int) = viewModelScope.launch {
 
         val record = Record(name = project.name, time = time, activityId = project.id)
         addRecord(record)

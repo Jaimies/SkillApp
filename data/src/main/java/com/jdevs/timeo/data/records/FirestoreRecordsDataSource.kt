@@ -80,12 +80,12 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         }
     }
 
-    private fun increaseActivityTime(activityId: String, time: Long, batch: WriteBatch) {
+    private fun increaseActivityTime(activityId: String, time: Int, batch: WriteBatch) {
 
         val activityRef = activitiesRef.document(activityId)
-        val record = RecordMinimal(time.toInt())
+        val record = RecordMinimal(time)
 
-        batch.update(activityRef, TOTAL_TIME, increment(time))
+        batch.update(activityRef, TOTAL_TIME, increment(time.toLong()))
 
         if (time > 0) {
 
@@ -93,7 +93,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         }
     }
 
-    private suspend fun updateStats(creationDate: OffsetDateTime, time: Long) {
+    private suspend fun updateStats(creationDate: OffsetDateTime, time: Int) {
 
         val refs = listOf(
             dayStatsRef.document(creationDate.getDaysSinceEpoch().toString()),
@@ -105,12 +105,12 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
             try {
 
-                ref.update(TIME, increment(time)).await()
+                ref.update(TIME, increment(time.toLong())).await()
             } catch (e: FirebaseFirestoreException) {
 
                 if (e.code == FirebaseFirestoreException.Code.NOT_FOUND) {
 
-                    ref.set(FirestoreDayStats(time = time, day = ref.id.toLong()))
+                    ref.set(FirestoreDayStats(time = time, day = ref.id.toInt()))
                 }
             }
         }

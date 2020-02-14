@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="com.jdevs.timeo.ui.activitydetail.ActivityDetailViewModel" />
+
+        <import type="com.jdevs.timeo.R" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -184,15 +186,28 @@
                 app:layout_constraintTop_toBottomOf="@id/info_barrier"
                 tools:progress="50" />
 
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:items="@{R.array.statistic_types}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress"
+                app:onItemSelected="@{viewModel::setChartType}"
+                app:selectedItem="@{viewModel.chartType}" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lineChart"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/stats_height"
-                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_corners"
+                app:data="@{viewModel.stats}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progress" />
+                app:layout_constraintTop_toBottomOf="@id/spinner" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/achievements_list"

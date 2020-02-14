@@ -14,7 +14,7 @@ interface StatsDao {
                 :time), :day)
             """
     )
-    fun registerDayStats(time: Long, day: Long)
+    fun registerDayStats(time: Int, day: Int)
 
     @Query(
         """INSERT OR REPLACE INTO weekStats (time, week) VALUES(
@@ -23,7 +23,7 @@ interface StatsDao {
                 :time), :week)
                 """
     )
-    fun registerWeekStats(time: Long, week: Int)
+    fun registerWeekStats(time: Int, week: Int)
 
     @Query(
         """INSERT OR REPLACE INTO monthStats (time, month) VALUES(
@@ -32,7 +32,7 @@ interface StatsDao {
                 :time), :month)
                 """
     )
-    fun registerMonthStats(time: Long, month: Short)
+    fun registerMonthStats(time: Int, month: Int)
 
     @Query(
         """
@@ -44,9 +44,23 @@ interface StatsDao {
     )
     fun getDayStats(): LiveData<List<DBDayStats>>
 
-    @Query("SELECT * FROM weekStats ORDER BY week LIMIT 7")
+    @Query(
+        """
+        SELECT * FROM weekStats
+        WHERE date(0, 'unixepoch', (week * 7) || ' day') > date('now', '-49 day') 
+        AND date(0, 'unixepoch', (week * 7) || ' day') <= date('now')
+        AND time > 0 
+        ORDER BY week LIMIT 7"""
+    )
     fun getWeekStats(): LiveData<List<DBWeekStats>>
 
-    @Query("SELECT * FROM monthStats ORDER BY month LIMIT 7")
+    @Query(
+        """
+        SELECT * FROM monthStats
+        WHERE date(0, 'unixepoch', month || ' month') > date('now', '-7 month') 
+        AND date(0, 'unixepoch', month || ' month') <= date('now') 
+        AND time > 0 
+        ORDER BY month LIMIT 7"""
+    )
     fun getMonthStats(): LiveData<List<DBMonthStats>>
 }

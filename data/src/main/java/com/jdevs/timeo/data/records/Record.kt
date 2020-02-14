@@ -29,7 +29,7 @@ data class DBRecord(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String = "",
-    val time: Long = 0,
+    val time: Int = 0,
     val activityId: Int = 0,
     val creationDate: OffsetDateTime = OffsetDateTime.now()
 )
@@ -39,7 +39,7 @@ data class FirestoreRecord(
     @DocumentId
     val documentId: String = "",
     val name: String = "",
-    val time: Long = 0,
+    val time: Int = 0,
     val activityId: String = "",
     @ServerTimestamp
     val timestamp: Date? = null

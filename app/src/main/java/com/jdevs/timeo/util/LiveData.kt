@@ -6,12 +6,16 @@ import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.model.OperationItem
 import com.jdevs.timeo.model.ViewItem
 
-fun <T : Any, O : ViewItem> List<LiveData<Operation<T>>>.mapTo(mapper: (T) -> O): List<LiveData<OperationItem<O>>> {
+inline fun <T : Any, O : ViewItem> List<LiveData<Operation<T>>>.mapTo(
+    crossinline mapFunction: (T) -> O
+): List<LiveData<OperationItem<O>>> {
 
     return map { liveData ->
 
         map(liveData) { operation ->
-            OperationItem(operation.data?.let { mapper(it) }, operation.exception, operation.type)
+            OperationItem(
+                operation.data?.let { mapFunction(it) }, operation.exception, operation.type
+            )
         }
     }
 }

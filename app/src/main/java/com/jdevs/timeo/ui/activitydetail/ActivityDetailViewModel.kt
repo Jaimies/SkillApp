@@ -25,11 +25,11 @@ import com.jdevs.timeo.ui.common.WeekDayFormatter
 import com.jdevs.timeo.ui.common.YearMonthFormatter
 import com.jdevs.timeo.ui.common.YearWeekFormatter
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
-import com.jdevs.timeo.util.mapToPresentation
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
 import com.jdevs.timeo.util.time.getHours
 import com.jdevs.timeo.util.toChartData
+import com.jdevs.timeo.util.toChartItem
 import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
@@ -53,20 +53,20 @@ class ActivityDetailViewModel @Inject constructor(
         when (_chartType.value) {
 
             DAY -> map(getStats.dayStats) {
-                it.map(DayStats::mapToPresentation).toChartData(
+                it.map(DayStats::toChartItem).toChartData(
                     OffsetDateTime::minusDays, OffsetDateTime::getDaysSinceEpoch, WeekDayFormatter()
                 )
             }
 
             WEEK -> map(getStats.weekStats) {
-                it.map(WeekStats::mapToPresentation).toChartData(
+                it.map(WeekStats::toChartItem).toChartData(
                     OffsetDateTime::minusWeeks,
                     OffsetDateTime::getWeeksSinceEpoch, YearWeekFormatter()
                 )
             }
 
             else -> map(getStats.monthStats) {
-                it.map(MonthStats::mapToPresentation).toChartData(
+                it.map(MonthStats::toChartItem).toChartData(
                     OffsetDateTime::minusMonths,
                     OffsetDateTime::getMonthSinceEpoch, YearMonthFormatter()
                 )

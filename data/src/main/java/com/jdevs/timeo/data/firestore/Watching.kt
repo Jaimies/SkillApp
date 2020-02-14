@@ -8,7 +8,7 @@ import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.TOTAL_TIME
 
 inline fun <reified I : Any, O> CollectionReference.watchCollection(
-    crossinline mapper: (I) -> O,
+    crossinline mapFunction: (I) -> O,
     limit: Long,
     orderBy: String = TOTAL_TIME,
     direction: Query.Direction = Query.Direction.DESCENDING,
@@ -22,19 +22,19 @@ inline fun <reified I : Any, O> CollectionReference.watchCollection(
 
             querySnapshot?.documents?.mapNotNull {
                 it.toObject(I::class.java)
-            }?.let { liveData.value = it.map(mapper) }
+            }?.let { liveData.value = it.map(mapFunction) }
         }
 
     return liveData
 }
 
-inline fun <reified I : Any, O> DocumentReference.watch(crossinline mapper: (I) -> O): LiveData<O> {
+inline fun <reified I : Any, O> DocumentReference.watch(crossinline mapFunction: (I) -> O): LiveData<O> {
 
     val liveData = MutableLiveData<O>()
 
     addSnapshotListener { documentSnapshot, _ ->
 
-        documentSnapshot?.toObject(I::class.java)?.let { liveData.value = mapper(it) }
+        documentSnapshot?.toObject(I::class.java)?.let { liveData.value = mapFunction(it) }
     }
 
     return liveData

@@ -21,7 +21,7 @@ class ListLiveData<T : Any, O : Any>(
     private val setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
     private val onLastItemReached: () -> Unit = {},
     private val type: Class<T>,
-    private val mapper: (T) -> O,
+    private val mapFunction: (T) -> O,
     private val pageSize: Long
 ) : LiveData<Operation<O>>(), EventListener<QuerySnapshot> {
 
@@ -80,6 +80,6 @@ class ListLiveData<T : Any, O : Any>(
             DocumentChange.Type.REMOVED -> REMOVED
         }
 
-        value = Operation(mapper(item), type = operationType)
+        value = Operation(mapFunction(item), type = operationType)
     }
 }

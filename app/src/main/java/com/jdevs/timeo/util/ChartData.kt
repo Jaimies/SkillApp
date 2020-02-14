@@ -48,8 +48,8 @@ inline fun List<ChartItem>.toChartData(
 
 data class ChartItem(val period: Int, val time: Int)
 
-fun DayStats.mapToPresentation() = ChartItem(day, time)
-fun WeekStats.mapToPresentation() = ChartItem(week, time)
-fun MonthStats.mapToPresentation() = ChartItem(month, time)
+fun DayStats.toChartItem() = ChartItem(day, time)
+fun WeekStats.toChartItem() = ChartItem(week, time)
+fun MonthStats.toChartItem() = ChartItem(month, time)
 
 class ChartData(val items: List<Entry>?, val formatter: ValueFormatter)

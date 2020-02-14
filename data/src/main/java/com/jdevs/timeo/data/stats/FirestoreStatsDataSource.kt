@@ -24,7 +24,10 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     FirestoreListDataSource(authRepository),
     StatsRemoteDataSource {
 
-    override val dayStats get() = dayStatsRef.watchCollection(FirestoreDayStats::mapToDomain)
+    override val dayStats
+        get() = dayStatsRef.watchCollection(
+            FirestoreDayStats::mapToDomain, OffsetDateTime::getDaysSinceEpoch
+        )
 
     override val weekStats
         get() = weekStatsRef.watchCollection(
@@ -48,10 +51,10 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     }
 
     private inline fun <reified I : Any, O> CollectionReference.watchCollection(
-        crossinline mapper: (I) -> O,
-        crossinline converter: OffsetDateTime.() -> Int = OffsetDateTime::getDaysSinceEpoch
+        crossinline mapFunction: (I) -> O,
+        crossinline converter: OffsetDateTime.() -> Int
     ) =
-        watchCollection(mapper, WEEK_DAYS.toLong(), DAY, ASCENDING) {
+        watchCollection(mapFunction, WEEK_DAYS.toLong(), DAY, ASCENDING) {
 
             this.whereGreaterThan(DAY, OffsetDateTime.now().converter() - WEEK_DAYS)
                 .whereLessThanOrEqualTo(DAY, OffsetDateTime.now().converter())

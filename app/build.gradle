@@ -115,9 +115,6 @@ dependencies {
     // Material
     implementation "com.google.android.material:material:$Versions.material"
 
-    // ViewPager 2
-    implementation "androidx.viewpager2:viewpager2:$Versions.viewPager2"
-
     // MPAndroidChart library for creating awesome charts
     implementation "com.github.PhilJay:MPAndroidChart:v$Versions.MPAndroidChart"
 

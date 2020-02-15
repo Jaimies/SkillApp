@@ -15,7 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.FakeActivitiesRepository
-import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -48,7 +48,7 @@ class ActivitiesFragmentTest {
     @Test
     fun clickActivity_goToDetailFragment() = runBlockingTest {
 
-        val activity = Activity(name = "Activity name").also { repository.addActivity(it) }
+        repository.addActivity("Activity name")
 
         // GIVEN - On the activities list screen
         val scenario = launchFragmentInContainer<ActivitiesFragment>(Bundle(), R.style.Theme_Timeo)
@@ -65,6 +65,8 @@ class ActivitiesFragmentTest {
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
         // THEN - Verify that we navigate to the first detail screen
+
+        val activity = repository.getActivityById("0").value!!.mapToPresentation()
         verify(navController).navigate(
             ActivitiesFragmentDirections.actionActivitiesFragmentToActivityDetailsFragment(activity)
         )

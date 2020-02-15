@@ -2,8 +2,12 @@ package com.jdevs.timeo.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jdevs.timeo.ItemDataSource
+import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.repository.ProjectsRepository
+import com.jdevs.timeo.util.createLiveData
+import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,11 +15,14 @@ import javax.inject.Singleton
 class FakeProjectsRepository @Inject constructor() : ProjectsRepository {
 
     private val projectsList = mutableListOf<Project>()
-    override val projects = MutableLiveData(projectsList.asPagedList())
+    override val projects = ItemDataSource.Factory(projectsList)
 
-    override suspend fun addProject(project: Project) {
+    override fun getProjectsRemote(fetchNewItems: Boolean) =
+        listOf(createLiveData<Operation<Project>>())
 
-        projectsList.add(project)
+    override suspend fun addProject(name: String, description: String) {
+
+        projectsList.add(Project("", name, description, 0, 0, OffsetDateTime.now()))
         notifyObservers()
     }
 
@@ -27,15 +34,15 @@ class FakeProjectsRepository @Inject constructor() : ProjectsRepository {
 
     override val topProjects get() = MutableLiveData(projectsList.toList())
 
-    override fun getProjectById(id: Int, documentId: String): LiveData<Project> {
+    override fun getProjectById(id: String): LiveData<Project> {
 
-        val project = projectsList.find { it.id == id } ?: Project(name = "Project")
+        val project = projectsList.find { it.id == id }!!
         return MutableLiveData(project)
     }
 
     override suspend fun saveProject(project: Project) {
 
-        projectsList.replaceAll { if (it.documentId != project.documentId) it else project }
+        projectsList.replaceAll { if (it.id != project.id) it else project }
     }
 
     fun reset() {
@@ -44,7 +51,5 @@ class FakeProjectsRepository @Inject constructor() : ProjectsRepository {
         notifyObservers()
     }
 
-    override fun resetMonitor() {}
-
-    private fun notifyObservers() = projects.postValue(projectsList.asPagedList())
+    private fun notifyObservers() = projects
 }

@@ -1,9 +1,10 @@
 package com.jdevs.timeo.data
 
-import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.WriteBatch
+import com.jdevs.timeo.ItemDataSource
+import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.RecordsRepository
+import com.jdevs.timeo.util.createLiveData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,23 +12,22 @@ import javax.inject.Singleton
 class FakeRecordsRepository @Inject constructor() : RecordsRepository {
 
     private val recordsList = mutableListOf<Record>()
-    override val records = MutableLiveData(recordsList.asPagedList())
+    override val records = ItemDataSource.Factory(recordsList)
 
-    override suspend fun addRecord(record: Record): WriteBatch? {
+    override fun getRecordsRemote(fetchNewItems: Boolean) =
+        listOf(createLiveData<Operation<Record>>())
+
+    override suspend fun addRecord(record: Record) {
 
         recordsList.add(record)
         notifyObservers()
-        return null
     }
 
-    override suspend fun deleteRecord(record: Record): WriteBatch? {
+    override suspend fun deleteRecord(record: Record) {
 
         recordsList.remove(record)
         notifyObservers()
-        return null
     }
-
-    override suspend fun renameRecords(activityId: String, newName: String, batch: WriteBatch) {}
 
     fun reset() {
 
@@ -35,7 +35,5 @@ class FakeRecordsRepository @Inject constructor() : RecordsRepository {
         notifyObservers()
     }
 
-    override fun resetMonitor() {}
-
-    private fun notifyObservers() = records.postValue(recordsList.asPagedList())
+    private fun notifyObservers() = records
 }

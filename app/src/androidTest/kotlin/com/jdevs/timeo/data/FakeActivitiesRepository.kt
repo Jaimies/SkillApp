@@ -1,9 +1,12 @@
 package com.jdevs.timeo.data
 
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.WriteBatch
+import com.jdevs.timeo.ItemDataSource
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.ActivitiesRepository
+import com.jdevs.timeo.util.createLiveData
+import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,23 +14,24 @@ import javax.inject.Singleton
 class FakeActivitiesRepository @Inject constructor() : ActivitiesRepository {
 
     private val activityList = mutableListOf<Activity>()
-    override val activities = MutableLiveData(activityList.asPagedList())
+    override val activities = ItemDataSource.Factory(activityList)
 
-    override suspend fun addActivity(activity: Activity) {
+    override fun getRemoteActivities(fetchNewItems: Boolean) =
+        listOf(createLiveData<Operation<Activity>>())
 
-        activityList.add(activity)
+    override suspend fun addActivity(name: String) {
+
+        activityList.add(Activity(activityList.size.toString(), name, 0, 0, OffsetDateTime.now()))
         notifyObservers()
     }
 
     override val topActivities get() = MutableLiveData(activityList.toList())
 
-    override fun getActivityById(id: Int, documentId: String) =
-        MutableLiveData(activityList.single { it.documentId == documentId })
+    override fun getActivityById(id: String) = MutableLiveData(activityList.single { it.id == id })
 
-    override suspend fun saveActivity(activity: Activity): WriteBatch? {
+    override suspend fun saveActivity(activity: Activity) {
 
-        activityList.replaceAll { if (it.documentId != activity.documentId) it else activity }
-        return null
+        activityList.replaceAll { if (it.id != activity.id) it else activity }
     }
 
     override suspend fun deleteActivity(activity: Activity) {
@@ -36,20 +40,11 @@ class FakeActivitiesRepository @Inject constructor() : ActivitiesRepository {
         notifyObservers()
     }
 
-    override suspend fun increaseTime(activityId: String, time: Long, batch: WriteBatch) {
-
-        activityList.replaceAll {
-            if (it.documentId != activityId) it else it.copy(totalTime = it.totalTime + time)
-        }
-    }
-
     fun reset() {
 
         activityList.clear()
         notifyObservers()
     }
 
-    override fun resetMonitor() {}
-
-    private fun notifyObservers() = activities.postValue(activityList.asPagedList())
+    private fun notifyObservers() = activities
 }

@@ -5,7 +5,6 @@ import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.WeekStats
 import com.jdevs.timeo.domain.repository.StatsRepository
-import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,13 +15,7 @@ class FakeStatsRepository @Inject constructor() : StatsRepository {
     private val weekStatsList = mutableListOf<WeekStats>()
     private val monthStatsList = mutableListOf<MonthStats>()
 
-    override val dayStats = MutableLiveData(dayStatsList.asPagedList())
-    override val weekStats = MutableLiveData(weekStatsList.asPagedList())
-    override val monthStats = MutableLiveData(monthStatsList.asPagedList())
-
-    override suspend fun updateStats(date: OffsetDateTime, time: Long) {}
-
-    override fun resetDayStatsMonitor() {}
-    override fun resetWeekStatsMonitor() {}
-    override fun resetMonthStatsMonitor() {}
+    override val dayStats = MutableLiveData(dayStatsList.toList())
+    override val weekStats = MutableLiveData(weekStatsList.toList())
+    override val monthStats = MutableLiveData(monthStatsList.toList())
 }

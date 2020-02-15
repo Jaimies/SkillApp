@@ -9,8 +9,8 @@ class ConvertersTest {
     @Test
     fun getMins() {
 
-        assertThat(getMins(10, 30), `is`(630L))
-        assertThat(getMins(3, 49), `is`(229L))
-        assertThat(getMins(18, 17), `is`(1097L))
+        assertThat(getMins(10, 30), `is`(630))
+        assertThat(getMins(3, 49), `is`(229))
+        assertThat(getMins(18, 17), `is`(1097))
     }
 }

@@ -9,7 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.FakeActivitiesRepository
-import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -41,7 +41,8 @@ class ActivityDetailFragmentTest {
     fun showTaskDetails_displayedInUi() = runBlockingTest {
 
         // GIVEN - Add an activity to the database
-        val activity = Activity(name = "Activity name").also { repository.addActivity(it) }
+        repository.addActivity("Activity name")
+        val activity = repository.getActivityById("0").value!!.mapToPresentation()
 
         // WHEN - The fragment is launched to display task details
         val bundle = ActivityDetailFragmentArgs(activity).toBundle()

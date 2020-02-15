@@ -121,6 +121,9 @@ dependencies {
     // Paging
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
+    // Androidx Preference library
+    implementation "androidx.preference:preference-ktx:$Versions.preference"
+
     // java.time.* backport for Android
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
 

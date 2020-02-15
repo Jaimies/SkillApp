@@ -11,12 +11,12 @@ import javax.inject.Singleton
 
 interface UserDataSource {
 
-    fun enablePreference(name: String, isEnabled: Boolean)
+    fun setPreferenceEnabled(name: String, isEnabled: Boolean)
 }
 
 interface FirestoreUserDataSource : UserDataSource {
 
-    fun getUser(): LiveData<User>?
+    val user: LiveData<User>?
 }
 
 @Singleton
@@ -25,11 +25,14 @@ class DefaultFirestoreUserDataSource @Inject constructor(authRepository: AuthRep
     FirestoreUserDataSource {
 
     private var userRef: DocumentReference? = null
-        get() = field.safeAccess()
+        get() {
+            reset()
+            return field
+        }
 
-    override fun getUser() = userRef?.watch(FirestoreUser::mapToDomain)
+    override val user get() = userRef?.watch(FirestoreUser::mapToDomain)
 
-    override fun enablePreference(name: String, isEnabled: Boolean) {
+    override fun setPreferenceEnabled(name: String, isEnabled: Boolean) {
 
         userRef?.update(name, isEnabled)
     }

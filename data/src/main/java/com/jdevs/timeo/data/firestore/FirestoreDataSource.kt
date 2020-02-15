@@ -13,7 +13,7 @@ abstract class FirestoreDataSource(private val authRepository: AuthRepository) {
 
     protected abstract fun resetRefs(uid: String)
 
-    private fun reset() {
+    protected fun reset() {
 
         val uid = authRepository.uid ?: return
 

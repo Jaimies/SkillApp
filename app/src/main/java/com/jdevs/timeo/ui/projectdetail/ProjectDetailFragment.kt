@@ -48,7 +48,7 @@ class ProjectDetailFragment : ActionBarFragment() {
             it.viewModel = viewModel
         }
 
-        viewModel.apply {
+        viewModel.run {
 
             project.observe(viewLifecycleOwner) { project -> setProject(project) }
 

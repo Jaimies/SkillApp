@@ -60,19 +60,23 @@ class OverviewFragment : Fragment() {
                 findNavController().navigate(R.id.projects_fragment_dest)
             }
 
-            if (!activitiesEnabled.value!!) return@run
+            activitiesEnabled.observe(viewLifecycleOwner) { isEnabled ->
 
-            binding.activitiesList.setupAdapter(activitiesAdapter)
+                if (isEnabled) {
 
-            topActivities.observe(viewLifecycleOwner) { list ->
+                    binding.activitiesList.setupAdapter(activitiesAdapter)
 
-                activitiesAdapter.setItems(list)
-                setActivitiesSize(list.size)
-            }
+                    topActivities.observe(viewLifecycleOwner) { list ->
 
-            observeEvent(navigateToActivities) {
+                        activitiesAdapter.setItems(list)
+                        setActivitiesSize(list.size)
+                    }
 
-                findNavController().navigate(R.id.activities_fragment_dest)
+                    observeEvent(navigateToActivities) {
+
+                        findNavController().navigate(R.id.activities_fragment_dest)
+                    }
+                }
             }
         }
 

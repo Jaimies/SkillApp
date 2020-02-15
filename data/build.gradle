@@ -68,6 +68,9 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$Versions.coroutinesPlay"
 
+    // Androidx Preference library
+    implementation "androidx.preference:preference-ktx:$Versions.preference"
+
     // java.time.* backport for Android
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
 

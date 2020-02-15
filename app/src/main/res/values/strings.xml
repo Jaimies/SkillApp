@@ -65,6 +65,7 @@
     <string name="no_data">No data available</string>
     <string name="projects">Projects</string>
     <string name="project_details">Project details</string>
+    <string name="general">General</string>
     <string name="calendar">Calendar</string>
     <string name="enable_activities">Enable activities</string>
     <string name="_500_hours">500 hours</string>

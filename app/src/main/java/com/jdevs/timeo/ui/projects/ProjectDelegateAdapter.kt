@@ -50,7 +50,7 @@ class ProjectDelegateAdapter : DelegateAdapter {
 
         init {
 
-            viewModel.apply {
+            viewModel.run {
 
                 navigateToDetails.observeEvent(lifecycleOwner) { navigateToDetails(adapterPosition) }
                 showRecordDialog.observeEvent(lifecycleOwner) {

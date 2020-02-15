@@ -2,35 +2,44 @@ package com.jdevs.timeo.ui.settings
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.jdevs.timeo.databinding.SettingsFragBinding
+import androidx.lifecycle.observe
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
+import com.jdevs.timeo.R
 import com.jdevs.timeo.util.appComponent
 import javax.inject.Inject
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var viewModel: SettingsViewModel
+    private lateinit var activitiesEnabled: SwitchPreference
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         appComponent.inject(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
-        val binding = SettingsFragBinding.inflate(inflater, container, false).also {
+        setPreferencesFromResource(R.xml.settings, rootKey)
 
-            it.lifecycleOwner = this
-            it.viewModel = viewModel
+        activitiesEnabled = findPreference("activitiesEnabled")!!
+
+        activitiesEnabled.setOnPreferenceChangeListener { _, newValue ->
+
+            viewModel.setActivitiesEnabled(newValue as Boolean)
+            true
         }
+    }
 
-        return binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.activitiesEnabled.observe(viewLifecycleOwner) { newValue ->
+
+            activitiesEnabled.isChecked = newValue
+        }
     }
 }

@@ -1,19 +1,23 @@
 package com.jdevs.timeo.data.settings
 
-import android.content.SharedPreferences
+import android.content.Context
+import androidx.preference.PreferenceManager
 import javax.inject.Inject
+import javax.inject.Singleton
 
 interface LocalUserDataSource : UserDataSource {
 
     fun getPreferenceEnabled(name: String, defValue: Boolean): Boolean
 }
 
-class DefaultLocalUserDataSource @Inject constructor(private val sharedPrefs: SharedPreferences) :
-    LocalUserDataSource {
+@Singleton
+class DefaultLocalUserDataSource @Inject constructor(context: Context) : LocalUserDataSource {
+
+    private val sharedPrefs by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
 
     override fun getPreferenceEnabled(name: String, defValue: Boolean) =
         sharedPrefs.getBoolean(name, defValue)
 
-    override fun enablePreference(name: String, isEnabled: Boolean) =
+    override fun setPreferenceEnabled(name: String, isEnabled: Boolean) =
         sharedPrefs.edit().putBoolean(name, isEnabled).apply()
 }

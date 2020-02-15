@@ -17,7 +17,9 @@ class DefaultActivitiesRepository @Inject constructor(
 ), ActivitiesRepository {
 
     override val activities get() = localDataSource.activities
-    override val activitiesRemote get() = remoteDataSource.activities
+    override fun getRemoteActivities(fetchNewItems: Boolean) =
+        remoteDataSource.getActivities(fetchNewItems)
+
     override val topActivities get() = currentDataSource.getTopActivities()
 
     override fun getActivityById(id: String) = currentDataSource.getActivityById(id)

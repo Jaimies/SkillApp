@@ -6,5 +6,6 @@ import javax.inject.Inject
 class GetActivitiesUseCase @Inject constructor(private val activitiesRepository: ActivitiesRepository) {
 
     val activities get() = activitiesRepository.activities
-    val activitiesRemote get() = activitiesRepository.activitiesRemote
+    fun getActivitiesRemote(fetchNewItems: Boolean) =
+        activitiesRepository.getRemoteActivities(fetchNewItems)
 }

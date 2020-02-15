@@ -9,7 +9,7 @@ import com.jdevs.timeo.model.ViewItem
 abstract class ListViewModel<T : ViewItem> : LoaderViewModel(isLoadingByDefault = true) {
 
     abstract val localLiveData: LiveData<out PagedList<out T>>
-    abstract val remoteLiveDatas: List<LiveData<out OperationItem<out T>>>
+    abstract fun getRemoteLiveDatas(fetchNewItems: Boolean): List<LiveData<out OperationItem<out T>>>
 
     val isEmpty: LiveData<Boolean> get() = _isEmpty
     private val _isEmpty = MutableLiveData(true)

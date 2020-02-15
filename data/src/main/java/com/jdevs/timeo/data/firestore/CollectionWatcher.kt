@@ -34,11 +34,11 @@ class CollectionWatcher<T : Any>(
         liveDatas.clear()
     }
 
-    fun getLiveDataList(): List<ListLiveData<*, T>> {
+    fun getLiveDataList(fetchNewItems: Boolean): List<ListLiveData<*, T>> {
 
         val lastItem = lastVisibleItem
 
-        if (!isLastItemReached) {
+        if (!isLastItemReached && (fetchNewItems || liveDatas.size == 0)) {
 
             if (lastItem != null) {
 

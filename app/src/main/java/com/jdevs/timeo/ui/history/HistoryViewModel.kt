@@ -23,7 +23,8 @@ class HistoryViewModel @Inject constructor(
     override val localLiveData
         get() = getRecords.records.map(Record::mapToPresentation).toLiveData(RECORDS_PAGE_SIZE)
 
-    override val remoteLiveDatas get() = getRecords.recordsRemote.mapTo(Record::mapToPresentation)
+    override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
+        getRecords.getRecordsRemote(fetchNewItems).mapTo(Record::mapToPresentation)
 
     fun deleteRecord(record: RecordItem) = viewModelScope.launch {
 

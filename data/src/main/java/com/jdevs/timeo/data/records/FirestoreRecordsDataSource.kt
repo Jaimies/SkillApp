@@ -35,7 +35,7 @@ import javax.inject.Singleton
 
 interface RecordsRemoteDataSource : RecordsDataSource {
 
-    val records: List<LiveData<Operation<Record>>>
+    fun getRecords(fetchNewItems: Boolean): List<LiveData<Operation<Record>>>
 
     override suspend fun addRecord(record: Record)
 }
@@ -48,7 +48,8 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
     private val recordsWatcher =
         createCollectionWatcher(PAGE_SIZE, FirestoreRecord::mapToDomain, TIMESTAMP)
 
-    override val records get() = recordsWatcher.safeAccess().getLiveDataList()
+    override fun getRecords(fetchNewItems: Boolean) =
+        recordsWatcher.safeAccess().getLiveDataList(fetchNewItems)
 
     private var recordsRef: CollectionReference by SafeAccess()
     private var activitiesRef: CollectionReference by SafeAccess()

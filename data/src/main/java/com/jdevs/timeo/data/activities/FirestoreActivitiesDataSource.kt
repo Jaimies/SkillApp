@@ -21,7 +21,7 @@ import javax.inject.Singleton
 
 interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
-    val activities: List<LiveData<Operation<Activity>>>
+    fun getActivities(fetchNewItems: Boolean): List<LiveData<Operation<Activity>>>
 }
 
 @Singleton
@@ -32,7 +32,8 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     private val activitiesWatcher =
         createCollectionWatcher(PAGE_SIZE, FirestoreActivity::mapToDomain)
 
-    override val activities get() = activitiesWatcher.getLiveDataList()
+    override fun getActivities(fetchNewItems: Boolean) =
+        activitiesWatcher.safeAccess().getLiveDataList(fetchNewItems)
 
     private var activitiesRef: CollectionReference by SafeAccess()
     private var recordsRef: CollectionReference by SafeAccess()

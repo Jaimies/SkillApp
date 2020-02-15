@@ -8,7 +8,7 @@ import com.jdevs.timeo.domain.model.Project
 interface ProjectsRepository {
 
     val projects: DataSource.Factory<Int, Project>
-    val projectsRemote: List<LiveData<Operation<Project>>>
+    fun getProjectsRemote(fetchNewItems: Boolean): List<LiveData<Operation<Project>>>
 
     val topProjects: LiveData<List<Project>>
 

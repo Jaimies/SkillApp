@@ -8,7 +8,7 @@ import com.jdevs.timeo.domain.model.Record
 interface RecordsRepository {
 
     val records: DataSource.Factory<Int, Record>
-    val recordsRemote: List<LiveData<Operation<Record>>>
+    fun getRecordsRemote(fetchNewItems: Boolean): List<LiveData<Operation<Record>>>
 
     suspend fun addRecord(record: Record)
 

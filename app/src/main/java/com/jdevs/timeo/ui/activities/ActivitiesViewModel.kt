@@ -25,7 +25,9 @@ class ActivitiesViewModel @Inject constructor(
         get() = getActivities.activities
             .map(Activity::mapToPresentation).toLiveData(ACTIVITIES_PAGE_SIZE)
 
-    override val remoteLiveDatas get() = getActivities.activitiesRemote.mapTo(Activity::mapToPresentation)
+    override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
+        getActivities.getActivitiesRemote(fetchNewItems).mapTo(Activity::mapToPresentation)
+
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
     fun createRecord(activity: ActivityItem, time: Int) = viewModelScope.launch {

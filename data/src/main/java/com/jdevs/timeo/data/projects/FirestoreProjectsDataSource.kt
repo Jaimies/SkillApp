@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 interface ProjectsRemoteDataSource : ProjectsDataSource {
 
-    val projects: List<LiveData<Operation<Project>>>
+    fun getProjects(fetchNewItems: Boolean): List<LiveData<Operation<Project>>>
 }
 
 @Singleton
@@ -25,7 +25,8 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
 
     private val projectsWatcher = createCollectionWatcher(PAGE_SIZE, FirestoreProject::mapToDomain)
 
-    override val projects get() = projectsWatcher.safeAccess().getLiveDataList()
+    override fun getProjects(fetchNewItems: Boolean) =
+        projectsWatcher.safeAccess().getLiveDataList(fetchNewItems)
 
     private var projectsRef by SafeAccess<CollectionReference>()
 

@@ -18,7 +18,8 @@ class ProjectsViewModel @Inject constructor(private val getProjects: GetProjects
     override val localLiveData
         get() = getProjects.projects.map(Project::mapToPresentation).toLiveData(PROJECTS_PAGE_SIZE)
 
-    override val remoteLiveDatas get() = getProjects.projectsRemote.mapTo(Project::mapToPresentation)
+    override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
+        getProjects.getProjectsRemote(fetchNewItems).mapTo(Project::mapToPresentation)
 
     val navigateToAddActivity = SingleLiveEvent<Any>()
     fun navigateToAddActivity() = navigateToAddActivity.call()

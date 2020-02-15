@@ -6,5 +6,6 @@ import javax.inject.Inject
 class GetProjectsUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
 
     val projects get() = projectsRepository.projects
-    val projectsRemote get() = projectsRepository.projectsRemote
+    fun getProjectsRemote(fetchNewItems: Boolean) =
+        projectsRepository.getProjectsRemote(fetchNewItems)
 }

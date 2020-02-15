@@ -45,10 +45,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
         if (authRepository.isUserSignedIn) {
 
-            for (liveData in viewModel.remoteLiveDatas) {
-
-                observeItemsLiveData(liveData)
-            }
+            viewModel.getRemoteLiveDatas(false).forEach(::observeListLiveData)
         } else {
 
             observeLiveData(viewModel.localLiveData)
@@ -57,7 +54,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private fun observeLiveData(liveData: LiveData<out PagedList<*>>) {
+    private fun observeLiveData(liveData: LiveData<out PagedList<out ViewItem>>) {
 
         liveData as LiveData<PagedList<ViewItem>>
 
@@ -69,7 +66,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
         }
     }
 
-    private fun observeItemsLiveData(liveData: LiveData<out OperationItem<out T>>) {
+    private fun observeListLiveData(liveData: LiveData<out OperationItem<out T>>) {
 
         if (liveData.hasObservers()) {
 
@@ -107,7 +104,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
             addOnScrollListener(InfiniteScrollListener(linearLayoutManager, visibleThreshold) {
 
-                viewModel.remoteLiveDatas.forEach(::observeItemsLiveData)
+                viewModel.getRemoteLiveDatas(true).forEach(::observeListLiveData)
             })
         }
     }

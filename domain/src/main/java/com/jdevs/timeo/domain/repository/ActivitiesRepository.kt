@@ -8,7 +8,7 @@ import com.jdevs.timeo.domain.model.Operation
 interface ActivitiesRepository {
 
     val activities: DataSource.Factory<Int, Activity>
-    val activitiesRemote: List<LiveData<Operation<Activity>>>
+    fun getRemoteActivities(fetchNewItems: Boolean): List<LiveData<Operation<Activity>>>
 
     val topActivities: LiveData<List<Activity>>
 

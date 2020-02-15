@@ -21,8 +21,12 @@ inline fun <reified I : Any, O> CollectionReference.watchCollection(
         .addSnapshotListener { querySnapshot, _ ->
 
             querySnapshot?.documents?.mapNotNull {
+
                 it.toObject(I::class.java)
-            }?.let { liveData.value = it.map(mapFunction) }
+            }?.let {
+
+                liveData.value = it.map(mapFunction)
+            }
         }
 
     return liveData
@@ -34,7 +38,10 @@ inline fun <reified I : Any, O> DocumentReference.watch(crossinline mapFunction:
 
     addSnapshotListener { documentSnapshot, _ ->
 
-        documentSnapshot?.toObject(I::class.java)?.let { liveData.value = mapFunction(it) }
+        documentSnapshot?.toObject(I::class.java)?.let {
+
+            liveData.value = mapFunction(it)
+        }
     }
 
     return liveData

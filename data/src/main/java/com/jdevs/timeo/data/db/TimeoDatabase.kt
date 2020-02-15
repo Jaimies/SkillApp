@@ -17,7 +17,10 @@ import com.jdevs.timeo.data.stats.DBWeekStats
 import com.jdevs.timeo.data.stats.StatsDao
 
 @Database(
-    entities = [DBActivity::class, DBProject::class, DBRecord::class, DBDayStats::class, DBWeekStats::class, DBMonthStats::class],
+    entities = [
+        DBActivity::class, DBProject::class, DBRecord::class,
+        DBDayStats::class, DBWeekStats::class, DBMonthStats::class
+    ],
     version = 1,
     exportSchema = false
 )
@@ -31,13 +34,11 @@ abstract class TimeoDatabase : RoomDatabase() {
 
     companion object {
 
-        private const val DATABASE_NAME = "timeo"
-
         fun create(context: Context): TimeoDatabase {
 
             return Room.databaseBuilder(
                 context.applicationContext,
-                TimeoDatabase::class.java, DATABASE_NAME
+                TimeoDatabase::class.java, "timeo"
             )
                 .fallbackToDestructiveMigration()
                 .build()

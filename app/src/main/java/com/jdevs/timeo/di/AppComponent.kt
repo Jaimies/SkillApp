@@ -1,6 +1,11 @@
 package com.jdevs.timeo.di
 
 import android.content.Context
+import com.jdevs.timeo.data.di.ActivitiesModule
+import com.jdevs.timeo.data.di.DatabaseModule
+import com.jdevs.timeo.data.di.ProjectsModule
+import com.jdevs.timeo.data.di.RecordsModule
+import com.jdevs.timeo.data.di.StatsModule
 import com.jdevs.timeo.ui.activities.ActivitiesFragment
 import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragment
 import com.jdevs.timeo.ui.addactivity.AddEditActivityFragment
@@ -18,7 +23,12 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [RepositoryModule::class, AuthModule::class, SettingsModule::class])
+@Component(
+    modules = [
+        ActivitiesModule::class, RecordsModule::class, ProjectsModule::class,
+        StatsModule::class, DatabaseModule::class, AuthModule::class, SettingsModule::class
+    ]
+)
 interface AppComponent {
 
     @Component.Factory

@@ -2,12 +2,12 @@ package com.jdevs.timeo.data.records
 
 import androidx.paging.DataSource
 import com.jdevs.timeo.data.db.TimeoDatabase
+import com.jdevs.timeo.data.util.runInTransactionSuspend
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.shared.time.getDaysSinceEpoch
 import com.jdevs.timeo.shared.time.getMonthSinceEpoch
 import com.jdevs.timeo.shared.time.getWeeksSinceEpoch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
@@ -33,27 +33,21 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
 
     override suspend fun addRecord(record: Record) = withContext(Dispatchers.IO) {
 
-        db.runInTransaction {
+        db.runInTransactionSuspend {
 
-            launch {
-
-                db.recordsDao().insert(record.mapToDB())
-                db.activitiesDao().increaseTime(record.activityId.toInt(), record.time)
-                registerStats(record.time, record.creationDate)
-            }
+            db.recordsDao().insert(record.mapToDB())
+            db.activitiesDao().increaseTime(record.activityId.toInt(), record.time)
+            registerStats(record.time, record.creationDate)
         }
     }
 
     override suspend fun deleteRecord(record: Record) = withContext(Dispatchers.IO) {
 
-        db.runInTransaction {
+        db.runInTransactionSuspend {
 
-            launch {
-
-                db.recordsDao().delete(record.mapToDB())
-                db.activitiesDao().increaseTime(record.activityId.toInt(), -record.time)
-                registerStats(-record.time, record.creationDate)
-            }
+            db.recordsDao().delete(record.mapToDB())
+            db.activitiesDao().increaseTime(record.activityId.toInt(), -record.time)
+            registerStats(-record.time, record.creationDate)
         }
     }
 

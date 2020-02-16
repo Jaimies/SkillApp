@@ -125,7 +125,7 @@ class AddEditActivityFragment : ActionBarFragment() {
             return true
         }
 
-        return super.onOptionsItemSelected(item)
+        return false
     }
 
     private fun setNameError(@StringRes resId: Int) = viewModel.setNameError(getString(resId))

@@ -18,6 +18,5 @@ abstract class ActionBarFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
         if (menuId != -1) inflater.inflate(menuId, menu)
-        super.onCreateOptionsMenu(menu, inflater)
     }
 }

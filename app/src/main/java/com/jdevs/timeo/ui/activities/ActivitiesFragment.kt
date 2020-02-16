@@ -35,7 +35,6 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
     override lateinit var viewModel: ActivitiesViewModel
 
     override val menuId = R.menu.activities_fragment_menu
-    private lateinit var menu: Menu
     private var isLoadEventHandled = false
 
     override fun onAttach(context: Context) {
@@ -68,23 +67,19 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
 
-        this.menu = menu
-
         if (!isLoadEventHandled) {
 
-            menu.forEach { it.isEnabled = false }
+            menu.forEach { menuItem -> menuItem.isEnabled = false }
 
             viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
 
                 if (!isLoadEventHandled && !isLoading) {
 
-                    menu.forEach { it.isEnabled = true }
+                    menu.forEach { menuItem -> menuItem.isEnabled = true }
                     isLoadEventHandled = true
                 }
             }
         }
-
-        super.onPrepareOptionsMenu(menu)
     }
 
     private fun navigateToDetails(index: Int) {

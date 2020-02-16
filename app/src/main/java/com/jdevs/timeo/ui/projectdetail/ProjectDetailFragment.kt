@@ -50,9 +50,10 @@ class ProjectDetailFragment : ActionBarFragment() {
 
         viewModel.run {
 
-            project.observe(viewLifecycleOwner) { project -> setProject(project) }
+            project.observe(viewLifecycleOwner, ::setProject)
 
             observeEvent(showRecordDialog) {
+
                 RecordDialog(context!!) { time -> addRecord(project.value!!, time) }.show()
             }
         }
@@ -71,6 +72,6 @@ class ProjectDetailFragment : ActionBarFragment() {
             return true
         }
 
-        return super.onOptionsItemSelected(item)
+        return false
     }
 }

@@ -45,38 +45,39 @@ class OverviewFragment : Fragment() {
             it.viewModel = viewModel
         }
 
-        viewModel.run {
+        binding.projectsList.setupAdapter(projectsAdapter)
 
-            binding.projectsList.setupAdapter(projectsAdapter)
+        viewModel.topProjects.observe(viewLifecycleOwner) { list ->
 
-            topProjects.observe(viewLifecycleOwner) { list ->
+            projectsAdapter.setItems(list)
+            viewModel.setProjectsSize(list.size)
+        }
 
-                projectsAdapter.setItems(list)
-                setProjectsSize(list.size)
-            }
+        observeEvent(viewModel.navigateToProjects) {
 
-            observeEvent(navigateToProjects) {
+            findNavController().navigate(R.id.projects_fragment_dest)
+        }
 
-                findNavController().navigate(R.id.projects_fragment_dest)
-            }
+        viewModel.activitiesEnabled.observe(viewLifecycleOwner) { isEnabled ->
 
-            activitiesEnabled.observe(viewLifecycleOwner) { isEnabled ->
+            if (isEnabled) {
 
-                if (isEnabled) {
+                binding.activitiesList.setupAdapter(activitiesAdapter)
 
-                    binding.activitiesList.setupAdapter(activitiesAdapter)
+                viewModel.topActivities.observe(viewLifecycleOwner) { list ->
 
-                    topActivities.observe(viewLifecycleOwner) { list ->
-
-                        activitiesAdapter.setItems(list)
-                        setActivitiesSize(list.size)
-                    }
-
-                    observeEvent(navigateToActivities) {
-
-                        findNavController().navigate(R.id.activities_fragment_dest)
-                    }
+                    activitiesAdapter.setItems(list)
+                    viewModel.setActivitiesSize(list.size)
                 }
+
+                observeEvent(viewModel.navigateToActivities) {
+
+                    findNavController().navigate(R.id.activities_fragment_dest)
+                }
+            } else {
+
+                viewModel.activitiesEnabled.removeObservers(viewLifecycleOwner)
+                viewModel.navigateToActivities.removeObservers(viewLifecycleOwner)
             }
         }
 

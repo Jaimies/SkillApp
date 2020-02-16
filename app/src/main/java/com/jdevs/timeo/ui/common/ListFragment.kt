@@ -26,7 +26,6 @@ import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.TAG
 import javax.inject.Inject
 
-@Suppress("UNCHECKED_CAST")
 abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
     protected abstract val viewModel: ListViewModel<T>
@@ -54,19 +53,18 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    private fun observeLiveData(liveData: LiveData<out PagedList<out ViewItem>>) {
-
-        liveData as LiveData<PagedList<ViewItem>>
+    @Suppress("UNCHECKED_CAST")
+    private fun observeLiveData(liveData: LiveData<PagedList<T>>) {
 
         liveData.observe(viewLifecycleOwner) {
 
-            adapter.submitList(it)
+            adapter.submitList(it as PagedList<ViewItem>)
             viewModel.setLength(it.size)
             viewModel.hideLoader()
         }
     }
 
-    private fun observeListLiveData(liveData: LiveData<out OperationItem<out T>>) {
+    private fun observeListLiveData(liveData: LiveData<OperationItem<T>>) {
 
         if (liveData.hasObservers()) {
 
@@ -109,6 +107,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     protected fun getItem(position: Int) = if (authRepository.isUserSignedIn) {
 
         firestoreAdapter.getItem(position)

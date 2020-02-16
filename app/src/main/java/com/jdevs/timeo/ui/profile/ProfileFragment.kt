@@ -34,18 +34,17 @@ class ProfileFragment : ActionBarFragment() {
 
         val binding = ProfileFragBinding.inflate(inflater, container, false)
 
-        binding.viewModel = viewModel.apply {
+        binding.viewModel = viewModel
 
-            observeEvent(navigateToSignIn) {
+        observeEvent(viewModel.navigateToSignIn) {
 
-                findNavController().navigate(R.id.signin_fragment_dest)
-            }
+            findNavController().navigate(R.id.signin_fragment_dest)
+        }
 
-            observeEvent(signOut) {
+        observeEvent(viewModel.signOut) {
 
-                signOut()
-                navigateToGraph(R.id.overview)
-            }
+            viewModel.signOut()
+            navigateToGraph(R.id.overview)
         }
 
         return binding.root

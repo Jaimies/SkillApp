@@ -80,7 +80,7 @@ class ActivityDetailFragment : ActionBarFragment() {
             return true
         }
 
-        return super.onOptionsItemSelected(item)
+        return false
     }
 
     companion object {

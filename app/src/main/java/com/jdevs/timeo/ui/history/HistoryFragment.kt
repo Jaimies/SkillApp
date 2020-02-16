@@ -1,7 +1,6 @@
 package com.jdevs.timeo.ui.history
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,7 @@ import javax.inject.Inject
 
 private const val RECORDS_VISIBLE_THRESHOLD = 12
 
-class HistoryFragment : ListFragment<RecordItem>(), DialogInterface.OnClickListener {
+class HistoryFragment : ListFragment<RecordItem>() {
 
     override val adapter by lazy {
         PagingAdapter(RecordDelegateAdapter(), showDeleteDialog = ::showDeleteDialog)
@@ -30,7 +29,6 @@ class HistoryFragment : ListFragment<RecordItem>(), DialogInterface.OnClickListe
     @Inject
     override lateinit var viewModel: HistoryViewModel
 
-    private var chosenItemIndex = -1
     override val menuId = -1
 
     override fun onAttach(context: Context) {
@@ -58,27 +56,18 @@ class HistoryFragment : ListFragment<RecordItem>(), DialogInterface.OnClickListe
 
     private fun showDeleteDialog(index: Int) {
 
-        chosenItemIndex = index
-
         AlertDialog.Builder(context!!)
             .setIcon(android.R.drawable.ic_delete)
             .setTitle(R.string.are_you_sure)
             .setMessage(R.string.sure_delete_record)
-            .setPositiveButton(R.string.yes, this)
+            .setPositiveButton(R.string.yes) { _, _ -> onDeleteClicked(index) }
             .setNegativeButton(R.string.no, null)
             .show()
     }
 
-    override fun onClick(dialog: DialogInterface?, which: Int) {
+    private fun onDeleteClicked(index: Int) {
 
-        if (chosenItemIndex == -1) {
-
-            return
-        }
-
-        viewModel.deleteRecord(record = getItem(chosenItemIndex))
-        chosenItemIndex = -1
-
+        viewModel.deleteRecord(record = getItem(index))
         showSnackbar(R.string.record_deleted)
     }
 }

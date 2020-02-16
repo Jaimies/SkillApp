@@ -21,13 +21,14 @@ inline fun List<ChartItem>.toChartData(
 
         val units = OffsetDateTime.now().decreaseByUnit(index.toLong()).getEpochUnits()
 
-        if (count { it.period == units } == 0) {
+        val item = singleOrNull { chartItem -> chartItem.period == units }
+
+        if (item == null || item.time < 0) {
 
             result.add(index, ChartItem(units, 0))
         } else {
 
-            val statsItem = single { it.period == units }
-            result.add(index, statsItem)
+            result.add(index, item)
         }
     }
 

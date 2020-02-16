@@ -1,6 +1,6 @@
 package com.jdevs.timeo
 
-import androidx.multidex.MultiDexApplication
+import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.jdevs.timeo.di.DaggerAppComponent
 import kotlinx.coroutines.CoroutineScope
@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 
-open class TimeoApplication : MultiDexApplication() {
+open class TimeoApplication : Application() {
 
     val ioScope = CoroutineScope(Dispatchers.IO + Job())
     val appComponent by lazy { initializeComponent() }

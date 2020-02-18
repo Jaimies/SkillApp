@@ -2,10 +2,13 @@ package com.jdevs.timeo.di
 
 import android.content.Context
 import com.jdevs.timeo.data.di.ActivitiesModule
+import com.jdevs.timeo.data.di.AuthModule
 import com.jdevs.timeo.data.di.DatabaseModule
 import com.jdevs.timeo.data.di.ProjectsModule
 import com.jdevs.timeo.data.di.RecordsModule
+import com.jdevs.timeo.data.di.SettingsModule
 import com.jdevs.timeo.data.di.StatsModule
+import com.jdevs.timeo.data.di.TasksModule
 import com.jdevs.timeo.ui.activities.ActivitiesFragment
 import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragment
 import com.jdevs.timeo.ui.addactivity.AddEditActivityFragment
@@ -18,6 +21,7 @@ import com.jdevs.timeo.ui.projects.ProjectsFragment
 import com.jdevs.timeo.ui.settings.SettingsFragment
 import com.jdevs.timeo.ui.signin.SignInFragment
 import com.jdevs.timeo.ui.signin.SignUpFragment
+import com.jdevs.timeo.ui.tasks.TasksFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -25,7 +29,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        ActivitiesModule::class, RecordsModule::class, ProjectsModule::class,
+        ActivitiesModule::class, RecordsModule::class, ProjectsModule::class, TasksModule::class,
         StatsModule::class, DatabaseModule::class, AuthModule::class, SettingsModule::class
     ]
 )
@@ -44,6 +48,7 @@ interface AppComponent {
     fun inject(fragment: HistoryFragment)
     fun inject(fragment: ActivityDetailFragment)
     fun inject(fragment: ProjectDetailFragment)
+    fun inject(fragment: TasksFragment)
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: SignInFragment)
     fun inject(fragment: SignUpFragment)

@@ -23,7 +23,7 @@
             android:text="@string/your_name"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/sign_in_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             app:hideIf="@{viewModel.isSignedIn}"
             tools:visibility="gone" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/sign_out_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

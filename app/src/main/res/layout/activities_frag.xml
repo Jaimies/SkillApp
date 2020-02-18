@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/there_is_nothing_here_yet" />
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/create_activity_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

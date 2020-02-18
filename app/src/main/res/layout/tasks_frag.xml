@@ -7,52 +7,39 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.projects.ProjectsViewModel" />
+            type="com.jdevs.timeo.ui.tasks.TasksViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.projects.ProjectsFragment">
+        tools:context=".ui.tasks.TasksFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/tasks_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingStart="@dimen/padding_default"
-            android:paddingTop="@dimen/padding_default"
-            android:paddingEnd="@dimen/padding_default"
-            android:paddingBottom="@dimen/padding_default"
             app:hideIf="@{viewModel.isEmpty || viewModel.isLoading}"
-            tools:itemCount="7"
-            tools:listitem="@layout/projects_item" />
+            tools:listitem="@layout/tasks_item" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical"
-            app:hideIf="@{!viewModel.isEmpty || viewModel.isLoading}"
+            app:hideIf="@{!viewModel.isEmpty || viewModel.isLoading()}"
             tools:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/there_is_nothing_here_yet" />
+                android:text="@string/no_tasks_yet" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_default"
-                android:onClick="@{() -> viewModel.navigateToAddActivity()}"
-                android:text="@string/create_project" />
+                android:text="@string/create_task" />
         </LinearLayout>
-
-        <include
-            android:id="@+id/preloader"
-            layout="@layout/preloader"
-            app:hideIf="@{!viewModel.isLoading}" />
     </FrameLayout>
 </layout>

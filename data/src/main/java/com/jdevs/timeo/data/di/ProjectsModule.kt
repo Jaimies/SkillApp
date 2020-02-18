@@ -13,11 +13,11 @@ import dagger.Module
 interface ProjectsModule {
 
     @Binds
-    fun provideProjectsRepository(repository: DefaultProjectsRepository): ProjectsRepository
+    fun provideRepository(repository: DefaultProjectsRepository): ProjectsRepository
 
     @Binds
-    fun provideProjectsRemoteDataSource(source: FirestoreProjectsDataSource): ProjectsRemoteDataSource
+    fun provideRemoteDataSource(source: FirestoreProjectsDataSource): ProjectsRemoteDataSource
 
     @Binds
-    fun provideProjectsLocalDataSource(source: RoomProjectsDataSource): ProjectsLocalDataSource
+    fun provideLocalDataSource(source: RoomProjectsDataSource): ProjectsLocalDataSource
 }

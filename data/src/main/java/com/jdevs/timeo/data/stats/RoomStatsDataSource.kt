@@ -1,10 +1,10 @@
 package com.jdevs.timeo.data.stats
 
 import androidx.lifecycle.LiveData
-import com.jdevs.timeo.data.util.map
 import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.WeekStats
+import com.jdevs.timeo.shared.util.map
 import javax.inject.Inject
 import javax.inject.Singleton
 

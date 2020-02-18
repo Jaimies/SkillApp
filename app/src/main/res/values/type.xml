@@ -23,6 +23,18 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="TextAppearance.Timeo.Headline4">
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:textColor">@color/colorTextSecondaryDark</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Timeo.Subtitle1">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="TextAppearance.Timeo.Body1">
         <item name="android:fontFamily">@font/montserrat_regular</item>
         <item name="android:textSize">11sp</item>

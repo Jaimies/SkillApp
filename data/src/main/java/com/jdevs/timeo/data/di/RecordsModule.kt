@@ -13,11 +13,11 @@ import dagger.Module
 interface RecordsModule {
 
     @Binds
-    fun provideRecordsRepository(repository: DefaultRecordsRepository): RecordsRepository
+    fun provideRepository(repository: DefaultRecordsRepository): RecordsRepository
 
     @Binds
-    fun provideRecordsRemoteDataSource(source: FirestoreRecordsDataSource): RecordsRemoteDataSource
+    fun provideRemoteDataSource(source: FirestoreRecordsDataSource): RecordsRemoteDataSource
 
     @Binds
-    fun provideRecordsLocalDataSource(source: RoomRecordsDataSource): RecordsLocalDataSource
+    fun provideLocalDataSource(source: RoomRecordsDataSource): RecordsLocalDataSource
 }

@@ -60,9 +60,9 @@
             android:gravity="center_horizontal"
             android:text="@string/per_week"
             android:textAppearance="@style/TextAppearance.Timeo.Body1"
-            app:layout_constraintEnd_toStartOf="@+id/days_spent_label"
+            app:layout_constraintEnd_toStartOf="@id/days_spent_label"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/per_week" />
+            app:layout_constraintTop_toBottomOf="@id/per_week" />
 
         <TextView
             android:id="@+id/days_spent"
@@ -106,8 +106,8 @@
             android:gravity="center_horizontal"
             android:text="@string/last_week"
             android:textAppearance="@style/TextAppearance.Timeo.Body1"
-            app:layout_constraintEnd_toStartOf="@+id/total_time_label"
-            app:layout_constraintStart_toEndOf="@+id/days_spent_label"
+            app:layout_constraintEnd_toStartOf="@id/total_time_label"
+            app:layout_constraintStart_toEndOf="@id/days_spent_label"
             app:layout_constraintTop_toBottomOf="@id/last_week" />
 
         <TextView
@@ -131,7 +131,7 @@
             android:text="@string/total"
             android:textAppearance="@style/TextAppearance.Timeo.Body1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/last_week_label"
+            app:layout_constraintStart_toEndOf="@id/last_week_label"
             app:layout_constraintTop_toBottomOf="@id/total_time" />
 
         <androidx.constraintlayout.widget.Barrier
@@ -141,14 +141,40 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="total_time_label,last_week_label,per_week_label" />
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tasks_title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_default"
-            android:onClick="@{() -> viewModel.showRecordDialog()}"
-            android:text="@string/add_record"
+            android:text="@string/tasks"
+            android:textAppearance="@style/TextAppearance.Timeo.Subtitle1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/info_barrier" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/section_background_dark"
+            android:orientation="vertical"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tasks_title">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tasks_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="3"
+                tools:listitem="@layout/tasks_item" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.goToTasks()}"
+                android:text="@string/show_more" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

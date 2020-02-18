@@ -12,9 +12,9 @@ class DefaultProjectsRepository @Inject constructor(
     private val remoteDataSource: ProjectsRemoteDataSource,
     private val localDataSource: ProjectsLocalDataSource,
     authRepository: AuthRepository
-) : Repository<ProjectsDataSource, ProjectsRemoteDataSource>(
-    remoteDataSource, localDataSource, authRepository
-), ProjectsRepository {
+) :
+    Repository<ProjectsDataSource>(remoteDataSource, localDataSource, authRepository),
+    ProjectsRepository {
 
     override val projects get() = localDataSource.projects
     override fun getProjectsRemote(fetchNewItems: Boolean) =

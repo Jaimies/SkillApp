@@ -1,4 +1,4 @@
-package com.jdevs.timeo.di
+package com.jdevs.timeo.data.di
 
 import com.jdevs.timeo.data.settings.DefaultFirestoreUserDataSource
 import com.jdevs.timeo.data.settings.DefaultLocalUserDataSource
@@ -13,11 +13,11 @@ import dagger.Module
 interface SettingsModule {
 
     @Binds
-    fun provideSettingsRepository(settingsRepository: DefaultSettingsRepository): SettingsRepository
+    fun provideRepository(settingsRepository: DefaultSettingsRepository): SettingsRepository
 
     @Binds
-    fun provideFirestoreUserDataSource(dataSource: DefaultFirestoreUserDataSource): FirestoreUserDataSource
+    fun provideRemoteDataSource(dataSource: DefaultFirestoreUserDataSource): FirestoreUserDataSource
 
     @Binds
-    fun provideSharedPrefsUserDataSource(dataSource: DefaultLocalUserDataSource): LocalUserDataSource
+    fun provideLocalDataSource(dataSource: DefaultLocalUserDataSource): LocalUserDataSource
 }

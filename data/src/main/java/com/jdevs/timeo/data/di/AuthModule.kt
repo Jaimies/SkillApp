@@ -1,4 +1,4 @@
-package com.jdevs.timeo.di
+package com.jdevs.timeo.data.di
 
 import com.jdevs.timeo.data.auth.DefaultAuthRepository
 import com.jdevs.timeo.domain.repository.AuthRepository
@@ -9,5 +9,5 @@ import dagger.Module
 interface AuthModule {
 
     @Binds
-    fun provideAuthRepository(authRepository: DefaultAuthRepository): AuthRepository
+    fun provideRepository(authRepository: DefaultAuthRepository): AuthRepository
 }

@@ -11,9 +11,8 @@ class DefaultStatsRepository @Inject constructor(
     remoteDataSource: StatsRemoteDataSource,
     localDataSource: StatsDataSource,
     authRepository: AuthRepository
-) : Repository<StatsDataSource, StatsRemoteDataSource>(
-    remoteDataSource, localDataSource, authRepository
-),
+) :
+    Repository<StatsDataSource>(remoteDataSource, localDataSource, authRepository),
     StatsRepository {
 
     override val dayStats get() = currentDataSource.dayStats

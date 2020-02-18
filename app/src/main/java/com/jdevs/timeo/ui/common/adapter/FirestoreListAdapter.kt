@@ -8,9 +8,11 @@ import com.jdevs.timeo.model.ViewType.ACTIVITY
 import com.jdevs.timeo.model.ViewType.LOADING
 import com.jdevs.timeo.model.ViewType.PROJECT
 import com.jdevs.timeo.model.ViewType.RECORD
+import com.jdevs.timeo.model.ViewType.TASK
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.history.RecordDelegateAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
+import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 
 class FirestoreListAdapter(
     private val createRecord: (Int, Int) -> Unit = { _, _ -> },
@@ -35,6 +37,7 @@ class FirestoreListAdapter(
         delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter())
         delegateAdapters.put(PROJECT, ProjectDelegateAdapter())
         delegateAdapters.put(RECORD, RecordDelegateAdapter())
+        delegateAdapters.put(TASK, TaskDelegateAdapter())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

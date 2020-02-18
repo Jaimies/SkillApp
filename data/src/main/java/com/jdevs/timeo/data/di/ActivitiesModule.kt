@@ -13,11 +13,11 @@ import dagger.Module
 interface ActivitiesModule {
 
     @Binds
-    fun provideActivitiesRepository(repository: DefaultActivitiesRepository): ActivitiesRepository
+    fun provideRepository(repository: DefaultActivitiesRepository): ActivitiesRepository
 
     @Binds
-    fun provideActivitiesRemoteDataSource(source: FirestoreActivitiesDataSource): ActivitiesRemoteDataSource
+    fun provideRemoteDataSource(source: FirestoreActivitiesDataSource): ActivitiesRemoteDataSource
 
     @Binds
-    fun provideActivitiesLocalDataSource(source: RoomActivitiesDataSource): ActivitiesLocalDataSource
+    fun provideLocalDataSource(source: RoomActivitiesDataSource): ActivitiesLocalDataSource
 }

@@ -12,9 +12,9 @@ class DefaultRecordsRepository @Inject constructor(
     private val remoteDataSource: RecordsRemoteDataSource,
     private val localDataSource: RecordsLocalDataSource,
     authRepository: AuthRepository
-) : Repository<RecordsDataSource, RecordsRemoteDataSource>(
-    remoteDataSource, localDataSource, authRepository
-), RecordsRepository {
+) :
+    Repository<RecordsDataSource>(remoteDataSource, localDataSource, authRepository),
+    RecordsRepository {
 
     override val records get() = localDataSource.records
     override fun getRecordsRemote(fetchNewItems: Boolean) =

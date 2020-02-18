@@ -13,11 +13,11 @@ import dagger.Module
 interface StatsModule {
 
     @Binds
-    fun provideStatsRepository(repository: DefaultStatsRepository): StatsRepository
+    fun provideRepository(repository: DefaultStatsRepository): StatsRepository
 
     @Binds
-    fun provideStatsLocalDataSource(source: RoomStatsDataSource): StatsDataSource
+    fun provideLocalDataSource(source: RoomStatsDataSource): StatsDataSource
 
     @Binds
-    fun provideStatsRemoteDataSource(source: FirestoreStatsDataSource): StatsRemoteDataSource
+    fun provideRemoteDataSource(source: FirestoreStatsDataSource): StatsRemoteDataSource
 }

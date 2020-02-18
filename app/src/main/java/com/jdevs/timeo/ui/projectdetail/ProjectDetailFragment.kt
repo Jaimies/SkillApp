@@ -11,15 +11,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProjectdetailFragBinding
-import com.jdevs.timeo.ui.activities.RecordDialog
+import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.ui.common.ActionBarFragment
+import com.jdevs.timeo.ui.common.adapter.ListAdapter
+import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.setupAdapter
 import javax.inject.Inject
 
 class ProjectDetailFragment : ActionBarFragment() {
 
     private val args: ProjectDetailFragmentArgs by navArgs()
+    private val adapter by lazy { ListAdapter<TaskItem>(TaskDelegateAdapter()) }
     override val menuId = R.menu.activity_detail_fragment_menu
 
     @Inject
@@ -48,14 +52,15 @@ class ProjectDetailFragment : ActionBarFragment() {
             it.viewModel = viewModel
         }
 
-        viewModel.run {
+        binding.tasksList.setupAdapter(adapter)
 
-            project.observe(viewLifecycleOwner, ::setProject)
+        viewModel.topTasks.observe(viewLifecycleOwner) { newItems ->
+            adapter.setItems(newItems)
+        }
 
-            observeEvent(showRecordDialog) {
-
-                RecordDialog(context!!) { time -> addRecord(project.value!!, time) }.show()
-            }
+        viewModel.project.observe(viewLifecycleOwner, viewModel::setProject)
+        observeEvent(viewModel.goToTasks) {
+            findNavController().navigate(R.id.tasks_fragment_dest)
         }
 
         return binding.root

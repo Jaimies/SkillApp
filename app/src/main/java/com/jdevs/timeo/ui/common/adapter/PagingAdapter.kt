@@ -1,12 +1,10 @@
 package com.jdevs.timeo.ui.common.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.util.getBaseContext
@@ -16,7 +14,7 @@ class PagingAdapter(
     private val createRecord: (Int, Int) -> Unit = { _, _ -> },
     private val navigateToDetails: (Int) -> Unit = {},
     private val showDeleteDialog: (Int) -> Unit = {}
-) : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(ITEMS_COMPARATOR) {
+) : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(DiffCallback) {
 
     override fun getItemViewType(index: Int) = getItem(index)?.viewType ?: -1
 
@@ -29,19 +27,6 @@ class PagingAdapter(
     }
 
     public override fun getItem(position: Int) = super.getItem(position)
-
-    companion object {
-
-        @SuppressLint("DiffUtilEquals")
-        private val ITEMS_COMPARATOR = object : DiffUtil.ItemCallback<ViewItem>() {
-
-            override fun areItemsTheSame(oldItem: ViewItem, newItem: ViewItem) =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: ViewItem, newItem: ViewItem) =
-                oldItem === newItem
-        }
-    }
 
     abstract class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 

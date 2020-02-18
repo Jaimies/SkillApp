@@ -13,6 +13,7 @@ class SpaceItemDecoration(private val offset: Int) : RecyclerView.ItemDecoration
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
+
         if (parent.getChildAdapterPosition(view) != 0) {
 
             outRect.left = parent.context.dpToPx(offset)

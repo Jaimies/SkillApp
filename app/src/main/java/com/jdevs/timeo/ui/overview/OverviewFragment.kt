@@ -10,8 +10,6 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.OverviewFragBinding
-import com.jdevs.timeo.model.ActivityItem
-import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
@@ -22,8 +20,8 @@ import javax.inject.Inject
 
 class OverviewFragment : Fragment() {
 
-    private val projectsAdapter by lazy { ListAdapter<ProjectItem>(ProjectDelegateAdapter()) }
-    private val activitiesAdapter by lazy { ListAdapter<ActivityItem>(ActivityDelegateAdapter()) }
+    private val projectsAdapter by lazy { ListAdapter(ProjectDelegateAdapter()) }
+    private val activitiesAdapter by lazy { ListAdapter(ActivityDelegateAdapter()) }
 
     @Inject
     lateinit var viewModel: OverviewViewModel
@@ -49,7 +47,7 @@ class OverviewFragment : Fragment() {
 
         viewModel.topProjects.observe(viewLifecycleOwner) { list ->
 
-            projectsAdapter.setItems(list)
+            projectsAdapter.submitList(list)
             viewModel.setProjectsSize(list.size)
         }
 
@@ -66,7 +64,7 @@ class OverviewFragment : Fragment() {
 
                 viewModel.topActivities.observe(viewLifecycleOwner) { list ->
 
-                    activitiesAdapter.setItems(list)
+                    activitiesAdapter.submitList(list)
                     viewModel.setActivitiesSize(list.size)
                 }
 

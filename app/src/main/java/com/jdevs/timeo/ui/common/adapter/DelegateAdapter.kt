@@ -21,5 +21,7 @@ interface DelegateAdapter {
     fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem)
 }
 
-fun <T : ViewModel> createViewModel(fragmentActivity: FragmentActivity, modelClass: KClass<T>) =
-    ViewModelProvider(fragmentActivity).get(UUID.randomUUID().toString(), modelClass.java)
+fun <T : ViewModel> createViewModel(fragmentActivity: FragmentActivity, modelClass: KClass<T>): T {
+
+    return ViewModelProvider(fragmentActivity).get(UUID.randomUUID().toString(), modelClass.java)
+}

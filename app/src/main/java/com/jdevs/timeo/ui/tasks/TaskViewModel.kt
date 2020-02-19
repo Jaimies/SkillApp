@@ -17,4 +17,9 @@ class TaskViewModel : ViewModel() {
         _name.value = task.name
         _isCompleted.value = task.isCompleted
     }
+
+    fun setCompleted(isCompleted: Boolean) {
+
+        _isCompleted.value = isCompleted
+    }
 }

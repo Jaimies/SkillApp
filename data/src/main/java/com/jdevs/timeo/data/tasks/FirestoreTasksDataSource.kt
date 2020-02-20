@@ -2,6 +2,7 @@ package com.jdevs.timeo.data.tasks
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.SetOptions
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionWatcher
 import com.jdevs.timeo.data.firestore.watchCollection
@@ -41,6 +42,11 @@ class FirestoreTasksDataSource @Inject constructor(authRepository: AuthRepositor
         tasksRef.document(task.id).delete()
     }
 
+    override suspend fun setTaskCompleted(taskId: String, isCompleted: Boolean) {
+
+        tasksRef.document(taskId).set(hashMapOf(IS_COMPLETED to isCompleted), SetOptions.merge())
+    }
+
     override fun resetRefs(uid: String) {
 
         tasksRef = createRef(uid, TASKS_COLLECTION, tasksWatcher)
@@ -49,6 +55,7 @@ class FirestoreTasksDataSource @Inject constructor(authRepository: AuthRepositor
     companion object {
 
         private const val TASKS_COLLECTION = "tasks"
+        private const val IS_COMPLETED = "isCompleted"
         private const val PAGE_SIZE = 20L
         private const val TOP_TASKS_COUNT = 3L
     }

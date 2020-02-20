@@ -23,7 +23,7 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
 
     override val adapter by lazy {
         PagingAdapter(
-            ProjectDelegateAdapter(), { _, _ -> showSnackbar(R.string.todo) }, ::navigateToDetails
+            ProjectDelegateAdapter({ _, _ -> showSnackbar(R.string.todo) }, ::navigateToDetails)
         )
     }
 

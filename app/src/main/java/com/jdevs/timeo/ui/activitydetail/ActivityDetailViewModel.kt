@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.Transformations.switchMap
-import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
@@ -24,13 +23,13 @@ import com.jdevs.timeo.ui.activities.ActivityDataViewModel
 import com.jdevs.timeo.ui.common.WeekDayFormatter
 import com.jdevs.timeo.ui.common.YearMonthFormatter
 import com.jdevs.timeo.ui.common.YearWeekFormatter
+import com.jdevs.timeo.util.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
 import com.jdevs.timeo.util.time.getHours
 import com.jdevs.timeo.util.toChartData
 import com.jdevs.timeo.util.toChartItem
-import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -100,7 +99,7 @@ class ActivityDetailViewModel @Inject constructor(
         setActivity(activity)
     }
 
-    fun addRecord(activity: ActivityItem, time: Int) = viewModelScope.launch {
+    fun addRecord(activity: ActivityItem, time: Int) = launchCoroutine {
 
         val record = Record(name = activity.name, time = time, activityId = activity.id)
 

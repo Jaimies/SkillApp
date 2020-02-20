@@ -20,9 +20,7 @@ private const val RECORDS_VISIBLE_THRESHOLD = 12
 
 class HistoryFragment : ListFragment<RecordItem>() {
 
-    override val adapter by lazy {
-        PagingAdapter(RecordDelegateAdapter(), showDeleteDialog = ::showDeleteDialog)
-    }
+    override val adapter by lazy { PagingAdapter(RecordDelegateAdapter(::showDeleteDialog)) }
 
     override val firestoreAdapter by lazy { FirestoreListAdapter(showDeleteDialog = ::showDeleteDialog) }
 

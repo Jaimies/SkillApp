@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.history
 
-import androidx.lifecycle.viewModelScope
 import androidx.paging.toLiveData
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.records.DeleteRecordUseCase
@@ -9,8 +8,8 @@ import com.jdevs.timeo.model.RecordItem
 import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
+import com.jdevs.timeo.util.launchCoroutine
 import com.jdevs.timeo.util.mapTo
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val RECORDS_PAGE_SIZE = 50
@@ -26,7 +25,7 @@ class HistoryViewModel @Inject constructor(
     override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
         getRecords.getRecordsRemote(fetchNewItems).mapTo(Record::mapToPresentation)
 
-    fun deleteRecord(record: RecordItem) = viewModelScope.launch {
+    fun deleteRecord(record: RecordItem) = launchCoroutine {
 
         deleteRecord.invoke(record.mapToDomain())
     }

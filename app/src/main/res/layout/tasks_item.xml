@@ -19,7 +19,7 @@
             style="@style/Widget.AppCompat.CompoundButton.RadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{viewModel.isCompleted}"
+            android:checked="@{viewModel.isCompletedInternal}"
             android:minWidth="0dp"
             android:minHeight="0dp"
             app:onChecked="@{viewModel::setCompleted}" />
@@ -31,7 +31,7 @@
             android:maxLines="2"
             android:text="@{viewModel.name}"
             android:textAppearance="@style/TextAppearance.Timeo.Headline4"
-            app:isCrossed="@{viewModel.isCompleted}"
+            app:isCrossed="@{viewModel.isCompletedInternal}"
             tools:text="Task name" />
     </LinearLayout>
 </layout>

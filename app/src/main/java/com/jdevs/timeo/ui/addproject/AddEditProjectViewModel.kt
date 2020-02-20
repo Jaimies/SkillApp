@@ -2,15 +2,14 @@ package com.jdevs.timeo.ui.addproject
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.domain.usecase.projects.AddProjectUseCase
 import com.jdevs.timeo.domain.usecase.projects.DeleteProjectUseCase
 import com.jdevs.timeo.domain.usecase.projects.SaveProjectUseCase
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
+import com.jdevs.timeo.util.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditProjectViewModel @Inject constructor(
@@ -46,17 +45,17 @@ class AddEditProjectViewModel @Inject constructor(
         saveProject.value = name.value.orEmpty() to description.value.orEmpty()
     }
 
-    fun addProject(name: String, description: String) = viewModelScope.launch {
+    fun addProject(name: String, description: String) = launchCoroutine {
 
         addProject.invoke(name, description)
     }
 
-    fun saveProject(project: ProjectItem) = viewModelScope.launch {
+    fun saveProject(project: ProjectItem) = launchCoroutine {
 
         saveProjectUseCase.invoke(project.mapToDomain())
     }
 
-    fun deleteProject(project: ProjectItem) = viewModelScope.launch {
+    fun deleteProject(project: ProjectItem) = launchCoroutine {
 
         deleteProject.invoke(project.mapToDomain())
     }

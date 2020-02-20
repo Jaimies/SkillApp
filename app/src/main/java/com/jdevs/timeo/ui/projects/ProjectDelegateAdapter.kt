@@ -10,17 +10,15 @@ import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.ui.common.adapter.createViewModel
+import com.jdevs.timeo.util.createViewModel
 import com.jdevs.timeo.util.fragmentActivity
 
-class ProjectDelegateAdapter : DelegateAdapter {
+class ProjectDelegateAdapter(
+    private val createRecord: (Int, Int) -> Unit = { _, _ -> },
+    private val navigateToDetails: (Int) -> Unit = {}
+) : DelegateAdapter {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        createRecord: (Int, Int) -> Unit,
-        navigateToDetails: (Int) -> Unit,
-        showDeleteDialog: (Int) -> Unit
-    ): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
         val fragmentActivity = parent.fragmentActivity

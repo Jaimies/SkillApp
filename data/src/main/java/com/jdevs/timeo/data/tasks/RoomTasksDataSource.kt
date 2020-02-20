@@ -13,6 +13,8 @@ interface TasksDataSource {
     suspend fun addTask(task: Task)
 
     suspend fun deleteTask(task: Task)
+
+    suspend fun setTaskCompleted(taskId: String, isCompleted: Boolean)
 }
 
 interface TasksLocalDataSource : TasksDataSource {
@@ -30,4 +32,9 @@ class RoomTasksDataSource @Inject constructor(private val tasksDao: TasksDao) :
     override suspend fun addTask(task: Task) = tasksDao.insert(task.mapToDB())
 
     override suspend fun deleteTask(task: Task) = tasksDao.delete(task.mapToDB())
+
+    override suspend fun setTaskCompleted(taskId: String, isCompleted: Boolean) {
+
+        tasksDao.setTaskCompleted(taskId.toInt(), isCompleted)
+    }
 }

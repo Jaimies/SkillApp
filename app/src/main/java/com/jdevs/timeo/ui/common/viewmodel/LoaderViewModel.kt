@@ -2,8 +2,7 @@ package com.jdevs.timeo.ui.common.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
+import com.jdevs.timeo.util.launchCoroutine
 
 open class LoaderViewModel(isLoadingByDefault: Boolean = false) : KeyboardHidingViewModel() {
 
@@ -29,7 +28,7 @@ open class LoaderViewModel(isLoadingByDefault: Boolean = false) : KeyboardHiding
 
         showLoader()
 
-        viewModelScope.launch {
+        launchCoroutine {
 
             try {
 

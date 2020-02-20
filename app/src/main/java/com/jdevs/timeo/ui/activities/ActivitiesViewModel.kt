@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.activities
 
-import androidx.lifecycle.viewModelScope
 import androidx.paging.toLiveData
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
@@ -9,9 +8,9 @@ import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
+import com.jdevs.timeo.util.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.mapTo
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val ACTIVITIES_PAGE_SIZE = 20
@@ -30,7 +29,7 @@ class ActivitiesViewModel @Inject constructor(
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
-    fun createRecord(activity: ActivityItem, time: Int) = viewModelScope.launch {
+    fun createRecord(activity: ActivityItem, time: Int) = launchCoroutine {
 
         val record = Record(name = activity.name, time = time, activityId = activity.id)
         addRecord(record)

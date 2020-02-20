@@ -24,7 +24,7 @@ private const val ACTIVITIES_VISIBLE_THRESHOLD = 5
 class ActivitiesFragment : ListFragment<ActivityItem>() {
 
     override val adapter by lazy {
-        PagingAdapter(ActivityDelegateAdapter(), ::createRecord, ::navigateToDetails)
+        PagingAdapter(ActivityDelegateAdapter(::createRecord, ::navigateToDetails))
     }
 
     override val firestoreAdapter by lazy {

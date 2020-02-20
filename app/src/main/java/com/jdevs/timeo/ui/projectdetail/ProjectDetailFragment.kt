@@ -22,7 +22,7 @@ import javax.inject.Inject
 class ProjectDetailFragment : ActionBarFragment() {
 
     private val args: ProjectDetailFragmentArgs by navArgs()
-    private val adapter by lazy { ListAdapter(TaskDelegateAdapter()) }
+    private val adapter by lazy { ListAdapter(TaskDelegateAdapter(viewModel::setTaskCompleted)) }
     override val menuId = R.menu.activity_detail_fragment_menu
 
     @Inject

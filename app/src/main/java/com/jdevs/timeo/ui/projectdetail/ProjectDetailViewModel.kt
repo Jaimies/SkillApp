@@ -8,9 +8,11 @@ import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.model.Task
 import com.jdevs.timeo.domain.usecase.projects.GetProjectByIdUseCase
 import com.jdevs.timeo.domain.usecase.tasks.GetTopTasksUseCase
+import com.jdevs.timeo.domain.usecase.tasks.SetTaskCompletedUseCase
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.shared.util.map
+import com.jdevs.timeo.util.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
@@ -19,13 +21,13 @@ import javax.inject.Inject
 
 class ProjectDetailViewModel @Inject constructor(
     private val getProjectById: GetProjectByIdUseCase,
-    private val getTopTasks: GetTopTasksUseCase
-) :
-    ViewModel() {
+    private val setTaskCompleted: SetTaskCompletedUseCase,
+    getTopTasks: GetTopTasksUseCase
+) : ViewModel() {
 
     lateinit var project: LiveData<ProjectItem>
 
-    val topTasks get() = map(getTopTasks(), Task::mapToPresentation)
+    val topTasks by lazy { map(getTopTasks(), Task::mapToPresentation) }
     val name: LiveData<String> get() = _name
     val description: LiveData<String> get() = _description
     val daysSpent: LiveData<String> get() = _daysSpent
@@ -55,6 +57,11 @@ class ProjectDetailViewModel @Inject constructor(
 
         this.project = map(getProjectById(project.id), Project::mapToPresentation)
         setProject(project)
+    }
+
+    fun setTaskCompleted(position: Int, isCompleted: Boolean) = launchCoroutine {
+
+        setTaskCompleted.invoke(topTasks.value!![position].id, isCompleted)
     }
 
     fun goToTasks() = goToTasks.call()

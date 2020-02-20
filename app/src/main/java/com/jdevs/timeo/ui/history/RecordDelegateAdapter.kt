@@ -11,17 +11,12 @@ import com.jdevs.timeo.model.RecordItem
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
-import com.jdevs.timeo.ui.common.adapter.createViewModel
+import com.jdevs.timeo.util.createViewModel
 import com.jdevs.timeo.util.fragmentActivity
 
-class RecordDelegateAdapter : DelegateAdapter {
+class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : DelegateAdapter {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        createRecord: (Int, Int) -> Unit,
-        navigateToDetails: (Int) -> Unit,
-        showDeleteDialog: (Int) -> Unit
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
         val fragmentActivity = parent.fragmentActivity
@@ -51,6 +46,7 @@ class RecordDelegateAdapter : DelegateAdapter {
         init {
 
             viewModel.showDeleteDialog.observeEvent(lifecycleOwner) {
+
                 showDeleteDialog(adapterPosition)
             }
         }

@@ -15,9 +15,10 @@ import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 
 class FirestoreListAdapter(
-    private val createRecord: (Int, Int) -> Unit = { _, _ -> },
-    private val navigateToDetails: (Int) -> Unit = {},
-    private val showDeleteDialog: (Int) -> Unit = {}
+    createRecord: (Int, Int) -> Unit = { _, _ -> },
+    navigateToDetails: (Int) -> Unit = {},
+    showDeleteDialog: (Int) -> Unit = {},
+    setTaskCompleted: (position: Int, isCompleted: Boolean) -> Unit = { _, _ -> }
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it.viewType != LOADING }.size
@@ -34,16 +35,15 @@ class FirestoreListAdapter(
     init {
 
         delegateAdapters.put(LOADING, LoadingDelegateAdapter())
-        delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter())
-        delegateAdapters.put(PROJECT, ProjectDelegateAdapter())
-        delegateAdapters.put(RECORD, RecordDelegateAdapter())
-        delegateAdapters.put(TASK, TaskDelegateAdapter())
+        delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter(createRecord, navigateToDetails))
+        delegateAdapters.put(PROJECT, ProjectDelegateAdapter(createRecord, navigateToDetails))
+        delegateAdapters.put(RECORD, RecordDelegateAdapter(showDeleteDialog))
+        delegateAdapters.put(TASK, TaskDelegateAdapter(setTaskCompleted))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        return delegateAdapters.get(viewType)
-            .onCreateViewHolder(parent, createRecord, navigateToDetails, showDeleteDialog)
+        return delegateAdapters.get(viewType).onCreateViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

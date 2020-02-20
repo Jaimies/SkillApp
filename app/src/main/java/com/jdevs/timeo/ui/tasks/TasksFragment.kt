@@ -18,8 +18,8 @@ class TasksFragment : ListFragment<TaskItem>() {
     @Inject
     override lateinit var viewModel: TasksViewModel
 
-    override val adapter by lazy { PagingAdapter(TaskDelegateAdapter()) }
-    override val firestoreAdapter by lazy { FirestoreListAdapter() }
+    override val adapter by lazy { PagingAdapter(TaskDelegateAdapter(::setTaskCompleted)) }
+    override val firestoreAdapter by lazy { FirestoreListAdapter(setTaskCompleted = ::setTaskCompleted) }
     override val menuId = -1
 
     override fun onAttach(context: Context) {
@@ -41,6 +41,11 @@ class TasksFragment : ListFragment<TaskItem>() {
         binding.tasksList.setup(PAGE_SIZE)
 
         return binding.root
+    }
+
+    private fun setTaskCompleted(position: Int, isCompleted: Boolean) {
+
+        viewModel.setTaskCompleted(getItem(position).id, isCompleted)
     }
 
     companion object {

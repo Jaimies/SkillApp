@@ -8,12 +8,7 @@ import com.jdevs.timeo.util.inflate
 
 class LoadingDelegateAdapter : DelegateAdapter {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        createRecord: (Int, Int) -> Unit,
-        navigateToDetails: (Int) -> Unit,
-        showDeleteDialog: (Int) -> Unit
-    ) = ViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup) = ViewHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {}
 

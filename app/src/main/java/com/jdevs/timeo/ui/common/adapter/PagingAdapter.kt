@@ -9,17 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.util.getBaseContext
 
-class PagingAdapter(
-    private val delegateAdapter: DelegateAdapter,
-    private val createRecord: (Int, Int) -> Unit = { _, _ -> },
-    private val navigateToDetails: (Int) -> Unit = {},
-    private val showDeleteDialog: (Int) -> Unit = {}
-) : PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(DiffCallback) {
+class PagingAdapter(private val delegateAdapter: DelegateAdapter) :
+    PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(DiffCallback) {
 
     override fun getItemViewType(index: Int) = getItem(index)?.viewType ?: -1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = delegateAdapter
-        .onCreateViewHolder(parent, createRecord, navigateToDetails, showDeleteDialog)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        return delegateAdapter.onCreateViewHolder(parent)
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 

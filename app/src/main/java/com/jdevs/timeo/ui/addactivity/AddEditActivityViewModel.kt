@@ -2,15 +2,14 @@ package com.jdevs.timeo.ui.addactivity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.jdevs.timeo.domain.usecase.activities.AddActivityUseCase
 import com.jdevs.timeo.domain.usecase.activities.DeleteActivityUseCase
 import com.jdevs.timeo.domain.usecase.activities.SaveActivityUseCase
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
+import com.jdevs.timeo.util.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditActivityViewModel @Inject constructor(
@@ -44,17 +43,17 @@ class AddEditActivityViewModel @Inject constructor(
         saveActivity.value = name.value.orEmpty()
     }
 
-    fun addActivity(name: String) = viewModelScope.launch {
+    fun addActivity(name: String) = launchCoroutine {
 
         addActivity.invoke(name)
     }
 
-    fun saveActivity(activity: ActivityItem) = viewModelScope.launch {
+    fun saveActivity(activity: ActivityItem) = launchCoroutine {
 
         saveActivityUseCase.invoke(activity.mapToDomain())
     }
 
-    fun deleteActivity(activity: ActivityItem) = viewModelScope.launch {
+    fun deleteActivity(activity: ActivityItem) = launchCoroutine {
 
         deleteActivity.invoke(activity.mapToDomain())
     }

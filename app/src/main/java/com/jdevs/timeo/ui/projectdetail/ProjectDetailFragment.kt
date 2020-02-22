@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -15,8 +17,13 @@ import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.contentView
+import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setupAdapter
+import com.jdevs.timeo.util.showKeyboard
+import com.jdevs.timeo.util.window
+import kotlinx.android.synthetic.main.add_task_layout.view.name_edit_text
 import javax.inject.Inject
 
 class ProjectDetailFragment : ActionBarFragment() {
@@ -24,6 +31,14 @@ class ProjectDetailFragment : ActionBarFragment() {
     private val args: ProjectDetailFragmentArgs by navArgs()
     private val adapter by lazy { ListAdapter(TaskDelegateAdapter(viewModel::setTaskCompleted)) }
     override val menuId = R.menu.activity_detail_fragment_menu
+
+    private val addTaskLayout by lazy {
+
+        window.findViewById(R.id.add_task_layout) ?: layoutInflater.inflate(
+            R.layout.add_task_layout,
+            contentView, false
+        ).also { contentView.addView(it) }
+    }
 
     @Inject
     lateinit var viewModel: ProjectDetailViewModel
@@ -60,6 +75,22 @@ class ProjectDetailFragment : ActionBarFragment() {
         viewModel.project.observe(viewLifecycleOwner, viewModel::setProject)
         observeEvent(viewModel.goToTasks) {
             findNavController().navigate(R.id.tasks_fragment_dest)
+        }
+
+        observeEvent(viewModel.addTask) {
+
+            addTaskLayout.run {
+
+                visibility = VISIBLE
+                name_edit_text.requestFocus()
+                name_edit_text.showKeyboard()
+
+                setOnClickListener {
+
+                    visibility = GONE
+                    hideKeyboard()
+                }
+            }
         }
 
         return binding.root

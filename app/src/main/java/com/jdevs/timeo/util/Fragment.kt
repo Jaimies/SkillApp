@@ -1,5 +1,7 @@
 package com.jdevs.timeo.util
 
+import android.view.ViewGroup
+import android.view.Window
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -27,6 +29,8 @@ inline fun <T> Fragment.observeEvent(event: SingleLiveEvent<T>, crossinline onEv
     event.observeEvent(viewLifecycleOwner) { onEvent(it) }
 }
 
-val Fragment.mainActivity get() = requireActivity() as MainActivity
-val Fragment.application get() = requireActivity().application as TimeoApplication
-val Fragment.appComponent get() = application.appComponent
+inline val Fragment.mainActivity get() = requireActivity() as MainActivity
+inline val Fragment.application get() = requireActivity().application as TimeoApplication
+inline val Fragment.appComponent get() = application.appComponent
+inline val Fragment.window get() = requireActivity().window as Window
+inline val Fragment.contentView: ViewGroup get() = window.findViewById(android.R.id.content)

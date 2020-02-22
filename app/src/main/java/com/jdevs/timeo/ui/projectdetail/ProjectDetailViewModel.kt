@@ -42,6 +42,7 @@ class ProjectDetailViewModel @Inject constructor(
     private val _totalTime = MutableLiveData("")
 
     val goToTasks = SingleLiveEvent<Any>()
+    val addTask = SingleLiveEvent<Any>()
 
     fun setProject(project: ProjectItem) {
 
@@ -65,4 +66,5 @@ class ProjectDetailViewModel @Inject constructor(
     }
 
     fun goToTasks() = goToTasks.call()
+    fun addTask() = addTask.call()
 }

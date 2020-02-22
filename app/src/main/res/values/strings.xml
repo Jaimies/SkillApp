@@ -34,7 +34,7 @@
     <string name="edit_project">Edit project</string>
     <string name="history">History</string>
     <string name="activities">Activities</string>
-    <string name="activity_details">Activity details</string>
+    <string name="activity_detail">Activity detail</string>
     <string name="total">total</string>
     <string name="last_week">last 7 days</string>
     <string name="day">Day</string>
@@ -63,7 +63,7 @@
     <string name="your_name">Your name</string>
     <string name="no_data">No data available</string>
     <string name="projects">Projects</string>
-    <string name="project_details">Project details</string>
+    <string name="project_detail">Project detail</string>
     <string name="general">General</string>
     <string name="calendar">Calendar</string>
     <string name="enable_activities">Enable activities</string>
@@ -75,4 +75,6 @@
     <string name="create_task">Create a task</string>
     <string name="tasks">Tasks</string>
     <string name="show_more">Show more</string>
+    <string name="add_task">Add a task</string>
+    <string name="task_example">e.g. polish the new feature</string>
 </resources>

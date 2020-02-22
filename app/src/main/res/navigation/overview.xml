@@ -25,7 +25,7 @@
     <fragment
         android:id="@+id/project_detail_fragment_dest"
         android:name="com.jdevs.timeo.ui.projectdetail.ProjectDetailFragment"
-        android:label="@string/project_details"
+        android:label="@string/project_detail"
         tools:layout="@layout/projectdetail_frag">
 
         <argument
@@ -92,7 +92,7 @@
     <fragment
         android:id="@+id/activity_detail_fragment_dest"
         android:name="com.jdevs.timeo.ui.activitydetail.ActivityDetailFragment"
-        android:label="@string/activity_details"
+        android:label="@string/activity_detail"
         tools:layout="@layout/activitydetail_frag">
 
         <argument

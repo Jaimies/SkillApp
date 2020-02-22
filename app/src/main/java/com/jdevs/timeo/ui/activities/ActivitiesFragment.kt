@@ -13,8 +13,6 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.ui.common.ListFragment
-import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
-import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.observeEvent
 import javax.inject.Inject
@@ -23,12 +21,9 @@ private const val ACTIVITIES_VISIBLE_THRESHOLD = 5
 
 class ActivitiesFragment : ListFragment<ActivityItem>() {
 
-    override val adapter by lazy {
-        PagingAdapter(ActivityDelegateAdapter(::createRecord, ::navigateToDetails))
-    }
 
-    override val firestoreAdapter by lazy {
-        FirestoreListAdapter(::createRecord, ::navigateToDetails)
+    override val delegateAdapter by lazy {
+        ActivityDelegateAdapter(::createRecord, ::navigateToDetails)
     }
 
     @Inject

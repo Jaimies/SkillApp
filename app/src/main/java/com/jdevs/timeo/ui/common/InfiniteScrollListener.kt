@@ -28,7 +28,7 @@ class InfiniteScrollListener(
 
             if (!isLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
 
-                onScrolled()
+                recyclerView.post { onScrolled() }
                 isLoading = true
             }
         }

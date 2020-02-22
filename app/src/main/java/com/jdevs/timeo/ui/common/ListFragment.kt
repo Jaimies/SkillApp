@@ -20,6 +20,7 @@ import com.jdevs.timeo.shared.OperationTypes.LAST_ITEM_REACHED
 import com.jdevs.timeo.shared.OperationTypes.MODIFIED
 import com.jdevs.timeo.shared.OperationTypes.REMOVED
 import com.jdevs.timeo.shared.OperationTypes.SUCCESSFUL
+import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
@@ -28,9 +29,11 @@ import javax.inject.Inject
 
 abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
+    protected abstract val delegateAdapter: DelegateAdapter
     protected abstract val viewModel: ListViewModel<T>
-    protected abstract val adapter: PagingAdapter
-    protected abstract val firestoreAdapter: FirestoreListAdapter
+
+    private val adapter by lazy { PagingAdapter(delegateAdapter) }
+    private val firestoreAdapter by lazy { FirestoreListAdapter(delegateAdapter) }
     private val currentAdapter get() = if (authRepository.isUserSignedIn) firestoreAdapter else adapter
 
     @Inject

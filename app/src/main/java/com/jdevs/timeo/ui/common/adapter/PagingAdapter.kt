@@ -12,8 +12,6 @@ import com.jdevs.timeo.util.getBaseContext
 class PagingAdapter(private val delegateAdapter: DelegateAdapter) :
     PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(DiffCallback) {
 
-    override fun getItemViewType(index: Int) = getItem(index)?.viewType ?: -1
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         return delegateAdapter.onCreateViewHolder(parent)

@@ -4,24 +4,11 @@ import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.model.ViewItem
-import com.jdevs.timeo.model.ViewType.ACTIVITY
-import com.jdevs.timeo.model.ViewType.LOADING
-import com.jdevs.timeo.model.ViewType.PROJECT
-import com.jdevs.timeo.model.ViewType.RECORD
-import com.jdevs.timeo.model.ViewType.TASK
-import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
-import com.jdevs.timeo.ui.history.RecordDelegateAdapter
-import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
-import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 
-class FirestoreListAdapter(
-    createRecord: (Int, Int) -> Unit = { _, _ -> },
-    navigateToDetails: (Int) -> Unit = {},
-    showDeleteDialog: (Int) -> Unit = {},
-    setTaskCompleted: (position: Int, isCompleted: Boolean) -> Unit = { _, _ -> }
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val dataItemCount get() = items.filter { it.viewType != LOADING }.size
+    val dataItemCount get() = items.filter { it != loadingItem }.size
 
     private val delegateAdapters = SparseArray<DelegateAdapter>()
     private val items = mutableListOf<ViewItem>()
@@ -29,16 +16,12 @@ class FirestoreListAdapter(
     private val loadingItem = object : ViewItem {
 
         override val id = ""
-        override val viewType = LOADING
     }
 
     init {
 
         delegateAdapters.put(LOADING, LoadingDelegateAdapter())
-        delegateAdapters.put(ACTIVITY, ActivityDelegateAdapter(createRecord, navigateToDetails))
-        delegateAdapters.put(PROJECT, ProjectDelegateAdapter(createRecord, navigateToDetails))
-        delegateAdapters.put(RECORD, RecordDelegateAdapter(showDeleteDialog))
-        delegateAdapters.put(TASK, TaskDelegateAdapter(setTaskCompleted))
+        delegateAdapters.put(ITEM, delegateAdapter)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -52,7 +35,8 @@ class FirestoreListAdapter(
     }
 
     override fun getItemCount() = items.size
-    override fun getItemViewType(position: Int) = items[position].viewType
+    override fun getItemViewType(position: Int) =
+        if (items[position] == loadingItem) LOADING else ITEM
 
     fun getItem(position: Int) = items[position]
 
@@ -107,5 +91,11 @@ class FirestoreListAdapter(
             items.removeAt(index)
             notifyItemRemoved(index)
         }
+    }
+
+    companion object {
+
+        private const val LOADING = 0
+        private const val ITEM = 1
     }
 }

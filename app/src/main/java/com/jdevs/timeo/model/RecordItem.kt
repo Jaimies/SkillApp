@@ -1,7 +1,6 @@
 package com.jdevs.timeo.model
 
 import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.model.ViewType.RECORD
 import org.threeten.bp.OffsetDateTime
 
 data class RecordItem(
@@ -10,10 +9,7 @@ data class RecordItem(
     val time: Int,
     val activityId: String,
     val creationDate: OffsetDateTime
-) : ViewItem {
-
-    override val viewType = RECORD
-}
+) : ViewItem
 
 fun Record.mapToPresentation() = RecordItem(id, name, time, activityId, creationDate)
 

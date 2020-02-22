@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 
 abstract class ActionBarFragment : Fragment() {
 
-    protected abstract val menuId: Int
+    protected open val menuId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

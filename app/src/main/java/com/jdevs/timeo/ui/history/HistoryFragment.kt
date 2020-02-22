@@ -10,8 +10,6 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.model.RecordItem
 import com.jdevs.timeo.ui.common.ListFragment
-import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
-import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.showSnackbar
 import javax.inject.Inject
@@ -20,14 +18,10 @@ private const val RECORDS_VISIBLE_THRESHOLD = 12
 
 class HistoryFragment : ListFragment<RecordItem>() {
 
-    override val adapter by lazy { PagingAdapter(RecordDelegateAdapter(::showDeleteDialog)) }
-
-    override val firestoreAdapter by lazy { FirestoreListAdapter(showDeleteDialog = ::showDeleteDialog) }
+    override val delegateAdapter by lazy { RecordDelegateAdapter(::showDeleteDialog) }
 
     @Inject
     override lateinit var viewModel: HistoryViewModel
-
-    override val menuId = -1
 
     override fun onAttach(context: Context) {
 

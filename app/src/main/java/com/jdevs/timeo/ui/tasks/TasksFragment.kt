@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import com.jdevs.timeo.databinding.TasksFragBinding
 import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.ui.common.ListFragment
-import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
-import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.appComponent
 import javax.inject.Inject
 
@@ -18,9 +16,7 @@ class TasksFragment : ListFragment<TaskItem>() {
     @Inject
     override lateinit var viewModel: TasksViewModel
 
-    override val adapter by lazy { PagingAdapter(TaskDelegateAdapter(::setTaskCompleted)) }
-    override val firestoreAdapter by lazy { FirestoreListAdapter(setTaskCompleted = ::setTaskCompleted) }
-    override val menuId = -1
+    override val delegateAdapter by lazy { TaskDelegateAdapter(::setTaskCompleted) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

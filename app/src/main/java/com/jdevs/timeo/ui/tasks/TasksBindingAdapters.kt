@@ -7,13 +7,13 @@ import androidx.core.util.Consumer
 import androidx.databinding.BindingAdapter
 
 @BindingAdapter("isCrossed")
-fun setTextCrossed(textView: TextView, isCrossed: Boolean?) {
+fun TextView.setTextCrossed(isCrossed: Boolean?) {
 
-    textView.paintFlags = if (isCrossed == true) Paint.STRIKE_THRU_TEXT_FLAG else 0
+    paintFlags = if (isCrossed == true) Paint.STRIKE_THRU_TEXT_FLAG else 0
 }
 
 @BindingAdapter("onChecked")
-fun setOnCheckedListener(checkBox: CheckBox, onChecked: Consumer<Boolean>) {
+fun CheckBox.setOnCheckedListener(onChecked: Consumer<Boolean>) {
 
-    checkBox.setOnCheckedChangeListener { _, isChecked -> onChecked.accept(isChecked) }
+    setOnCheckedChangeListener { _, isChecked -> onChecked.accept(isChecked) }
 }

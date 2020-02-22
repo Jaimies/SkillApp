@@ -148,7 +148,7 @@ class SignInFragment : AuthFragment() {
 
         is FirebaseAuthInvalidUserException -> {
 
-            setPasswordError(R.string.user_does_not_exist)
+            setEmailError(R.string.user_does_not_exist)
         }
 
         is FirebaseNetworkException -> {

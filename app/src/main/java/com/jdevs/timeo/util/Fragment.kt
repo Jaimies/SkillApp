@@ -28,7 +28,7 @@ inline fun <T> Fragment.observeEvent(event: SingleLiveEvent<T>, crossinline onEv
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> Fragment.findFragmentById(@IdRes id: Int) =
+fun <T : Fragment> Fragment.findFragmentById(@IdRes id: Int) =
     requireActivity().supportFragmentManager.findFragmentById(id) as T
 
 inline val Fragment.mainActivity get() = requireActivity() as MainActivity

@@ -8,12 +8,12 @@ import com.jdevs.timeo.domain.model.Task
 
 @Entity(tableName = "tasks")
 data class DBTask(
-    @PrimaryKey
-    val id: Int,
-    val name: String,
-    val projectId: Int,
-    val timeSpent: Int,
-    val isCompleted: Boolean
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val name: String = "",
+    val projectId: Int = 0,
+    val timeSpent: Int = 0,
+    val isCompleted: Boolean = false
 )
 
 data class FirestoreTask(
@@ -31,5 +31,3 @@ fun DBTask.mapToDomain() = Task(id.toString(), name, projectId.toString(), timeS
 fun Task.mapToDB() = DBTask(id.toInt(), name, projectId.toInt(), timeSpent, isCompleted)
 
 fun FirestoreTask.mapToDomain() = Task(id, name, projectId, timeSpent, isCompleted)
-
-fun Task.mapToFirestore() = FirestoreTask(id, name, projectId, timeSpent, isCompleted)

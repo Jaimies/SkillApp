@@ -21,6 +21,7 @@ import com.jdevs.timeo.ui.projects.ProjectsFragment
 import com.jdevs.timeo.ui.settings.SettingsFragment
 import com.jdevs.timeo.ui.signin.SignInFragment
 import com.jdevs.timeo.ui.signin.SignUpFragment
+import com.jdevs.timeo.ui.tasks.AddTaskFragment
 import com.jdevs.timeo.ui.tasks.TasksFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -48,6 +49,7 @@ interface AppComponent {
     fun inject(fragment: HistoryFragment)
     fun inject(fragment: ActivityDetailFragment)
     fun inject(fragment: ProjectDetailFragment)
+    fun inject(fragment: AddTaskFragment)
     fun inject(fragment: TasksFragment)
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: SignInFragment)

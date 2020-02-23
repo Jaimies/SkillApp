@@ -70,7 +70,7 @@ class ProjectDetailFragment : ActionBarFragment() {
         observeEvent(viewModel.addTask) {
 
             mainActivity.add_task_viewstub?.visibility = VISIBLE
-            findFragmentById<AddTaskFragment>(R.id.add_task_frag).show()
+            findFragmentById<AddTaskFragment>(R.id.add_task_frag).show(args.project.id)
         }
 
         return binding.root

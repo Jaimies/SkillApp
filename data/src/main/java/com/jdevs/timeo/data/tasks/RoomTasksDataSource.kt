@@ -10,7 +10,7 @@ interface TasksDataSource {
 
     fun getTopTasks(): LiveData<List<Task>>
 
-    suspend fun addTask(task: Task)
+    suspend fun addTask(name: String, projectId: String)
 
     suspend fun deleteTask(task: Task)
 
@@ -29,7 +29,10 @@ class RoomTasksDataSource @Inject constructor(private val tasksDao: TasksDao) :
 
     override fun getTopTasks() = map(tasksDao.getTopTasks(), DBTask::mapToDomain)
 
-    override suspend fun addTask(task: Task) = tasksDao.insert(task.mapToDB())
+    override suspend fun addTask(name: String, projectId: String) {
+
+        tasksDao.insert(DBTask(name = name, projectId = projectId.toInt()))
+    }
 
     override suspend fun deleteTask(task: Task) = tasksDao.delete(task.mapToDB())
 

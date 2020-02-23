@@ -12,7 +12,7 @@ interface TasksRepository {
 
     fun getTopTasks(): LiveData<List<Task>>
 
-    suspend fun addTask(task: Task)
+    suspend fun addTask(name: String, projectId: String)
 
     suspend fun deleteTask(task: Task)
 

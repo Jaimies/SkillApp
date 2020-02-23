@@ -22,9 +22,10 @@ class DefaultTasksRepository @Inject constructor(
 
     override fun getTopTasks() = currentDataSource.getTopTasks()
 
-    override suspend fun addTask(task: Task) = currentDataSource.addTask(task)
+    override suspend fun addTask(name: String, projectId: String) =
+        currentDataSource.addTask(name, projectId)
 
-    override suspend fun deleteTask(task: Task) = currentDataSource.addTask(task)
+    override suspend fun deleteTask(task: Task) = currentDataSource.deleteTask(task)
 
     override suspend fun setTaskCompleted(taskId: String, isCompleted: Boolean) {
 

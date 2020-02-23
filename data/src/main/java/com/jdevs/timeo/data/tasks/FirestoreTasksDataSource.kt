@@ -32,9 +32,9 @@ class FirestoreTasksDataSource @Inject constructor(authRepository: AuthRepositor
     override fun getTopTasks() =
         tasksRef.safeAccess().watchCollection(FirestoreTask::mapToDomain, TOP_TASKS_COUNT, "name")
 
-    override suspend fun addTask(task: Task) {
+    override suspend fun addTask(name: String, projectId: String) {
 
-        tasksRef.add(task.mapToFirestore())
+        tasksRef.add(FirestoreTask(name = name, projectId = projectId))
     }
 
     override suspend fun deleteTask(task: Task) {

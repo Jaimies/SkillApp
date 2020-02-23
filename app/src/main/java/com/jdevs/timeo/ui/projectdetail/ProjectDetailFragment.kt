@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.lifecycle.observe
@@ -15,15 +14,14 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProjectdetailFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
+import com.jdevs.timeo.ui.tasks.AddTaskFragment
 import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.contentView
-import com.jdevs.timeo.util.hideKeyboard
+import com.jdevs.timeo.util.findFragmentById
+import com.jdevs.timeo.util.mainActivity
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setupAdapter
-import com.jdevs.timeo.util.showKeyboard
-import com.jdevs.timeo.util.window
-import kotlinx.android.synthetic.main.add_task_layout.view.name_edit_text
+import kotlinx.android.synthetic.main.main_act.add_task_viewstub
 import javax.inject.Inject
 
 class ProjectDetailFragment : ActionBarFragment() {
@@ -31,14 +29,6 @@ class ProjectDetailFragment : ActionBarFragment() {
     private val args: ProjectDetailFragmentArgs by navArgs()
     private val adapter by lazy { ListAdapter(TaskDelegateAdapter(viewModel::setTaskCompleted)) }
     override val menuId = R.menu.activity_detail_fragment_menu
-
-    private val addTaskLayout by lazy {
-
-        window.findViewById(R.id.add_task_layout) ?: layoutInflater.inflate(
-            R.layout.add_task_layout,
-            contentView, false
-        ).also { contentView.addView(it) }
-    }
 
     @Inject
     lateinit var viewModel: ProjectDetailViewModel
@@ -79,18 +69,8 @@ class ProjectDetailFragment : ActionBarFragment() {
 
         observeEvent(viewModel.addTask) {
 
-            addTaskLayout.run {
-
-                visibility = VISIBLE
-                name_edit_text.requestFocus()
-                name_edit_text.showKeyboard()
-
-                setOnClickListener {
-
-                    visibility = GONE
-                    hideKeyboard()
-                }
-            }
+            mainActivity.add_task_viewstub?.visibility = VISIBLE
+            findFragmentById<AddTaskFragment>(R.id.add_task_frag).show()
         }
 
         return binding.root

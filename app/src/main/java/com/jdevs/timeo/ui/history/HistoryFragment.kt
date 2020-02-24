@@ -48,7 +48,7 @@ class HistoryFragment : ListFragment<RecordItem>() {
 
     private fun showDeleteDialog(index: Int) {
 
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setIcon(android.R.drawable.ic_delete)
             .setTitle(R.string.are_you_sure)
             .setMessage(R.string.sure_delete_record)

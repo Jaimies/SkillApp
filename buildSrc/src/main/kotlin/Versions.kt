@@ -15,12 +15,12 @@ object Versions {
 
     // Main dependencies
     const val coroutines = "1.3.2"
-    const val room = "2.2.3"
+    const val room = "2.2.4"
     const val paging = "2.1.1"
     const val navigation = "2.2.1"
     const val lifecycleExtensions = "2.2.0"
-    const val fragmentKtx = "1.2.1"
-    const val material = "1.2.0-alpha04"
+    const val fragment = "1.2.2"
+    const val material = "1.2.0-alpha05"
 
     // MPAndroidChart
     const val MPAndroidChart = "3.1.0"
@@ -60,7 +60,6 @@ object Versions {
     // Android Test
     const val androidxTestRunner = "1.2.0"
     const val espresso = "3.2.0"
-    const val fragment = "1.2.1"
     const val junitExt = "1.1.1"
     const val androidxTestCore = "1.2.0"
     const val mockito = "3.2.4"

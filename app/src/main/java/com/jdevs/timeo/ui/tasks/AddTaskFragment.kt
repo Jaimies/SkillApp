@@ -41,7 +41,7 @@ class AddTaskFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this) { destroy() }
         observeEvent(viewModel.dismiss) { destroy() }
 
-        viewModel.projectId = arguments!!.getString("projectId")!!
+        viewModel.projectId = requireArguments().getString("projectId")!!
 
         return binding.root
     }

@@ -27,10 +27,6 @@ inline fun <T> Fragment.observeEvent(event: SingleLiveEvent<T>, crossinline onEv
     event.observeEvent(viewLifecycleOwner) { onEvent(it) }
 }
 
-@Suppress("UNCHECKED_CAST")
-fun <T : Fragment> Fragment.findFragmentById(@IdRes id: Int) =
-    requireActivity().supportFragmentManager.findFragmentById(id) as T
-
 inline val Fragment.mainActivity get() = requireActivity() as MainActivity
 inline val Fragment.application get() = requireActivity().application as TimeoApplication
 inline val Fragment.appComponent get() = application.appComponent

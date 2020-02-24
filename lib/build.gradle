@@ -42,7 +42,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$Versions.androidxCore"
 
     // Androidx Fragment extensions
-    implementation "androidx.fragment:fragment-ktx:$Versions.fragmentKtx"
+    implementation "androidx.fragment:fragment-ktx:$Versions.fragment"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment:$Versions.navigation"

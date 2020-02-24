@@ -104,7 +104,7 @@ dependencies {
     debugImplementation "androidx.multidex:multidex:$Versions.multidex"
 
     // Fragment and Lifecycle extensions
-    implementation "androidx.fragment:fragment-ktx:$Versions.fragmentKtx"
+    implementation "androidx.fragment:fragment-ktx:$Versions.fragment"
     implementation "androidx.lifecycle:lifecycle-extensions:$Versions.lifecycleExtensions"
 
     // Navigation
@@ -157,7 +157,7 @@ dependencies {
     // Testing code should not be included in the main code.
     // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
 
-    implementation "androidx.fragment:fragment-testing:$Versions.fragment"
+    debugImplementation "androidx.fragment:fragment-testing:$Versions.fragment"
     implementation "androidx.test:core:$Versions.androidxTestCore"
 
     // Browsing SQLite database

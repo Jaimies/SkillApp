@@ -36,9 +36,8 @@
             app:menu="@menu/bottom_nav_actions" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ViewStub
-        android:id="@+id/add_task_viewstub"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/add_task_frag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout="@layout/add_task_frag" />
+        android:layout_height="match_parent" />
 </merge>

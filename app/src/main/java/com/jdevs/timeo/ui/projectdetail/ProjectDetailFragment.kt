@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -17,11 +16,8 @@ import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.tasks.AddTaskFragment
 import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.findFragmentById
-import com.jdevs.timeo.util.mainActivity
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setupAdapter
-import kotlinx.android.synthetic.main.main_act.add_task_viewstub
 import javax.inject.Inject
 
 class ProjectDetailFragment : ActionBarFragment() {
@@ -69,8 +65,7 @@ class ProjectDetailFragment : ActionBarFragment() {
 
         observeEvent(viewModel.addTask) {
 
-            mainActivity.add_task_viewstub?.visibility = VISIBLE
-            findFragmentById<AddTaskFragment>(R.id.add_task_frag).show(args.project.id)
+            AddTaskFragment.create(requireActivity().supportFragmentManager, args.project.id)
         }
 
         return binding.root

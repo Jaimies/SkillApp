@@ -4,12 +4,12 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.add
+import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddTaskLayoutBinding
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.hideKeyboard
@@ -22,8 +22,6 @@ class AddTaskFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: AddTaskViewModel
-
-    private lateinit var onBackPressed: OnBackPressedCallback
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,30 +38,38 @@ class AddTaskFragment : Fragment() {
             it.lifecycleOwner = this
         }
 
-        onBackPressed = requireActivity().onBackPressedDispatcher.addCallback(this) { hide() }
-        observeEvent(viewModel.dismiss) { hide() }
+        requireActivity().onBackPressedDispatcher.addCallback(this) { destroy() }
+        observeEvent(viewModel.dismiss) { destroy() }
+
+        viewModel.projectId = arguments!!.getString("projectId")!!
 
         return binding.root
     }
 
-    private fun hide() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        view?.visibility = GONE
-        onBackPressed.isEnabled = false
-        viewModel.name.value = ""
+        view.alpha = 0f
+        view.animate().alpha(1f)
+        name_edit_text.requestFocus()
+        name_edit_text.showKeyboard()
+    }
+
+    private fun destroy() {
+
+        parentFragmentManager.beginTransaction().remove(this).commit()
         hideKeyboard()
     }
 
-    fun show(projectId: String) {
+    companion object {
 
-        view?.visibility = VISIBLE
-        view?.alpha = 0f
-        view?.animate()?.alpha(1f)
+        fun create(fragmentManager: FragmentManager, projectId: String) {
 
-        onBackPressed.isEnabled = true
-        viewModel.projectId = projectId
+            val args = Bundle()
+            args.putString("projectId", projectId)
 
-        name_edit_text.requestFocus()
-        name_edit_text.showKeyboard()
+            fragmentManager.beginTransaction()
+                .add<AddTaskFragment>(R.id.add_task_frag, args = args)
+                .commit()
+        }
     }
 }

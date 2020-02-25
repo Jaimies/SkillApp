@@ -8,7 +8,7 @@ import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.launchCoroutine
-import com.jdevs.timeo.util.mapTo
+import com.jdevs.timeo.util.mapOperation
 import javax.inject.Inject
 
 class TasksViewModel @Inject constructor(
@@ -21,7 +21,7 @@ class TasksViewModel @Inject constructor(
         get() = getTasks.tasks.map(Task::mapToPresentation).toLiveData(PAGE_SIZE)
 
     override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
-        getTasks.getRemoteTasks(fetchNewItems).mapTo(Task::mapToPresentation)
+        getTasks.getRemoteTasks(fetchNewItems).mapOperation(Task::mapToPresentation)
 
     fun setTaskCompleted(taskId: String, isCompleted: Boolean) = launchCoroutine {
 

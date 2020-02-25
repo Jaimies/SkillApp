@@ -9,7 +9,7 @@ import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.launchCoroutine
-import com.jdevs.timeo.util.mapTo
+import com.jdevs.timeo.util.mapOperation
 import javax.inject.Inject
 
 private const val RECORDS_PAGE_SIZE = 50
@@ -23,7 +23,7 @@ class HistoryViewModel @Inject constructor(
         get() = getRecords.records.map(Record::mapToPresentation).toLiveData(RECORDS_PAGE_SIZE)
 
     override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
-        getRecords.getRecordsRemote(fetchNewItems).mapTo(Record::mapToPresentation)
+        getRecords.getRecordsRemote(fetchNewItems).mapOperation(Record::mapToPresentation)
 
     fun deleteRecord(record: RecordItem) = launchCoroutine {
 

@@ -102,7 +102,7 @@ dependencies {
 
     // Fragment and Lifecycle extensions
     implementation "androidx.fragment:fragment-ktx:$Versions.fragment"
-    implementation "androidx.lifecycle:lifecycle-extensions:$Versions.lifecycleExtensions"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$Versions.navigation"

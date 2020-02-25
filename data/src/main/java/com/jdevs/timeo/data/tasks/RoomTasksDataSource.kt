@@ -3,7 +3,7 @@ package com.jdevs.timeo.data.tasks
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.jdevs.timeo.domain.model.Task
-import com.jdevs.timeo.shared.util.map
+import com.jdevs.timeo.shared.util.mapList
 import javax.inject.Inject
 
 interface TasksDataSource {
@@ -27,7 +27,7 @@ class RoomTasksDataSource @Inject constructor(private val tasksDao: TasksDao) :
 
     override val tasks by lazy { tasksDao.getTasks().map(DBTask::mapToDomain) }
 
-    override fun getTopTasks() = map(tasksDao.getTopTasks(), DBTask::mapToDomain)
+    override fun getTopTasks() = tasksDao.getTopTasks().mapList(DBTask::mapToDomain)
 
     override suspend fun addTask(name: String, projectId: String) {
 

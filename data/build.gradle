@@ -62,6 +62,9 @@ dependencies {
     // Paging
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
+    // LiveData extensions
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
+
     // Firebase
     implementation "com.google.firebase:firebase-auth:$Versions.auth"
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"

@@ -15,7 +15,7 @@ object Versions {
     const val room = "2.2.4"
     const val paging = "2.1.1"
     const val navigation = "2.2.1"
-    const val lifecycleExtensions = "2.2.0"
+    const val lifecycle = "2.2.0"
     const val fragment = "1.2.2"
     const val material = "1.2.0-alpha05"
 

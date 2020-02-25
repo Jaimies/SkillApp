@@ -12,11 +12,11 @@ abstract class ActionBarFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+        setHasOptionsMenu(menuId != -1)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        if (menuId != -1) inflater.inflate(menuId, menu)
+        inflater.inflate(menuId, menu)
     }
 }

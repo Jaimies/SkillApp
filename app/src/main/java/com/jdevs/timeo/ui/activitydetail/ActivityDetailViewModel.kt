@@ -2,8 +2,8 @@ package com.jdevs.timeo.ui.activitydetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.Transformations.switchMap
+import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
@@ -51,20 +51,20 @@ class ActivityDetailViewModel @Inject constructor(
     val stats = switchMap(_chartType) {
         when (_chartType.value) {
 
-            DAY -> map(getStats.dayStats) {
+            DAY -> getStats.dayStats.map {
                 it.map(DayStats::toChartItem).toChartData(
                     OffsetDateTime::minusDays, OffsetDateTime::getDaysSinceEpoch, WeekDayFormatter()
                 )
             }
 
-            WEEK -> map(getStats.weekStats) {
+            WEEK -> getStats.weekStats.map {
                 it.map(WeekStats::toChartItem).toChartData(
                     OffsetDateTime::minusWeeks,
                     OffsetDateTime::getWeeksSinceEpoch, YearWeekFormatter()
                 )
             }
 
-            else -> map(getStats.monthStats) {
+            else -> getStats.monthStats.map {
                 it.map(MonthStats::toChartItem).toChartData(
                     OffsetDateTime::minusMonths,
                     OffsetDateTime::getMonthSinceEpoch, YearMonthFormatter()
@@ -95,7 +95,7 @@ class ActivityDetailViewModel @Inject constructor(
 
     fun setupActivityLiveData(activity: ActivityItem) {
 
-        this.activity = map(getActivityById(activity.id), Activity::mapToPresentation)
+        this.activity = getActivityById(activity.id).map(Activity::mapToPresentation)
         setActivity(activity)
     }
 

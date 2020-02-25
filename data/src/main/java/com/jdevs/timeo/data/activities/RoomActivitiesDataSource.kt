@@ -1,9 +1,10 @@
 package com.jdevs.timeo.data.activities
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations.map
+import androidx.lifecycle.map
 import androidx.paging.DataSource
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.shared.util.mapList
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,10 +33,10 @@ class RoomActivitiesDataSource @Inject constructor(private val activitiesDao: Ac
     override val activities by lazy { activitiesDao.getActivities().map(DBActivity::mapToDomain) }
 
     override fun getTopActivities() =
-        map(activitiesDao.getTopActivities()) { it.map(DBActivity::mapToDomain) }
+        activitiesDao.getTopActivities().mapList(DBActivity::mapToDomain)
 
     override fun getActivityById(id: String) =
-        map(activitiesDao.getActivity(id.toInt()), DBActivity::mapToDomain)
+        activitiesDao.getActivity(id.toInt()).map(DBActivity::mapToDomain)
 
     override suspend fun addActivity(name: String) = activitiesDao.insert(DBActivity(name = name))
 

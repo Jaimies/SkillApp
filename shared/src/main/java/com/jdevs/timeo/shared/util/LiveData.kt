@@ -1,9 +1,9 @@
 package com.jdevs.timeo.shared.util
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 
-fun <X, Y> map(source: LiveData<List<X>>, mapFunction: (X) -> Y): LiveData<List<Y>> {
+inline fun <X, Y> LiveData<List<X>>.mapList(crossinline transform: (X) -> Y): LiveData<List<Y>> {
 
-    return Transformations.map(source) { it.map(mapFunction) }
+    return map { item -> item.map(transform) }
 }

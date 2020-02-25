@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.WeekStats
-import com.jdevs.timeo.shared.util.map
+import com.jdevs.timeo.shared.util.mapList
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +18,7 @@ interface StatsDataSource {
 @Singleton
 class RoomStatsDataSource @Inject constructor(private val statsDao: StatsDao) : StatsDataSource {
 
-    override val dayStats by lazy { map(statsDao.getDayStats(), DBDayStats::mapToDomain) }
-    override val weekStats by lazy { map(statsDao.getWeekStats(), DBWeekStats::mapToDomain) }
-    override val monthStats by lazy { map(statsDao.getMonthStats(), DBMonthStats::mapToDomain) }
+    override val dayStats by lazy { statsDao.getDayStats().mapList(DBDayStats::mapToDomain) }
+    override val weekStats by lazy { statsDao.getWeekStats().mapList(DBWeekStats::mapToDomain) }
+    override val monthStats by lazy { statsDao.getMonthStats().mapList(DBMonthStats::mapToDomain) }
 }

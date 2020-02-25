@@ -2,8 +2,8 @@ package com.jdevs.timeo.ui.projectdetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.model.Task
 import com.jdevs.timeo.domain.usecase.projects.GetProjectByIdUseCase
@@ -11,7 +11,7 @@ import com.jdevs.timeo.domain.usecase.tasks.GetTopTasksUseCase
 import com.jdevs.timeo.domain.usecase.tasks.SetTaskCompletedUseCase
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.model.mapToPresentation
-import com.jdevs.timeo.shared.util.map
+import com.jdevs.timeo.shared.util.mapList
 import com.jdevs.timeo.util.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
@@ -27,7 +27,7 @@ class ProjectDetailViewModel @Inject constructor(
 
     lateinit var project: LiveData<ProjectItem>
 
-    val topTasks by lazy { map(getTopTasks(), Task::mapToPresentation) }
+    val topTasks by lazy { getTopTasks().mapList(Task::mapToPresentation) }
     val name: LiveData<String> get() = _name
     val description: LiveData<String> get() = _description
     val daysSpent: LiveData<String> get() = _daysSpent
@@ -56,7 +56,7 @@ class ProjectDetailViewModel @Inject constructor(
 
     fun setupProjectLiveData(project: ProjectItem) {
 
-        this.project = map(getProjectById(project.id), Project::mapToPresentation)
+        this.project = getProjectById(project.id).map(Project::mapToPresentation)
         setProject(project)
     }
 

@@ -7,7 +7,7 @@ import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
-import com.jdevs.timeo.util.mapTo
+import com.jdevs.timeo.util.mapOperation
 import javax.inject.Inject
 
 private const val PROJECTS_PAGE_SIZE = 20
@@ -19,7 +19,7 @@ class ProjectsViewModel @Inject constructor(private val getProjects: GetProjects
         get() = getProjects.projects.map(Project::mapToPresentation).toLiveData(PROJECTS_PAGE_SIZE)
 
     override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
-        getProjects.getProjectsRemote(fetchNewItems).mapTo(Project::mapToPresentation)
+        getProjects.getProjectsRemote(fetchNewItems).mapOperation(Project::mapToPresentation)
 
     val navigateToAddActivity = SingleLiveEvent<Any>()
     fun navigateToAddActivity() = navigateToAddActivity.call()

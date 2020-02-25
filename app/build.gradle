@@ -100,9 +100,6 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:$Versions.auth"
     implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
 
-    // Multidex
-    debugImplementation "androidx.multidex:multidex:$Versions.multidex"
-
     // Fragment and Lifecycle extensions
     implementation "androidx.fragment:fragment-ktx:$Versions.fragment"
     implementation "androidx.lifecycle:lifecycle-extensions:$Versions.lifecycleExtensions"

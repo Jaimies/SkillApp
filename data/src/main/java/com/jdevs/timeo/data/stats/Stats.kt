@@ -1,5 +1,6 @@
 package com.jdevs.timeo.data.stats
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
@@ -14,8 +15,13 @@ abstract class FirestoreStats {
     val documentId = ""
 }
 
+@Keep
 data class FirestoreDayStats(val time: Int = 0, val day: Int = 0) : FirestoreStats()
+
+@Keep
 data class FirestoreWeekStats(val time: Int = 0, val day: Int = 0) : FirestoreStats()
+
+@Keep
 data class FirestoreMonthStats(val time: Int = 0, val day: Int = 0) : FirestoreStats()
 
 @Entity(tableName = "dayStats")

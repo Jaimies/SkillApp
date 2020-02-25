@@ -1,8 +1,10 @@
 package com.jdevs.timeo.model
 
+import androidx.annotation.Keep
 import com.jdevs.timeo.domain.model.Record
 import org.threeten.bp.OffsetDateTime
 
+@Keep
 data class RecordItem(
     override val id: String,
     val name: String,

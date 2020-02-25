@@ -10,7 +10,7 @@ import kotlinx.coroutines.cancel
 
 open class TimeoApplication : Application() {
 
-    val ioScope = CoroutineScope(Dispatchers.IO + Job())
+    val ioScope = CoroutineScope(Job() + Dispatchers.IO)
     val appComponent by lazy { initializeComponent() }
 
     protected open fun initializeComponent() =

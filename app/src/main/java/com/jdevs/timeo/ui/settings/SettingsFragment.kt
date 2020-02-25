@@ -36,6 +36,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        super.onViewCreated(view, savedInstanceState)
+
         viewModel.activitiesEnabled.observe(viewLifecycleOwner) { newValue ->
 
             activitiesEnabled.isChecked = newValue

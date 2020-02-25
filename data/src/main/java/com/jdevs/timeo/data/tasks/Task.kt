@@ -1,5 +1,6 @@
 package com.jdevs.timeo.data.tasks
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
@@ -16,13 +17,14 @@ data class DBTask(
     val isCompleted: Boolean = false
 )
 
+@Keep
 data class FirestoreTask(
     @DocumentId
     val id: String = "",
     val name: String = "",
     val projectId: String = "",
     val timeSpent: Int = 0,
-    @get:PropertyName("isCompleted")
+    @PropertyName("isCompleted")
     val isCompleted: Boolean = false
 )
 

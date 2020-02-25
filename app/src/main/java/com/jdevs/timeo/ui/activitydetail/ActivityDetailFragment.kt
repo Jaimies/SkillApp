@@ -19,6 +19,8 @@ import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setup
 import com.jdevs.timeo.util.setupAdapter
+import kotlinx.android.synthetic.main.activitydetail_frag.achievements_list
+import kotlinx.android.synthetic.main.activitydetail_frag.lineChart
 import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
@@ -52,10 +54,15 @@ class ActivityDetailFragment : ActionBarFragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.lineChart.setup(CHART_TEXT_SIZE, CHART_OFFSET)
+        return binding.root
+    }
 
-        binding.achievementsList.setupAdapter(adapter, RecyclerView.HORIZONTAL)
-        binding.achievementsList.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        lineChart.setup(CHART_TEXT_SIZE, CHART_OFFSET)
+
+        achievements_list.setupAdapter(adapter, RecyclerView.HORIZONTAL)
+        achievements_list.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
 
         viewModel.run {
 
@@ -65,8 +72,6 @@ class ActivityDetailFragment : ActionBarFragment() {
                 RecordDialog(requireContext()) { time -> addRecord(activity.value!!, time) }.show()
             }
         }
-
-        return binding.root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

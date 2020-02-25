@@ -10,9 +10,6 @@ object Versions {
 
     const val livedata = "2.2.0"
 
-    // Multidex
-    const val multidex = "2.0.1"
-
     // Main dependencies
     const val coroutines = "1.3.2"
     const val room = "2.2.4"

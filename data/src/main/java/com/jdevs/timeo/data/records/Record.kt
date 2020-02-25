@@ -14,7 +14,6 @@ import com.jdevs.timeo.shared.time.toOffsetDate
 import org.threeten.bp.OffsetDateTime
 import java.util.Date
 
-@Keep
 @Entity(
     tableName = "records",
     indices = [Index(value = ["activityId"])],

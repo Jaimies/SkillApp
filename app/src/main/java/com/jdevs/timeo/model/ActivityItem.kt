@@ -1,10 +1,12 @@
 package com.jdevs.timeo.model
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.jdevs.timeo.domain.model.Activity
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.OffsetDateTime
 
+@Keep
 @Parcelize
 data class ActivityItem(
     override val id: String,

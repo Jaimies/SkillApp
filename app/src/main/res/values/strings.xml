@@ -8,10 +8,7 @@
     <string name="sign_in">Sign in</string>
     <string name="sign_in_button">Sign in</string>
     <string name="profile">Profile</string>
-    <string name="hours">Hours</string>
-    <string name="minutes">Minutes</string>
     <string name="add">Add</string>
-    <string name="record_time">Record activity</string>
     <string name="name">Name</string>
     <string name="delete_activity">Delete activity</string>
     <string name="activity_deleted">Activity deleted</string>

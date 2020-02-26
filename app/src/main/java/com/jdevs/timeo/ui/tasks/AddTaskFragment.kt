@@ -26,6 +26,7 @@ class AddTaskFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         appComponent.inject(this)
+        viewModel.projectId = requireArguments().getString("projectId")!!
     }
 
     override fun onCreateView(
@@ -33,15 +34,10 @@ class AddTaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = AddTaskLayoutBinding.inflate(inflater, container, false).also {
-            it.viewModel = viewModel
-            it.lifecycleOwner = this
-        }
+        val binding = AddTaskLayoutBinding.inflate(inflater, container, false)
 
-        requireActivity().onBackPressedDispatcher.addCallback(this) { destroy() }
-        observeEvent(viewModel.dismiss) { destroy() }
-
-        viewModel.projectId = requireArguments().getString("projectId")!!
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         return binding.root
     }
@@ -52,6 +48,9 @@ class AddTaskFragment : Fragment() {
         view.animate().alpha(1f)
         name_edit_text.requestFocus()
         name_edit_text.showKeyboard()
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) { destroy() }
+        observeEvent(viewModel.dismiss) { destroy() }
     }
 
     private fun destroy() {

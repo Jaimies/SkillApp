@@ -12,6 +12,7 @@ import com.jdevs.timeo.model.RecordItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.showSnackbar
+import kotlinx.android.synthetic.main.history_frag.recycler_view
 import javax.inject.Inject
 
 private const val RECORDS_VISIBLE_THRESHOLD = 12
@@ -36,14 +37,17 @@ class HistoryFragment : ListFragment<RecordItem>() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = HistoryFragBinding.inflate(inflater, container, false).also {
+        val binding = HistoryFragBinding.inflate(inflater, container, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = this
-            it.recyclerView.setup(RECORDS_VISIBLE_THRESHOLD)
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        recycler_view.setup(RECORDS_VISIBLE_THRESHOLD)
     }
 
     private fun showDeleteDialog(index: Int) {

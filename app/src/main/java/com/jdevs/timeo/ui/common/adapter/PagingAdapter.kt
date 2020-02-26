@@ -8,6 +8,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.util.getBaseContext
+import com.jdevs.timeo.util.livedata.SingleLiveEvent
 
 class PagingAdapter(private val delegateAdapter: DelegateAdapter) :
     PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(DiffCallback) {
@@ -28,5 +29,10 @@ class PagingAdapter(private val delegateAdapter: DelegateAdapter) :
 
         protected val context: Context get() = view.context
         protected val lifecycleOwner get() = context.getBaseContext() as LifecycleOwner
+
+        protected inline fun <T> observeEvent(
+            event: SingleLiveEvent<T>,
+            crossinline onChanged: (T?) -> Unit
+        ) = event.observeEvent(lifecycleOwner) { onChanged(it) }
     }
 }

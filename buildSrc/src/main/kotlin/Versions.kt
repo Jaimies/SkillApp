@@ -22,6 +22,9 @@ object Versions {
     // MPAndroidChart
     const val MPAndroidChart = "3.1.0"
 
+    // Material DateTime picker
+    const val materialDatepicker = "4.2.3"
+
     const val preference = "1.1.0"
 
     // JSR 310 backport

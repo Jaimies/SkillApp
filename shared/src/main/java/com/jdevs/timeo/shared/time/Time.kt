@@ -31,5 +31,4 @@ fun OffsetDateTime.getWeeksSinceEpoch() = WEEKS.between(EPOCH, this).toInt()
 fun OffsetDateTime.getMonthSinceEpoch() = MONTHS.between(EPOCH, this).toInt()
 
 const val WEEK_DAYS = 7
-const val DAY_HOURS = 24
 const val HOUR_MINUTES = 60

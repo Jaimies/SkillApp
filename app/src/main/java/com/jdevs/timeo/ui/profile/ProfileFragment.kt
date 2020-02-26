@@ -36,18 +36,20 @@ class ProfileFragment : ActionBarFragment() {
         val binding = ProfileFragBinding.inflate(inflater, container, false)
 
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         observeEvent(viewModel.navigateToSignIn) {
-
             findNavController().navigateAnimated(R.id.signin_fragment_dest)
         }
 
         observeEvent(viewModel.signOut) {
-
             viewModel.signOut()
             navigateToGraph(R.id.overview)
         }
-
-        return binding.root
     }
 }

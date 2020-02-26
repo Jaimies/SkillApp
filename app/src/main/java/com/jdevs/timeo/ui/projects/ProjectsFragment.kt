@@ -14,6 +14,7 @@ import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.showSnackbar
+import kotlinx.android.synthetic.main.projects_frag.recycler_view
 import javax.inject.Inject
 
 private const val PROJECTS_VISIBLE_THRESHOLD = 10
@@ -21,7 +22,7 @@ private const val PROJECTS_VISIBLE_THRESHOLD = 10
 class ProjectsFragment : ListFragment<ProjectItem>() {
 
     override val delegateAdapter by lazy {
-        ProjectDelegateAdapter({ _, _ -> showSnackbar(R.string.todo) }, ::navigateToDetails)
+        ProjectDelegateAdapter({ showSnackbar(R.string.todo) }, ::navigateToDetails)
     }
 
     override val menuId = R.menu.projects_fragment_menu
@@ -42,17 +43,19 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        ProjectsFragBinding.inflate(inflater, container, false).let {
+        val binding = ProjectsFragBinding.inflate(inflater, container, false)
 
-            it.lifecycleOwner = this
-            it.viewModel = viewModel
-            it.recyclerView.setup(PROJECTS_VISIBLE_THRESHOLD)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
-            observeEvent(viewModel.navigateToAddActivity) {
-                findNavController().navigateAnimated(R.id.addproject_fragment_dest)
-            }
+        return binding.root
+    }
 
-            return it.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        recycler_view.setup(PROJECTS_VISIBLE_THRESHOLD)
+        observeEvent(viewModel.navigateToAddActivity) {
+            findNavController().navigateAnimated(R.id.addproject_fragment_dest)
         }
     }
 

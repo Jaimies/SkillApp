@@ -37,12 +37,9 @@ class AddEditProjectFragment : ActionBarFragment() {
 
         super.onAttach(context)
         appComponent.inject(this)
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        super.onCreate(savedInstanceState)
         isEdited = args.project != null
+        if (isEdited) viewModel.setProject(args.project)
     }
 
     override fun onCreateView(
@@ -50,18 +47,12 @@ class AddEditProjectFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = AddprojectFragBinding.inflate(inflater, container, false).also {
+        val binding = AddprojectFragBinding.inflate(inflater, container, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = this
-        }
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         mainActivity.supportActionBar?.setTitle(if (isEdited) R.string.edit_project else R.string.create_project)
-
-        if (isEdited) {
-
-            viewModel.setProject(args.project)
-        }
 
         observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
         observeEvent(viewModel.showDeleteDialog) { showDeleteDialog() }

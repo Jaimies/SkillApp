@@ -41,21 +41,22 @@ class SignUpFragment : AuthFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = SignupFragBinding.inflate(inflater, container, false).also {
+        val binding = SignupFragBinding.inflate(inflater, container, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = this
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
         observeEvent(viewModel.signUp) { signUp(it!!.first, it.second) }
 
         observeEvent(viewModel.navigateToSignIn) {
-
             findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         }
-
-        return binding.root
     }
 
     private fun signUp(email: String, password: String) {

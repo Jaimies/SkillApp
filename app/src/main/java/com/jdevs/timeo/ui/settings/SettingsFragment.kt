@@ -26,7 +26,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
         activitiesEnabled = findPreference("activitiesEnabled")!!
-
         activitiesEnabled.setOnPreferenceChangeListener { _, newValue ->
 
             viewModel.setActivitiesEnabled(newValue as Boolean)

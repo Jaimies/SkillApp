@@ -38,17 +38,14 @@ class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : 
     }
 
     class ViewHolder(
-        private val rootView: View,
+        private val view: View,
         private val viewModel: RecordViewModel,
         private val showDeleteDialog: (Int) -> Unit
-    ) : PagingAdapter.ViewHolder(rootView) {
+    ) : PagingAdapter.ViewHolder(view) {
 
         init {
 
-            viewModel.showDeleteDialog.observeEvent(lifecycleOwner) {
-
-                showDeleteDialog(adapterPosition)
-            }
+            observeEvent(viewModel.showDeleteDialog) { showDeleteDialog(adapterPosition) }
         }
 
         fun bindRecord(record: RecordItem) {
@@ -56,7 +53,7 @@ class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : 
             val backgroundColorId =
                 if (adapterPosition.rem(2) == 0) R.color.colorBlackTransparent else android.R.color.transparent
 
-            rootView.setBackgroundColor(ContextCompat.getColor(context, backgroundColorId))
+            view.setBackgroundColor(ContextCompat.getColor(context, backgroundColorId))
             viewModel.setRecord(record)
         }
     }

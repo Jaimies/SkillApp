@@ -51,6 +51,11 @@ android {
         test.java.srcDirs = ['src/sharedTest/kotlin', 'src/test/kotlin']
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     dataBinding.enabled = true
 }
 
@@ -113,6 +118,7 @@ dependencies {
 
     // MPAndroidChart library for creating awesome charts
     implementation "com.github.PhilJay:MPAndroidChart:v$Versions.MPAndroidChart"
+    implementation "com.wdullaer:materialdatetimepicker:$Versions.materialDatepicker"
 
     // Paging
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"

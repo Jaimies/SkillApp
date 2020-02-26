@@ -13,7 +13,7 @@ import com.jdevs.timeo.util.createViewModel
 import com.jdevs.timeo.util.fragmentActivity
 
 class ActivityDelegateAdapter(
-    private val createRecord: (Int, Int) -> Unit = { _, _ -> },
+    private val showRecordDialog: (Int) -> Unit = {},
     private val navigateToDetails: (Int) -> Unit = {}
 ) : DelegateAdapter {
 
@@ -29,7 +29,7 @@ class ActivityDelegateAdapter(
             it.lifecycleOwner = fragmentActivity
         }
 
-        return ViewHolder(binding.root, viewModel, createRecord, navigateToDetails)
+        return ViewHolder(binding.root, viewModel, showRecordDialog, navigateToDetails)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
@@ -39,21 +39,16 @@ class ActivityDelegateAdapter(
     }
 
     class ViewHolder(
-        rootView: View,
+        view: View,
         private val viewModel: ActivityViewModel,
-        private val createRecord: (Int, Int) -> Unit = { _, _ -> },
-        private val navigateToDetails: (Int) -> Unit = {}
-    ) : PagingAdapter.ViewHolder(rootView) {
+        private val showRecordDialog: (Int) -> Unit = { },
+        private val navigateToDetail: (Int) -> Unit = {}
+    ) : PagingAdapter.ViewHolder(view) {
 
         init {
 
-            viewModel.run {
-
-                navigateToDetails.observeEvent(lifecycleOwner) { navigateToDetails(adapterPosition) }
-                showRecordDialog.observeEvent(lifecycleOwner) {
-                    RecordDialog(context) { time -> createRecord(adapterPosition, time) }.show()
-                }
-            }
+            observeEvent(viewModel.navigateToDetails) { navigateToDetail(adapterPosition) }
+            observeEvent(viewModel.showRecordDialog) { showRecordDialog(adapterPosition) }
         }
 
         fun setActivity(activity: ActivityItem) = viewModel.setActivity(activity)

@@ -36,12 +36,9 @@ class AddEditActivityFragment : ActionBarFragment() {
 
         super.onAttach(context)
         appComponent.inject(this)
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        super.onCreate(savedInstanceState)
         isEdited = args.activity != null
+        if (isEdited) viewModel.setActivity(args.activity)
     }
 
     override fun onCreateView(
@@ -49,24 +46,21 @@ class AddEditActivityFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = AddactivityFragBinding.inflate(inflater, container, false).also {
+        val binding = AddactivityFragBinding.inflate(inflater, container, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = this
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         mainActivity.supportActionBar?.setTitle(if (isEdited) R.string.edit_activity else R.string.create_activity)
 
-        if (isEdited) {
+        return binding.root
+    }
 
-            viewModel.setActivity(args.activity)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
         observeEvent(viewModel.showDeleteDialog) { showDeleteDialog() }
         observeEvent(viewModel.saveActivity) { saveActivity(it!!) }
-
-        return binding.root
     }
 
     private fun saveActivity(name: String) {

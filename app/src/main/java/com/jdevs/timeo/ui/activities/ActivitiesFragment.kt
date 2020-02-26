@@ -16,15 +16,18 @@ import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.showTimePicker
+import com.jdevs.timeo.util.time.getMins
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import kotlinx.android.synthetic.main.history_frag.recycler_view
 import javax.inject.Inject
 
 private const val ACTIVITIES_VISIBLE_THRESHOLD = 5
 
 class ActivitiesFragment : ListFragment<ActivityItem>() {
 
-
     override val delegateAdapter by lazy {
-        ActivityDelegateAdapter(::createRecord, ::navigateToDetails)
+        ActivityDelegateAdapter(::showRecordDialog, ::navigateToDetails)
     }
 
     @Inject
@@ -46,35 +49,39 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = ActivitiesFragBinding.inflate(inflater, container, false).also {
+        val binding = ActivitiesFragBinding.inflate(inflater, container, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = this
-            it.recyclerView.setup(ACTIVITIES_VISIBLE_THRESHOLD)
-        }
-
-        observeEvent(viewModel.navigateToAddEdit) {
-
-            findNavController().navigateAnimated(R.id.addactivity_fragment_dest)
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        recycler_view.setup(ACTIVITIES_VISIBLE_THRESHOLD)
+
+        observeEvent(viewModel.navigateToAddEdit) {
+            findNavController().navigateAnimated(R.id.addactivity_fragment_dest)
+        }
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu) {
 
-        if (!isLoadEventHandled) {
+        if (isLoadEventHandled) {
+            return
+        }
 
-            menu.forEach { menuItem -> menuItem.isEnabled = false }
+        menu.forEach { menuItem -> menuItem.isEnabled = false }
 
-            viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
 
-                if (!isLoadEventHandled && !isLoading) {
-
-                    menu.forEach { menuItem -> menuItem.isEnabled = true }
-                    isLoadEventHandled = true
-                }
+            if (isLoading || isLoadEventHandled) {
+                return@observe
             }
+
+            menu.forEach { menuItem -> menuItem.isEnabled = true }
+            isLoadEventHandled = true
         }
     }
 
@@ -86,8 +93,16 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
         findNavController().navigate(directions)
     }
 
-    private fun createRecord(index: Int, time: Int) {
+    private fun showRecordDialog(index: Int) {
 
-        viewModel.createRecord(activity = getItem(index), time = time)
+        val dialog = TimePickerDialog
+            .newInstance({ _, hour, minute, _ -> createRecord(index, hour, minute) }, 0, 0, true)
+
+        showTimePicker(dialog)
+    }
+
+    private fun createRecord(index: Int, hour: Int, minute: Int) {
+
+        viewModel.createRecord(activity = getItem(index), time = getMins(hour, minute))
     }
 }

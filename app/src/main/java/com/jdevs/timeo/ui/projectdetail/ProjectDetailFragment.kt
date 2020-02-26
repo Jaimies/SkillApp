@@ -19,6 +19,7 @@ import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setupAdapter
+import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 import javax.inject.Inject
 
 class ProjectDetailFragment : ActionBarFragment() {
@@ -47,29 +48,31 @@ class ProjectDetailFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = ProjectdetailFragBinding.inflate(inflater, container, false).also {
+        val binding = ProjectdetailFragBinding.inflate(inflater, container, false)
 
-            it.lifecycleOwner = this
-            it.viewModel = viewModel
-        }
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
-        binding.tasksList.setupAdapter(adapter)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        tasks_list.setupAdapter(adapter)
 
         viewModel.topTasks.observe(viewLifecycleOwner) { newItems ->
             adapter.submitList(newItems)
         }
 
         viewModel.project.observe(viewLifecycleOwner, viewModel::setProject)
+
         observeEvent(viewModel.goToTasks) {
             findNavController().navigateAnimated(R.id.tasks_fragment_dest)
         }
 
         observeEvent(viewModel.addTask) {
-
             AddTaskFragment.create(requireActivity().supportFragmentManager, args.project.id)
         }
-
-        return binding.root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

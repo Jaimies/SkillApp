@@ -9,6 +9,7 @@ import com.jdevs.timeo.databinding.TasksFragBinding
 import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.appComponent
+import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 import javax.inject.Inject
 
 class TasksFragment : ListFragment<TaskItem>() {
@@ -34,9 +35,13 @@ class TasksFragment : ListFragment<TaskItem>() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.tasksList.setup(PAGE_SIZE)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        tasks_list.setup(PAGE_SIZE)
     }
 
     private fun setTaskCompleted(position: Int, isCompleted: Boolean) {

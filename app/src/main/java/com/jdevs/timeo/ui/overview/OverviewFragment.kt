@@ -17,6 +17,8 @@ import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setupAdapter
+import kotlinx.android.synthetic.main.overview_frag.activities_list
+import kotlinx.android.synthetic.main.overview_frag.projects_list
 import javax.inject.Inject
 
 class OverviewFragment : Fragment() {
@@ -38,13 +40,17 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = OverviewFragBinding.inflate(inflater, container, false).also {
+        val binding = OverviewFragBinding.inflate(inflater, container, false)
 
-            it.lifecycleOwner = this
-            it.viewModel = viewModel
-        }
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
-        binding.projectsList.setupAdapter(projectsAdapter)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        projects_list.setupAdapter(projectsAdapter)
 
         viewModel.topProjects.observe(viewLifecycleOwner) { list ->
 
@@ -61,7 +67,7 @@ class OverviewFragment : Fragment() {
 
             if (isEnabled) {
 
-                binding.activitiesList.setupAdapter(activitiesAdapter)
+                activities_list.setupAdapter(activitiesAdapter)
 
                 viewModel.topActivities.observe(viewLifecycleOwner) { list ->
 
@@ -79,7 +85,5 @@ class OverviewFragment : Fragment() {
                 viewModel.navigateToActivities.removeObservers(viewLifecycleOwner)
             }
         }
-
-        return binding.root
     }
 }

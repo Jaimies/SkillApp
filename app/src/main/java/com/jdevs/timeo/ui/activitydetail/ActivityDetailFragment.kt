@@ -12,18 +12,20 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
-import com.jdevs.timeo.ui.activities.RecordDialog
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setup
 import com.jdevs.timeo.util.setupAdapter
+import com.jdevs.timeo.util.showTimePicker
+import com.jdevs.timeo.util.time.getMins
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activitydetail_frag.achievements_list
 import kotlinx.android.synthetic.main.activitydetail_frag.lineChart
 import javax.inject.Inject
 
-class ActivityDetailFragment : ActionBarFragment() {
+class ActivityDetailFragment : ActionBarFragment(), TimePickerDialog.OnTimeSetListener {
 
     @Inject
     lateinit var viewModel: ActivityDetailViewModel
@@ -64,13 +66,11 @@ class ActivityDetailFragment : ActionBarFragment() {
         achievements_list.setupAdapter(adapter, RecyclerView.HORIZONTAL)
         achievements_list.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
 
-        viewModel.run {
+        viewModel.activity.observe(viewLifecycleOwner, viewModel::setActivity)
 
-            activity.observe(viewLifecycleOwner, viewModel::setActivity)
-
-            observeEvent(showRecordDialog) {
-                RecordDialog(requireContext()) { time -> addRecord(activity.value!!, time) }.show()
-            }
+        observeEvent(viewModel.showRecordDialog) {
+            val dialog = TimePickerDialog.newInstance(this, 0, 0, true)
+            showTimePicker(dialog)
         }
     }
 
@@ -86,6 +86,11 @@ class ActivityDetailFragment : ActionBarFragment() {
         }
 
         return false
+    }
+
+    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
+
+        viewModel.addRecord(viewModel.activity.value!!, getMins(hourOfDay, minute))
     }
 
     companion object {

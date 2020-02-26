@@ -56,11 +56,15 @@ class SignInFragment : AuthFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = SigninFragBinding.inflate(inflater, container, false).also {
+        val binding = SigninFragBinding.inflate(inflater, container, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = this
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
         observeEvent(viewModel.signIn) { signIn(it!!.first, it.second) }
@@ -70,8 +74,6 @@ class SignInFragment : AuthFragment() {
 
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
-
-        return binding.root
     }
 
     private fun signIn(email: String, password: String) {

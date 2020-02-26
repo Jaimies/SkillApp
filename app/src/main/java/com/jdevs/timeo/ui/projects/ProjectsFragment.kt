@@ -11,6 +11,7 @@ import com.jdevs.timeo.databinding.ProjectsFragBinding
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.showSnackbar
 import javax.inject.Inject
@@ -48,7 +49,7 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
             it.recyclerView.setup(PROJECTS_VISIBLE_THRESHOLD)
 
             observeEvent(viewModel.navigateToAddActivity) {
-                findNavController().navigate(R.id.addproject_fragment_dest)
+                findNavController().navigateAnimated(R.id.addproject_fragment_dest)
             }
 
             return it.root

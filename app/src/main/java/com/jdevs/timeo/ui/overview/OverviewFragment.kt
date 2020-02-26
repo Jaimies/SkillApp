@@ -14,6 +14,7 @@ import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setupAdapter
 import javax.inject.Inject
@@ -53,7 +54,7 @@ class OverviewFragment : Fragment() {
 
         observeEvent(viewModel.navigateToProjects) {
 
-            findNavController().navigate(R.id.projects_fragment_dest)
+            findNavController().navigateAnimated(R.id.projects_fragment_dest)
         }
 
         viewModel.activitiesEnabled.observe(viewLifecycleOwner) { isEnabled ->
@@ -70,7 +71,7 @@ class OverviewFragment : Fragment() {
 
                 observeEvent(viewModel.navigateToActivities) {
 
-                    findNavController().navigate(R.id.activities_fragment_dest)
+                    findNavController().navigateAnimated(R.id.activities_fragment_dest)
                 }
             } else {
 

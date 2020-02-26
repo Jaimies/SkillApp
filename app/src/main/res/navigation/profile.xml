@@ -21,6 +21,10 @@
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signup_fragment_dest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
             app:popUpTo="@id/profile_fragment_dest"
             app:popUpToInclusive="false" />
     </fragment>
@@ -33,6 +37,10 @@
         <action
             android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signin_fragment_dest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
             app:popUpTo="@id/profile_fragment_dest"
             app:popUpToInclusive="false" />
     </fragment>

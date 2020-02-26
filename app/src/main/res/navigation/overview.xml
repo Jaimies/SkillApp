@@ -20,7 +20,11 @@
 
         <action
             android:id="@+id/action_projectsFragment_to_projectDetailFragment"
-            app:destination="@id/project_detail_fragment_dest" />
+            app:destination="@id/project_detail_fragment_dest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/project_detail_fragment_dest"
@@ -34,7 +38,11 @@
 
         <action
             android:id="@+id/action_projectDetailFragment_to_addProjectFragment"
-            app:destination="@id/addproject_fragment_dest" />
+            app:destination="@id/addproject_fragment_dest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/addproject_fragment_dest"
@@ -62,7 +70,11 @@
 
         <action
             android:id="@+id/action_activitiesFragment_to_activityDetailsFragment"
-            app:destination="@id/activity_detail_fragment_dest" />
+            app:destination="@id/activity_detail_fragment_dest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
 
     <fragment
@@ -85,6 +97,10 @@
         <action
             android:id="@+id/action_addEditFragment_to_activitiesFragment"
             app:destination="@id/activities_fragment_dest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
             app:popUpTo="@id/activities_fragment_dest"
             app:popUpToInclusive="true" />
     </fragment>
@@ -101,7 +117,11 @@
 
         <action
             android:id="@+id/action_activityDetailFragment_to_addEditActivityFragment"
-            app:destination="@id/addactivity_fragment_dest" />
+            app:destination="@id/addactivity_fragment_dest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/tasks_fragment_dest"

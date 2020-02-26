@@ -94,8 +94,8 @@ fun BottomNavigationView.setupWithNavController(
                         .setCustomAnimations(
                             R.anim.fragment_open_enter,
                             R.anim.fragment_open_exit,
-                            R.anim.fragment_open_enter,
-                            R.anim.fragment_open_exit
+                            R.anim.fragment_close_enter,
+                            R.anim.fragment_close_exit
                         )
                         .attach(selectedFragment)
                         .setPrimaryNavigationFragment(selectedFragment)

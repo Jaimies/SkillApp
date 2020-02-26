@@ -14,6 +14,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.lazyUnsynchronized
+import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.navigation.setupWithNavController
 import kotlinx.android.synthetic.main.main_act.bottom_nav_view
 import kotlinx.android.synthetic.main.main_act.nav_host_container
@@ -73,9 +74,9 @@ class MainActivity : AppCompatActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (knownActions.contains(item.itemId)) {
+        if (item.itemId in knownActions) {
 
-            currentNavController.value?.navigate(item.itemId)
+            currentNavController.value?.navigateAnimated(item.itemId)
             return true
         }
 

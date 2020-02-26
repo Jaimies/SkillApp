@@ -14,6 +14,7 @@ import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
 import javax.inject.Inject
 
@@ -54,7 +55,7 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
         observeEvent(viewModel.navigateToAddEdit) {
 
-            findNavController().navigate(R.id.addactivity_fragment_dest)
+            findNavController().navigateAnimated(R.id.addactivity_fragment_dest)
         }
 
         return binding.root

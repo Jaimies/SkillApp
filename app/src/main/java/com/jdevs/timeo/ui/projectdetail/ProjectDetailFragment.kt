@@ -16,6 +16,7 @@ import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.tasks.AddTaskFragment
 import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setupAdapter
 import javax.inject.Inject
@@ -60,7 +61,7 @@ class ProjectDetailFragment : ActionBarFragment() {
 
         viewModel.project.observe(viewLifecycleOwner, viewModel::setProject)
         observeEvent(viewModel.goToTasks) {
-            findNavController().navigate(R.id.tasks_fragment_dest)
+            findNavController().navigateAnimated(R.id.tasks_fragment_dest)
         }
 
         observeEvent(viewModel.addTask) {

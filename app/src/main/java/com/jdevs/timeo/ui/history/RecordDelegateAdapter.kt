@@ -22,11 +22,10 @@ class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : 
         val fragmentActivity = parent.fragmentActivity
         val viewModel = createViewModel(fragmentActivity, RecordViewModel::class)
 
-        val binding = RecordsItemBinding.inflate(inflater, parent, false).also {
+        val binding = RecordsItemBinding.inflate(inflater, parent, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = fragmentActivity
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = fragmentActivity
 
         return ViewHolder(binding.root, viewModel, showDeleteDialog)
     }

@@ -23,11 +23,10 @@ class ActivityDelegateAdapter(
         val fragmentActivity = parent.fragmentActivity
         val viewModel = createViewModel(fragmentActivity, ActivityViewModel::class)
 
-        val binding = ActivitiesItemBinding.inflate(inflater, parent, false).also {
+        val binding = ActivitiesItemBinding.inflate(inflater, parent, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = fragmentActivity
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = fragmentActivity
 
         return ViewHolder(binding.root, viewModel, showRecordDialog, navigateToDetails)
     }

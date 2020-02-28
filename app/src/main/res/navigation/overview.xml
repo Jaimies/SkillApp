@@ -58,6 +58,10 @@
         <action
             android:id="@+id/action_addEditProjectFragment_to_projectsFragment"
             app:destination="@id/projects_fragment_dest"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_close_enter"
+            app:popExitAnim="@anim/fragment_close_exit"
             app:popUpTo="@id/projects_fragment_dest"
             app:popUpToInclusive="true" />
     </fragment>
@@ -66,16 +70,7 @@
         android:id="@+id/activities_fragment_dest"
         android:name="com.jdevs.timeo.ui.activities.ActivitiesFragment"
         android:label="@string/activities"
-        tools:layout="@layout/activities_frag">
-
-        <action
-            android:id="@+id/action_activitiesFragment_to_activityDetailsFragment"
-            app:destination="@id/activity_detail_fragment_dest"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
-    </fragment>
+        tools:layout="@layout/activities_frag" />
 
     <fragment
         android:id="@+id/history_fragment_dest"
@@ -114,15 +109,8 @@
         <argument
             android:name="activity"
             app:argType="com.jdevs.timeo.model.ActivityItem" />
-
-        <action
-            android:id="@+id/action_activityDetailFragment_to_addEditActivityFragment"
-            app:destination="@id/addactivity_fragment_dest"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
+
     <fragment
         android:id="@+id/tasks_fragment_dest"
         android:name="com.jdevs.timeo.ui.tasks.TasksFragment"

@@ -5,48 +5,55 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Project
+import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetTopActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.projects.GetTopProjectsUseCase
+import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.domain.usecase.settings.GetSettingsUseCase
+import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.shared.util.mapList
+import com.jdevs.timeo.util.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import javax.inject.Inject
 
 class OverviewViewModel @Inject constructor(
-    private val getTopProjects: GetTopProjectsUseCase,
-    private val getTopActivities: GetTopActivitiesUseCase,
+    getTopProjects: GetTopProjectsUseCase,
+    getTopActivities: GetTopActivitiesUseCase,
+    private val addRecord: AddRecordUseCase,
     private val settings: GetSettingsUseCase
 ) : ViewModel() {
 
-    val topProjects get() = getTopProjects().mapList(Project::mapToPresentation)
-    val topActivities get() = getTopActivities().mapList(Activity::mapToPresentation)
     val activitiesEnabled get() = settings.activitiesEnabled
 
-    val areProjectsLoading get() = _areProjectsLoading as LiveData<Boolean>
-    val areProjectsEmpty get() = _areProjectsEmpty as LiveData<Boolean>
-    val areActivitiesLoading get() = _areActivitiesLoading as LiveData<Boolean>
-    val areActivitiesEmpty get() = _areActivitiesEmpty as LiveData<Boolean>
-    private val _areProjectsLoading = MutableLiveData(true)
-    private val _areProjectsEmpty = MutableLiveData(false)
-    private val _areActivitiesLoading = MutableLiveData(true)
-    private val _areActivitiesEmpty = MutableLiveData(false)
+    val activities = DataHolder { getTopActivities().mapList(Activity::mapToPresentation) }
+    val projects = DataHolder { getTopProjects().mapList(Project::mapToPresentation) }
 
-    val navigateToProjects = SingleLiveEvent<Any>()
-    val navigateToActivities = SingleLiveEvent<Any>()
+    fun createRecord(index: Int, time: Int) = launchCoroutine {
 
-    fun setProjectsSize(size: Int) {
-
-        _areProjectsLoading.value = false
-        _areProjectsEmpty.value = size <= 0
+        val activity = activities.data.value!![index]
+        val record = Record(name = activity.name, time = time, activityId = activity.id)
+        addRecord(record)
     }
 
-    fun setActivitiesSize(size: Int) {
+    class DataHolder<T : ViewItem>(initializeData: () -> LiveData<List<T>>) {
 
-        _areActivitiesLoading.value = false
-        _areActivitiesEmpty.value = size <= 0
+        val data by lazy(initializeData)
+        val isLoading get() = _isLoading as LiveData<Boolean>
+        val isEmpty get() = _isEmpty as LiveData<Boolean>
+        private val _isLoading = MutableLiveData(true)
+        private val _isEmpty = MutableLiveData(false)
+
+        val navigateToList = SingleLiveEvent<Any>()
+        val navigateToAdd = SingleLiveEvent<Any>()
+
+        fun setSize(size: Int) {
+
+            _isLoading.value = false
+            _isEmpty.value = size <= 0
+        }
+
+        fun navigateToList() = navigateToList.call()
+        fun navigateToAdd() = navigateToAdd.call()
     }
-
-    fun navigateToProjects() = navigateToProjects.call()
-    fun navigateToActivities() = navigateToActivities.call()
 }

@@ -14,8 +14,7 @@ import javax.inject.Inject
 class TasksViewModel @Inject constructor(
     private val getTasks: GetTasksUseCase,
     private val setTaskCompleted: SetTaskCompletedUseCase
-) :
-    ListViewModel<TaskItem>() {
+) : ListViewModel<TaskItem>() {
 
     override val localLiveData
         get() = getTasks.tasks.map(Task::mapToPresentation).toLiveData(PAGE_SIZE)

@@ -61,9 +61,8 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
 
     private fun navigateToDetails(index: Int) {
 
-        val directions = ProjectsFragmentDirections
-            .actionProjectsFragmentToProjectDetailFragment(getItem(index))
-
+        val directions =
+            ProjectsFragmentDirections.actionProjectsFragmentToProjectDetailFragment(getItem(index))
         findNavController().navigate(directions)
     }
 }

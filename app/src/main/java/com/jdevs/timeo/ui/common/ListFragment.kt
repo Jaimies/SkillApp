@@ -85,7 +85,6 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
                 SUCCESSFUL -> {
 
                     viewModel.setLength(firestoreAdapter.dataItemCount)
-                    viewModel.hideLoader()
                     firestoreAdapter.showLoader()
                 }
 

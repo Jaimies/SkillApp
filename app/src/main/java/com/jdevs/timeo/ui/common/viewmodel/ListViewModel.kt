@@ -16,6 +16,7 @@ abstract class ListViewModel<T : ViewItem> : LoaderViewModel(isLoadingByDefault 
 
     fun setLength(length: Int) {
 
-        _isEmpty.value = length == 0
+        hideLoader()
+        _isEmpty.value = length <= 0
     }
 }

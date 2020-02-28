@@ -46,6 +46,10 @@ fun RecyclerView.setupAdapter(
     @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL
 ) {
 
+    if (layoutManager != null && this.adapter != null) {
+        return
+    }
+
     layoutManager = LinearLayoutManager(context, orientation, false)
     this.adapter = adapter
 }

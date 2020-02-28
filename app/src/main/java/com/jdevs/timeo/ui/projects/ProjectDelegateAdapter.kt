@@ -13,7 +13,7 @@ import com.jdevs.timeo.util.createViewModel
 import com.jdevs.timeo.util.fragmentActivity
 
 class ProjectDelegateAdapter(
-    private val showRecordDialog: (Int) -> Unit = {},
+    private val showRecordDialog: () -> Unit = {},
     private val navigateToDetails: (Int) -> Unit = {}
 ) : DelegateAdapter {
 
@@ -23,11 +23,10 @@ class ProjectDelegateAdapter(
         val fragmentActivity = parent.fragmentActivity
         val viewModel = createViewModel(fragmentActivity, ProjectViewModel::class)
 
-        val binding = ProjectsItemBinding.inflate(inflater, parent, false).also {
+        val binding = ProjectsItemBinding.inflate(inflater, parent, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = fragmentActivity
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = fragmentActivity
 
         return ViewHolder(binding.root, viewModel, showRecordDialog, navigateToDetails)
     }
@@ -41,14 +40,14 @@ class ProjectDelegateAdapter(
     class ViewHolder(
         view: View,
         private val viewModel: ProjectViewModel,
-        private val showRecordDialog: (Int) -> Unit = {},
+        private val showRecordDialog: () -> Unit = {},
         private val navigateToDetails: (Int) -> Unit = {}
     ) : PagingAdapter.ViewHolder(view) {
 
         init {
 
             observeEvent(viewModel.navigateToDetails) { navigateToDetails(adapterPosition) }
-            observeEvent(viewModel.showRecordDialog) { showRecordDialog(adapterPosition) }
+            observeEvent(viewModel.showRecordDialog) { showRecordDialog() }
         }
 
         fun setProject(project: ProjectItem) = viewModel.setProject(project)

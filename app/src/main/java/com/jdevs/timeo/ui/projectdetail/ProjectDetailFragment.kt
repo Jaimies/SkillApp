@@ -80,7 +80,7 @@ class ProjectDetailFragment : ActionBarFragment() {
         if (item.itemId == R.id.editActivity) {
 
             val directions = ProjectDetailFragmentDirections
-                .actionProjectDetailFragmentToAddProjectFragment(viewModel.project.value)
+                .actionProjectDetailFragmentToAddProjectFragment(viewModel.project.value!!)
 
             findNavController().navigate(directions)
             return true

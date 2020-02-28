@@ -22,11 +22,10 @@ class TaskDelegateAdapter(private val setTaskCompleted: (Int, Boolean) -> Unit =
         val fragmentActivity = parent.fragmentActivity
         val viewModel = createViewModel(fragmentActivity, TaskViewModel::class)
 
-        val binding = TasksItemBinding.inflate(inflater, parent, false).also {
+        val binding = TasksItemBinding.inflate(inflater, parent, false)
 
-            it.viewModel = viewModel
-            it.lifecycleOwner = fragmentActivity
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = fragmentActivity
 
         return ViewHolder(binding.root, viewModel, setTaskCompleted)
     }

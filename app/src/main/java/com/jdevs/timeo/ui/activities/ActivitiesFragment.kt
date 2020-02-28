@@ -12,13 +12,13 @@ import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.model.ActivityItem
+import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragmentArgs
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.showTimePicker
 import com.jdevs.timeo.util.time.getMins
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 import javax.inject.Inject
 
@@ -87,22 +87,15 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
     private fun navigateToDetails(index: Int) {
 
-        val directions = ActivitiesFragmentDirections
-            .actionActivitiesFragmentToActivityDetailsFragment(activity = getItem(index))
-
-        findNavController().navigate(directions)
+        val args = ActivityDetailFragmentArgs(getItem(index)).toBundle()
+        findNavController().navigateAnimated(R.id.activity_detail_fragment_dest, args)
     }
 
     private fun showRecordDialog(index: Int) {
 
-        val dialog = TimePickerDialog
-            .newInstance({ _, hour, minute, _ -> createRecord(index, hour, minute) }, 0, 0, true)
+        showTimePicker { hour, minute ->
 
-        showTimePicker(dialog)
-    }
-
-    private fun createRecord(index: Int, hour: Int, minute: Int) {
-
-        viewModel.createRecord(activity = getItem(index), time = getMins(hour, minute))
+            viewModel.createRecord(activity = getItem(index), time = getMins(hour, minute))
+        }
     }
 }

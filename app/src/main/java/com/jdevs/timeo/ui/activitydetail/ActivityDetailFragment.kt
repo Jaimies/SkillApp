@@ -12,20 +12,21 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
+import com.jdevs.timeo.ui.addactivity.AddEditActivityFragmentArgs
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.observeEvent
 import com.jdevs.timeo.util.setup
 import com.jdevs.timeo.util.setupAdapter
 import com.jdevs.timeo.util.showTimePicker
 import com.jdevs.timeo.util.time.getMins
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activitydetail_frag.achievements_list
 import kotlinx.android.synthetic.main.activitydetail_frag.lineChart
 import javax.inject.Inject
 
-class ActivityDetailFragment : ActionBarFragment(), TimePickerDialog.OnTimeSetListener {
+class ActivityDetailFragment : ActionBarFragment() {
 
     @Inject
     lateinit var viewModel: ActivityDetailViewModel
@@ -68,29 +69,24 @@ class ActivityDetailFragment : ActionBarFragment(), TimePickerDialog.OnTimeSetLi
 
         viewModel.activity.observe(viewLifecycleOwner, viewModel::setActivity)
 
-        observeEvent(viewModel.showRecordDialog) {
-            val dialog = TimePickerDialog.newInstance(this, 0, 0, true)
-            showTimePicker(dialog)
-        }
+        observeEvent(viewModel.showRecordDialog) { showTimePicker(::addRecord) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == R.id.editActivity) {
 
-            val directions = ActivityDetailFragmentDirections
-                .actionActivityDetailFragmentToAddEditActivityFragment(viewModel.activity.value!!)
-
-            findNavController().navigate(directions)
+            val args = AddEditActivityFragmentArgs(viewModel.activity.value!!).toBundle()
+            findNavController().navigateAnimated(R.id.addactivity_fragment_dest, args)
             return true
         }
 
         return false
     }
 
-    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
+    private fun addRecord(hour: Int, minute: Int) {
 
-        viewModel.addRecord(viewModel.activity.value!!, getMins(hourOfDay, minute))
+        viewModel.addRecord(viewModel.activity.value!!, getMins(hour, minute))
     }
 
     companion object {

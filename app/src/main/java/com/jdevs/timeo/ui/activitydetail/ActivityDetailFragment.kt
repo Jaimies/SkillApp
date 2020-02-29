@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +16,7 @@ import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.setup
 import com.jdevs.timeo.util.setupAdapter
 import com.jdevs.timeo.util.showTimePicker
@@ -67,9 +66,8 @@ class ActivityDetailFragment : ActionBarFragment() {
         achievements_list.setupAdapter(adapter, RecyclerView.HORIZONTAL)
         achievements_list.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
 
-        viewModel.activity.observe(viewLifecycleOwner, viewModel::setActivity)
-
-        observeEvent(viewModel.showRecordDialog) { showTimePicker(::addRecord) }
+        observe(viewModel.activity, viewModel::setActivity)
+        observe(viewModel.showRecordDialog) { showTimePicker(::addRecord) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

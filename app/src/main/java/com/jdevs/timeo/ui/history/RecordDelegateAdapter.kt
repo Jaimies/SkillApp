@@ -9,8 +9,8 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.RecordsItemBinding
 import com.jdevs.timeo.model.RecordItem
 import com.jdevs.timeo.model.ViewItem
+import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
-import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.createViewModel
 import com.jdevs.timeo.util.fragmentActivity
 
@@ -40,11 +40,11 @@ class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : 
         private val view: View,
         private val viewModel: RecordViewModel,
         private val showDeleteDialog: (Int) -> Unit
-    ) : PagingAdapter.ViewHolder(view) {
+    ) : BaseViewHolder(view) {
 
         init {
 
-            observeEvent(viewModel.showDeleteDialog) { showDeleteDialog(adapterPosition) }
+            viewModel.showDeleteDialog.observe { showDeleteDialog(adapterPosition) }
         }
 
         fun bindRecord(record: RecordItem) {

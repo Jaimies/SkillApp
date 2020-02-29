@@ -12,7 +12,7 @@ import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.showSnackbar
 import kotlinx.android.synthetic.main.projects_frag.recycler_view
 import javax.inject.Inject
@@ -54,7 +54,7 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         recycler_view.setup(PROJECTS_VISIBLE_THRESHOLD)
-        observeEvent(viewModel.navigateToAddActivity) {
+        observe(viewModel.navigateToAddActivity) {
             findNavController().navigateAnimated(R.id.addproject_fragment_dest)
         }
     }

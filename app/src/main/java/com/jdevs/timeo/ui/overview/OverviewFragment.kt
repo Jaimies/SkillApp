@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
@@ -19,7 +18,7 @@ import com.jdevs.timeo.ui.projectdetail.ProjectDetailFragmentArgs
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.setupAdapter
 import com.jdevs.timeo.util.showSnackbar
 import com.jdevs.timeo.util.showTimePicker
@@ -68,7 +67,7 @@ class OverviewFragment : Fragment() {
             projectsAdapter, projects_list
         )
 
-        viewModel.activitiesEnabled.observe(viewLifecycleOwner) { isEnabled ->
+        observe(viewModel.activitiesEnabled) { isEnabled ->
 
             if (isEnabled) {
 
@@ -113,13 +112,13 @@ class OverviewFragment : Fragment() {
 
         recyclerView.setupAdapter(adapter)
 
-        data.observe(viewLifecycleOwner) { list ->
+        observe(data) { list ->
 
             adapter.submitList(list)
             setSize(list.size)
         }
 
-        observeEvent(navigateToList) { findNavController().navigateAnimated(listId) }
-        observeEvent(navigateToAdd) { findNavController().navigateAnimated(addId) }
+        observe(navigateToList) { findNavController().navigateAnimated(listId) }
+        observe(navigateToAdd) { findNavController().navigateAnimated(addId) }
     }
 }

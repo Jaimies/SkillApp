@@ -1,6 +1,7 @@
 package com.jdevs.timeo.data.settings
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,5 +20,5 @@ class DefaultLocalUserDataSource @Inject constructor(context: Context) : LocalUs
         sharedPrefs.getBoolean(name, defValue)
 
     override fun setPreferenceEnabled(name: String, isEnabled: Boolean) =
-        sharedPrefs.edit().putBoolean(name, isEnabled).apply()
+        sharedPrefs.edit { putBoolean(name, isEnabled) }
 }

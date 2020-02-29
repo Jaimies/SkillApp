@@ -24,7 +24,7 @@ import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.showSnackbar
 import javax.inject.Inject
 
@@ -66,11 +66,11 @@ class SignInFragment : AuthFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
-        observeEvent(viewModel.signIn) { signIn(it!!.first, it.second) }
-        observeEvent(viewModel.showGoogleSignInIntent) { showGoogleSignInIntent() }
+        observe(viewModel.hideKeyboard) { hideKeyboard() }
+        observe(viewModel.signIn) { signIn(it!!.first, it.second) }
+        observe(viewModel.showGoogleSignInIntent) { showGoogleSignInIntent() }
 
-        observeEvent(viewModel.navigateToSignUp) {
+        observe(viewModel.navigateToSignUp) {
 
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }

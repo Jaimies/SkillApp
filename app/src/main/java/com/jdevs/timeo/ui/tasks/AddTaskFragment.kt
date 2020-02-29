@@ -9,11 +9,12 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddTaskLayoutBinding
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.showKeyboard
 import kotlinx.android.synthetic.main.add_task_layout.name_edit_text
 import javax.inject.Inject
@@ -50,12 +51,12 @@ class AddTaskFragment : Fragment() {
         name_edit_text.showKeyboard()
 
         requireActivity().onBackPressedDispatcher.addCallback(this) { destroy() }
-        observeEvent(viewModel.dismiss) { destroy() }
+        observe(viewModel.dismiss) { destroy() }
     }
 
     private fun destroy() {
 
-        parentFragmentManager.beginTransaction().remove(this).commit()
+        parentFragmentManager.commit { remove(this@AddTaskFragment) }
         hideKeyboard()
     }
 
@@ -63,12 +64,11 @@ class AddTaskFragment : Fragment() {
 
         fun create(fragmentManager: FragmentManager, projectId: String) {
 
-            val args = Bundle()
-            args.putString("projectId", projectId)
+            val args = Bundle().apply { putString("projectId", projectId) }
 
-            fragmentManager.beginTransaction()
-                .add<AddTaskFragment>(R.id.add_task_frag, args = args)
-                .commit()
+            fragmentManager.commit {
+                add<AddTaskFragment>(R.id.add_task_frag, args = args)
+            }
         }
     }
 }

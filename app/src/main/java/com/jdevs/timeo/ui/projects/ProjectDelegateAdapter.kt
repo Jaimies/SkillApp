@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.databinding.ProjectsItemBinding
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.model.ViewItem
+import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
-import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.createViewModel
 import com.jdevs.timeo.util.fragmentActivity
 
@@ -42,12 +42,12 @@ class ProjectDelegateAdapter(
         private val viewModel: ProjectViewModel,
         private val showRecordDialog: () -> Unit = {},
         private val navigateToDetails: (Int) -> Unit = {}
-    ) : PagingAdapter.ViewHolder(view) {
+    ) : BaseViewHolder(view) {
 
         init {
 
-            observeEvent(viewModel.navigateToDetails) { navigateToDetails(adapterPosition) }
-            observeEvent(viewModel.showRecordDialog) { showRecordDialog() }
+            viewModel.navigateToDetails.observe { navigateToDetails(adapterPosition) }
+            viewModel.showRecordDialog.observe { showRecordDialog() }
         }
 
         fun setProject(project: ProjectItem) = viewModel.setProject(project)

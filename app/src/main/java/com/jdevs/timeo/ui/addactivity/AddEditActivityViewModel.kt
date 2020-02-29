@@ -48,7 +48,7 @@ class AddEditActivityViewModel @Inject constructor(
         addActivity.invoke(name)
     }
 
-    fun saveActivity(activity: ActivityItem) = launchCoroutine {
+    suspend fun saveActivity(activity: ActivityItem) {
 
         saveActivityUseCase.invoke(activity.mapToDomain())
     }

@@ -3,11 +3,11 @@ package com.jdevs.timeo.ui.settings
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.observe
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.jdevs.timeo.R
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.observe
 import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -37,7 +37,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.activitiesEnabled.observe(viewLifecycleOwner) { newValue ->
+        observe(viewModel.activitiesEnabled) { newValue ->
 
             activitiesEnabled.isChecked = newValue
         }

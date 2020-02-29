@@ -1,14 +1,15 @@
 package com.jdevs.timeo.data.firestore
 
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.jdevs.timeo.domain.repository.AuthRepository
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 abstract class FirestoreDataSource(private val authRepository: AuthRepository) {
 
-    protected val db = FirebaseFirestore.getInstance()
+    protected val db = Firebase.firestore
     private var mUid = ""
 
     protected abstract fun resetRefs(uid: String)

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
@@ -17,7 +16,7 @@ import com.jdevs.timeo.ui.tasks.AddTaskFragment
 import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.setupAdapter
 import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 import javax.inject.Inject
@@ -60,17 +59,14 @@ class ProjectDetailFragment : ActionBarFragment() {
 
         tasks_list.setupAdapter(adapter)
 
-        viewModel.topTasks.observe(viewLifecycleOwner) { newItems ->
-            adapter.submitList(newItems)
-        }
+        observe(viewModel.topTasks) { newItems -> adapter.submitList(newItems) }
+        observe(viewModel.project, viewModel::setProject)
 
-        viewModel.project.observe(viewLifecycleOwner, viewModel::setProject)
-
-        observeEvent(viewModel.goToTasks) {
+        observe(viewModel.goToTasks) {
             findNavController().navigateAnimated(R.id.tasks_fragment_dest)
         }
 
-        observeEvent(viewModel.addTask) {
+        observe(viewModel.addTask) {
             AddTaskFragment.create(requireActivity().supportFragmentManager, args.project.id)
         }
     }

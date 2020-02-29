@@ -57,13 +57,12 @@ inline fun <reified T : Any, O : Any> createCollectionWatcher(
     pageSize: Long,
     noinline mapFunction: (T) -> O,
     orderBy: String = TOTAL_TIME
-) = CollectionWatcher(createLiveData(T::class.java, pageSize, mapFunction), pageSize, orderBy)
+) = CollectionWatcher(createLiveData(pageSize, mapFunction), pageSize, orderBy)
 
-fun <T : Any, O : Any> createLiveData(
-    type: Class<T>,
+inline fun <reified T : Any, O : Any> createLiveData(
     pageSize: Long,
-    mapFunction: (T) -> O
+    noinline mapFunction: (T) -> O
 ): LiveDataConstructor<O> = { query, setLastVisibleItem, onLastReached ->
 
-    ListLiveData(query, setLastVisibleItem, onLastReached, type, mapFunction, pageSize)
+    ListLiveData(query, setLastVisibleItem, onLastReached, T::class.java, mapFunction, pageSize)
 }

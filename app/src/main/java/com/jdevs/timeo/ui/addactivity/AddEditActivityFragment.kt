@@ -18,7 +18,7 @@ import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.application
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.mainActivity
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.showSnackbar
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -58,9 +58,9 @@ class AddEditActivityFragment : ActionBarFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
-        observeEvent(viewModel.showDeleteDialog) { showDeleteDialog() }
-        observeEvent(viewModel.saveActivity) { saveActivity(it!!) }
+        observe(viewModel.hideKeyboard) { hideKeyboard() }
+        observe(viewModel.showDeleteDialog) { showDeleteDialog() }
+        observe(viewModel.saveActivity) { saveActivity(it!!) }
     }
 
     private fun saveActivity(name: String) {

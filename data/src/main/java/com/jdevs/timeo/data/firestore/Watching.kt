@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.jdevs.timeo.data.TOTAL_TIME
 
 inline fun <reified I : Any, O> CollectionReference.watchCollection(
@@ -20,12 +22,9 @@ inline fun <reified I : Any, O> CollectionReference.watchCollection(
     query().orderBy(orderBy, direction).limit(limit)
         .addSnapshotListener { querySnapshot, _ ->
 
-            querySnapshot?.documents?.mapNotNull {
+            querySnapshot?.toObjects<I>()?.let { list ->
 
-                it.toObject(I::class.java)
-            }?.let {
-
-                liveData.value = it.map(mapFunction)
+                liveData.value = list.map(mapFunction)
             }
         }
 
@@ -38,9 +37,9 @@ inline fun <reified I : Any, O> DocumentReference.watch(crossinline mapFunction:
 
     addSnapshotListener { documentSnapshot, _ ->
 
-        documentSnapshot?.toObject(I::class.java)?.let {
+        documentSnapshot?.toObject<I>()?.let { item ->
 
-            liveData.value = mapFunction(it)
+            liveData.value = mapFunction(item)
         }
     }
 

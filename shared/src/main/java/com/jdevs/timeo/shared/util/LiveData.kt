@@ -5,5 +5,5 @@ import androidx.lifecycle.map
 
 inline fun <X, Y> LiveData<List<X>>.mapList(crossinline transform: (X) -> Y): LiveData<List<Y>> {
 
-    return map { item -> item.map(transform) }
+    return map { list -> list.map(transform) }
 }

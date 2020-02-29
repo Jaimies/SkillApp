@@ -121,9 +121,9 @@ class MainActivity : AppCompatActivity(),
 
         bottomNavView.selectedItemId = graphId
 
-        graphs.forEach {
+        graphs.forEach { graph ->
 
-            if (!graphsToRecreate.contains(it)) graphsToRecreate.add(it)
+            if (graph !in graphsToRecreate) graphsToRecreate += graph
         }
     }
 

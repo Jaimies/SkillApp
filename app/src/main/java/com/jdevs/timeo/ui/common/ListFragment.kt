@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.observe
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +24,7 @@ import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.TAG
+import com.jdevs.timeo.util.observe
 import javax.inject.Inject
 
 abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
@@ -59,7 +59,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     @Suppress("UNCHECKED_CAST")
     private fun observeLiveData(liveData: LiveData<PagedList<T>>) {
 
-        liveData.observe(viewLifecycleOwner) {
+        observe(liveData) {
 
             adapter.submitList(it as PagedList<ViewItem>)
             viewModel.setLength(it.size)
@@ -74,7 +74,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
             return
         }
 
-        liveData.observe(viewLifecycleOwner) { operation ->
+        observe(liveData) { operation ->
 
             when (operation.type) {
 

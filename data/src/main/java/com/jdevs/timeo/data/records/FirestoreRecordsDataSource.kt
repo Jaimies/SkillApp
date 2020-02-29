@@ -32,8 +32,6 @@ import javax.inject.Singleton
 interface RecordsRemoteDataSource : RecordsDataSource {
 
     fun getRecords(fetchNewItems: Boolean): List<LiveData<Operation<Record>>>
-
-    override suspend fun addRecord(record: Record)
 }
 
 @Singleton
@@ -69,9 +67,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
         db.runBatch { batch ->
 
-            val recordRef = recordsRef.document(record.id)
-            batch.delete(recordRef)
-
+            batch.delete(recordsRef.document(record.id))
             increaseActivityTime(record.activityId, -record.time, batch)
             updateStats(record.creationDate, -record.time, batch)
         }

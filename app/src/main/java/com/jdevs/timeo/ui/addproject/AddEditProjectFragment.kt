@@ -15,12 +15,10 @@ import com.jdevs.timeo.databinding.AddprojectFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.NAME_MAX_LENGTH
 import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.application
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.mainActivity
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.showSnackbar
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditProjectFragment : ActionBarFragment() {
@@ -54,9 +52,9 @@ class AddEditProjectFragment : ActionBarFragment() {
 
         mainActivity.supportActionBar?.setTitle(if (isEdited) R.string.edit_project else R.string.create_project)
 
-        observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
-        observeEvent(viewModel.showDeleteDialog) { showDeleteDialog() }
-        observeEvent(viewModel.saveProject) { saveProject(it!!.first, it.second) }
+        observe(viewModel.hideKeyboard) { hideKeyboard() }
+        observe(viewModel.showDeleteDialog) { showDeleteDialog() }
+        observe(viewModel.saveProject) { saveProject(it!!.first, it.second) }
 
         return binding.root
     }
@@ -70,7 +68,7 @@ class AddEditProjectFragment : ActionBarFragment() {
         if (isEdited) {
 
             val project = args.project!!.copy(name = name, description = description)
-            application.ioScope.launch { viewModel.saveProject(project) }
+            viewModel.saveProject(project)
             findNavController().popBackStack()
         } else {
 

@@ -19,7 +19,7 @@ import com.jdevs.timeo.util.TOO_LONG
 import com.jdevs.timeo.util.TOO_SHORT
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.showSnackbar
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
@@ -51,10 +51,10 @@ class SignUpFragment : AuthFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        observeEvent(viewModel.hideKeyboard) { hideKeyboard() }
-        observeEvent(viewModel.signUp) { signUp(it!!.first, it.second) }
+        observe(viewModel.hideKeyboard) { hideKeyboard() }
+        observe(viewModel.signUp) { signUp(it!!.first, it.second) }
 
-        observeEvent(viewModel.navigateToSignIn) {
+        observe(viewModel.navigateToSignIn) {
             findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         }
     }

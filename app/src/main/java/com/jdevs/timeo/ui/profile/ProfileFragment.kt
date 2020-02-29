@@ -12,7 +12,7 @@ import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.navigateToGraph
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import javax.inject.Inject
 
 class ProfileFragment : ActionBarFragment() {
@@ -43,11 +43,11 @@ class ProfileFragment : ActionBarFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        observeEvent(viewModel.navigateToSignIn) {
+        observe(viewModel.navigateToSignIn) {
             findNavController().navigateAnimated(R.id.signin_fragment_dest)
         }
 
-        observeEvent(viewModel.signOut) {
+        observe(viewModel.signOut) {
             viewModel.signOut()
             navigateToGraph(R.id.overview)
         }

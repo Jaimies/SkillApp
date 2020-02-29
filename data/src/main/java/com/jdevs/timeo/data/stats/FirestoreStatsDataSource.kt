@@ -52,7 +52,7 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
 
     private inline fun <reified I : Any, O> CollectionReference.watchCollection(
         crossinline mapFunction: (I) -> O,
-        crossinline converter: OffsetDateTime.() -> Int
+        converter: OffsetDateTime.() -> Int
     ) =
         watchCollection(mapFunction, WEEK_DAYS.toLong(), DAY, ASCENDING) {
 

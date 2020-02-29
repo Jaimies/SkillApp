@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
@@ -16,7 +15,7 @@ import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragmentArgs
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.appComponent
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observeEvent
+import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.showTimePicker
 import com.jdevs.timeo.util.time.getMins
 import kotlinx.android.synthetic.main.history_frag.recycler_view
@@ -61,7 +60,7 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
         recycler_view.setup(ACTIVITIES_VISIBLE_THRESHOLD)
 
-        observeEvent(viewModel.navigateToAddEdit) {
+        observe(viewModel.navigateToAddEdit) {
             findNavController().navigateAnimated(R.id.addactivity_fragment_dest)
         }
     }
@@ -74,7 +73,7 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
         menu.forEach { menuItem -> menuItem.isEnabled = false }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+        observe(viewModel.isLoading) { isLoading ->
 
             if (isLoading || isLoadEventHandled) {
                 return@observe

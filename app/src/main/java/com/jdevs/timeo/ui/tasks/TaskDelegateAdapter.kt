@@ -3,13 +3,12 @@ package com.jdevs.timeo.ui.tasks
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.databinding.TasksItemBinding
 import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.model.ViewItem
+import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
-import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.createViewModel
 import com.jdevs.timeo.util.fragmentActivity
 
@@ -40,11 +39,11 @@ class TaskDelegateAdapter(private val setTaskCompleted: (Int, Boolean) -> Unit =
         view: View,
         private val viewModel: TaskViewModel,
         setTaskCompleted: (Int, Boolean) -> Unit
-    ) : PagingAdapter.ViewHolder(view) {
+    ) : BaseViewHolder(view) {
 
         init {
 
-            viewModel.isCompleted.observe(lifecycleOwner) { isCompleted ->
+            viewModel.isCompleted.observe { isCompleted ->
 
                 setTaskCompleted(adapterPosition, isCompleted)
             }

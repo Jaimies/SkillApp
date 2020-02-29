@@ -1,8 +1,8 @@
 package com.jdevs.timeo.data.records
 
 import androidx.paging.DataSource
+import androidx.room.withTransaction
 import com.jdevs.timeo.data.db.TimeoDatabase
-import com.jdevs.timeo.data.util.runInTransactionSuspend
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.shared.time.getDaysSinceEpoch
 import com.jdevs.timeo.shared.time.getMonthSinceEpoch
@@ -31,7 +31,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
 
     override suspend fun addRecord(record: Record) {
 
-        db.runInTransactionSuspend {
+        db.withTransaction {
 
             db.recordsDao().insert(record.mapToDB())
             db.activitiesDao().increaseTime(record.activityId.toInt(), record.time)
@@ -41,7 +41,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
 
     override suspend fun deleteRecord(record: Record) {
 
-        db.runInTransactionSuspend {
+        db.withTransaction {
 
             db.recordsDao().delete(record.mapToDB())
             db.activitiesDao().increaseTime(record.activityId.toInt(), -record.time)

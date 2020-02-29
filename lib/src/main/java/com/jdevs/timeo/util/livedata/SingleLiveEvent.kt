@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.observe
+import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -19,26 +19,25 @@ import java.util.concurrent.atomic.AtomicBoolean
  *
  * Note that only one observer is going to be notified of changes.
  */
-class SingleLiveEvent<T> : MutableLiveData<T?>() {
-    private val mPending = AtomicBoolean(false)
+class SingleLiveEvent<T> : MutableLiveData<T>() {
+    private val pending = AtomicBoolean(false)
 
     @MainThread
-    fun observeEvent(owner: LifecycleOwner?, onChanged: (T?) -> Unit) {
+    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         if (hasActiveObservers()) {
             Log.w(TAG, "Multiple observers registered but only one will be notified of changes.")
         }
-
         // Observe the internal MutableLiveData
-        observe(owner!!) {
-            if (mPending.compareAndSet(true, false)) {
-                onChanged(it)
+        super.observe(owner, Observer { t ->
+            if (pending.compareAndSet(true, false)) {
+                observer.onChanged(t)
             }
-        }
+        })
     }
 
     @MainThread
     override fun setValue(value: T?) {
-        mPending.set(true)
+        pending.set(true)
         super.setValue(value)
     }
 

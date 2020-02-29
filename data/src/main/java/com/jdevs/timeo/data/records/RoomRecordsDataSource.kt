@@ -7,8 +7,6 @@ import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.shared.time.getDaysSinceEpoch
 import com.jdevs.timeo.shared.time.getMonthSinceEpoch
 import com.jdevs.timeo.shared.time.getWeeksSinceEpoch
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,7 +29,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
 
     override val records by lazy { db.recordsDao().getRecords().map(DBRecord::mapToDomain) }
 
-    override suspend fun addRecord(record: Record) = withContext(Dispatchers.IO) {
+    override suspend fun addRecord(record: Record) {
 
         db.runInTransactionSuspend {
 
@@ -41,7 +39,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
         }
     }
 
-    override suspend fun deleteRecord(record: Record) = withContext(Dispatchers.IO) {
+    override suspend fun deleteRecord(record: Record) {
 
         db.runInTransactionSuspend {
 

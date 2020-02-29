@@ -13,9 +13,7 @@ import com.jdevs.timeo.data.firestore.watchCollection
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.AuthRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -44,7 +42,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     override fun getActivityById(id: String) =
         activitiesRef.document(id).watch(FirestoreActivity::mapToDomain)
 
-    override suspend fun saveActivity(activity: Activity) = withContext<Unit>(Dispatchers.IO) {
+    override suspend fun saveActivity(activity: Activity) {
 
         val querySnapshot = recordsRef
             .whereEqualTo(ACTIVITY_ID, activity.id)

@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue.arrayUnion
 import com.google.firebase.firestore.FieldValue.increment
-import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.WriteBatch
 import com.jdevs.timeo.data.ACTIVITIES_COLLECTION
+import com.jdevs.timeo.data.DAY
 import com.jdevs.timeo.data.DAY_STATS_COLLECTION
 import com.jdevs.timeo.data.MONTH_STATS_COLLECTION
 import com.jdevs.timeo.data.RECENT_RECORDS
@@ -18,17 +19,12 @@ import com.jdevs.timeo.data.WEEK_STATS_COLLECTION
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.createCollectionWatcher
-import com.jdevs.timeo.data.stats.FirestoreDayStats
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.shared.time.getDaysSinceEpoch
 import com.jdevs.timeo.shared.time.getMonthSinceEpoch
 import com.jdevs.timeo.shared.time.getWeeksSinceEpoch
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -57,7 +53,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
     private var weekStatsRef: CollectionReference by SafeAccess()
     private var monthStatsRef: CollectionReference by SafeAccess()
 
-    override suspend fun addRecord(record: Record) = withContext<Unit>(Dispatchers.IO) {
+    override suspend fun addRecord(record: Record) {
 
         val newRecordRef = recordsRef.document()
 
@@ -65,11 +61,11 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
             batch.set(newRecordRef, record.mapToFirestore())
             increaseActivityTime(record.activityId, record.time, batch)
-            launch { updateStats(record.creationDate, record.time) }
+            updateStats(record.creationDate, record.time, batch)
         }
     }
 
-    override suspend fun deleteRecord(record: Record) = withContext<Unit>(Dispatchers.IO) {
+    override suspend fun deleteRecord(record: Record) {
 
         db.runBatch { batch ->
 
@@ -77,7 +73,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
             batch.delete(recordRef)
 
             increaseActivityTime(record.activityId, -record.time, batch)
-            launch { updateStats(record.creationDate, -record.time) }
+            updateStats(record.creationDate, -record.time, batch)
         }
     }
 
@@ -94,7 +90,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         }
     }
 
-    private suspend fun updateStats(creationDate: OffsetDateTime, time: Int) {
+    private fun updateStats(creationDate: OffsetDateTime, time: Int, batch: WriteBatch) {
 
         val refs = listOf(
             dayStatsRef.document(creationDate.getDaysSinceEpoch().toString()),
@@ -104,16 +100,11 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
         refs.forEach { ref ->
 
-            try {
-
-                ref.update(TIME, increment(time.toLong())).await()
-            } catch (e: FirebaseFirestoreException) {
-
-                if (e.code == FirebaseFirestoreException.Code.NOT_FOUND) {
-
-                    ref.set(FirestoreDayStats(time = time, day = ref.id.toInt()))
-                }
-            }
+            batch.set(
+                ref,
+                hashMapOf(TIME to increment(time.toLong()), DAY to ref.id.toInt()),
+                SetOptions.merge()
+            )
         }
     }
 

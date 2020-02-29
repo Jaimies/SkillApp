@@ -54,12 +54,14 @@ class AddEditProjectFragment : ActionBarFragment() {
 
         observe(viewModel.hideKeyboard) { hideKeyboard() }
         observe(viewModel.showDeleteDialog) { showDeleteDialog() }
-        observe(viewModel.saveProject) { saveProject(it!!.first, it.second) }
 
         return binding.root
     }
 
-    private fun saveProject(name: String, description: String) {
+    private fun saveProject() {
+
+        val name = viewModel.name.value.orEmpty()
+        val description = viewModel.name.value.orEmpty()
 
         if (!validateInput(name)) {
             return
@@ -109,7 +111,7 @@ class AddEditProjectFragment : ActionBarFragment() {
 
         if (item.itemId == R.id.action_save) {
 
-            viewModel.triggerSaveProject()
+            saveProject()
             return true
         }
 

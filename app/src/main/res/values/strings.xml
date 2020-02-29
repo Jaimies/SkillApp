@@ -39,9 +39,7 @@
     <string name="month">Month</string>
     <string name="per_week">per week</string>
     <string name="days">days</string>
-    <string name="sign_in_failed">Sign in failed</string>
-    <string name="google_sign_in_failed">Google sign in failed</string>
-    <string name="sign_up_failed">Sign up failed</string>
+    <string name="try_again">Something went wrong, please try again</string>
     <string name="check_connection">Please check your network connection</string>
     <string name="user_does_not_exist">User with that email does not exist</string>
     <string name="user_already_exists">User already exists</string>

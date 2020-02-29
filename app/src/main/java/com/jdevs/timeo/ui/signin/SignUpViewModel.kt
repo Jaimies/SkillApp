@@ -7,7 +7,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(private val authRepository: AuthRepository) :
     AuthViewModel() {
 
-    val signUp = SingleLiveEvent<Pair<String, String>>()
+    val signUp = SingleLiveEvent<Any>()
     val navigateToSignIn = SingleLiveEvent<Any>()
 
     fun createAccount(
@@ -25,7 +25,7 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
 
     fun triggerSignUp() {
 
-        signUp.value = email.value.orEmpty() to password.value.orEmpty()
+        signUp.call()
         hideKeyboard()
     }
 

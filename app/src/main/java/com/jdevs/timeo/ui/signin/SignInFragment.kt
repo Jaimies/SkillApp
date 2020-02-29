@@ -14,7 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes.NETWORK_ERROR
-import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -22,6 +21,7 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SigninFragBinding
 import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.hasNetworkConnection
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
 import com.jdevs.timeo.util.observe
@@ -67,7 +67,7 @@ class SignInFragment : AuthFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         observe(viewModel.hideKeyboard) { hideKeyboard() }
-        observe(viewModel.signIn) { signIn(it!!.first, it.second) }
+        observe(viewModel.signIn) { signIn() }
         observe(viewModel.showGoogleSignInIntent) { showGoogleSignInIntent() }
 
         observe(viewModel.navigateToSignUp) {
@@ -76,7 +76,10 @@ class SignInFragment : AuthFragment() {
         }
     }
 
-    private fun signIn(email: String, password: String) {
+    private fun signIn() {
+
+        val email = viewModel.email.value.orEmpty()
+        val password = viewModel.password.value.orEmpty()
 
         when {
 
@@ -86,8 +89,12 @@ class SignInFragment : AuthFragment() {
 
             else -> {
 
-                viewModel.signIn(email, password, ::handleException) {
+                if (!requireContext().hasNetworkConnection) {
+                    showSnackbar(R.string.check_connection)
+                    return
+                }
 
+                viewModel.signIn(email, password, ::handleException) {
                     navigateToOverview()
                 }
             }
@@ -117,13 +124,13 @@ class SignInFragment : AuthFragment() {
 
                 when (e.statusCode) {
 
-                    SIGN_IN_CANCELLED -> Log.i(TAG, "Sign in was cancelled by user")
+                    SIGN_IN_CANCELLED -> Log.d(TAG, "Sign in was cancelled by user")
                     NETWORK_ERROR -> showSnackbar(R.string.check_connection)
 
                     else -> {
 
                         Log.w(TAG, "Google sign in failed", e)
-                        showSnackbar(R.string.google_sign_in_failed)
+                        showSnackbar(R.string.try_again)
                     }
                 }
             }
@@ -138,30 +145,33 @@ class SignInFragment : AuthFragment() {
     private fun onGoogleSignInFailed(exception: Exception) {
 
         Log.w(TAG, "Google sign in failed", exception)
-        showSnackbar(R.string.google_sign_in_failed)
+        showSnackbar(R.string.try_again)
     }
 
-    private fun handleException(exception: Exception) = when (exception as? FirebaseException) {
+    private fun handleException(exception: Exception) {
 
-        is FirebaseAuthInvalidCredentialsException -> {
+        when (exception) {
 
-            setPasswordError(R.string.password_incorrect)
-        }
+            is FirebaseAuthInvalidCredentialsException -> {
 
-        is FirebaseAuthInvalidUserException -> {
+                setPasswordError(R.string.password_incorrect)
+            }
 
-            setEmailError(R.string.user_does_not_exist)
-        }
+            is FirebaseAuthInvalidUserException -> {
 
-        is FirebaseNetworkException -> {
+                setEmailError(R.string.user_does_not_exist)
+            }
 
-            showSnackbar(R.string.check_connection)
-        }
+            is FirebaseNetworkException -> {
 
-        else -> {
+                showSnackbar(R.string.check_connection)
+            }
 
-            Log.w(TAG, "Failed to sign in", exception)
-            showSnackbar(R.string.sign_in_failed)
+            else -> {
+
+                Log.w(TAG, "Sign in failed", exception)
+                showSnackbar(R.string.try_again)
+            }
         }
     }
 }

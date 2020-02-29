@@ -60,10 +60,11 @@ class AddEditActivityFragment : ActionBarFragment() {
 
         observe(viewModel.hideKeyboard) { hideKeyboard() }
         observe(viewModel.showDeleteDialog) { showDeleteDialog() }
-        observe(viewModel.saveActivity) { saveActivity(it!!) }
     }
 
-    private fun saveActivity(name: String) {
+    private fun saveActivity() {
+
+        val name = viewModel.name.value.orEmpty()
 
         if (!validateInput(name)) {
 
@@ -115,7 +116,7 @@ class AddEditActivityFragment : ActionBarFragment() {
 
         if (item.itemId == R.id.action_save) {
 
-            viewModel.triggerSaveActivity()
+            saveActivity()
             return true
         }
 

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(private val authRepository: AuthRepository) :
     AuthViewModel() {
 
-    val signIn = SingleLiveEvent<Pair<String, String>>()
+    val signIn = SingleLiveEvent<Any>()
     val showGoogleSignInIntent = SingleLiveEvent<Any>()
     val navigateToSignUp = SingleLiveEvent<Any>()
 
@@ -39,7 +39,7 @@ class SignInViewModel @Inject constructor(private val authRepository: AuthReposi
 
     fun triggerSignIn() {
 
-        signIn.value = email.value.orEmpty() to password.value.orEmpty()
+        signIn.call()
         hideKeyboard()
     }
 

@@ -18,6 +18,7 @@ import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.TOO_LONG
 import com.jdevs.timeo.util.TOO_SHORT
 import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.hasNetworkConnection
 import com.jdevs.timeo.util.hideKeyboard
 import com.jdevs.timeo.util.observe
 import com.jdevs.timeo.util.showSnackbar
@@ -52,17 +53,26 @@ class SignUpFragment : AuthFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         observe(viewModel.hideKeyboard) { hideKeyboard() }
-        observe(viewModel.signUp) { signUp(it!!.first, it.second) }
+        observe(viewModel.signUp) { signUp() }
 
         observe(viewModel.navigateToSignIn) {
             findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         }
     }
 
-    private fun signUp(email: String, password: String) {
+    private fun signUp() {
+
+        val email = viewModel.email.value.orEmpty()
+        val password = viewModel.password.value.orEmpty()
 
         if (!(checkEmail(email) && checkPassword(password))) {
 
+            return
+        }
+
+        if (!requireContext().hasNetworkConnection) {
+
+            showSnackbar(R.string.check_connection)
             return
         }
 
@@ -118,7 +128,7 @@ class SignUpFragment : AuthFragment() {
             else -> {
 
                 Log.w(TAG, "Failed to sign up", exception)
-                showSnackbar(R.string.sign_up_failed)
+                showSnackbar(R.string.try_again)
             }
         }
     }

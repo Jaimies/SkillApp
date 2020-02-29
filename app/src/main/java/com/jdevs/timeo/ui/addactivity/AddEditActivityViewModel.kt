@@ -22,7 +22,6 @@ class AddEditActivityViewModel @Inject constructor(
     val nameError get() = _nameError as LiveData<String>
     val activityExists get() = _activityExists as LiveData<Boolean>
     val showDeleteDialog = SingleLiveEvent<Any>()
-    val saveActivity = SingleLiveEvent<String>()
 
     private val _nameError = MutableLiveData("")
     private val _activityExists = MutableLiveData(false)
@@ -36,11 +35,6 @@ class AddEditActivityViewModel @Inject constructor(
     fun setNameError(error: String) {
 
         _nameError.value = error
-    }
-
-    fun triggerSaveActivity() {
-
-        saveActivity.value = name.value.orEmpty()
     }
 
     fun addActivity(name: String) = launchCoroutine {

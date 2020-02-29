@@ -26,7 +26,6 @@ class AddEditProjectViewModel @Inject constructor(
     private val _projectExists = MutableLiveData(false)
 
     val showDeleteDialog = SingleLiveEvent<Any>()
-    val saveProject = SingleLiveEvent<Pair<String, String>>()
 
     fun setProject(project: ProjectItem?) {
 
@@ -38,11 +37,6 @@ class AddEditProjectViewModel @Inject constructor(
     fun setNameError(error: String) {
 
         _nameError.value = error
-    }
-
-    fun triggerSaveProject() {
-
-        saveProject.value = name.value.orEmpty() to description.value.orEmpty()
     }
 
     fun addProject(name: String, description: String) = launchCoroutine {

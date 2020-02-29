@@ -20,7 +20,7 @@ class ProfileFragment : ActionBarFragment() {
     @Inject
     lateinit var viewModel: ProfileViewModel
 
-    override val menuId = R.menu.profile_fragment_menu
+    override val menuId = R.menu.profile_frag_menu
 
     override fun onAttach(context: Context) {
 

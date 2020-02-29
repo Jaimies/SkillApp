@@ -9,24 +9,31 @@
 
     <style name="TextAppearance.Timeo.Headline1">
         <item name="android:fontFamily">@font/montserrat_regular</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">28sp</item>
     </style>
 
     <style name="TextAppearance.Timeo.Headline2">
         <item name="fontFamily">@font/montserrat_regular</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">28sp</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="TextAppearance.Timeo.Headline3">
         <item name="fontFamily">@font/montserrat_regular</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
     <style name="TextAppearance.Timeo.Headline4">
         <item name="fontFamily">@font/montserrat_regular</item>
         <item name="android:textColor">@color/colorTextSecondaryDark</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16.5sp</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="TextAppearance.Timeo.Headline5">
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:textColor">@color/colorTextSecondaryDark</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="TextAppearance.Timeo.Subtitle1">
@@ -37,7 +44,7 @@
 
     <style name="TextAppearance.Timeo.Body1">
         <item name="android:fontFamily">@font/montserrat_regular</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextAppearance.Timeo.Body1.Capitalized">
@@ -46,7 +53,7 @@
 
     <style name="TextAppearance.Timeo.Body2">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/colorTextPrimaryDark</item>
     </style>
 </resources>

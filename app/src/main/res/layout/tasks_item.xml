@@ -30,7 +30,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="@{viewModel.name}"
-            android:textAppearance="@style/TextAppearance.Timeo.Headline4"
+            android:textAppearance="@style/TextAppearance.Timeo.Headline5"
             app:isCrossed="@{viewModel.isCompletedInternal}"
             tools:text="Task name" />
     </LinearLayout>

@@ -2,7 +2,6 @@ package com.jdevs.timeo.util
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -10,7 +9,10 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.jdevs.timeo.R
 
-private const val RIGHT_OFFSET_MULTIPLIER = 3
+private const val RIGHT_OFFSET = 3
+private const val TOP_OFFSET = 2
+private const val X_AXIS_SPACE = 0.5f
+private const val Y_AXIS_LABEL_COUNT = 5
 
 fun LineChart.setup(textSize: Float, offset: Float) {
 
@@ -20,20 +22,22 @@ fun LineChart.setup(textSize: Float, offset: Float) {
     setScaleEnabled(false)
     isDragEnabled = false
 
-    setExtraOffsets(offset, 0f, offset * RIGHT_OFFSET_MULTIPLIER, offset)
+    setExtraOffsets(offset, offset * TOP_OFFSET, offset * RIGHT_OFFSET, offset)
 
     data?.setValueTextSize(textSize)
 
-    getPaint(Chart.PAINT_INFO).textSize = context.dpToPx(textSize.toInt()).toFloat()
     setNoDataTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary))
     setNoDataText(context.getString(R.string.no_data))
 
     axisLeft.axisMinimum = 0f
+    axisLeft.labelCount = Y_AXIS_LABEL_COUNT
+    axisLeft.textSize = textSize
+
+    xAxis.spaceMax = X_AXIS_SPACE
+    xAxis.spaceMin = X_AXIS_SPACE
     xAxis.textSize = textSize
     xAxis.position = XAxis.XAxisPosition.BOTTOM
     xAxis.setDrawGridLines(false)
-
-    axisLeft.textSize = textSize
 }
 
 fun Context.createLineData(entries: List<Entry>?): LineData? {

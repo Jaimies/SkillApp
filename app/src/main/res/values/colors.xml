@@ -10,5 +10,5 @@
     <color name="colorTextPrimaryDark">#5C4B41</color>
     <color name="colorTextSecondary">#3B6639</color>
     <color name="colorTextSecondaryDark">#2A5238</color>
-    <color name="colorMenuItemUnselected">#514B3A</color>
+    <color name="colorMenuItemUnselected">#666666</color>
 </resources>

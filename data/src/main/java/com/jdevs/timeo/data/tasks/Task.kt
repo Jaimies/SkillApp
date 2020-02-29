@@ -24,7 +24,7 @@ data class FirestoreTask(
     val name: String = "",
     val projectId: String = "",
     val timeSpent: Int = 0,
-    @PropertyName("isCompleted")
+    @get:PropertyName("isCompleted")
     val isCompleted: Boolean = false
 )
 

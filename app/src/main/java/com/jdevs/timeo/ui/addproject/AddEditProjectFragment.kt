@@ -29,7 +29,7 @@ class AddEditProjectFragment : ActionBarFragment() {
     lateinit var viewModel: AddEditProjectViewModel
 
     private val args: AddEditProjectFragmentArgs by navArgs()
-    override val menuId = R.menu.addedit_project_fragment_menu
+    override val menuId = R.menu.addproject_frag_menu
 
     private var isEdited = false
 

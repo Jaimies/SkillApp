@@ -31,7 +31,7 @@ class ActivityDetailFragment : ActionBarFragment() {
     @Inject
     lateinit var viewModel: ActivityDetailViewModel
 
-    override val menuId = R.menu.activity_detail_fragment_menu
+    override val menuId = R.menu.activitydetail_frag_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
     private val adapter by lazy { AchievementsAdapter() }
 
@@ -91,7 +91,7 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     companion object {
         private const val ACHIEVEMENTS_ITEM_SPACING = 20
-        private const val CHART_TEXT_SIZE = 16f
+        private const val CHART_TEXT_SIZE = 14f
         private const val CHART_OFFSET = 8f
     }
 }

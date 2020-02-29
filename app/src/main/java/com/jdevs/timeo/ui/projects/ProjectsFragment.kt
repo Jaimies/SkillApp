@@ -25,7 +25,7 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
         ProjectDelegateAdapter({ showSnackbar(R.string.todo) }, ::navigateToDetails)
     }
 
-    override val menuId = R.menu.projects_fragment_menu
+    override val menuId = R.menu.projects_frag_menu
 
     @Inject
     override lateinit var viewModel: ProjectsViewModel

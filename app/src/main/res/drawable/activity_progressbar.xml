@@ -5,8 +5,8 @@
             <corners android:radius="@dimen/border_radius_50_percent" />
             <gradient
                 android:angle="180"
-                android:endColor="#E3C907"
-                android:startColor="#00A99D" />
+                android:endColor="#3B6639"
+                android:startColor="#EAD442" />
         </shape>
     </item>
 
@@ -17,7 +17,7 @@
         android:top="@dimen/progressbar_gradient_width">
         <shape>
             <corners android:radius="@dimen/border_radius_50_percent" />
-            <solid android:color="#FFFFFF" />
+            <solid android:color="@color/colorSecondary" />
         </shape>
     </item>
 
@@ -26,9 +26,9 @@
             <shape>
                 <corners android:radius="@dimen/border_radius_50_percent" />
                 <gradient
-                    android:angle="180"
-                    android:endColor="#E3C907"
-                    android:startColor="#00A99D" />
+                    android:angle="0"
+                    android:endColor="#3B6639"
+                    android:startColor="#EAD442" />
             </shape>
         </clip>
     </item>

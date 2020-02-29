@@ -10,8 +10,7 @@ class WeekDayFormatter : ValueFormatter() {
 
     override fun getFormattedValue(value: Float): String {
 
-        return EPOCH.plusDays(value.toLong())
-            .dayOfWeek
+        return EPOCH.plusDays(value.toLong()).dayOfWeek
             .getDisplayName(TextStyle.SHORT, Locale.getDefault())
             .toUpperCase(Locale.getDefault())
     }
@@ -29,8 +28,7 @@ class YearMonthFormatter : ValueFormatter() {
 
     override fun getFormattedValue(value: Float): String {
 
-        return EPOCH.plusMonths(value.toLong())
-            .month
+        return EPOCH.plusMonths(value.toLong()).month
             .getDisplayName(TextStyle.SHORT, Locale.getDefault())
             .toUpperCase(Locale.getDefault())
     }

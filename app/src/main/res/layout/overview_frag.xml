@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:paddingStart="@dimen/padding_default"
+                    android:textSize="18sp"
                     android:paddingEnd="@dimen/padding_default"
                     android:text="@string/projects"
                     android:textAppearance="@style/TextAppearance.Timeo.Headline2" />
@@ -95,6 +96,7 @@
                     android:paddingStart="@dimen/padding_default"
                     android:paddingEnd="@dimen/padding_default"
                     android:text="@string/activities"
+                    android:textSize="18sp"
                     android:textAppearance="@style/TextAppearance.Timeo.Headline2" />
 
                 <View style="@style/Widget.Timeo.Divider" />

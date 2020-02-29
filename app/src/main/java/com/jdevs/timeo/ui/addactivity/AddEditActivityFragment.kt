@@ -28,7 +28,7 @@ class AddEditActivityFragment : ActionBarFragment() {
     @Inject
     lateinit var viewModel: AddEditActivityViewModel
 
-    override val menuId = R.menu.addedit_activity_fragment_menu
+    override val menuId = R.menu.addactivity_frag_menu
     private val args: AddEditActivityFragmentArgs by navArgs()
     private var isEdited = false
 

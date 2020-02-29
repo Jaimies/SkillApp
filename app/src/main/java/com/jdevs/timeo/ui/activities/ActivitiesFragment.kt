@@ -33,7 +33,7 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
     @Inject
     override lateinit var viewModel: ActivitiesViewModel
 
-    override val menuId = R.menu.activities_fragment_menu
+    override val menuId = R.menu.activities_frag_menu
     private var isLoadEventHandled = false
 
     override fun onAttach(context: Context) {

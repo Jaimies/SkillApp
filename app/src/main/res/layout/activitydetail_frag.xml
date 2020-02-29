@@ -188,15 +188,24 @@
                 app:layout_constraintTop_toBottomOf="@id/info_barrier"
                 tools:progress="50" />
 
+            <Button
+                android:id="@+id/record_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.showRecordDialog()}"
+                android:text="@string/add_record"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress" />
+
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 app:items="@{R.array.statistic_types}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progress"
+                app:layout_constraintTop_toBottomOf="@id/record_button"
                 app:onItemSelected="@{viewModel::setChartType}"
                 app:selectedItem="@{viewModel.chartType}" />
 

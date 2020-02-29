@@ -65,8 +65,8 @@
     <string name="calendar">Calendar</string>
     <string name="enable_activities">Enable activities</string>
     <string name="_500_hours">500 hours</string>
-    <string name="nice">nice</string>
-    <string name="cool">cool</string>
+    <string name="nice">NICE</string>
+    <string name="cool">COOL</string>
     <string name="description">Description (optional)</string>
     <string name="no_tasks_yet">No tasks yet</string>
     <string name="create_task">Create a task</string>

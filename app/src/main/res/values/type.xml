@@ -47,10 +47,6 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="TextAppearance.Timeo.Body1.Capitalized">
-        <item name="android:textAllCaps">true</item>
-    </style>
-
     <style name="TextAppearance.Timeo.Body2">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">12sp</item>

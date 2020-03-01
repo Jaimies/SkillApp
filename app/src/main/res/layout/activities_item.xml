@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:progress="@{viewModel.activity.progress}"
-            android:progressDrawable="@drawable/activity_progressbar"
+            android:progressDrawable="@drawable/progressbar"
             tools:progress="65" />
     </LinearLayout>
 </layout>

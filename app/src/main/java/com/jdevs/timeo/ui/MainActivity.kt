@@ -28,14 +28,10 @@ class MainActivity : AppCompatActivity(),
     private val viewModel: MainViewModel by viewModels()
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsafe { bottom_nav_view }
-    private val graphsToRecreate = mutableListOf<Int>()
+    private var graphToRecreate = -1
 
     private val navGraphIds =
-        listOf(
-            R.navigation.overview,
-            R.navigation.calendar,
-            R.navigation.profile
-        )
+        listOf(R.navigation.overview, R.navigation.calendar, R.navigation.profile)
 
     private val knownActions = arrayOf(
         R.id.addactivity_fragment_dest,
@@ -96,7 +92,7 @@ class MainActivity : AppCompatActivity(),
     ) {
         val graphId = controller.graph.id
 
-        if (graphsToRecreate.contains(graphId)) {
+        if (graphId == graphToRecreate) {
 
             nav_host_container.post {
 
@@ -107,7 +103,7 @@ class MainActivity : AppCompatActivity(),
                 controller.navigate(controller.graph.startDestination, null, options)
             }
 
-            graphsToRecreate.remove(graphId)
+            graphToRecreate = -1
         }
 
         window.decorView.hideKeyboard()
@@ -123,14 +119,10 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    fun navigateToGraph(@IdRes graphId: Int, graphs: List<Int> = listOf(R.navigation.overview)) {
+    fun navigateToGraph(@IdRes graphId: Int) {
 
+        graphToRecreate = graphId
         bottomNavView.selectedItemId = graphId
-
-        graphs.forEach { graph ->
-
-            if (graph !in graphsToRecreate) graphsToRecreate += graph
-        }
     }
 
     class MainViewModel : ViewModel() {

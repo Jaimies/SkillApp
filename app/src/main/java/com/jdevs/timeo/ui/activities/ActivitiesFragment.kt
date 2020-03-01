@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.navigation.fragment.findNavController
+import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.model.ActivityItem
-import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragmentArgs
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
@@ -87,8 +87,8 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
     private fun navigateToDetails(index: Int) {
 
-        val args = ActivityDetailFragmentArgs(getItem(index)).toBundle()
-        findNavController().navigateAnimated(R.id.activity_detail_fragment_dest, args)
+        val args = OverviewDirections.actionToActivityDetailFragment(getItem(index))
+        findNavController().navigateAnimated(args)
     }
 
     private fun showRecordDialog(index: Int) {

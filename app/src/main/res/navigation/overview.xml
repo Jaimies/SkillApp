@@ -26,6 +26,11 @@
             app:popEnterAnim="@anim/fragment_close_enter"
             app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
+
+    <action
+        android:id="@+id/action_to_projectDetailFragment"
+        app:destination="@id/project_detail_fragment_dest" />
+
     <fragment
         android:id="@+id/project_detail_fragment_dest"
         android:name="com.jdevs.timeo.ui.projectdetail.ProjectDetailFragment"
@@ -78,6 +83,10 @@
         android:label="@string/history"
         tools:layout="@layout/history_frag" />
 
+    <action
+        android:id="@+id/action_to_addActivityFragment"
+        app:destination="@id/addactivity_fragment_dest" />
+
     <fragment
         android:id="@+id/addactivity_fragment_dest"
         android:name="com.jdevs.timeo.ui.addactivity.AddEditActivityFragment"
@@ -99,6 +108,10 @@
             app:popUpTo="@id/overview_fragment_dest"
             app:popUpToInclusive="false" />
     </fragment>
+
+    <action
+        android:id="@+id/action_to_activityDetailFragment"
+        app:destination="@id/activity_detail_fragment_dest" />
 
     <fragment
         android:id="@+id/activity_detail_fragment_dest"

@@ -9,12 +9,11 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.OverviewFragBinding
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
-import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragmentArgs
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
-import com.jdevs.timeo.ui.projectdetail.ProjectDetailFragmentArgs
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
@@ -97,14 +96,16 @@ class OverviewFragment : Fragment() {
 
     private fun navigateToProjectDetail(index: Int) {
 
-        val args = ProjectDetailFragmentArgs(viewModel.projects.data.value!![index]).toBundle()
-        findNavController().navigateAnimated(R.id.project_detail_fragment_dest, args)
+        val directions =
+            OverviewDirections.actionToProjectDetailFragment(viewModel.projects.data.value!![index])
+        findNavController().navigateAnimated(directions)
     }
 
     private fun navigateToActivityDetail(index: Int) {
 
-        val args = ActivityDetailFragmentArgs(viewModel.activities.data.value!![index]).toBundle()
-        findNavController().navigateAnimated(R.id.activity_detail_fragment_dest, args)
+        val directions =
+            OverviewDirections.actionToActivityDetailFragment(viewModel.activities.data.value!![index])
+        findNavController().navigateAnimated(directions)
     }
 
     private fun OverviewViewModel.DataHolder<*>.observe(

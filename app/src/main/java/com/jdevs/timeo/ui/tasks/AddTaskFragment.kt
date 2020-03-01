@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.add
@@ -65,10 +66,8 @@ class AddTaskFragment : Fragment() {
 
         fun create(fragmentManager: FragmentManager, projectId: String) {
 
-            val args = Bundle().apply { putString("projectId", projectId) }
-
             fragmentManager.commit {
-                add<AddTaskFragment>(R.id.add_task_frag, args = args)
+                add<AddTaskFragment>(R.id.add_task_frag, args = bundleOf("projectId" to projectId))
             }
         }
     }

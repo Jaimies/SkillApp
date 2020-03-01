@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
-import com.jdevs.timeo.ui.addactivity.AddEditActivityFragmentArgs
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
 import com.jdevs.timeo.util.charts.setup
@@ -75,8 +75,9 @@ class ActivityDetailFragment : ActionBarFragment() {
 
         if (item.itemId == R.id.editActivity) {
 
-            val args = AddEditActivityFragmentArgs(viewModel.activity.value!!).toBundle()
-            findNavController().navigateAnimated(R.id.addactivity_fragment_dest, args)
+            val directions =
+                OverviewDirections.actionToAddActivityFragment(viewModel.activity.value!!)
+            findNavController().navigateAnimated(directions)
             return true
         }
 

@@ -13,10 +13,12 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.FakeActivitiesRepository
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.testAppComponent
+import com.jdevs.timeo.util.navigateAnimated
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -67,8 +69,8 @@ class ActivitiesFragmentTest {
         // THEN - Verify that we navigate to the first detail screen
 
         val activity = repository.getActivityById("0").value!!.mapToPresentation()
-        verify(navController).navigate(
-            ActivitiesFragmentDirections.actionActivitiesFragmentToActivityDetailsFragment(activity)
+        verify(navController).navigateAnimated(
+            OverviewDirections.actionToActivityDetailFragment(activity)
         )
     }
 
@@ -90,6 +92,6 @@ class ActivitiesFragmentTest {
         onView(withId(R.id.create_activity_button)).perform(click())
 
         // THEN - Verify that we navigate to AddEditActivityFragment
-        verify(navController).navigate(R.id.addactivity_fragment_dest)
+        verify(navController).navigateAnimated(R.id.addactivity_fragment_dest)
     }
 }

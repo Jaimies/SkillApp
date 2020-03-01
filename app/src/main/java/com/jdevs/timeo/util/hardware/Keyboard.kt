@@ -1,12 +1,9 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.hardware
 
-import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
-
-fun Context.dpToPx(dp: Int) = (dp * resources.displayMetrics.density).toInt()
 
 fun View.hideKeyboard() {
     val imm = context.getSystemService<InputMethodManager>()
@@ -18,5 +15,4 @@ fun View.showKeyboard() {
     imm?.showSoftInput(this, 0)
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline fun Fragment.hideKeyboard() = view?.hideKeyboard()
+fun Fragment.hideKeyboard() = view?.hideKeyboard()

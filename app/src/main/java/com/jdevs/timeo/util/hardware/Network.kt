@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.hardware
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -10,5 +10,5 @@ val Context.hasNetworkConnection: Boolean
         val connectivityManager = getSystemService<ConnectivityManager>()
         val networkInfo = connectivityManager?.activeNetworkInfo
 
-        return networkInfo != null
+        return networkInfo != null && networkInfo.isConnectedOrConnecting
     }

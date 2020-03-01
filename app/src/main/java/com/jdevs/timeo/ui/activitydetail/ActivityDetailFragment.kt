@@ -14,13 +14,13 @@ import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.ui.addactivity.AddEditActivityFragmentArgs
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
-import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.charts.setup
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.setup
-import com.jdevs.timeo.util.setupAdapter
-import com.jdevs.timeo.util.showTimePicker
 import com.jdevs.timeo.util.time.getMins
+import com.jdevs.timeo.util.view.setupAdapter
 import kotlinx.android.synthetic.main.activitydetail_frag.achievements_list
 import kotlinx.android.synthetic.main.activitydetail_frag.lineChart
 import javax.inject.Inject
@@ -51,10 +51,11 @@ class ActivityDetailFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = ActivitydetailFragBinding.inflate(inflater, container, false)
+        val binding = ActivitydetailFragBinding.inflate(inflater, container, false).also {
 
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }
@@ -66,7 +67,7 @@ class ActivityDetailFragment : ActionBarFragment() {
         achievements_list.setupAdapter(adapter, RecyclerView.HORIZONTAL)
         achievements_list.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
 
-        observe(viewModel.activity, viewModel::setActivity)
+        observe(viewModel.activity, viewModel.activityData::setData)
         observe(viewModel.showRecordDialog) { showTimePicker(::addRecord) }
     }
 

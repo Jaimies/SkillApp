@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.fragment
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -7,10 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.jdevs.timeo.MainActivity
 import com.jdevs.timeo.TimeoApplication
+import com.jdevs.timeo.ui.MainActivity
 
-fun Fragment.showSnackbar(@StringRes resId: Int) =
+fun Fragment.snackbar(@StringRes resId: Int) =
     Snackbar.make(requireView(), resId, Snackbar.LENGTH_LONG).show()
 
 fun Fragment.navigateToGraph(@IdRes graphId: Int) {
@@ -28,6 +28,6 @@ inline fun <T> Fragment.observe(liveData: LiveData<T>, crossinline onEvent: (T) 
     liveData.observe(viewLifecycleOwner) { onEvent(it) }
 }
 
-inline val Fragment.mainActivity get() = requireActivity() as MainActivity
-inline val Fragment.application get() = requireActivity().application as TimeoApplication
-inline val Fragment.appComponent get() = application.appComponent
+val Fragment.mainActivity get() = requireActivity() as MainActivity
+val Fragment.application get() = requireActivity().application as TimeoApplication
+val Fragment.appComponent get() = application.appComponent

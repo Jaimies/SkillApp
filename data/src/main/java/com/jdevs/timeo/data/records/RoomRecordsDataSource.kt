@@ -4,9 +4,9 @@ import androidx.paging.DataSource
 import androidx.room.withTransaction
 import com.jdevs.timeo.data.db.TimeoDatabase
 import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.shared.time.getDaysSinceEpoch
-import com.jdevs.timeo.shared.time.getMonthSinceEpoch
-import com.jdevs.timeo.shared.time.getWeeksSinceEpoch
+import com.jdevs.timeo.shared.util.getDaysSinceEpoch
+import com.jdevs.timeo.shared.util.getMonthSinceEpoch
+import com.jdevs.timeo.shared.util.getWeeksSinceEpoch
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton

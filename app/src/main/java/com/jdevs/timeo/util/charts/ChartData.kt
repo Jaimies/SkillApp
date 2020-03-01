@@ -1,11 +1,11 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.charts
 
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.jdevs.timeo.domain.model.DayStats
 import com.jdevs.timeo.domain.model.MonthStats
 import com.jdevs.timeo.domain.model.WeekStats
-import com.jdevs.timeo.shared.time.WEEK_DAYS
+import com.jdevs.timeo.shared.util.WEEK_DAYS
 import com.jdevs.timeo.util.time.getHours
 import org.threeten.bp.OffsetDateTime
 

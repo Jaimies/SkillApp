@@ -1,4 +1,4 @@
-package com.jdevs.timeo
+package com.jdevs.timeo.ui
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,8 +12,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.lazyUnsynchronized
+import com.jdevs.timeo.R
+import com.jdevs.timeo.TimeoApplication
+import com.jdevs.timeo.shared.util.lazyUnsafe
+import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.navigation.setupWithNavController
 import kotlinx.android.synthetic.main.main_act.bottom_nav_view
@@ -25,11 +27,15 @@ class MainActivity : AppCompatActivity(),
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var currentNavController: LiveData<NavController>
-    private val bottomNavView by lazyUnsynchronized { bottom_nav_view }
+    private val bottomNavView by lazyUnsafe { bottom_nav_view }
     private val graphsToRecreate = mutableListOf<Int>()
 
     private val navGraphIds =
-        listOf(R.navigation.overview, R.navigation.calendar, R.navigation.profile)
+        listOf(
+            R.navigation.overview,
+            R.navigation.calendar,
+            R.navigation.profile
+        )
 
     private val knownActions = arrayOf(
         R.id.addactivity_fragment_dest,

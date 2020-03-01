@@ -7,8 +7,8 @@ import com.jdevs.timeo.domain.usecase.tasks.SetTaskCompletedUseCase
 import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
-import com.jdevs.timeo.util.launchCoroutine
-import com.jdevs.timeo.util.mapOperation
+import com.jdevs.timeo.util.lifecycle.launchCoroutine
+import com.jdevs.timeo.util.lifecycle.mapOperation
 import javax.inject.Inject
 
 class TasksViewModel @Inject constructor(

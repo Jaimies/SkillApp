@@ -1,6 +1,6 @@
 package com.jdevs.timeo.shared
 
-object OperationTypes {
+object OperationType {
 
     const val SUCCESSFUL = 0
     const val FAILED = 1

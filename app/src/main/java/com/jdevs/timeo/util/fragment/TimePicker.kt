@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.fragment
 
 import android.graphics.Color
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ fun Fragment.showTimePicker(onTimeSet: (minute: Int, hour: Int) -> Unit) {
 
     val onTimeSetListener = { _: TimePickerDialog, hour: Int, minute: Int, _: Int ->
 
-        if (hour != 0 && minute != 0) {
+        if (hour != 0 || minute != 0) {
             onTimeSet(hour, minute)
         }
     }

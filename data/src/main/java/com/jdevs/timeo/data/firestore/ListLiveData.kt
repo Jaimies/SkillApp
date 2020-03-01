@@ -9,12 +9,12 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.domain.model.Operation
-import com.jdevs.timeo.shared.OperationTypes.ADDED
-import com.jdevs.timeo.shared.OperationTypes.FAILED
-import com.jdevs.timeo.shared.OperationTypes.LAST_ITEM_REACHED
-import com.jdevs.timeo.shared.OperationTypes.MODIFIED
-import com.jdevs.timeo.shared.OperationTypes.REMOVED
-import com.jdevs.timeo.shared.OperationTypes.SUCCESSFUL
+import com.jdevs.timeo.shared.OperationType.ADDED
+import com.jdevs.timeo.shared.OperationType.FAILED
+import com.jdevs.timeo.shared.OperationType.LAST_ITEM_REACHED
+import com.jdevs.timeo.shared.OperationType.MODIFIED
+import com.jdevs.timeo.shared.OperationType.REMOVED
+import com.jdevs.timeo.shared.OperationType.SUCCESSFUL
 
 class ListLiveData<T : Any, O : Any>(
     private val query: Query,

@@ -9,8 +9,7 @@ import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
-import com.jdevs.timeo.util.createViewModel
-import com.jdevs.timeo.util.fragmentActivity
+import com.jdevs.timeo.util.view.fragmentActivity
 
 class TaskDelegateAdapter(private val setTaskCompleted: (Int, Boolean) -> Unit = { _, _ -> }) :
     DelegateAdapter {
@@ -18,13 +17,13 @@ class TaskDelegateAdapter(private val setTaskCompleted: (Int, Boolean) -> Unit =
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
-        val fragmentActivity = parent.fragmentActivity
-        val viewModel = createViewModel(fragmentActivity, TaskViewModel::class)
+        val viewModel = TaskViewModel()
 
-        val binding = TasksItemBinding.inflate(inflater, parent, false)
+        val binding = TasksItemBinding.inflate(inflater, parent, false).also {
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = fragmentActivity
+            it.viewModel = viewModel
+            it.lifecycleOwner = parent.fragmentActivity
+        }
 
         return ViewHolder(binding.root, viewModel, setTaskCompleted)
     }

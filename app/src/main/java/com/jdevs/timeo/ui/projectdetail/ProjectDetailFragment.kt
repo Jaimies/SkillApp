@@ -14,10 +14,10 @@ import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.tasks.AddTaskFragment
 import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
-import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.setupAdapter
+import com.jdevs.timeo.util.view.setupAdapter
 import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 import javax.inject.Inject
 
@@ -47,10 +47,11 @@ class ProjectDetailFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = ProjectdetailFragBinding.inflate(inflater, container, false)
+        val binding = ProjectdetailFragBinding.inflate(inflater, container, false).also {
 
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }

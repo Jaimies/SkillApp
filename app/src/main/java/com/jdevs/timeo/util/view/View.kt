@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.view
 
 import android.content.Context
 import android.content.ContextWrapper
@@ -12,6 +12,16 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
+fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
+    LayoutInflater.from(context).inflate(layoutId, this, false)
+
+val ViewGroup.fragmentActivity get() = context.getBaseContext() as FragmentActivity
+
+inline fun <reified T> Context.getBaseContext() =
+    if (this is T) this else (this as ContextWrapper).baseContext as T
+
+const val HAS_TEXT_WATCHER = "HAS_TEXT_WATCHER"
 
 inline fun EditText.doOnceAfterTextChanged(crossinline block: () -> Unit) {
 
@@ -33,14 +43,6 @@ inline fun EditText.doOnceAfterTextChanged(crossinline block: () -> Unit) {
     tag = HAS_TEXT_WATCHER
 }
 
-fun ViewGroup.inflate(@LayoutRes layoutId: Int): View =
-    LayoutInflater.from(context).inflate(layoutId, this, false)
-
-val ViewGroup.fragmentActivity get() = context.getBaseContext() as FragmentActivity
-
-inline fun <reified T> Context.getBaseContext() =
-    if (this is T) this else (this as ContextWrapper).baseContext as T
-
 fun RecyclerView.setupAdapter(
     adapter: RecyclerView.Adapter<*>,
     @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL
@@ -53,5 +55,3 @@ fun RecyclerView.setupAdapter(
     layoutManager = LinearLayoutManager(context, orientation, false)
     this.adapter = adapter
 }
-
-const val HAS_TEXT_WATCHER = "HAS_TEXT_WATCHER"

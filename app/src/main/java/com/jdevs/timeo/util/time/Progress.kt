@@ -1,6 +1,6 @@
 package com.jdevs.timeo.util.time
 
-import com.jdevs.timeo.shared.time.getDaysAgo
+import com.jdevs.timeo.shared.util.getDaysAgo
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.temporal.ChronoUnit
 

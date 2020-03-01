@@ -12,10 +12,10 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddTaskLayoutBinding
-import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.showKeyboard
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.hardware.hideKeyboard
+import com.jdevs.timeo.util.hardware.showKeyboard
 import kotlinx.android.synthetic.main.add_task_layout.name_edit_text
 import javax.inject.Inject
 
@@ -35,10 +35,11 @@ class AddTaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = AddTaskLayoutBinding.inflate(inflater, container, false)
+        val binding = AddTaskLayoutBinding.inflate(inflater, container, false).also {
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }

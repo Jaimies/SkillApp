@@ -9,8 +9,7 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
-import com.jdevs.timeo.util.createViewModel
-import com.jdevs.timeo.util.fragmentActivity
+import com.jdevs.timeo.util.view.fragmentActivity
 
 class ActivityDelegateAdapter(
     private val showRecordDialog: (Int) -> Unit = {},
@@ -20,13 +19,13 @@ class ActivityDelegateAdapter(
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
-        val fragmentActivity = parent.fragmentActivity
-        val viewModel = createViewModel(fragmentActivity, ActivityViewModel::class)
+        val viewModel = ActivityViewModel()
 
-        val binding = ActivitiesItemBinding.inflate(inflater, parent, false)
+        val binding = ActivitiesItemBinding.inflate(inflater, parent, false).also {
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = fragmentActivity
+            it.viewModel = viewModel
+            it.lifecycleOwner = parent.fragmentActivity
+        }
 
         return ViewHolder(binding.root, viewModel, showRecordDialog, navigateToDetails)
     }
@@ -50,6 +49,6 @@ class ActivityDelegateAdapter(
             viewModel.showRecordDialog.observe { showRecordDialog(adapterPosition) }
         }
 
-        fun setActivity(activity: ActivityItem) = viewModel.setActivity(activity)
+        fun setActivity(activity: ActivityItem) = viewModel.activity.setData(activity)
     }
 }

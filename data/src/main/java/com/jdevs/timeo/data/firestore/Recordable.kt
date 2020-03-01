@@ -1,8 +1,8 @@
 package com.jdevs.timeo.data.firestore
 
 import com.google.firebase.firestore.Exclude
-import com.jdevs.timeo.shared.time.WEEK_DAYS
-import com.jdevs.timeo.shared.time.getDaysAgo
+import com.jdevs.timeo.shared.util.WEEK_DAYS
+import com.jdevs.timeo.shared.util.getDaysAgo
 
 abstract class Recordable {
 

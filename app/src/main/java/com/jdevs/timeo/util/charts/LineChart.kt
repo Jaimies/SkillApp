@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.charts
 
 import android.content.Context
 import androidx.core.content.ContextCompat

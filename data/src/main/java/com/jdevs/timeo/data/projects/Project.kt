@@ -8,8 +8,8 @@ import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.Recordable
 import com.jdevs.timeo.domain.model.Project
-import com.jdevs.timeo.shared.time.toDate
-import com.jdevs.timeo.shared.time.toOffsetDate
+import com.jdevs.timeo.shared.util.toDate
+import com.jdevs.timeo.shared.util.toOffsetDate
 import org.threeten.bp.OffsetDateTime
 import java.util.Date
 

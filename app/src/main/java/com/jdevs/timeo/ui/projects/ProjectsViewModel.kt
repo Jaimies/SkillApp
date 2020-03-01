@@ -6,8 +6,8 @@ import com.jdevs.timeo.domain.usecase.projects.GetProjectsUseCase
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
+import com.jdevs.timeo.util.lifecycle.mapOperation
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
-import com.jdevs.timeo.util.mapOperation
 import javax.inject.Inject
 
 private const val PROJECTS_PAGE_SIZE = 20

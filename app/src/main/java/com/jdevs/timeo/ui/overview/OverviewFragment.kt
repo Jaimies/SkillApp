@@ -16,13 +16,13 @@ import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragmentArgs
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.projectdetail.ProjectDetailFragmentArgs
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
-import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.fragment.showTimePicker
+import com.jdevs.timeo.util.fragment.snackbar
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.setupAdapter
-import com.jdevs.timeo.util.showSnackbar
-import com.jdevs.timeo.util.showTimePicker
 import com.jdevs.timeo.util.time.getMins
+import com.jdevs.timeo.util.view.setupAdapter
 import kotlinx.android.synthetic.main.overview_frag.activities_list
 import kotlinx.android.synthetic.main.overview_frag.projects_list
 import javax.inject.Inject
@@ -51,10 +51,11 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = OverviewFragBinding.inflate(inflater, container, false)
+        val binding = OverviewFragBinding.inflate(inflater, container, false).also {
 
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }
@@ -86,7 +87,7 @@ class OverviewFragment : Fragment() {
 
     private fun showProjectRecordDialog() {
 
-        showTimePicker { _, _ -> showSnackbar(R.string.todo) }
+        showTimePicker { _, _ -> snackbar(R.string.todo) }
     }
 
     private fun showActivityRecordDialog(index: Int) {

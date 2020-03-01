@@ -35,10 +35,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:paddingStart="@dimen/padding_default"
-                    android:textSize="18sp"
                     android:paddingEnd="@dimen/padding_default"
                     android:text="@string/projects"
-                    android:textAppearance="@style/TextAppearance.Timeo.Headline2" />
+                    android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                    android:textSize="18sp" />
 
                 <View style="@style/Widget.Timeo.Divider" />
 
@@ -61,6 +61,8 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
+                    android:paddingTop="@dimen/padding_default"
+                    android:paddingBottom="@dimen/padding_default"
                     app:hideIf="@{!viewModel.projects.isEmpty}"
                     tools:visibility="gone">
 
@@ -73,7 +75,7 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_default"
+                        android:layout_marginTop="8dp"
                         android:onClick="@{() -> viewModel.projects.navigateToAdd()}"
                         android:text="@string/create_project" />
                 </LinearLayout>
@@ -96,8 +98,8 @@
                     android:paddingStart="@dimen/padding_default"
                     android:paddingEnd="@dimen/padding_default"
                     android:text="@string/activities"
-                    android:textSize="18sp"
-                    android:textAppearance="@style/TextAppearance.Timeo.Headline2" />
+                    android:textAppearance="@style/TextAppearance.Timeo.Headline2"
+                    android:textSize="18sp" />
 
                 <View style="@style/Widget.Timeo.Divider" />
 

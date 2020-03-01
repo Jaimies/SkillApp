@@ -3,6 +3,7 @@ package com.jdevs.timeo.ui.activitydetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations.switchMap
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.DayStats
@@ -16,20 +17,20 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.StatsType.DAY
 import com.jdevs.timeo.model.StatsType.WEEK
 import com.jdevs.timeo.model.mapToPresentation
-import com.jdevs.timeo.shared.time.getDaysSinceEpoch
-import com.jdevs.timeo.shared.time.getMonthSinceEpoch
-import com.jdevs.timeo.shared.time.getWeeksSinceEpoch
-import com.jdevs.timeo.ui.activities.ActivityDataViewModel
+import com.jdevs.timeo.shared.util.getDaysSinceEpoch
+import com.jdevs.timeo.shared.util.getMonthSinceEpoch
+import com.jdevs.timeo.shared.util.getWeeksSinceEpoch
+import com.jdevs.timeo.ui.activities.ActivityDataHolder
 import com.jdevs.timeo.ui.common.WeekDayFormatter
 import com.jdevs.timeo.ui.common.YearMonthFormatter
 import com.jdevs.timeo.ui.common.YearWeekFormatter
-import com.jdevs.timeo.util.launchCoroutine
+import com.jdevs.timeo.util.charts.toChartData
+import com.jdevs.timeo.util.charts.toChartItem
+import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
 import com.jdevs.timeo.util.time.getHours
-import com.jdevs.timeo.util.toChartData
-import com.jdevs.timeo.util.toChartItem
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -39,11 +40,7 @@ class ActivityDetailViewModel @Inject constructor(
     private val getActivityById: GetActivityByIdUseCase,
     private val addRecord: AddRecordUseCase,
     getStats: GetStatsUseCase
-) : ActivityDataViewModel() {
-
-    val avgWeekTime: LiveData<String> get() = _avgWeekTime
-    val lastWeekTime: LiveData<String> get() = _lastWeekTime
-    val daysSpent: LiveData<String> get() = _daysSpent
+) : ViewModel() {
 
     val chartType: LiveData<Int> get() = _chartType
     private val _chartType = MutableLiveData(DAY)
@@ -72,12 +69,9 @@ class ActivityDetailViewModel @Inject constructor(
             }
         }
     }
-    private val _avgWeekTime = MutableLiveData("")
-    private val _lastWeekTime = MutableLiveData("")
 
-    private val _daysSpent = MutableLiveData("")
     val showRecordDialog = SingleLiveEvent<Any>()
-
+    val activityData = ActivityDetailDataHolder()
     lateinit var activity: LiveData<ActivityItem>
 
     fun setChartType(type: Int) {
@@ -85,26 +79,36 @@ class ActivityDetailViewModel @Inject constructor(
         _chartType.value = type
     }
 
-    override fun setActivity(activity: ActivityItem) {
-
-        super.setActivity(activity)
-        _avgWeekTime.value = getAvgWeekHours(activity.totalTime, activity.creationDate) + "h"
-        _lastWeekTime.value = getHours(activity.lastWeekTime) + "h"
-        _daysSpent.value = activity.creationDate.getDaysSpentSince().toString()
-    }
-
     fun setupActivityLiveData(activity: ActivityItem) {
 
         this.activity = getActivityById(activity.id).map(Activity::mapToPresentation)
-        setActivity(activity)
+        activityData.setData(activity)
     }
 
     fun addRecord(activity: ActivityItem, time: Int) = launchCoroutine {
 
         val record = Record(name = activity.name, time = time, activityId = activity.id)
-
         addRecord(record)
     }
 
     fun showRecordDialog() = showRecordDialog.call()
+
+    class ActivityDetailDataHolder : ActivityDataHolder() {
+
+        val avgWeekTime: LiveData<String> get() = _avgWeekTime
+        val lastWeekTime: LiveData<String> get() = _lastWeekTime
+        val daysSpent: LiveData<String> get() = _daysSpent
+
+        private val _avgWeekTime = MutableLiveData("")
+        private val _lastWeekTime = MutableLiveData("")
+        private val _daysSpent = MutableLiveData("")
+
+        override fun setData(activity: ActivityItem) {
+
+            super.setData(activity)
+            _avgWeekTime.value = getAvgWeekHours(activity.totalTime, activity.creationDate) + "h"
+            _lastWeekTime.value = getHours(activity.lastWeekTime) + "h"
+            _daysSpent.value = activity.creationDate.getDaysSpentSince().toString()
+        }
+    }
 }

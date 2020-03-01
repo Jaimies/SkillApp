@@ -2,10 +2,9 @@ package com.jdevs.timeo.ui.tasks
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.model.TaskItem
 
-class TaskViewModel : ViewModel() {
+class TaskViewModel {
 
     val name: LiveData<String> get() = _name
     val isCompletedInternal: LiveData<Boolean> get() = _isCompletedInternal

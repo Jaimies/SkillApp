@@ -12,16 +12,16 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SignupFragBinding
+import com.jdevs.timeo.shared.util.TAG
 import com.jdevs.timeo.util.EMPTY
 import com.jdevs.timeo.util.INVALID
-import com.jdevs.timeo.util.TAG
 import com.jdevs.timeo.util.TOO_LONG
 import com.jdevs.timeo.util.TOO_SHORT
-import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.hasNetworkConnection
-import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.showSnackbar
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.fragment.snackbar
+import com.jdevs.timeo.util.hardware.hasNetworkConnection
+import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.validateEmail
 import com.jdevs.timeo.util.validatePassword
 import javax.inject.Inject
@@ -42,10 +42,11 @@ class SignUpFragment : AuthFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = SignupFragBinding.inflate(inflater, container, false)
+        val binding = SignupFragBinding.inflate(inflater, container, false).also {
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }
@@ -72,7 +73,7 @@ class SignUpFragment : AuthFragment() {
 
         if (!requireContext().hasNetworkConnection) {
 
-            showSnackbar(R.string.check_connection)
+            snackbar(R.string.check_connection)
             return
         }
 
@@ -128,7 +129,7 @@ class SignUpFragment : AuthFragment() {
             else -> {
 
                 Log.w(TAG, "Failed to sign up", exception)
-                showSnackbar(R.string.try_again)
+                snackbar(R.string.try_again)
             }
         }
     }

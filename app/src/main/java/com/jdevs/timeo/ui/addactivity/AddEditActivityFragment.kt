@@ -13,13 +13,12 @@ import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
-import com.jdevs.timeo.util.NAME_MAX_LENGTH
-import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.application
-import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.mainActivity
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.showSnackbar
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.application
+import com.jdevs.timeo.util.fragment.mainActivity
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.fragment.snackbar
+import com.jdevs.timeo.util.hardware.hideKeyboard
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,10 +45,11 @@ class AddEditActivityFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = AddactivityFragBinding.inflate(inflater, container, false)
+        val binding = AddactivityFragBinding.inflate(inflater, container, false).also {
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         mainActivity.supportActionBar?.setTitle(if (isEdited) R.string.edit_activity else R.string.create_activity)
 
@@ -93,7 +93,7 @@ class AddEditActivityFragment : ActionBarFragment() {
             .setPositiveButton(R.string.yes) { _, _ ->
 
                 viewModel.deleteActivity(args.activity!!)
-                showSnackbar(R.string.activity_deleted)
+                snackbar(R.string.activity_deleted)
                 findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
             }
             .setNegativeButton(R.string.no, null)
@@ -124,4 +124,8 @@ class AddEditActivityFragment : ActionBarFragment() {
     }
 
     private fun setNameError(@StringRes resId: Int) = viewModel.setNameError(getString(resId))
+
+    companion object {
+        private const val NAME_MAX_LENGTH = 100
+    }
 }

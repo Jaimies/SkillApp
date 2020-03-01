@@ -13,10 +13,10 @@ import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragmentArgs
 import com.jdevs.timeo.ui.common.ListFragment
-import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.showTimePicker
 import com.jdevs.timeo.util.time.getMins
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 import javax.inject.Inject
@@ -48,10 +48,11 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = ActivitiesFragBinding.inflate(inflater, container, false)
+        val binding = ActivitiesFragBinding.inflate(inflater, container, false).also {
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }

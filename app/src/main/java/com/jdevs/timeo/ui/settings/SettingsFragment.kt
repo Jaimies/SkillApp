@@ -6,8 +6,8 @@ import android.view.View
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.jdevs.timeo.R
-import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.observe
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.observe
 import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat() {

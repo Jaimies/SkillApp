@@ -8,8 +8,8 @@ import com.jdevs.timeo.model.RecordItem
 import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
-import com.jdevs.timeo.util.launchCoroutine
-import com.jdevs.timeo.util.mapOperation
+import com.jdevs.timeo.util.lifecycle.launchCoroutine
+import com.jdevs.timeo.util.lifecycle.mapOperation
 import javax.inject.Inject
 
 private const val RECORDS_PAGE_SIZE = 50

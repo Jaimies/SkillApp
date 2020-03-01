@@ -12,7 +12,7 @@ import com.jdevs.timeo.domain.usecase.tasks.SetTaskCompletedUseCase
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.shared.util.mapList
-import com.jdevs.timeo.util.launchCoroutine
+import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince

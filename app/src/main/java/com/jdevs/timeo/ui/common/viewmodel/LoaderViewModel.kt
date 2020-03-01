@@ -2,7 +2,7 @@ package com.jdevs.timeo.ui.common.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.util.launchCoroutine
+import com.jdevs.timeo.util.lifecycle.launchCoroutine
 
 open class LoaderViewModel(isLoadingByDefault: Boolean = false) : KeyboardHidingViewModel() {
 

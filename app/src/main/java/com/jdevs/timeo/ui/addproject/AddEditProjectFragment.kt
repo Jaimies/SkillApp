@@ -13,12 +13,11 @@ import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddprojectFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
-import com.jdevs.timeo.util.NAME_MAX_LENGTH
-import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.hideKeyboard
-import com.jdevs.timeo.util.mainActivity
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.showSnackbar
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.mainActivity
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.fragment.snackbar
+import com.jdevs.timeo.util.hardware.hideKeyboard
 import javax.inject.Inject
 
 class AddEditProjectFragment : ActionBarFragment() {
@@ -45,10 +44,11 @@ class AddEditProjectFragment : ActionBarFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = AddprojectFragBinding.inflate(inflater, container, false)
+        val binding = AddprojectFragBinding.inflate(inflater, container, false).also {
 
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         mainActivity.supportActionBar?.setTitle(if (isEdited) R.string.edit_project else R.string.create_project)
 
@@ -88,7 +88,7 @@ class AddEditProjectFragment : ActionBarFragment() {
             .setPositiveButton(R.string.yes) { _, _ ->
 
                 viewModel.deleteProject(args.project!!)
-                showSnackbar(R.string.project_deleted)
+                snackbar(R.string.project_deleted)
                 findNavController().navigate(R.id.action_addEditProjectFragment_to_projectsFragment)
             }
             .setNegativeButton(R.string.no, null)
@@ -119,4 +119,8 @@ class AddEditProjectFragment : ActionBarFragment() {
     }
 
     private fun setNameError(@StringRes resId: Int) = viewModel.setNameError(getString(resId))
+
+    companion object {
+        private const val NAME_MAX_LENGTH = 100
+    }
 }

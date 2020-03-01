@@ -1,7 +1,7 @@
 package com.jdevs.timeo.ui.common
 
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.jdevs.timeo.shared.time.EPOCH
+import com.jdevs.timeo.shared.util.EPOCH
 import org.threeten.bp.format.TextStyle
 import org.threeten.bp.temporal.IsoFields
 import java.util.Locale

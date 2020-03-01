@@ -3,7 +3,7 @@ package com.jdevs.timeo.ui.common.adapter
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.util.dpToPx
+import com.jdevs.timeo.util.hardware.dpToPx
 
 class SpaceItemDecoration(private val offset: Int) : RecyclerView.ItemDecoration() {
 

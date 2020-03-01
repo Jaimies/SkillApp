@@ -19,13 +19,13 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SigninFragBinding
-import com.jdevs.timeo.util.TAG
-import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.hasNetworkConnection
-import com.jdevs.timeo.util.hideKeyboard
+import com.jdevs.timeo.shared.util.TAG
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.fragment.snackbar
+import com.jdevs.timeo.util.hardware.hasNetworkConnection
+import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.isValidEmail
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.showSnackbar
 import javax.inject.Inject
 
 private const val RC_SIGN_IN = 0
@@ -56,10 +56,11 @@ class SignInFragment : AuthFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = SigninFragBinding.inflate(inflater, container, false)
+        val binding = SigninFragBinding.inflate(inflater, container, false).also {
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }
@@ -90,7 +91,7 @@ class SignInFragment : AuthFragment() {
             else -> {
 
                 if (!requireContext().hasNetworkConnection) {
-                    showSnackbar(R.string.check_connection)
+                    snackbar(R.string.check_connection)
                     return
                 }
 
@@ -125,12 +126,12 @@ class SignInFragment : AuthFragment() {
                 when (e.statusCode) {
 
                     SIGN_IN_CANCELLED -> Log.d(TAG, "Sign in was cancelled by user")
-                    NETWORK_ERROR -> showSnackbar(R.string.check_connection)
+                    NETWORK_ERROR -> snackbar(R.string.check_connection)
 
                     else -> {
 
                         Log.w(TAG, "Google sign in failed", e)
-                        showSnackbar(R.string.try_again)
+                        snackbar(R.string.try_again)
                     }
                 }
             }
@@ -145,7 +146,7 @@ class SignInFragment : AuthFragment() {
     private fun onGoogleSignInFailed(exception: Exception) {
 
         Log.w(TAG, "Google sign in failed", exception)
-        showSnackbar(R.string.try_again)
+        snackbar(R.string.try_again)
     }
 
     private fun handleException(exception: Exception) {
@@ -164,13 +165,13 @@ class SignInFragment : AuthFragment() {
 
             is FirebaseNetworkException -> {
 
-                showSnackbar(R.string.check_connection)
+                snackbar(R.string.check_connection)
             }
 
             else -> {
 
                 Log.w(TAG, "Sign in failed", exception)
-                showSnackbar(R.string.try_again)
+                snackbar(R.string.try_again)
             }
         }
     }

@@ -13,18 +13,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.model.OperationItem
 import com.jdevs.timeo.model.ViewItem
-import com.jdevs.timeo.shared.OperationTypes.ADDED
-import com.jdevs.timeo.shared.OperationTypes.FAILED
-import com.jdevs.timeo.shared.OperationTypes.LAST_ITEM_REACHED
-import com.jdevs.timeo.shared.OperationTypes.MODIFIED
-import com.jdevs.timeo.shared.OperationTypes.REMOVED
-import com.jdevs.timeo.shared.OperationTypes.SUCCESSFUL
+import com.jdevs.timeo.shared.OperationType.ADDED
+import com.jdevs.timeo.shared.OperationType.FAILED
+import com.jdevs.timeo.shared.OperationType.LAST_ITEM_REACHED
+import com.jdevs.timeo.shared.OperationType.MODIFIED
+import com.jdevs.timeo.shared.OperationType.REMOVED
+import com.jdevs.timeo.shared.OperationType.SUCCESSFUL
+import com.jdevs.timeo.shared.util.TAG
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
-import com.jdevs.timeo.util.TAG
-import com.jdevs.timeo.util.observe
+import com.jdevs.timeo.util.fragment.observe
 import javax.inject.Inject
 
 abstract class ListFragment<T : ViewItem> : ActionBarFragment() {

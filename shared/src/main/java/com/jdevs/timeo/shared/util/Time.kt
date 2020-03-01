@@ -1,4 +1,4 @@
-package com.jdevs.timeo.shared.time
+package com.jdevs.timeo.shared.util
 
 import org.threeten.bp.DateTimeUtils
 import org.threeten.bp.Instant

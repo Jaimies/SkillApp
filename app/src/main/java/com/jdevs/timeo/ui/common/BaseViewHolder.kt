@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
-import com.jdevs.timeo.util.getBaseContext
+import com.jdevs.timeo.util.view.getBaseContext
 
 abstract class BaseViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 

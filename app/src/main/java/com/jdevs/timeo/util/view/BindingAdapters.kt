@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.view
 
 import android.view.View
 import android.widget.AdapterView
@@ -10,6 +10,8 @@ import androidx.databinding.BindingAdapter
 import com.github.mikephil.charting.charts.LineChart
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.textfield.TextInputLayout
+import com.jdevs.timeo.util.charts.ChartData
+import com.jdevs.timeo.util.charts.createLineData
 
 @BindingAdapter("hideIf")
 fun View.hideIf(shouldHide: Boolean) {
@@ -17,26 +19,16 @@ fun View.hideIf(shouldHide: Boolean) {
     visibility = if (shouldHide) View.GONE else View.VISIBLE
 }
 
-@BindingAdapter("error")
-fun TextInputLayout.setRemovableError(error: String) {
+@BindingAdapter("android:onClick")
+fun SignInButton.setOnClickListener(block: Runnable) {
 
-    if (error.isEmpty()) {
+    setOnClickListener { block.run() }
+}
 
-        isErrorEnabled = false
-        return
-    }
+@BindingAdapter("selectedItem")
+fun Spinner.setSelectedItem(position: Int) {
 
-    this.error = error
-    editText?.run {
-
-        requestFocus()
-        setSelection(length())
-
-        doOnceAfterTextChanged {
-
-            isErrorEnabled = false
-        }
-    }
+    setSelection(position)
 }
 
 @BindingAdapter("onEnterPressed")
@@ -72,12 +64,6 @@ fun Spinner.setOnItemSelectedListener(onItemSelected: Consumer<Int>) {
     }
 }
 
-@BindingAdapter("selectedItem")
-fun Spinner.setSelectedItem(position: Int) {
-
-    setSelection(position)
-}
-
 private const val ANIMATION_DURATION = 400
 
 @BindingAdapter("data")
@@ -94,8 +80,24 @@ fun LineChart.setData(data: ChartData?) {
     animateXY(ANIMATION_DURATION, ANIMATION_DURATION)
 }
 
-@BindingAdapter("android:onClick")
-fun SignInButton.setOnClickListener(block: Runnable) {
+@BindingAdapter("error")
+fun TextInputLayout.setRemovableError(error: String) {
 
-    setOnClickListener { block.run() }
+    if (error.isEmpty()) {
+
+        isErrorEnabled = false
+        return
+    }
+
+    this.error = error
+    editText?.run {
+
+        requestFocus()
+        setSelection(length())
+
+        doOnceAfterTextChanged {
+
+            isErrorEnabled = false
+        }
+    }
 }

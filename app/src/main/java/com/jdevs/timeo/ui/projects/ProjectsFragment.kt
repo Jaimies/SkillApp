@@ -10,10 +10,10 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProjectsFragBinding
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.ui.common.ListFragment
-import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.fragment.snackbar
 import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.observe
-import com.jdevs.timeo.util.showSnackbar
 import kotlinx.android.synthetic.main.projects_frag.recycler_view
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ private const val PROJECTS_VISIBLE_THRESHOLD = 10
 class ProjectsFragment : ListFragment<ProjectItem>() {
 
     override val delegateAdapter by lazy {
-        ProjectDelegateAdapter({ showSnackbar(R.string.todo) }, ::navigateToDetails)
+        ProjectDelegateAdapter({ snackbar(R.string.todo) }, ::navigateToDetails)
     }
 
     override val menuId = R.menu.projects_frag_menu
@@ -43,10 +43,11 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = ProjectsFragBinding.inflate(inflater, container, false)
+        val binding = ProjectsFragBinding.inflate(inflater, container, false).also {
 
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }

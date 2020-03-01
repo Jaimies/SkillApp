@@ -2,7 +2,7 @@ package com.jdevs.timeo.data.firestore
 
 import androidx.annotation.Keep
 import com.google.firebase.firestore.Exclude
-import com.jdevs.timeo.shared.time.toOffsetDate
+import com.jdevs.timeo.shared.util.toOffsetDate
 import java.util.Calendar
 import java.util.Date
 

@@ -10,8 +10,8 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.model.RecordItem
 import com.jdevs.timeo.ui.common.ListFragment
-import com.jdevs.timeo.util.appComponent
-import com.jdevs.timeo.util.showSnackbar
+import com.jdevs.timeo.util.fragment.appComponent
+import com.jdevs.timeo.util.fragment.snackbar
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 import javax.inject.Inject
 
@@ -37,10 +37,11 @@ class HistoryFragment : ListFragment<RecordItem>() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = HistoryFragBinding.inflate(inflater, container, false)
+        val binding = HistoryFragBinding.inflate(inflater, container, false).also {
 
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }
@@ -56,14 +57,14 @@ class HistoryFragment : ListFragment<RecordItem>() {
             .setIcon(android.R.drawable.ic_delete)
             .setTitle(R.string.are_you_sure)
             .setMessage(R.string.sure_delete_record)
-            .setPositiveButton(R.string.yes) { _, _ -> onDeleteClicked(index) }
+            .setPositiveButton(R.string.yes) { _, _ -> deleteRecord(index) }
             .setNegativeButton(R.string.no, null)
             .show()
     }
 
-    private fun onDeleteClicked(index: Int) {
+    private fun deleteRecord(index: Int) {
 
         viewModel.deleteRecord(record = getItem(index))
-        showSnackbar(R.string.record_deleted)
+        snackbar(R.string.record_deleted)
     }
 }

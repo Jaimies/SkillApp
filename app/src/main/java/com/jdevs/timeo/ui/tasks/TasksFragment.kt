@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.jdevs.timeo.databinding.TasksFragBinding
 import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.ui.common.ListFragment
-import com.jdevs.timeo.util.appComponent
+import com.jdevs.timeo.util.fragment.appComponent
 import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 import javax.inject.Inject
 
@@ -31,10 +31,11 @@ class TasksFragment : ListFragment<TaskItem>() {
 
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = TasksFragBinding.inflate(inflater, container, false)
+        val binding = TasksFragBinding.inflate(inflater, container, false).also {
 
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }

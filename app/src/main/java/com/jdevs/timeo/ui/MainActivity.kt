@@ -2,11 +2,9 @@ package com.jdevs.timeo.ui
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -25,7 +23,6 @@ import kotlinx.android.synthetic.main.main_act.toolbar
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
-    private val viewModel: MainViewModel by viewModels()
     private lateinit var currentNavController: LiveData<NavController>
     private val bottomNavView by lazyUnsafe { bottom_nav_view }
     private var graphToRecreate = -1
@@ -61,13 +58,12 @@ class MainActivity : AppCompatActivity(),
             }
         }
 
-        viewModel.run {
+        val selectedItemId = savedInstanceState?.getInt(SELECTED_ITEM_ID) ?: -1
 
-            if (selectedItemId != -1 && selectedItemId != bottomNavView.selectedItemId) {
+        if (selectedItemId != bottomNavView.selectedItemId) {
 
-                bottomNavView.selectedItemId = selectedItemId
-                bottomNavView.jumpDrawablesToCurrentState()
-            }
+            bottomNavView.selectedItemId = selectedItemId
+            bottomNavView.jumpDrawablesToCurrentState()
         }
     }
 
@@ -112,11 +108,15 @@ class MainActivity : AppCompatActivity(),
     override fun onDestroy() {
         super.onDestroy()
 
-        viewModel.selectedItemId = bottomNavView.selectedItemId
-
         if (isFinishing) {
             (application as TimeoApplication).onDestroy()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+
+        outState.putInt(SELECTED_ITEM_ID, bottomNavView.selectedItemId)
+        super.onSaveInstanceState(outState)
     }
 
     fun navigateToGraph(@IdRes graphId: Int) {
@@ -125,8 +125,7 @@ class MainActivity : AppCompatActivity(),
         bottomNavView.selectedItemId = graphId
     }
 
-    class MainViewModel : ViewModel() {
-
-        var selectedItemId = -1
+    companion object {
+        private const val SELECTED_ITEM_ID = "selectedItemId"
     }
 }

@@ -62,8 +62,8 @@
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_close_enter"
             app:popExitAnim="@anim/fragment_close_exit"
-            app:popUpTo="@id/projects_fragment_dest"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/overview_fragment_dest"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -96,8 +96,8 @@
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_close_enter"
             app:popExitAnim="@anim/fragment_close_exit"
-            app:popUpTo="@id/activities_fragment_dest"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/overview_fragment_dest"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

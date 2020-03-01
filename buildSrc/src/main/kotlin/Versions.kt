@@ -50,7 +50,7 @@ object Versions {
     const val dataBinding = "3.1.4"
 
     // Classpath
-    const val gradle = "3.5.3"
+    const val gradle = "3.6.1"
     const val gms = "4.3.3"
 
     // Test

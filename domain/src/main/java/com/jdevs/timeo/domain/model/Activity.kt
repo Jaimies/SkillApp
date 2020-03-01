@@ -5,7 +5,7 @@ import org.threeten.bp.OffsetDateTime
 data class Activity(
     val id: String = "",
     val name: String,
-    val totalTime: Long,
+    val totalTime: Int,
     val lastWeekTime: Int,
     val creationDate: OffsetDateTime
 )

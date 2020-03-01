@@ -30,7 +30,7 @@ import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
-import com.jdevs.timeo.util.time.getHours
+import com.jdevs.timeo.util.time.getFriendlyHours
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -107,7 +107,7 @@ class ActivityDetailViewModel @Inject constructor(
 
             super.setData(activity)
             _avgWeekTime.value = getAvgWeekHours(activity.totalTime, activity.creationDate) + "h"
-            _lastWeekTime.value = getHours(activity.lastWeekTime) + "h"
+            _lastWeekTime.value = getFriendlyHours(activity.lastWeekTime) + "h"
             _daysSpent.value = activity.creationDate.getDaysSpentSince().toString()
         }
     }

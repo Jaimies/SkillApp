@@ -6,7 +6,7 @@ data class Project(
     val id: String = "",
     val name: String,
     val description: String,
-    val totalTime: Long,
+    val totalTime: Int,
     val lastWeekTime: Int,
     val creationDate: OffsetDateTime
 )

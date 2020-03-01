@@ -4,18 +4,17 @@ import com.jdevs.timeo.shared.util.getDaysAgo
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.temporal.ChronoUnit
 
-fun getProgress(minutes: Long) =
-    minutes.toInt().rem(TWENTY_FIVE_HOURS) * PERCENT_COUNT / TWENTY_FIVE_HOURS
+fun getProgress(minutes: Int) = minutes.rem(TWENTY_FIVE_HOURS) * PERCENT_COUNT / TWENTY_FIVE_HOURS
 
-fun getPrevMilestone(time: Long) = time.toInt() - time.toInt().rem(TWENTY_FIVE_HOURS)
-fun getNextMilestone(minutes: Long) = getPrevMilestone(minutes) + TWENTY_FIVE_HOURS
+fun getPrevMilestone(time: Int) = time - time.rem(TWENTY_FIVE_HOURS)
+fun getNextMilestone(minutes: Int) = getPrevMilestone(minutes) + TWENTY_FIVE_HOURS
 
-fun getAvgWeekHours(time: Long, startedAt: OffsetDateTime): String {
+fun getAvgWeekHours(time: Int, startedAt: OffsetDateTime): String {
 
     val weekCount = ChronoUnit.WEEKS.between(startedAt, OffsetDateTime.now()) + 1
-    val avgMins = time / if (weekCount > 0) weekCount else 1
+    val avgMins = time / if (weekCount > 0) weekCount.toInt() else 1
 
-    return getHours(avgMins)
+    return getFriendlyHours(avgMins)
 }
 
 fun OffsetDateTime.getDaysSpentSince(): Long {

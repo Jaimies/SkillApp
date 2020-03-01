@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
-import com.jdevs.timeo.util.time.getHours
+import com.jdevs.timeo.util.time.getFriendlyHours
 
 class ProjectViewModel {
 
@@ -19,7 +19,7 @@ class ProjectViewModel {
     fun setProject(project: ProjectItem) {
 
         _name.value = project.name
-        _totalTime.value = getHours(project.totalTime) + "h"
+        _totalTime.value = getFriendlyHours(project.totalTime) + "h"
     }
 
     fun navigateToDetails() = navigateToDetails.call()

@@ -17,7 +17,7 @@ data class DBActivity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String = "",
-    val totalTime: Long = 0,
+    val totalTime: Int = 0,
     val lastWeekTime: Int = 0,
     val creationDate: OffsetDateTime = OffsetDateTime.now()
 )
@@ -27,7 +27,7 @@ data class FirestoreActivity(
     @DocumentId
     val documentId: String = "",
     val name: String = "",
-    val totalTime: Long = 0,
+    val totalTime: Int = 0,
     override val recentRecords: List<RecordMinimal> = emptyList(),
     @ServerTimestamp
     val timestamp: Date? = null

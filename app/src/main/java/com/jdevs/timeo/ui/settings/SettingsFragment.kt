@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import androidx.preference.SwitchPreferenceCompat
 import com.jdevs.timeo.R
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
@@ -14,7 +14,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     @Inject
     lateinit var viewModel: SettingsViewModel
-    private lateinit var activitiesEnabled: SwitchPreference
+    private lateinit var activitiesEnabled: SwitchPreferenceCompat
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

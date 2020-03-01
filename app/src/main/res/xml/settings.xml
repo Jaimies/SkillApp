@@ -4,7 +4,7 @@
 
     <PreferenceCategory android:title="@string/general">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             app:key="activitiesEnabled"
             app:title="@string/enable_activities" />
     </PreferenceCategory>

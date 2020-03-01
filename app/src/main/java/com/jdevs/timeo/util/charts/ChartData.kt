@@ -41,7 +41,7 @@ inline fun List<ChartItem>.toChartData(
 
     val finalRes = result.map { statistic ->
 
-        Entry(statistic.period.toFloat(), getHours(statistic.time).toFloat())
+        Entry(statistic.period.toFloat(), getHours(statistic.time))
     }
 
     return ChartData(finalRes, formatter)

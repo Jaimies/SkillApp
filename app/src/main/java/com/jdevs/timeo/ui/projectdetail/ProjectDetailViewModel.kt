@@ -16,7 +16,7 @@ import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
-import com.jdevs.timeo.util.time.getHours
+import com.jdevs.timeo.util.time.getFriendlyHours
 import javax.inject.Inject
 
 class ProjectDetailViewModel @Inject constructor(
@@ -49,9 +49,9 @@ class ProjectDetailViewModel @Inject constructor(
         _name.value = project.name
         _description.value = project.description
         _daysSpent.value = project.creationDate.getDaysSpentSince().toString()
-        _totalTime.value = getHours(project.totalTime) + "h"
+        _totalTime.value = getFriendlyHours(project.totalTime) + "h"
         _avgWeekTime.value = getAvgWeekHours(project.totalTime, project.creationDate) + "h"
-        _lastWeekTime.value = getHours(project.lastWeekTime) + "h"
+        _lastWeekTime.value = getFriendlyHours(project.lastWeekTime) + "h"
     }
 
     fun setupProjectLiveData(project: ProjectItem) {

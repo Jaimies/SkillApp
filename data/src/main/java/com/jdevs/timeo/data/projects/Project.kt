@@ -19,7 +19,7 @@ data class DBProject(
     val id: Int = 0,
     val name: String = "",
     val description: String = "",
-    val totalTime: Long = 0,
+    val totalTime: Int = 0,
     val lastWeekTime: Int = 0,
     val creationDate: OffsetDateTime = OffsetDateTime.now()
 )
@@ -30,7 +30,7 @@ data class FirestoreProject(
     val documentId: String = "",
     val name: String = "",
     val description: String = "",
-    val totalTime: Long = 0,
+    val totalTime: Int = 0,
     override val recentRecords: List<RecordMinimal> = emptyList(),
     @ServerTimestamp
     val timestamp: Date? = null

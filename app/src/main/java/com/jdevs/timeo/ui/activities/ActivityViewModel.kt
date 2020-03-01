@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.util.livedata.SingleLiveEvent
-import com.jdevs.timeo.util.time.getHours
+import com.jdevs.timeo.util.time.getFriendlyHours
 import com.jdevs.timeo.util.time.getNextMilestone
 import com.jdevs.timeo.util.time.getPrevMilestone
 import com.jdevs.timeo.util.time.getProgress
@@ -27,10 +27,10 @@ open class ActivityDataHolder {
     open fun setData(activity: ActivityItem) {
 
         _name.value = activity.name
-        _totalTime.value = getHours(activity.totalTime) + "h"
+        _totalTime.value = getFriendlyHours(activity.totalTime) + "h"
         _progress.value = getProgress(activity.totalTime)
-        _prevMilestone.value = getHours(getPrevMilestone(activity.totalTime)) + "h"
-        _nextMilestone.value = getHours(getNextMilestone(activity.totalTime)) + "h"
+        _prevMilestone.value = getFriendlyHours(getPrevMilestone(activity.totalTime)) + "h"
+        _nextMilestone.value = getFriendlyHours(getNextMilestone(activity.totalTime)) + "h"
     }
 }
 

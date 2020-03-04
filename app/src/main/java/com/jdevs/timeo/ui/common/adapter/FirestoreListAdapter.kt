@@ -2,19 +2,19 @@ package com.jdevs.timeo.ui.common.adapter
 
 import android.util.SparseArray
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.model.ViewItem
 
-class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
+open class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val dataItemCount get() = items.filter { it != loadingItem }.size
 
-    private val delegateAdapters = SparseArray<DelegateAdapter>()
-    private val items = mutableListOf<ViewItem>()
+    protected val delegateAdapters = SparseArray<DelegateAdapter>()
+    protected val items = mutableListOf<ViewItem>()
 
     private val loadingItem = object : ViewItem {
-
         override val id = ""
     }
 
@@ -59,7 +59,8 @@ class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
         }
     }
 
-    fun addItem(item: ViewItem) {
+    @CallSuper
+    open fun addItem(item: ViewItem) {
 
         if (items.count { it.id == item.id } > 0) {
 
@@ -82,15 +83,17 @@ class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
         }
     }
 
-    fun removeItem(item: ViewItem) {
+    @CallSuper
+    open fun removeItem(item: ViewItem) {
+
+        if (item !in items) {
+            return
+        }
 
         val index = items.indexOfFirst { it.id == item.id }
 
-        runCatching {
-
-            items.removeAt(index)
-            notifyItemRemoved(index)
-        }
+        items.removeAt(index)
+        notifyItemRemoved(index)
     }
 
     companion object {

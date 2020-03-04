@@ -2,7 +2,7 @@ package com.jdevs.timeo.ui.common
 
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.jdevs.timeo.shared.util.EPOCH
-import org.threeten.bp.format.TextStyle
+import com.jdevs.timeo.shared.util.shortName
 import org.threeten.bp.temporal.IsoFields
 import java.util.Locale
 
@@ -10,9 +10,7 @@ class WeekDayFormatter : ValueFormatter() {
 
     override fun getFormattedValue(value: Float): String {
 
-        return EPOCH.plusDays(value.toLong()).dayOfWeek
-            .getDisplayName(TextStyle.SHORT, Locale.getDefault())
-            .toUpperCase(Locale.getDefault())
+        return EPOCH.plusDays(value.toLong()).dayOfWeek.shortName.toUpperCase(Locale.getDefault())
     }
 }
 
@@ -28,8 +26,6 @@ class YearMonthFormatter : ValueFormatter() {
 
     override fun getFormattedValue(value: Float): String {
 
-        return EPOCH.plusMonths(value.toLong()).month
-            .getDisplayName(TextStyle.SHORT, Locale.getDefault())
-            .toUpperCase(Locale.getDefault())
+        return EPOCH.plusMonths(value.toLong()).month.shortName.toUpperCase(Locale.getDefault())
     }
 }

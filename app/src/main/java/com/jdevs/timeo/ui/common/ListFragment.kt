@@ -32,8 +32,8 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     protected abstract val delegateAdapter: DelegateAdapter
     protected abstract val viewModel: ListViewModel<T>
 
+    protected open val firestoreAdapter by lazy { FirestoreListAdapter(delegateAdapter) }
     private val adapter by lazy { PagingAdapter(delegateAdapter) }
-    private val firestoreAdapter by lazy { FirestoreListAdapter(delegateAdapter) }
     private val currentAdapter get() = if (authRepository.isUserSignedIn) firestoreAdapter else adapter
 
     @Inject
@@ -47,7 +47,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
         if (authRepository.isUserSignedIn) {
 
-            viewModel.getRemoteLiveDatas(false).forEach(::observeListLiveData)
+            viewModel.getRemoteLiveDatas(false).forEach(::observeOperation)
         } else {
 
             observeLiveData(viewModel.localLiveData)
@@ -67,7 +67,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
         }
     }
 
-    private fun observeListLiveData(liveData: LiveData<OperationItem<T>>) {
+    private fun observeOperation(liveData: LiveData<OperationItem<T>>) {
 
         if (liveData.hasObservers()) {
 
@@ -104,7 +104,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
             addOnScrollListener(InfiniteScrollListener(linearLayoutManager, visibleThreshold) {
 
-                viewModel.getRemoteLiveDatas(true).forEach(::observeListLiveData)
+                viewModel.getRemoteLiveDatas(true).forEach(::observeOperation)
             })
         }
     }

@@ -118,7 +118,7 @@ dependencies {
 
     // MPAndroidChart library for creating awesome charts
     implementation "com.github.PhilJay:MPAndroidChart:v$Versions.MPAndroidChart"
-    implementation "com.wdullaer:materialdatetimepicker:$Versions.materialDatepicker"
+    implementation "com.wdullaer:materialdatetimepicker:$Versions.datepicker"
 
     // Paging
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"

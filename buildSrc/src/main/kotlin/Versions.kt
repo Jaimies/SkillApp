@@ -1,6 +1,6 @@
 @Suppress("unused")
 object Versions {
-    const val kotlin = "1.3.61"
+    const val kotlin = "1.3.70"
 
     // Core dependencies
     const val androidxCore = "1.2.0"
@@ -23,7 +23,7 @@ object Versions {
     const val MPAndroidChart = "3.1.0"
 
     // Material DateTime picker
-    const val materialDatepicker = "4.2.3"
+    const val datepicker = "4.2.3"
 
     const val preference = "1.1.0"
 
@@ -35,7 +35,7 @@ object Versions {
     const val dagger = "2.25.2"
 
     // Firebase
-    const val firestore = "21.4.0"
+    const val firestore = "21.4.1"
     const val coroutinesPlay = "1.1.1"
     const val auth = "19.2.0"
     const val gmsAuth = "17.0.0"

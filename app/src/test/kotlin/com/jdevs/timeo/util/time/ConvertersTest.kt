@@ -16,6 +16,14 @@ class ConvertersTest {
     }
 
     @Test
+    fun toReadableFloat() {
+
+        assertThat(1f.toReadableFloat(), `is`("1"))
+        assertThat(0f.toReadableFloat(), `is`("0"))
+        assertThat(0.5f.toReadableFloat(), `is`("0.5"))
+    }
+
+    @Test
     fun getFriendlyHours() {
 
         assertThat(getFriendlyHours(90), `is`("1.5"))

@@ -15,12 +15,11 @@ fun getFriendlyTime(totalMinutes: Int): String {
     return builder.trim().toString()
 }
 
-fun getFriendlyHours(totalMinutes: Int): String {
+fun getFriendlyHours(totalMinutes: Int) = getHours(totalMinutes).toReadableFloat()
 
-    val time = getHours(totalMinutes)
-    val timeString = "%.1f".format(time)
-
-    return if (timeString.takeLast(1) == "0") timeString.dropLast(2) else timeString
+fun Float.toReadableFloat(): String {
+    val string = "%.1f".format(this)
+    return if (string.takeLast(1) == "0") string.dropLast(2) else string
 }
 
 fun getHours(minutes: Int) = minutes / HOUR_MINUTES.toFloat()

@@ -3,6 +3,7 @@ package com.jdevs.timeo.ui.common
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.jdevs.timeo.shared.util.EPOCH
 import com.jdevs.timeo.shared.util.shortName
+import com.jdevs.timeo.util.time.toReadableFloat
 import org.threeten.bp.temporal.IsoFields
 import java.util.Locale
 
@@ -27,5 +28,13 @@ class YearMonthFormatter : ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
 
         return EPOCH.plusMonths(value.toLong()).month.shortName.toUpperCase(Locale.getDefault())
+    }
+}
+
+class TimeFormatter : ValueFormatter() {
+
+    override fun getFormattedValue(value: Float): String {
+
+        return value.toReadableFloat() + "h"
     }
 }

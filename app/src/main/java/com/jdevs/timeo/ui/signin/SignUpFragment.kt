@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SignupFragBinding
+import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.shared.util.TAG
 import com.jdevs.timeo.util.EMPTY
 import com.jdevs.timeo.util.INVALID
@@ -28,8 +30,10 @@ import javax.inject.Inject
 
 class SignUpFragment : AuthFragment() {
 
+    override val viewModel: SignUpViewModel by viewModels { viewModelFactory }
+
     @Inject
-    override lateinit var viewModel: SignUpViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
 

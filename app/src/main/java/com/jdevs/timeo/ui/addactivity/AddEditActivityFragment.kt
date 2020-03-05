@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddactivityFragBinding
+import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.application
@@ -24,8 +26,10 @@ import javax.inject.Inject
 
 class AddEditActivityFragment : ActionBarFragment() {
 
+    private val viewModel: AddEditActivityViewModel by viewModels { viewModelFactory }
+
     @Inject
-    lateinit var viewModel: AddEditActivityViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     override val menuId = R.menu.addactivity_frag_menu
     private val args: AddEditActivityFragmentArgs by navArgs()

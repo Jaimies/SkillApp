@@ -31,7 +31,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         ActivitiesModule::class, RecordsModule::class, ProjectsModule::class, TasksModule::class,
-        StatsModule::class, DatabaseModule::class, AuthModule::class, SettingsModule::class
+        StatsModule::class, DatabaseModule::class, AuthModule::class, SettingsModule::class, ViewModelModule::class
     ]
 )
 interface AppComponent {

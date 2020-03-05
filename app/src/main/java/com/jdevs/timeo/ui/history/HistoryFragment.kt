@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.viewModels
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.HistoryFragBinding
+import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.model.RecordItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.fragment.appComponent
@@ -22,8 +24,10 @@ class HistoryFragment : ListFragment<RecordItem>() {
     override val delegateAdapter by lazy { RecordDelegateAdapter(::showDeleteDialog) }
     override val firestoreAdapter by lazy { FirestoreHistoryAdapter(delegateAdapter) }
 
+    override val viewModel: HistoryViewModel by viewModels { viewModelFactory }
+
     @Inject
-    override lateinit var viewModel: HistoryViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
 

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SigninFragBinding
+import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.shared.util.TAG
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
@@ -42,8 +44,10 @@ class SignInFragment : AuthFragment() {
         GoogleSignIn.getClient(requireContext(), googleSignInOptions)
     }
 
+    override val viewModel: SignInViewModel by viewModels { viewModelFactory }
+
     @Inject
-    override lateinit var viewModel: SignInViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
 

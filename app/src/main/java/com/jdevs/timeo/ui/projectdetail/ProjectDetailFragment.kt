@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProjectdetailFragBinding
+import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.tasks.AddTaskFragment
@@ -27,8 +29,10 @@ class ProjectDetailFragment : ActionBarFragment() {
     private val adapter by lazy { ListAdapter(TaskDelegateAdapter(viewModel::setTaskCompleted)) }
     override val menuId = R.menu.activitydetail_frag_menu
 
+    private val viewModel: ProjectDetailViewModel by viewModels { viewModelFactory }
+
     @Inject
-    lateinit var viewModel: ProjectDetailViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
 

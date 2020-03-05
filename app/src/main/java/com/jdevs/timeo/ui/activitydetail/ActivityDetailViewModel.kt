@@ -33,9 +33,7 @@ import com.jdevs.timeo.util.time.getDaysSpentSince
 import com.jdevs.timeo.util.time.getFriendlyHours
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class ActivityDetailViewModel @Inject constructor(
     private val getActivityById: GetActivityByIdUseCase,
     private val addRecord: AddRecordUseCase,

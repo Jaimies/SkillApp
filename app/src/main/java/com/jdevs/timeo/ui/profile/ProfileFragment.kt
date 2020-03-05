@@ -5,20 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProfileFragBinding
+import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.navigateToGraph
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.navigateAnimated
-import javax.inject.Inject
 
 class ProfileFragment : ActionBarFragment() {
 
-    @Inject
-    lateinit var viewModel: ProfileViewModel
+    private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
+
+    lateinit var viewModelFactory: ViewModelFactory
 
     override val menuId = R.menu.profile_frag_menu
 

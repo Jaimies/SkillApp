@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
+import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
 import com.jdevs.timeo.util.charts.setup
@@ -27,8 +29,10 @@ import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
 
+    val viewModel: ActivityDetailViewModel by viewModels { viewModelFactory }
+
     @Inject
-    lateinit var viewModel: ActivityDetailViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     override val menuId = R.menu.activitydetail_frag_menu
     private val args: ActivityDetailFragmentArgs by navArgs()

@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddTaskLayoutBinding
+import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.hardware.hideKeyboard
@@ -22,8 +24,10 @@ import javax.inject.Inject
 
 class AddTaskFragment : Fragment() {
 
+    private val viewModel: AddTaskViewModel by viewModels { viewModelFactory }
+
     @Inject
-    lateinit var viewModel: AddTaskViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

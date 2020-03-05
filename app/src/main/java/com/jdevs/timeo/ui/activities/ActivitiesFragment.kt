@@ -7,10 +7,12 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
+import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.fragment.appComponent
@@ -29,8 +31,10 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
         ActivityDelegateAdapter(::showRecordDialog, ::navigateToDetails)
     }
 
+    override val viewModel: ActivitiesViewModel by viewModels { viewModelFactory }
+
     @Inject
-    override lateinit var viewModel: ActivitiesViewModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     override val menuId = R.menu.activities_frag_menu
     private var isLoadEventHandled = false

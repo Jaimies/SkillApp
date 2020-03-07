@@ -5,12 +5,12 @@ import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
+import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.lifecycle.mapOperation
-import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import javax.inject.Inject
 
 private const val ACTIVITIES_PAGE_SIZE = 20

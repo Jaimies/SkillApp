@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.domain.usecase.activities.AddActivityUseCase
 import com.jdevs.timeo.domain.usecase.activities.DeleteActivityUseCase
 import com.jdevs.timeo.domain.usecase.activities.SaveActivityUseCase
+import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
-import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import javax.inject.Inject
 
 class AddEditActivityViewModel @Inject constructor(

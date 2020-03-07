@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util.livedata
+package com.jdevs.timeo.lifecycle
 
 import android.util.Log
 import androidx.annotation.MainThread

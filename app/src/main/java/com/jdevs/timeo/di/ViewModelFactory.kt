@@ -14,6 +14,8 @@ import com.jdevs.timeo.ui.projects.ProjectsViewModel
 import com.jdevs.timeo.ui.settings.SettingsViewModel
 import com.jdevs.timeo.ui.signin.SignInViewModel
 import com.jdevs.timeo.ui.signin.SignUpViewModel
+import com.jdevs.timeo.ui.tasks.AddTaskViewModel
+import com.jdevs.timeo.ui.tasks.TasksViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -44,76 +46,87 @@ class ViewModelFactory @Inject constructor(
 annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
 @Module(includes = [ProfileViewModelsModule::class, OverviewViewModelsModule::class])
-abstract class ViewModelModule {
+interface ViewModelModule {
 
     @Binds
-    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+    fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }
 
 @Module
-abstract class OverviewViewModelsModule {
+interface OverviewViewModelsModule {
 
     @Binds
     @IntoMap
     @ViewModelKey(OverviewViewModel::class)
-    abstract fun bindOverviewViewModel(viewModel: OverviewViewModel): ViewModel
+    fun bindOverviewViewModel(viewModel: OverviewViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(ProjectsViewModel::class)
-    abstract fun bindProjectsViewModel(viewModel: ProjectsViewModel): ViewModel
+    fun bindProjectsViewModel(viewModel: ProjectsViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(AddEditProjectViewModel::class)
-    abstract fun bindAddProjectViewModel(viewModel: AddEditProjectViewModel): ViewModel
+    fun bindAddProjectViewModel(viewModel: AddEditProjectViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(ProjectDetailViewModel::class)
-    abstract fun bindProjectDetailViewModel(viewModel: ProjectDetailViewModel): ViewModel
+    fun bindProjectDetailViewModel(viewModel: ProjectDetailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddTaskViewModel::class)
+    fun bindAddTaskViewModel(viewModel: AddTaskViewModel): ViewModel
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TasksViewModel::class)
+    fun bindTasksViewModel(viewModel: TasksViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(ActivitiesViewModel::class)
-    abstract fun bindActivitiesViewModel(viewModel: ActivitiesViewModel): ViewModel
+    fun bindActivitiesViewModel(viewModel: ActivitiesViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(AddEditActivityViewModel::class)
-    abstract fun bindAddActivityViewModel(viewModel: AddEditActivityViewModel): ViewModel
+    fun bindAddActivityViewModel(viewModel: AddEditActivityViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(HistoryViewModel::class)
-    abstract fun bindHistoryViewModel(viewModel: HistoryViewModel): ViewModel
+    fun bindHistoryViewModel(viewModel: HistoryViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(ActivityDetailViewModel::class)
-    abstract fun bindActivityDetailViewModel(viewModel: ActivityDetailViewModel): ViewModel
+    fun bindActivityDetailViewModel(viewModel: ActivityDetailViewModel): ViewModel
 }
 
 @Module
-abstract class ProfileViewModelsModule {
+interface ProfileViewModelsModule {
 
     @Binds
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
-    abstract fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
+    fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SignInViewModel::class)
-    abstract fun bindSignInViewModel(viewModel: SignInViewModel): ViewModel
+    fun bindSignInViewModel(viewModel: SignInViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SignUpViewModel::class)
-    abstract fun bindSignUpViewModel(viewModel: SignUpViewModel): ViewModel
+    fun bindSignUpViewModel(viewModel: SignUpViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SettingsViewModel::class)
-    abstract fun bindSettingsViewModel(viewModel: SettingsViewModel): ViewModel
+    fun bindSettingsViewModel(viewModel: SettingsViewModel): ViewModel
 }

@@ -2,26 +2,18 @@ package com.jdevs.timeo.ui.tasks
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jdevs.timeo.lifecycle.SmartLiveData
 import com.jdevs.timeo.model.TaskItem
 
 class TaskViewModel {
 
     val name: LiveData<String> get() = _name
-    val isCompletedInternal: LiveData<Boolean> get() = _isCompletedInternal
-    val isCompleted: LiveData<Boolean> get() = _isCompleted
+    val isCompleted = SmartLiveData<Boolean>()
     private val _name = MutableLiveData("")
-    private val _isCompletedInternal = MutableLiveData<Boolean>()
-    private val _isCompleted = MutableLiveData<Boolean>()
 
     fun setTask(task: TaskItem) {
 
         _name.value = task.name
-        _isCompletedInternal.value = task.isCompleted
-    }
-
-    fun setCompleted(isCompleted: Boolean) {
-
-        _isCompleted.value = isCompleted
-        _isCompletedInternal.value = isCompleted
+        isCompleted.value = task.isCompleted
     }
 }

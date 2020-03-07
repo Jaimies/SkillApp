@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.domain.repository.AuthRepository
-import com.jdevs.timeo.util.livedata.SingleLiveEvent
+import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(private val authRepository: AuthRepository) :

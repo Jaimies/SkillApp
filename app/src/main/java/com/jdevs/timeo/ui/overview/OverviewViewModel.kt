@@ -10,11 +10,11 @@ import com.jdevs.timeo.domain.usecase.activities.GetTopActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.projects.GetTopProjectsUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.domain.usecase.settings.GetSettingsUseCase
+import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.shared.util.mapList
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
-import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import javax.inject.Inject
 
 class OverviewViewModel @Inject constructor(

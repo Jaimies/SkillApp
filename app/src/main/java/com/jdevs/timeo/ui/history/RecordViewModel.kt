@@ -2,8 +2,8 @@ package com.jdevs.timeo.ui.history
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.RecordItem
-import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getFriendlyTime
 
 class RecordViewModel {

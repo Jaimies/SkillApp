@@ -3,8 +3,8 @@ package com.jdevs.timeo.ui.activities
 import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
-import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getFriendlyHours
 import com.jdevs.timeo.util.time.getNextMilestone
 import com.jdevs.timeo.util.time.getPrevMilestone

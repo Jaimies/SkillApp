@@ -3,8 +3,8 @@ package com.jdevs.timeo.ui.tasks
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jdevs.timeo.domain.usecase.tasks.AddTaskUseCase
+import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
-import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import javax.inject.Inject
 
 class AddTaskViewModel @Inject constructor(private val addTask: AddTaskUseCase) : ViewModel() {

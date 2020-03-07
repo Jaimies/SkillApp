@@ -15,11 +15,13 @@ import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.navigateToGraph
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.navigateAnimated
+import javax.inject.Inject
 
 class ProfileFragment : ActionBarFragment() {
 
     private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
 
+    @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     override val menuId = R.menu.profile_frag_menu

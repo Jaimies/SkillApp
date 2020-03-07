@@ -13,6 +13,7 @@ import com.jdevs.timeo.domain.model.WeekStats
 import com.jdevs.timeo.domain.usecase.activities.GetActivityByIdUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.domain.usecase.stats.GetStatsUseCase
+import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.StatsType.DAY
 import com.jdevs.timeo.model.StatsType.WEEK
@@ -27,7 +28,6 @@ import com.jdevs.timeo.ui.common.YearWeekFormatter
 import com.jdevs.timeo.util.charts.toChartData
 import com.jdevs.timeo.util.charts.toChartItem
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
-import com.jdevs.timeo.util.livedata.SingleLiveEvent
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
 import com.jdevs.timeo.util.time.getFriendlyHours
@@ -40,11 +40,10 @@ class ActivityDetailViewModel @Inject constructor(
     getStats: GetStatsUseCase
 ) : ViewModel() {
 
-    val chartType: LiveData<Int> get() = _chartType
-    private val _chartType = MutableLiveData(DAY)
+    val chartType = MutableLiveData(DAY)
 
-    val stats = switchMap(_chartType) {
-        when (_chartType.value) {
+    val stats = switchMap(chartType) { type ->
+        when (type) {
 
             DAY -> getStats.dayStats.map {
                 it.map(DayStats::toChartItem).toChartData(
@@ -71,11 +70,6 @@ class ActivityDetailViewModel @Inject constructor(
     val showRecordDialog = SingleLiveEvent<Any>()
     val activityData = ActivityDetailDataHolder()
     lateinit var activity: LiveData<ActivityItem>
-
-    fun setChartType(type: Int) {
-
-        _chartType.value = type
-    }
 
     fun setupActivityLiveData(activity: ActivityItem) {
 

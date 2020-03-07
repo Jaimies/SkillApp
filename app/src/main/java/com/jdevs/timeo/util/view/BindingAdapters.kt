@@ -1,11 +1,10 @@
 package com.jdevs.timeo.util.view
 
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
-import androidx.core.util.Consumer
+import androidx.annotation.ArrayRes
 import androidx.databinding.BindingAdapter
 import com.github.mikephil.charting.charts.LineChart
 import com.google.android.gms.common.SignInButton
@@ -25,12 +24,6 @@ fun SignInButton.setOnClickListener(block: Runnable) {
     setOnClickListener { block.run() }
 }
 
-@BindingAdapter("selectedItem")
-fun Spinner.setSelectedItem(position: Int) {
-
-    setSelection(position)
-}
-
 @BindingAdapter("onEnterPressed")
 fun EditText.setOnEnterPressedListener(block: Runnable) {
 
@@ -41,27 +34,9 @@ fun EditText.setOnEnterPressedListener(block: Runnable) {
     }
 }
 
-@BindingAdapter("items")
-fun Spinner.setDropDownItems(textArrayResId: Int) {
-
-    adapter = ArrayAdapter.createFromResource(
-        context, textArrayResId,
-        android.R.layout.simple_list_item_1
-    )
-}
-
-@BindingAdapter("onItemSelected")
-fun Spinner.setOnItemSelectedListener(onItemSelected: Consumer<Int>) {
-
-    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p2: Long) {
-
-            onItemSelected.accept(position)
-        }
-
-        override fun onNothingSelected(p0: AdapterView<*>?) {}
-    }
+@BindingAdapter("android:entries")
+fun Spinner.setEntries(@ArrayRes resId: Int) {
+    adapter = ArrayAdapter.createFromResource(context, resId, android.R.layout.simple_list_item_1)
 }
 
 private const val ANIMATION_DURATION = 400

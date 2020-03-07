@@ -2,7 +2,7 @@ package com.jdevs.timeo.ui.signin
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.jdevs.timeo.domain.repository.AuthRepository
-import com.jdevs.timeo.util.livedata.SingleLiveEvent
+import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import javax.inject.Inject
 
 class SignInViewModel @Inject constructor(private val authRepository: AuthRepository) :

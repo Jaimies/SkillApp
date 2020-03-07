@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
-    <style name="Theme.Timeo" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.Timeo" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@color/colorSecondary</item>
@@ -10,9 +10,7 @@
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
     </style>
 
-    <style name="ThemeOverlay" parent="ThemeOverlay.MaterialComponents" />
-
-    <style name="ThemeOverlay.Timeo" />
+    <style name="ThemeOverlay.Timeo" parent="ThemeOverlay.MaterialComponents" />
 
     <style name="ThemeOverlay.Timeo.ListItem">
         <item name="android:textColorPrimary">@color/colorTextSecondary</item>

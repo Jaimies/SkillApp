@@ -12,25 +12,23 @@ import androidx.navigation.NavOptions
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.TimeoApplication
-import com.jdevs.timeo.shared.util.lazyUnsafe
 import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.navigation.setupWithNavController
 import kotlinx.android.synthetic.main.main_act.bottom_nav_view
 import kotlinx.android.synthetic.main.main_act.nav_host_container
-import kotlinx.android.synthetic.main.main_act.toolbar
 
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
     private lateinit var currentNavController: LiveData<NavController>
-    private val bottomNavView by lazyUnsafe { bottom_nav_view }
+    private val bottomNavView get() = bottom_nav_view
     private var graphToRecreate = -1
 
     private val navGraphIds =
-        listOf(R.navigation.overview, R.navigation.calendar, R.navigation.profile)
+        intArrayOf(R.navigation.overview, R.navigation.calendar, R.navigation.profile)
 
-    private val knownActions = arrayOf(
+    private val knownActions = intArrayOf(
         R.id.addactivity_fragment_dest,
         R.id.addproject_fragment_dest,
         R.id.history_fragment_dest,
@@ -39,23 +37,19 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_Timeo)
-        super.onCreate(savedInstanceState)
 
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.main_act)
-        setSupportActionBar(toolbar)
 
         currentNavController = bottomNavView.setupWithNavController(
-            navGraphIds = navGraphIds,
-            fragmentManager = supportFragmentManager,
-            containerId = R.id.nav_host_container,
-            intent = intent
-        ).also {
+            navGraphIds, supportFragmentManager,
+            R.id.nav_host_container, intent
+        )
 
-            it.observe(this) { navController ->
+        currentNavController.observe(this) { navController ->
 
-                setupActionBarWithNavController(navController)
-                navController.addOnDestinationChangedListener(this)
-            }
+            setupActionBarWithNavController(navController)
+            navController.addOnDestinationChangedListener(this)
         }
 
         val selectedItemId = savedInstanceState?.getInt(SELECTED_ITEM_ID) ?: -1

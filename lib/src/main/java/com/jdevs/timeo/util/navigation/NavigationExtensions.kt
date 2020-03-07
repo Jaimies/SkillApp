@@ -19,7 +19,7 @@ import com.jdevs.timeo.util.R
  */
 @Suppress("LongMethod", "ComplexMethod")
 fun BottomNavigationView.setupWithNavController(
-    navGraphIds: List<Int>,
+    navGraphIds: IntArray,
     fragmentManager: FragmentManager,
     containerId: Int,
     intent: Intent
@@ -146,7 +146,7 @@ fun BottomNavigationView.setupWithNavController(
 }
 
 private fun BottomNavigationView.setupDeepLinks(
-    navGraphIds: List<Int>,
+    navGraphIds: IntArray,
     fragmentManager: FragmentManager,
     containerId: Int,
     intent: Intent

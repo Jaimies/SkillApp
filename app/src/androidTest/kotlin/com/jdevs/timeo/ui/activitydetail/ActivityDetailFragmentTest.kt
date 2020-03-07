@@ -10,7 +10,7 @@ import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.FakeActivitiesRepository
 import com.jdevs.timeo.model.mapToPresentation
-import com.jdevs.timeo.testAppComponent
+import com.jdevs.timeo.util.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before

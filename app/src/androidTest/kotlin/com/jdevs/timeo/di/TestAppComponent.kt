@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 @ExperimentalCoroutinesApi
-@Component(modules = [TestRepositoryModule::class, TestAuthModule::class])
+@Component(modules = [TestRepositoryModule::class, TestAuthModule::class, ViewModelModule::class])
 interface TestAppComponent : AppComponent {
 
     fun inject(test: ActivityDetailFragmentTest)

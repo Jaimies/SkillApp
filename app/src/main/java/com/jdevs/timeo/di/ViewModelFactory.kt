@@ -45,7 +45,7 @@ class ViewModelFactory @Inject constructor(
 @Target(FUNCTION, PROPERTY_GETTER, PROPERTY_SETTER)
 annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
-@Module(includes = [ProfileViewModelsModule::class, OverviewViewModelsModule::class])
+@Module(includes = [ProfileViewModelModule::class, OverviewViewModelModule::class])
 interface ViewModelModule {
 
     @Binds
@@ -53,7 +53,7 @@ interface ViewModelModule {
 }
 
 @Module
-interface OverviewViewModelsModule {
+interface OverviewViewModelModule {
 
     @Binds
     @IntoMap
@@ -108,7 +108,7 @@ interface OverviewViewModelsModule {
 }
 
 @Module
-interface ProfileViewModelsModule {
+interface ProfileViewModelModule {
 
     @Binds
     @IntoMap

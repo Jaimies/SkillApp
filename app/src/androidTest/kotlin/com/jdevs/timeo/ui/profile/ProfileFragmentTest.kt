@@ -13,8 +13,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.FakeAuthRepository
-import com.jdevs.timeo.testAppComponent
 import com.jdevs.timeo.util.navigateAnimated
+import com.jdevs.timeo.util.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.hamcrest.CoreMatchers.not
 import org.junit.Test

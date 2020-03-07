@@ -2,10 +2,10 @@ package com.jdevs.timeo.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.ItemDataSource
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.repository.ProjectsRepository
+import com.jdevs.timeo.util.ListDataSource
 import com.jdevs.timeo.util.createLiveData
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class FakeProjectsRepository @Inject constructor() : ProjectsRepository {
 
     private val projectsList = mutableListOf<Project>()
-    override val projects = ItemDataSource.Factory(projectsList)
+    override val projects = ListDataSource.Factory(projectsList)
 
     override fun getProjectsRemote(fetchNewItems: Boolean) =
         listOf(createLiveData<Operation<Project>>())

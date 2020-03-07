@@ -1,11 +1,11 @@
-package com.jdevs.timeo
+package com.jdevs.timeo.util
 
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 
-class ItemDataSource<T>(list: List<T>) : PageKeyedDataSource<Int, T>() {
+class ListDataSource<T>(list: List<T>) : PageKeyedDataSource<Int, T>() {
 
-    private val provider = ItemListProvider(list)
+    private val provider = ListProvider(list)
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -31,13 +31,10 @@ class ItemDataSource<T>(list: List<T>) : PageKeyedDataSource<Int, T>() {
 
     class Factory<T>(private val list: List<T>) : DataSource.Factory<Int, T>() {
 
-        override fun create(): DataSource<Int, T> {
-
-            return ItemDataSource<T>(list)
-        }
+        override fun create() = ListDataSource(list)
     }
 
-    private class ItemListProvider<T>(private val list: List<T>) {
+    private class ListProvider<T>(private val list: List<T>) {
 
         fun getList(page: Int, pageSize: Int): List<T> {
 

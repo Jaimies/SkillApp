@@ -17,6 +17,7 @@ import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.navigation.setupWithNavController
 import kotlinx.android.synthetic.main.main_act.bottom_nav_view
 import kotlinx.android.synthetic.main.main_act.nav_host_container
+import kotlinx.android.synthetic.main.main_act.toolbar
 
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
@@ -36,10 +37,12 @@ class MainActivity : AppCompatActivity(),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_Timeo)
 
+        setTheme(R.style.Theme_Timeo)
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.main_act)
+        setSupportActionBar(toolbar)
 
         currentNavController = bottomNavView.setupWithNavController(
             navGraphIds, supportFragmentManager,

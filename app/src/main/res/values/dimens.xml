@@ -6,7 +6,6 @@
     <dimen name="padding_tiny">4dp</dimen>
     <dimen name="padding_default">16dp</dimen>
     <dimen name="padding_large">20dp</dimen>
-    <dimen name="elevation_default">4dp</dimen>
     <dimen name="border_radius_50_percent">10000dp</dimen>
     <dimen name="activities_item_height">50dp</dimen>
     <dimen name="progressbar_gradient_width">1dp</dimen>

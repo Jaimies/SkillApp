@@ -3,7 +3,7 @@
 
     <string name="todo">TODO : Functionality is not implemented</string>
     <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_in_button">Sign in</string>

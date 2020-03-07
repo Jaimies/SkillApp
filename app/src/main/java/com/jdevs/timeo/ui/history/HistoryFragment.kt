@@ -63,7 +63,7 @@ class HistoryFragment : ListFragment<RecordItem>() {
             .setTitle(R.string.are_you_sure)
             .setMessage(R.string.sure_delete_record)
             .setPositiveButton(R.string.yes) { _, _ -> deleteRecord(index) }
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .show()
     }
 

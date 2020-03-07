@@ -100,7 +100,7 @@ class AddEditActivityFragment : ActionBarFragment() {
                 snackbar(R.string.activity_deleted)
                 findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
             }
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .show()
     }
 

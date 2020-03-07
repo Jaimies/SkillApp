@@ -65,7 +65,7 @@ class AddEditProjectFragment : ActionBarFragment() {
     private fun saveProject() {
 
         val name = viewModel.name.value.orEmpty()
-        val description = viewModel.name.value.orEmpty()
+        val description = viewModel.description.value.orEmpty()
 
         if (!validateInput(name)) {
             return
@@ -95,7 +95,7 @@ class AddEditProjectFragment : ActionBarFragment() {
                 snackbar(R.string.project_deleted)
                 findNavController().navigate(R.id.action_addEditProjectFragment_to_projectsFragment)
             }
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .show()
     }
 

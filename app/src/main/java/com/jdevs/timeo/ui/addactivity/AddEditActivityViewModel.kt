@@ -27,6 +27,10 @@ class AddEditActivityViewModel @Inject constructor(
 
     fun setActivity(activity: ActivityItem?) {
 
+        if (name.value != null) {
+            return
+        }
+
         name.value = activity?.name.orEmpty()
         _activityExists.value = true
     }

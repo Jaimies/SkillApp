@@ -49,6 +49,6 @@
             android:onClick="@{() -> viewModel.showDeleteDialog()}"
             android:text="@string/delete_activity"
             android:visibility="gone"
-            app:hideIf="@{!viewModel.activityExists}" />
+            app:visible="@{viewModel.activityExists}" />
     </LinearLayout>
 </layout>

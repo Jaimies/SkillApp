@@ -47,14 +47,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/ThemeOverlay.Timeo.ListItem"
-                    app:hideIf="@{viewModel.projects.isEmpty}"
+                    app:visible="@{!viewModel.projects.isEmpty}"
                     tools:itemCount="3"
                     tools:listitem="@layout/projects_item" />
 
                 <include
                     android:id="@+id/projects_preloader"
                     layout="@layout/preloader"
-                    app:hideIf="@{!viewModel.projects.isLoading}" />
+                    app:visible="@{viewModel.projects.isLoading}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                     android:orientation="vertical"
                     android:paddingTop="@dimen/padding_default"
                     android:paddingBottom="@dimen/padding_default"
-                    app:hideIf="@{!viewModel.projects.isEmpty}"
+                    app:visible="@{viewModel.projects.isEmpty}"
                     tools:visibility="gone">
 
                     <TextView
@@ -89,7 +89,7 @@
                 android:onClick="@{() -> viewModel.activities.navigateToList()}"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/padding_default"
-                app:hideIf="@{!viewModel.activitiesEnabled}">
+                app:visible="@{viewModel.activitiesEnabled}">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -108,14 +108,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/ThemeOverlay.Timeo.ListItem"
-                    app:hideIf="@{viewModel.activities.isEmpty}"
+                    app:visible="@{!viewModel.activities.isEmpty}"
                     tools:itemCount="3"
                     tools:listitem="@layout/activities_item" />
 
                 <include
                     android:id="@+id/activities_preloader"
                     layout="@layout/preloader"
-                    app:hideIf="@{!viewModel.activities.isLoading}" />
+                    app:visible="@{viewModel.activities.isLoading}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                     android:orientation="vertical"
                     android:paddingTop="@dimen/padding_default"
                     android:paddingBottom="@dimen/padding_default"
-                    app:hideIf="@{!viewModel.activities.isEmpty}"
+                    app:visible="@{viewModel.activities.isEmpty}"
                     tools:visibility="gone">
 
                     <TextView

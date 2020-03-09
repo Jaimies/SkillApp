@@ -25,7 +25,7 @@
             android:paddingEnd="@dimen/padding_default"
             android:paddingBottom="@dimen/padding_default"
             android:scrollbars="none"
-            app:hideIf="@{viewModel.isEmpty || viewModel.isLoading}"
+            app:visible="@{!viewModel.isEmpty &amp;&amp; !viewModel.isLoading}"
             tools:itemCount="7"
             tools:listitem="@layout/projects_item" />
 
@@ -35,7 +35,7 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:hideIf="@{!viewModel.isEmpty || viewModel.isLoading}"
+            app:visible="@{viewModel.isEmpty &amp;&amp; !viewModel.isLoading}"
             tools:visibility="gone">
 
             <TextView
@@ -54,6 +54,6 @@
         <include
             android:id="@+id/preloader"
             layout="@layout/preloader"
-            app:hideIf="@{!viewModel.isLoading}" />
+            app:visible="@{viewModel.isLoading}" />
     </FrameLayout>
 </layout>

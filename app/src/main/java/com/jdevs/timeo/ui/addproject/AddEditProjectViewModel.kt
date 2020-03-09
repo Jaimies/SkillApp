@@ -29,6 +29,10 @@ class AddEditProjectViewModel @Inject constructor(
 
     fun setProject(project: ProjectItem?) {
 
+        if (name.value != null) {
+            return
+        }
+
         name.value = project?.name.orEmpty()
         description.value = project?.description.orEmpty()
         _projectExists.value = true

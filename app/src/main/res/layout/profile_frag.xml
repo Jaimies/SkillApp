@@ -30,7 +30,7 @@
             android:layout_gravity="center_horizontal"
             android:onClick="@{() -> viewModel.navigateToSignIn()}"
             android:text="@string/sign_in"
-            app:hideIf="@{viewModel.isSignedIn}"
+            app:visible="@{!viewModel.isSignedIn}"
             tools:visibility="gone" />
 
         <Button
@@ -40,6 +40,6 @@
             android:layout_gravity="center_horizontal"
             android:onClick="@{() -> viewModel.triggerSignOut()}"
             android:text="@string/sign_out"
-            app:hideIf="@{!viewModel.isSignedIn}" />
+            app:visible="@{viewModel.isSignedIn}" />
     </LinearLayout>
 </layout>

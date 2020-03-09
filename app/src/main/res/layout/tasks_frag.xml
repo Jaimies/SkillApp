@@ -19,7 +19,7 @@
             android:id="@+id/tasks_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:hideIf="@{viewModel.isEmpty || viewModel.isLoading}"
+            app:visible="@{!viewModel.isEmpty &amp;&amp; !viewModel.isLoading}"
             tools:listitem="@layout/tasks_item" />
 
         <LinearLayout
@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
-            app:hideIf="@{!viewModel.isEmpty || viewModel.isLoading()}"
+            app:visible="@{viewModel.isEmpty &amp;&amp; !viewModel.isLoading}"
             tools:visibility="gone">
 
             <TextView

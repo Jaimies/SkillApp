@@ -88,9 +88,9 @@ class SignInFragment : AuthFragment() {
 
         when {
 
-            email.isEmpty() -> setEmailError(R.string.email_empty)
-            !isValidEmail(email) -> setEmailError(R.string.email_invalid)
-            password.isEmpty() -> setPasswordError(R.string.password_empty)
+            email.isEmpty() -> emailError = R.string.email_empty
+            !isValidEmail(email) -> emailError = R.string.email_invalid
+            password.isEmpty() -> passwordError = R.string.password_empty
 
             else -> {
 
@@ -99,9 +99,7 @@ class SignInFragment : AuthFragment() {
                     return
                 }
 
-                viewModel.signIn(email, password, ::handleException) {
-                    navigateToOverview()
-                }
+                viewModel.signIn(email, password, ::handleException, ::navigateToOverview)
             }
         }
     }
@@ -157,20 +155,11 @@ class SignInFragment : AuthFragment() {
 
         when (exception) {
 
-            is FirebaseAuthInvalidCredentialsException -> {
+            is FirebaseAuthInvalidCredentialsException -> passwordError =
+                R.string.password_incorrect
 
-                setPasswordError(R.string.password_incorrect)
-            }
-
-            is FirebaseAuthInvalidUserException -> {
-
-                setEmailError(R.string.user_does_not_exist)
-            }
-
-            is FirebaseNetworkException -> {
-
-                snackbar(R.string.check_connection)
-            }
+            is FirebaseAuthInvalidUserException -> emailError = R.string.user_does_not_exist
+            is FirebaseNetworkException -> snackbar(R.string.check_connection)
 
             else -> {
 

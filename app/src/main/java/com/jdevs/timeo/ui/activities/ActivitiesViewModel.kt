@@ -20,9 +20,8 @@ class ActivitiesViewModel @Inject constructor(
     private val addRecord: AddRecordUseCase
 ) : ListViewModel<ActivityItem>() {
 
-    override val localLiveData
-        get() = getActivities.activities.map(Activity::mapToPresentation)
-            .toLiveData(ACTIVITIES_PAGE_SIZE)
+    override val localLiveData =
+        getActivities.activities.map(Activity::mapToPresentation).toLiveData(ACTIVITIES_PAGE_SIZE)
 
     override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
         getActivities.getActivitiesRemote(fetchNewItems).mapOperation(Activity::mapToPresentation)

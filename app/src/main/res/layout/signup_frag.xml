@@ -18,7 +18,7 @@
 
         <LinearLayout
             style="@style/Widget.Timeo.SignInLayout"
-            app:hideIf="@{viewModel.isContentHidden || viewModel.isLoading}">
+            app:visible="@{!viewModel.isLoading}">
 
             <TextView
                 style="@style/Widget.Timeo.Header.Small"
@@ -80,6 +80,6 @@
         <include
             android:id="@+id/preloader"
             layout="@layout/preloader"
-            app:hideIf="@{!viewModel.isLoading}" />
+            app:visible="@{viewModel.isLoading}" />
     </FrameLayout>
 </layout>

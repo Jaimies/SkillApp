@@ -86,7 +86,7 @@ class SignUpFragment : AuthFragment() {
 
     private fun checkPassword(password: String): Boolean {
 
-        val error = when (validatePassword(password)) {
+        passwordError = when (validatePassword(password)) {
 
             EMPTY -> R.string.password_empty
             TOO_SHORT -> R.string.password_too_short
@@ -94,20 +94,18 @@ class SignUpFragment : AuthFragment() {
             else -> return true
         }
 
-        setPasswordError(error)
         return false
     }
 
     private fun checkEmail(email: String): Boolean {
 
-        val error = when (validateEmail(email)) {
+        emailError = when (validateEmail(email)) {
 
             EMPTY -> R.string.email_empty
             INVALID -> R.string.email_invalid
             else -> return true
         }
 
-        setEmailError(error)
         return false
     }
 
@@ -115,20 +113,9 @@ class SignUpFragment : AuthFragment() {
 
         when (exception) {
 
-            is FirebaseAuthWeakPasswordException -> {
-
-                setPasswordError(R.string.password_too_weak)
-            }
-
-            is FirebaseAuthUserCollisionException -> {
-
-                setEmailError(R.string.user_already_exists)
-            }
-
-            is FirebaseAuthInvalidCredentialsException -> {
-
-                setEmailError(R.string.email_invalid)
-            }
+            is FirebaseAuthWeakPasswordException -> passwordError = R.string.password_too_weak
+            is FirebaseAuthUserCollisionException -> emailError = R.string.user_already_exists
+            is FirebaseAuthInvalidCredentialsException -> emailError = R.string.email_invalid
 
             else -> {
 

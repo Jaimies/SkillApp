@@ -26,8 +26,8 @@ class OverviewViewModel @Inject constructor(
 
     val activitiesEnabled get() = settings.activitiesEnabled
 
-    val activities = DataHolder { getTopActivities().mapList(Activity::mapToPresentation) }
-    val projects = DataHolder { getTopProjects().mapList(Project::mapToPresentation) }
+    val activities = DataWrapper(getTopActivities().mapList(Activity::mapToPresentation))
+    val projects = DataWrapper(getTopProjects().mapList(Project::mapToPresentation))
 
     fun createRecord(index: Int, time: Int) = launchCoroutine {
 
@@ -36,9 +36,8 @@ class OverviewViewModel @Inject constructor(
         addRecord(record)
     }
 
-    class DataHolder<T : ViewItem>(initializeData: () -> LiveData<List<T>>) {
+    class DataWrapper<T : ViewItem>(val data: LiveData<List<T>>) {
 
-        val data by lazy(initializeData)
         val isLoading get() = _isLoading as LiveData<Boolean>
         val isEmpty get() = _isEmpty as LiveData<Boolean>
         private val _isLoading = MutableLiveData(true)

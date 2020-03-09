@@ -16,8 +16,7 @@ class TasksViewModel @Inject constructor(
     private val setTaskCompleted: SetTaskCompletedUseCase
 ) : ListViewModel<TaskItem>() {
 
-    override val localLiveData
-        get() = getTasks.tasks.map(Task::mapToPresentation).toLiveData(PAGE_SIZE)
+    override val localLiveData = getTasks.tasks.map(Task::mapToPresentation).toLiveData(PAGE_SIZE)
 
     override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
         getTasks.getRemoteTasks(fetchNewItems).mapOperation(Task::mapToPresentation)

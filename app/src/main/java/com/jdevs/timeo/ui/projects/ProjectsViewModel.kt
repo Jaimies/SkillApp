@@ -15,8 +15,8 @@ private const val PROJECTS_PAGE_SIZE = 20
 class ProjectsViewModel @Inject constructor(private val getProjects: GetProjectsUseCase) :
     ListViewModel<ProjectItem>() {
 
-    override val localLiveData
-        get() = getProjects.projects.map(Project::mapToPresentation).toLiveData(PROJECTS_PAGE_SIZE)
+    override val localLiveData =
+        getProjects.projects.map(Project::mapToPresentation).toLiveData(PROJECTS_PAGE_SIZE)
 
     override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
         getProjects.getProjectsRemote(fetchNewItems).mapOperation(Project::mapToPresentation)

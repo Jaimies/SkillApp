@@ -112,7 +112,7 @@ class OverviewFragment : Fragment() {
         findNavController().navigateAnimated(directions)
     }
 
-    private fun OverviewViewModel.DataHolder<*>.observe(
+    private fun OverviewViewModel.DataWrapper<*>.observe(
         @IdRes listId: Int, @IdRes addId: Int, adapter: ListAdapter, recyclerView: RecyclerView
     ) {
 

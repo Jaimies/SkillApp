@@ -9,13 +9,13 @@ abstract class AuthFragment : Fragment() {
 
     abstract val viewModel: AuthViewModel
 
-    protected fun navigateToOverview() {
+    protected fun navigateToOverview() = navigateToGraph(R.id.overview)
 
-        viewModel.hideContent()
-        navigateToGraph(R.id.overview)
-    }
+    var emailError: Int
+        get() = -1
+        set(@StringRes value) = viewModel.setEmailError(getString(value))
 
-    protected fun setEmailError(@StringRes resId: Int) = viewModel.setEmailError(getString(resId))
-    protected fun setPasswordError(@StringRes resId: Int) =
-        viewModel.setPasswordError(getString(resId))
+    var passwordError: Int
+        get() = -1
+        set(@StringRes value) = viewModel.setPasswordError(getString(value))
 }

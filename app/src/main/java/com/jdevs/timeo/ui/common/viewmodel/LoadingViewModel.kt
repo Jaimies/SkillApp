@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
 
-open class LoaderViewModel(isLoadingByDefault: Boolean = false) : KeyboardHidingViewModel() {
+open class LoadingViewModel(isLoadingByDefault: Boolean = false) : KeyboardHidingViewModel() {
 
     val isLoading get() = _isLoading as LiveData<Boolean>
     private val _isLoading = MutableLiveData(isLoadingByDefault)
@@ -27,6 +27,7 @@ open class LoaderViewModel(isLoadingByDefault: Boolean = false) : KeyboardHiding
     ) {
 
         showLoader()
+        var isSuccessful = false
 
         launchCoroutine {
 
@@ -34,12 +35,15 @@ open class LoaderViewModel(isLoadingByDefault: Boolean = false) : KeyboardHiding
 
                 block()
                 onSuccess()
+                isSuccessful = true
             } catch (exception: Exception) {
 
                 onFailure(exception)
             } finally {
 
-                hideLoader()
+                if (!isSuccessful) {
+                    hideLoader()
+                }
             }
         }
     }

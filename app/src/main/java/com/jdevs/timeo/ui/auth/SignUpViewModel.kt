@@ -1,10 +1,10 @@
-package com.jdevs.timeo.ui.signin
+package com.jdevs.timeo.ui.auth
 
-import com.jdevs.timeo.domain.repository.AuthRepository
+import com.jdevs.timeo.domain.usecase.auth.SignUpUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import javax.inject.Inject
 
-class SignUpViewModel @Inject constructor(private val authRepository: AuthRepository) :
+class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCase) :
     AuthViewModel() {
 
     val signUp = SingleLiveEvent<Any>()
@@ -19,7 +19,7 @@ class SignUpViewModel @Inject constructor(private val authRepository: AuthReposi
 
         launchSuspendingProcess(onFailure, onSuccess) {
 
-            authRepository.createAccount(email, password)
+            signUpUseCase.invoke(email, password)
         }
     }
 

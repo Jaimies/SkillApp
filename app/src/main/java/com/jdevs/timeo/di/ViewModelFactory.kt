@@ -6,14 +6,14 @@ import com.jdevs.timeo.ui.activities.ActivitiesViewModel
 import com.jdevs.timeo.ui.activitydetail.ActivityDetailViewModel
 import com.jdevs.timeo.ui.addactivity.AddEditActivityViewModel
 import com.jdevs.timeo.ui.addproject.AddEditProjectViewModel
+import com.jdevs.timeo.ui.auth.SignInViewModel
+import com.jdevs.timeo.ui.auth.SignUpViewModel
 import com.jdevs.timeo.ui.history.HistoryViewModel
 import com.jdevs.timeo.ui.overview.OverviewViewModel
 import com.jdevs.timeo.ui.profile.ProfileViewModel
 import com.jdevs.timeo.ui.projectdetail.ProjectDetailViewModel
 import com.jdevs.timeo.ui.projects.ProjectsViewModel
 import com.jdevs.timeo.ui.settings.SettingsViewModel
-import com.jdevs.timeo.ui.signin.SignInViewModel
-import com.jdevs.timeo.ui.signin.SignUpViewModel
 import com.jdevs.timeo.ui.tasks.AddTaskViewModel
 import com.jdevs.timeo.ui.tasks.TasksViewModel
 import dagger.Binds

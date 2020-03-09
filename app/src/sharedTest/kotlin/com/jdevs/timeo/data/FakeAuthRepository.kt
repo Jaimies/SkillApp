@@ -30,11 +30,11 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
     /**
      * The following three methods fake the signed in state
      */
-    override suspend fun createAccount(email: String, password: String) = signIn()
+    override suspend fun createUser(email: String, password: String) = signIn()
 
     override suspend fun signIn(email: String, password: String) = signIn()
 
-    override suspend fun linkGoogleAccount(account: GoogleSignInAccount) = signIn()
+    override suspend fun signInWithGoogle(account: GoogleSignInAccount) = signIn()
 
     /**
      * Fakes not signed in state

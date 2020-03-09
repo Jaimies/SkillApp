@@ -7,11 +7,11 @@ interface AuthRepository {
     val isUserSignedIn: Boolean
     val uid: String?
 
-    suspend fun createAccount(email: String, password: String)
+    suspend fun createUser(email: String, password: String)
 
     suspend fun signIn(email: String, password: String)
 
-    suspend fun linkGoogleAccount(account: GoogleSignInAccount)
+    suspend fun signInWithGoogle(account: GoogleSignInAccount)
 
     fun signOut()
 }

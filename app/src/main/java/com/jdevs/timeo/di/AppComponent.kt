@@ -13,14 +13,14 @@ import com.jdevs.timeo.ui.activities.ActivitiesFragment
 import com.jdevs.timeo.ui.activitydetail.ActivityDetailFragment
 import com.jdevs.timeo.ui.addactivity.AddEditActivityFragment
 import com.jdevs.timeo.ui.addproject.AddEditProjectFragment
+import com.jdevs.timeo.ui.auth.SignInFragment
+import com.jdevs.timeo.ui.auth.SignUpFragment
 import com.jdevs.timeo.ui.history.HistoryFragment
 import com.jdevs.timeo.ui.overview.OverviewFragment
 import com.jdevs.timeo.ui.profile.ProfileFragment
 import com.jdevs.timeo.ui.projectdetail.ProjectDetailFragment
 import com.jdevs.timeo.ui.projects.ProjectsFragment
 import com.jdevs.timeo.ui.settings.SettingsFragment
-import com.jdevs.timeo.ui.signin.SignInFragment
-import com.jdevs.timeo.ui.signin.SignUpFragment
 import com.jdevs.timeo.ui.tasks.AddTaskFragment
 import com.jdevs.timeo.ui.tasks.TasksFragment
 import dagger.BindsInstance

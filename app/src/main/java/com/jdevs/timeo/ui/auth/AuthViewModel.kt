@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.signin
+package com.jdevs.timeo.ui.auth
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

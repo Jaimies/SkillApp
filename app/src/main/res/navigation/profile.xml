@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/signin_fragment_dest"
-        android:name="com.jdevs.timeo.ui.signin.SignInFragment"
+        android:name="com.jdevs.timeo.ui.auth.SignInFragment"
         android:label="@string/sign_in"
         tools:layout="@layout/signup_frag">
 
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/signup_fragment_dest"
-        android:name="com.jdevs.timeo.ui.signin.SignUpFragment"
+        android:name="com.jdevs.timeo.ui.auth.SignUpFragment"
         android:label="@string/sign_up">
 
         <action

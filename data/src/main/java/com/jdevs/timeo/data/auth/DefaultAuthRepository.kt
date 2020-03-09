@@ -19,7 +19,7 @@ class DefaultAuthRepository @Inject constructor() : AuthRepository {
 
     private val auth = FirebaseAuth.getInstance()
 
-    override suspend fun createAccount(email: String, password: String) {
+    override suspend fun createUser(email: String, password: String) {
 
         auth.createUserWithEmailAndPassword(email, password).await()
     }
@@ -29,7 +29,7 @@ class DefaultAuthRepository @Inject constructor() : AuthRepository {
         auth.signInWithEmailAndPassword(email, password).await()
     }
 
-    override suspend fun linkGoogleAccount(account: GoogleSignInAccount) {
+    override suspend fun signInWithGoogle(account: GoogleSignInAccount) {
 
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential).await()

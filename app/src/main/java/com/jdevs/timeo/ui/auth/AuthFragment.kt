@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.signin
+package com.jdevs.timeo.ui.auth
 
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment

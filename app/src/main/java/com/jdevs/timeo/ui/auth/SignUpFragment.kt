@@ -1,4 +1,4 @@
-package com.jdevs.timeo.ui.signin
+package com.jdevs.timeo.ui.auth
 
 import android.content.Context
 import android.os.Bundle

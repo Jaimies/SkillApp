@@ -71,7 +71,7 @@ class ActivityDetailFragment : ActionBarFragment() {
         achievements_list.setupAdapter(adapter, RecyclerView.HORIZONTAL)
         achievements_list.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
 
-        observe(viewModel.activity, viewModel.activityData::setData)
+        observe(viewModel.activity, viewModel::setData)
         observe(viewModel.showRecordDialog) { showTimePicker(::addRecord) }
     }
 

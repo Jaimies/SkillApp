@@ -49,6 +49,6 @@ class ActivityDelegateAdapter(
             viewModel.showRecordDialog.observe { showRecordDialog(adapterPosition) }
         }
 
-        fun setActivity(activity: ActivityItem) = viewModel.activity.setData(activity)
+        fun setActivity(activity: ActivityItem) = viewModel.setData(activity)
     }
 }

@@ -20,7 +20,7 @@ class AddTaskViewModel @Inject constructor(private val addTask: AddTaskUseCase) 
             addTask.invoke(name.value!!, projectId)
         }
 
-        dismiss.call()
+        dismiss()
     }
 
     fun dismiss() = dismiss.call()

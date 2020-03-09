@@ -25,38 +25,34 @@ class ProjectDetailViewModel @Inject constructor(
     getTopTasks: GetTopTasksUseCase
 ) : ViewModel() {
 
-    lateinit var project: LiveData<ProjectItem>
-
-    val topTasks by lazy { getTopTasks().mapList(Task::mapToPresentation) }
-    val name: LiveData<String> get() = _name
-    val description: LiveData<String> get() = _description
-    val daysSpent: LiveData<String> get() = _daysSpent
-    val avgWeekTime: LiveData<String> get() = _avgWeekTime
-    val lastWeekTime: LiveData<String> get() = _lastWeekTime
-    val totalTime: LiveData<String> get() = _totalTime
-    private val _name = MutableLiveData("")
-    private val _description = MutableLiveData("")
-    private val _daysSpent = MutableLiveData("")
-    private val _avgWeekTime = MutableLiveData("")
-    private val _lastWeekTime = MutableLiveData("")
-    private val _totalTime = MutableLiveData("")
+    lateinit var projectLiveData: LiveData<ProjectItem>
 
     val goToTasks = SingleLiveEvent<Any>()
     val addTask = SingleLiveEvent<Any>()
 
+    val topTasks by lazy { getTopTasks().mapList(Task::mapToPresentation) }
+
+    val state get() = _state
+    private val _state = MutableLiveData<ProjectDetailState>()
+
+    class ProjectDetailState(project: ProjectItem) {
+
+        val name = project.name
+        val description = project.description
+        val daysSpent = project.creationDate.getDaysSpentSince().toString()
+        val avgWeekTime = getFriendlyHours(project.totalTime) + "h"
+        val lastWeekTime = getAvgWeekHours(project.totalTime, project.creationDate) + "h"
+        val totalTime = getFriendlyHours(project.lastWeekTime) + "h"
+    }
+
     fun setProject(project: ProjectItem) {
 
-        _name.value = project.name
-        _description.value = project.description
-        _daysSpent.value = project.creationDate.getDaysSpentSince().toString()
-        _totalTime.value = getFriendlyHours(project.totalTime) + "h"
-        _avgWeekTime.value = getAvgWeekHours(project.totalTime, project.creationDate) + "h"
-        _lastWeekTime.value = getFriendlyHours(project.lastWeekTime) + "h"
+        _state.value = ProjectDetailState(project)
     }
 
     fun setupProjectLiveData(project: ProjectItem) {
 
-        this.project = getProjectById(project.id).map(Project::mapToPresentation)
+        projectLiveData = getProjectById(project.id).map(Project::mapToPresentation)
         setProject(project)
     }
 

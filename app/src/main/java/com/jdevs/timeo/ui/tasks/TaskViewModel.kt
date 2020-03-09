@@ -9,7 +9,7 @@ class TaskViewModel {
 
     val name: LiveData<String> get() = _name
     val isCompleted = SmartLiveData<Boolean>()
-    private val _name = MutableLiveData("")
+    private val _name = MutableLiveData<String>()
 
     fun setTask(task: TaskItem) {
 

@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:text="@{viewModel.name}"
+            android:text="@{viewModel.state.name}"
             android:textAppearance="@style/TextAppearance.Timeo.Headline4"
             app:layout_constraintEnd_toStartOf="@+id/total_time"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
             android:gravity="center_vertical"
             android:paddingStart="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_small"
-            android:text="@{viewModel.totalTime}"
+            android:text="@{viewModel.state.totalTime}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toStartOf="@+id/plus_button"
             tools:text="1400h" />

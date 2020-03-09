@@ -8,17 +8,18 @@ import com.jdevs.timeo.util.time.getFriendlyTime
 
 class RecordViewModel {
 
-    val name: LiveData<String> get() = _name
-    val time: LiveData<String> get() = _time
     val showDeleteDialog = SingleLiveEvent<Any>()
+    val state: LiveData<RecordState> get() = _state
+    private val _state = MutableLiveData<RecordState>()
 
-    private val _name = MutableLiveData("")
-    private val _time = MutableLiveData("")
+    class RecordState(record: RecordItem) {
+        val name = record.name
+        val time = getFriendlyTime(record.time)
+    }
 
     fun setRecord(record: RecordItem) {
 
-        _name.value = record.name
-        _time.value = getFriendlyTime(record.time)
+        _state.value = RecordState(record)
     }
 
     fun showDeleteDialog(): Boolean {

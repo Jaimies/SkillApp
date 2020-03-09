@@ -8,18 +8,20 @@ import com.jdevs.timeo.util.time.getFriendlyHours
 
 class ProjectViewModel {
 
-    val name: LiveData<String> get() = _name
-    val totalTime: LiveData<String> get() = _totalTime
-    private val _name = MutableLiveData("")
-    private val _totalTime = MutableLiveData("")
-
     val navigateToDetails = SingleLiveEvent<Any>()
     val showRecordDialog = SingleLiveEvent<Any>()
 
+    val state: LiveData<ProjectState> get() = _state
+    private val _state = MutableLiveData<ProjectState>()
+
+    class ProjectState(project: ProjectItem) {
+        val name = project.name
+        val totalTime = getFriendlyHours(project.totalTime) + "h"
+    }
+
     fun setProject(project: ProjectItem) {
 
-        _name.value = project.name
-        _totalTime.value = getFriendlyHours(project.totalTime) + "h"
+        _state.value = ProjectState(project)
     }
 
     fun navigateToDetails() = navigateToDetails.call()

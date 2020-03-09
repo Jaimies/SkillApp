@@ -65,7 +65,7 @@ class ProjectDetailFragment : ActionBarFragment() {
         tasks_list.setupAdapter(adapter)
 
         observe(viewModel.topTasks) { newItems -> adapter.submitList(newItems) }
-        observe(viewModel.project, viewModel::setProject)
+        observe(viewModel.projectLiveData, viewModel::setProject)
 
         observe(viewModel.goToTasks) {
             findNavController().navigateAnimated(R.id.tasks_fragment_dest)
@@ -81,7 +81,7 @@ class ProjectDetailFragment : ActionBarFragment() {
         if (item.itemId == R.id.editActivity) {
 
             val directions = ProjectDetailFragmentDirections
-                .actionProjectDetailFragmentToAddProjectFragment(viewModel.project.value!!)
+                .actionProjectDetailFragmentToAddProjectFragment(viewModel.projectLiveData.value!!)
 
             findNavController().navigate(directions)
             return true

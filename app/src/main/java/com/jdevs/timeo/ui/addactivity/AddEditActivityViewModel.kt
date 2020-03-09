@@ -18,12 +18,11 @@ class AddEditActivityViewModel @Inject constructor(
     private val deleteActivity: DeleteActivityUseCase
 ) : KeyboardHidingViewModel() {
 
-    val name = MutableLiveData("")
+    val name = MutableLiveData<String>()
+    val showDeleteDialog = SingleLiveEvent<Any>()
     val nameError get() = _nameError as LiveData<String>
     val activityExists get() = _activityExists as LiveData<Boolean>
-    val showDeleteDialog = SingleLiveEvent<Any>()
-
-    private val _nameError = MutableLiveData("")
+    private val _nameError = MutableLiveData<String>()
     private val _activityExists = MutableLiveData(false)
 
     fun setActivity(activity: ActivityItem?) {

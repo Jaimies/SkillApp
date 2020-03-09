@@ -18,11 +18,11 @@ class AddEditProjectViewModel @Inject constructor(
     private val deleteProject: DeleteProjectUseCase
 ) : KeyboardHidingViewModel() {
 
-    val name = MutableLiveData("")
-    val description = MutableLiveData("")
+    val name = MutableLiveData<String>()
+    val description = MutableLiveData<String>()
     val nameError get() = _nameError as LiveData<String>
     val projectExists get() = _projectExists as LiveData<Boolean>
-    private val _nameError = MutableLiveData("")
+    private val _nameError = MutableLiveData<String>()
     private val _projectExists = MutableLiveData(false)
 
     val showDeleteDialog = SingleLiveEvent<Any>()

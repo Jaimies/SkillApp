@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:text="@{viewModel.activity.name}"
+                android:text="@{viewModel.state.name}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline4"
                 app:layout_constraintEnd_toStartOf="@+id/total_time"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
-                android:text="@{viewModel.activity.totalTime}"
+                android:text="@{viewModel.state.totalTime}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintEnd_toStartOf="@+id/plus_button"
                 tools:text="820h" />
@@ -68,7 +68,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.activity.prevMilestone}"
+                android:text="@{viewModel.state.prevMilestone}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 tools:text="0h" />
 
@@ -80,7 +80,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.activity.nextMilestone}"
+                    android:text="@{viewModel.state.nextMilestone}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     tools:text="25h" />
             </LinearLayout>
@@ -90,7 +90,7 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="28dp"
-            android:progress="@{viewModel.activity.progress}"
+            android:progress="@{viewModel.state.progress}"
             android:progressDrawable="@drawable/progressbar"
             tools:progress="65" />
     </LinearLayout>

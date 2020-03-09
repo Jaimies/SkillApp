@@ -21,7 +21,7 @@ import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.shared.util.getDaysSinceEpoch
 import com.jdevs.timeo.shared.util.getMonthSinceEpoch
 import com.jdevs.timeo.shared.util.getWeeksSinceEpoch
-import com.jdevs.timeo.ui.activities.ActivityDataHolder
+import com.jdevs.timeo.ui.activities.ActivityState
 import com.jdevs.timeo.ui.common.WeekDayFormatter
 import com.jdevs.timeo.ui.common.YearMonthFormatter
 import com.jdevs.timeo.ui.common.YearWeekFormatter
@@ -68,13 +68,14 @@ class ActivityDetailViewModel @Inject constructor(
     }
 
     val showRecordDialog = SingleLiveEvent<Any>()
-    val activityData = ActivityDetailDataHolder()
+    val state: LiveData<ActivityDetailState> get() = _state
+    private val _state = MutableLiveData<ActivityDetailState>()
     lateinit var activity: LiveData<ActivityItem>
 
     fun setupActivityLiveData(activity: ActivityItem) {
 
         this.activity = getActivityById(activity.id).map(Activity::mapToPresentation)
-        activityData.setData(activity)
+        setData(activity)
     }
 
     fun addRecord(activity: ActivityItem, time: Int) = launchCoroutine {
@@ -83,24 +84,16 @@ class ActivityDetailViewModel @Inject constructor(
         addRecord(record)
     }
 
+    fun setData(activity: ActivityItem) {
+        _state.value = ActivityDetailState(activity)
+    }
+
     fun showRecordDialog() = showRecordDialog.call()
 
-    class ActivityDetailDataHolder : ActivityDataHolder() {
+    class ActivityDetailState(activity: ActivityItem) : ActivityState(activity) {
 
-        val avgWeekTime: LiveData<String> get() = _avgWeekTime
-        val lastWeekTime: LiveData<String> get() = _lastWeekTime
-        val daysSpent: LiveData<String> get() = _daysSpent
-
-        private val _avgWeekTime = MutableLiveData("")
-        private val _lastWeekTime = MutableLiveData("")
-        private val _daysSpent = MutableLiveData("")
-
-        override fun setData(activity: ActivityItem) {
-
-            super.setData(activity)
-            _avgWeekTime.value = getAvgWeekHours(activity.totalTime, activity.creationDate) + "h"
-            _lastWeekTime.value = getFriendlyHours(activity.lastWeekTime) + "h"
-            _daysSpent.value = activity.creationDate.getDaysSpentSince().toString()
-        }
+        val avgWeekTime = getAvgWeekHours(activity.totalTime, activity.creationDate) + "h"
+        val lastWeekTime = getFriendlyHours(activity.lastWeekTime) + "h"
+        val daysSpent = activity.creationDate.getDaysSpentSince().toString()
     }
 }

@@ -25,6 +25,7 @@
             android:singleLine="true"
             android:text="@{viewModel.state.name}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/time_text_view"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Activity name" />

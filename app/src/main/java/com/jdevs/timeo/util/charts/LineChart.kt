@@ -1,7 +1,6 @@
 package com.jdevs.timeo.util.charts
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -9,14 +8,23 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.jdevs.timeo.R
 import com.jdevs.timeo.ui.common.TimeFormatter
+import com.jdevs.timeo.util.getColorCompat
 
-private const val RIGHT_OFFSET = 3
-private const val TOP_OFFSET = 2
-private const val X_AXIS_SPACE = 0.5f
+private const val LEFT_OFFSET = 3.2f
+private const val BOTTOM_OFFSET = 14f
+private const val DEFAULT_OFFSET = 8f
+
+private const val X_AXIS_SPACE_MIN = 0.35f
+private const val X_AXIS_SPACE_MAX = 0.7f
+
+private const val Y_AXIS_SPACE_TOP = 20f
 private const val Y_AXIS_LABEL_COUNT = 5
 private const val Y_AXIS_GRANULARITY = 0.1f
+private const val Y_AXIS_X_OFFSET = 8f
 
-fun LineChart.setup(textSize: Float, offset: Float) {
+private const val CHART_TEXT_SIZE = 14f
+
+fun LineChart.setup() {
 
     legend.isEnabled = false
     axisRight.isEnabled = false
@@ -24,39 +32,48 @@ fun LineChart.setup(textSize: Float, offset: Float) {
     setScaleEnabled(false)
     isDragEnabled = false
 
-    setExtraOffsets(offset, offset * TOP_OFFSET, offset * RIGHT_OFFSET, offset)
-
-    data?.setValueTextSize(textSize)
-
-    setNoDataTextColor(ContextCompat.getColor(context, R.color.colorTextPrimary))
+    setExtraOffsets(LEFT_OFFSET, DEFAULT_OFFSET, DEFAULT_OFFSET, BOTTOM_OFFSET)
+    setNoDataTextColor(context.getColorCompat(R.color.colorTextPrimary))
     setNoDataText(context.getString(R.string.no_data))
 
-    axisLeft.axisMinimum = 0f
-    axisLeft.labelCount = Y_AXIS_LABEL_COUNT
-    axisLeft.textSize = textSize
-    axisLeft.valueFormatter = TimeFormatter()
-    axisLeft.isGranularityEnabled = true
-    axisLeft.granularity = Y_AXIS_GRANULARITY
+    axisLeft.apply {
 
-    xAxis.spaceMax = X_AXIS_SPACE
-    xAxis.spaceMin = X_AXIS_SPACE
-    xAxis.textSize = textSize
-    xAxis.position = XAxis.XAxisPosition.BOTTOM
-    xAxis.setDrawGridLines(false)
-}
-
-fun Context.createLineData(entries: List<Entry>?): LineData? {
-
-    if (entries == null) {
-
-        return null
+        spaceTop = Y_AXIS_SPACE_TOP
+        labelCount = Y_AXIS_LABEL_COUNT
+        textSize = CHART_TEXT_SIZE
+        valueFormatter = TimeFormatter()
+        isGranularityEnabled = true
+        granularity = Y_AXIS_GRANULARITY
+        xOffset = Y_AXIS_X_OFFSET
+        setDrawAxisLine(false)
+        setDrawZeroLine(false)
     }
 
-    val dataset = LineDataSet(entries, "")
+    xAxis.apply {
 
-    dataset.setDrawCircles(false)
-    dataset.setDrawValues(false)
-    dataset.color = ContextCompat.getColor(this, R.color.colorTextPrimary)
+        spaceMin = X_AXIS_SPACE_MIN
+        spaceMax = X_AXIS_SPACE_MAX
+        textSize = CHART_TEXT_SIZE
+        position = XAxis.XAxisPosition.BOTTOM
+        setDrawGridLines(false)
+        setDrawAxisLine(false)
+    }
+}
 
-    return LineData(dataset)
+private const val VALUE_TEXT_SIZE = 14f
+private const val LINE_WIDTH = 1.7f
+
+fun Context.createLineData(entries: List<Entry>): LineData {
+
+    val dataSet = LineDataSet(entries, "").apply {
+
+        valueTextSize = VALUE_TEXT_SIZE
+        valueFormatter = TimeFormatter()
+        lineWidth = LINE_WIDTH
+        color = getColorCompat(R.color.colorTextPrimaryDark)
+        setDrawCircles(false)
+        isHighlightEnabled = false
+    }
+
+    return LineData(dataSet)
 }

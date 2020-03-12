@@ -39,12 +39,10 @@ fun Spinner.setEntries(@ArrayRes resId: Int) {
     adapter = ArrayAdapter.createFromResource(context, resId, android.R.layout.simple_list_item_1)
 }
 
-private const val ANIMATION_DURATION = 400
-
 @BindingAdapter("data")
 fun LineChart.setData(data: ChartData?) {
 
-    if (data == null) {
+    if (data?.items == null) {
 
         return
     }
@@ -52,7 +50,7 @@ fun LineChart.setData(data: ChartData?) {
     this.data = context.createLineData(data.items)
     xAxis.valueFormatter = data.formatter
     notifyDataSetChanged()
-    animateXY(ANIMATION_DURATION, ANIMATION_DURATION)
+    invalidate()
 }
 
 @BindingAdapter("error")

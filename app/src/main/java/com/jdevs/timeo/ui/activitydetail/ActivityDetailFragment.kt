@@ -66,7 +66,7 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        lineChart.setup(CHART_TEXT_SIZE, CHART_OFFSET)
+        lineChart.setup()
 
         achievements_list.setupAdapter(adapter, RecyclerView.HORIZONTAL)
         achievements_list.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
@@ -95,7 +95,5 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     companion object {
         private const val ACHIEVEMENTS_ITEM_SPACING = 20
-        private const val CHART_TEXT_SIZE = 14f
-        private const val CHART_OFFSET = 8f
     }
 }

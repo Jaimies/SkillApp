@@ -5,13 +5,12 @@ import com.jdevs.timeo.shared.util.EPOCH
 import com.jdevs.timeo.shared.util.shortName
 import com.jdevs.timeo.util.time.toReadableFloat
 import org.threeten.bp.temporal.IsoFields
-import java.util.Locale
 
 class WeekDayFormatter : ValueFormatter() {
 
     override fun getFormattedValue(value: Float): String {
 
-        return EPOCH.plusDays(value.toLong()).dayOfWeek.shortName.toUpperCase(Locale.getDefault())
+        return EPOCH.plusDays(value.toLong()).dayOfWeek.shortName
     }
 }
 
@@ -27,7 +26,7 @@ class YearMonthFormatter : ValueFormatter() {
 
     override fun getFormattedValue(value: Float): String {
 
-        return EPOCH.plusMonths(value.toLong()).month.shortName.toUpperCase(Locale.getDefault())
+        return EPOCH.plusMonths(value.toLong()).month.shortName
     }
 }
 
@@ -35,6 +34,7 @@ class TimeFormatter : ValueFormatter() {
 
     override fun getFormattedValue(value: Float): String {
 
+        if (value <= 0) return ""
         return value.toReadableFloat() + "h"
     }
 }

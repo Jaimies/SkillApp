@@ -4,9 +4,9 @@ import com.jdevs.timeo.shared.util.getDaysAgo
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.temporal.ChronoUnit
 
-fun getProgress(minutes: Int) = minutes.rem(TWENTY_FIVE_HOURS) * PERCENT_COUNT / TWENTY_FIVE_HOURS
+fun getProgress(minutes: Int) = minutes % TWENTY_FIVE_HOURS * PERCENT_COUNT / TWENTY_FIVE_HOURS
 
-fun getPrevMilestone(time: Int) = time - time.rem(TWENTY_FIVE_HOURS)
+fun getPrevMilestone(time: Int) = time - time % TWENTY_FIVE_HOURS
 fun getNextMilestone(minutes: Int) = getPrevMilestone(minutes) + TWENTY_FIVE_HOURS
 
 fun getAvgWeekHours(time: Int, startedAt: OffsetDateTime): String {

@@ -11,11 +11,12 @@ import com.jdevs.timeo.ui.common.TimeFormatter
 import com.jdevs.timeo.util.getColorCompat
 
 private const val LEFT_OFFSET = 3.2f
-private const val BOTTOM_OFFSET = 14f
+private const val BOTTOM_OFFSET = 8f
 private const val DEFAULT_OFFSET = 8f
 
 private const val X_AXIS_SPACE_MIN = 0.35f
 private const val X_AXIS_SPACE_MAX = 0.7f
+private const val X_AXIS_Y_OFFSET = 10f
 
 private const val Y_AXIS_SPACE_TOP = 20f
 private const val Y_AXIS_LABEL_COUNT = 5
@@ -45,6 +46,7 @@ fun LineChart.setup() {
         isGranularityEnabled = true
         granularity = Y_AXIS_GRANULARITY
         xOffset = Y_AXIS_X_OFFSET
+        axisMinimum = 0f
         setDrawAxisLine(false)
         setDrawZeroLine(false)
     }
@@ -54,6 +56,7 @@ fun LineChart.setup() {
         spaceMin = X_AXIS_SPACE_MIN
         spaceMax = X_AXIS_SPACE_MAX
         textSize = CHART_TEXT_SIZE
+        yOffset = X_AXIS_Y_OFFSET
         position = XAxis.XAxisPosition.BOTTOM
         setDrawGridLines(false)
         setDrawAxisLine(false)

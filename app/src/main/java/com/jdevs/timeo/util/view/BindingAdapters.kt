@@ -56,7 +56,7 @@ fun LineChart.setData(data: ChartData?) {
 @BindingAdapter("error")
 fun TextInputLayout.setRemovableError(error: String?) {
 
-    if (error == null || error.isEmpty()) {
+    if (error.isNullOrEmpty()) {
 
         isErrorEnabled = false
         return
@@ -71,10 +71,6 @@ fun TextInputLayout.setRemovableError(error: String?) {
 
         requestFocus()
         setSelection(length())
-
-        doOnceAfterTextChanged {
-
-            isErrorEnabled = false
-        }
+        doOnceAfterTextChanged { isErrorEnabled = false }
     }
 }

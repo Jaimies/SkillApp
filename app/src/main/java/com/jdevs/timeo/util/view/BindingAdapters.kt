@@ -42,8 +42,7 @@ fun Spinner.setEntries(@ArrayRes resId: Int) {
 @BindingAdapter("data")
 fun LineChart.setData(data: ChartData?) {
 
-    if (data?.items == null) {
-
+    if (data == null) {
         return
     }
 

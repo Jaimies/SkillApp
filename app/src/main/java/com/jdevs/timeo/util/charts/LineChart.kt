@@ -66,7 +66,11 @@ fun LineChart.setup() {
 private const val VALUE_TEXT_SIZE = 14f
 private const val LINE_WIDTH = 1.7f
 
-fun Context.createLineData(entries: List<Entry>): LineData {
+fun Context.createLineData(entries: List<Entry>?): LineData? {
+
+    if (entries == null) {
+        return null
+    }
 
     val dataSet = LineDataSet(entries, "").apply {
 

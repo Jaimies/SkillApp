@@ -17,7 +17,7 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
-import com.jdevs.timeo.util.fragment.showTimePicker
+import com.jdevs.timeo.util.fragment.showRecordDialog
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
 import kotlinx.android.synthetic.main.history_frag.recycler_view
@@ -97,7 +97,7 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
     private fun showRecordDialog(index: Int) {
 
-        showTimePicker { hour, minute ->
+        showRecordDialog { hour, minute ->
 
             viewModel.createRecord(activity = getItem(index), time = getMins(hour, minute))
         }

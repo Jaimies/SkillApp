@@ -10,9 +10,7 @@
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
     </style>
 
-    <style name="ThemeOverlay.Timeo" parent="ThemeOverlay.MaterialComponents" />
-
-    <style name="ThemeOverlay.Timeo.ListItem">
+    <style name="ThemeOverlay.Timeo.ListItem" parent="">
         <item name="android:textColorPrimary">@color/colorTextSecondary</item>
     </style>
 

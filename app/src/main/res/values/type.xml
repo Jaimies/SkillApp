@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="TextAppearance" />
-
-    <style name="TextAppearance.Timeo">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
+    <style name="TextAppearance.Timeo" parent="TextAppearance.AppCompat" />
 
     <style name="TextAppearance.Timeo.Headline1">
         <item name="android:fontFamily">@font/montserrat_regular</item>

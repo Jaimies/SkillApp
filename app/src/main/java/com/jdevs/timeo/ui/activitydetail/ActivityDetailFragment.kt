@@ -19,7 +19,7 @@ import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
 import com.jdevs.timeo.util.charts.setup
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
-import com.jdevs.timeo.util.fragment.showTimePicker
+import com.jdevs.timeo.util.fragment.showRecordDialog
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
 import com.jdevs.timeo.util.view.setupAdapter
@@ -72,7 +72,7 @@ class ActivityDetailFragment : ActionBarFragment() {
         achievements_list.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
 
         observe(viewModel.activity, viewModel::setData)
-        observe(viewModel.showRecordDialog) { showTimePicker(::addRecord) }
+        observe(viewModel.showRecordDialog) { showRecordDialog(::addRecord) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

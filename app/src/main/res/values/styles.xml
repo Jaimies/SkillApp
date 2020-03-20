@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Widget" />
-
-    <style name="Widget.Timeo" />
-
-    <style name="Widget.Timeo.Header">
+    <style name="Widget.Timeo.Header" parent="">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_horizontal</item>
@@ -24,13 +20,13 @@
         </item>
     </style>
 
-    <style name="Widget.Timeo.Divider">
+    <style name="Widget.Timeo.Divider" parent="">
         <item name="android:background">@color/colorSecondary</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
     </style>
 
-    <style name="Widget.Timeo.AlternativeText">
+    <style name="Widget.Timeo.AlternativeText" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">true</item>
@@ -42,10 +38,12 @@
         </item>
     </style>
 
-    <style name="Widget.Timeo.SignInLayout">
+    <style name="Widget.Timeo.SignInLayout" parent="">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/margin_default</item>
         <item name="android:orientation">vertical</item>
     </style>
+
+    <style name="mdtp_ActionButton.Text" parent="Widget.MaterialComponents.Button.TextButton.Dialog" />
 </resources>

@@ -61,7 +61,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_default"
             android:onClick="@{() -> viewModel.showDeleteDialog()}"
-            android:text="@string/delete_project"
+            android:text="@string/delete_project_label"
             android:visibility="gone"
             app:visible="@{viewModel.projectExists}" />
     </LinearLayout>

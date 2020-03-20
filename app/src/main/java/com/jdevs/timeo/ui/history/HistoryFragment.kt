@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.HistoryFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
@@ -58,11 +58,10 @@ class HistoryFragment : ListFragment<RecordItem>() {
 
     private fun showDeleteDialog(index: Int) {
 
-        AlertDialog.Builder(requireContext())
-            .setIcon(android.R.drawable.ic_delete)
-            .setTitle(R.string.are_you_sure)
-            .setMessage(R.string.sure_delete_record)
-            .setPositiveButton(R.string.yes) { _, _ -> deleteRecord(index) }
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete_record_title)
+            .setMessage(R.string.delete_record_message)
+            .setPositiveButton(R.string.delete) { _, _ -> deleteRecord(index) }
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
@@ -70,6 +69,6 @@ class HistoryFragment : ListFragment<RecordItem>() {
     private fun deleteRecord(index: Int) {
 
         viewModel.deleteRecord(record = getItem(index))
-        snackbar(R.string.record_deleted)
+        snackbar(R.string.record_deleted_message)
     }
 }

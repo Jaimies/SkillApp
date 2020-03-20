@@ -7,10 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
@@ -90,14 +90,13 @@ class AddEditActivityFragment : ActionBarFragment() {
 
     private fun showDeleteDialog() {
 
-        AlertDialog.Builder(requireContext())
-            .setIcon(android.R.drawable.ic_delete)
-            .setTitle(R.string.are_you_sure)
-            .setMessage(R.string.sure_delete_activity)
-            .setPositiveButton(R.string.yes) { _, _ ->
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete_activity_title)
+            .setMessage(R.string.delete_activity_message)
+            .setPositiveButton(R.string.delete) { _, _ ->
 
                 viewModel.deleteActivity(args.activity!!)
-                snackbar(R.string.activity_deleted)
+                snackbar(R.string.activity_deleted_message)
                 findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
             }
             .setNegativeButton(R.string.cancel, null)

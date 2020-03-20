@@ -7,10 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddprojectFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
@@ -85,14 +85,13 @@ class AddEditProjectFragment : ActionBarFragment() {
 
     private fun showDeleteDialog() {
 
-        AlertDialog.Builder(requireContext())
-            .setIcon(android.R.drawable.ic_delete)
-            .setTitle(R.string.are_you_sure)
-            .setMessage(R.string.sure_delete_project)
-            .setPositiveButton(R.string.yes) { _, _ ->
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete_project_title)
+            .setMessage(R.string.delete_project_message)
+            .setPositiveButton(R.string.delete) { _, _ ->
 
                 viewModel.deleteProject(args.project!!)
-                snackbar(R.string.project_deleted)
+                snackbar(R.string.project_deleted_message)
                 findNavController().navigate(R.id.action_addEditProjectFragment_to_projectsFragment)
             }
             .setNegativeButton(R.string.cancel, null)

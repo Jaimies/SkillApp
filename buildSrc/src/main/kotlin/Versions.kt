@@ -12,8 +12,8 @@ object Versions {
 
     // Main dependencies
     const val coroutines = "1.3.2"
-    const val room = "2.2.4"
-    const val paging = "2.1.1"
+    const val room = "2.2.5"
+    const val paging = "2.1.2"
     const val navigation = "2.2.1"
     const val lifecycle = "2.2.0"
     const val fragment = "1.2.2"
@@ -37,7 +37,7 @@ object Versions {
     // Firebase
     const val firestore = "21.4.1"
     const val coroutinesPlay = "1.1.1"
-    const val auth = "19.2.0"
+    const val auth = "19.3.0"
     const val gmsAuth = "17.0.0"
 
     // Gson

@@ -13,15 +13,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
 
         <CheckBox
             style="@style/Widget.AppCompat.CompoundButton.RadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:button="@drawable/checkbox"
             android:checked="@={viewModel.isCompleted}"
-            android:minWidth="0dp"
-            android:minHeight="0dp" />
+            app:buttonTint="@color/checkBoxTint"
+            tools:checked="true" />
 
         <TextView
             android:layout_width="wrap_content"

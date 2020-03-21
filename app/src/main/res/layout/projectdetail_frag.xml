@@ -161,7 +161,8 @@
             android:layout_marginTop="2dp"
             android:background="@drawable/section_background_dark"
             android:orientation="vertical"
-            android:padding="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tasks_title">
@@ -175,7 +176,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
                 <Button
                     style="?android:attr/buttonBarStyle"

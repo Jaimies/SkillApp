@@ -19,6 +19,8 @@
             android:id="@+id/tasks_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             app:visible="@{!viewModel.isEmpty &amp;&amp; !viewModel.isLoading}"
             tools:listitem="@layout/tasks_item" />
 

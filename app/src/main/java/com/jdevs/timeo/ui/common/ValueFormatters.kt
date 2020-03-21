@@ -2,9 +2,11 @@ package com.jdevs.timeo.ui.common
 
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.jdevs.timeo.shared.util.EPOCH
+import com.jdevs.timeo.shared.util.HOUR_MINUTES
 import com.jdevs.timeo.shared.util.shortName
 import com.jdevs.timeo.util.time.toReadableFloat
 import org.threeten.bp.temporal.IsoFields
+import kotlin.math.roundToInt
 
 class WeekDayFormatter : ValueFormatter() {
 
@@ -32,9 +34,9 @@ class YearMonthFormatter : ValueFormatter() {
 
 class TimeFormatter : ValueFormatter() {
 
-    override fun getFormattedValue(value: Float): String {
-
-        if (value <= 0) return ""
-        return value.toReadableFloat() + "h"
+    override fun getFormattedValue(value: Float) = when {
+        value <= 0 -> ""
+        value < 1 -> "${(value * HOUR_MINUTES).roundToInt()}m"
+        else -> "${value.toReadableFloat()}h"
     }
 }

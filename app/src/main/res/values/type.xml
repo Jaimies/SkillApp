@@ -22,8 +22,7 @@
     <style name="TextAppearance.Timeo.Headline4">
         <item name="fontFamily">@font/montserrat_regular</item>
         <item name="android:textColor">@color/colorTextSecondaryDark</item>
-        <item name="android:textSize">16.5sp</item>
-        <item name="textAllCaps">true</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TextAppearance.Timeo.Headline5">

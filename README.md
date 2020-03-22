@@ -7,10 +7,12 @@
 ## Graphs
 * Completion percentage (completed/planned)
 * Hours worked
-* Productvity over time
+* Productivity over time
 ## Special features
 * A widget that shows time before going to bed, hours worked, hours to be worked, daily plan completion percentage
 * Motivational stuff, like notification "You rock", when you approach your daily/weekly/monthly goal
 * Weekly progress reports
 * Working on projects with other people
 * Seamless synchronization across all devices
+
+For more detailed information on the app's screens see [Screens.md](Screens.md)

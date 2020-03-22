@@ -1,11 +1,10 @@
 # Screens
-* A brief introduction to some of the features that Timeo has
+A brief introduction to some of the features that Timeo has
 ## Overview
+* Activities and projects
+* Useful widgets
 * Recent records
-* Today’s stats
-* Great widgets
-* User's activities and projects
 ## Calendar
 * Plans for each specific day
 ## Profile
-* Graphs, achievements, plans
+* General statistics, achievements

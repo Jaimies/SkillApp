@@ -48,9 +48,7 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
         crossinline mapFunction: (I) -> O,
         converter: OffsetDateTime.() -> Int
     ) =
-        watchCollection(mapFunction, WEEK_DAYS.toLong(), DAY, ASCENDING) {
-
-            this.whereGreaterThan(DAY, OffsetDateTime.now().converter() - WEEK_DAYS)
-                .whereLessThanOrEqualTo(DAY, OffsetDateTime.now().converter())
-        }
+        this.whereGreaterThan(DAY, OffsetDateTime.now().converter() - WEEK_DAYS)
+            .whereLessThanOrEqualTo(DAY, OffsetDateTime.now().converter())
+            .watchCollection(mapFunction, WEEK_DAYS.toLong(), DAY, ASCENDING)
 }

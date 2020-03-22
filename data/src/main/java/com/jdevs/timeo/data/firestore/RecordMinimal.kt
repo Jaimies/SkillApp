@@ -2,12 +2,12 @@ package com.jdevs.timeo.data.firestore
 
 import androidx.annotation.Keep
 import com.google.firebase.firestore.Exclude
-import com.jdevs.timeo.shared.util.toOffsetDate
-import java.util.Calendar
-import java.util.Date
+import com.jdevs.timeo.shared.util.EPOCH
+import com.jdevs.timeo.shared.util.daysSinceEpoch
+import org.threeten.bp.OffsetDateTime
 
 @Keep
-data class RecordMinimal(val time: Int = 0, val date: Date = Calendar.getInstance().time) {
+data class RecordMinimal(val time: Int = 0, val day: Int = OffsetDateTime.now().daysSinceEpoch) {
 
-    val creationDate @Exclude get() = date.toOffsetDate()
+    val creationDate: OffsetDateTime @Exclude get() = EPOCH.plusDays(day.toLong())
 }

@@ -26,10 +26,8 @@ import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.shared.util.WEEK_DAYS
-import com.jdevs.timeo.shared.util.currentDate
 import com.jdevs.timeo.shared.util.daysSinceEpoch
 import com.jdevs.timeo.shared.util.monthSinceEpoch
-import com.jdevs.timeo.shared.util.toLocalDate
 import com.jdevs.timeo.shared.util.weeksSinceEpoch
 import kotlinx.coroutines.tasks.await
 import org.threeten.bp.OffsetDateTime
@@ -95,7 +93,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
                 .isBefore(OffsetDateTime.now().minusDays((WEEK_DAYS - 1L)).toLocalDate())
         }
 
-        val index = newRecords.indexOfFirst { it.date.toLocalDate() == currentDate }
+        val index = newRecords.indexOfFirst { it.day == OffsetDateTime.now().daysSinceEpoch }
 
         when {
             index != -1 -> newRecords[index] = RecordMinimal(newRecords[index].time + time)

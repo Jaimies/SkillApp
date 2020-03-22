@@ -43,7 +43,7 @@ fun Project.mapToDB() =
     DBProject(id.toInt(), name, description, totalTime, lastWeekTime, creationDate)
 
 fun FirestoreProject.mapToDomain() =
-    Project(documentId, name, description, totalTime, getLastWeekTime(), timestamp.toOffsetDate())
+    Project(documentId, name, description, totalTime, lastWeekTime, timestamp.toOffsetDate())
 
 fun DBProject.mapToDomain() =
     Project(id.toString(), name, description, totalTime, lastWeekTime, creationDate)

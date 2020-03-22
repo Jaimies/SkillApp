@@ -8,11 +8,8 @@ abstract class Recordable {
 
     abstract val recentRecords: List<RecordMinimal>
 
-    @Exclude
-    fun getLastWeekTime(): Int {
-
-        return recentRecords
+    val lastWeekTime
+        @Exclude get() = recentRecords
             .filter { it.creationDate.daysAgo < WEEK_DAYS }
             .sumBy { it.time }
-    }
 }

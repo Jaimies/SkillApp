@@ -36,6 +36,6 @@ data class FirestoreActivity(
 fun DBActivity.mapToDomain() = Activity(id.toString(), name, totalTime, lastWeekTime, creationDate)
 
 fun FirestoreActivity.mapToDomain() =
-    Activity(documentId, name, totalTime, getLastWeekTime(), timestamp.toOffsetDate())
+    Activity(documentId, name, totalTime, lastWeekTime, timestamp.toOffsetDate())
 
 fun Activity.mapToDB() = DBActivity(id.toInt(), name, totalTime, lastWeekTime, creationDate)

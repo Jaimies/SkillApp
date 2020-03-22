@@ -15,7 +15,6 @@ import java.util.Date
 import java.util.Locale
 
 val currentOffset: ZoneOffset get() = OffsetDateTime.now().offset
-val currentDate: LocalDate get() = OffsetDateTime.now().toLocalDate()
 val EPOCH: OffsetDateTime get() = Instant.EPOCH.atOffset(currentOffset)
 
 val Month.shortName: String
@@ -33,8 +32,6 @@ fun Date?.toOffsetDate(): OffsetDateTime {
 
     return DateTimeUtils.toInstant(this).atOffset(currentOffset)
 }
-
-fun Date.toLocalDate(): LocalDate = this.toOffsetDate().toLocalDate()
 
 fun OffsetDateTime.toDate(): Date = DateTimeUtils.toDate(this.toInstant())
 

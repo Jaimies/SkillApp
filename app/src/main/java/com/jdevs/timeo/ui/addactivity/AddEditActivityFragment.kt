@@ -33,15 +33,13 @@ class AddEditActivityFragment : ActionBarFragment() {
 
     override val menuId = R.menu.addactivity_frag_menu
     private val args: AddEditActivityFragmentArgs by navArgs()
-    private var isEdited = false
+    private val isEdited get() = args.activity != null
 
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
         appComponent.inject(this)
-
-        isEdited = args.activity != null
-        if (isEdited) viewModel.setActivity(args.activity)
+        args.activity?.let { viewModel.setActivity(it) }
     }
 
     override fun onCreateView(
@@ -55,12 +53,12 @@ class AddEditActivityFragment : ActionBarFragment() {
             it.viewModel = viewModel
         }
 
-        mainActivity.supportActionBar?.setTitle(if (isEdited) R.string.edit_activity else R.string.create_activity)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        mainActivity.supportActionBar?.setTitle(if (isEdited) R.string.edit_activity else R.string.create_activity)
 
         observe(viewModel.hideKeyboard) { hideKeyboard() }
         observe(viewModel.showDeleteDialog) { showDeleteDialog() }

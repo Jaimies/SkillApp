@@ -27,14 +27,14 @@ class AddEditProjectViewModel @Inject constructor(
 
     val showDeleteDialog = SingleLiveEvent<Any>()
 
-    fun setProject(project: ProjectItem?) {
+    fun setProject(project: ProjectItem) {
 
         if (name.value != null) {
             return
         }
 
-        name.value = project?.name.orEmpty()
-        description.value = project?.description.orEmpty()
+        name.value = project.name
+        description.value = project.description
         _projectExists.value = true
     }
 

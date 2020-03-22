@@ -40,8 +40,6 @@ class HistoryFragment : ListFragment<RecordItem>() {
         savedInstanceState: Bundle?
     ): View {
 
-        super.onCreateView(inflater, container, savedInstanceState)
-
         val binding = HistoryFragBinding.inflate(inflater, container, false).also {
 
             it.lifecycleOwner = viewLifecycleOwner
@@ -53,6 +51,7 @@ class HistoryFragment : ListFragment<RecordItem>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        super.onViewCreated(view, savedInstanceState)
         recycler_view.setup(RECORDS_VISIBLE_THRESHOLD)
     }
 

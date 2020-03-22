@@ -1,6 +1,6 @@
 package com.jdevs.timeo.util.time
 
-import com.jdevs.timeo.shared.util.getDaysAgo
+import com.jdevs.timeo.shared.util.daysAgo
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.temporal.ChronoUnit
 
@@ -19,7 +19,7 @@ fun getAvgWeekHours(time: Int, startedAt: OffsetDateTime): String {
 
 fun OffsetDateTime.getDaysSpentSince(): Long {
 
-    val daysDiff = getDaysAgo()
+    val daysDiff = daysAgo
     return if (daysDiff > 0) daysDiff + 1 else 1
 }
 

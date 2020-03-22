@@ -4,9 +4,9 @@ import androidx.paging.DataSource
 import androidx.room.withTransaction
 import com.jdevs.timeo.data.db.TimeoDatabase
 import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.shared.util.getDaysSinceEpoch
-import com.jdevs.timeo.shared.util.getMonthSinceEpoch
-import com.jdevs.timeo.shared.util.getWeeksSinceEpoch
+import com.jdevs.timeo.shared.util.daysSinceEpoch
+import com.jdevs.timeo.shared.util.monthSinceEpoch
+import com.jdevs.timeo.shared.util.weeksSinceEpoch
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -53,9 +53,9 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
 
         with(db.statsDao()) {
 
-            registerDayStats(time, creationDate.getDaysSinceEpoch())
-            registerWeekStats(time, creationDate.getWeeksSinceEpoch())
-            registerMonthStats(time, creationDate.getMonthSinceEpoch())
+            registerDayStats(time, creationDate.daysSinceEpoch)
+            registerWeekStats(time, creationDate.weeksSinceEpoch)
+            registerMonthStats(time, creationDate.monthSinceEpoch)
         }
     }
 }

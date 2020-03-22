@@ -45,8 +45,6 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
         savedInstanceState: Bundle?
     ): View {
 
-        super.onCreateView(inflater, container, savedInstanceState)
-
         val binding = ProjectsFragBinding.inflate(inflater, container, false).also {
 
             it.lifecycleOwner = viewLifecycleOwner
@@ -58,7 +56,9 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        super.onViewCreated(view, savedInstanceState)
         recycler_view.setup(PROJECTS_VISIBLE_THRESHOLD)
+
         observe(viewModel.navigateToAddActivity) {
             findNavController().navigateAnimated(R.id.addproject_fragment_dest)
         }

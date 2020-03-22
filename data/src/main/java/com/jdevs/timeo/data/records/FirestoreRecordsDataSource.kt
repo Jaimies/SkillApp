@@ -22,9 +22,9 @@ import com.jdevs.timeo.data.firestore.createCollectionWatcher
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.AuthRepository
-import com.jdevs.timeo.shared.util.getDaysSinceEpoch
-import com.jdevs.timeo.shared.util.getMonthSinceEpoch
-import com.jdevs.timeo.shared.util.getWeeksSinceEpoch
+import com.jdevs.timeo.shared.util.daysSinceEpoch
+import com.jdevs.timeo.shared.util.monthSinceEpoch
+import com.jdevs.timeo.shared.util.weeksSinceEpoch
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -89,9 +89,9 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
     private fun updateStats(creationDate: OffsetDateTime, time: Int, batch: WriteBatch) {
 
         val refs = listOf(
-            dayStatsRef.document(creationDate.getDaysSinceEpoch().toString()),
-            weekStatsRef.document(creationDate.getWeeksSinceEpoch().toString()),
-            monthStatsRef.document(creationDate.getMonthSinceEpoch().toString())
+            dayStatsRef.document(creationDate.daysSinceEpoch.toString()),
+            weekStatsRef.document(creationDate.weeksSinceEpoch.toString()),
+            monthStatsRef.document(creationDate.monthSinceEpoch.toString())
         )
 
         refs.forEach { ref ->

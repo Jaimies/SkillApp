@@ -2,9 +2,7 @@ package com.jdevs.timeo.ui.common
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
@@ -40,10 +38,7 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     lateinit var authRepository: AuthRepository
 
     @CallSuper
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         if (authRepository.isUserSignedIn) {
 
@@ -52,8 +47,6 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
             observeLiveData(viewModel.localLiveData)
         }
-
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     @Suppress("UNCHECKED_CAST")

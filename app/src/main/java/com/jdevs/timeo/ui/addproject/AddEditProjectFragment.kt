@@ -32,15 +32,13 @@ class AddEditProjectFragment : ActionBarFragment() {
     private val args: AddEditProjectFragmentArgs by navArgs()
     override val menuId = R.menu.addproject_frag_menu
 
-    private var isEdited = false
+    private val isEdited get() = args.project != null
 
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
         appComponent.inject(this)
-
-        isEdited = args.project != null
-        if (isEdited) viewModel.setProject(args.project)
+        args.project?.let { viewModel.setProject(it) }
     }
 
     override fun onCreateView(
@@ -53,13 +51,15 @@ class AddEditProjectFragment : ActionBarFragment() {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         mainActivity.supportActionBar?.setTitle(if (isEdited) R.string.edit_project else R.string.create_project)
 
         observe(viewModel.hideKeyboard) { hideKeyboard() }
         observe(viewModel.showDeleteDialog) { showDeleteDialog() }
-
-        return binding.root
     }
 
     private fun saveProject() {

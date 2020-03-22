@@ -25,13 +25,13 @@ class AddEditActivityViewModel @Inject constructor(
     private val _nameError = MutableLiveData<String>()
     private val _activityExists = MutableLiveData(false)
 
-    fun setActivity(activity: ActivityItem?) {
+    fun setActivity(activity: ActivityItem) {
 
         if (name.value != null) {
             return
         }
 
-        name.value = activity?.name.orEmpty()
+        name.value = activity.name
         _activityExists.value = true
     }
 

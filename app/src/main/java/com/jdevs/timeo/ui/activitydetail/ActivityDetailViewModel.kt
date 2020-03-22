@@ -18,9 +18,9 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.StatsType.DAY
 import com.jdevs.timeo.model.StatsType.WEEK
 import com.jdevs.timeo.model.mapToPresentation
-import com.jdevs.timeo.shared.util.getDaysSinceEpoch
-import com.jdevs.timeo.shared.util.getMonthSinceEpoch
-import com.jdevs.timeo.shared.util.getWeeksSinceEpoch
+import com.jdevs.timeo.shared.util.daysSinceEpoch
+import com.jdevs.timeo.shared.util.monthSinceEpoch
+import com.jdevs.timeo.shared.util.weeksSinceEpoch
 import com.jdevs.timeo.ui.activities.ActivityState
 import com.jdevs.timeo.ui.common.WeekDayFormatter
 import com.jdevs.timeo.ui.common.YearMonthFormatter
@@ -47,21 +47,19 @@ class ActivityDetailViewModel @Inject constructor(
 
             DAY -> getStats.dayStats.map {
                 it.map(DayStats::toChartItem).toChartData(
-                    OffsetDateTime::minusDays, OffsetDateTime::getDaysSinceEpoch, WeekDayFormatter()
+                    OffsetDateTime::minusDays, { daysSinceEpoch }, WeekDayFormatter()
                 )
             }
 
             WEEK -> getStats.weekStats.map {
                 it.map(WeekStats::toChartItem).toChartData(
-                    OffsetDateTime::minusWeeks,
-                    OffsetDateTime::getWeeksSinceEpoch, YearWeekFormatter()
+                    OffsetDateTime::minusWeeks, { weeksSinceEpoch }, YearWeekFormatter()
                 )
             }
 
             else -> getStats.monthStats.map {
                 it.map(MonthStats::toChartItem).toChartData(
-                    OffsetDateTime::minusMonths,
-                    OffsetDateTime::getMonthSinceEpoch, YearMonthFormatter()
+                    OffsetDateTime::minusMonths, { monthSinceEpoch }, YearMonthFormatter()
                 )
             }
         }

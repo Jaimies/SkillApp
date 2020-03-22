@@ -31,9 +31,7 @@ class TasksFragment : ListFragment<TaskItem>() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        super.onCreateView(inflater, container, savedInstanceState)
+    ): View {
 
         val binding = TasksFragBinding.inflate(inflater, container, false).also {
 
@@ -46,6 +44,7 @@ class TasksFragment : ListFragment<TaskItem>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        super.onViewCreated(view, savedInstanceState)
         tasks_list.setup(PAGE_SIZE)
     }
 

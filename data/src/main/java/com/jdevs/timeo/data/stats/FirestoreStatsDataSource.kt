@@ -10,9 +10,9 @@ import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.watchCollection
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.shared.util.WEEK_DAYS
-import com.jdevs.timeo.shared.util.getDaysSinceEpoch
-import com.jdevs.timeo.shared.util.getMonthSinceEpoch
-import com.jdevs.timeo.shared.util.getWeeksSinceEpoch
+import com.jdevs.timeo.shared.util.daysSinceEpoch
+import com.jdevs.timeo.shared.util.monthSinceEpoch
+import com.jdevs.timeo.shared.util.weeksSinceEpoch
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,19 +25,13 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     StatsRemoteDataSource {
 
     override val dayStats
-        get() = dayStatsRef.watchCollection(
-            FirestoreDayStats::mapToDomain, OffsetDateTime::getDaysSinceEpoch
-        )
+        get() = dayStatsRef.watchCollection(FirestoreDayStats::mapToDomain) { daysSinceEpoch }
 
     override val weekStats
-        get() = weekStatsRef.watchCollection(
-            FirestoreWeekStats::mapToDomain, OffsetDateTime::getWeeksSinceEpoch
-        )
+        get() = weekStatsRef.watchCollection(FirestoreWeekStats::mapToDomain) { weeksSinceEpoch }
 
     override val monthStats
-        get() = monthStatsRef.watchCollection(
-            FirestoreMonthStats::mapToDomain, OffsetDateTime::getMonthSinceEpoch
-        )
+        get() = monthStatsRef.watchCollection(FirestoreMonthStats::mapToDomain) { monthSinceEpoch }
 
     private var dayStatsRef: CollectionReference by SafeAccess()
     private var weekStatsRef: CollectionReference by SafeAccess()

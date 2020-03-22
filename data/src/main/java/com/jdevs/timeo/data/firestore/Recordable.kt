@@ -2,7 +2,7 @@ package com.jdevs.timeo.data.firestore
 
 import com.google.firebase.firestore.Exclude
 import com.jdevs.timeo.shared.util.WEEK_DAYS
-import com.jdevs.timeo.shared.util.getDaysAgo
+import com.jdevs.timeo.shared.util.daysAgo
 
 abstract class Recordable {
 
@@ -12,7 +12,7 @@ abstract class Recordable {
     fun getLastWeekTime(): Int {
 
         return recentRecords
-            .filter { it.creationDate.getDaysAgo() < WEEK_DAYS }
+            .filter { it.creationDate.daysAgo < WEEK_DAYS }
             .sumBy { it.time }
     }
 }

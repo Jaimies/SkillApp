@@ -50,8 +50,6 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
         savedInstanceState: Bundle?
     ): View {
 
-        super.onCreateView(inflater, container, savedInstanceState)
-
         val binding = ActivitiesFragBinding.inflate(inflater, container, false).also {
 
             it.lifecycleOwner = viewLifecycleOwner
@@ -63,6 +61,7 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        super.onViewCreated(view, savedInstanceState)
         recycler_view.setup(ACTIVITIES_VISIBLE_THRESHOLD)
 
         observe(viewModel.navigateToAddEdit) {

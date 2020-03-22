@@ -35,10 +35,10 @@ fun Date?.toOffsetDate(): OffsetDateTime {
 
 fun OffsetDateTime.toDate(): Date = DateTimeUtils.toDate(this.toInstant())
 
-fun OffsetDateTime.getDaysAgo() = DAYS.between(this, OffsetDateTime.now())
-fun OffsetDateTime.getDaysSinceEpoch() = LocalDate.from(this).toEpochDay().toInt()
-fun OffsetDateTime.getWeeksSinceEpoch() = WEEKS.between(EPOCH, this).toInt()
-fun OffsetDateTime.getMonthSinceEpoch() = MONTHS.between(EPOCH, this).toInt()
+val OffsetDateTime.daysAgo get() = DAYS.between(this, OffsetDateTime.now())
+val OffsetDateTime.daysSinceEpoch get() = LocalDate.from(this).toEpochDay().toInt()
+val OffsetDateTime.weeksSinceEpoch get() = WEEKS.between(EPOCH, this).toInt()
+val OffsetDateTime.monthSinceEpoch get() = MONTHS.between(EPOCH, this).toInt()
 
 fun OffsetDateTime?.isDateAfter(other: OffsetDateTime) =
     this?.toLocalDate()?.isAfter(other.toLocalDate()) ?: false

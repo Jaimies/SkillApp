@@ -12,12 +12,5 @@ private val navOptions = NavOptions.Builder()
     .setPopExitAnim(R.anim.fragment_close_exit)
     .build()
 
-fun NavController.navigateAnimated(@IdRes resId: Int) {
-
-    navigate(resId, null, navOptions)
-}
-
-fun NavController.navigateAnimated(directions: NavDirections) {
-
-    navigate(directions, navOptions)
-}
+fun NavController.navigateAnimated(@IdRes resId: Int) = navigate(resId, null, navOptions)
+fun NavController.navigateAnimated(directions: NavDirections) = navigate(directions, navOptions)

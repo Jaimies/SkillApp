@@ -5,6 +5,7 @@
     <color name="colorSecondary">#E8EFE8</color>
     <color name="colorAccent">#EAD442</color>
     <color name="checkBoxTint">#505050</color>
+    <color name="grey_50">#fafafa</color>
     <color name="colorBlackTransparent">#45000000</color>
     <color name="colorYellow">#FFFF00</color>
     <color name="colorTextPrimary">#362C1C</color>

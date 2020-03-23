@@ -12,7 +12,7 @@
         <import type="com.jdevs.timeo.R" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
@@ -233,5 +233,5 @@
                 tools:itemCount="1"
                 tools:listitem="@layout/achievements_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 </layout>

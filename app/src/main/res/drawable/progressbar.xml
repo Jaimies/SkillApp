@@ -16,7 +16,7 @@
         android:top="@dimen/progressbar_gradient_width">
         <shape>
             <corners android:radius="@dimen/border_radius_50_percent" />
-            <solid android:color="@color/colorSecondary" />
+            <solid android:color="@color/grey_50" />
         </shape>
     </item>
 

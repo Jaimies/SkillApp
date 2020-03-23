@@ -9,7 +9,6 @@ import com.jdevs.timeo.data.RECORDS_COLLECTION
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionWatcher
 import com.jdevs.timeo.data.firestore.watch
-import com.jdevs.timeo.data.firestore.watchCollection
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.AuthRepository
@@ -37,7 +36,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     private var recordsRef: CollectionReference by SafeAccess()
 
     override fun getTopActivities() =
-        activitiesRef.watchCollection(FirestoreActivity::mapToDomain, TOP_ACTIVITIES_COUNT)
+        activitiesRef.limit(TOP_ACTIVITIES_COUNT).watch(FirestoreActivity::mapToDomain)
 
     override fun getActivityById(id: String) =
         activitiesRef.document(id).watch(FirestoreActivity::mapToDomain)

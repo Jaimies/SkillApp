@@ -7,7 +7,7 @@ import com.jdevs.timeo.data.DAY_STATS_COLLECTION
 import com.jdevs.timeo.data.MONTH_STATS_COLLECTION
 import com.jdevs.timeo.data.WEEK_STATS_COLLECTION
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
-import com.jdevs.timeo.data.firestore.watchCollection
+import com.jdevs.timeo.data.firestore.watch
 import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.shared.util.WEEK_DAYS
 import com.jdevs.timeo.shared.util.daysSinceEpoch
@@ -24,14 +24,9 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     FirestoreListDataSource(authRepository),
     StatsRemoteDataSource {
 
-    override val dayStats
-        get() = dayStatsRef.watchCollection(FirestoreDayStats::mapToDomain) { daysSinceEpoch }
-
-    override val weekStats
-        get() = weekStatsRef.watchCollection(FirestoreWeekStats::mapToDomain) { weeksSinceEpoch }
-
-    override val monthStats
-        get() = monthStatsRef.watchCollection(FirestoreMonthStats::mapToDomain) { monthSinceEpoch }
+    override val dayStats get() = dayStatsRef.watch(FirestoreDayStats::mapToDomain) { daysSinceEpoch }
+    override val weekStats get() = weekStatsRef.watch(FirestoreWeekStats::mapToDomain) { weeksSinceEpoch }
+    override val monthStats get() = monthStatsRef.watch(FirestoreMonthStats::mapToDomain) { monthSinceEpoch }
 
     private var dayStatsRef: CollectionReference by SafeAccess()
     private var weekStatsRef: CollectionReference by SafeAccess()
@@ -44,11 +39,13 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
         monthStatsRef = createRef(uid, MONTH_STATS_COLLECTION)
     }
 
-    private inline fun <reified I : Any, O> CollectionReference.watchCollection(
-        crossinline mapFunction: (I) -> O,
+    private inline fun <reified I : Any, O : Any> CollectionReference.watch(
+        noinline mapFunction: (I) -> O,
         converter: OffsetDateTime.() -> Int
     ) =
         this.whereGreaterThan(DAY, OffsetDateTime.now().converter() - WEEK_DAYS)
             .whereLessThanOrEqualTo(DAY, OffsetDateTime.now().converter())
-            .watchCollection(mapFunction, WEEK_DAYS.toLong(), DAY, ASCENDING)
+            .orderBy(DAY, ASCENDING)
+            .limit(WEEK_DAYS.toLong())
+            .watch(mapFunction)
 }

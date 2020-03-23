@@ -5,7 +5,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionWatcher
-import com.jdevs.timeo.data.firestore.watchCollection
+import com.jdevs.timeo.data.firestore.watch
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Task
 import com.jdevs.timeo.domain.repository.AuthRepository
@@ -30,7 +30,8 @@ class FirestoreTasksDataSource @Inject constructor(authRepository: AuthRepositor
         tasksWatcher.safeAccess().getLiveDataList(fetchNewItems)
 
     override fun getTopTasks() =
-        tasksRef.safeAccess().watchCollection(FirestoreTask::mapToDomain, TOP_TASKS_COUNT, "name")
+        tasksRef.safeAccess().orderBy("name").limit(TOP_TASKS_COUNT)
+            .watch(FirestoreTask::mapToDomain)
 
     override suspend fun addTask(name: String, projectId: String) {
 

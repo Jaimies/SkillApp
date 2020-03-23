@@ -6,7 +6,6 @@ import com.jdevs.timeo.data.PROJECTS_COLLECTION
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionWatcher
 import com.jdevs.timeo.data.firestore.watch
-import com.jdevs.timeo.data.firestore.watchCollection
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.repository.AuthRepository
@@ -31,7 +30,7 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
     private var projectsRef by SafeAccess<CollectionReference>()
 
     override fun getTopProjects() =
-        projectsRef.watchCollection(FirestoreProject::mapToDomain, TOP_PROJECTS_COUNT)
+        projectsRef.limit(TOP_PROJECTS_COUNT).watch(FirestoreProject::mapToDomain)
 
     override fun getProjectById(id: String) =
         projectsRef.document(id).watch(FirestoreProject::mapToDomain)

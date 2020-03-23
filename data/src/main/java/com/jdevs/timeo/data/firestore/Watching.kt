@@ -1,46 +1,56 @@
 package com.jdevs.timeo.data.firestore
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.toObjects
-import com.jdevs.timeo.data.TOTAL_TIME
 
-inline fun <reified I : Any, O> Query.watchCollection(
-    crossinline mapFunction: (I) -> O,
-    limit: Long,
-    orderBy: String = TOTAL_TIME,
-    direction: Query.Direction = Query.Direction.DESCENDING
-): LiveData<List<O>> {
+class DocumentLiveData<I : Any, O : Any>(
+    private val reference: DocumentReference,
+    private val modelClass: Class<I>,
+    private val mapFunction: (I) -> O
+) : LiveData<O>() {
 
-    val liveData = MutableLiveData<List<O>>()
+    private lateinit var listener: ListenerRegistration
 
-    orderBy(orderBy, direction).limit(limit).addSnapshotListener { querySnapshot, _ ->
+    override fun onActive() {
 
-        kotlin.runCatching {
-
-            querySnapshot?.toObjects<I>()?.let { list ->
-                liveData.value = list.map(mapFunction)
+        listener = reference.addSnapshotListener { snapshot, _ ->
+            kotlin.runCatching {
+                snapshot?.toObject(modelClass)?.let { value = mapFunction(it) }
             }
         }
     }
 
-    return liveData
+    override fun onInactive() = listener.remove()
 }
 
-inline fun <reified I : Any, O> DocumentReference.watch(crossinline mapFunction: (I) -> O): LiveData<O> {
+class QueryLiveData<I : Any, O : Any>(
+    private val query: Query,
+    private val modelClass: Class<I>,
+    private val mapFunction: (I) -> O
+) : LiveData<List<O>>() {
 
-    val liveData = MutableLiveData<O>()
+    private lateinit var listener: ListenerRegistration
 
-    addSnapshotListener { documentSnapshot, _ ->
+    override fun onActive() {
 
-        kotlin.runCatching {
-
-            documentSnapshot?.toObject<I>()?.let { liveData.value = mapFunction(it) }
+        listener = query.addSnapshotListener { snapshot, _ ->
+            kotlin.runCatching {
+                snapshot?.toObjects(modelClass)?.let { value = it.map(mapFunction) }
+            }
         }
     }
 
-    return liveData
+    override fun onInactive() = listener.remove()
+}
+
+inline fun <reified I : Any, O : Any> Query.watch(noinline mapFunction: (I) -> O): LiveData<List<O>> {
+
+    return QueryLiveData(this, I::class.java, mapFunction)
+}
+
+inline fun <reified I : Any, O : Any> DocumentReference.watch(noinline mapFunction: (I) -> O): LiveData<O> {
+
+    return DocumentLiveData(this, I::class.java, mapFunction)
 }

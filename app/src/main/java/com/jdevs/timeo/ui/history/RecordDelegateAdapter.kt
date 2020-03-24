@@ -50,7 +50,7 @@ class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : 
         fun bindRecord(record: RecordItem) {
 
             val color = if (adapterPosition % 2 == 0)
-                context.getColorCompat(R.color.colorBlackTransparent) else Color.TRANSPARENT
+                Color.TRANSPARENT else context.getColorCompat(R.color.black_alpha_20)
 
             view.setBackgroundColor(color)
             viewModel.setRecord(record)

@@ -30,7 +30,7 @@ fun LineChart.setup() {
     isDragEnabled = false
 
     setExtraOffsets(LEFT_OFFSET, TOP_OFFSET, RIGHT_OFFSET, BOTTOM_OFFSET)
-    setNoDataTextColor(context.getColorCompat(R.color.colorTextPrimary))
+    setNoDataTextColor(context.getColorCompat(R.color.brown_900))
     setNoDataText(context.getString(R.string.no_data))
 
     axisLeft.run {

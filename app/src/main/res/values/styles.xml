@@ -21,7 +21,7 @@
     </style>
 
     <style name="Widget.Timeo.Divider" parent="">
-        <item name="android:background">@color/colorSecondary</item>
+        <item name="android:background">@color/white_100</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
     </style>
@@ -33,7 +33,7 @@
         <item name="android:focusable">false</item>
         <item name="android:layout_marginEnd">@dimen/margin_default</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">@color/colorYellow</item>
+        <item name="android:textColor">?attr/colorAccent</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
         </item>
     </style>

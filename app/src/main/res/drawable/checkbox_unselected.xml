@@ -8,7 +8,5 @@
     <solid android:color="#0000" />
     <corners android:radius="@dimen/border_radius_50_percent" />
 
-    <stroke
-        android:width="2dp"
-        android:color="?attr/colorAccent" />
+    <stroke android:width="2dp" />
 </shape>

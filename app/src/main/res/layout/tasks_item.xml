@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox"
             android:checked="@={viewModel.isCompleted}"
-            app:buttonTint="@color/checkBoxTint"
+            app:buttonTint="@color/black_800"
             tools:checked="true" />
 
         <TextView

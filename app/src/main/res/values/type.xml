@@ -21,20 +21,20 @@
 
     <style name="TextAppearance.Timeo.Headline4">
         <item name="fontFamily">@font/montserrat_regular</item>
-        <item name="android:textColor">@color/colorTextSecondaryDark</item>
+        <item name="android:textColor">@color/green_900</item>
         <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TextAppearance.Timeo.Headline5">
         <item name="fontFamily">@font/montserrat_regular</item>
-        <item name="android:textColor">@color/colorTextSecondaryDark</item>
+        <item name="android:textColor">@color/green_900</item>
         <item name="android:textSize">15sp</item>
     </style>
 
     <style name="TextAppearance.Timeo.Headline6">
         <item name="fontFamily">@font/montserrat_regular</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/colorTextSecondaryDark</item>
+        <item name="android:textColor">@color/green_900</item>
     </style>
 
     <style name="TextAppearance.Timeo.Subtitle1">
@@ -51,6 +51,6 @@
     <style name="TextAppearance.Timeo.Body2">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/colorTextPrimaryDark</item>
+        <item name="android:textColor">@color/brown_800</item>
     </style>
 </resources>

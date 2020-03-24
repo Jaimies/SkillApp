@@ -63,7 +63,7 @@ fun LineChart.setData(data: ChartData?) {
         valueTextSize = VALUE_TEXT_SIZE
         valueFormatter = TimeFormatter()
         lineWidth = LINE_WIDTH
-        color = context.getColorCompat(R.color.colorTextPrimaryDark)
+        color = context.getColorCompat(R.color.brown_800)
         setDrawCircles(false)
         isHighlightEnabled = false
     }

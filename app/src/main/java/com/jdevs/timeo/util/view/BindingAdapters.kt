@@ -1,16 +1,17 @@
 package com.jdevs.timeo.util.view
 
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Spinner
 import androidx.annotation.ArrayRes
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.gms.common.SignInButton
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textfield.TextInputLayout
 import com.jdevs.timeo.R
 import com.jdevs.timeo.ui.common.TimeFormatter
@@ -40,9 +41,11 @@ fun EditText.setOnEnterPressedListener(block: Runnable) {
     }
 }
 
-@BindingAdapter("android:entries")
-fun Spinner.setEntries(@ArrayRes resId: Int) {
-    adapter = ArrayAdapter.createFromResource(context, resId, android.R.layout.simple_list_item_1)
+@BindingAdapter("viewpager", "entries")
+fun TabLayout.setupWithViewPager(viewPager: ViewPager2, @ArrayRes itemsResId: Int) {
+
+    val items = context.resources.getStringArray(itemsResId)
+    TabLayoutMediator(this, viewPager) { tab, position -> tab.text = items[position] }.attach()
 }
 
 private const val VALUE_TEXT_SIZE = 12f

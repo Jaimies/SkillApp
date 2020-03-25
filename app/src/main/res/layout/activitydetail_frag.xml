@@ -21,16 +21,22 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            android:paddingBottom="@dimen/padding_large">
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
                 android:singleLine="true"
@@ -46,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="24dp"
                 android:text="@{viewModel.state.totalTime}"
                 android:textAlignment="textEnd"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline3"
@@ -59,11 +65,10 @@
                 android:id="@+id/total_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
                 android:paddingBottom="4dp"
                 android:text="@string/total"
                 android:textAppearance="@style/TextAppearance.Timeo.Body1"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/total_time"
                 app:layout_constraintStart_toStartOf="@id/header_time_barrier"
                 app:layout_constraintTop_toBottomOf="@id/total_time" />
 
@@ -86,7 +91,7 @@
                 android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/ic_surf"
                 app:layout_constraintEnd_toStartOf="@id/days_spent_label"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -135,8 +140,8 @@
                 android:id="@+id/last_week_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
                 android:text="@string/last_week"
-                android:layout_marginEnd="18dp"
                 android:textAppearance="@style/TextAppearance.Timeo.Body1"
                 app:layout_constraintBottom_toTopOf="@id/info_barrier"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -179,9 +184,9 @@
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="22dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="26dp"
                 android:progress="@{viewModel.state.progress}"
                 android:progressDrawable="@drawable/progressbar"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -193,43 +198,54 @@
                 android:id="@+id/record_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="14dp"
                 android:onClick="@{() -> viewModel.showRecordDialog()}"
                 android:text="@string/add_record"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/progress" />
 
-            <!--suppress AndroidUnknownAttribute -->
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="0dp"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/linear_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@{R.array.statistic_types}"
-                android:selectedItemPosition="@={viewModel.chartType}"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                app:cardCornerRadius="@dimen/default_corner_radius"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/record_button"
-                tools:entries="@array/statistic_types"
-                tools:listitem="@android:layout/simple_list_item_1" />
+                app:layout_constraintTop_toBottomOf="@id/record_button">
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lineChart"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/stats_height"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_corners"
-                app:data="@{viewModel.stats}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/stats_tablayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/statistic_types"
+                        app:entries="@{R.array.statistic_types}"
+                        app:viewpager="@{statsViewpager}" />
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/stats_viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/stats_height" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/achievements_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lineChart"
+                app:layout_constraintTop_toBottomOf="@id/linear_layout"
                 tools:itemCount="1"
                 tools:listitem="@layout/achievements_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>

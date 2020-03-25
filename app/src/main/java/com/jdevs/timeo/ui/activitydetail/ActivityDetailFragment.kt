@@ -16,7 +16,6 @@ import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
-import com.jdevs.timeo.util.charts.setup
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showRecordDialog
@@ -24,7 +23,7 @@ import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
 import com.jdevs.timeo.util.view.setupAdapter
 import kotlinx.android.synthetic.main.activitydetail_frag.achievements_list
-import kotlinx.android.synthetic.main.activitydetail_frag.lineChart
+import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
 import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
@@ -66,7 +65,8 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        lineChart.setup()
+        stats_viewpager.adapter =
+            ChartsAdapter(viewModel.dayStats, viewModel.weekStats, viewModel.monthStats)
 
         achievements_list.setupAdapter(adapter, RecyclerView.HORIZONTAL)
         achievements_list.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))

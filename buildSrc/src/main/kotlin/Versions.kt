@@ -25,6 +25,7 @@ object Versions {
     // Material DateTime picker
     const val datepicker = "4.2.3"
 
+    const val viewpager = "1.0.0"
     const val preference = "1.1.0"
 
     // JSR 310 backport

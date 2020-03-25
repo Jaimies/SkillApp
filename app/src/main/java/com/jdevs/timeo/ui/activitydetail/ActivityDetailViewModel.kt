@@ -2,7 +2,6 @@ package com.jdevs.timeo.ui.activitydetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Activity
@@ -15,8 +14,6 @@ import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.domain.usecase.stats.GetStatsUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
-import com.jdevs.timeo.model.StatsType.DAY
-import com.jdevs.timeo.model.StatsType.WEEK
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.shared.util.daysSinceEpoch
 import com.jdevs.timeo.shared.util.monthSinceEpoch
@@ -40,29 +37,19 @@ class ActivityDetailViewModel @Inject constructor(
     getStats: GetStatsUseCase
 ) : ViewModel() {
 
-    val chartType = MutableLiveData(DAY)
+    val dayStats = getStats.dayStats.map {
+        it.map(DayStats::toChartItem)
+            .toChartData(OffsetDateTime::minusDays, { daysSinceEpoch }, WeekDayFormatter())
+    }
 
-    val stats = switchMap(chartType) { type ->
-        when (type) {
+    val weekStats = getStats.weekStats.map {
+        it.map(WeekStats::toChartItem)
+            .toChartData(OffsetDateTime::minusWeeks, { weeksSinceEpoch }, YearWeekFormatter())
+    }
 
-            DAY -> getStats.dayStats.map {
-                it.map(DayStats::toChartItem).toChartData(
-                    OffsetDateTime::minusDays, { daysSinceEpoch }, WeekDayFormatter()
-                )
-            }
-
-            WEEK -> getStats.weekStats.map {
-                it.map(WeekStats::toChartItem).toChartData(
-                    OffsetDateTime::minusWeeks, { weeksSinceEpoch }, YearWeekFormatter()
-                )
-            }
-
-            else -> getStats.monthStats.map {
-                it.map(MonthStats::toChartItem).toChartData(
-                    OffsetDateTime::minusMonths, { monthSinceEpoch }, YearMonthFormatter()
-                )
-            }
-        }
+    val monthStats = getStats.monthStats.map {
+        it.map(MonthStats::toChartItem)
+            .toChartData(OffsetDateTime::minusMonths, { monthSinceEpoch }, YearMonthFormatter())
     }
 
     val showRecordDialog = SingleLiveEvent<Any>()

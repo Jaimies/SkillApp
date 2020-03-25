@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="110dp"
     android:layout_height="137dp"
-    android:background="@drawable/rounded_corners">
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="@dimen/default_corner_radius">
 
     <TextView
         android:id="@+id/achievement_text"
@@ -16,4 +18,4 @@
         android:textAppearance="@style/TextAppearance.Timeo.Body1"
         tools:drawableTop="@drawable/ic_award"
         tools:text="@string/_500_hours" />
-</FrameLayout>
+</com.google.android.material.card.MaterialCardView>

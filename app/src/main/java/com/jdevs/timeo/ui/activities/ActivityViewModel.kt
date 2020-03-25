@@ -5,17 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.util.time.getFriendlyHours
-import com.jdevs.timeo.util.time.getNextMilestone
-import com.jdevs.timeo.util.time.getPrevMilestone
-import com.jdevs.timeo.util.time.getProgress
 
 open class ActivityState(activity: ActivityItem) {
 
     val name = activity.name
     val totalTime = getFriendlyHours(activity.totalTime) + "h"
-    val progress = getProgress(activity.totalTime)
-    val prevMilestone = getFriendlyHours(getPrevMilestone(activity.totalTime)) + "h"
-    val nextMilestone = getFriendlyHours(getNextMilestone(activity.totalTime)) + "h"
 }
 
 class ActivityViewModel {

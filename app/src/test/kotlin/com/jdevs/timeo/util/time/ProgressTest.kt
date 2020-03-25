@@ -22,22 +22,4 @@ class ProgressTest {
         assertThat(daysAgoDate(0).getDaysSpentSince(), `is`(1L))
         assertThat(daysAgoDate(-1).getDaysSpentSince(), `is`(1L))
     }
-
-    @Test
-    fun getProgress() {
-
-        assertThat(getProgress(6120), `is`(8))
-    }
-
-    @Test
-    fun getPrevMilestone() {
-
-        assertThat(getPrevMilestone(6120), `is`(6000))
-    }
-
-    @Test
-    fun getNextMilestone() {
-
-        assertThat(getNextMilestone(6120), `is`(7500))
-    }
 }

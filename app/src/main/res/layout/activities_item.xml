@@ -10,19 +10,21 @@
             type="com.jdevs.timeo.ui.activities.ActivityViewModel" />
     </data>
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_default"
-        android:onClick="@{() -> viewModel.navigateToDetails()}"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/padding_default"
-        android:paddingEnd="@dimen/padding_default">
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{() -> viewModel.navigateToDetails()}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:gravity="center_vertical">
+            android:layout_height="50dp"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/padding_default"
+            android:paddingEnd="@dimen/padding_default">
 
             <TextView
                 android:layout_width="0dp"
@@ -59,39 +61,5 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="3dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.state.prevMilestone}"
-                android:textAppearance="@style/TextAppearance.Timeo.Headline6"
-                tools:text="0h" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.nextMilestone}"
-                    android:textAppearance="@style/TextAppearance.Timeo.Headline6"
-                    tools:text="25h" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:progress="@{viewModel.state.progress}"
-            android:progressDrawable="@drawable/progressbar"
-            tools:progress="65" />
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

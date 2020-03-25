@@ -226,8 +226,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                tools:itemCount="1"
-                tools:listitem="@layout/achievements_item" />
+                android:layout_marginBottom="12dp"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/achievements_item"
+                tools:orientation="horizontal" />
         </LinearLayout>
     </ScrollView>
 </layout>

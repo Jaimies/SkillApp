@@ -94,6 +94,6 @@ class ActivityDetailFragment : ActionBarFragment() {
     }
 
     companion object {
-        private const val ACHIEVEMENTS_ITEM_SPACING = 20
+        private const val ACHIEVEMENTS_ITEM_SPACING = 16
     }
 }

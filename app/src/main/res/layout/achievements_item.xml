@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="110dp"
     android:layout_height="137dp"
-    android:layout_marginBottom="4dp"
+    android:layout_marginBottom="16dp"
     app:cardCornerRadius="@dimen/default_corner_radius">
 
     <TextView

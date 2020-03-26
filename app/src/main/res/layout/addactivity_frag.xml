@@ -41,6 +41,24 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/parent_activity_textlayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:error="@{viewModel.parentActivityError}">
+
+            <AutoCompleteTextView
+                android:id="@+id/parent_activity_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:hint="@string/parent_activity"
+                android:inputType="text"
+                android:text="@={viewModel.parentActivity}"
+                app:entries="@{viewModel.activities}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

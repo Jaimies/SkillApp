@@ -1,6 +1,8 @@
 package com.jdevs.timeo.util.view
 
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.annotation.ArrayRes
 import androidx.core.view.isVisible
@@ -46,6 +48,11 @@ fun TabLayout.setupWithViewPager(viewPager: ViewPager2, @ArrayRes itemsResId: In
 
     val items = context.resources.getStringArray(itemsResId)
     TabLayoutMediator(this, viewPager) { tab, position -> tab.text = items[position] }.attach()
+}
+
+@BindingAdapter("entries")
+fun AutoCompleteTextView.setEntries(entries: List<CharSequence>) {
+    setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, entries))
 }
 
 private const val VALUE_TEXT_SIZE = 12f

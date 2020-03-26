@@ -14,15 +14,17 @@ import javax.inject.Inject
 
 class AddEditActivityViewModel @Inject constructor(
     private val addActivity: AddActivityUseCase,
-    private val saveActivityUseCase: SaveActivityUseCase,
+    private val saveActivity: SaveActivityUseCase,
     private val deleteActivity: DeleteActivityUseCase
 ) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData<String>()
+    val parentActivity = MutableLiveData<String>()
     val showDeleteDialog = SingleLiveEvent<Any>()
-    val nameError get() = _nameError as LiveData<String>
+    val nameError = MutableLiveData<String>()
+    val parentActivityError = MutableLiveData<String>()
+    val activities = listOf("Programming", "Cycling", "None")
     val activityExists get() = _activityExists as LiveData<Boolean>
-    private val _nameError = MutableLiveData<String>()
     private val _activityExists = MutableLiveData(false)
 
     fun setActivity(activity: ActivityItem) {
@@ -35,20 +37,8 @@ class AddEditActivityViewModel @Inject constructor(
         _activityExists.value = true
     }
 
-    fun setNameError(error: String) {
-
-        _nameError.value = error
-    }
-
-    fun addActivity(name: String) = launchCoroutine {
-
-        addActivity.invoke(name)
-    }
-
-    suspend fun saveActivity(activity: ActivityItem) {
-
-        saveActivityUseCase.invoke(activity.mapToDomain())
-    }
+    fun addActivity(name: String) = launchCoroutine { addActivity.invoke(name) }
+    suspend fun saveActivity(activity: ActivityItem) = saveActivity.invoke(activity.mapToDomain())
 
     fun deleteActivity(activity: ActivityItem) = launchCoroutine {
 

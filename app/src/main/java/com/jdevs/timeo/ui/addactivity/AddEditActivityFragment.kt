@@ -69,14 +69,18 @@ class AddEditActivityFragment : ActionBarFragment() {
         val name = viewModel.name.value.orEmpty()
 
         if (!validateInput(name)) {
-
             return
         }
 
-        if (isEdited) {
+        if (viewModel.parentActivity.value !in viewModel.activities) {
+
+            viewModel.parentActivityError.value = getString(R.string.invalid_activity_error)
+            return
+        }
+
+        if (args.activity != null) {
 
             val activity = args.activity!!.copy(name = name)
-
             application.ioScope.launch { viewModel.saveActivity(activity) }
             findNavController().popBackStack()
         } else {
@@ -124,7 +128,9 @@ class AddEditActivityFragment : ActionBarFragment() {
         return false
     }
 
-    private fun setNameError(@StringRes resId: Int) = viewModel.setNameError(getString(resId))
+    private fun setNameError(@StringRes resId: Int) {
+        viewModel.nameError.value = getString(resId)
+    }
 
     companion object {
         private const val NAME_MAX_LENGTH = 100

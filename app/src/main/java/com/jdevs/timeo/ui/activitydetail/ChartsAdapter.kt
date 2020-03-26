@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.charts.LineChart
 import com.jdevs.timeo.R
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.util.charts.ChartData
 import com.jdevs.timeo.util.charts.setup
 import com.jdevs.timeo.util.view.inflate
 import com.jdevs.timeo.util.view.setData
-import kotlinx.android.synthetic.main.activitydetail_chart.view.line_chart
 
 class ChartsAdapter(private vararg val chartLiveData: LiveData<ChartData>) :
     RecyclerView.Adapter<ChartsAdapter.ViewHolder>() {
@@ -25,21 +25,15 @@ class ChartsAdapter(private vararg val chartLiveData: LiveData<ChartData>) :
         holder.setLiveData(chartLiveData[position])
     }
 
-    override fun getItemCount() = CHART_TYPES_COUNT
+    override fun getItemCount() = chartLiveData.size
 
-    class ViewHolder(private val view: View) : BaseViewHolder(view) {
+    class ViewHolder(view: View) : BaseViewHolder(view) {
 
-        init {
-            view.line_chart.setup()
-        }
+        private val chart = (view as LineChart).apply { setup() }
 
         fun setLiveData(liveData: LiveData<ChartData>) {
 
-            liveData.observe(lifecycleOwner) { view.line_chart.setData(it) }
+            liveData.observe(lifecycleOwner) { chart.setData(it) }
         }
-    }
-
-    companion object {
-        private const val CHART_TYPES_COUNT = 3
     }
 }

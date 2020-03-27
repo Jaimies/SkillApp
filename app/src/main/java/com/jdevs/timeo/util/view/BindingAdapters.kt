@@ -6,6 +6,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.annotation.ArrayRes
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.github.mikephil.charting.charts.LineChart
@@ -55,6 +56,16 @@ fun AutoCompleteTextView.setEntries(entries: List<CharSequence>?) {
 
     if (entries == null) return
     setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, entries))
+}
+
+interface OnSelectedItemChangedListener {
+    fun onChanged(newPosition: Int)
+}
+
+@BindingAdapter("onSelectedItemChanged")
+fun AutoCompleteTextView.setOnSelectedItemPositionChanged(onChanged: OnSelectedItemChangedListener) {
+    setOnItemClickListener { _, _, position, _ -> onChanged.onChanged(position) }
+    doAfterTextChanged { onChanged.onChanged(-1) }
 }
 
 private const val VALUE_TEXT_SIZE = 12f

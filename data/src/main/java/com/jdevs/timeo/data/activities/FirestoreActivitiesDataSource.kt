@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query.Direction.DESCENDING
 import com.google.firebase.firestore.Source.CACHE
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.jdevs.timeo.data.ACTIVITIES_COLLECTION
 import com.jdevs.timeo.data.ACTIVITY_ID
@@ -63,25 +64,32 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
     override suspend fun saveActivity(activity: Activity) {
 
-        val querySnapshot = recordsRef
-            .whereEqualTo(ACTIVITY_ID, activity.id)
-            .get().await()
+        val activityRef = activitiesRef.document(activity.id)
 
-        db.runBatch { batch ->
+        activityRef.update("parentActivityId", activity.parentActivityId)
+        val prevActivity = activityRef.get(CACHE).await().toObject<FirestoreActivity>()!!
 
-            for (document in querySnapshot.documents) {
+        if (prevActivity.name != activity.name) {
 
-                batch.update(document.reference, NAME, activity.name)
+            val querySnapshot = recordsRef
+                .whereEqualTo(ACTIVITY_ID, activity.id)
+                .get().await()
+
+            db.runBatch { batch ->
+
+                for (document in querySnapshot.documents) {
+
+                    batch.update(document.reference, NAME, activity.name)
+                }
+
+                batch.update(activityRef, NAME, activity.name)
             }
-
-            val activityRef = activitiesRef.document(activity.id)
-            batch.update(activityRef, NAME, activity.name)
         }
     }
 
-    override suspend fun addActivity(name: String) {
+    override suspend fun addActivity(activity: Activity) {
 
-        activitiesRef.add(FirestoreActivity(name = name))
+        activitiesRef.add(activity.mapToFirestore())
     }
 
     override suspend fun deleteActivity(activity: Activity) {

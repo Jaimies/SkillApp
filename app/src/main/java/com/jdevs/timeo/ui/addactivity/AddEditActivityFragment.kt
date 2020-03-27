@@ -72,20 +72,23 @@ class AddEditActivityFragment : ActionBarFragment() {
             return
         }
 
-        if (viewModel.parentActivity.value !in viewModel.activityNames.value!!) {
+        if (viewModel.parentActivityIndex.value == -1) {
 
             viewModel.parentActivityError.value = getString(R.string.invalid_activity_error)
             return
         }
 
+        val parentActivityId =
+            viewModel.activities.value!![viewModel.parentActivityIndex.value!!].id
+
         if (args.activity != null) {
 
-            val activity = args.activity!!.copy(name = name)
+            val activity = args.activity!!.copy(name = name, parentActivityId = parentActivityId)
             application.ioScope.launch { viewModel.saveActivity(activity) }
             findNavController().popBackStack()
         } else {
 
-            viewModel.addActivity(name)
+            viewModel.addActivity(name, parentActivityId)
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
         }
     }

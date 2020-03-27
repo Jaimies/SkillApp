@@ -13,6 +13,7 @@ import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.shared.util.mapList
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
+import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
 
@@ -24,7 +25,7 @@ class AddEditActivityViewModel @Inject constructor(
 ) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData<String>()
-    val parentActivity = MutableLiveData<String>()
+    val parentActivityIndex = MutableLiveData(-1)
     val showDeleteDialog = SingleLiveEvent<Any>()
     val nameError = MutableLiveData<String>()
     val parentActivityError = MutableLiveData<String>()
@@ -45,8 +46,16 @@ class AddEditActivityViewModel @Inject constructor(
         _activityExists.value = true
     }
 
-    fun addActivity(name: String) = launchCoroutine { addActivity.invoke(name) }
+    fun setParentActivityIndex(index: Int) {
+        parentActivityIndex.value = index
+    }
+
     suspend fun saveActivity(activity: ActivityItem) = saveActivity.invoke(activity.mapToDomain())
+
+    fun addActivity(name: String, parentActivityId: String) = launchCoroutine {
+
+        addActivity.invoke(Activity("", name, 0, 0, OffsetDateTime.now(), parentActivityId))
+    }
 
     fun deleteActivity(activity: ActivityItem) = launchCoroutine {
 

@@ -8,6 +8,7 @@ import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.Recordable
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.shared.util.toDate
 import com.jdevs.timeo.shared.util.toOffsetDate
 import org.threeten.bp.OffsetDateTime
 import java.util.Date
@@ -29,6 +30,7 @@ data class FirestoreActivity(
     val name: String = "",
     val totalTime: Int = 0,
     override val recentRecords: List<RecordMinimal> = emptyList(),
+    val parentActivityId: String = "",
     @ServerTimestamp
     val timestamp: Date? = null
 ) : Recordable()
@@ -36,6 +38,8 @@ data class FirestoreActivity(
 fun DBActivity.mapToDomain() = Activity(id.toString(), name, totalTime, lastWeekTime, creationDate)
 
 fun FirestoreActivity.mapToDomain() =
-    Activity(documentId, name, totalTime, lastWeekTime, timestamp.toOffsetDate())
+    Activity(documentId, name, totalTime, lastWeekTime, timestamp.toOffsetDate(), parentActivityId)
 
 fun Activity.mapToDB() = DBActivity(id.toInt(), name, totalTime, lastWeekTime, creationDate)
+fun Activity.mapToFirestore() =
+    FirestoreActivity(id, name, totalTime, emptyList(), parentActivityId, creationDate.toDate())

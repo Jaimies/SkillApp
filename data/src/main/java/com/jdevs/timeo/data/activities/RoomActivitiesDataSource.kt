@@ -14,7 +14,7 @@ interface ActivitiesDataSource {
 
     fun getActivityById(id: String): LiveData<Activity>
 
-    suspend fun addActivity(name: String)
+    suspend fun addActivity(activity: Activity)
 
     suspend fun saveActivity(activity: Activity)
 
@@ -38,10 +38,9 @@ class RoomActivitiesDataSource @Inject constructor(private val activitiesDao: Ac
     override fun getActivityById(id: String) =
         activitiesDao.getActivity(id.toInt()).map(DBActivity::mapToDomain)
 
-    override suspend fun addActivity(name: String) = activitiesDao.insert(DBActivity(name = name))
+    override suspend fun addActivity(activity: Activity) = activitiesDao.insert(activity.mapToDB())
 
-    override suspend fun saveActivity(activity: Activity) =
-        activitiesDao.update(activity.mapToDB())
+    override suspend fun saveActivity(activity: Activity) = activitiesDao.update(activity.mapToDB())
 
     override suspend fun deleteActivity(activity: Activity) =
         activitiesDao.delete(activity.mapToDB())

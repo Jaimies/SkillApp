@@ -55,8 +55,8 @@
                 android:background="#00000000"
                 android:hint="@string/parent_activity"
                 android:inputType="text"
-                android:text="@={viewModel.parentActivity}"
-                app:entries="@{viewModel.activityNames}" />
+                app:entries="@{viewModel.activityNames}"
+                app:onSelectedItemChanged="@{viewModel::setParentActivityIndex}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

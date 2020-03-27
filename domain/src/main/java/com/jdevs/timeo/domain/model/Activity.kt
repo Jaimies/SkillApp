@@ -7,5 +7,6 @@ data class Activity(
     val name: String,
     val totalTime: Int,
     val lastWeekTime: Int,
-    val creationDate: OffsetDateTime
+    val creationDate: OffsetDateTime,
+    val parentActivityId: String = ""
 )

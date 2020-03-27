@@ -15,7 +15,7 @@ interface ActivitiesRepository {
 
     fun getActivityById(id: String): LiveData<Activity>
 
-    suspend fun addActivity(name: String)
+    suspend fun addActivity(activity: Activity)
 
     suspend fun saveActivity(activity: Activity)
 

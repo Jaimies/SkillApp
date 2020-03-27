@@ -1,6 +1,6 @@
 @Suppress("unused")
 object Versions {
-    const val kotlin = "1.3.70"
+    const val kotlin = "1.3.71"
 
     // Core dependencies
     const val androidxCore = "1.2.0"
@@ -16,7 +16,7 @@ object Versions {
     const val paging = "2.1.2"
     const val navigation = "2.2.1"
     const val lifecycle = "2.2.0"
-    const val fragment = "1.2.2"
+    const val fragment = "1.2.3"
     const val material = "1.2.0-alpha05"
 
     // MPAndroidChart

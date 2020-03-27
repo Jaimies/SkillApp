@@ -51,7 +51,9 @@ fun TabLayout.setupWithViewPager(viewPager: ViewPager2, @ArrayRes itemsResId: In
 }
 
 @BindingAdapter("entries")
-fun AutoCompleteTextView.setEntries(entries: List<CharSequence>) {
+fun AutoCompleteTextView.setEntries(entries: List<CharSequence>?) {
+
+    if (entries == null) return
     setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, entries))
 }
 

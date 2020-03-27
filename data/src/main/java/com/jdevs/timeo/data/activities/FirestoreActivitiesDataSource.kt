@@ -1,11 +1,16 @@
 package com.jdevs.timeo.data.activities
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Query.Direction.DESCENDING
+import com.google.firebase.firestore.Source.CACHE
+import com.google.firebase.firestore.ktx.toObjects
 import com.jdevs.timeo.data.ACTIVITIES_COLLECTION
 import com.jdevs.timeo.data.ACTIVITY_ID
 import com.jdevs.timeo.data.NAME
 import com.jdevs.timeo.data.RECORDS_COLLECTION
+import com.jdevs.timeo.data.TOTAL_TIME
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.createCollectionWatcher
 import com.jdevs.timeo.data.firestore.watch
@@ -19,6 +24,7 @@ import javax.inject.Singleton
 interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
     fun getActivities(fetchNewItems: Boolean): List<LiveData<Operation<Activity>>>
+    fun getActivitiesFromCache(activityIdToExclude: String): LiveData<List<Activity>>
 }
 
 @Singleton
@@ -40,6 +46,20 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
     override fun getActivityById(id: String) =
         activitiesRef.document(id).watch(FirestoreActivity::mapToDomain)
+
+    override fun getActivitiesFromCache(activityIdToExclude: String): LiveData<List<Activity>> {
+
+        val liveData = MutableLiveData<List<Activity>>()
+
+        activitiesRef.orderBy(TOTAL_TIME, DESCENDING).get(CACHE).addOnSuccessListener { snapshot ->
+
+            liveData.value = snapshot.toObjects<FirestoreActivity>()
+                .map { it.mapToDomain() }
+                .filter { it.id != activityIdToExclude }
+        }
+
+        return liveData
+    }
 
     override suspend fun saveActivity(activity: Activity) {
 

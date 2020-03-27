@@ -72,7 +72,7 @@ class AddEditActivityFragment : ActionBarFragment() {
             return
         }
 
-        if (viewModel.parentActivity.value !in viewModel.activities) {
+        if (viewModel.parentActivity.value !in viewModel.activityNames.value!!) {
 
             viewModel.parentActivityError.value = getString(R.string.invalid_activity_error)
             return

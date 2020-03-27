@@ -9,6 +9,7 @@ interface ActivitiesRepository {
 
     val activities: DataSource.Factory<Int, Activity>
     fun getRemoteActivities(fetchNewItems: Boolean): List<LiveData<Operation<Activity>>>
+    fun getActivitiesFromCache(activityIdToExclude: String): LiveData<List<Activity>>
 
     val topActivities: LiveData<List<Activity>>
 

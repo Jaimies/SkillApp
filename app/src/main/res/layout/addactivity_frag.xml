@@ -56,7 +56,7 @@
                 android:hint="@string/parent_activity"
                 android:inputType="text"
                 android:text="@={viewModel.parentActivity}"
-                app:entries="@{viewModel.activities}" />
+                app:entries="@{viewModel.activityNames}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

@@ -72,14 +72,15 @@ class AddEditActivityFragment : ActionBarFragment() {
             return
         }
 
-        if (viewModel.parentActivityIndex.value == -1) {
+        val index = viewModel.parentActivityIndex.value
+
+        if (index == null) {
 
             viewModel.parentActivityError.value = getString(R.string.invalid_activity_error)
             return
         }
 
-        val parentActivityId =
-            viewModel.activities.value!![viewModel.parentActivityIndex.value!!].id
+        val parentActivityId = if (index != -1) viewModel.activities.value!![index].id else ""
 
         if (args.activity != null) {
 

@@ -59,13 +59,13 @@ fun AutoCompleteTextView.setEntries(entries: List<CharSequence>?) {
 }
 
 interface OnSelectedItemChangedListener {
-    fun onChanged(newPosition: Int)
+    fun onChanged(newPosition: Int?)
 }
 
 @BindingAdapter("onSelectedItemChanged")
 fun AutoCompleteTextView.setOnSelectedItemPositionChanged(onChanged: OnSelectedItemChangedListener) {
     setOnItemClickListener { _, _, position, _ -> onChanged.onChanged(position) }
-    doAfterTextChanged { onChanged.onChanged(-1) }
+    doAfterTextChanged { onChanged.onChanged(null) }
 }
 
 private const val VALUE_TEXT_SIZE = 12f

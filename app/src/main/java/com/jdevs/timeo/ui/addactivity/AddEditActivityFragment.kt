@@ -72,7 +72,7 @@ class AddEditActivityFragment : ActionBarFragment() {
             return
         }
 
-        val index = viewModel.parentActivityIndex.value
+        val index = viewModel.parentActivityIndex
 
         if (index == null) {
 
@@ -80,16 +80,13 @@ class AddEditActivityFragment : ActionBarFragment() {
             return
         }
 
-        val parentActivityId = if (index != -1) viewModel.activities.value!![index].id else ""
-
         if (args.activity != null) {
 
-            val activity = args.activity!!.copy(name = name, parentActivityId = parentActivityId)
-            application.ioScope.launch { viewModel.saveActivity(activity) }
+            application.ioScope.launch { viewModel.saveActivity(args.activity!!, index) }
             findNavController().popBackStack()
         } else {
 
-            viewModel.addActivity(name, parentActivityId)
+            viewModel.addActivity(index)
             findNavController().navigate(R.id.action_addEditFragment_to_activitiesFragment)
         }
     }

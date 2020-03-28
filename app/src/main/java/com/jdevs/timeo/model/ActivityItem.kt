@@ -14,11 +14,13 @@ data class ActivityItem(
     val totalTime: Int,
     val lastWeekTime: Int,
     val creationDate: OffsetDateTime,
+    val parentActivityName: String,
     val parentActivityId: String
 ) : ViewItem, Parcelable
 
-fun Activity.mapToPresentation() =
-    ActivityItem(id, name, totalTime, lastWeekTime, creationDate, parentActivityId)
+fun Activity.mapToPresentation() = ActivityItem(
+    id, name, totalTime, lastWeekTime, creationDate, parentActivityName, parentActivityId
+)
 
 fun ActivityItem.mapToDomain() =
-    Activity(id, name, totalTime, lastWeekTime, creationDate, parentActivityId)
+    Activity(id, name, totalTime, lastWeekTime, creationDate, parentActivityName, parentActivityId)

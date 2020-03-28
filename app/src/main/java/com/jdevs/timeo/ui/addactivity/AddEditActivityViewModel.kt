@@ -25,19 +25,25 @@ class AddEditActivityViewModel @Inject constructor(
 ) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData<String>()
-    val parentActivityIndex = MutableLiveData(-1)
-    val showDeleteDialog = SingleLiveEvent<Any>()
+
+    val parentActivityName get() = _parentActivityName as LiveData<String>
+    private val _parentActivityName = MutableLiveData<String>()
     val nameError = MutableLiveData<String>()
     val parentActivityError = MutableLiveData<String>()
+
+    val activityExists get() = _activityExists as LiveData<Boolean>
+    private val _activityExists = MutableLiveData(false)
+    val showDeleteDialog = SingleLiveEvent<Any>()
+    var parentActivityIndex: Int? = PARENT_ACTIVITY_UNCHANGED
+
     val activities by lazy(NONE) { getActivitiesFromCache(activityId) }
     val activityNames by lazy(NONE) {
         activities.map {
             it.map(Activity::name).apply { this as MutableList; add(0, "–") }
         }
     }
-    val activityExists get() = _activityExists as LiveData<Boolean>
+
     private var activityId = ""
-    private val _activityExists = MutableLiveData(false)
 
     fun setActivity(activity: ActivityItem) {
 
@@ -47,18 +53,37 @@ class AddEditActivityViewModel @Inject constructor(
 
         name.value = activity.name
         activityId = activity.id
+        _parentActivityName.value = activity.parentActivityName
         _activityExists.value = true
     }
 
-    fun setParentActivityIndex(index: Int?) {
-        parentActivityIndex.value = if (index != null) index - 1 else index
+    suspend fun saveActivity(oldActivity: ActivityItem, parentActivityIndex: Int) {
+
+        if (parentActivityIndex == PARENT_ACTIVITY_UNCHANGED) {
+            saveActivity(oldActivity.copy(name = name.value!!).mapToDomain())
+            return
+        }
+
+        val parentActivity = getParentActivity(parentActivityIndex)
+
+        saveActivity.invoke(
+            oldActivity.copy(
+                name = name.value!!, parentActivityName = parentActivity?.name.orEmpty(),
+                parentActivityId = parentActivity?.id.orEmpty()
+            ).mapToDomain()
+        )
     }
 
-    suspend fun saveActivity(activity: ActivityItem) = saveActivity.invoke(activity.mapToDomain())
+    fun addActivity(parentActivityIndex: Int) = launchCoroutine {
 
-    fun addActivity(name: String, parentActivityId: String) = launchCoroutine {
+        val parentActivity = getParentActivity(parentActivityIndex)
 
-        addActivity.invoke(Activity("", name, 0, 0, OffsetDateTime.now(), parentActivityId))
+        addActivity(
+            Activity(
+                "", name.value!!, 0, 0, OffsetDateTime.now(),
+                parentActivity?.name.orEmpty(), parentActivity?.id.orEmpty()
+            )
+        )
     }
 
     fun deleteActivity(activity: ActivityItem) = launchCoroutine {
@@ -66,5 +91,12 @@ class AddEditActivityViewModel @Inject constructor(
         deleteActivity(activity.mapToDomain())
     }
 
+    private fun getParentActivity(index: Int) =
+        if (index >= 1) activities.value!![index - 1] else null
+
     fun showDeleteDialog() = showDeleteDialog.call()
+
+    companion object {
+        private const val PARENT_ACTIVITY_UNCHANGED = -2
+    }
 }

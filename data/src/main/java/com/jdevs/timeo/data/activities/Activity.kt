@@ -30,6 +30,7 @@ data class FirestoreActivity(
     val name: String = "",
     val totalTime: Int = 0,
     override val recentRecords: List<RecordMinimal> = emptyList(),
+    val parentActivityName: String = "",
     val parentActivityId: String = "",
     @ServerTimestamp
     val timestamp: Date? = null
@@ -37,9 +38,12 @@ data class FirestoreActivity(
 
 fun DBActivity.mapToDomain() = Activity(id.toString(), name, totalTime, lastWeekTime, creationDate)
 
-fun FirestoreActivity.mapToDomain() =
-    Activity(documentId, name, totalTime, lastWeekTime, timestamp.toOffsetDate(), parentActivityId)
+fun FirestoreActivity.mapToDomain() = Activity(
+    documentId, name, totalTime, lastWeekTime, timestamp.toOffsetDate(),
+    parentActivityName, parentActivityId
+)
 
 fun Activity.mapToDB() = DBActivity(id.toInt(), name, totalTime, lastWeekTime, creationDate)
-fun Activity.mapToFirestore() =
-    FirestoreActivity(id, name, totalTime, emptyList(), parentActivityId, creationDate.toDate())
+fun Activity.mapToFirestore() = FirestoreActivity(
+    id, name, totalTime, emptyList(), parentActivityName, parentActivityId, creationDate.toDate()
+)

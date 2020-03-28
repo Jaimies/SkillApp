@@ -66,7 +66,10 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
         val activityRef = activitiesRef.document(activity.id)
 
-        activityRef.update("parentActivityId", activity.parentActivityId)
+        activityRef.update(
+            "parentActivityId", activity.parentActivityId,
+            "parentActivityName", activity.parentActivityName
+        )
         val prevActivity = activityRef.get(CACHE).await().toObject<FirestoreActivity>()!!
 
         if (prevActivity.name != activity.name) {

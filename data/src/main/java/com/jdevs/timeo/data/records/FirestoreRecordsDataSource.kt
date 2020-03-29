@@ -20,8 +20,8 @@ import com.jdevs.timeo.data.TOTAL_TIME
 import com.jdevs.timeo.data.WEEK_STATS_COLLECTION
 import com.jdevs.timeo.data.activities.FirestoreActivity
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
+import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.RecordMinimal
-import com.jdevs.timeo.data.firestore.createCollectionWatcher
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.AuthRepository
@@ -44,8 +44,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
     FirestoreListDataSource(authRepository),
     RecordsRemoteDataSource {
 
-    private val recordsWatcher =
-        createCollectionWatcher(PAGE_SIZE, FirestoreRecord::mapToDomain, TIMESTAMP)
+    private val recordsWatcher = QueryWatcher(PAGE_SIZE, FirestoreRecord::mapToDomain, TIMESTAMP)
 
     override fun getRecords(fetchNewItems: Boolean) =
         recordsWatcher.safeAccess().getLiveDataList(fetchNewItems)

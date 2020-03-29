@@ -55,9 +55,9 @@ abstract class FirestoreListDataSource(authRepository: AuthRepository) :
     protected fun createRef(
         uid: String,
         collection: String,
-        watcher: CollectionWatcher<*>? = null
+        watcher: QueryWatcher<*>? = null
     ): CollectionReference {
 
-        return db.collection("/users/$uid/$collection").also { watcher?.setRef(it) }
+        return db.collection("/users/$uid/$collection").also { watcher?.setQuery(it) }
     }
 }

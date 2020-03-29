@@ -18,7 +18,7 @@ import com.jdevs.timeo.shared.OperationType.SUCCESSFUL
 
 class ListLiveData<T : Any, O : Any>(
     private val query: Query,
-    private val setLastVisibleItem: (DocumentSnapshot) -> Unit = {},
+    private val setLastDocument: (DocumentSnapshot) -> Unit = {},
     private val onLastItemReached: () -> Unit = {},
     private val type: Class<T>,
     private val mapFunction: (T) -> O,
@@ -28,13 +28,12 @@ class ListLiveData<T : Any, O : Any>(
     private var listener: ListenerRegistration? = null
 
     override fun onActive() {
-
         listener = query.addSnapshotListener(this)
     }
 
     override fun onInactive() {
-
         listener?.remove()
+        listener = null
     }
 
     override fun onEvent(querySnapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
@@ -45,11 +44,7 @@ class ListLiveData<T : Any, O : Any>(
             return
         }
 
-        for (documentChange in querySnapshot.documentChanges) {
-
-            processDocumentChange(documentChange)
-        }
-
+        querySnapshot.documentChanges.forEach(::processDocumentChange)
         value = Operation(type = SUCCESSFUL)
 
         if (querySnapshot.size() < pageSize) {
@@ -58,7 +53,7 @@ class ListLiveData<T : Any, O : Any>(
             onLastItemReached()
         } else {
 
-            setLastVisibleItem(querySnapshot.documents.last())
+            setLastDocument(querySnapshot.documents.last())
         }
     }
 

@@ -13,7 +13,7 @@ import com.jdevs.timeo.data.NAME
 import com.jdevs.timeo.data.RECORDS_COLLECTION
 import com.jdevs.timeo.data.TOTAL_TIME
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
-import com.jdevs.timeo.data.firestore.createCollectionWatcher
+import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.watch
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Operation
@@ -33,8 +33,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     FirestoreListDataSource(authRepository),
     ActivitiesRemoteDataSource {
 
-    private val activitiesWatcher =
-        createCollectionWatcher(PAGE_SIZE, FirestoreActivity::mapToDomain)
+    private val activitiesWatcher = QueryWatcher(PAGE_SIZE, FirestoreActivity::mapToDomain)
 
     override fun getActivities(fetchNewItems: Boolean) =
         activitiesWatcher.safeAccess().getLiveDataList(fetchNewItems)

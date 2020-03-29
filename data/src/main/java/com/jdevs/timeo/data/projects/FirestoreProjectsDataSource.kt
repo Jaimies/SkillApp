@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.jdevs.timeo.data.PROJECTS_COLLECTION
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
-import com.jdevs.timeo.data.firestore.createCollectionWatcher
+import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.watch
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Project
@@ -22,7 +22,7 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
     FirestoreListDataSource(authRepository),
     ProjectsRemoteDataSource {
 
-    private val projectsWatcher = createCollectionWatcher(PAGE_SIZE, FirestoreProject::mapToDomain)
+    private val projectsWatcher = QueryWatcher(PAGE_SIZE, FirestoreProject::mapToDomain)
 
     override fun getProjects(fetchNewItems: Boolean) =
         projectsWatcher.safeAccess().getLiveDataList(fetchNewItems)

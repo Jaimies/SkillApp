@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
-import com.jdevs.timeo.data.firestore.createCollectionWatcher
+import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.watch
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Task
@@ -22,8 +22,7 @@ class FirestoreTasksDataSource @Inject constructor(authRepository: AuthRepositor
     FirestoreListDataSource(authRepository),
     TasksRemoteDataSource {
 
-    private val tasksWatcher =
-        createCollectionWatcher(PAGE_SIZE, FirestoreTask::mapToDomain, "name")
+    private val tasksWatcher = QueryWatcher(PAGE_SIZE, FirestoreTask::mapToDomain, "name")
     private var tasksRef by SafeAccess<CollectionReference>()
 
     override fun getTasks(fetchNewItems: Boolean) =

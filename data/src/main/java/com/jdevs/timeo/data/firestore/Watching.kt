@@ -11,7 +11,7 @@ class DocumentLiveData<I : Any, O : Any>(
     private val mapFunction: (I) -> O
 ) : LiveData<O>() {
 
-    private lateinit var listener: ListenerRegistration
+    private var listener: ListenerRegistration? = null
 
     override fun onActive() {
 
@@ -22,7 +22,10 @@ class DocumentLiveData<I : Any, O : Any>(
         }
     }
 
-    override fun onInactive() = listener.remove()
+    override fun onInactive() {
+        listener?.remove()
+        listener = null
+    }
 }
 
 class QueryLiveData<I : Any, O : Any>(
@@ -31,7 +34,7 @@ class QueryLiveData<I : Any, O : Any>(
     private val mapFunction: (I) -> O
 ) : LiveData<List<O>>() {
 
-    private lateinit var listener: ListenerRegistration
+    private var listener: ListenerRegistration? = null
 
     override fun onActive() {
 
@@ -42,7 +45,10 @@ class QueryLiveData<I : Any, O : Any>(
         }
     }
 
-    override fun onInactive() = listener.remove()
+    override fun onInactive() {
+        listener?.remove()
+        listener = null
+    }
 }
 
 inline fun <reified I : Any, O : Any> Query.watch(noinline mapFunction: (I) -> O): LiveData<List<O>> {

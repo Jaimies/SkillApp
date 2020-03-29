@@ -9,5 +9,8 @@ data class Activity(
     val lastWeekTime: Int,
     val creationDate: OffsetDateTime,
     val parentActivityName: String = "",
-    val parentActivityId: String = ""
+    val parentActivityId: String = "",
+    val subActivities: List<ActivityMinimal> = emptyList()
 )
+
+data class ActivityMinimal(val name: String, val totalTime: Int)

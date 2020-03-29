@@ -27,15 +27,18 @@
             android:paddingEnd="@dimen/padding_default">
 
             <TextView
+                android:id="@+id/name"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@{viewModel.state.name}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline4"
+                app:layout_constraintBottom_toTopOf="@id/subactivities"
                 app:layout_constraintEnd_toStartOf="@+id/total_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Activity name" />
 
             <TextView
@@ -60,6 +63,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/subactivities"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.subActivitiesText}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/total_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                app:visible="@{viewModel.state.subActivitiesText.length() > 0}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

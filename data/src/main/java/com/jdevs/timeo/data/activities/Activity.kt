@@ -8,6 +8,7 @@ import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.Recordable
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.ActivityMinimal
 import com.jdevs.timeo.shared.util.toDate
 import com.jdevs.timeo.shared.util.toOffsetDate
 import org.threeten.bp.OffsetDateTime
@@ -32,6 +33,7 @@ data class FirestoreActivity(
     override val recentRecords: List<RecordMinimal> = emptyList(),
     val parentActivityName: String = "",
     val parentActivityId: String = "",
+    val subActivities: List<FirestoreActivityMinimal> = emptyList(),
     @ServerTimestamp
     val timestamp: Date? = null
 ) : Recordable()
@@ -40,10 +42,17 @@ fun DBActivity.mapToDomain() = Activity(id.toString(), name, totalTime, lastWeek
 
 fun FirestoreActivity.mapToDomain() = Activity(
     documentId, name, totalTime, lastWeekTime, timestamp.toOffsetDate(),
-    parentActivityName, parentActivityId
+    parentActivityName, parentActivityId, subActivities.map { it.mapToDomain() }
 )
 
 fun Activity.mapToDB() = DBActivity(id.toInt(), name, totalTime, lastWeekTime, creationDate)
 fun Activity.mapToFirestore() = FirestoreActivity(
-    id, name, totalTime, emptyList(), parentActivityName, parentActivityId, creationDate.toDate()
+    id, name, totalTime, emptyList(), parentActivityName, parentActivityId,
+    subActivities.map { it.mapToFirestore() }, creationDate.toDate()
 )
+
+@Keep
+data class FirestoreActivityMinimal(val name: String = "", val totalTime: Int = 0)
+
+fun ActivityMinimal.mapToFirestore() = FirestoreActivityMinimal(name, totalTime)
+fun FirestoreActivityMinimal.mapToDomain() = ActivityMinimal(name, totalTime)

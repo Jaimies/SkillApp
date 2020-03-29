@@ -3,6 +3,7 @@ package com.jdevs.timeo.data.activities
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldValue.arrayUnion
 import com.google.firebase.firestore.Query.Direction.DESCENDING
 import com.google.firebase.firestore.Source.CACHE
 import com.google.firebase.firestore.ktx.toObject
@@ -16,6 +17,7 @@ import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.watch
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.ActivityMinimal
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.AuthRepository
 import kotlinx.coroutines.tasks.await
@@ -42,7 +44,8 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     private var recordsRef: CollectionReference by SafeAccess()
 
     override fun getTopActivities() =
-        activitiesRef.limit(TOP_ACTIVITIES_COUNT).watch(FirestoreActivity::mapToDomain)
+        activitiesRef.orderBy(TOTAL_TIME, DESCENDING).limit(TOP_ACTIVITIES_COUNT)
+            .watch(FirestoreActivity::mapToDomain)
 
     override fun getActivityById(id: String) =
         activitiesRef.document(id).watch(FirestoreActivity::mapToDomain)
@@ -92,6 +95,13 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     override suspend fun addActivity(activity: Activity) {
 
         activitiesRef.add(activity.mapToFirestore())
+
+        if (activity.parentActivityId != "") {
+            activitiesRef.document(activity.parentActivityId)
+                .update(
+                    "subActivities", arrayUnion(ActivityMinimal(activity.name, activity.totalTime))
+                )
+        }
     }
 
     override suspend fun deleteActivity(activity: Activity) {

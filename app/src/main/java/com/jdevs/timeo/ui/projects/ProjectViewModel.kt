@@ -16,7 +16,7 @@ class ProjectViewModel {
 
     class ProjectState(project: ProjectItem) {
         val name = project.name
-        val totalTime = getFriendlyHours(project.totalTime) + "h"
+        val totalTime = getFriendlyHours(project.totalTime)
     }
 
     fun setProject(project: ProjectItem) {

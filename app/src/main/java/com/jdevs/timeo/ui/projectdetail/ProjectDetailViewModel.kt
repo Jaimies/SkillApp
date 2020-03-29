@@ -40,9 +40,9 @@ class ProjectDetailViewModel @Inject constructor(
         val name = project.name
         val description = project.description
         val daysSpent = project.creationDate.getDaysSpentSince().toString()
-        val avgWeekTime = getFriendlyHours(project.totalTime) + "h"
-        val lastWeekTime = getAvgWeekHours(project.totalTime, project.creationDate) + "h"
-        val totalTime = getFriendlyHours(project.lastWeekTime) + "h"
+        val avgWeekTime = getFriendlyHours(project.totalTime)
+        val lastWeekTime = getAvgWeekHours(project.totalTime, project.creationDate)
+        val totalTime = getFriendlyHours(project.lastWeekTime)
     }
 
     fun setProject(project: ProjectItem) {

@@ -44,7 +44,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
-                android:text="@{viewModel.state.totalTime}"
+                android:text="@{@string/hours(viewModel.state.totalTime)}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline6"
                 app:layout_constraintEnd_toStartOf="@+id/plus_button"
                 tools:text="1400h" />

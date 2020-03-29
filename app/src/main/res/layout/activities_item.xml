@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="com.jdevs.timeo.ui.activities.ActivityViewModel" />
+
+        <import type="com.jdevs.timeo.util.FormattingUtil" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -48,7 +50,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
-                android:text="@{viewModel.state.totalTime}"
+                android:text="@{@string/hours(viewModel.state.totalTime)}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline6"
                 app:layout_constraintEnd_toStartOf="@+id/plus_button"
                 tools:text="820h" />
@@ -68,12 +70,12 @@
                 android:id="@+id/subactivities"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.subActivitiesText}"
+                android:text="@{FormattingUtil.getSubactivityLabel(viewModel.state, context)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/total_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/name"
-                app:visible="@{viewModel.state.subActivitiesText.length() > 0}" />
+                app:visible="@{subactivities.text.length() > 0}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -26,7 +26,7 @@ class ConvertersTest {
     @Test
     fun getFriendlyHours() {
 
-        assertThat(getFriendlyHours(90), `is`("1.5"))
+        assertThat(getFriendlyHours(120), `is`("2"))
         assertThat(getFriendlyHours(0), `is`("0"))
         assertThat(getFriendlyHours(102), `is`("1.7"))
         assertThat(getFriendlyHours(101), `is`("1.7"))

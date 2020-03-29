@@ -19,7 +19,7 @@ fun getFriendlyHours(totalMinutes: Int) = getHours(totalMinutes).toReadableFloat
 
 fun Float.toReadableFloat(): String {
     val string = "%.1f".format(this)
-    return if (string.takeLast(1) == "0") string.dropLast(2) else string
+    return if (string.last() == '0') string.dropLast(2) else string
 }
 
 fun getHours(minutes: Int) = minutes / HOUR_MINUTES.toFloat()

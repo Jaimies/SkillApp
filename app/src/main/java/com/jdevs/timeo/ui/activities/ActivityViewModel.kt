@@ -9,12 +9,12 @@ import com.jdevs.timeo.util.time.getFriendlyHours
 open class ActivityState(activity: ActivityItem) {
 
     val name = activity.name
-    val totalTime = "${getFriendlyHours(activity.totalTime)}h"
-    val subActivitiesText = when {
-        activity.subActivities.isNotEmpty() -> "${activity.subActivities.size} subactivities"
-        activity.parentActivityName.isNotEmpty() -> "Subactivity of ${activity.parentActivityName}"
-        else -> ""
-    }
+    val totalTime = getFriendlyHours(activity.totalTime)
+
+    val hasSubActivities = activity.parentActivityId == "" && activity.subActivities.isNotEmpty()
+    val subActivitiesCount = activity.subActivities.size
+    val hasParentActivity = activity.parentActivityId != ""
+    val parentActivityName = activity.parentActivityName
 }
 
 class ActivityViewModel {

@@ -79,5 +79,7 @@
     <string name="add_task">Add a task</string>
     <string name="task_example">e.g. polish the new feature</string>
     <string name="parent_activity">Parent activity</string>
+    <string name="subactivity_of">Subactivity of %s</string>
+    <string name="hours">%sh</string>
     <string name="invalid_activity_error">Please choose an item from the list</string>
 </resources>

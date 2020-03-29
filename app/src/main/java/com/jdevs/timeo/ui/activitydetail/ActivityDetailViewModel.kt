@@ -77,8 +77,8 @@ class ActivityDetailViewModel @Inject constructor(
 
     class ActivityDetailState(activity: ActivityItem) : ActivityState(activity) {
 
-        val avgWeekTime = getAvgWeekHours(activity.totalTime, activity.creationDate) + "h"
-        val lastWeekTime = getFriendlyHours(activity.lastWeekTime) + "h"
+        val avgWeekTime = getAvgWeekHours(activity.totalTime, activity.creationDate)
+        val lastWeekTime = getFriendlyHours(activity.lastWeekTime)
         val daysSpent = activity.creationDate.getDaysSpentSince().toString()
     }
 }

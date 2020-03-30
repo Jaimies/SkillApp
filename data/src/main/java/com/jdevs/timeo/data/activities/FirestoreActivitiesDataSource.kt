@@ -17,7 +17,6 @@ import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.watch
 import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.domain.model.ActivityMinimal
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.AuthRepository
 import kotlinx.coroutines.tasks.await
@@ -68,10 +67,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
         val activityRef = activitiesRef.document(activity.id)
 
-        activityRef.update(
-            "parentActivityId", activity.parentActivityId,
-            "parentActivityName", activity.parentActivityName
-        )
+        activityRef.update("parentActivity", activity.parentActivity)
         val prevActivity = activityRef.get(CACHE).await().toObject<FirestoreActivity>()!!
 
         if (prevActivity.name != activity.name) {
@@ -96,11 +92,9 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
         activitiesRef.add(activity.mapToFirestore())
 
-        if (activity.parentActivityId != "") {
-            activitiesRef.document(activity.parentActivityId)
-                .update(
-                    "subActivities", arrayUnion(ActivityMinimal(activity.name, activity.totalTime))
-                )
+        if (activity.parentActivity != null) {
+            activitiesRef.document(activity.parentActivity!!.id)
+                .update("subActivities", arrayUnion(activity.toFirestoreMinimal()))
         }
     }
 

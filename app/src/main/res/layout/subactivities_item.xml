@@ -7,9 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.activities.ActivityViewModel" />
-
-        <import type="com.jdevs.timeo.util.FormattingUtil" />
+            type="com.jdevs.timeo.ui.activitydetail.SubActivityViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -18,11 +16,12 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{() -> viewModel.navigateToDetails()}">
+        android:onClick="@{() -> viewModel.navigateToDetails()}"
+        app:cardBackgroundColor="#f6f6f6">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/padding_default"
             android:paddingEnd="@dimen/padding_default">
@@ -35,7 +34,7 @@
                 android:singleLine="true"
                 android:text="@{viewModel.state.name}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline4"
-                app:layout_constraintBottom_toTopOf="@id/subactivities_info"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/total_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -64,17 +63,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/subactivities_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{FormattingUtil.getSubactivityLabel(viewModel.state, context)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/total_time"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name"
-                app:visible="@{subactivitiesInfo.text.length() > 0}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

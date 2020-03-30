@@ -9,21 +9,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.ui.common.ActionBarFragment
-import com.jdevs.timeo.ui.common.adapter.SpaceItemDecoration
+import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showRecordDialog
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
 import com.jdevs.timeo.util.view.setupAdapter
-import kotlinx.android.synthetic.main.activitydetail_frag.achievements_list
 import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
+import kotlinx.android.synthetic.main.activitydetail_frag.subactivities_recycler_view
 import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
@@ -35,7 +34,7 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     override val menuId = R.menu.activitydetail_frag_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
-    private val adapter by lazy { AchievementsAdapter() }
+    private val subactivitiesAdapter = ListAdapter(SubactivityDelegateAdapter({}, {}))
 
     override fun onAttach(context: Context) {
 
@@ -68,10 +67,12 @@ class ActivityDetailFragment : ActionBarFragment() {
         stats_viewpager.adapter =
             ChartsAdapter(viewModel.dayStats, viewModel.weekStats, viewModel.monthStats)
 
-        achievements_list.setupAdapter(adapter, RecyclerView.HORIZONTAL)
-        achievements_list.addItemDecoration(SpaceItemDecoration(ACHIEVEMENTS_ITEM_SPACING))
+        subactivities_recycler_view.setupAdapter(subactivitiesAdapter)
 
-        observe(viewModel.activity, viewModel::setData)
+        observe(viewModel.activity) {
+            viewModel.setData(it)
+            subactivitiesAdapter.submitList(it.subActivities)
+        }
         observe(viewModel.showRecordDialog) { showRecordDialog(::addRecord) }
     }
 
@@ -91,9 +92,5 @@ class ActivityDetailFragment : ActionBarFragment() {
     private fun addRecord(hour: Int, minute: Int) {
 
         viewModel.addRecord(viewModel.activity.value!!, getMins(hour, minute))
-    }
-
-    companion object {
-        private const val ACHIEVEMENTS_ITEM_SPACING = 16
     }
 }

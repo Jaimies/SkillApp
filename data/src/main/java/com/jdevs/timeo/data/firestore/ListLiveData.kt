@@ -18,8 +18,8 @@ import com.jdevs.timeo.shared.OperationType.SUCCESSFUL
 
 class ListLiveData<T : Any, O : Any>(
     private val query: Query,
-    private val setLastDocument: (DocumentSnapshot) -> Unit = {},
-    private val onLastItemReached: () -> Unit = {},
+    private val setLastDocument: (DocumentSnapshot) -> Unit,
+    private val onLastItemReached: () -> Unit,
     private val type: Class<T>,
     private val mapFunction: (T) -> O,
     private val pageSize: Long

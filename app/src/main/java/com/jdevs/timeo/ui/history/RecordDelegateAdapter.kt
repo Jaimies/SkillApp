@@ -1,7 +1,6 @@
 package com.jdevs.timeo.ui.history
 
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,22 +11,17 @@ import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.util.getColorCompat
-import com.jdevs.timeo.util.view.fragmentActivity
+import com.jdevs.timeo.util.inflateDataBinding
 
 class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : DelegateAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 
-        val inflater = LayoutInflater.from(parent.context)
-        val viewModel = RecordViewModel()
+        parent.inflateDataBinding<RecordsItemBinding>(R.layout.records_item).run {
 
-        val binding = RecordsItemBinding.inflate(inflater, parent, false).also {
-
-            it.viewModel = viewModel
-            it.lifecycleOwner = parent.fragmentActivity
+            val viewModel = RecordViewModel().also { viewModel = it }
+            return ViewHolder(root, viewModel, showDeleteDialog)
         }
-
-        return ViewHolder(binding.root, viewModel, showDeleteDialog)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {

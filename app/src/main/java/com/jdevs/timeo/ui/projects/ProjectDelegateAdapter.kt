@@ -1,15 +1,15 @@
 package com.jdevs.timeo.ui.projects
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProjectsItemBinding
 import com.jdevs.timeo.model.ProjectItem
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
-import com.jdevs.timeo.util.view.fragmentActivity
+import com.jdevs.timeo.util.inflateDataBinding
 
 class ProjectDelegateAdapter(
     private val showRecordDialog: () -> Unit = {},
@@ -18,16 +18,10 @@ class ProjectDelegateAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
 
-        val inflater = LayoutInflater.from(parent.context)
-        val viewModel = ProjectViewModel()
-
-        val binding = ProjectsItemBinding.inflate(inflater, parent, false).also {
-
-            it.viewModel = viewModel
-            it.lifecycleOwner = parent.fragmentActivity
+        parent.inflateDataBinding<ProjectsItemBinding>(R.layout.projects_item).run {
+            val viewModel = ProjectViewModel().also { viewModel = it }
+            return ViewHolder(root, viewModel, showRecordDialog, navigateToDetails)
         }
-
-        return ViewHolder(binding.root, viewModel, showRecordDialog, navigateToDetails)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
@@ -39,8 +33,8 @@ class ProjectDelegateAdapter(
     class ViewHolder(
         view: View,
         private val viewModel: ProjectViewModel,
-        private val showRecordDialog: () -> Unit = {},
-        private val navigateToDetails: (Int) -> Unit = {}
+        private val showRecordDialog: () -> Unit,
+        private val navigateToDetails: (Int) -> Unit
     ) : BaseViewHolder(view) {
 
         init {

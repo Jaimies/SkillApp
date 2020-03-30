@@ -11,10 +11,9 @@ open class ActivityState(activity: ActivityItem) {
     val name = activity.name
     val totalTime = getFriendlyHours(activity.totalTime)
 
-    val hasSubActivities = activity.parentActivityId == "" && activity.subActivities.isNotEmpty()
+    val parentActivity = activity.parentActivity
+    val parentActivityTime = parentActivity?.totalTime?.let { getFriendlyHours(it) }
     val subActivitiesCount = activity.subActivities.size
-    val hasParentActivity = activity.parentActivityId != ""
-    val parentActivityName = activity.parentActivityName
 }
 
 class ActivityViewModel {

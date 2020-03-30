@@ -8,9 +8,9 @@ import com.jdevs.timeo.ui.activities.ActivityState
 
 fun ActivityState?.getSubactivityLabel(context: Context) = when {
     this == null -> null
-    hasSubActivities -> context.resources.getQuantityString(
+    subActivitiesCount > 0 -> context.resources.getQuantityString(
         R.plurals.subactivities_count, subActivitiesCount, subActivitiesCount
     )
-    hasParentActivity -> context.getString(R.string.subactivity_of, parentActivityName)
+    parentActivity != null -> context.getString(R.string.subactivity_of, parentActivity.name)
     else -> ""
 }

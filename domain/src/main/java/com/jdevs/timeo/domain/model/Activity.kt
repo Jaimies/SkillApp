@@ -8,9 +8,10 @@ data class Activity(
     val totalTime: Int,
     val lastWeekTime: Int,
     val creationDate: OffsetDateTime,
-    val parentActivityName: String = "",
-    val parentActivityId: String = "",
+    val parentActivity: ActivityMinimal?,
     val subActivities: List<ActivityMinimal> = emptyList()
 )
 
-data class ActivityMinimal(val name: String, val totalTime: Int)
+data class ActivityMinimal(val id: String, val name: String, val totalTime: Int)
+
+fun Activity.toMinimal() = ActivityMinimal(id, name, totalTime)

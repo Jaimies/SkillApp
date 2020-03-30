@@ -15,23 +15,24 @@ data class ActivityItem(
     val totalTime: Int,
     val lastWeekTime: Int,
     val creationDate: OffsetDateTime,
-    val parentActivityName: String,
-    val parentActivityId: String,
+    val parentActivity: ActivityMinimalItem?,
     val subActivities: List<ActivityMinimalItem>
 ) : ViewItem, Parcelable
 
 fun Activity.mapToPresentation() = ActivityItem(
     id, name, totalTime, lastWeekTime, creationDate,
-    parentActivityName, parentActivityId, subActivities.map { it.mapToPresentation() }
+    parentActivity?.mapToPresentation(), subActivities.map { it.mapToPresentation() }
 )
 
 fun ActivityItem.mapToDomain() = Activity(
     id, name, totalTime, lastWeekTime, creationDate,
-    parentActivityName, parentActivityId, subActivities.map { it.mapToDomain() }
+    parentActivity?.mapToDomain(), subActivities.map { it.mapToDomain() }
 )
 
 @Parcelize
-data class ActivityMinimalItem(val name: String, val totalTime: Int) : Parcelable
+class ActivityMinimalItem(
+    override val id: String, val name: String, val totalTime: Int
+) : ViewItem, Parcelable
 
-fun ActivityMinimal.mapToPresentation() = ActivityMinimalItem(name, totalTime)
-fun ActivityMinimalItem.mapToDomain() = ActivityMinimal(name, totalTime)
+fun ActivityMinimal.mapToPresentation() = ActivityMinimalItem(id, name, totalTime)
+fun ActivityMinimalItem.mapToDomain() = ActivityMinimal(id, name, totalTime)

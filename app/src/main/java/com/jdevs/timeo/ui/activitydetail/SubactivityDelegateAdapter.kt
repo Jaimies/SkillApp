@@ -1,26 +1,26 @@
-package com.jdevs.timeo.ui.activities
+package com.jdevs.timeo.ui.activitydetail
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
-import com.jdevs.timeo.databinding.ActivitiesItemBinding
-import com.jdevs.timeo.model.ActivityItem
+import com.jdevs.timeo.databinding.SubactivitiesItemBinding
+import com.jdevs.timeo.model.ActivityMinimalItem
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.util.inflateDataBinding
 
-class ActivityDelegateAdapter(
+class SubactivityDelegateAdapter(
     private val showRecordDialog: (index: Int) -> Unit,
     private val navigateToDetails: (index: Int) -> Unit
 ) : DelegateAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 
-        parent.inflateDataBinding<ActivitiesItemBinding>(R.layout.activities_item).run {
+        parent.inflateDataBinding<SubactivitiesItemBinding>(R.layout.subactivities_item).run {
 
-            val viewModel = ActivityViewModel().also { viewModel = it }
+            val viewModel = SubActivityViewModel().also { viewModel = it }
             return ViewHolder(root, viewModel, showRecordDialog, navigateToDetails)
         }
     }
@@ -28,12 +28,12 @@ class ActivityDelegateAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
 
         holder as ViewHolder
-        holder.setActivity(item as ActivityItem)
+        holder.setActivity(item as ActivityMinimalItem)
     }
 
     class ViewHolder(
         view: View,
-        private val viewModel: ActivityViewModel,
+        private val viewModel: SubActivityViewModel,
         private val showRecordDialog: (index: Int) -> Unit,
         private val navigateToDetail: (index: Int) -> Unit
     ) : BaseViewHolder(view) {
@@ -43,6 +43,6 @@ class ActivityDelegateAdapter(
             viewModel.showRecordDialog.observe { showRecordDialog(adapterPosition) }
         }
 
-        fun setActivity(activity: ActivityItem) = viewModel.setData(activity)
+        fun setActivity(activity: ActivityMinimalItem) = viewModel.setData(activity)
     }
 }

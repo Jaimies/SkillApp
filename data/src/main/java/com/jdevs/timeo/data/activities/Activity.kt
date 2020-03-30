@@ -31,28 +31,32 @@ data class FirestoreActivity(
     val name: String = "",
     val totalTime: Int = 0,
     override val recentRecords: List<RecordMinimal> = emptyList(),
-    val parentActivityName: String = "",
-    val parentActivityId: String = "",
+    val parentActivity: FirestoreActivityMinimal? = null,
     val subActivities: List<FirestoreActivityMinimal> = emptyList(),
     @ServerTimestamp
     val timestamp: Date? = null
 ) : Recordable()
 
-fun DBActivity.mapToDomain() = Activity(id.toString(), name, totalTime, lastWeekTime, creationDate)
+fun DBActivity.mapToDomain() =
+    Activity(id.toString(), name, totalTime, lastWeekTime, creationDate, null)
 
 fun FirestoreActivity.mapToDomain() = Activity(
     documentId, name, totalTime, lastWeekTime, timestamp.toOffsetDate(),
-    parentActivityName, parentActivityId, subActivities.map { it.mapToDomain() }
+    parentActivity?.mapToDomain(), subActivities.map { it.mapToDomain() }
 )
 
 fun Activity.mapToDB() = DBActivity(id.toInt(), name, totalTime, lastWeekTime, creationDate)
 fun Activity.mapToFirestore() = FirestoreActivity(
-    id, name, totalTime, emptyList(), parentActivityName, parentActivityId,
+    id, name, totalTime, emptyList(), parentActivity?.mapToFirestore(),
     subActivities.map { it.mapToFirestore() }, creationDate.toDate()
 )
 
-@Keep
-data class FirestoreActivityMinimal(val name: String = "", val totalTime: Int = 0)
+fun Activity.toFirestoreMinimal() = FirestoreActivityMinimal(id, name, totalTime)
 
-fun ActivityMinimal.mapToFirestore() = FirestoreActivityMinimal(name, totalTime)
-fun FirestoreActivityMinimal.mapToDomain() = ActivityMinimal(name, totalTime)
+@Keep
+data class FirestoreActivityMinimal(
+    val id: String = "", val name: String = "", val totalTime: Int = 0
+)
+
+fun ActivityMinimal.mapToFirestore() = FirestoreActivityMinimal(id, name, totalTime)
+fun FirestoreActivityMinimal.mapToDomain() = ActivityMinimal(id, name, totalTime)

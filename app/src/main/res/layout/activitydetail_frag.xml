@@ -199,6 +199,7 @@
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="14dp"
+                android:layout_marginBottom="12dp"
                 app:cardCornerRadius="@dimen/default_corner_radius">
 
                 <LinearLayout
@@ -221,15 +222,105 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/achievements_list"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
                 android:layout_marginBottom="12dp"
-                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/achievements_item"
-                tools:orientation="horizontal" />
+                app:visible="@{viewModel.state.subActivitiesCount > 0}">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/subactivities"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:textSize="18sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/subactivities_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="12dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        tools:listitem="@layout/subactivities_item" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:visible="@{viewModel.state.parentActivity != null}">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/padding_default"
+                    android:paddingEnd="@dimen/padding_default">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:text="@{viewModel.state.parentActivity.name}"
+                        android:textAppearance="@style/TextAppearance.Timeo.Headline4"
+                        app:layout_constraintBottom_toTopOf="@id/subactivities_info"
+                        app:layout_constraintEnd_toStartOf="@id/parent_time"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="Activity name" />
+
+                    <TextView
+                        android:id="@+id/parent_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/margin_small"
+                        android:paddingEnd="@dimen/margin_small"
+                        android:text="@{@string/hours(viewModel.state.parentActivityTime)}"
+                        android:textAppearance="@style/TextAppearance.Timeo.Headline6"
+                        app:layout_constraintEnd_toStartOf="@+id/plus_button"
+                        tools:text="820h" />
+
+                    <ImageButton
+                        android:id="@+id/plus_button"
+                        android:layout_width="@dimen/plus_button_size"
+                        android:layout_height="@dimen/plus_button_size"
+                        android:background="@drawable/plus_button"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/subactivities_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/parent_activity"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/parent_time"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/name" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
 </layout>

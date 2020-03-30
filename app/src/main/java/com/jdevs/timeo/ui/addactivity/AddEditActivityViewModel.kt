@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.domain.model.toMinimal
 import com.jdevs.timeo.domain.usecase.activities.AddActivityUseCase
 import com.jdevs.timeo.domain.usecase.activities.DeleteActivityUseCase
 import com.jdevs.timeo.domain.usecase.activities.GetActivitiesFromCacheUseCase
@@ -53,7 +54,7 @@ class AddEditActivityViewModel @Inject constructor(
 
         name.value = activity.name
         activityId = activity.id
-        _parentActivityName.value = activity.parentActivityName
+        _parentActivityName.value = activity.parentActivity?.name
         _activityExists.value = true
     }
 
@@ -67,22 +68,16 @@ class AddEditActivityViewModel @Inject constructor(
         val parentActivity = getParentActivity(parentActivityIndex)
 
         saveActivity.invoke(
-            oldActivity.copy(
-                name = name.value!!, parentActivityName = parentActivity?.name.orEmpty(),
-                parentActivityId = parentActivity?.id.orEmpty()
-            ).mapToDomain()
+            oldActivity.mapToDomain()
+                .copy(name = name.value!!, parentActivity = parentActivity?.toMinimal())
         )
     }
 
     fun addActivity(parentActivityIndex: Int) = launchCoroutine {
 
         val parentActivity = getParentActivity(parentActivityIndex)
-
         addActivity(
-            Activity(
-                "", name.value!!, 0, 0, OffsetDateTime.now(),
-                parentActivity?.name.orEmpty(), parentActivity?.id.orEmpty()
-            )
+            Activity("", name.value!!, 0, 0, OffsetDateTime.now(), parentActivity?.toMinimal())
         )
     }
 

@@ -7,7 +7,7 @@ import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.toMinimal
 import com.jdevs.timeo.domain.usecase.activities.AddActivityUseCase
 import com.jdevs.timeo.domain.usecase.activities.DeleteActivityUseCase
-import com.jdevs.timeo.domain.usecase.activities.GetActivitiesFromCacheUseCase
+import com.jdevs.timeo.domain.usecase.activities.GetParentActivitySuggestionsUseCase
 import com.jdevs.timeo.domain.usecase.activities.SaveActivityUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
@@ -19,7 +19,7 @@ import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
 
 class AddEditActivityViewModel @Inject constructor(
-    getActivitiesFromCache: GetActivitiesFromCacheUseCase,
+    getParentActivitySuggestions: GetParentActivitySuggestionsUseCase,
     private val addActivity: AddActivityUseCase,
     private val saveActivity: SaveActivityUseCase,
     private val deleteActivity: DeleteActivityUseCase
@@ -37,7 +37,7 @@ class AddEditActivityViewModel @Inject constructor(
     val showDeleteDialog = SingleLiveEvent<Any>()
     var parentActivityIndex: Int? = PARENT_ACTIVITY_UNCHANGED
 
-    val activities by lazy(NONE) { getActivitiesFromCache(activityId) }
+    val activities by lazy(NONE) { getParentActivitySuggestions(activityId) }
     val activityNames by lazy(NONE) {
         activities.map {
             it.map(Activity::name).apply { this as MutableList; add(0, "–") }

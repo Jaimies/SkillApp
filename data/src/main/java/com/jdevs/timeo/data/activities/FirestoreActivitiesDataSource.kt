@@ -26,7 +26,7 @@ import javax.inject.Singleton
 interface ActivitiesRemoteDataSource : ActivitiesDataSource {
 
     fun getActivities(fetchNewItems: Boolean): List<LiveData<Operation<Activity>>>
-    fun getActivitiesFromCache(activityIdToExclude: String): LiveData<List<Activity>>
+    fun getTopLevelActivitiesFromCache(activityIdToExclude: String): LiveData<List<Activity>>
 }
 
 @Singleton
@@ -49,16 +49,18 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     override fun getActivityById(id: String) =
         activitiesRef.document(id).watch(FirestoreActivity::mapToDomain)
 
-    override fun getActivitiesFromCache(activityIdToExclude: String): LiveData<List<Activity>> {
+    override fun getTopLevelActivitiesFromCache(activityIdToExclude: String): LiveData<List<Activity>> {
 
         val liveData = MutableLiveData<List<Activity>>()
 
-        activitiesRef.orderBy(TOTAL_TIME, DESCENDING).get(CACHE).addOnSuccessListener { snapshot ->
+        activitiesRef.whereEqualTo("isTopLevel", true)
+            .orderBy(TOTAL_TIME, DESCENDING)
+            .get(CACHE).addOnSuccessListener { snapshot ->
 
-            liveData.value = snapshot.toObjects<FirestoreActivity>()
-                .map { it.mapToDomain() }
-                .filter { it.id != activityIdToExclude }
-        }
+                liveData.value = snapshot.toObjects<FirestoreActivity>()
+                    .map { it.mapToDomain() }
+                    .filter { it.id != activityIdToExclude }
+            }
 
         return liveData
     }
@@ -67,7 +69,11 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
         val activityRef = activitiesRef.document(activity.id)
 
-        activityRef.update("parentActivity", activity.parentActivity)
+        activityRef.update(
+            "parentActivity", activity.parentActivity?.mapToFirestore(),
+            "isTopLevel", activity.parentActivity == null
+        )
+
         val prevActivity = activityRef.get(CACHE).await().toObject<FirestoreActivity>()!!
 
         if (prevActivity.name != activity.name) {

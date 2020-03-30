@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.PropertyName
 import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.Recordable
@@ -33,6 +34,8 @@ data class FirestoreActivity(
     override val recentRecords: List<RecordMinimal> = emptyList(),
     val parentActivity: FirestoreActivityMinimal? = null,
     val subActivities: List<FirestoreActivityMinimal> = emptyList(),
+    @get:PropertyName("isTopLevel")
+    val isTopLevel: Boolean = true,
     @ServerTimestamp
     val timestamp: Date? = null
 ) : Recordable()
@@ -48,7 +51,7 @@ fun FirestoreActivity.mapToDomain() = Activity(
 fun Activity.mapToDB() = DBActivity(id.toInt(), name, totalTime, lastWeekTime, creationDate)
 fun Activity.mapToFirestore() = FirestoreActivity(
     id, name, totalTime, emptyList(), parentActivity?.mapToFirestore(),
-    subActivities.map { it.mapToFirestore() }, creationDate.toDate()
+    subActivities.map { it.mapToFirestore() }, parentActivity == null, creationDate.toDate()
 )
 
 fun Activity.toFirestoreMinimal() = FirestoreActivityMinimal(id, name, totalTime)

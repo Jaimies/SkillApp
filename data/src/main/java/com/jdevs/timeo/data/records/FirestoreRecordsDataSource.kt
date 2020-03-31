@@ -3,7 +3,6 @@ package com.jdevs.timeo.data.records
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue.increment
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.Source.CACHE
 import com.google.firebase.firestore.WriteBatch
@@ -22,6 +21,7 @@ import com.jdevs.timeo.data.activities.FirestoreActivity
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.RecordMinimal
+import com.jdevs.timeo.data.util.increment
 import com.jdevs.timeo.data.util.runBatchSuspend
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
@@ -105,37 +105,45 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         }
 
         val updates = mutableMapOf(
-            TOTAL_TIME to increment(time.toLong()),
+            TOTAL_TIME to increment(time),
             RECENT_RECORDS to newRecords
         )
 
+        handleSubactivities(updates, activity, time, subActivityId)
+        update(activityRef, updates)
+    }
+
+    private suspend fun WriteBatch.handleSubactivities(
+        updates: MutableMap<String, Any>,
+        activity: FirestoreActivity,
+        time: Int,
+        subActivityId: String = ""
+    ) {
+
         if (activity.parentActivity != null) {
 
-            updates["parentActivity.totalTime"] = increment(time.toLong())
-
+            updates["parentActivity.totalTime"] = increment(time)
             increaseActivityTime(activity.parentActivity.id, time, activity.documentId)
         } else if (subActivityId != "") {
 
             val subactivities = activity.subActivities.toMutableList()
             val subActivityIndex = subactivities.indexOfFirst { it.id == subActivityId }
+                .takeIf { it >= 0 } ?: return
 
-            if (subActivityIndex >= 0) {
+            subactivities.update(subActivityIndex) { it.copy(totalTime = it.totalTime + time) }
+            updates["subActivities"] = subactivities
+        } else if (activity.subActivities.isNotEmpty()) {
 
-                subactivities.update(subActivityIndex) { it.copy(totalTime = it.totalTime + time) }
-                updates["subActivities"] = subactivities
+            activity.subActivities.forEach {
+                activitiesRef.document(it.id).update("parentActivity.totalTime", increment(time))
             }
         }
-
-        update(activityRef, updates)
     }
 
     private fun WriteBatch.updateStats(creationDate: OffsetDateTime, time: Int) {
 
         fun DocumentReference.updateStats() {
-            set(
-                this, hashMapOf(TIME to increment(time.toLong()), DAY to id.toInt()),
-                SetOptions.merge()
-            )
+            set(this, hashMapOf(TIME to increment(time), DAY to id.toInt()), SetOptions.merge())
         }
 
         dayStatsRef.document(creationDate.daysSinceEpoch.toString()).updateStats()

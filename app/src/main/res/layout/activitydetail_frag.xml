@@ -305,6 +305,7 @@
                         android:layout_width="@dimen/plus_button_size"
                         android:layout_height="@dimen/plus_button_size"
                         android:background="@drawable/plus_button"
+                        android:onClick="@{() -> viewModel.showParentRecordDialog()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

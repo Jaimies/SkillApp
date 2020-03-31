@@ -53,6 +53,7 @@ class ActivityDetailViewModel @Inject constructor(
     }
 
     val showRecordDialog = SingleLiveEvent<Any>()
+    val showParentRecordDialog = SingleLiveEvent<Any>()
     val state: LiveData<ActivityDetailState> get() = _state
     private val _state = MutableLiveData<ActivityDetailState>()
     lateinit var activity: LiveData<ActivityItem>
@@ -63,9 +64,9 @@ class ActivityDetailViewModel @Inject constructor(
         setData(activity)
     }
 
-    fun addRecord(activity: ActivityItem, time: Int) = launchCoroutine {
+    fun addRecord(activityId: String, activityName: String, time: Int) = launchCoroutine {
 
-        val record = Record(name = activity.name, time = time, activityId = activity.id)
+        val record = Record(name = activityName, time = time, activityId = activityId)
         addRecord(record)
     }
 
@@ -74,6 +75,7 @@ class ActivityDetailViewModel @Inject constructor(
     }
 
     fun showRecordDialog() = showRecordDialog.call()
+    fun showParentRecordDialog() = showParentRecordDialog.call()
 
     class ActivityDetailState(activity: ActivityItem) : ActivityState(activity) {
 

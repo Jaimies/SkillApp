@@ -13,6 +13,8 @@ import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
+import com.jdevs.timeo.model.ActivityItem
+import com.jdevs.timeo.model.ActivityMinimalItem
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.util.fragment.appComponent
@@ -34,7 +36,8 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     override val menuId = R.menu.activitydetail_frag_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
-    private val subactivitiesAdapter = ListAdapter(SubactivityDelegateAdapter({}, {}))
+    private val subactivitiesAdapter =
+        ListAdapter(SubactivityDelegateAdapter(::showSubactivityRecordDialog) {})
 
     override fun onAttach(context: Context) {
 
@@ -73,7 +76,16 @@ class ActivityDetailFragment : ActionBarFragment() {
             viewModel.setData(it)
             subactivitiesAdapter.submitList(it.subActivities)
         }
-        observe(viewModel.showRecordDialog) { showRecordDialog(::addRecord) }
+        observe(viewModel.showRecordDialog) {
+            showRecordDialog { hours, minutes ->
+                addRecord(viewModel.activity.value!!, hours, minutes)
+            }
+        }
+        observe(viewModel.showParentRecordDialog) {
+            showRecordDialog { hours, minutes ->
+                viewModel.activity.value!!.parentActivity?.let { addRecord(it, hours, minutes) }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -89,8 +101,19 @@ class ActivityDetailFragment : ActionBarFragment() {
         return false
     }
 
-    private fun addRecord(hour: Int, minute: Int) {
+    private fun showSubactivityRecordDialog(index: Int) {
+        showRecordDialog { hours, minutes ->
+            addRecord(viewModel.activity.value!!.subActivities[index], hours, minutes)
+        }
+    }
 
-        viewModel.addRecord(viewModel.activity.value!!, getMins(hour, minute))
+    private fun addRecord(activity: ActivityMinimalItem, hours: Int, minutes: Int) {
+
+        viewModel.addRecord(activity.id, activity.name, getMins(hours, minutes))
+    }
+
+    private fun addRecord(activity: ActivityItem, hours: Int, minutes: Int) {
+
+        viewModel.addRecord(activity.id, activity.name, getMins(hours, minutes))
     }
 }

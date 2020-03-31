@@ -5,7 +5,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue.increment
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.Source
+import com.google.firebase.firestore.Source.CACHE
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.toObject
 import com.jdevs.timeo.data.ACTIVITIES_COLLECTION
@@ -22,9 +22,11 @@ import com.jdevs.timeo.data.activities.FirestoreActivity
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.RecordMinimal
+import com.jdevs.timeo.data.util.runBatchSuspend
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.AuthRepository
+import com.jdevs.timeo.shared.collections.update
 import com.jdevs.timeo.shared.util.WEEK_DAYS
 import com.jdevs.timeo.shared.util.daysSinceEpoch
 import com.jdevs.timeo.shared.util.monthSinceEpoch
@@ -59,30 +61,32 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
         val newRecordRef = recordsRef.document()
 
-        db.runBatch { batch ->
+        db.runBatchSuspend { batch ->
 
             batch.updateStats(record.creationDate, record.time)
             batch.set(newRecordRef, record.mapToFirestore())
+            batch.increaseActivityTime(record.activityId, record.time)
         }
-
-        increaseActivityTime(record.activityId, record.time)
     }
 
     override suspend fun deleteRecord(record: Record) {
 
-        db.runBatch { batch ->
+        db.runBatchSuspend { batch ->
 
             batch.updateStats(record.creationDate, -record.time)
             batch.delete(recordsRef.document(record.id))
+            batch.increaseActivityTime(record.activityId, -record.time)
         }
-
-        increaseActivityTime(record.activityId, -record.time)
     }
 
-    private suspend fun increaseActivityTime(activityId: String, time: Int) {
+    private suspend fun WriteBatch.increaseActivityTime(
+        activityId: String,
+        time: Int,
+        subActivityId: String = ""
+    ) {
 
         val activityRef = activitiesRef.document(activityId)
-        val activity = activityRef.get(Source.CACHE).await().toObject<FirestoreActivity>()!!
+        val activity = activityRef.get(CACHE).await().toObject<FirestoreActivity>()!!
 
         val newRecords = activity.recentRecords.toMutableList()
 
@@ -95,12 +99,34 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         val index = newRecords.indexOfFirst { it.day == OffsetDateTime.now().daysSinceEpoch }
 
         when {
-            index != -1 -> newRecords[index] = RecordMinimal(newRecords[index].time + time)
+            index >= 0 -> newRecords[index] = RecordMinimal(newRecords[index].time + time)
             time > 0 -> newRecords.add(RecordMinimal(time))
             else -> return
         }
 
-        activityRef.update(TOTAL_TIME, increment(time.toLong()), RECENT_RECORDS, newRecords)
+        val updates = mutableMapOf(
+            TOTAL_TIME to increment(time.toLong()),
+            RECENT_RECORDS to newRecords
+        )
+
+        if (activity.parentActivity != null) {
+
+            updates["parentActivity.totalTime"] = increment(time.toLong())
+
+            increaseActivityTime(activity.parentActivity.id, time, activity.documentId)
+        } else if (subActivityId != "") {
+
+            val subactivities = activity.subActivities.toMutableList()
+            val subActivityIndex = subactivities.indexOfFirst { it.id == subActivityId }
+
+            if (subActivityIndex >= 0) {
+
+                subactivities.update(subActivityIndex) { it.copy(totalTime = it.totalTime + time) }
+                updates["subActivities"] = subactivities
+            }
+        }
+
+        update(activityRef, updates)
     }
 
     private fun WriteBatch.updateStats(creationDate: OffsetDateTime, time: Int) {

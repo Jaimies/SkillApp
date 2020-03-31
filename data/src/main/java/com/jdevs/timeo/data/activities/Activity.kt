@@ -54,7 +54,7 @@ fun Activity.mapToFirestore() = FirestoreActivity(
     subActivities.map { it.mapToFirestore() }, parentActivity == null, creationDate.toDate()
 )
 
-fun Activity.toFirestoreMinimal() = FirestoreActivityMinimal(id, name, totalTime)
+fun Activity.toFirestoreMinimal(id: String) = FirestoreActivityMinimal(id, name, totalTime)
 
 @Keep
 data class FirestoreActivityMinimal(

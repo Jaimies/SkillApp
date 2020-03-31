@@ -96,11 +96,11 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
     override suspend fun addActivity(activity: Activity) {
 
-        activitiesRef.add(activity.mapToFirestore())
+        val activityRef = activitiesRef.document().also { it.set(activity.mapToFirestore()) }
 
         if (activity.parentActivity != null) {
             activitiesRef.document(activity.parentActivity!!.id)
-                .update("subActivities", arrayUnion(activity.toFirestoreMinimal()))
+                .update("subActivities", arrayUnion(activity.toFirestoreMinimal(activityRef.id)))
         }
     }
 

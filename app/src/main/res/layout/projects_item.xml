@@ -28,6 +28,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@{viewModel.state.name}"
@@ -42,8 +43,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
                 android:text="@{@string/hours(viewModel.state.totalTime)}"
                 android:textAppearance="@style/TextAppearance.Timeo.Headline6"
                 app:layout_constraintEnd_toStartOf="@+id/plus_button"
@@ -53,12 +52,13 @@
                 android:id="@+id/plus_button"
                 android:layout_width="@dimen/plus_button_size"
                 android:layout_height="@dimen/plus_button_size"
-                android:background="@drawable/plus_button"
+                android:background="@null"
+                android:contentDescription="@string/add_record"
                 android:onClick="@{() -> viewModel.showRecordDialog()}"
+                android:src="@drawable/ic_plus_28dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

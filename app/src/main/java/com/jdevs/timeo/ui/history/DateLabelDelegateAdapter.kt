@@ -10,7 +10,7 @@ import com.jdevs.timeo.util.view.inflate
 
 class DateLabelDelegateAdapter : DelegateAdapter {
 
-    override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.date_label) as TextView)
     }
 

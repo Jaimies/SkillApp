@@ -13,7 +13,7 @@ import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.util.getColorCompat
 import com.jdevs.timeo.util.inflateDataBinding
 
-class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : DelegateAdapter {
+class RecordDelegateAdapter(private val showDeleteDialog: (index: Int) -> Unit) : DelegateAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 
@@ -25,7 +25,6 @@ class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : 
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
-
         holder as ViewHolder
         holder.bindRecord(item as RecordItem)
     }
@@ -33,7 +32,7 @@ class RecordDelegateAdapter(private val showDeleteDialog: (Int) -> Unit = {}) : 
     class ViewHolder(
         private val view: View,
         private val viewModel: RecordViewModel,
-        private val showDeleteDialog: (Int) -> Unit
+        showDeleteDialog: (index: Int) -> Unit
     ) : BaseViewHolder(view) {
 
         init {

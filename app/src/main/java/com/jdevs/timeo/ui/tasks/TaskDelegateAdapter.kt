@@ -11,10 +11,10 @@ import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.util.inflateDataBinding
 
-class TaskDelegateAdapter(private val setTaskCompleted: (Int, Boolean) -> Unit = { _, _ -> }) :
+class TaskDelegateAdapter(private val setTaskCompleted: (index: Int, isCompleted: Boolean) -> Unit) :
     DelegateAdapter {
 
-    override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
 
         parent.inflateDataBinding<TasksItemBinding>(R.layout.tasks_item).run {
             val viewModel = TaskViewModel().also { viewModel = it }
@@ -23,7 +23,6 @@ class TaskDelegateAdapter(private val setTaskCompleted: (Int, Boolean) -> Unit =
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewItem) {
-
         holder as ViewHolder
         holder.setTask(item as TaskItem)
     }
@@ -31,7 +30,7 @@ class TaskDelegateAdapter(private val setTaskCompleted: (Int, Boolean) -> Unit =
     class ViewHolder(
         view: View,
         private val viewModel: TaskViewModel,
-        setTaskCompleted: (Int, Boolean) -> Unit
+        setTaskCompleted: (index: Int, isCompleted: Boolean) -> Unit
     ) : BaseViewHolder(view) {
 
         init {

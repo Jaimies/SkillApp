@@ -1,9 +1,7 @@
 package com.jdevs.timeo.ui.activities
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
+import com.jdevs.timeo.ui.common.recordable.RecordableViewModel
 import com.jdevs.timeo.util.time.getFriendlyHours
 
 open class ActivityState(activity: ActivityItem) {
@@ -16,18 +14,7 @@ open class ActivityState(activity: ActivityItem) {
     val subActivitiesCount = activity.subActivities.size
 }
 
-class ActivityViewModel {
+class ActivityViewModel : RecordableViewModel<ActivityState, ActivityItem>() {
 
-    val state: LiveData<ActivityState> get() = _state
-    private val _state = MutableLiveData<ActivityState>()
-
-    fun setData(activity: ActivityItem) {
-
-        _state.value = ActivityState(activity)
-    }
-
-    val navigateToDetails = SingleLiveEvent<Any>()
-    val showRecordDialog = SingleLiveEvent<Any>()
-    fun navigateToDetails() = navigateToDetails.call()
-    fun showRecordDialog() = showRecordDialog.call()
+    override fun createState(item: ActivityItem) = ActivityState(item)
 }

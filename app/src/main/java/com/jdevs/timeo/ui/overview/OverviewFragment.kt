@@ -100,15 +100,15 @@ class OverviewFragment : Fragment() {
 
     private fun navigateToProjectDetail(index: Int) {
 
-        val directions =
-            OverviewDirections.actionToProjectDetailFragment(viewModel.projects.data.value!![index])
+        val directions = OverviewDirections
+            .actionToProjectDetailFragment(viewModel.projects.data.value!![index])
         findNavController().navigateAnimated(directions)
     }
 
     private fun navigateToActivityDetail(index: Int) {
 
-        val directions =
-            OverviewDirections.actionToActivityDetailFragment(viewModel.activities.data.value!![index])
+        val directions = OverviewDirections
+            .actionToActivityDetailFragment(viewModel.activities.data.value!![index].id)
         findNavController().navigateAnimated(directions)
     }
 

@@ -36,8 +36,9 @@ class ActivityDetailFragment : ActionBarFragment() {
 
     override val menuId = R.menu.activitydetail_frag_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
-    private val subactivitiesAdapter =
-        ListAdapter(SubactivityDelegateAdapter(::showSubactivityRecordDialog) {})
+    private val subactivitiesAdapter = ListAdapter(
+        SubactivityDelegateAdapter(::showSubactivityRecordDialog, ::navigateToSubActivity)
+    )
 
     override fun onAttach(context: Context) {
 
@@ -48,7 +49,7 @@ class ActivityDetailFragment : ActionBarFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        viewModel.setupActivityLiveData(args.activity)
+        viewModel.setupActivityLiveData(args.activityId)
     }
 
     override fun onCreateView(
@@ -86,14 +87,19 @@ class ActivityDetailFragment : ActionBarFragment() {
                 viewModel.activity.value!!.parentActivity?.let { addRecord(it, hours, minutes) }
             }
         }
+        observe(viewModel.navigateToParentActivity) {
+            val directions = OverviewDirections
+                .actionToActivityDetailFragment(viewModel.activity.value!!.parentActivity!!.id)
+            findNavController().navigateAnimated(directions)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == R.id.editActivity) {
 
-            val directions =
-                OverviewDirections.actionToAddActivityFragment(viewModel.activity.value!!)
+            val directions = OverviewDirections
+                .actionToAddActivityFragment(viewModel.activity.value!!)
             findNavController().navigateAnimated(directions)
             return true
         }
@@ -105,6 +111,13 @@ class ActivityDetailFragment : ActionBarFragment() {
         showRecordDialog { hours, minutes ->
             addRecord(viewModel.activity.value!!.subActivities[index], hours, minutes)
         }
+    }
+
+    private fun navigateToSubActivity(index: Int) {
+
+        val directions = OverviewDirections
+            .actionToActivityDetailFragment(viewModel.activity.value!!.subActivities[index].id)
+        findNavController().navigateAnimated(directions)
     }
 
     private fun addRecord(activity: ActivityMinimalItem, hours: Int, minutes: Int) {

@@ -120,8 +120,8 @@
         tools:layout="@layout/activitydetail_frag">
 
         <argument
-            android:name="activity"
-            app:argType="com.jdevs.timeo.model.ActivityItem" />
+            android:name="activityId"
+            app:argType="string" />
     </fragment>
 
     <fragment

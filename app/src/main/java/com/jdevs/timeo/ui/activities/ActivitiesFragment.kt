@@ -90,8 +90,8 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
     private fun navigateToDetails(index: Int) {
 
-        val args = OverviewDirections.actionToActivityDetailFragment(getItem(index))
-        findNavController().navigateAnimated(args)
+        val directions = OverviewDirections.actionToActivityDetailFragment(getItem(index).id)
+        findNavController().navigateAnimated(directions)
     }
 
     private fun showRecordDialog(index: Int) {

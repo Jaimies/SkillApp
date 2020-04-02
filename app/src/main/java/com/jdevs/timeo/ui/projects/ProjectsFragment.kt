@@ -35,7 +35,6 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
     lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
     }
@@ -55,7 +54,6 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
         recycler_view.setup(PROJECTS_VISIBLE_THRESHOLD)
 
@@ -65,7 +63,6 @@ class ProjectsFragment : ListFragment<ProjectItem>() {
     }
 
     private fun navigateToDetails(index: Int) {
-
         val directions =
             ProjectsFragmentDirections.actionProjectsFragmentToProjectDetailFragment(getItem(index))
         findNavController().navigate(directions)

@@ -36,7 +36,6 @@ class SignUpFragment : AuthFragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
     }
@@ -100,7 +99,6 @@ class SignUpFragment : AuthFragment() {
     private fun checkEmail(email: String): Boolean {
 
         emailError = when (validateEmail(email)) {
-
             EMPTY -> R.string.email_empty
             INVALID -> R.string.email_invalid
             else -> return true
@@ -110,15 +108,12 @@ class SignUpFragment : AuthFragment() {
     }
 
     private fun handleException(exception: Exception?) {
-
         when (exception) {
-
             is FirebaseAuthWeakPasswordException -> passwordError = R.string.password_too_weak
             is FirebaseAuthUserCollisionException -> emailError = R.string.user_already_exists
             is FirebaseAuthInvalidCredentialsException -> emailError = R.string.email_invalid
 
             else -> {
-
                 Log.w(TAG, "Failed to sign up", exception)
                 snackbar(R.string.try_again)
             }

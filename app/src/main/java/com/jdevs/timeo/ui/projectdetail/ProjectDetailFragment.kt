@@ -35,13 +35,11 @@ class ProjectDetailFragment : ActionBarFragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         viewModel.setupProjectLiveData(args.project)
     }
@@ -64,7 +62,7 @@ class ProjectDetailFragment : ActionBarFragment() {
 
         tasks_list.setupAdapter(adapter)
 
-        observe(viewModel.topTasks) { newItems -> adapter.submitList(newItems) }
+        observe(viewModel.topTasks) { tasks -> adapter.submitList(tasks) }
         observe(viewModel.projectLiveData, viewModel::setProject)
 
         observe(viewModel.goToTasks) {

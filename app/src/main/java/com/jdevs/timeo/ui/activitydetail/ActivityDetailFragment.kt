@@ -13,12 +13,13 @@ import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
+import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.Recordable
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
-import com.jdevs.timeo.util.fragment.showRecordDialog
+import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
 import com.jdevs.timeo.util.view.setupAdapter
@@ -28,7 +29,7 @@ import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
 
-    val viewModel: ActivityDetailViewModel by viewModels { viewModelFactory }
+    private val viewModel: ActivityDetailViewModel by viewModels { viewModelFactory }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -40,13 +41,11 @@ class ActivityDetailFragment : ActionBarFragment() {
     )
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         viewModel.setupActivityLiveData(args.activityId)
     }
@@ -72,20 +71,12 @@ class ActivityDetailFragment : ActionBarFragment() {
 
         subactivities_recycler_view.setupAdapter(subactivitiesAdapter)
 
-        observe(viewModel.activity) {
-            viewModel.setData(it)
-            subactivitiesAdapter.submitList(it.subActivities)
+        observe(viewModel.activity) { activity ->
+            viewModel.setActivity(activity)
+            subactivitiesAdapter.submitList(activity.subActivities)
         }
-        observe(viewModel.showRecordDialog) {
-            showRecordDialog { hours, minutes ->
-                addRecord(viewModel.activity.value!!, hours, minutes)
-            }
-        }
-        observe(viewModel.showParentRecordDialog) {
-            showRecordDialog { hours, minutes ->
-                viewModel.activity.value!!.parentActivity?.let { addRecord(it, hours, minutes) }
-            }
-        }
+        observe(viewModel.showRecordDialog) { showRecordDialog() }
+        observe(viewModel.showParentRecordDialog) { showRecordDialog { activity -> activity.parentActivity } }
         observe(viewModel.navigateToParentActivity) {
             val directions = OverviewDirections
                 .actionToActivityDetailFragment(viewModel.activity.value!!.parentActivity!!.id)
@@ -107,9 +98,7 @@ class ActivityDetailFragment : ActionBarFragment() {
     }
 
     private fun showSubactivityRecordDialog(index: Int) {
-        showRecordDialog { hours, minutes ->
-            addRecord(viewModel.activity.value!!.subActivities[index], hours, minutes)
-        }
+        showRecordDialog { activity -> activity.subActivities[index] }
     }
 
     private fun navigateToSubActivity(index: Int) {
@@ -119,8 +108,10 @@ class ActivityDetailFragment : ActionBarFragment() {
         findNavController().navigateAnimated(directions)
     }
 
-    private fun addRecord(activity: Recordable, hours: Int, minutes: Int) {
-
-        viewModel.addRecord(activity.id, activity.name, getMins(hours, minutes))
+    private fun showRecordDialog(getActivity: (activity: ActivityItem) -> Recordable? = { it }) {
+        showTimePicker { hours, minutes ->
+            val activity = getActivity(viewModel.activity.value!!) ?: return@showTimePicker
+            viewModel.addRecord(activity.id, activity.name, getMins(hours, minutes))
+        }
     }
 }

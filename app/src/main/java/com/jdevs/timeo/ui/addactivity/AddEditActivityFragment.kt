@@ -36,7 +36,6 @@ class AddEditActivityFragment : ActionBarFragment() {
     private val isEdited get() = args.activity != null
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
         args.activity?.let { viewModel.setActivity(it) }
@@ -109,7 +108,6 @@ class AddEditActivityFragment : ActionBarFragment() {
     private fun validateInput(name: String): Boolean {
 
         when {
-
             name.isEmpty() -> setNameError(R.string.name_empty)
             name.length >= NAME_MAX_LENGTH -> setNameError(R.string.name_too_long)
             else -> return true

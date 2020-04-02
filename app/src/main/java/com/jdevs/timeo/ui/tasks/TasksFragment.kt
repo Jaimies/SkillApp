@@ -43,13 +43,11 @@ class TasksFragment : ListFragment<TaskItem>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
         tasks_list.setup(PAGE_SIZE)
     }
 
     private fun setTaskCompleted(position: Int, isCompleted: Boolean) {
-
         viewModel.setTaskCompleted(getItem(position).id, isCompleted)
     }
 

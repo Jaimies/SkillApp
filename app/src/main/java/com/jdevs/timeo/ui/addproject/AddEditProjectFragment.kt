@@ -35,7 +35,6 @@ class AddEditProjectFragment : ActionBarFragment() {
     private val isEdited get() = args.project != null
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
         args.project?.let { viewModel.setProject(it) }

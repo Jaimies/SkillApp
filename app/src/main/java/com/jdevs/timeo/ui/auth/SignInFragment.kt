@@ -50,7 +50,6 @@ class SignInFragment : AuthFragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
     }
@@ -76,7 +75,6 @@ class SignInFragment : AuthFragment() {
         observe(viewModel.showGoogleSignInIntent) { showGoogleSignInIntent() }
 
         observe(viewModel.navigateToSignUp) {
-
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
         }
     }
@@ -87,7 +85,6 @@ class SignInFragment : AuthFragment() {
         val password = viewModel.password.value.orEmpty()
 
         when {
-
             email.isEmpty() -> emailError = R.string.email_empty
             !isValidEmail(email) -> emailError = R.string.email_invalid
             password.isEmpty() -> passwordError = R.string.password_empty

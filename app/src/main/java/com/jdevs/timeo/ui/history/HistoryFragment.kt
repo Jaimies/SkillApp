@@ -30,7 +30,6 @@ class HistoryFragment : ListFragment<RecordItem>() {
     lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
     }
@@ -50,7 +49,6 @@ class HistoryFragment : ListFragment<RecordItem>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
         recycler_view.setup(RECORDS_VISIBLE_THRESHOLD)
     }
@@ -60,14 +58,12 @@ class HistoryFragment : ListFragment<RecordItem>() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.delete_record_title)
             .setMessage(R.string.delete_record_message)
-            .setPositiveButton(R.string.delete) { _, _ -> deleteRecord(index) }
+            .setPositiveButton(R.string.delete) { _, _ ->
+
+                viewModel.deleteRecord(getItem(index))
+                snackbar(R.string.record_deleted_message)
+            }
             .setNegativeButton(R.string.cancel, null)
             .show()
-    }
-
-    private fun deleteRecord(index: Int) {
-
-        viewModel.deleteRecord(record = getItem(index))
-        snackbar(R.string.record_deleted_message)
     }
 }

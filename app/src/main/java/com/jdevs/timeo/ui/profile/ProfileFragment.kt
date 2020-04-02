@@ -27,7 +27,6 @@ class ProfileFragment : ActionBarFragment() {
     override val menuId = R.menu.profile_frag_menu
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
     }

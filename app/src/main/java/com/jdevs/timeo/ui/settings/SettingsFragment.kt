@@ -28,7 +28,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         setPreferencesFromResource(R.xml.settings, rootKey)
-
         activitiesEnabled = findPreference("activitiesEnabled")!!
         activitiesEnabled.setOnPreferenceChangeListener { _, newValue ->
 
@@ -38,12 +37,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
-
-        observe(viewModel.activitiesEnabled) { newValue ->
-
-            activitiesEnabled.isChecked = newValue
-        }
+        observe(viewModel.activitiesEnabled, activitiesEnabled::setChecked)
     }
 }

@@ -70,7 +70,7 @@ class ActivityDetailViewModel @Inject constructor(
         addRecord(record)
     }
 
-    fun setData(activity: ActivityItem) {
+    fun setActivity(activity: ActivityItem) {
         _state.value = ActivityDetailState(activity)
     }
 

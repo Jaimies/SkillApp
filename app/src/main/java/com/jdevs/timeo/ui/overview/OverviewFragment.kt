@@ -19,7 +19,7 @@ import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
-import com.jdevs.timeo.util.fragment.showRecordDialog
+import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.fragment.snackbar
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
@@ -44,7 +44,6 @@ class OverviewFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
-
         super.onAttach(context)
         appComponent.inject(this)
     }
@@ -88,14 +87,10 @@ class OverviewFragment : Fragment() {
         }
     }
 
-    private fun showProjectRecordDialog() {
-
-        showRecordDialog { _, _ -> snackbar(R.string.todo) }
-    }
+    private fun showProjectRecordDialog() = showTimePicker { _, _ -> snackbar(R.string.todo) }
 
     private fun showActivityRecordDialog(index: Int) {
-
-        showRecordDialog { hour, minute -> viewModel.createRecord(index, getMins(hour, minute)) }
+        showTimePicker { hours, minutes -> viewModel.createRecord(index, getMins(hours, minutes)) }
     }
 
     private fun navigateToProjectDetail(index: Int) {

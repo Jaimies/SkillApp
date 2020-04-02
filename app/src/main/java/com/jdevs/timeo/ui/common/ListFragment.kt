@@ -41,10 +41,8 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         if (authRepository.isUserSignedIn) {
-
             viewModel.getRemoteLiveDatas(false).forEach(::observeOperation)
         } else {
-
             observeLiveData(viewModel.localLiveData)
         }
     }
@@ -53,7 +51,6 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     private fun observeLiveData(liveData: LiveData<PagedList<T>>) {
 
         observe(liveData) {
-
             adapter.submitList(it as PagedList<ViewItem>)
             viewModel.setLength(it.size)
             viewModel.hideLoader()
@@ -63,7 +60,6 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
     private fun observeOperation(liveData: LiveData<OperationItem<T>>) {
 
         if (liveData.hasObservers()) {
-
             return
         }
 
@@ -76,7 +72,6 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
                 REMOVED -> firestoreAdapter.removeItem(operation.data!!)
 
                 SUCCESSFUL -> {
-
                     viewModel.setLength(firestoreAdapter.dataItemCount)
                     firestoreAdapter.showLoader()
                 }
@@ -104,10 +99,8 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
 
     @Suppress("UNCHECKED_CAST")
     protected fun getItem(position: Int) = if (authRepository.isUserSignedIn) {
-
         firestoreAdapter.getItem(position)
     } else {
-
         adapter.getItem(position)
     } as T
 }

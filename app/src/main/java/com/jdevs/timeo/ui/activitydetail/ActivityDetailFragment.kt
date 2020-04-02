@@ -13,8 +13,7 @@ import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
-import com.jdevs.timeo.model.ActivityItem
-import com.jdevs.timeo.model.ActivityMinimalItem
+import com.jdevs.timeo.model.Recordable
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.util.fragment.appComponent
@@ -120,12 +119,7 @@ class ActivityDetailFragment : ActionBarFragment() {
         findNavController().navigateAnimated(directions)
     }
 
-    private fun addRecord(activity: ActivityMinimalItem, hours: Int, minutes: Int) {
-
-        viewModel.addRecord(activity.id, activity.name, getMins(hours, minutes))
-    }
-
-    private fun addRecord(activity: ActivityItem, hours: Int, minutes: Int) {
+    private fun addRecord(activity: Recordable, hours: Int, minutes: Int) {
 
         viewModel.addRecord(activity.id, activity.name, getMins(hours, minutes))
     }

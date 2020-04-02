@@ -9,13 +9,13 @@ import org.threeten.bp.OffsetDateTime
 @Parcelize
 data class ActivityItem(
     override val id: String,
-    val name: String,
-    val totalTime: Int,
+    override val name: String,
+    override val totalTime: Int,
     val lastWeekTime: Int,
     val creationDate: OffsetDateTime,
     val parentActivity: ActivityMinimalItem?,
     val subActivities: List<ActivityMinimalItem>
-) : ViewItem, Parcelable
+) : Recordable, Parcelable
 
 fun Activity.mapToPresentation() = ActivityItem(
     id, name, totalTime, lastWeekTime, creationDate,
@@ -29,8 +29,8 @@ fun ActivityItem.mapToDomain() = Activity(
 
 @Parcelize
 class ActivityMinimalItem(
-    override val id: String, val name: String, val totalTime: Int
-) : ViewItem, Parcelable
+    override val id: String, override val name: String, override val totalTime: Int
+) : Recordable, Parcelable
 
 fun ActivityMinimal.mapToPresentation() = ActivityMinimalItem(id, name, totalTime)
 fun ActivityMinimalItem.mapToDomain() = ActivityMinimal(id, name, totalTime)

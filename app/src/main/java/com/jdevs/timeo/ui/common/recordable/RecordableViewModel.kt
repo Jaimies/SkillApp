@@ -3,13 +3,14 @@ package com.jdevs.timeo.ui.common.recordable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
+import com.jdevs.timeo.model.Recordable
 
-abstract class RecordableViewModel<State : Any, Item : Any> {
+abstract class RecordableViewModel<State : RecordableState, Item : Recordable> {
 
     val state: LiveData<State> get() = _state
     private val _state = MutableLiveData<State>()
 
-    abstract fun createState(item: Item): State
+    protected abstract fun createState(item: Item): State
 
     fun setItem(item: Item) {
         _state.value = createState(item)

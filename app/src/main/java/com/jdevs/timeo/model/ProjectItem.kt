@@ -10,12 +10,12 @@ import org.threeten.bp.OffsetDateTime
 @Parcelize
 data class ProjectItem(
     override val id: String,
-    val name: String,
+    override val name: String,
     val description: String,
-    val totalTime: Int,
+    override val totalTime: Int,
     val lastWeekTime: Int,
     val creationDate: OffsetDateTime
-) : ViewItem, Parcelable
+) : Recordable, Parcelable
 
 fun Project.mapToPresentation() =
     ProjectItem(id, name, description, totalTime, lastWeekTime, creationDate)

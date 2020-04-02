@@ -1,14 +1,11 @@
 package com.jdevs.timeo.ui.activities
 
 import com.jdevs.timeo.model.ActivityItem
+import com.jdevs.timeo.ui.common.recordable.RecordableState
 import com.jdevs.timeo.ui.common.recordable.RecordableViewModel
 import com.jdevs.timeo.util.time.getFriendlyHours
 
-open class ActivityState(activity: ActivityItem) {
-
-    val name = activity.name
-    val totalTime = getFriendlyHours(activity.totalTime)
-
+open class ActivityState(activity: ActivityItem) : RecordableState(activity) {
     val parentActivity = activity.parentActivity
     val parentActivityTime = parentActivity?.totalTime?.let { getFriendlyHours(it) }
     val subActivitiesCount = activity.subActivities.size

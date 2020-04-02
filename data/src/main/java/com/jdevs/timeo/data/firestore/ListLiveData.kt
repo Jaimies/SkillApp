@@ -1,11 +1,9 @@
 package com.jdevs.timeo.data.firestore
 
-import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.domain.model.Operation
@@ -23,18 +21,9 @@ class ListLiveData<T : Any, O : Any>(
     private val type: Class<T>,
     private val mapFunction: (T) -> O,
     private val pageSize: Long
-) : LiveData<Operation<O>>(), EventListener<QuerySnapshot> {
+) : FirestoreListenerLiveData<Operation<O>>(), EventListener<QuerySnapshot> {
 
-    private var listener: ListenerRegistration? = null
-
-    override fun onActive() {
-        listener = query.addSnapshotListener(this)
-    }
-
-    override fun onInactive() {
-        listener?.remove()
-        listener = null
-    }
+    override fun registerListener() = query.addSnapshotListener(this)
 
     override fun onEvent(querySnapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
 
@@ -48,11 +37,9 @@ class ListLiveData<T : Any, O : Any>(
         value = Operation(type = SUCCESSFUL)
 
         if (querySnapshot.size() < pageSize) {
-
             value = Operation(type = LAST_ITEM_REACHED)
             onLastItemReached()
         } else {
-
             setLastDocument(querySnapshot.documents.last())
         }
     }

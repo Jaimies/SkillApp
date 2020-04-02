@@ -4,33 +4,36 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.jdevs.timeo.data.TOTAL_TIME
 
-private typealias LiveDataConstructor<T> = (Query, (DocumentSnapshot) -> Unit, () -> Unit) -> ListLiveData<*, T>
-
-class QueryWatcher<T : Any>(
-    private val liveData: LiveDataConstructor<T>,
+class QueryWatcher<T : Any, O : Any>(
     private val pageSize: Long,
-    private val orderBy: String
+    private val orderBy: String,
+    private val modelClass: Class<T>,
+    private val mapFunction: (T) -> O
 ) {
 
     private lateinit var query: Query
     private var lastDocument: DocumentSnapshot? = null
     private var isLastItemReached = false
-    private val liveDatas = mutableListOf<ListLiveData<*, T>>()
+    private val liveDatas = mutableListOf<ListLiveData<*, O>>()
 
     fun setQuery(query: Query) {
-
         lastDocument = null
         isLastItemReached = false
         this.query = query.orderBy(orderBy, Query.Direction.DESCENDING).limit(pageSize)
         liveDatas.clear()
     }
 
-    fun getLiveDataList(fetchNewItems: Boolean): List<ListLiveData<*, T>> {
+    fun getLiveDataList(fetchNewItems: Boolean): List<ListLiveData<*, O>> {
 
         if (!isLastItemReached && (fetchNewItems || liveDatas.isEmpty())) {
 
             lastDocument?.let { query = query.startAfter(it) }
-            val liveData = liveData(query, { lastDocument = it }) { isLastItemReached = true }
+
+            val liveData = ListLiveData(
+                query, { lastDocument = it }, { isLastItemReached = true },
+                modelClass, mapFunction, pageSize
+            )
+
             liveDatas.add(liveData)
         }
 
@@ -43,14 +46,6 @@ class QueryWatcher<T : Any>(
             pageSize: Long,
             noinline mapFunction: (T) -> O,
             orderBy: String = TOTAL_TIME
-        ) = QueryWatcher(createLiveDataConstructor(pageSize, mapFunction), pageSize, orderBy)
-
-        inline fun <reified T : Any, O : Any> createLiveDataConstructor(
-            pageSize: Long,
-            noinline mapFunction: (T) -> O
-        ): LiveDataConstructor<O> = { query, setLastDoc, onLastReached ->
-
-            ListLiveData(query, setLastDoc, onLastReached, T::class.java, mapFunction, pageSize)
-        }
+        ) = QueryWatcher(pageSize, orderBy, T::class.java, mapFunction)
     }
 }

@@ -65,7 +65,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
             batch.updateStats(record.creationDate, record.time)
             batch.set(newRecordRef, record.mapToFirestore())
-            batch.increaseActivityTime(record.activityId, record.time)
+            batch.incrementActivityTime(record.activityId, record.time)
         }
     }
 
@@ -75,11 +75,11 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
             batch.updateStats(record.creationDate, -record.time)
             batch.delete(recordsRef.document(record.id))
-            batch.increaseActivityTime(record.activityId, -record.time)
+            batch.incrementActivityTime(record.activityId, -record.time)
         }
     }
 
-    private suspend fun WriteBatch.increaseActivityTime(
+    private suspend fun WriteBatch.incrementActivityTime(
         activityId: String,
         time: Int,
         subActivityId: String = ""
@@ -123,7 +123,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         if (activity.parentActivity != null) {
 
             updates["parentActivity.totalTime"] = increment(time)
-            increaseActivityTime(activity.parentActivity.id, time, activity.documentId)
+            incrementActivityTime(activity.parentActivity.id, time, activity.documentId)
         } else if (subActivityId != "") {
 
             val subactivities = activity.subActivities.toMutableList()

@@ -2,7 +2,6 @@ package com.jdevs.timeo.ui.addactivity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.toMinimal
 import com.jdevs.timeo.domain.usecase.activities.AddActivityUseCase
@@ -12,6 +11,7 @@ import com.jdevs.timeo.domain.usecase.activities.SaveActivityUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.mapToDomain
+import com.jdevs.timeo.shared.util.mapList
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import org.threeten.bp.OffsetDateTime
@@ -26,25 +26,20 @@ class AddEditActivityViewModel @Inject constructor(
 ) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData<String>()
+    val nameError = MutableLiveData<String>()
+    val parentActivityError = MutableLiveData<String>()
+    val showDeleteDialog = SingleLiveEvent<Any>()
 
     val parentActivityName get() = _parentActivityName as LiveData<String>
     private val _parentActivityName = MutableLiveData<String>()
-    val nameError = MutableLiveData<String>()
-    val parentActivityError = MutableLiveData<String>()
-
     val activityExists get() = _activityExists as LiveData<Boolean>
     private val _activityExists = MutableLiveData(false)
-    val showDeleteDialog = SingleLiveEvent<Any>()
+
     var parentActivityIndex: Int? = PARENT_ACTIVITY_UNCHANGED
+    private var activityId = ""
 
     val activities by lazy(NONE) { getParentActivitySuggestions(activityId) }
-    val activityNames by lazy(NONE) {
-        activities.map {
-            it.map(Activity::name).apply { this as MutableList; add(0, "–") }
-        }
-    }
-
-    private var activityId = ""
+    val activityNames by lazy(NONE) { activities.mapList(Activity::name) }
 
     fun setActivity(activity: ActivityItem) {
 
@@ -52,8 +47,8 @@ class AddEditActivityViewModel @Inject constructor(
             return
         }
 
-        name.value = activity.name
         activityId = activity.id
+        name.value = activity.name
         _parentActivityName.value = activity.parentActivity?.name
         _activityExists.value = true
     }
@@ -86,8 +81,9 @@ class AddEditActivityViewModel @Inject constructor(
         deleteActivity(activity.mapToDomain())
     }
 
-    private fun getParentActivity(index: Int) =
-        if (index >= 1) activities.value!![index - 1] else null
+    // Since the first item in dropdown is "–" and other activities start at index of 1,
+    // we need to subtract 1 from index when trying to get the needed item
+    private fun getParentActivity(index: Int) = activities.value!!.getOrNull(index - 1)
 
     fun showDeleteDialog() = showDeleteDialog.call()
 

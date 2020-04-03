@@ -48,13 +48,12 @@ fun EditText.setOnEnterPressedListener(block: Runnable) {
 
 @BindingAdapter("viewpager", "entries")
 fun TabLayout.setupWithViewPager(viewPager: ViewPager2, @ArrayRes itemsResId: Int) {
-
     val items = context.resources.getStringArray(itemsResId)
     TabLayoutMediator(this, viewPager) { tab, position -> tab.text = items[position] }.attach()
 }
 
 @BindingAdapter("entries")
-fun AutoCompleteTextView.setEntries(entries: List<CharSequence>?) {
+fun AutoCompleteTextView.setEntries(entries: List<Any>?) {
 
     if (entries == null) return
     setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, entries))

@@ -8,7 +8,7 @@ import androidx.databinding.ViewDataBinding
 import com.jdevs.timeo.util.view.fragmentActivity
 
 fun <T : ViewDataBinding> ViewGroup.inflateDataBinding(@LayoutRes resId: Int): T {
-    return DataBindingUtil.inflate<T>(LayoutInflater.from(context), resId, this, false).also {
-        it.lifecycleOwner = fragmentActivity
+    return DataBindingUtil.inflate<T>(LayoutInflater.from(context), resId, this, false).apply {
+        lifecycleOwner = fragmentActivity
     }
 }

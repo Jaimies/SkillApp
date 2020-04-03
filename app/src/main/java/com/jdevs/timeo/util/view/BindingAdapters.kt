@@ -1,3 +1,5 @@
+@file:Suppress("MatchingDeclarationName")
+
 package com.jdevs.timeo.util.view
 
 import android.view.View

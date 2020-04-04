@@ -6,5 +6,5 @@ interface SettingsRepository {
 
     val activitiesEnabled: LiveData<Boolean>
 
-    fun setActivitiesEnabled(isEnabled: Boolean)
+    fun setActivitiesEnabled(enabled: Boolean)
 }

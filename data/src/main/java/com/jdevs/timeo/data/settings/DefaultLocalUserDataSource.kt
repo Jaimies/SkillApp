@@ -6,19 +6,17 @@ import androidx.preference.PreferenceManager
 import javax.inject.Inject
 import javax.inject.Singleton
 
-interface LocalUserDataSource : UserDataSource {
+interface LocalUserDataSource {
 
-    fun getPreferenceEnabled(name: String, defValue: Boolean): Boolean
+    var activitiesEnabled: Boolean
 }
 
 @Singleton
 class DefaultLocalUserDataSource @Inject constructor(context: Context) : LocalUserDataSource {
 
-    private val sharedPrefs by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-    override fun getPreferenceEnabled(name: String, defValue: Boolean) =
-        sharedPrefs.getBoolean(name, defValue)
-
-    override fun setPreferenceEnabled(name: String, isEnabled: Boolean) =
-        sharedPrefs.edit { putBoolean(name, isEnabled) }
+    override var activitiesEnabled: Boolean
+        get() = prefs.getBoolean(ACTIVITIES_ENABLED, true)
+        set(value) = prefs.edit { putBoolean(ACTIVITIES_ENABLED, value) }
 }

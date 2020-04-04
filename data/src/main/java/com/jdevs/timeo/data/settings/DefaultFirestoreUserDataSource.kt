@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 interface UserDataSource {
 
-    fun setPreferenceEnabled(name: String, isEnabled: Boolean)
+    fun setActivitiesEnabled(enabled: Boolean)
 }
 
 interface FirestoreUserDataSource : UserDataSource {
@@ -32,13 +32,11 @@ class DefaultFirestoreUserDataSource @Inject constructor(authRepository: AuthRep
 
     override val user get() = userRef?.watch(FirestoreUser::mapToDomain)
 
-    override fun setPreferenceEnabled(name: String, isEnabled: Boolean) {
-
-        userRef?.update(name, isEnabled)
+    override fun setActivitiesEnabled(enabled: Boolean) {
+        userRef?.set(FirestoreUser(enabled))
     }
 
     override fun resetRefs(uid: String) {
-
         userRef = db.document("users/$uid")
     }
 }

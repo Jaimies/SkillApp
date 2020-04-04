@@ -50,9 +50,6 @@ dependencies {
     // Androidx Core extensions
     implementation "androidx.core:core-ktx:$Versions.androidxCore"
 
-    // Play Auth
-    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
-
     // The domain layer and shared module
     implementation project(':shared')
     implementation project(':domain')

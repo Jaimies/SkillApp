@@ -16,7 +16,7 @@ object Versions {
     const val paging = "2.1.2"
     const val navigation = "2.2.1"
     const val lifecycle = "2.2.0"
-    const val fragment = "1.2.3"
+    const val fragment = "1.2.4"
     const val material = "1.2.0-alpha05"
 
     // MPAndroidChart
@@ -36,11 +36,11 @@ object Versions {
     const val dagger = "2.25.2"
 
     // Firebase
-    const val firestore = "21.4.1"
+    const val firestore = "21.4.2"
     const val functions = "19.0.2"
     const val coroutinesPlay = "1.1.1"
     const val auth = "19.3.0"
-    const val gmsAuth = "17.0.0"
+    const val gmsAuth = "18.0.0"
 
     // Gson
     const val gson = "2.8.6"

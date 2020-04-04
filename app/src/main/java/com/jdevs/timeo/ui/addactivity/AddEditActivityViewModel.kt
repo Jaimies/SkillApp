@@ -14,6 +14,7 @@ import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.shared.util.mapList
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
+import com.jdevs.timeo.util.time.getMins
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
@@ -26,6 +27,7 @@ class AddEditActivityViewModel @Inject constructor(
 ) : KeyboardHidingViewModel() {
 
     val name = MutableLiveData<String>()
+    val totalTime = MutableLiveData<String>()
     val nameError = MutableLiveData<String>()
     val parentActivityError = MutableLiveData<String>()
     val showDeleteDialog = SingleLiveEvent<Any>()
@@ -72,7 +74,10 @@ class AddEditActivityViewModel @Inject constructor(
 
         val parentActivity = getParentActivity(parentActivityIndex)
         addActivity(
-            Activity("", name.value!!, 0, 0, OffsetDateTime.now(), parentActivity?.toMinimal())
+            Activity(
+                "", name.value!!, getMins(totalTime.value!!.toInt(), 0),
+                0, OffsetDateTime.now(), parentActivity?.toMinimal()
+            )
         )
     }
 

@@ -29,6 +29,7 @@
             android:id="@+id/name_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/name"
             app:error="@{viewModel.nameError}">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -36,7 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="@string/name"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:text="@={viewModel.name}" />
@@ -48,6 +48,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/parent_activity"
             app:error="@{viewModel.parentActivityError}">
 
             <AutoCompleteTextView
@@ -55,11 +56,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:hint="@string/parent_activity"
                 android:inputType="text"
                 android:text="@{viewModel.parentActivityName}"
                 app:entries="@{ListUtil.unshift(viewModel.activityNames, @string/subactivity_none)}"
-                app:onSelectedItemChanged="@{viewModel::setParentActivityIndex}" />
+                app:onSelectedItemChanged="@{viewModel::setParentActivityIndex}"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hours_spent"
+            app:suffixText="@string/hours_symbol"
+            app:visible="@{!viewModel.activityExists}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:inputType="number"
+                android:text="@={viewModel.totalTime}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

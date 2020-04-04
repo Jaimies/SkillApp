@@ -23,4 +23,4 @@ fun Float.toReadableFloat(): String {
 }
 
 fun getHours(minutes: Int) = minutes / HOUR_MINUTES.toFloat()
-fun getMins(hour: Int, minute: Int) = hour * HOUR_MINUTES + minute
+fun getMins(hours: Int, minutes: Int) = hours * HOUR_MINUTES + minutes

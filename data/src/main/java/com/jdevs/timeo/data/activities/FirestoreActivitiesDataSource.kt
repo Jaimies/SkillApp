@@ -8,6 +8,8 @@ import com.google.firebase.firestore.Query.Direction.DESCENDING
 import com.google.firebase.firestore.Source.CACHE
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.functions.ktx.functions
+import com.google.firebase.ktx.Firebase
 import com.jdevs.timeo.data.ACTIVITIES_COLLECTION
 import com.jdevs.timeo.data.ACTIVITY_ID
 import com.jdevs.timeo.data.NAME
@@ -34,13 +36,13 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     FirestoreListDataSource(authRepository),
     ActivitiesRemoteDataSource {
 
+    private val functions = Firebase.functions("europe-west1")
     private val activitiesWatcher = QueryWatcher(PAGE_SIZE, FirestoreActivity::mapToDomain)
+    private var activitiesRef: CollectionReference by SafeAccess()
+    private var recordsRef: CollectionReference by SafeAccess()
 
     override fun getActivities(fetchNewItems: Boolean) =
         activitiesWatcher.safeAccess().getLiveDataList(fetchNewItems)
-
-    private var activitiesRef: CollectionReference by SafeAccess()
-    private var recordsRef: CollectionReference by SafeAccess()
 
     override fun getTopActivities() =
         activitiesRef.orderBy(TOTAL_TIME, DESCENDING).limit(TOP_ACTIVITIES_COUNT)
@@ -107,6 +109,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     override suspend fun deleteActivity(activity: Activity) {
 
         activitiesRef.document(activity.id).delete()
+        functions.getHttpsCallable("deleteRecords").call(mapOf("activityId" to activity.id))
     }
 
     override fun resetRefs(uid: String) {

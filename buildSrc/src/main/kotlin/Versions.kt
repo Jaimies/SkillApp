@@ -37,6 +37,7 @@ object Versions {
 
     // Firebase
     const val firestore = "21.4.1"
+    const val functions = "19.0.2"
     const val coroutinesPlay = "1.1.1"
     const val auth = "19.3.0"
     const val gmsAuth = "17.0.0"

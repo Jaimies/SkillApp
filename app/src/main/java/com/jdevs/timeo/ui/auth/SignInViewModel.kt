@@ -15,39 +15,23 @@ class SignInViewModel @Inject constructor(private val signInUseCase: SignInUseCa
     fun signIn(
         email: String,
         password: String,
-        onFailure: (Exception) -> Unit = {},
-        onSuccess: () -> Unit = {}
-    ) {
+        onFailure: (Exception) -> Unit,
+        onSuccess: () -> Unit
+    ) = launchSuspendingProcess(onFailure, onSuccess) {
 
-        launchSuspendingProcess(onFailure, onSuccess) {
-
-            signInUseCase.signIn(email, password)
-        }
+        signInUseCase.signIn(email, password)
     }
 
     fun signInWithGoogle(
         account: GoogleSignInAccount,
-        onFailure: (Exception) -> Unit = {},
-        onSuccess: () -> Unit = {}
-    ) {
+        onFailure: (Exception) -> Unit,
+        onSuccess: () -> Unit
+    ) = launchSuspendingProcess(onFailure, onSuccess) {
 
-        launchSuspendingProcess(onFailure, onSuccess) {
-
-            signInUseCase.signInWithGoogle(account)
-        }
+        signInUseCase.signInWithGoogle(account)
     }
 
-    fun triggerSignIn() {
-
-        signIn.call()
-        hideKeyboard()
-    }
-
-    fun showGoogleSignInIntent() {
-
-        showGoogleSignInIntent.call()
-        hideKeyboard()
-    }
-
+    fun signIn() = signIn.call()
+    fun showGoogleSignIn() = showGoogleSignInIntent.call()
     fun navigateToSignUp() = navigateToSignUp.call()
 }

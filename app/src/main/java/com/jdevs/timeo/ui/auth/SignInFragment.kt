@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
 import com.google.android.gms.common.api.ApiException
@@ -22,12 +21,12 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SigninFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.shared.util.TAG
+import com.jdevs.timeo.util.EMPTY
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.snackbar
 import com.jdevs.timeo.util.hardware.hasNetworkConnection
-import com.jdevs.timeo.util.hardware.hideKeyboard
-import com.jdevs.timeo.util.isValidEmail
+import com.jdevs.timeo.util.validatePassword
 import javax.inject.Inject
 
 private const val RC_SIGN_IN = 0
@@ -70,9 +69,11 @@ class SignInFragment : AuthFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        observe(viewModel.hideKeyboard) { hideKeyboard() }
+        super.onViewCreated(view, savedInstanceState)
         observe(viewModel.signIn) { signIn() }
-        observe(viewModel.showGoogleSignInIntent) { showGoogleSignInIntent() }
+        observe(viewModel.showGoogleSignInIntent) {
+            startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
+        }
 
         observe(viewModel.navigateToSignUp) {
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
@@ -85,65 +86,48 @@ class SignInFragment : AuthFragment() {
         val password = viewModel.password.value.orEmpty()
 
         when {
-            email.isEmpty() -> emailError = R.string.email_empty
-            !isValidEmail(email) -> emailError = R.string.email_invalid
-            password.isEmpty() -> passwordError = R.string.password_empty
-
-            else -> {
-
-                if (!requireContext().hasNetworkConnection) {
-                    snackbar(R.string.check_connection)
-                    return
-                }
-
-                viewModel.signIn(email, password, ::handleException, ::navigateToOverview)
-            }
+            !(checkEmail(email) and checkPassword(password)) -> return
+            !requireContext().hasNetworkConnection -> snackbar(R.string.check_connection)
+            else -> viewModel.signIn(email, password, ::handleException, ::navigateToOverview)
         }
     }
 
-    private fun showGoogleSignInIntent() {
+    private fun checkPassword(password: String): Boolean {
 
-        hideKeyboard()
-        viewModel.showLoader()
-        startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        viewModel.hideLoader()
-
-        if (requestCode == RC_SIGN_IN) {
-
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-
-            try {
-
-                val account = task.getResult(ApiException::class.java) ?: return
-                linkGoogleAccount(account)
-            } catch (e: ApiException) {
-
-                when (e.statusCode) {
-
-                    SIGN_IN_CANCELLED -> Log.d(TAG, "Sign in was cancelled by user")
-                    NETWORK_ERROR -> snackbar(R.string.check_connection)
-
-                    else -> {
-
-                        Log.w(TAG, "Google sign in failed", e)
-                        snackbar(R.string.try_again)
-                    }
-                }
-            }
+        return if (validatePassword(password) == EMPTY) {
+            passwordError = R.string.password_empty
+            false
+        } else {
+            viewModel.passwordError.value = ""
+            true
         }
     }
 
-    private fun linkGoogleAccount(account: GoogleSignInAccount) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
 
-        viewModel.signInWithGoogle(account, ::onGoogleSignInFailed, ::navigateToOverview)
+        if (requestCode != RC_SIGN_IN) return
+
+        val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
+
+        try {
+
+            val account = task.getResult(ApiException::class.java) ?: return
+            viewModel.signInWithGoogle(account, ::onGoogleSignInFailed, ::navigateToOverview)
+        } catch (e: ApiException) {
+
+            when (e.statusCode) {
+                SIGN_IN_CANCELLED -> Log.d(TAG, "Sign in was cancelled by user")
+                NETWORK_ERROR -> snackbar(R.string.check_connection)
+
+                else -> {
+                    Log.w(TAG, "Google sign in failed", e)
+                    snackbar(R.string.try_again)
+                }
+            }
+        }
     }
 
     private fun onGoogleSignInFailed(exception: Exception) {
-
         Log.w(TAG, "Google sign in failed", exception)
         snackbar(R.string.try_again)
     }
@@ -159,7 +143,6 @@ class SignInFragment : AuthFragment() {
             is FirebaseNetworkException -> snackbar(R.string.check_connection)
 
             else -> {
-
                 Log.w(TAG, "Sign in failed", exception)
                 snackbar(R.string.try_again)
             }

@@ -27,6 +27,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/email"
                 app:error="@{viewModel.emailError}">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -34,7 +35,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:text="@={viewModel.email}"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +43,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/password"
+                app:endIconMode="password_toggle"
                 app:error="@{viewModel.passwordError}">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -50,11 +52,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:hint="@string/password"
                     android:inputType="textPassword"
                     android:text="@={viewModel.password}"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:onEnterPressed="@{() -> viewModel.triggerSignUp()}" />
+                    app:onEnterPressed="@{() -> viewModel.signUp()}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -72,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:enabled="@{!viewModel.isLoading}"
-                    android:onClick="@{() -> viewModel.triggerSignUp()}"
+                    android:onClick="@{() -> viewModel.signUp()}"
                     android:text="@string/sign_up_button" />
             </LinearLayout>
         </LinearLayout>

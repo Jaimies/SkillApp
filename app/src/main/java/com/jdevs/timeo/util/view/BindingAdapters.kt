@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.textfield.TextInputLayout
 import com.jdevs.timeo.R
 import com.jdevs.timeo.ui.common.TimeFormatter
 import com.jdevs.timeo.util.charts.ChartData
@@ -31,16 +30,12 @@ fun View.visible(value: Boolean) {
 }
 
 @BindingAdapter("android:onClick")
-fun SignInButton.setOnClickListener(block: Runnable) {
-
-    setOnClickListener { block.run() }
-}
+fun SignInButton.setOnClickListener(onClick: Runnable) = setOnClickListener { onClick.run() }
 
 @BindingAdapter("onEnterPressed")
 fun EditText.setOnEnterPressedListener(block: Runnable) {
 
     setOnEditorActionListener { _, _, _ ->
-
         block.run()
         true
     }
@@ -54,7 +49,6 @@ fun TabLayout.setupWithViewPager(viewPager: ViewPager2, @ArrayRes itemsResId: In
 
 @BindingAdapter("entries")
 fun AutoCompleteTextView.setEntries(entries: List<Any>?) {
-
     if (entries == null) return
     setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, entries))
 }
@@ -103,26 +97,4 @@ fun LineChart.setData(data: ChartData?) {
 
     notifyDataSetChanged()
     invalidate()
-}
-
-@BindingAdapter("error")
-fun TextInputLayout.setRemovableError(error: String?) {
-
-    if (error.isNullOrEmpty()) {
-
-        isErrorEnabled = false
-        return
-    }
-
-    if (error == this.error) {
-        return
-    }
-
-    this.error = error
-    editText?.run {
-
-        requestFocus()
-        setSelection(length())
-        doOnceAfterTextChanged { isErrorEnabled = false }
-    }
 }

@@ -15,19 +15,11 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
         password: String,
         onFailure: (Exception) -> Unit = {},
         onSuccess: () -> Unit = {}
-    ) {
+    ) = launchSuspendingProcess(onFailure, onSuccess) {
 
-        launchSuspendingProcess(onFailure, onSuccess) {
-
-            signUpUseCase.invoke(email, password)
-        }
+        signUpUseCase.invoke(email, password)
     }
 
-    fun triggerSignUp() {
-
-        signUp.call()
-        hideKeyboard()
-    }
-
+    fun signUp() = signUp.call()
     fun navigateToSignIn() = navigateToSignIn.call()
 }

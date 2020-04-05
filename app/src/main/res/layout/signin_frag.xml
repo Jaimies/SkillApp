@@ -27,6 +27,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/email"
                 app:error="@{viewModel.emailError}">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -34,7 +35,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:text="@={viewModel.email}"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +43,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/password"
+                app:endIconMode="password_toggle"
                 app:error="@{viewModel.passwordError}">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -50,11 +52,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:hint="@string/password"
                     android:inputType="textPassword"
                     android:text="@={viewModel.password}"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:onEnterPressed="@{() -> viewModel.triggerSignIn()}" />
+                    app:onEnterPressed="@{() -> viewModel.signIn()}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -71,13 +72,13 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewModel.triggerSignIn()}"
+                    android:onClick="@{() -> viewModel.signIn()}"
                     android:text="@string/sign_in_button" />
 
                 <com.google.android.gms.common.SignInButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewModel.showGoogleSignInIntent()}" />
+                    android:onClick="@{() -> viewModel.showGoogleSignIn()}" />
             </LinearLayout>
         </LinearLayout>
 

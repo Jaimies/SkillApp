@@ -13,7 +13,6 @@ import com.jdevs.timeo.data.DAY_STATS_COLLECTION
 import com.jdevs.timeo.data.MONTH_STATS_COLLECTION
 import com.jdevs.timeo.data.RECENT_RECORDS
 import com.jdevs.timeo.data.RECORDS_COLLECTION
-import com.jdevs.timeo.data.TIME
 import com.jdevs.timeo.data.TIMESTAMP
 import com.jdevs.timeo.data.TOTAL_TIME
 import com.jdevs.timeo.data.WEEK_STATS_COLLECTION
@@ -63,7 +62,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
         db.runBatchSuspend { batch ->
 
-            batch.updateStats(record.creationDate, record.time)
+            batch.updateStats(record, false)
             batch.set(newRecordRef, record.mapToFirestore())
             batch.incrementActivityTime(record.activityId, record.time)
         }
@@ -73,7 +72,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
         db.runBatchSuspend { batch ->
 
-            batch.updateStats(record.creationDate, -record.time)
+            batch.updateStats(record, true)
             batch.delete(recordsRef.document(record.id))
             batch.incrementActivityTime(record.activityId, -record.time)
         }
@@ -104,10 +103,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
             else -> return
         }
 
-        val updates = mutableMapOf(
-            TOTAL_TIME to increment(time),
-            RECENT_RECORDS to newRecords
-        )
+        val updates = mutableMapOf(TOTAL_TIME to increment(time), RECENT_RECORDS to newRecords)
 
         handleSubactivities(updates, activity, time, subActivityId)
         update(activityRef, updates)
@@ -140,19 +136,25 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         }
     }
 
-    private fun WriteBatch.updateStats(creationDate: OffsetDateTime, time: Int) {
+    private fun WriteBatch.updateStats(record: Record, decrease: Boolean) {
+
+        val timeIncrement = increment(if (decrease) -record.time else record.time)
 
         fun DocumentReference.updateStats() {
-            set(this, hashMapOf(TIME to increment(time), DAY to id.toInt()), SetOptions.merge())
+            set(
+                this, mapOf(
+                    TOTAL_TIME to timeIncrement, DAY to id.toInt(),
+                    "activityTimes" to mapOf(record.activityId to timeIncrement)
+                ), SetOptions.merge()
+            )
         }
 
-        dayStatsRef.document(creationDate.daysSinceEpoch.toString()).updateStats()
-        weekStatsRef.document(creationDate.weeksSinceEpoch.toString()).updateStats()
-        monthStatsRef.document(creationDate.monthSinceEpoch.toString()).updateStats()
+        dayStatsRef.document(record.creationDate.daysSinceEpoch.toString()).updateStats()
+        weekStatsRef.document(record.creationDate.weeksSinceEpoch.toString()).updateStats()
+        monthStatsRef.document(record.creationDate.monthSinceEpoch.toString()).updateStats()
     }
 
     override fun resetRefs(uid: String) {
-
         recordsRef = createRef(uid, RECORDS_COLLECTION, recordsWatcher)
         activitiesRef = createRef(uid, ACTIVITIES_COLLECTION)
         dayStatsRef = createRef(uid, DAY_STATS_COLLECTION)

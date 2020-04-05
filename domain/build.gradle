@@ -45,6 +45,8 @@ dependencies {
     // Paging
     implementation "androidx.paging:paging-runtime:$Versions.paging"
 
+    implementation project(':shared')
+
     // java.time.* backport for Android
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
 

@@ -24,16 +24,15 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     FirestoreListDataSource(authRepository),
     StatsRemoteDataSource {
 
-    override val dayStats get() = dayStatsRef.watch(FirestoreDayStats::mapToDomain) { daysSinceEpoch }
-    override val weekStats get() = weekStatsRef.watch(FirestoreWeekStats::mapToDomain) { weeksSinceEpoch }
-    override val monthStats get() = monthStatsRef.watch(FirestoreMonthStats::mapToDomain) { monthSinceEpoch }
+    override val dayStats get() = dayStatsRef.watch(FirestoreStats::toDayStats) { daysSinceEpoch }
+    override val weekStats get() = weekStatsRef.watch(FirestoreStats::toWeekStats) { weeksSinceEpoch }
+    override val monthStats get() = monthStatsRef.watch(FirestoreStats::toMonthStats) { monthSinceEpoch }
 
     private var dayStatsRef: CollectionReference by SafeAccess()
     private var weekStatsRef: CollectionReference by SafeAccess()
     private var monthStatsRef: CollectionReference by SafeAccess()
 
     override fun resetRefs(uid: String) {
-
         dayStatsRef = createRef(uid, DAY_STATS_COLLECTION)
         weekStatsRef = createRef(uid, WEEK_STATS_COLLECTION)
         monthStatsRef = createRef(uid, MONTH_STATS_COLLECTION)

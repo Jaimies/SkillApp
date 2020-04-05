@@ -2,9 +2,9 @@ package com.jdevs.timeo.util.charts
 
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.jdevs.timeo.domain.model.DayStats
-import com.jdevs.timeo.domain.model.MonthStats
-import com.jdevs.timeo.domain.model.WeekStats
+import com.jdevs.timeo.domain.model.ActivityDayStats
+import com.jdevs.timeo.domain.model.ActivityMonthStats
+import com.jdevs.timeo.domain.model.ActivityWeekStats
 import com.jdevs.timeo.shared.util.WEEK_DAYS
 import com.jdevs.timeo.util.time.getHours
 import org.threeten.bp.OffsetDateTime
@@ -43,9 +43,9 @@ inline fun List<ChartItem>.toChartData(
 data class ChartItem(val period: Int, val time: Int)
 class ChartData(val entries: List<Entry>?, val formatter: ValueFormatter)
 
-fun DayStats.toChartItem() = ChartItem(day, time)
-fun WeekStats.toChartItem() = ChartItem(week, time)
-fun MonthStats.toChartItem() = ChartItem(month, time)
+fun ActivityDayStats.toChartItem() = ChartItem(day, time)
+fun ActivityWeekStats.toChartItem() = ChartItem(week, time)
+fun ActivityMonthStats.toChartItem() = ChartItem(month, time)
 
 const val HOURS_BREAKPOINT = 4
 private const val HOURS_DIVIDER = 3

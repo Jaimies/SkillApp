@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.domain.model.DayStats
-import com.jdevs.timeo.domain.model.MonthStats
+import com.jdevs.timeo.domain.model.ActivityDayStats
+import com.jdevs.timeo.domain.model.ActivityMonthStats
+import com.jdevs.timeo.domain.model.ActivityWeekStats
 import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.domain.model.WeekStats
 import com.jdevs.timeo.domain.usecase.activities.GetActivityByIdUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.domain.usecase.stats.GetStatsUseCase
@@ -37,19 +37,25 @@ class ActivityDetailViewModel @Inject constructor(
     getStats: GetStatsUseCase
 ) : ViewModel() {
 
-    val dayStats = getStats.dayStats.map {
-        it.map(DayStats::toChartItem)
-            .toChartData(OffsetDateTime::minusDays, { daysSinceEpoch }, WeekDayFormatter())
+    val dayStats by lazy {
+        getStats.getDayStats(activityId).map {
+            it.map(ActivityDayStats::toChartItem)
+                .toChartData(OffsetDateTime::minusDays, { daysSinceEpoch }, WeekDayFormatter())
+        }
     }
 
-    val weekStats = getStats.weekStats.map {
-        it.map(WeekStats::toChartItem)
-            .toChartData(OffsetDateTime::minusWeeks, { weeksSinceEpoch }, YearWeekFormatter())
+    val weekStats by lazy {
+        getStats.getWeekStats(activityId).map {
+            it.map(ActivityWeekStats::toChartItem)
+                .toChartData(OffsetDateTime::minusWeeks, { weeksSinceEpoch }, YearWeekFormatter())
+        }
     }
 
-    val monthStats = getStats.monthStats.map {
-        it.map(MonthStats::toChartItem)
-            .toChartData(OffsetDateTime::minusMonths, { monthSinceEpoch }, YearMonthFormatter())
+    val monthStats by lazy {
+        getStats.getMonthStats(activityId).map {
+            it.map(ActivityMonthStats::toChartItem)
+                .toChartData(OffsetDateTime::minusMonths, { monthSinceEpoch }, YearMonthFormatter())
+        }
     }
 
     val showRecordDialog = SingleLiveEvent<Any>()
@@ -58,14 +64,14 @@ class ActivityDetailViewModel @Inject constructor(
     val state: LiveData<ActivityDetailState> get() = _state
     private val _state = MutableLiveData<ActivityDetailState>()
     lateinit var activity: LiveData<ActivityItem>
+    private var activityId = ""
 
     fun setupActivityLiveData(id: String) {
-
+        activityId = id
         this.activity = getActivityById(id).map(Activity::mapToPresentation)
     }
 
     fun addRecord(activityId: String, activityName: String, time: Int) = launchCoroutine {
-
         val record = Record(name = activityName, time = time, activityId = activityId)
         addRecord(record)
     }
@@ -79,7 +85,6 @@ class ActivityDetailViewModel @Inject constructor(
     fun navigateToParentActivity() = navigateToParentActivity.call()
 
     class ActivityDetailState(activity: ActivityItem) : ActivityState(activity) {
-
         val avgWeekTime = getAvgWeekHours(activity.totalTime, activity.creationDate)
         val lastWeekTime = getFriendlyHours(activity.lastWeekTime)
         val daysSpent = activity.creationDate.getDaysSpentSince().toString()

@@ -6,7 +6,6 @@ const val NAME = "name"
 const val ACTIVITY_ID = "activityId"
 const val TOTAL_TIME = "totalTime"
 const val RECENT_RECORDS = "recentRecords"
-const val TIME = "time"
 
 const val ACTIVITIES_COLLECTION = "activities"
 const val RECORDS_COLLECTION = "records"

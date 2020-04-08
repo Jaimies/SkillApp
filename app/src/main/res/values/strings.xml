@@ -83,4 +83,5 @@
     <string name="invalid_activity_error">Please choose an item from the list</string>
     <string name="subactivities">Subactivities:</string>
     <string name="subactivity_none" />
+    <string name="user_account_disabled">This user account is disabled</string>
 </resources>

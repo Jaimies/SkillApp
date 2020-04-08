@@ -100,9 +100,8 @@ dependencies {
     implementation project(':shared')
     implementation project(':lib')
 
-    // Room and Firebase
+    // Room and Firestore
     implementation "androidx.room:room-ktx:$Versions.room"
-    implementation "com.google.firebase:firebase-auth:$Versions.auth"
     implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
 
     // Fragment and Lifecycle extensions

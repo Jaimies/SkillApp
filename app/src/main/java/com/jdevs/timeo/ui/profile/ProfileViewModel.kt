@@ -10,20 +10,16 @@ import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
     private val signOutUseCase: SignOutUseCase,
-    getAuthState: GetAuthStateUseCase
+    authState: GetAuthStateUseCase
 ) : ViewModel() {
 
     val isSignedIn get() = _isSignedIn as LiveData<Boolean>
-    private val _isSignedIn = MutableLiveData(getAuthState.isUserSignedIn)
+    private val _isSignedIn = MutableLiveData(authState.isUserSignedIn)
 
     val navigateToSignIn = SingleLiveEvent<Any>()
     val signOut = SingleLiveEvent<Any>()
 
-    fun signOut() {
-
-        signOutUseCase.invoke()
-        _isSignedIn.value = false
-    }
+    fun signOut() = signOutUseCase.invoke()
 
     fun triggerSignOut() = signOut.call()
     fun navigateToSignIn() = navigateToSignIn.call()

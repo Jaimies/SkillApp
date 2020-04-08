@@ -1,7 +1,6 @@
 package com.jdevs.timeo.ui.common
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
@@ -12,12 +11,10 @@ import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.model.OperationItem
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.shared.OperationType.ADDED
-import com.jdevs.timeo.shared.OperationType.FAILED
 import com.jdevs.timeo.shared.OperationType.LAST_ITEM_REACHED
 import com.jdevs.timeo.shared.OperationType.MODIFIED
 import com.jdevs.timeo.shared.OperationType.REMOVED
 import com.jdevs.timeo.shared.OperationType.SUCCESSFUL
-import com.jdevs.timeo.shared.util.TAG
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
@@ -77,7 +74,6 @@ abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
                 }
 
                 LAST_ITEM_REACHED -> firestoreAdapter.hideLoader()
-                FAILED -> Log.w(TAG, "Failed to get data from Firestore", operation.exception)
             }
         }
     }

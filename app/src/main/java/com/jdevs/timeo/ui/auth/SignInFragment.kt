@@ -3,7 +3,6 @@ package com.jdevs.timeo.ui.auth
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,22 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.SIGN_IN_CANCELLED
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.CommonStatusCodes.NETWORK_ERROR
-import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SigninFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
-import com.jdevs.timeo.shared.util.TAG
-import com.jdevs.timeo.util.EMPTY
+import com.jdevs.timeo.domain.model.result.GoogleSignInResult
+import com.jdevs.timeo.domain.model.result.SignInResult
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.snackbar
 import com.jdevs.timeo.util.hardware.hasNetworkConnection
-import com.jdevs.timeo.util.validatePassword
 import javax.inject.Inject
 
 private const val RC_SIGN_IN = 0
@@ -88,19 +80,19 @@ class SignInFragment : AuthFragment() {
         when {
             !(checkEmail(email) and checkPassword(password)) -> return
             !requireContext().hasNetworkConnection -> snackbar(R.string.check_connection)
-            else -> viewModel.signIn(email, password, ::handleException, ::navigateToOverview)
+            else -> viewModel.signIn(email, password, ::onSignInResult)
         }
     }
 
     private fun checkPassword(password: String): Boolean {
 
-        return if (validatePassword(password) == EMPTY) {
+        if (password.isEmpty()) {
             passwordError = R.string.password_empty
-            false
-        } else {
-            viewModel.passwordError.value = ""
-            true
+            return false
         }
+
+        viewModel.passwordError.value = ""
+        return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -108,44 +100,21 @@ class SignInFragment : AuthFragment() {
         if (requestCode != RC_SIGN_IN) return
 
         val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
-
-        try {
-
-            val account = task.getResult(ApiException::class.java) ?: return
-            viewModel.signInWithGoogle(account, ::onGoogleSignInFailed, ::navigateToOverview)
-        } catch (e: ApiException) {
-
-            when (e.statusCode) {
-                SIGN_IN_CANCELLED -> Log.d(TAG, "Sign in was cancelled by user")
-                NETWORK_ERROR -> snackbar(R.string.check_connection)
-
-                else -> {
-                    Log.w(TAG, "Google sign in failed", e)
-                    snackbar(R.string.try_again)
-                }
-            }
-        }
+        viewModel.signInWithGoogle(task, ::onGoogleSignInResult)
     }
 
-    private fun onGoogleSignInFailed(exception: Exception) {
-        Log.w(TAG, "Google sign in failed", exception)
-        snackbar(R.string.try_again)
+    private fun onSignInResult(result: SignInResult) = when (result) {
+        SignInResult.Success -> navigateToOverview()
+        SignInResult.NoSuchUser -> emailError = R.string.user_does_not_exist
+        SignInResult.IncorrectPassword -> passwordError = R.string.password_incorrect
+        SignInResult.InternalError -> snackbar(R.string.try_again)
     }
 
-    private fun handleException(exception: Exception) {
-
-        when (exception) {
-
-            is FirebaseAuthInvalidCredentialsException -> passwordError =
-                R.string.password_incorrect
-
-            is FirebaseAuthInvalidUserException -> emailError = R.string.user_does_not_exist
-            is FirebaseNetworkException -> snackbar(R.string.check_connection)
-
-            else -> {
-                Log.w(TAG, "Sign in failed", exception)
-                snackbar(R.string.try_again)
-            }
-        }
+    private fun onGoogleSignInResult(result: GoogleSignInResult) = when (result) {
+        GoogleSignInResult.Success -> navigateToOverview()
+        GoogleSignInResult.UserAccountDisabled -> snackbar(R.string.user_account_disabled)
+        GoogleSignInResult.NetworkFailure -> snackbar(R.string.check_connection)
+        GoogleSignInResult.InternalError -> snackbar(R.string.try_again)
+        GoogleSignInResult.Cancelled -> Unit
     }
 }

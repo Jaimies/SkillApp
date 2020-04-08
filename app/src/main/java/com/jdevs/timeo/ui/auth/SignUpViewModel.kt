@@ -1,5 +1,6 @@
 package com.jdevs.timeo.ui.auth
 
+import com.jdevs.timeo.domain.model.result.SignUpResult
 import com.jdevs.timeo.domain.usecase.auth.SignUpUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import javax.inject.Inject
@@ -11,13 +12,11 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     val navigateToSignIn = SingleLiveEvent<Any>()
 
     fun createAccount(
-        email: String,
-        password: String,
-        onFailure: (Exception) -> Unit = {},
-        onSuccess: () -> Unit = {}
-    ) = launchSuspendingProcess(onFailure, onSuccess) {
+        email: String, password: String,
+        onResult: (SignUpResult) -> Unit
+    ) = launchSuspendingProcess(onResult, { result -> result == SignUpResult.Success }) {
 
-        signUpUseCase.invoke(email, password)
+        signUpUseCase(email, password)
     }
 
     fun signUp() = signUp.call()

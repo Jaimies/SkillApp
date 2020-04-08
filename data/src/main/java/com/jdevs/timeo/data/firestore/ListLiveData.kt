@@ -1,5 +1,6 @@
 package com.jdevs.timeo.data.firestore
 
+import android.util.Log
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
@@ -8,7 +9,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.shared.OperationType.ADDED
-import com.jdevs.timeo.shared.OperationType.FAILED
 import com.jdevs.timeo.shared.OperationType.LAST_ITEM_REACHED
 import com.jdevs.timeo.shared.OperationType.MODIFIED
 import com.jdevs.timeo.shared.OperationType.REMOVED
@@ -29,7 +29,7 @@ class ListLiveData<T : Any, O : Any>(
 
         if (exception != null || querySnapshot == null) {
 
-            value = Operation(exception = exception, type = FAILED)
+            Log.w(TAG, "Firestore data update failed", exception)
             return
         }
 
@@ -63,5 +63,9 @@ class ListLiveData<T : Any, O : Any>(
         }
 
         value = Operation(mapFunction(item), type = operationType)
+    }
+
+    companion object {
+        const val TAG = "ListLiveData"
     }
 }

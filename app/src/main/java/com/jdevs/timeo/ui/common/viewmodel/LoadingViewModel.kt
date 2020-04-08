@@ -19,32 +19,13 @@ open class LoadingViewModel(isLoadingByDefault: Boolean = false) : KeyboardHidin
         _isLoading.value = false
     }
 
-    @Suppress("TooGenericExceptionCaught")
-    inline fun launchSuspendingProcess(
-        crossinline onFailure: (Exception) -> Unit = {},
-        crossinline onSuccess: () -> Unit = {},
-        crossinline block: suspend () -> Unit
-    ) {
-
+    inline fun <TResult : Any> launchSuspendingProcess(
+        crossinline onResult: (TResult) -> Unit,
+        crossinline isSuccess: (TResult) -> Boolean,
+        crossinline block: suspend () -> TResult
+    ) = launchCoroutine {
         showLoader()
-        var isSuccessful = false
-
-        launchCoroutine {
-
-            try {
-
-                block()
-                onSuccess()
-                isSuccessful = true
-            } catch (exception: Exception) {
-
-                onFailure(exception)
-            } finally {
-
-                if (!isSuccessful) {
-                    hideLoader()
-                }
-            }
-        }
+        val result = block().also { onResult(it) }
+        if (!isSuccess(result)) hideLoader()
     }
 }

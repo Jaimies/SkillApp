@@ -2,19 +2,15 @@ package com.jdevs.timeo.ui.auth
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.SignupFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
-import com.jdevs.timeo.shared.util.TAG
+import com.jdevs.timeo.domain.model.result.SignUpResult
 import com.jdevs.timeo.util.EMPTY
 import com.jdevs.timeo.util.TOO_LONG
 import com.jdevs.timeo.util.TOO_SHORT
@@ -69,8 +65,7 @@ class SignUpFragment : AuthFragment() {
             !(checkEmail(email) and checkPassword(password)) -> return
             !requireContext().hasNetworkConnection -> snackbar(R.string.check_connection)
 
-            else ->
-                viewModel.createAccount(email, password, ::handleException, ::navigateToOverview)
+            else -> viewModel.createAccount(email, password, ::onSignUpResult)
         }
     }
 
@@ -89,16 +84,11 @@ class SignUpFragment : AuthFragment() {
         return false
     }
 
-    private fun handleException(exception: Exception?) {
-        when (exception) {
-            is FirebaseAuthWeakPasswordException -> passwordError = R.string.password_too_weak
-            is FirebaseAuthUserCollisionException -> emailError = R.string.user_already_exists
-            is FirebaseAuthInvalidCredentialsException -> emailError = R.string.email_invalid
-
-            else -> {
-                Log.w(TAG, "Failed to sign up", exception)
-                snackbar(R.string.try_again)
-            }
-        }
+    private fun onSignUpResult(result: SignUpResult) = when (result) {
+        SignUpResult.Success -> navigateToOverview()
+        SignUpResult.InvalidEmail -> emailError = R.string.email_invalid
+        SignUpResult.WeakPassword -> passwordError = R.string.password_too_weak
+        SignUpResult.UserAlreadyExists -> emailError = R.string.user_already_exists
+        SignUpResult.InternalError -> snackbar(R.string.try_again)
     }
 }

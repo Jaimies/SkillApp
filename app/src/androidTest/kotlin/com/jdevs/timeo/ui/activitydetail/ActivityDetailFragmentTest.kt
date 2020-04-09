@@ -9,13 +9,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.FakeActivitiesRepository
-import com.jdevs.timeo.model.mapToPresentation
+import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.util.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -27,25 +28,20 @@ class ActivityDetailFragmentTest {
     lateinit var repository: FakeActivitiesRepository
 
     init {
-
         testAppComponent.inject(this)
     }
 
     @Before
-    fun setup() {
-
-        repository.reset()
-    }
+    fun setup() = repository.reset()
 
     @Test
     fun showTaskDetails_displayedInUi() = runBlockingTest {
 
         // GIVEN - Add an activity to the database
-        repository.addActivity("Activity name")
-        val activity = repository.getActivityById("0").value!!.mapToPresentation()
+        repository.addActivity(Activity("", "Activity name", 0, 0, OffsetDateTime.now(), null))
 
         // WHEN - The fragment is launched to display task details
-        val bundle = ActivityDetailFragmentArgs(activity).toBundle()
+        val bundle = ActivityDetailFragmentArgs("0").toBundle()
         launchFragmentInContainer<ActivityDetailFragment>(bundle, R.style.Theme_Timeo)
 
         // THEN - Activity details are displayed on the screen

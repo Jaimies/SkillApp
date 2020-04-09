@@ -16,7 +16,7 @@ import androidx.test.filters.MediumTest
 import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.data.FakeActivitiesRepository
-import com.jdevs.timeo.model.mapToPresentation
+import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.util.navigateAnimated
 import com.jdevs.timeo.util.testAppComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,6 +26,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
+import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -37,20 +38,16 @@ class ActivitiesFragmentTest {
     lateinit var repository: FakeActivitiesRepository
 
     init {
-
         testAppComponent.inject(this)
     }
 
     @Before
-    fun setup() {
-
-        repository.reset()
-    }
+    fun setup() = repository.reset()
 
     @Test
     fun clickActivity_goToDetailFragment() = runBlockingTest {
 
-        repository.addActivity("Activity name")
+        repository.addActivity(Activity("", "Activity name", 0, 0, OffsetDateTime.now(), null))
 
         // GIVEN - On the activities list screen
         val scenario = launchFragmentInContainer<ActivitiesFragment>(Bundle(), R.style.Theme_Timeo)
@@ -67,10 +64,8 @@ class ActivitiesFragmentTest {
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
 
         // THEN - Verify that we navigate to the first detail screen
-
-        val activity = repository.getActivityById("0").value!!.mapToPresentation()
         verify(navController).navigateAnimated(
-            OverviewDirections.actionToActivityDetailFragment(activity)
+            OverviewDirections.actionToActivityDetailFragment("0")
         )
     }
 

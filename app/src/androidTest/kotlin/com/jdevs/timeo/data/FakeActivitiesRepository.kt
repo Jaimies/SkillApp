@@ -1,12 +1,12 @@
 package com.jdevs.timeo.data
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.ActivitiesRepository
 import com.jdevs.timeo.util.ListDataSource
 import com.jdevs.timeo.util.createLiveData
-import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,16 +16,20 @@ class FakeActivitiesRepository @Inject constructor() : ActivitiesRepository {
     private val activityList = mutableListOf<Activity>()
     override val activities = ListDataSource.Factory(activityList)
 
+    override val topActivities get() = MutableLiveData(activityList.toList())
+
+    override fun getTopLevelActivitiesFromCache(activityIdToExclude: String): LiveData<List<Activity>> {
+        return MutableLiveData(activityList.filterNot { it.id == activityIdToExclude })
+    }
+
     override fun getRemoteActivities(fetchNewItems: Boolean) =
         listOf(createLiveData<Operation<Activity>>())
 
-    override suspend fun addActivity(name: String) {
+    override suspend fun addActivity(activity: Activity) {
 
-        activityList.add(Activity(activityList.size.toString(), name, 0, 0, OffsetDateTime.now()))
+        activityList.add(activity.copy(id = activityList.size.toString()))
         notifyObservers()
     }
-
-    override val topActivities get() = MutableLiveData(activityList.toList())
 
     override fun getActivityById(id: String) = MutableLiveData(activityList.single { it.id == id })
 

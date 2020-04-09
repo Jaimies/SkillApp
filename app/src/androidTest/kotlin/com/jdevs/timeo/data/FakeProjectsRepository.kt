@@ -45,11 +45,5 @@ class FakeProjectsRepository @Inject constructor() : ProjectsRepository {
         projectsList.replaceAll { if (it.id != project.id) it else project }
     }
 
-    fun reset() {
-
-        projectsList.clear()
-        notifyObservers()
-    }
-
     private fun notifyObservers() = projects
 }

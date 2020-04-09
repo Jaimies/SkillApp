@@ -32,10 +32,7 @@ class HistoryFragmentTest {
     }
 
     @Before
-    fun setup() {
-
-        repository.reset()
-    }
+    fun setup() = repository.reset()
 
     @Test
     fun showRecords_hasNoRecords_displaysEmptyListLayout() {

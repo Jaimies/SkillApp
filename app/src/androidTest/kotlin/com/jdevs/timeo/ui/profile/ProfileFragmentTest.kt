@@ -32,7 +32,6 @@ class ProfileFragmentTest {
     lateinit var fakeAuthRepository: FakeAuthRepository
 
     init {
-
         testAppComponent.inject(this)
     }
 

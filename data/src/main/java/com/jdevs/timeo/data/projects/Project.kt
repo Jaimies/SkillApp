@@ -4,13 +4,13 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.Recordable
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.shared.util.toDate
 import com.jdevs.timeo.shared.util.toOffsetDate
 import org.threeten.bp.OffsetDateTime
+import java.util.Calendar
 import java.util.Date
 
 @Entity(tableName = "projects")
@@ -32,8 +32,7 @@ data class FirestoreProject(
     val description: String = "",
     val totalTime: Int = 0,
     override val recentRecords: List<RecordMinimal> = emptyList(),
-    @ServerTimestamp
-    val timestamp: Date? = null
+    val timestamp: Date = Calendar.getInstance().time
 ) : Recordable()
 
 fun Project.mapToFirestore() =

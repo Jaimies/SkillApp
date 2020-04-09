@@ -6,12 +6,12 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.activities.DBActivity
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.shared.util.toDate
 import com.jdevs.timeo.shared.util.toOffsetDate
 import org.threeten.bp.OffsetDateTime
+import java.util.Calendar
 import java.util.Date
 
 @Entity(
@@ -40,8 +40,7 @@ data class FirestoreRecord(
     val name: String = "",
     val time: Int = 0,
     val activityId: String = "",
-    @ServerTimestamp
-    val timestamp: Date? = null
+    val timestamp: Date = Calendar.getInstance().time
 )
 
 fun FirestoreRecord.mapToDomain() =

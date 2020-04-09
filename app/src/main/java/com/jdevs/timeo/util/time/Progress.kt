@@ -12,8 +12,4 @@ fun getAvgWeekHours(time: Int, startedAt: OffsetDateTime): String {
     return getFriendlyHours(avgMins)
 }
 
-fun OffsetDateTime.getDaysSpentSince(): Long {
-
-    val daysDiff = daysAgo
-    return if (daysDiff > 0) daysDiff + 1 else 1
-}
+fun OffsetDateTime.getDaysSpentSince() = daysAgo.coerceAtLeast(0) + 1

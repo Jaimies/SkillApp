@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
-import com.google.firebase.firestore.ServerTimestamp
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.firestore.Recordable
 import com.jdevs.timeo.domain.model.Activity
@@ -13,6 +12,7 @@ import com.jdevs.timeo.domain.model.ActivityMinimal
 import com.jdevs.timeo.shared.util.toDate
 import com.jdevs.timeo.shared.util.toOffsetDate
 import org.threeten.bp.OffsetDateTime
+import java.util.Calendar
 import java.util.Date
 
 @Entity(tableName = "activities")
@@ -36,8 +36,7 @@ data class FirestoreActivity(
     val subActivities: List<FirestoreActivityMinimal> = emptyList(),
     @get:PropertyName("isTopLevel")
     val isTopLevel: Boolean = true,
-    @ServerTimestamp
-    val timestamp: Date? = null
+    val timestamp: Date = Calendar.getInstance().time
 ) : Recordable()
 
 fun DBActivity.mapToDomain() =

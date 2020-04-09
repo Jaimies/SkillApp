@@ -10,7 +10,6 @@ class FirestoreHistoryAdapter(delegateAdapter: DelegateAdapter) :
     FirestoreListAdapter(delegateAdapter) {
 
     init {
-
         delegateAdapters.put(DATE_LABEL, DateLabelDelegateAdapter())
     }
 
@@ -19,7 +18,7 @@ class FirestoreHistoryAdapter(delegateAdapter: DelegateAdapter) :
         item as RecordItem
         val lastItem = items.lastOrNull { it is RecordItem } as RecordItem?
 
-        if (dataItemCount == 0 || lastItem?.creationDate.isDateAfter(item.creationDate)) {
+        if (dataItemCount == 0 || lastItem?.creationDate?.isDateAfter(item.creationDate) == true) {
 
             items += DateLabel(item.creationDate.toLocalDate())
             notifyItemInserted(items.lastIndex)

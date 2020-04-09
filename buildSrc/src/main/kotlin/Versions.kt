@@ -57,6 +57,8 @@ object Versions {
 
     // Test
     const val junit = "4.12"
+    const val junitJupiter = "5.6.1"
+    const val spek = "2.0.10"
     const val hamcrest = "1.3"
 
     // Android Test

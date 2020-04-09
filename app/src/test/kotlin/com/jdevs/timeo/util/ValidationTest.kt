@@ -2,52 +2,48 @@ package com.jdevs.timeo.util
 
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Test
+import org.spekframework.spek2.Spek
+import org.spekframework.spek2.style.specification.describe
 
-class ValidationTest {
+class ValidationTest : Spek({
 
-    @Test
-    fun validatePassword_valid() {
+    group("password validation") {
 
-        assertThat(validatePassword("complex_passWord1234"), `is`(VALID))
+        describe("valid password") {
+            assertThat(validatePassword("complex_passWord1234"), `is`(VALID))
+        }
+
+        describe("empty password") {
+            assertThat(validatePassword(""), `is`(EMPTY))
+        }
+
+        describe("too short password") {
+            assertThat(validatePassword("short"), `is`(TOO_SHORT))
+        }
+
+        describe("too long password") {
+            val password = "tooLongPasswordThatExceedsTheMaximalLength"
+            assertThat(validatePassword(password), `is`(TOO_LONG))
+        }
     }
 
-    @Test
-    fun validatePassword_empty() {
+    group("email validation") {
 
-        assertThat(validatePassword(""), `is`(EMPTY))
+        describe("valid email") {
+            assertThat(validateEmail("john.doe@gmail.com"), `is`(VALID))
+        }
+
+        describe("empty email") {
+            assertThat(validateEmail(""), `is`(EMPTY))
+        }
+
+        describe("invalid emails") {
+
+            listOf("john.doe", "john@doe", "john").forEach {
+                it(""""$it" should be an invalid email""") {
+                    assertThat(validateEmail(it), `is`(INVALID))
+                }
+            }
+        }
     }
-
-    @Test
-    fun validatePassword_tooShort() {
-
-        assertThat(validatePassword("short"), `is`(TOO_SHORT))
-    }
-
-    @Test
-    fun validatePassword_tooLong() {
-
-        val password = "tooLongComplexPasswordThatExceedsTheMaximalLength"
-
-        assertThat(validatePassword(password), `is`(TOO_LONG))
-    }
-
-    @Test
-    fun validateEmail_valid() {
-
-        assertThat(validateEmail("john.doe@gmail.com"), `is`(VALID))
-    }
-
-    @Test
-    fun validateEmail_empty() {
-
-        assertThat(validateEmail(""), `is`(EMPTY))
-    }
-
-    @Test
-    fun validateEmail_invalid() {
-
-        assertThat(validateEmail("john.doe"), `is`(INVALID))
-        assertThat(validateEmail("john@doe"), `is`(INVALID))
-    }
-}
+})

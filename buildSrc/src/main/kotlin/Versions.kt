@@ -1,6 +1,6 @@
 @Suppress("unused")
 object Versions {
-    const val kotlin = "1.3.71"
+    const val kotlin = "1.3.72"
 
     // Core dependencies
     const val androidxCore = "1.2.0"
@@ -52,11 +52,10 @@ object Versions {
     const val dataBinding = "3.1.4"
 
     // Classpath
-    const val gradle = "3.6.2"
+    const val gradle = "4.0.0"
     const val gms = "4.3.3"
 
     // Test
-    const val junit = "4.12"
     const val junitJupiter = "5.6.1"
     const val spek = "2.0.10"
     const val hamcrest = "1.3"

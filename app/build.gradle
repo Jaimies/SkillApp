@@ -56,7 +56,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dataBinding.enabled = true
+    buildFeatures.dataBinding = true
 }
 
 detekt {

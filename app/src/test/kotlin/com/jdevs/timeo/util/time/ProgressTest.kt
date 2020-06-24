@@ -1,23 +1,19 @@
 package com.jdevs.timeo.util.time
 
 import com.jdevs.timeo.daysAgoDate
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Test
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 
-class ProgressTest {
-
-    @Test
-    fun getAvgWeekHours() {
-        assertThat(getAvgWeekHours(238, daysAgoDate(7)), `is`("2"))
-        assertThat(getAvgWeekHours(444, daysAgoDate(8)), `is`("3.7"))
+class ProgressTest : StringSpec({
+    "get avg week hours" {
+        getAvgWeekHours(238, daysAgoDate(7)) shouldBe "2"
+        getAvgWeekHours(444, daysAgoDate(8)) shouldBe "3.7"
     }
 
-    @Test
-    fun getDaysSpentSince() {
-        assertThat(daysAgoDate(1).getDaysSpentSince(), `is`(2L))
-        assertThat(daysAgoDate(7).getDaysSpentSince(), `is`(8L))
-        assertThat(daysAgoDate(0).getDaysSpentSince(), `is`(1L))
-        assertThat(daysAgoDate(-1).getDaysSpentSince(), `is`(1L))
+    "get days spent since" {
+        daysAgoDate(1).getDaysSpentSince() shouldBe 2L
+        daysAgoDate(7).getDaysSpentSince() shouldBe 8L
+        daysAgoDate(0).getDaysSpentSince() shouldBe 1L
+        daysAgoDate(-1).getDaysSpentSince() shouldBe 1L
     }
-}
+})

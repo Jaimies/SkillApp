@@ -144,7 +144,7 @@ dependencies {
     lintChecks project(':lint')
 
     // Test
-    testImplementation "junit:junit:$Versions.junit"
+    testImplementation 'io.kotest:kotest-runner-junit5-jvm:4.1.0'
     testImplementation "org.hamcrest:hamcrest-all:$Versions.hamcrest"
 
     // Android Test

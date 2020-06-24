@@ -1,45 +1,31 @@
 package com.jdevs.timeo.util
 
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Test
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.data.blocking.forAll
+import io.kotest.data.row
+import io.kotest.matchers.shouldBe
 
-class ValidationTest {
+class ValidationTest : StringSpec({
 
-    @Test
-    fun validatePassword_valid() {
-        assertThat(validatePassword("complex_passWord1234"), `is`(VALID))
+    "password validation" {
+        forAll(
+            row("complex_passWord1234", VALID),
+            row("", EMPTY),
+            row("short", TOO_SHORT),
+            row("tooLongComplexPasswordThatExceedsTheMaximalLength", TOO_LONG)
+        ) { password, expectedResult ->
+            validatePassword(password) shouldBe expectedResult
+        }
     }
 
-    @Test
-    fun validatePassword_empty() {
-        assertThat(validatePassword(""), `is`(EMPTY))
+    "email validation" {
+        forAll(
+            row("john.doe@gmail.com", VALID),
+            row("", EMPTY),
+            row("john.doe", INVALID),
+            row("john@doe", INVALID)
+        ) { email, expectedResult ->
+            validateEmail(email) shouldBe expectedResult
+        }
     }
-
-    @Test
-    fun validatePassword_tooShort() {
-        assertThat(validatePassword("short"), `is`(TOO_SHORT))
-    }
-
-    @Test
-    fun validatePassword_tooLong() {
-        val password = "tooLongComplexPasswordThatExceedsTheMaximalLength"
-        assertThat(validatePassword(password), `is`(TOO_LONG))
-    }
-
-    @Test
-    fun validateEmail_valid() {
-        assertThat(validateEmail("john.doe@gmail.com"), `is`(VALID))
-    }
-
-    @Test
-    fun validateEmail_empty() {
-        assertThat(validateEmail(""), `is`(EMPTY))
-    }
-
-    @Test
-    fun validateEmail_invalid() {
-        assertThat(validateEmail("john.doe"), `is`(INVALID))
-        assertThat(validateEmail("john@doe"), `is`(INVALID))
-    }
-}
+})

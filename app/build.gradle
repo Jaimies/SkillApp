@@ -144,11 +144,8 @@ dependencies {
     lintChecks project(':lint')
 
     // Test
-    testImplementation "org.junit.jupiter:junit-jupiter-api:$Versions.junitJupiter"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$Versions.junitJupiter"
+    testImplementation "junit:junit:$Versions.junit"
     testImplementation "org.hamcrest:hamcrest-all:$Versions.hamcrest"
-    testImplementation "org.spekframework.spek2:spek-dsl-jvm:$Versions.spek"
-    testImplementation "org.spekframework.spek2:spek-runner-junit5:$Versions.spek"
 
     // Android Test
     androidTestImplementation "androidx.test.ext:junit:$Versions.junitExt"

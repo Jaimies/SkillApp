@@ -56,8 +56,7 @@ object Versions {
     const val gms = "4.3.3"
 
     // Test
-    const val junitJupiter = "5.6.1"
-    const val spek = "2.0.10"
+    const val junit = "4.12"
     const val hamcrest = "1.3"
 
     // Android Test

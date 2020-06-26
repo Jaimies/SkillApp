@@ -1,7 +1,5 @@
 package com.jdevs.timeo.ui.auth
 
-import androidx.annotation.StringRes
-import androidx.lifecycle.LiveData
 import com.jdevs.timeo.R
 import com.jdevs.timeo.domain.model.result.SignUpResult
 import com.jdevs.timeo.domain.usecase.auth.SignUpUseCase
@@ -9,19 +7,12 @@ import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.util.PASSWORD_MAX_LENGTH
 import com.jdevs.timeo.util.PASSWORD_MIN_LENGTH
 import com.jdevs.timeo.util.hardware.NetworkUtils
-import com.jdevs.timeo.util.isValidEmail
 import javax.inject.Inject
 
 class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val networkUtils: NetworkUtils
 ) : AuthViewModel() {
-
-    val snackbar: LiveData<Int> get() = _snackbar
-    private val _snackbar = SingleLiveEvent<@StringRes Int>()
-
-    val navigateToOverview: LiveData<Any> get() = _navigateToOverview
-    private val _navigateToOverview = SingleLiveEvent<Any>()
 
     val navigateToSignIn = SingleLiveEvent<Any>()
 
@@ -45,20 +36,6 @@ class SignUpViewModel @Inject constructor(
             password.length > PASSWORD_MAX_LENGTH -> R.string.password_too_long
             else -> {
                 passwordError.value = -1
-                return true
-            }
-        }
-
-        return false
-    }
-
-    private fun checkEmail(email: String): Boolean {
-
-        emailError.value = when {
-            email.isBlank() -> R.string.email_empty
-            !isValidEmail(email) -> R.string.email_invalid
-            else -> {
-                emailError.value = -1
                 return true
             }
         }

@@ -12,7 +12,6 @@ import com.jdevs.timeo.databinding.SignupFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
-import com.jdevs.timeo.util.fragment.snackbar
 import javax.inject.Inject
 
 class SignUpFragment : AuthFragment() {
@@ -43,8 +42,6 @@ class SignUpFragment : AuthFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.snackbar, ::snackbar)
-        observe(viewModel.navigateToOverview) { navigateToOverview() }
         observe(viewModel.navigateToSignIn) {
             findNavController().navigate(R.id.action_signUpFragment_to_signInFragment)
         }

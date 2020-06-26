@@ -1,12 +1,12 @@
 package com.jdevs.timeo.ui.auth
 
 import androidx.annotation.StringRes
+import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.R
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.ui.common.viewmodel.LoadingViewModel
-import com.jdevs.timeo.util.isValidEmail
 
 abstract class AuthViewModel : LoadingViewModel() {
 
@@ -25,7 +25,7 @@ abstract class AuthViewModel : LoadingViewModel() {
 
         emailError.value = when {
             email.isBlank() -> R.string.email_empty
-            !isValidEmail(email) -> R.string.email_invalid
+            !EMAIL_ADDRESS.matcher(email).matches() -> R.string.email_invalid
             else -> {
                 emailError.value = -1
                 return true

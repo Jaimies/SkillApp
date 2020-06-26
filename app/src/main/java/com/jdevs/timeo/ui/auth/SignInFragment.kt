@@ -91,7 +91,7 @@ class SignInFragment : AuthFragment() {
             return false
         }
 
-        viewModel.passwordError.value = ""
+//        viewModel.passwordError.value = ""
         return true
     }
 

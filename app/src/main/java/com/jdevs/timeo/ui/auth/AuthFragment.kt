@@ -30,7 +30,7 @@ abstract class AuthFragment : Fragment() {
             EMPTY -> R.string.email_empty
             INVALID -> R.string.email_invalid
             else -> {
-                viewModel.emailError.value = ""
+//                viewModel.emailError.value = ""
                 return true
             }
         }
@@ -41,12 +41,12 @@ abstract class AuthFragment : Fragment() {
     var emailError: Int
         get() = -1
         set(@StringRes value) {
-            viewModel.emailError.value = getString(value)
+//            viewModel.emailError.value = getString(value)
         }
 
     var passwordError: Int
         get() = -1
         set(@StringRes value) {
-            viewModel.passwordError.value = getString(value)
+//            viewModel.passwordError.value = getString(value)
         }
 }

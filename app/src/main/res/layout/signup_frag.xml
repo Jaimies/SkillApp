@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="com.jdevs.timeo.ui.auth.SignUpViewModel" />
+
+        <import type="com.jdevs.timeo.util.view.StringUtil" />
     </data>
 
     <FrameLayout
@@ -28,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
-                app:error="@{viewModel.emailError}">
+                app:error="@{StringUtil.getStringSafe(context, viewModel.emailError)}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_edit_text"
@@ -45,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 app:endIconMode="password_toggle"
-                app:error="@{viewModel.passwordError}">
+                app:error="@{StringUtil.getStringSafe(context, viewModel.passwordError)}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_edit_text"

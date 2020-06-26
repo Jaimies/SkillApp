@@ -14,12 +14,12 @@
 
     <string name="delete_activity_label">Delete activity</string>
     <string name="delete_activity_title">Delete this activity?</string>
-    <string name="delete_activity_message">All the data about this activity and its records will be wiped</string>
+    <string name="delete_activity_message">All data about this activity and its records will be wiped</string>
     <string name="activity_deleted_message">Activity deleted</string>
 
     <string name="delete_project_label">Delete project</string>
     <string name="delete_project_title">Delete this project?</string>
-    <string name="delete_project_message">All the data about this project and its records will be wiped</string>
+    <string name="delete_project_message">All data about this project and its records will be wiped</string>
     <string name="project_deleted_message">Project deleted</string>
 
     <string name="delete_record_title">Delete this record?</string>
@@ -47,19 +47,19 @@
     <string name="weeks">Weeks</string>
     <string name="months">Months</string>
     <string name="per_week">per week</string>
-    <string name="try_again">Something went wrong, please try again</string>
+    <string name="try_again">Something went wrong, try again</string>
     <string name="check_connection">Please check your network connection</string>
-    <string name="user_does_not_exist">User with that email does not exist</string>
+    <string name="user_does_not_exist">Couldn\'t find your Timeo account</string>
     <string name="user_already_exists">User already exists</string>
-    <string name="password_incorrect">Username and password do not match</string>
-    <string name="email_empty">Email must not be empty</string>
-    <string name="email_invalid">Email is invalid</string>
-    <string name="password_empty">Password must not be empty</string>
+    <string name="password_incorrect">Wrong password. Try again</string>
+    <string name="email_empty">Enter an email</string>
+    <string name="email_invalid">Enter a valid email</string>
+    <string name="enter_password">Enter a password</string>
     <string name="password_too_weak">The password is too weak</string>
-    <string name="password_too_short">Password must be at least 6 characters long</string>
-    <string name="password_too_long">Password length must not exceed 25 characters</string>
-    <string name="name_empty">Name cannot be empty</string>
-    <string name="name_too_long">Name length must not exceed 100 characters</string>
+    <string name="password_too_short">Use 8 characters or more for your password</string>
+    <string name="password_too_long">Use 100 characters or fewer for your password</string>
+    <string name="name_empty">Enter a name for the activity</string>
+    <string name="name_too_long">Use 100 characters or fewer for your activity name</string>
     <string name="settings">Settings</string>
     <string name="your_name">Your name</string>
     <string name="no_data">No data available</string>
@@ -80,8 +80,8 @@
     <string name="hours">%sh</string>
     <string name="hours_symbol">h</string>
     <string name="hours_spent">Hours spent</string>
-    <string name="invalid_activity_error">Please choose an item from the list</string>
+    <string name="invalid_activity_error">Choose an item from the list</string>
     <string name="subactivities">Subactivities:</string>
     <string name="subactivity_none" />
-    <string name="user_account_disabled">This user account is disabled</string>
+    <string name="user_account_disabled">This account is disabled</string>
 </resources>

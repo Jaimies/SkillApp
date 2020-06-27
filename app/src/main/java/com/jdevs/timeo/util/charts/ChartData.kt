@@ -2,10 +2,10 @@ package com.jdevs.timeo.util.charts
 
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.jdevs.timeo.data.stats.STATS_ENTRIES_COUNT
 import com.jdevs.timeo.domain.model.ActivityDayStats
 import com.jdevs.timeo.domain.model.ActivityMonthStats
 import com.jdevs.timeo.domain.model.ActivityWeekStats
-import com.jdevs.timeo.shared.util.WEEK_DAYS
 import com.jdevs.timeo.util.time.getHours
 import org.threeten.bp.OffsetDateTime
 import kotlin.math.ceil
@@ -18,7 +18,7 @@ inline fun List<ChartItem>.toChartData(
 
     val result = mutableListOf<ChartItem>()
 
-    for (index in 0 until WEEK_DAYS) {
+    repeat(STATS_ENTRIES_COUNT) { index ->
 
         val units = OffsetDateTime.now().decreaseByUnit(index.toLong()).getEpochUnits()
         val item = find { chartItem -> chartItem.period == units }
@@ -33,7 +33,6 @@ inline fun List<ChartItem>.toChartData(
     }
 
     val finalRes = result.apply { sortBy(ChartItem::period) }.map { item ->
-
         Entry(item.period.toFloat(), getHours(item.time))
     }
 

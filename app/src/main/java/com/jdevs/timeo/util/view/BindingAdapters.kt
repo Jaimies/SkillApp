@@ -7,11 +7,13 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.annotation.ArrayRes
+import androidx.annotation.ColorRes
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.gms.common.SignInButton
@@ -67,6 +69,7 @@ private const val VALUE_TEXT_SIZE = 12f
 private const val LINE_WIDTH = 1.5f
 private const val LABEL_COUNT = 5
 private const val LABEL_COUNT_SMALL = 4
+private const val ENTRIES_COUNT = 7
 
 @BindingAdapter("data")
 fun LineChart.setData(data: ChartData?) {
@@ -76,17 +79,29 @@ fun LineChart.setData(data: ChartData?) {
         return
     }
 
-    val dataSet = LineDataSet(data.entries, "").apply {
+    fun createDataSet(entries: List<Entry>?, @ColorRes color: Int, drawValues: Boolean) =
+        LineDataSet(entries, "").apply {
+            setDrawValues(drawValues)
+            valueTextSize = VALUE_TEXT_SIZE
+            valueFormatter = TimeFormatter()
+            lineWidth = LINE_WIDTH
+            this.color = context.getColorCompat(color)
+            setDrawCircles(false)
+            isHighlightEnabled = false
+        }
 
-        valueTextSize = VALUE_TEXT_SIZE
-        valueFormatter = TimeFormatter()
-        lineWidth = LINE_WIDTH
-        color = context.getColorCompat(R.color.brown_800)
-        setDrawCircles(false)
-        isHighlightEnabled = false
-    }
+    val currentDataSet =
+        createDataSet(data.entries.takeLast(ENTRIES_COUNT), R.color.black_800, true)
 
-    this.data = LineData(dataSet)
+    val previousDataSet = createDataSet(
+        data.entries.take(ENTRIES_COUNT).apply { forEach { it.x += ENTRIES_COUNT } },
+        R.color.black_700,
+        false
+    )
+
+    previousDataSet.enableDashedLine(7f, 7f, 0f)
+
+    this.data = LineData(currentDataSet, previousDataSet)
 
     axisLeft.run {
         axisMaximum = data.entries.axisMaximum

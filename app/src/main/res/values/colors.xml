@@ -13,6 +13,7 @@
     <color name="black_700">#707070</color>
     <color name="black_alpha_20">#30000000</color>
 
+    <color name="brown_700">#7B6E5C</color>
     <color name="brown_800">#5A4E3D</color>
     <color name="brown_900">#362C1C</color>
 </resources>

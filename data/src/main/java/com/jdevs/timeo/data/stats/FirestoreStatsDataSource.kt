@@ -9,7 +9,6 @@ import com.jdevs.timeo.data.WEEK_STATS_COLLECTION
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.watch
 import com.jdevs.timeo.domain.repository.AuthRepository
-import com.jdevs.timeo.shared.util.WEEK_DAYS
 import com.jdevs.timeo.shared.util.daysSinceEpoch
 import com.jdevs.timeo.shared.util.monthSinceEpoch
 import com.jdevs.timeo.shared.util.weeksSinceEpoch
@@ -42,9 +41,9 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
         noinline mapFunction: (I) -> O,
         converter: OffsetDateTime.() -> Int
     ) =
-        this.whereGreaterThan(DAY, OffsetDateTime.now().converter() - WEEK_DAYS)
+        this.whereGreaterThan(DAY, OffsetDateTime.now().converter() - STATS_ENTRIES_COUNT)
             .whereLessThanOrEqualTo(DAY, OffsetDateTime.now().converter())
             .orderBy(DAY, ASCENDING)
-            .limit(WEEK_DAYS.toLong())
+            .limit(STATS_ENTRIES_COUNT.toLong())
             .watch(mapFunction)
 }

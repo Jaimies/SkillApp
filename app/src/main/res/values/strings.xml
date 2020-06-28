@@ -79,7 +79,7 @@
     <string name="subactivity_of">Subactivity of %s</string>
     <string name="hours">%sh</string>
     <string name="hours_symbol">h</string>
-    <string name="hours_spent">Hours spent</string>
+    <string name="total_hours">Total hours</string>
     <string name="invalid_activity_error">Choose an item from the list</string>
     <string name="subactivities">Subactivities:</string>
     <string name="subactivity_none" />

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import com.jdevs.timeo.data.stats.DAY_STATS_ENTRIES
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.ActivityDayStats
 import com.jdevs.timeo.domain.model.ActivityMonthStats
@@ -40,7 +41,7 @@ class ActivityDetailViewModel @Inject constructor(
     val dayStats by lazy {
         getStats.getDayStats(activityId).map {
             it.map(ActivityDayStats::toChartItem)
-                .toChartData(OffsetDateTime::minusDays, { daysSinceEpoch }, WeekDayFormatter())
+                .toChartData(OffsetDateTime::minusDays, { daysSinceEpoch }, WeekDayFormatter(), DAY_STATS_ENTRIES)
         }
     }
 

@@ -1,12 +1,13 @@
 package com.jdevs.timeo.util.view
 
 import androidx.annotation.ColorRes
-import androidx.databinding.BindingAdapter
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.jdevs.timeo.R
+import com.jdevs.timeo.data.stats.STATS_ENTRIES
 import com.jdevs.timeo.ui.common.TimeFormatter
 import com.jdevs.timeo.util.charts.ChartData
 import com.jdevs.timeo.util.charts.HOURS_BREAKPOINT
@@ -18,8 +19,8 @@ private const val LINE_WIDTH = 1.5f
 private const val LABEL_COUNT = 5
 private const val LABEL_COUNT_SMALL = 4
 private const val ENTRIES_COUNT = 7
+private const val DASHED_LINE_LENGTH = 7f
 
-@BindingAdapter("data")
 fun LineChart.setData(data: ChartData?) {
 
     if (data?.entries == null) {
@@ -41,15 +42,22 @@ fun LineChart.setData(data: ChartData?) {
     val currentDataSet =
         createDataSet(data.entries.takeLast(ENTRIES_COUNT), R.color.black_800, true)
 
-    val previousDataSet = createDataSet(
-        data.entries.take(ENTRIES_COUNT).apply { forEach { it.x += ENTRIES_COUNT } },
-        R.color.black_700,
-        false
-    )
+    val dataSets = mutableListOf(currentDataSet)
 
-    previousDataSet.enableDashedLine(7f, 7f, 0f)
+    if (data.entries.size > STATS_ENTRIES) {
 
-    this.data = LineData(currentDataSet, previousDataSet)
+        val previousDataSet = createDataSet(
+            data.entries.take(ENTRIES_COUNT).apply { forEach { it.x += ENTRIES_COUNT } },
+            R.color.black_700,
+            false
+        )
+
+        previousDataSet.enableDashedLine(DASHED_LINE_LENGTH, DASHED_LINE_LENGTH, 0f)
+
+        dataSets.add(previousDataSet)
+    }
+
+    this.data = LineData(dataSets as List<ILineDataSet>)
 
     axisLeft.run {
         axisMaximum = data.entries.axisMaximum

@@ -2,7 +2,7 @@ package com.jdevs.timeo.util.charts
 
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.jdevs.timeo.data.stats.STATS_ENTRIES_COUNT
+import com.jdevs.timeo.data.stats.STATS_ENTRIES
 import com.jdevs.timeo.domain.model.ActivityDayStats
 import com.jdevs.timeo.domain.model.ActivityMonthStats
 import com.jdevs.timeo.domain.model.ActivityWeekStats
@@ -13,12 +13,13 @@ import kotlin.math.ceil
 inline fun List<ChartItem>.toChartData(
     crossinline decreaseByUnit: OffsetDateTime.(Long) -> OffsetDateTime,
     crossinline getEpochUnits: OffsetDateTime.() -> Int,
-    formatter: ValueFormatter
+    formatter: ValueFormatter,
+    entriesCount: Int = STATS_ENTRIES
 ): ChartData {
 
     val result = mutableListOf<ChartItem>()
 
-    repeat(STATS_ENTRIES_COUNT) { index ->
+    repeat(entriesCount) { index ->
 
         val units = OffsetDateTime.now().decreaseByUnit(index.toLong()).getEpochUnits()
         val item = find { chartItem -> chartItem.period == units }

@@ -6,7 +6,8 @@ import com.jdevs.timeo.domain.repository.StatsRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val STATS_ENTRIES_COUNT = 14
+const val STATS_ENTRIES = 7
+const val DAY_STATS_ENTRIES = 14
 
 @Singleton
 class DefaultStatsRepository @Inject constructor(

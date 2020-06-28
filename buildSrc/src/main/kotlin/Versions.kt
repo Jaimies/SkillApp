@@ -11,7 +11,7 @@ object Versions {
     const val livedata = "2.2.0"
 
     // Main dependencies
-    const val coroutines = "1.3.2"
+    const val coroutines = "1.3.4"
     const val room = "2.2.5"
     const val paging = "2.1.2"
     const val navigation = "2.2.2"
@@ -33,7 +33,7 @@ object Versions {
     const val threeTenBP = "1.4.0"
 
     // Dependency injection
-    const val dagger = "2.25.2"
+    const val dagger = "2.28"
 
     // Firebase
     const val firestore = "21.4.3"
@@ -56,7 +56,7 @@ object Versions {
     const val gms = "4.3.3"
 
     // Test
-    const val junit = "4.12"
+    const val junit = "4.13"
     const val hamcrest = "1.3"
 
     // Android Test
@@ -64,7 +64,7 @@ object Versions {
     const val espresso = "3.2.0"
     const val junitExt = "1.1.1"
     const val androidxTestCore = "1.2.0"
-    const val mockito = "3.2.4"
+    const val mockito = "3.3.1"
     const val dexMaker = "2.25.1"
 
     // Android-Debug-Database

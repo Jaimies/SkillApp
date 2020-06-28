@@ -67,8 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hours_spent"
-            app:suffixText="@string/hours_symbol"
-            app:visible="@{!viewModel.activityExists}">
+            app:suffixText="@string/hours_symbol">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"

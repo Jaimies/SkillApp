@@ -46,15 +46,13 @@ fun LineChart.setData(data: ChartData?) {
 
     if (data.entries.size > STATS_ENTRIES) {
 
-        val previousDataSet = createDataSet(
-            data.entries.take(ENTRIES_COUNT).apply { forEach { it.x += ENTRIES_COUNT } },
-            R.color.black_700,
-            false
-        )
+        val prevStats = data.entries.take(ENTRIES_COUNT).apply { forEach { it.x += ENTRIES_COUNT } }
 
-        previousDataSet.enableDashedLine(DASHED_LINE_LENGTH, DASHED_LINE_LENGTH, 0f)
-
-        dataSets.add(previousDataSet)
+        if (prevStats.find { it.y > 0 } != null) {
+            val prevDataSet = createDataSet(prevStats, R.color.black_700, false)
+            prevDataSet.enableDashedLine(DASHED_LINE_LENGTH, DASHED_LINE_LENGTH, 0f)
+            dataSets.add(prevDataSet)
+        }
     }
 
     this.data = LineData(dataSets as List<ILineDataSet>)

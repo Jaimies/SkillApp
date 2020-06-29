@@ -1,9 +1,10 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.ui
 
 import androidx.annotation.IdRes
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
+import com.jdevs.timeo.R
 
 private val navOptions = NavOptions.Builder()
     .setEnterAnim(R.anim.fragment_open_enter)

@@ -14,7 +14,7 @@ import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.navigateToGraph
 import com.jdevs.timeo.util.fragment.observe
-import com.jdevs.timeo.util.navigateAnimated
+import com.jdevs.timeo.util.ui.navigateAnimated
 import javax.inject.Inject
 
 class ProfileFragment : ActionBarFragment() {

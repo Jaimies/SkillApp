@@ -1,6 +1,6 @@
 @file:Suppress("MatchingDeclarationName")
 
-package com.jdevs.timeo.util.view
+package com.jdevs.timeo.util.ui
 
 import android.view.View
 import android.widget.ArrayAdapter

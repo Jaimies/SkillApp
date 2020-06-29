@@ -4,7 +4,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.jdevs.timeo.R
 import com.jdevs.timeo.ui.common.TimeFormatter
-import com.jdevs.timeo.util.getColorCompat
+import com.jdevs.timeo.util.ui.getColorCompat
 
 private const val LEFT_OFFSET = 1.5f
 private const val TOP_OFFSET = 24f

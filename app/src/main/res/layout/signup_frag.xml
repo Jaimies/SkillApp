@@ -9,7 +9,7 @@
             name="viewModel"
             type="com.jdevs.timeo.ui.auth.SignUpViewModel" />
 
-        <import type="com.jdevs.timeo.util.view.StringUtil" />
+        <import type="com.jdevs.timeo.util.ui.StringUtil" />
     </data>
 
     <FrameLayout

@@ -10,8 +10,8 @@ import com.jdevs.timeo.model.RecordItem
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
-import com.jdevs.timeo.util.getColorCompat
-import com.jdevs.timeo.util.inflateDataBinding
+import com.jdevs.timeo.util.ui.getColorCompat
+import com.jdevs.timeo.util.ui.inflateDataBinding
 
 class RecordDelegateAdapter(private val showDeleteDialog: (index: Int) -> Unit) : DelegateAdapter {
 

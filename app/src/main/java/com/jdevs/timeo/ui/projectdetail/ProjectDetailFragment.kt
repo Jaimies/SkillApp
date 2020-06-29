@@ -18,8 +18,8 @@ import com.jdevs.timeo.ui.tasks.AddTaskFragment
 import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
-import com.jdevs.timeo.util.navigateAnimated
-import com.jdevs.timeo.util.view.setupAdapter
+import com.jdevs.timeo.util.ui.navigateAnimated
+import com.jdevs.timeo.util.ui.setupAdapter
 import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 import javax.inject.Inject
 

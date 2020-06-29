@@ -8,7 +8,7 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.recordable.RecordableViewHolder
-import com.jdevs.timeo.util.inflateDataBinding
+import com.jdevs.timeo.util.ui.inflateDataBinding
 
 class ActivityDelegateAdapter(
     private val showRecordDialog: (index: Int) -> Unit,

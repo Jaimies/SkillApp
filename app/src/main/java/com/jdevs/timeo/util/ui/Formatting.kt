@@ -1,6 +1,6 @@
 @file:JvmName("FormattingUtil")
 
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.ui
 
 import android.content.Context
 import com.jdevs.timeo.R

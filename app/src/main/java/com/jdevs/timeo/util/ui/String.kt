@@ -1,6 +1,6 @@
 @file:JvmName("StringUtil")
 
-package com.jdevs.timeo.util.view
+package com.jdevs.timeo.util.ui
 
 import android.content.Context
 import androidx.annotation.StringRes

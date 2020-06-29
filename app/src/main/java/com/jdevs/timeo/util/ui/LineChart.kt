@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util.view
+package com.jdevs.timeo.util.ui
 
 import androidx.annotation.ColorRes
 import com.github.mikephil.charting.charts.LineChart
@@ -12,7 +12,6 @@ import com.jdevs.timeo.ui.common.TimeFormatter
 import com.jdevs.timeo.util.charts.ChartData
 import com.jdevs.timeo.util.charts.HOURS_BREAKPOINT
 import com.jdevs.timeo.util.charts.axisMaximum
-import com.jdevs.timeo.util.getColorCompat
 
 private const val VALUE_TEXT_SIZE = 12f
 private const val LINE_WIDTH = 1.5f

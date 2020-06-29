@@ -20,9 +20,9 @@ import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
-import com.jdevs.timeo.util.navigateAnimated
+import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
-import com.jdevs.timeo.util.view.setupAdapter
+import com.jdevs.timeo.util.ui.setupAdapter
 import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
 import kotlinx.android.synthetic.main.activitydetail_frag.subactivities_recycler_view
 import javax.inject.Inject

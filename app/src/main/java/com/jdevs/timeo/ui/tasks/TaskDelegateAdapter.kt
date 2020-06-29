@@ -9,7 +9,7 @@ import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
-import com.jdevs.timeo.util.inflateDataBinding
+import com.jdevs.timeo.util.ui.inflateDataBinding
 
 class TaskDelegateAdapter(private val setTaskCompleted: (index: Int, isCompleted: Boolean) -> Unit) :
     DelegateAdapter {

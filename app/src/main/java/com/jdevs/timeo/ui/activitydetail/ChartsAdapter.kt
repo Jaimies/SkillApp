@@ -9,8 +9,8 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.util.charts.ChartData
 import com.jdevs.timeo.util.charts.setup
-import com.jdevs.timeo.util.view.inflate
-import com.jdevs.timeo.util.view.setData
+import com.jdevs.timeo.util.ui.inflate
+import com.jdevs.timeo.util.ui.setData
 
 class ChartsAdapter(private vararg val chartLiveDatas: LiveData<ChartData>) :
     RecyclerView.Adapter<ChartsAdapter.ViewHolder>() {

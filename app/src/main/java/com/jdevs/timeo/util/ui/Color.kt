@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util
+package com.jdevs.timeo.util.ui
 
 import android.content.Context
 import androidx.annotation.ColorRes

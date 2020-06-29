@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
-import com.jdevs.timeo.util.view.inflate
+import com.jdevs.timeo.util.ui.inflate
 
 class DateLabelDelegateAdapter : DelegateAdapter {
 

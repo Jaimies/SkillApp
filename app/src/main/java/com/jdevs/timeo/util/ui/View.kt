@@ -1,4 +1,4 @@
-package com.jdevs.timeo.util.view
+package com.jdevs.timeo.util.ui
 
 import android.content.Context
 import android.content.ContextWrapper

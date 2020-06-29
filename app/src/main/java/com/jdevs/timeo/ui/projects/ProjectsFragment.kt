@@ -15,7 +15,7 @@ import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.snackbar
-import com.jdevs.timeo.util.navigateAnimated
+import com.jdevs.timeo.util.ui.navigateAnimated
 import kotlinx.android.synthetic.main.projects_frag.recycler_view
 import javax.inject.Inject
 

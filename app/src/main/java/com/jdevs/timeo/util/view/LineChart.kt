@@ -46,7 +46,7 @@ fun LineChart.setData(data: ChartData?) {
 
     if (data.entries.size > STATS_ENTRIES) {
 
-        val prevStats = data.entries.take(ENTRIES_COUNT).apply { forEach { it.x += ENTRIES_COUNT } }
+        val prevStats = data.entries.take(ENTRIES_COUNT).map { Entry(it.x + ENTRIES_COUNT, it.y) }
 
         if (prevStats.find { it.y > 0 } != null) {
             val prevDataSet = createDataSet(prevStats, R.color.black_700, false)

@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.activitydetail
 
-import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
@@ -13,26 +12,26 @@ import com.jdevs.timeo.util.charts.setup
 import com.jdevs.timeo.util.view.inflate
 import com.jdevs.timeo.util.view.setData
 
-class ChartsAdapter(private vararg val chartLiveData: LiveData<ChartData>) :
+class ChartsAdapter(private vararg val chartLiveDatas: LiveData<ChartData>) :
     RecyclerView.Adapter<ChartsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(parent.inflate(R.layout.activitydetail_chart))
+        return ViewHolder(parent.inflate(R.layout.activitydetail_chart) as LineChart)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        holder.setLiveData(chartLiveData[position])
+        holder.setLiveData(chartLiveDatas[position])
     }
 
-    override fun getItemCount() = chartLiveData.size
+    override fun getItemCount() = chartLiveDatas.size
 
-    class ViewHolder(view: View) : BaseViewHolder(view) {
+    class ViewHolder(private val chart: LineChart) : BaseViewHolder(chart) {
 
-        private val chart = (view as LineChart).apply { setup() }
+        init {
+            chart.setup()
+        }
 
         fun setLiveData(liveData: LiveData<ChartData>) {
-
             liveData.observe(lifecycleOwner) { chart.setData(it) }
         }
     }

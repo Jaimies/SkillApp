@@ -17,10 +17,13 @@ class ProfileViewModel @Inject constructor(
     private val _isSignedIn = MutableLiveData(authState.isSignedIn)
 
     val navigateToSignIn = SingleLiveEvent<Any>()
-    val signOut = SingleLiveEvent<Any>()
+    val navigateToOverview: LiveData<Any> get() = _navigateToOverview
+    private val _navigateToOverview = SingleLiveEvent<Any>()
 
-    fun signOut() = signOutUseCase.invoke()
+    fun triggerSignOut() {
+        signOutUseCase.invoke()
+        _navigateToOverview.call()
+    }
 
-    fun triggerSignOut() = signOut.call()
     fun navigateToSignIn() = navigateToSignIn.call()
 }

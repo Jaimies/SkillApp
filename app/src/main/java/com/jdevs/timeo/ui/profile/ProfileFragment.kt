@@ -18,7 +18,6 @@ import com.jdevs.timeo.util.ui.navigateAnimated
 import javax.inject.Inject
 
 class ProfileFragment : ActionBarFragment() {
-
     private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
 
     @Inject
@@ -37,7 +36,6 @@ class ProfileFragment : ActionBarFragment() {
     ): View {
 
         val binding = ProfileFragBinding.inflate(inflater, container, false).also {
-
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }
@@ -46,14 +44,7 @@ class ProfileFragment : ActionBarFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        observe(viewModel.navigateToSignIn) {
-            findNavController().navigateAnimated(R.id.signin_fragment_dest)
-        }
-
-        observe(viewModel.signOut) {
-            viewModel.signOut()
-            navigateToGraph(R.id.overview)
-        }
+        observe(viewModel.navigateToSignIn) { findNavController().navigateAnimated(R.id.signin_fragment_dest) }
+        observe(viewModel.navigateToOverview) { navigateToGraph(R.id.overview) }
     }
 }

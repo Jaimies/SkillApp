@@ -61,30 +61,28 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         val newRecordRef = recordsRef.document()
 
         db.runBatchSuspend { batch ->
-
-            batch.updateStats(record, false)
             batch.set(newRecordRef, record.mapToFirestore())
-            batch.incrementActivityTime(record.activityId, record.time)
+            batch.increaseActivityTime(record.activityId, record.time, record.creationDate)
         }
     }
 
     override suspend fun deleteRecord(record: Record) {
 
         db.runBatchSuspend { batch ->
-
-            batch.updateStats(record, true)
             batch.delete(recordsRef.document(record.id))
-            batch.incrementActivityTime(record.activityId, -record.time)
+            batch.increaseActivityTime(record.activityId, -record.time, record.creationDate)
         }
     }
 
     private suspend fun WriteBatch.incrementActivityTime(
         activityId: String,
         time: Int,
+        creationDate: OffsetDateTime,
         subActivityId: String = ""
     ) {
 
         val activityRef = activitiesRef.document(activityId)
+
         val activity = activityRef.get(CACHE).await().toObject<FirestoreActivity>()!!
 
         val newRecords = activity.recentRecords.toMutableList()
@@ -105,7 +103,8 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
         val updates = mutableMapOf(TOTAL_TIME to increment(time), RECENT_RECORDS to newRecords)
 
-        handleSubactivities(updates, activity, time, subActivityId)
+        handleSubactivities(updates, activity, time, subActivityId, creationDate)
+        updateStats(time, activityId, creationDate)
         update(activityRef, updates)
     }
 
@@ -113,45 +112,58 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         updates: MutableMap<String, Any>,
         activity: FirestoreActivity,
         time: Int,
-        subActivityId: String = ""
+        subActivityId: String,
+        creationDate: OffsetDateTime
     ) {
+        when {
+            activity.parentActivity != null -> {
+                updates["parentActivity.totalTime"] = increment(time)
 
-        if (activity.parentActivity != null) {
+                increaseActivityTime(
+                    activity.parentActivity.id, time, creationDate, activity.documentId
+                )
+            }
 
-            updates["parentActivity.totalTime"] = increment(time)
-            incrementActivityTime(activity.parentActivity.id, time, activity.documentId)
-        } else if (subActivityId != "") {
+            subActivityId != "" -> {
 
-            val subactivities = activity.subActivities.toMutableList()
-            val subActivityIndex = subactivities.indexOfFirst { it.id == subActivityId }
-                .takeIf { it >= 0 } ?: return
+                val subactivities = activity.subActivities.toMutableList()
 
-            subactivities.update(subActivityIndex) { it.copy(totalTime = it.totalTime + time) }
-            updates["subActivities"] = subactivities
-        } else if (activity.subActivities.isNotEmpty()) {
+                subactivities.indexOfFirst { it.id == subActivityId }
+                    .takeIf { it >= 0 }?.let { subActivityIndex ->
 
-            activity.subActivities.forEach {
+                        subactivities.update(subActivityIndex) { it.copy(totalTime = it.totalTime + time) }
+                        updates["subActivities"] = subactivities
+                    }
+            }
+
+            activity.subActivities.isNotEmpty() -> activity.subActivities.forEach {
                 activitiesRef.document(it.id).update("parentActivity.totalTime", increment(time))
             }
         }
     }
 
-    private fun WriteBatch.updateStats(record: Record, decrease: Boolean) {
+    private fun WriteBatch.updateStats(
+        time: Int, activityId: String,
+        creationDate: OffsetDateTime
+    ) {
 
-        val timeIncrement = increment(if (decrease) -record.time else record.time)
+        val timeIncrement = increment(time)
 
-        fun DocumentReference.updateStats() {
-            set(
-                this, mapOf(
-                    TOTAL_TIME to timeIncrement, DAY to id.toInt(),
-                    "activityTimes" to mapOf(record.activityId to timeIncrement)
-                ), SetOptions.merge()
+        fun updateStats(ref: CollectionReference, method: OffsetDateTime.() -> Number) {
+
+            val day = creationDate.method()
+
+            val changes = mapOf(
+                TOTAL_TIME to timeIncrement, DAY to day,
+                "activityTimes" to mapOf(activityId to timeIncrement)
             )
+
+            set(ref.document(day.toString()), changes, SetOptions.merge())
         }
 
-        dayStatsRef.document(record.creationDate.daysSinceEpoch.toString()).updateStats()
-        weekStatsRef.document(record.creationDate.weeksSinceEpoch.toString()).updateStats()
-        monthStatsRef.document(record.creationDate.monthSinceEpoch.toString()).updateStats()
+        updateStats(dayStatsRef) { daysSinceEpoch }
+        updateStats(weekStatsRef) { weeksSinceEpoch }
+        updateStats(monthStatsRef) { monthSinceEpoch }
     }
 
     override fun resetRefs(uid: String) {

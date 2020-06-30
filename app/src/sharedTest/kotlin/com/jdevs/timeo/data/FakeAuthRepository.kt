@@ -18,7 +18,7 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
     /**
      * Indicates whether the user is signed in
      */
-    override var isUserSignedIn = false
+    override var isSignedIn = false
         private set
 
     override val uid = ""
@@ -28,7 +28,7 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
      */
     fun signIn() {
 
-        isUserSignedIn = true
+        isSignedIn = true
     }
 
     /**
@@ -54,6 +54,6 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
      */
     override fun signOut() {
 
-        isUserSignedIn = false
+        isSignedIn = false
     }
 }

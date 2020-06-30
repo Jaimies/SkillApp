@@ -23,7 +23,7 @@ import javax.inject.Singleton
 @Singleton
 class DefaultAuthRepository @Inject constructor() : AuthRepository {
 
-    override val isUserSignedIn
+    override val isSignedIn
         get() = auth.currentUser != null
 
     override val uid

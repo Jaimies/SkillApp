@@ -1,6 +1,5 @@
 package com.jdevs.timeo.data.firestore
 
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.jdevs.timeo.domain.repository.AuthRepository
@@ -16,19 +15,14 @@ abstract class FirestoreDataSource(private val authRepository: AuthRepository) {
 
     protected fun reset() {
 
-        val uid = authRepository.uid ?: return
-
-        if (uid == mUid) {
-
-            return
-        }
+         val uid = authRepository.uid
+        if (uid == null || uid == mUid) return
 
         resetRefs(uid)
         mUid = uid
     }
 
     fun <T> T.safeAccess(): T {
-
         reset()
         return this
     }
@@ -53,11 +47,7 @@ abstract class FirestoreListDataSource(authRepository: AuthRepository) :
     FirestoreDataSource(authRepository) {
 
     protected fun createRef(
-        uid: String,
-        collection: String,
+        uid: String, collection: String,
         watcher: QueryWatcher<*, *>? = null
-    ): CollectionReference {
-
-        return db.collection("/users/$uid/$collection").also { watcher?.setQuery(it) }
-    }
+    ) = db.collection("/users/$uid/$collection").also { watcher?.setQuery(it) }
 }

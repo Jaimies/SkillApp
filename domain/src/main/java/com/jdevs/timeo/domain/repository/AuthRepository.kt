@@ -8,7 +8,7 @@ import com.jdevs.timeo.domain.model.result.SignUpResult
 
 interface AuthRepository {
 
-    val isUserSignedIn: Boolean
+    val isSignedIn: Boolean
     val uid: String?
 
     suspend fun createUser(email: String, password: String): SignUpResult

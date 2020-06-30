@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class GetAuthStateUseCase @Inject constructor(private val authRepository: AuthRepository) {
 
-    val isUserSignedIn get() = authRepository.isUserSignedIn
+    val isSignedIn get() = authRepository.isSignedIn
 }

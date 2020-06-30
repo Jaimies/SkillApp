@@ -9,9 +9,6 @@ abstract class Repository<T>(
     private val authRepository: AuthRepository
 ) {
 
-    private val isUserSignedIn
-        get() = authRepository.isUserSignedIn
-
     protected val currentDataSource
-        get() = if (isUserSignedIn) remoteDataSource else localDataSource
+        get() = if (authRepository.isSignedIn) remoteDataSource else localDataSource
 }

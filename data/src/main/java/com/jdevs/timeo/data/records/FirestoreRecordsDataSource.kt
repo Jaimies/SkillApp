@@ -2,7 +2,6 @@ package com.jdevs.timeo.data.records
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.Source.CACHE
 import com.google.firebase.firestore.WriteBatch
@@ -74,7 +73,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
         }
     }
 
-    private suspend fun WriteBatch.incrementActivityTime(
+    private suspend fun WriteBatch.increaseActivityTime(
         activityId: String,
         time: Int,
         creationDate: OffsetDateTime,

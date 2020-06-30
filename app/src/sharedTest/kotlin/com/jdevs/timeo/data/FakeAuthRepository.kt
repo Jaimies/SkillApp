@@ -9,51 +9,31 @@ import com.jdevs.timeo.domain.repository.AuthRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Fakes the Firebase Authentication repository
- */
 @Singleton
 class FakeAuthRepository @Inject constructor() : AuthRepository {
 
-    /**
-     * Indicates whether the user is signed in
-     */
     override var isSignedIn = false
         private set
 
     override val uid = ""
 
-    /**
-     * Fakes signed in state
-     */
     fun signIn() {
-
         isSignedIn = true
     }
 
-    /**
-     * The following three methods fake the signed in state
-     */
     override suspend fun createUser(email: String, password: String): SignUpResult {
-        signIn()
-        return SignUpResult.Success
+        return signIn().let { SignUpResult.Success }
     }
 
     override suspend fun signIn(email: String, password: String): SignInResult {
-        signIn()
-        return SignInResult.Success
+        return signIn().let { SignInResult.Success }
     }
 
     override suspend fun signInWithGoogle(accountTask: Task<GoogleSignInAccount>): GoogleSignInResult {
-        signIn()
-        return GoogleSignInResult.Success
+        return signIn().let { GoogleSignInResult.Success }
     }
 
-    /**
-     * Fakes not signed in state
-     */
     override fun signOut() {
-
         isSignedIn = false
     }
 }

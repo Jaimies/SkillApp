@@ -6,12 +6,10 @@ plugins {
     id 'io.gitlab.arturbosch.detekt' version '1.5.0'
 }
 android {
-
     compileSdkVersion App.compileSdk
     buildToolsVersion App.buildTools
 
     defaultConfig {
-
         minSdkVersion App.minSdk
         targetSdkVersion App.targetSdk
         versionCode App.versionCode
@@ -33,20 +31,12 @@ detekt {
 }
 
 dependencies {
-
-    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
 
-    // AppCompat and Androidx Core
     implementation "androidx.appcompat:appcompat:$Versions.appcompat"
     implementation "androidx.core:core-ktx:$Versions.androidxCore"
-
-    // Androidx Fragment extensions
     implementation "androidx.fragment:fragment-ktx:$Versions.fragment"
 
-    // Navigation
     implementation "androidx.navigation:navigation-fragment:$Versions.navigation"
-
-    // Material
     implementation "com.google.android.material:material:$Versions.material"
 }

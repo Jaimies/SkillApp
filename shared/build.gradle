@@ -6,12 +6,10 @@ plugins {
     id 'io.gitlab.arturbosch.detekt' version '1.5.0'
 }
 android {
-
     compileSdkVersion App.compileSdk
     buildToolsVersion App.buildTools
 
     defaultConfig {
-
         minSdkVersion App.minSdk
         targetSdkVersion App.targetSdk
         versionCode App.versionCode
@@ -36,14 +34,10 @@ detekt {
 }
 
 dependencies {
-
-    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
 
-    // java.time.* backport for Android
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
 
-    // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.livedata"
 
     // For tests use default ThreeTenBP library

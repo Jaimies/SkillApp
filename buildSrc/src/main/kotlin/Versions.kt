@@ -2,7 +2,6 @@
 object Versions {
     const val kotlin = "1.3.72"
 
-    // Core dependencies
     const val androidxCore = "1.3.0"
     const val appcompat = "1.1.0"
     const val constraintLayout = "1.1.3"
@@ -10,7 +9,6 @@ object Versions {
 
     const val livedata = "2.2.0"
 
-    // Main dependencies
     const val coroutines = "1.3.4"
     const val room = "2.2.5"
     const val paging = "2.1.2"
@@ -19,20 +17,14 @@ object Versions {
     const val fragment = "1.2.5"
     const val material = "1.3.0-alpha01"
 
-    // MPAndroidChart
     const val MPAndroidChart = "3.1.0"
-
-    // Material DateTime picker
     const val datepicker = "4.2.3"
-
     const val viewpager = "1.0.0"
     const val preference = "1.1.1"
 
-    // JSR 310 backport
     const val threeTenABP = "1.2.1"
     const val threeTenBP = "1.4.0"
 
-    // Dependency injection
     const val dagger = "2.28"
 
     // Firebase
@@ -42,16 +34,12 @@ object Versions {
     const val auth = "19.3.1"
     const val gmsAuth = "18.0.0"
 
-    // Gson
     const val gson = "2.8.6"
 
-    // Static analyzers
     const val lint = "26.5.3"
 
-    // Kapt
     const val dataBinding = "3.1.4"
 
-    // Classpath
     const val gradle = "4.0.0"
     const val gms = "4.3.3"
 
@@ -67,6 +55,5 @@ object Versions {
     const val mockito = "3.3.1"
     const val dexMaker = "2.25.1"
 
-    // Android-Debug-Database
     const val debugDb = "1.0.6"
 }

@@ -7,12 +7,10 @@ plugins {
 }
 
 android {
-
     compileSdkVersion App.compileSdk
     buildToolsVersion App.buildTools
 
     defaultConfig {
-
         minSdkVersion App.minSdk
         targetSdkVersion App.targetSdk
         versionCode App.versionCode
@@ -43,44 +41,29 @@ detekt {
 }
 
 dependencies {
-
-    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
-
-    // Androidx Core extensions
     implementation "androidx.core:core-ktx:$Versions.androidxCore"
 
-    // The domain layer and shared module
     implementation project(':shared')
     implementation project(':domain')
 
-    // Room
     implementation "androidx.room:room-ktx:$Versions.room"
     kapt "androidx.room:room-compiler:$Versions.room"
 
-    // Paging
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
-    // LiveData extensions
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
 
-    // Firebase
     implementation "com.google.firebase:firebase-auth:$Versions.auth"
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
     implementation "com.google.firebase:firebase-functions-ktx:$Versions.functions"
     implementation "com.google.firebase:firebase-firestore-ktx:$Versions.firestore"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$Versions.coroutinesPlay"
 
-    // Androidx Preference library
     implementation "androidx.preference:preference-ktx:$Versions.preference"
-
-    // java.time.* backport for Android
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
-
-    // For tests use default ThreeTenBP library
     testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
 
-    // Dependency injection
     implementation "com.google.dagger:dagger:$Versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$Versions.dagger"
 }

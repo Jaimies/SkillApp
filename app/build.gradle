@@ -1,5 +1,4 @@
 plugins {
-
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
@@ -24,14 +23,13 @@ android {
 
     compileSdkVersion App.compileSdk
     buildToolsVersion App.buildTools
-    defaultConfig {
 
+    defaultConfig {
         applicationId App.applicationId
         minSdkVersion App.minSdk
         targetSdkVersion App.targetSdk
         versionCode App.versionCode
         versionName App.versionName
-
         testInstrumentationRunner = 'com.jdevs.timeo.TimeoTestRunner'
     }
 
@@ -40,7 +38,6 @@ android {
             minifyEnabled = true
             shrinkResources = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
             signingConfig = signingConfigs.release
         }
         debug.multiDexEnabled = true
@@ -70,84 +67,51 @@ detekt {
 }
 
 dependencies {
-
-    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
-
-    // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$Versions.coroutines"
 
-    // Core Android libraries and legacy support
     implementation "androidx.appcompat:appcompat:$Versions.appcompat"
-
-    // Androidx Core extensions
     implementation "androidx.core:core-ktx:$Versions.androidxCore"
-
-    // ConstraintLayout
     implementation "androidx.constraintlayout:constraintlayout:$Versions.constraintLayout"
-
-    // Legacy support
     implementation "androidx.legacy:legacy-support-v4:$Versions.legacy"
 
-    // Play Auth
-    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
-
-    // The domain and data layers
     implementation project(':domain')
     implementation project(':data')
-
-    // Shared and lib modules
     implementation project(':shared')
     implementation project(':lib')
 
-    // Room and Firestore
+    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
+
     implementation "androidx.room:room-ktx:$Versions.room"
     implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
 
-    // Fragment and Lifecycle extensions
     implementation "androidx.fragment:fragment-ktx:$Versions.fragment"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
 
-    // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$Versions.navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$Versions.navigation"
 
-    // Material
     implementation "com.google.android.material:material:$Versions.material"
 
-    // MPAndroidChart library for creating awesome charts
     implementation "com.github.PhilJay:MPAndroidChart:v$Versions.MPAndroidChart"
     implementation "com.wdullaer:materialdatetimepicker:$Versions.datepicker"
     implementation "androidx.viewpager2:viewpager2:$Versions.viewpager"
-
-    // Paging
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
-    // Androidx Preference library
     implementation "androidx.preference:preference-ktx:$Versions.preference"
-
-    // java.time.* backport for Android
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
-
-    // For tests use default ThreeTenBP library
     testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
-
-    // Dependency injection
     implementation "com.google.dagger:dagger:$Versions.dagger"
+
     kapt "com.google.dagger:dagger-compiler:$Versions.dagger"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$Versions.dagger"
-
-    // Data Binding
     kapt "com.android.databinding:compiler:$Versions.dataBinding"
 
-    // Lint
     lintChecks project(':lint')
 
-    // Test
     testImplementation 'io.kotest:kotest-runner-junit5-jvm:4.1.0'
     testImplementation "org.hamcrest:hamcrest-all:$Versions.hamcrest"
 
-    // Android Test
     androidTestImplementation "androidx.test.ext:junit:$Versions.junitExt"
     androidTestImplementation "androidx.test:runner:$Versions.androidxTestRunner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$Versions.espresso"
@@ -159,7 +123,6 @@ dependencies {
 
     // Testing code should not be included in the main code.
     // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
-
     debugImplementation "androidx.fragment:fragment-testing:$Versions.fragment"
     implementation "androidx.test:core:$Versions.androidxTestCore"
 

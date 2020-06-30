@@ -8,12 +8,10 @@ plugins {
 }
 
 android {
-
     compileSdkVersion App.compileSdk
     buildToolsVersion App.buildTools
 
     defaultConfig {
-
         minSdkVersion App.minSdk
         targetSdkVersion App.targetSdk
         versionCode App.versionCode
@@ -35,28 +33,18 @@ detekt {
 }
 
 dependencies {
-
-    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
-
-    // Play auth
     implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
-
-    // Paging
     implementation "androidx.paging:paging-runtime:$Versions.paging"
 
     implementation project(':shared')
 
-    // java.time.* backport for Android
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
 
-    // For tests use default ThreeTenBP library
     testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
 
-    // Dependency injection
     implementation "com.google.dagger:dagger:$Versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$Versions.dagger"
 
-    // Lint
     lintChecks project(':lint')
 }

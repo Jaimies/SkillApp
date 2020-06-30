@@ -1,10 +1,10 @@
 package com.jdevs.timeo.util.charts
 
+import android.graphics.Color.WHITE
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.jdevs.timeo.R
 import com.jdevs.timeo.ui.common.TimeFormatter
-import com.jdevs.timeo.util.ui.getColorCompat
 
 private const val LEFT_OFFSET = 1.5f
 private const val TOP_OFFSET = 24f
@@ -30,27 +30,28 @@ fun LineChart.setup() {
     isDragEnabled = false
 
     setExtraOffsets(LEFT_OFFSET, TOP_OFFSET, RIGHT_OFFSET, BOTTOM_OFFSET)
-    setNoDataTextColor(context.getColorCompat(R.color.brown_900))
+    setNoDataTextColor(WHITE)
     setNoDataText(context.getString(R.string.no_data))
 
     axisLeft.run {
-
         setLabelCount(Y_AXIS_LABEL_COUNT, true)
         textSize = Y_AXIS_TEXT_SIZE
         valueFormatter = TimeFormatter()
         isGranularityEnabled = true
         granularity = Y_AXIS_GRANULARITY
+        textColor = WHITE
         axisMinimum = 0f
+        gridColor = WHITE
         enableGridDashedLine(Y_AXIS_DASHED_LINE_SIZE, Y_AXIS_DASHED_LINE_SIZE, 0f)
         setDrawAxisLine(false)
     }
 
     xAxis.run {
-
         spaceMin = X_AXIS_SPACE_MIN
         spaceMax = X_AXIS_SPACE_MAX
         textSize = X_AXIS_TEXT_SIZE
         yOffset = X_AXIS_Y_OFFSET
+        textColor = WHITE
         position = XAxis.XAxisPosition.BOTTOM
         setDrawGridLines(false)
     }

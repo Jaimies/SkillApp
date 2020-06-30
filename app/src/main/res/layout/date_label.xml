@@ -8,6 +8,6 @@
     android:paddingEnd="8dp"
     android:paddingBottom="6dp"
     android:textAllCaps="false"
-    android:textAppearance="@style/TextAppearance.Timeo.Subtitle1"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
     android:textSize="15sp"
     tools:text="Feb 26" />

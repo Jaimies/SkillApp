@@ -18,8 +18,8 @@ import com.jdevs.timeo.ui.common.ListFragment
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
-import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
+import com.jdevs.timeo.util.ui.navigateAnimated
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 import javax.inject.Inject
 

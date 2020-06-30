@@ -28,7 +28,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{viewModel.state.name}"
-            android:textAppearance="@style/TextAppearance.Timeo.Headline1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{viewModel.state.description}"
-            android:textAppearance="@style/TextAppearance.Timeo.Body2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="The best time management app ever" />
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:text="@{@string/hours(viewModel.state.avgWeekTime)}"
-            android:textAppearance="@style/TextAppearance.Timeo.Headline3"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toEndOf="@id/per_week_label"
             app:layout_constraintStart_toStartOf="@id/per_week_label"
             app:layout_constraintTop_toBottomOf="@id/description"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/per_week"
-            android:textAppearance="@style/TextAppearance.Timeo.Body1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintEnd_toStartOf="@id/days_spent_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/per_week" />
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:text="@{viewModel.state.daysSpent}"
-            android:textAppearance="@style/TextAppearance.Timeo.Headline3"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toEndOf="@id/days_spent_label"
             app:layout_constraintStart_toStartOf="@id/days_spent_label"
             app:layout_constraintTop_toBottomOf="@id/description"
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/days"
-            android:textAppearance="@style/TextAppearance.Timeo.Body1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintEnd_toStartOf="@id/last_week_label"
             app:layout_constraintStart_toEndOf="@id/per_week_label"
             app:layout_constraintTop_toBottomOf="@id/days_spent" />
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:text="@{@string/hours(viewModel.state.lastWeekTime)}"
-            android:textAppearance="@style/TextAppearance.Timeo.Headline3"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toEndOf="@id/last_week_label"
             app:layout_constraintStart_toStartOf="@id/last_week_label"
             app:layout_constraintTop_toBottomOf="@id/description"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/last_week"
-            android:textAppearance="@style/TextAppearance.Timeo.Body1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintEnd_toStartOf="@id/total_time_label"
             app:layout_constraintStart_toEndOf="@id/days_spent_label"
             app:layout_constraintTop_toBottomOf="@id/last_week" />
@@ -120,7 +120,7 @@
             android:layout_marginTop="@dimen/margin_large"
             android:text="@{@string/hours(viewModel.state.totalTime)}"
             android:textAlignment="textEnd"
-            android:textAppearance="@style/TextAppearance.Timeo.Headline3"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toEndOf="@id/total_time_label"
             app:layout_constraintStart_toStartOf="@id/total_time_label"
             app:layout_constraintTop_toBottomOf="@id/description"
@@ -132,7 +132,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/total"
-            android:textAppearance="@style/TextAppearance.Timeo.Body1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/last_week_label"
             app:layout_constraintTop_toBottomOf="@id/total_time" />
@@ -150,51 +150,55 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_default"
             android:text="@string/tasks"
-            android:textAppearance="@style/TextAppearance.Timeo.Subtitle1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/info_barrier" />
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/section_background_dark"
-            android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tasks_title">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tasks_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:itemCount="3"
-                tools:listitem="@layout/tasks_item" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp">
+                android:layout_marginTop="2dp"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
-                <Button
-                    style="?android:attr/buttonBarStyle"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tasks_list"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewModel.goToTasks()}"
-                    android:text="@string/show_more" />
+                    tools:itemCount="3"
+                    tools:listitem="@layout/tasks_item" />
 
-                <Button
-                    style="?android:attr/buttonBarStyle"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_default"
-                    android:onClick="@{() -> viewModel.addTask()}"
-                    android:text="@string/add_task" />
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp">
+
+                    <Button
+                        style="?android:attr/buttonBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{() -> viewModel.goToTasks()}"
+                        android:text="@string/show_more" />
+
+                    <Button
+                        style="?android:attr/buttonBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:onClick="@{() -> viewModel.addTask()}"
+                        android:text="@string/add_task" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

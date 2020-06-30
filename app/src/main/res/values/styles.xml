@@ -12,12 +12,6 @@
         <item name="android:paddingStart">@dimen/padding_default</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4
         </item>
-        <item name="android:fontFamily">@font/montserrat_regular</item>
-    </style>
-
-    <style name="Widget.Timeo.Header.Small">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
-        </item>
     </style>
 
     <style name="Widget.Timeo.Divider" parent="">

@@ -22,131 +22,137 @@
             android:orientation="vertical"
             android:padding="@dimen/padding_default">
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/section_background"
-                android:onClick="@{() -> viewModel.projects.navigateToList()}"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/padding_default">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:paddingStart="@dimen/padding_default"
-                    android:paddingEnd="@dimen/padding_default"
-                    android:text="@string/projects"
-                    android:textAppearance="@style/TextAppearance.Timeo.Headline2"
-                    android:textSize="18sp" />
-
-                <View style="@style/Widget.Timeo.Divider" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/projects_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="12dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="12dp"
-                    android:theme="@style/ThemeOverlay.Timeo.ListItem"
-                    app:visible="@{!viewModel.projects.isEmpty}"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/projects_item" />
-
-                <include
-                    android:id="@+id/projects_preloader"
-                    layout="@layout/preloader"
-                    app:visible="@{viewModel.projects.isLoading}" />
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.projects.navigateToList()}"
                     android:orientation="vertical"
-                    android:paddingTop="@dimen/padding_default"
-                    android:paddingBottom="@dimen/padding_default"
-                    app:visible="@{viewModel.projects.isEmpty}"
-                    tools:visibility="gone">
+                    android:paddingTop="16dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/there_is_nothing_here_yet"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:paddingStart="@dimen/padding_default"
+                        android:paddingEnd="@dimen/padding_default"
+                        android:text="@string/projects"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <View style="@style/Widget.Timeo.Divider" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/projects_list"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:onClick="@{() -> viewModel.projects.navigateToAdd()}"
-                        android:text="@string/create_project" />
+                        android:paddingStart="12dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="12dp"
+                        app:visible="@{!viewModel.projects.isEmpty}"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/projects_item" />
+
+                    <include
+                        android:id="@+id/projects_preloader"
+                        layout="@layout/preloader"
+                        app:visible="@{viewModel.projects.isLoading}" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/padding_default"
+                        android:paddingBottom="@dimen/padding_default"
+                        app:visible="@{viewModel.projects.isEmpty}"
+                        tools:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/there_is_nothing_here_yet"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:onClick="@{() -> viewModel.projects.navigateToAdd()}"
+                            android:text="@string/create_project" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_default"
-                android:background="@drawable/section_background"
-                android:onClick="@{() -> viewModel.activities.navigateToList()}"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/padding_default"
-                app:visible="@{viewModel.activitiesEnabled}">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:paddingStart="@dimen/padding_default"
-                    android:paddingEnd="@dimen/padding_default"
-                    android:text="@string/activities"
-                    android:textAppearance="@style/TextAppearance.Timeo.Headline2"
-                    android:textSize="18sp" />
-
-                <View style="@style/Widget.Timeo.Divider" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activities_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="12dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="12dp"
-                    android:theme="@style/ThemeOverlay.Timeo.ListItem"
-                    app:visible="@{!viewModel.activities.isEmpty}"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/activities_item" />
-
-                <include
-                    android:id="@+id/activities_preloader"
-                    layout="@layout/preloader"
-                    app:visible="@{viewModel.activities.isLoading}" />
+                android:layout_marginTop="@dimen/margin_default">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.activities.navigateToList()}"
                     android:orientation="vertical"
-                    android:paddingTop="@dimen/padding_default"
-                    android:paddingBottom="@dimen/padding_default"
-                    app:visible="@{viewModel.activities.isEmpty}"
-                    tools:visibility="gone">
+                    android:paddingTop="16dp"
+                    app:visible="@{viewModel.activitiesEnabled}">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/there_is_nothing_here_yet"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:paddingStart="@dimen/padding_default"
+                        android:paddingEnd="@dimen/padding_default"
+                        android:text="@string/activities"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
-                    <Button
-                        android:layout_width="wrap_content"
+                    <View style="@style/Widget.Timeo.Divider" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activities_list"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:onClick="@{() -> viewModel.activities.navigateToAdd()}"
-                        android:text="@string/create_activity" />
+                        android:paddingStart="12dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="12dp"
+                        app:visible="@{!viewModel.activities.isEmpty}"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/activities_item" />
+
+                    <include
+                        android:id="@+id/activities_preloader"
+                        layout="@layout/preloader"
+                        app:visible="@{viewModel.activities.isLoading}" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/padding_default"
+                        android:paddingBottom="@dimen/padding_default"
+                        app:visible="@{viewModel.activities.isEmpty}"
+                        tools:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/there_is_nothing_here_yet"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_small"
+                            android:onClick="@{() -> viewModel.activities.navigateToAdd()}"
+                            android:text="@string/create_activity" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

@@ -16,8 +16,7 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="@{() -> viewModel.navigateToDetails()}"
-        app:cardBackgroundColor="#f6f6f6">
+        android:onClick="@{() -> viewModel.navigateToDetails()}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,11 +29,11 @@
                 android:id="@+id/name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="@{viewModel.state.name}"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:textAppearance="@style/TextAppearance.Timeo.Headline4"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/total_time"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +47,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@{@string/hours(viewModel.state.totalTime)}"
-                android:textAppearance="@style/TextAppearance.Timeo.Headline6"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintEnd_toStartOf="@+id/plus_button"
                 tools:text="820h" />
 

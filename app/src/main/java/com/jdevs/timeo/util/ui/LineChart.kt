@@ -1,12 +1,11 @@
 package com.jdevs.timeo.util.ui
 
-import androidx.annotation.ColorRes
+import android.graphics.Color.WHITE
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.jdevs.timeo.R
 import com.jdevs.timeo.data.stats.STATS_ENTRIES
 import com.jdevs.timeo.ui.common.TimeFormatter
 import com.jdevs.timeo.util.charts.ChartData
@@ -27,19 +26,19 @@ fun LineChart.setData(data: ChartData?) {
         return
     }
 
-    fun createDataSet(entries: List<Entry>?, @ColorRes color: Int, drawValues: Boolean) =
+    fun createDataSet(entries: List<Entry>?, drawValues: Boolean) =
         LineDataSet(entries, "").apply {
             setDrawValues(drawValues)
             valueTextSize = VALUE_TEXT_SIZE
             valueFormatter = TimeFormatter()
             lineWidth = LINE_WIDTH
-            this.color = context.getColorCompat(color)
+            valueTextColor = WHITE
+            this.color = WHITE
             setDrawCircles(false)
             isHighlightEnabled = false
         }
 
-    val currentDataSet =
-        createDataSet(data.entries.takeLast(ENTRIES_COUNT), R.color.black_800, true)
+    val currentDataSet = createDataSet(data.entries.takeLast(ENTRIES_COUNT), true)
 
     val dataSets = mutableListOf(currentDataSet)
 
@@ -48,7 +47,7 @@ fun LineChart.setData(data: ChartData?) {
         val prevStats = data.entries.take(ENTRIES_COUNT).map { Entry(it.x + ENTRIES_COUNT, it.y) }
 
         if (prevStats.find { it.y > 0 } != null) {
-            val prevDataSet = createDataSet(prevStats, R.color.black_700, false)
+            val prevDataSet = createDataSet(prevStats, false)
             prevDataSet.enableDashedLine(DASHED_LINE_LENGTH, DASHED_LINE_LENGTH, 0f)
             dataSets.add(prevDataSet)
         }

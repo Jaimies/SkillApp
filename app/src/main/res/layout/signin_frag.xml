@@ -23,7 +23,7 @@
             app:visible="@{!viewModel.isLoading}">
 
             <TextView
-                style="@style/Widget.Timeo.Header.Small"
+                style="@style/Widget.Timeo.Header"
                 android:text="@string/sign_in" />
 
             <com.google.android.material.textfield.TextInputLayout

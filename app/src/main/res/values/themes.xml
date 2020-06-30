@@ -4,6 +4,7 @@
     <style name="Theme.Timeo" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/green_600</item>
         <item name="colorAccent">@color/yellow_600</item>
+        <item name="android:statusBarColor">@color/blue_600</item>
         <item name="android:windowBackground">@drawable/window_background</item>
         <item name="android:textColorPrimary">@color/brown_900</item>
         <item name="android:textColorSecondary">@color/green_800</item>

@@ -9,7 +9,7 @@
             name="viewModel"
             type="com.jdevs.timeo.ui.activities.ActivityViewModel" />
 
-        <import type="com.jdevs.timeo.util.FormattingUtil" />
+        <import type="com.jdevs.timeo.util.ui.FormattingUtil" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

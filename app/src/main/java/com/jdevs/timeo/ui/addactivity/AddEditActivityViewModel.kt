@@ -75,7 +75,7 @@ class AddEditActivityViewModel @Inject constructor(
         val parentActivity = getParentActivity(parentActivityIndex)
         addActivity(
             Activity(
-                "", name.value!!, getMins(totalTime.value!!.toInt(), 0),
+                "", name.value!!, getMins(totalTime.value?.toInt() ?: 0, 0),
                 0, OffsetDateTime.now(), parentActivity?.toMinimal()
             )
         )

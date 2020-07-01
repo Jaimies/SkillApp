@@ -1,7 +1,5 @@
 package com.jdevs.timeo.ui.activitydetail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
@@ -20,8 +18,8 @@ import com.jdevs.timeo.util.time.getFriendlyHours
 import javax.inject.Inject
 
 class ActivityDetailViewModel(
-    private val getActivityById: GetActivityByIdUseCase,
     private val addRecord: AddRecordUseCase,
+    getActivityById: GetActivityByIdUseCase,
     getStats: GetStatsUseCase,
     activityId: String
 ) : StatsViewModel(getStats, activityId) {
@@ -30,18 +28,12 @@ class ActivityDetailViewModel(
     val showParentRecordDialog = SingleLiveEvent<Any>()
     val navigateToParentActivity = SingleLiveEvent<Any>()
 
-    val state: LiveData<ActivityDetailState> get() = _state
-    private val _state = MutableLiveData<ActivityDetailState>()
-
     val activity = getActivityById(activityId).map(Activity::mapToPresentation)
+    val state = activity.map { ActivityDetailState(it) }
 
     fun addRecord(activityId: String, activityName: String, time: Int) = launchCoroutine {
         val record = Record(name = activityName, time = time, activityId = activityId)
         addRecord(record)
-    }
-
-    fun setActivity(activity: ActivityItem) {
-        _state.value = ActivityDetailState(activity)
     }
 
     fun showRecordDialog() = showRecordDialog.call()
@@ -55,12 +47,12 @@ class ActivityDetailViewModel(
     }
 
     class Factory @Inject constructor(
-        private val getActivityById: GetActivityByIdUseCase,
         private val addRecord: AddRecordUseCase,
+        private val getActivityById: GetActivityByIdUseCase,
         private val getStats: GetStatsUseCase
     ) {
         fun create(activityId: String): ActivityDetailViewModel {
-            return ActivityDetailViewModel(getActivityById, addRecord, getStats, activityId)
+            return ActivityDetailViewModel(addRecord, getActivityById, getStats, activityId)
         }
     }
 }

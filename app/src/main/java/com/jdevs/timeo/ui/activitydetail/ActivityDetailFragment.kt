@@ -77,7 +77,6 @@ class ActivityDetailFragment : ActionBarFragment() {
         subactivities_recycler_view.setupAdapter(subactivitiesAdapter)
 
         observe(viewModel.activity) { activity ->
-            viewModel.setActivity(activity)
             subactivitiesAdapter.submitList(activity.subActivities)
         }
         observe(viewModel.showRecordDialog) { showRecordDialog() }

@@ -15,48 +15,43 @@ import javax.inject.Inject
 class AddEditProjectViewModel @Inject constructor(
     private val addProject: AddProjectUseCase,
     private val saveProjectUseCase: SaveProjectUseCase,
-    private val deleteProject: DeleteProjectUseCase
+    private val deleteProject: DeleteProjectUseCase,
+    project: ProjectItem?
 ) : KeyboardHidingViewModel() {
 
-    val name = MutableLiveData<String>()
-    val description = MutableLiveData<String>()
-    val nameError get() = _nameError as LiveData<String>
-    val projectExists get() = _projectExists as LiveData<Boolean>
-    private val _nameError = MutableLiveData<String>()
-    private val _projectExists = MutableLiveData(false)
+    val name = MutableLiveData(project?.name)
+    val description = MutableLiveData(project?.description)
+    val projectExists = project != null
 
+    val nameError get() = _nameError as LiveData<String>
+    private val _nameError = MutableLiveData<String>()
     val showDeleteDialog = SingleLiveEvent<Any>()
 
-    fun setProject(project: ProjectItem) {
-
-        if (name.value != null) {
-            return
-        }
-
-        name.value = project.name
-        description.value = project.description
-        _projectExists.value = true
-    }
-
     fun setNameError(error: String) {
-
         _nameError.value = error
     }
 
     fun addProject(name: String, description: String) = launchCoroutine {
-
         addProject.invoke(name, description)
     }
 
     fun saveProject(project: ProjectItem) = launchCoroutine {
-
         saveProjectUseCase.invoke(project.mapToDomain())
     }
 
     fun deleteProject(project: ProjectItem) = launchCoroutine {
-
         deleteProject.invoke(project.mapToDomain())
     }
 
     fun showDeleteDialog() = showDeleteDialog.call()
+
+    class Factory @Inject constructor(
+        private val addProject: AddProjectUseCase,
+        private val saveProjectUseCase: SaveProjectUseCase,
+        private val deleteProject: DeleteProjectUseCase
+    ) {
+        fun create(project: ProjectItem?) = AddEditProjectViewModel(
+            addProject, saveProjectUseCase, deleteProject, project
+        )
+    }
 }

@@ -1,6 +1,8 @@
 package com.jdevs.timeo.ui.addactivity
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.jdevs.timeo.R
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.toMinimal
 import com.jdevs.timeo.domain.usecase.activities.AddActivityUseCase
@@ -12,60 +14,41 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.shared.util.mapList
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
-import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.time.getMins
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
+
+private const val NAME_MAX_LENGTH = 100
 
 class AddEditActivityViewModel(
     getParentActivitySuggestions: GetParentActivitySuggestionsUseCase,
     private val addActivity: AddActivityUseCase,
     private val saveActivity: SaveActivityUseCase,
     private val deleteActivity: DeleteActivityUseCase,
+    private val ioScope: CoroutineScope,
     private val activity: ActivityItem?
 ) : KeyboardHidingViewModel() {
 
-    val name = MutableLiveData<String>(activity?.name)
+    val name = MutableLiveData(activity?.name)
     val totalTime = MutableLiveData<String>()
-    val nameError = MutableLiveData<String>()
-    val parentActivityError = MutableLiveData<String>()
+    val nameError = MutableLiveData(-1)
+    val parentActivityError = MutableLiveData(-1)
     val showDeleteDialog = SingleLiveEvent<Any>()
     val parentActivityName = activity?.parentActivity?.name
     val activityExists = activity != null
+
+    val navigateBack: LiveData<Any> get() = _navigateBack
+    private val _navigateBack = SingleLiveEvent<Any>()
 
     var parentActivityIndex: Int? = PARENT_ACTIVITY_UNCHANGED
 
     val activities by lazy(NONE) { getParentActivitySuggestions(activity?.id.orEmpty()) }
     val activityNames by lazy(NONE) { activities.mapList(Activity::name) }
 
-    suspend fun saveActivity(oldActivity: ActivityItem, parentActivityIndex: Int) {
-
-        if (parentActivityIndex == PARENT_ACTIVITY_UNCHANGED) {
-            saveActivity(oldActivity.copy(name = name.value!!).mapToDomain())
-            return
-        }
-
-        val parentActivity = getParentActivity(parentActivityIndex)
-
-        saveActivity.invoke(
-            oldActivity.mapToDomain()
-                .copy(name = name.value!!, parentActivity = parentActivity?.toMinimal())
-        )
-    }
-
-    fun addActivity(parentActivityIndex: Int) = launchCoroutine {
-
-        val parentActivity = getParentActivity(parentActivityIndex)
-        addActivity(
-            Activity(
-                "", name.value!!, getMins(totalTime.value?.toInt() ?: 0, 0),
-                0, OffsetDateTime.now(), parentActivity?.toMinimal()
-            )
-        )
-    }
-
-    fun deleteActivity(activity: ActivityItem) = launchCoroutine {
+    fun deleteActivity(activity: ActivityItem) = ioScope.launch {
         deleteActivity(activity.mapToDomain())
     }
 
@@ -75,14 +58,67 @@ class AddEditActivityViewModel(
 
     fun showDeleteDialog() = showDeleteDialog.call()
 
+    fun saveActivity() {
+
+        val name = name.value.orEmpty()
+        if (!validateName(name)) return
+
+        val index = parentActivityIndex
+
+        if (index == null) {
+            parentActivityError.value = R.string.invalid_activity_error
+            return
+        }
+
+        val parentActivity = getParentActivity(index)
+
+        ioScope.launch {
+
+            if (activity != null) {
+
+                if (index == PARENT_ACTIVITY_UNCHANGED) {
+                    saveActivity(activity.copy(name = name).mapToDomain())
+                    return@launch
+                }
+
+                saveActivity(
+                    activity.mapToDomain()
+                        .copy(name = name, parentActivity = parentActivity?.toMinimal())
+                )
+            } else {
+                addActivity(
+                    Activity(
+                        "", name, getMins(totalTime.value?.toInt() ?: 0, 0),
+                        0, OffsetDateTime.now(), parentActivity?.toMinimal()
+                    )
+                )
+            }
+        }
+
+        _navigateBack.call()
+    }
+
+    private fun validateName(name: String): Boolean {
+        when {
+            name.isEmpty() -> nameError.value = R.string.name_empty
+            name.length >= NAME_MAX_LENGTH -> nameError.value = R.string.name_too_long
+            else -> return true
+        }
+
+        return false
+    }
+
+
     class Factory @Inject constructor(
         private val getParentActivitySuggestions: GetParentActivitySuggestionsUseCase,
         private val addActivity: AddActivityUseCase,
         private val saveActivity: SaveActivityUseCase,
-        private val deleteActivity: DeleteActivityUseCase
+        private val deleteActivity: DeleteActivityUseCase,
+        private val ioScope: CoroutineScope
     ) {
         fun create(activity: ActivityItem?) = AddEditActivityViewModel(
-            getParentActivitySuggestions, addActivity, saveActivity, deleteActivity, activity
+            getParentActivitySuggestions, addActivity,
+            saveActivity, deleteActivity, ioScope, activity
         )
     }
 

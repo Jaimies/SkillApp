@@ -10,6 +10,8 @@
             type="com.jdevs.timeo.ui.addactivity.AddEditActivityViewModel" />
 
         <import type="com.jdevs.timeo.util.ListUtil" />
+
+        <import type="com.jdevs.timeo.util.ui.StringUtil" />
     </data>
 
     <LinearLayout
@@ -30,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
-            app:error="@{viewModel.nameError}">
+            app:error="@{StringUtil.getStringSafe(context, viewModel.nameError)}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_edit_text"
@@ -49,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/parent_activity"
-            app:error="@{viewModel.parentActivityError}">
+            app:error="@{StringUtil.getStringSafe(context, viewModel.parentActivityError)}">
 
             <AutoCompleteTextView
                 android:id="@+id/parent_activity_textview"

@@ -30,7 +30,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        ActivitiesModule::class, RecordsModule::class, ProjectsModule::class, TasksModule::class,
+        BaseModule::class, ActivitiesModule::class, RecordsModule::class, ProjectsModule::class, TasksModule::class,
         StatsModule::class, DatabaseModule::class, AuthModule::class, SettingsModule::class, ViewModelModule::class
     ]
 )

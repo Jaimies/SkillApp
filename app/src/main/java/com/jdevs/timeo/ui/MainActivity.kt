@@ -11,7 +11,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.jdevs.timeo.R
-import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.navigation.setupWithNavController
 import com.jdevs.timeo.util.ui.navigateAnimated
@@ -99,16 +98,7 @@ class MainActivity : AppCompatActivity(),
         window.decorView.hideKeyboard()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        if (isFinishing) {
-            (application as TimeoApplication).onDestroy()
-        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
-
         outState.putInt(SELECTED_ITEM_ID, bottomNavView.selectedItemId)
         super.onSaveInstanceState(outState)
     }

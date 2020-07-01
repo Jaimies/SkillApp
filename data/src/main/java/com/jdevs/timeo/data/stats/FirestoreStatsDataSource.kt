@@ -23,14 +23,9 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     FirestoreListDataSource(authRepository),
     StatsRemoteDataSource {
 
-    override val dayStats
-        get() = dayStatsRef.watch(FirestoreStats::toDayStats, DAY_STATS_ENTRIES) { daysSinceEpoch }
-
-    override val weekStats
-        get() = weekStatsRef.watch(FirestoreStats::toWeekStats) { weeksSinceEpoch }
-
-    override val monthStats
-        get() = monthStatsRef.watch(FirestoreStats::toMonthStats) { monthSinceEpoch }
+    override val dayStats get() = dayStatsRef.watch(DAY_STATS_ENTRIES) { daysSinceEpoch }
+    override val weekStats get() = weekStatsRef.watch { weeksSinceEpoch }
+    override val monthStats get() = monthStatsRef.watch { monthSinceEpoch }
 
     private var dayStatsRef: CollectionReference by SafeAccess()
     private var weekStatsRef: CollectionReference by SafeAccess()
@@ -42,8 +37,7 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
         monthStatsRef = createRef(uid, MONTH_STATS_COLLECTION)
     }
 
-    private inline fun <reified I : Any, O : Any> CollectionReference.watch(
-        noinline mapFunction: (I) -> O,
+    private inline fun CollectionReference.watch(
         count: Int = STATS_ENTRIES,
         converter: OffsetDateTime.() -> Int
     ) =
@@ -51,5 +45,5 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
             .whereLessThanOrEqualTo(DAY, OffsetDateTime.now().converter())
             .orderBy(DAY, ASCENDING)
             .limit(count.toLong())
-            .watch(mapFunction)
+            .watch(FirestoreStat::mapToDomain)
 }

@@ -10,11 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProfileFragBinding
 import com.jdevs.timeo.di.ViewModelFactory
+import com.jdevs.timeo.ui.activitydetail.ChartsAdapter
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.navigateToGraph
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.ui.navigateAnimated
+import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
 import javax.inject.Inject
 
 class ProfileFragment : ActionBarFragment() {
@@ -44,6 +46,9 @@ class ProfileFragment : ActionBarFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        stats_viewpager.adapter =
+            ChartsAdapter(viewModel.dayStats, viewModel.weekStats, viewModel.monthStats)
+
         observe(viewModel.navigateToSignIn) { findNavController().navigateAnimated(R.id.signin_fragment_dest) }
         observe(viewModel.navigateToOverview) { navigateToGraph(R.id.overview) }
     }

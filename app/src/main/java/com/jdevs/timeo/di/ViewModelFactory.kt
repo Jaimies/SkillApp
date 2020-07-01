@@ -3,7 +3,6 @@ package com.jdevs.timeo.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.jdevs.timeo.ui.activities.ActivitiesViewModel
-import com.jdevs.timeo.ui.activitydetail.ActivityDetailViewModel
 import com.jdevs.timeo.ui.addactivity.AddEditActivityViewModel
 import com.jdevs.timeo.ui.addproject.AddEditProjectViewModel
 import com.jdevs.timeo.ui.auth.SignInViewModel
@@ -100,11 +99,6 @@ interface OverviewViewModelModule {
     @IntoMap
     @ViewModelKey(HistoryViewModel::class)
     fun bindHistoryViewModel(viewModel: HistoryViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(ActivityDetailViewModel::class)
-    fun bindActivityDetailViewModel(viewModel: ActivityDetailViewModel): ViewModel
 }
 
 @Module

@@ -7,12 +7,13 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
-import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.Recordable
 import com.jdevs.timeo.ui.common.ActionBarFragment
@@ -20,19 +21,29 @@ import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
-import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
+import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.ui.setupAdapter
 import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
 import kotlinx.android.synthetic.main.activitydetail_frag.subactivities_recycler_view
 import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
+    private val viewModel: ActivityDetailViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (!modelClass.isAssignableFrom(ActivityDetailViewModel::class.java)) {
+                    throw IllegalArgumentException("ViewModel not found")
+                }
 
-    private val viewModel: ActivityDetailViewModel by viewModels { viewModelFactory }
+                @Suppress("UNCHECKED_CAST")
+                return viewModelFactory.create(args.activityId) as T
+            }
+        }
+    }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ActivityDetailViewModel.Factory
 
     override val menuId = R.menu.activitydetail_frag_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
@@ -45,18 +56,12 @@ class ActivityDetailFragment : ActionBarFragment() {
         appComponent.inject(this)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.setupActivityLiveData(args.activityId)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
         val binding = ActivitydetailFragBinding.inflate(inflater, container, false).also {
-
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }
@@ -87,9 +92,9 @@ class ActivityDetailFragment : ActionBarFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == R.id.editActivity) {
-
             val directions = OverviewDirections
                 .actionToAddActivityFragment(viewModel.activity.value!!)
+
             findNavController().navigateAnimated(directions)
             return true
         }
@@ -102,9 +107,9 @@ class ActivityDetailFragment : ActionBarFragment() {
     }
 
     private fun navigateToSubActivity(index: Int) {
-
         val directions = OverviewDirections
             .actionToActivityDetailFragment(viewModel.activity.value!!.subActivities[index].id)
+
         findNavController().navigateAnimated(directions)
     }
 

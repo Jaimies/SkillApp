@@ -9,7 +9,6 @@ import com.jdevs.timeo.ui.auth.SignUpViewModel
 import com.jdevs.timeo.ui.history.HistoryViewModel
 import com.jdevs.timeo.ui.overview.OverviewViewModel
 import com.jdevs.timeo.ui.profile.ProfileViewModel
-import com.jdevs.timeo.ui.projectdetail.ProjectDetailViewModel
 import com.jdevs.timeo.ui.projects.ProjectsViewModel
 import com.jdevs.timeo.ui.settings.SettingsViewModel
 import com.jdevs.timeo.ui.tasks.AddTaskViewModel
@@ -65,11 +64,6 @@ interface OverviewViewModelModule {
     @IntoMap
     @ViewModelKey(AddEditProjectViewModel::class)
     fun bindAddProjectViewModel(viewModel: AddEditProjectViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(ProjectDetailViewModel::class)
-    fun bindProjectDetailViewModel(viewModel: ProjectDetailViewModel): ViewModel
 
     @Binds
     @IntoMap

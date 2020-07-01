@@ -3,7 +3,6 @@ package com.jdevs.timeo.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.jdevs.timeo.ui.activities.ActivitiesViewModel
-import com.jdevs.timeo.ui.addactivity.AddEditActivityViewModel
 import com.jdevs.timeo.ui.addproject.AddEditProjectViewModel
 import com.jdevs.timeo.ui.auth.SignInViewModel
 import com.jdevs.timeo.ui.auth.SignUpViewModel
@@ -46,14 +45,12 @@ annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
 @Module(includes = [ProfileViewModelModule::class, OverviewViewModelModule::class])
 interface ViewModelModule {
-
     @Binds
     fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }
 
 @Module
 interface OverviewViewModelModule {
-
     @Binds
     @IntoMap
     @ViewModelKey(OverviewViewModel::class)
@@ -89,11 +86,6 @@ interface OverviewViewModelModule {
     @IntoMap
     @ViewModelKey(ActivitiesViewModel::class)
     fun bindActivitiesViewModel(viewModel: ActivitiesViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(AddEditActivityViewModel::class)
-    fun bindAddActivityViewModel(viewModel: AddEditActivityViewModel): ViewModel
 
     @Binds
     @IntoMap

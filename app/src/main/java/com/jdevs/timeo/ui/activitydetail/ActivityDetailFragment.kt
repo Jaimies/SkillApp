@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.OverviewDirections
@@ -21,6 +18,7 @@ import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
+import com.jdevs.timeo.util.lifecycle.viewModels
 import com.jdevs.timeo.util.time.getMins
 import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.ui.setupAdapter
@@ -29,18 +27,7 @@ import kotlinx.android.synthetic.main.activitydetail_frag.subactivities_recycler
 import javax.inject.Inject
 
 class ActivityDetailFragment : ActionBarFragment() {
-    private val viewModel: ActivityDetailViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                if (!modelClass.isAssignableFrom(ActivityDetailViewModel::class.java)) {
-                    throw IllegalArgumentException("ViewModel not found")
-                }
-
-                @Suppress("UNCHECKED_CAST")
-                return viewModelFactory.create(args.activityId) as T
-            }
-        }
-    }
+    private val viewModel by viewModels { viewModelFactory.create(args.activityId) }
 
     @Inject
     lateinit var viewModelFactory: ActivityDetailViewModel.Factory

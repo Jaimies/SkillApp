@@ -7,13 +7,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddactivityFragBinding
-import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.application
@@ -21,15 +19,16 @@ import com.jdevs.timeo.util.fragment.mainActivity
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.snackbar
 import com.jdevs.timeo.util.hardware.hideKeyboard
+import com.jdevs.timeo.util.lifecycle.viewModels
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditActivityFragment : ActionBarFragment() {
 
-    private val viewModel: AddEditActivityViewModel by viewModels { viewModelFactory }
+    private val viewModel by viewModels { viewModelFactory.create(args.activity) }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: AddEditActivityViewModel.Factory
 
     override val menuId = R.menu.addactivity_frag_menu
     private val args: AddEditActivityFragmentArgs by navArgs()
@@ -38,7 +37,6 @@ class AddEditActivityFragment : ActionBarFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         appComponent.inject(this)
-        args.activity?.let { viewModel.setActivity(it) }
     }
 
     override fun onCreateView(
@@ -47,7 +45,6 @@ class AddEditActivityFragment : ActionBarFragment() {
     ): View {
 
         val binding = AddactivityFragBinding.inflate(inflater, container, false).also {
-
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }

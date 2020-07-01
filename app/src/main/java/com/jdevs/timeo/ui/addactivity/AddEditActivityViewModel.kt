@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.addactivity
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.toMinimal
@@ -19,41 +18,26 @@ import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
 
-class AddEditActivityViewModel @Inject constructor(
+class AddEditActivityViewModel(
     getParentActivitySuggestions: GetParentActivitySuggestionsUseCase,
     private val addActivity: AddActivityUseCase,
     private val saveActivity: SaveActivityUseCase,
-    private val deleteActivity: DeleteActivityUseCase
+    private val deleteActivity: DeleteActivityUseCase,
+    private val activity: ActivityItem?
 ) : KeyboardHidingViewModel() {
 
-    val name = MutableLiveData<String>()
+    val name = MutableLiveData<String>(activity?.name)
     val totalTime = MutableLiveData<String>()
     val nameError = MutableLiveData<String>()
     val parentActivityError = MutableLiveData<String>()
     val showDeleteDialog = SingleLiveEvent<Any>()
-
-    val parentActivityName get() = _parentActivityName as LiveData<String>
-    private val _parentActivityName = MutableLiveData<String>()
-    val activityExists get() = _activityExists as LiveData<Boolean>
-    private val _activityExists = MutableLiveData(false)
+    val parentActivityName = activity?.parentActivity?.name
+    val activityExists = activity != null
 
     var parentActivityIndex: Int? = PARENT_ACTIVITY_UNCHANGED
-    private var activityId = ""
 
-    val activities by lazy(NONE) { getParentActivitySuggestions(activityId) }
+    val activities by lazy(NONE) { getParentActivitySuggestions(activity?.id.orEmpty()) }
     val activityNames by lazy(NONE) { activities.mapList(Activity::name) }
-
-    fun setActivity(activity: ActivityItem) {
-
-        if (name.value != null) {
-            return
-        }
-
-        activityId = activity.id
-        name.value = activity.name
-        _parentActivityName.value = activity.parentActivity?.name
-        _activityExists.value = true
-    }
 
     suspend fun saveActivity(oldActivity: ActivityItem, parentActivityIndex: Int) {
 
@@ -82,7 +66,6 @@ class AddEditActivityViewModel @Inject constructor(
     }
 
     fun deleteActivity(activity: ActivityItem) = launchCoroutine {
-
         deleteActivity(activity.mapToDomain())
     }
 
@@ -91,6 +74,17 @@ class AddEditActivityViewModel @Inject constructor(
     private fun getParentActivity(index: Int) = activities.value!!.getOrNull(index - 1)
 
     fun showDeleteDialog() = showDeleteDialog.call()
+
+    class Factory @Inject constructor(
+        private val getParentActivitySuggestions: GetParentActivitySuggestionsUseCase,
+        private val addActivity: AddActivityUseCase,
+        private val saveActivity: SaveActivityUseCase,
+        private val deleteActivity: DeleteActivityUseCase
+    ) {
+        fun create(activity: ActivityItem?) = AddEditActivityViewModel(
+            getParentActivitySuggestions, addActivity, saveActivity, deleteActivity, activity
+        )
+    }
 
     companion object {
         private const val PARENT_ACTIVITY_UNCHANGED = -2

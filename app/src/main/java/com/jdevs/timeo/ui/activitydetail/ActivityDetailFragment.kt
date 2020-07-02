@@ -26,13 +26,12 @@ import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
 import kotlinx.android.synthetic.main.activitydetail_frag.subactivities_recycler_view
 import javax.inject.Inject
 
-class ActivityDetailFragment : ActionBarFragment() {
+class ActivityDetailFragment : ActionBarFragment(R.menu.activitydetail_frag_menu) {
     private val viewModel by viewModels { viewModelFactory.create(args.activityId) }
 
     @Inject
     lateinit var viewModelFactory: ActivityDetailViewModel.Factory
 
-    override val menuId = R.menu.activitydetail_frag_menu
     private val args: ActivityDetailFragmentArgs by navArgs()
     private val subactivitiesAdapter = ListAdapter(
         SubactivityDelegateAdapter(::showSubactivityRecordDialog, ::navigateToSubActivity)

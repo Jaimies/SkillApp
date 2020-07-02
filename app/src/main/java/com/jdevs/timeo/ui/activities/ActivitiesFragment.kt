@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 private const val ACTIVITIES_VISIBLE_THRESHOLD = 5
 
-class ActivitiesFragment : ListFragment<ActivityItem>() {
+class ActivitiesFragment : ListFragment<ActivityItem>(R.menu.activities_frag_menu) {
 
     override val delegateAdapter by lazy {
         ActivityDelegateAdapter(::showRecordDialog, ::navigateToDetails)
@@ -35,8 +35,6 @@ class ActivitiesFragment : ListFragment<ActivityItem>() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
-    override val menuId = R.menu.activities_frag_menu
     private var isLoadEventHandled = false
 
     override fun onAttach(context: Context) {

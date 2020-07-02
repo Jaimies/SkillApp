@@ -20,14 +20,12 @@ import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.lifecycle.viewModels
 import javax.inject.Inject
 
-class AddEditActivityFragment : ActionBarFragment() {
+class AddEditActivityFragment : ActionBarFragment(R.menu.addactivity_frag_menu) {
 
     private val viewModel by viewModels { viewModelFactory.create(args.activity) }
 
     @Inject
     lateinit var viewModelFactory: AddEditActivityViewModel.Factory
-
-    override val menuId = R.menu.addactivity_frag_menu
     private val args: AddEditActivityFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {

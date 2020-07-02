@@ -3,11 +3,10 @@ package com.jdevs.timeo.ui.common
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
 
-abstract class ActionBarFragment : Fragment() {
-
-    protected open val menuId = -1
+abstract class ActionBarFragment(@MenuRes private val menuId: Int) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

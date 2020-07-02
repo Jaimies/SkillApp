@@ -21,13 +21,11 @@ import javax.inject.Inject
 
 private const val PROJECTS_VISIBLE_THRESHOLD = 10
 
-class ProjectsFragment : ListFragment<ProjectItem>() {
+class ProjectsFragment : ListFragment<ProjectItem>(R.menu.projects_frag_menu) {
 
     override val delegateAdapter by lazy {
         ProjectDelegateAdapter({ snackbar(R.string.todo) }, ::navigateToDetails)
     }
-
-    override val menuId = R.menu.projects_frag_menu
 
     override val viewModel: ProjectsViewModel by viewModels { viewModelFactory }
 

@@ -22,12 +22,10 @@ import com.jdevs.timeo.util.ui.setupAdapter
 import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 import javax.inject.Inject
 
-class ProjectDetailFragment : ActionBarFragment() {
+class ProjectDetailFragment : ActionBarFragment(R.menu.activities_frag_menu) {
 
     private val args: ProjectDetailFragmentArgs by navArgs()
     private val adapter by lazy { ListAdapter(TaskDelegateAdapter(viewModel::setTaskCompleted)) }
-    override val menuId = R.menu.activitydetail_frag_menu
-
     private val viewModel by viewModels { viewModelFactory.create(args.project.id) }
 
     @Inject

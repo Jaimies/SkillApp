@@ -21,7 +21,7 @@ import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.lifecycle.viewModels
 import javax.inject.Inject
 
-class AddEditProjectFragment : ActionBarFragment() {
+class AddEditProjectFragment : ActionBarFragment(R.menu.addactivity_frag_menu) {
 
     private val viewModel by viewModels { viewModelFactory.create(args.project) }
 
@@ -29,8 +29,6 @@ class AddEditProjectFragment : ActionBarFragment() {
     lateinit var viewModelFactory: AddEditProjectViewModel.Factory
 
     private val args: AddEditProjectFragmentArgs by navArgs()
-    override val menuId = R.menu.addproject_frag_menu
-
     private val isEdited get() = args.project != null
 
     override fun onAttach(context: Context) {

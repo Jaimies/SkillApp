@@ -19,13 +19,11 @@ import com.jdevs.timeo.util.ui.navigateAnimated
 import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
 import javax.inject.Inject
 
-class ProfileFragment : ActionBarFragment() {
+class ProfileFragment : ActionBarFragment(R.menu.profile_frag_menu) {
     private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
-    override val menuId = R.menu.profile_frag_menu
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

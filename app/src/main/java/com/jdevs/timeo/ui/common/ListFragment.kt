@@ -3,6 +3,7 @@ package com.jdevs.timeo.ui.common
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.annotation.MenuRes
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +23,7 @@ import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.fragment.observe
 import javax.inject.Inject
 
-abstract class ListFragment<T : ViewItem> : ActionBarFragment() {
+abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBarFragment(menuId) {
 
     protected abstract val delegateAdapter: DelegateAdapter
     protected abstract val viewModel: ListViewModel<T>

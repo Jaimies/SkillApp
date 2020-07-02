@@ -6,8 +6,8 @@ data class Activity(
     val id: String = "",
     val name: String,
     val totalTime: Int,
-    val lastWeekTime: Int,
-    val creationDate: OffsetDateTime,
+    val lastWeekTime: Int = 0,
+    val creationDate: OffsetDateTime = OffsetDateTime.now(),
     val parentActivity: ActivityMinimal?,
     val subActivities: List<ActivityMinimal> = emptyList()
 )

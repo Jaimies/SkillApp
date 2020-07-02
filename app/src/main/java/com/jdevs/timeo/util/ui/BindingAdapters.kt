@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.annotation.ArrayRes
+import androidx.core.util.Consumer
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
@@ -25,7 +26,6 @@ fun SignInButton.setOnClickListener(onClick: Runnable) = setOnClickListener { on
 
 @BindingAdapter("onEnterPressed")
 fun EditText.setOnEnterPressedListener(block: Runnable) {
-
     setOnEditorActionListener { _, _, _ ->
         block.run()
         true
@@ -44,12 +44,8 @@ fun AutoCompleteTextView.setEntries(entries: List<Any>?) {
     setAdapter(ArrayAdapter(context, android.R.layout.simple_list_item_1, entries))
 }
 
-interface OnSelectedItemChangedListener {
-    fun onChanged(newPosition: Int?)
-}
-
 @BindingAdapter("onSelectedItemChanged")
-fun AutoCompleteTextView.setOnSelectedItemPositionChanged(onChanged: OnSelectedItemChangedListener) {
-    setOnItemClickListener { _, _, position, _ -> onChanged.onChanged(position) }
-    doAfterTextChanged { onChanged.onChanged(null) }
+fun AutoCompleteTextView.setOnSelectedItemPositionChanged(onChanged: Consumer<Int?>) {
+    setOnItemClickListener { _, _, position, _ -> onChanged.accept(position) }
+    doAfterTextChanged { onChanged.accept(null) }
 }

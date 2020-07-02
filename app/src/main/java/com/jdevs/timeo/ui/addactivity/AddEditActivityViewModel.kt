@@ -17,9 +17,7 @@ import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.util.time.getMins
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
-import kotlin.LazyThreadSafetyMode.NONE
 
 private const val NAME_MAX_LENGTH = 100
 
@@ -43,10 +41,10 @@ class AddEditActivityViewModel(
     val navigateBack: LiveData<Any> get() = _navigateBack
     private val _navigateBack = SingleLiveEvent<Any>()
 
-    var parentActivityIndex: Int? = PARENT_ACTIVITY_UNCHANGED
+    var parentActivityIndex: Int? = -1
 
-    val activities by lazy(NONE) { getParentActivitySuggestions(activity?.id.orEmpty()) }
-    val activityNames by lazy(NONE) { activities.mapList(Activity::name) }
+    val activities = getParentActivitySuggestions(activity?.id.orEmpty())
+    val activityNames = activities.mapList(Activity::name)
 
     fun deleteActivity(activity: ActivityItem) = ioScope.launch {
         deleteActivity(activity.mapToDomain())
@@ -55,8 +53,6 @@ class AddEditActivityViewModel(
     // Since the first item in dropdown is "–" and other activities start at index of 1,
     // we need to subtract 1 from index when trying to get the needed item
     private fun getParentActivity(index: Int) = activities.value!!.getOrNull(index - 1)
-
-    fun showDeleteDialog() = showDeleteDialog.call()
 
     fun saveActivity() {
 
@@ -76,20 +72,17 @@ class AddEditActivityViewModel(
 
             if (activity != null) {
 
-                if (index == PARENT_ACTIVITY_UNCHANGED) {
-                    saveActivity(activity.copy(name = name).mapToDomain())
-                    return@launch
+                val newActivity = activity.mapToDomain().run {
+                    if (index == -1) copy(name = name)
+                    else copy(name = name, parentActivity = parentActivity?.toMinimal())
                 }
 
-                saveActivity(
-                    activity.mapToDomain()
-                        .copy(name = name, parentActivity = parentActivity?.toMinimal())
-                )
+                saveActivity(newActivity)
             } else {
                 addActivity(
                     Activity(
-                        "", name, getMins(totalTime.value?.toInt() ?: 0, 0),
-                        0, OffsetDateTime.now(), parentActivity?.toMinimal()
+                        name = name, totalTime = getMins(totalTime.value?.toInt() ?: 0, 0),
+                        parentActivity = parentActivity?.toMinimal()
                     )
                 )
             }
@@ -108,6 +101,7 @@ class AddEditActivityViewModel(
         return false
     }
 
+    fun showDeleteDialog() = showDeleteDialog.call()
 
     class Factory @Inject constructor(
         private val getParentActivitySuggestions: GetParentActivitySuggestionsUseCase,
@@ -120,9 +114,5 @@ class AddEditActivityViewModel(
             getParentActivitySuggestions, addActivity,
             saveActivity, deleteActivity, ioScope, activity
         )
-    }
-
-    companion object {
-        private const val PARENT_ACTIVITY_UNCHANGED = -2
     }
 }

@@ -22,7 +22,7 @@ class ProfileViewModel @Inject constructor(
     val navigateToOverview: LiveData<Any> get() = _navigateToOverview
     private val _navigateToOverview = SingleLiveEvent<Any>()
 
-    fun triggerSignOut() {
+    fun signOut() {
         signOutUseCase.invoke()
         _navigateToOverview.call()
     }

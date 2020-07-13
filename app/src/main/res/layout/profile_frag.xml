@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:onClick="@{() -> viewModel.triggerSignOut()}"
+            android:onClick="@{() -> viewModel.signOut()}"
             android:text="@string/sign_out"
             app:visible="@{viewModel.isSignedIn}" />
     </LinearLayout>

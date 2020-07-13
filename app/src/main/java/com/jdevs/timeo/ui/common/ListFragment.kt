@@ -62,8 +62,8 @@ abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBar
 
             when (operation) {
                 is Changed -> when (operation.changeType) {
-                    Added -> firestoreAdapter.addItem(operation.item)
-                    Modified -> firestoreAdapter.modifyItem(operation.item)
+                    Added -> firestoreAdapter.addItem(operation.item, operation.newIndex)
+                    Modified -> firestoreAdapter.modifyItem(operation.item, operation.newIndex)
                     Removed -> firestoreAdapter.removeItem(operation.item)
                 }
 

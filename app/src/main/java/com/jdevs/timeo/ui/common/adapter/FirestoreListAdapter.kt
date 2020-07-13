@@ -60,26 +60,32 @@ open class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
     }
 
     @CallSuper
-    open fun addItem(item: ViewItem) {
+    open fun addItem(item: ViewItem, index: Int) {
 
         if (items.count { it.id == item.id } > 0) {
-
-            modifyItem(item)
+            modifyItem(item, index)
             return
         }
 
-        items.add(item)
-        notifyItemInserted(items.lastIndex)
+        items.add(index, item)
+        notifyItemInserted(index)
     }
 
-    fun modifyItem(item: ViewItem) {
+    @CallSuper
+    open fun modifyItem(item: ViewItem, newIndex: Int) {
 
-        val index = items.indexOfFirst { it.id == item.id }
+        val oldIndex = items.indexOfFirst { it.id == item.id }
+        val oldItem = items[oldIndex]
 
-        if (items[index] != item) {
+        if (oldItem != item) {
+            items[newIndex] = item
+            notifyItemChanged(oldIndex)
+        }
 
-            items[index] = item
-            notifyItemChanged(index)
+        if (newIndex != oldIndex) {
+            items.removeAt(oldIndex)
+            items.add(newIndex, item)
+            notifyItemMoved(oldIndex, newIndex)
         }
     }
 

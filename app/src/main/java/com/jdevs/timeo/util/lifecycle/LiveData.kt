@@ -12,7 +12,8 @@ inline fun <reified T : Any, O : ViewItem> List<LiveData<Operation<T>>>.mapOpera
 ): List<LiveData<Operation<O>>> {
     return map { liveData ->
         liveData.map { operation ->
-            if (operation is Changed) Changed(transform(operation.item), operation.changeType)
+            if (operation is Changed)
+                Changed(transform(operation.item), operation.changeType, operation.newIndex)
             else operation as Operation<O>
         }
     }

@@ -64,7 +64,7 @@ class ListLiveData<T : Any, O : Any>(
             REMOVED -> Removed
         }
 
-        value = Changed(mapFunction(item), changeType)
+        value = Changed(mapFunction(item), changeType, documentChange.newIndex)
     }
 
     companion object {

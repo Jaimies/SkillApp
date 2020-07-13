@@ -1,13 +1,12 @@
 package com.jdevs.timeo.domain.model
 
-data class Operation<T : Any>(
-    val data: T? = null,
-    val exception: Exception? = null,
-    val type: Int
-) {
+sealed class Operation<out T> {
+    class LastItemReached<T : Any> : Operation<T>()
+    class Successful<T : Any> : Operation<T>()
 
-    init {
+    class Changed<T : Any>(val item: T, val changeType: ChangeType) : Operation<T>()
 
-        require(data == null || exception == null) { "Both data and exception can't be non-null" }
+    enum class ChangeType {
+        Added, Modified, Removed
     }
 }

@@ -2,17 +2,21 @@ package com.jdevs.timeo.data.firestore
 
 import android.util.Log
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentChange.Type.ADDED
+import com.google.firebase.firestore.DocumentChange.Type.MODIFIED
+import com.google.firebase.firestore.DocumentChange.Type.REMOVED
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.jdevs.timeo.domain.model.Operation
-import com.jdevs.timeo.shared.OperationType.ADDED
-import com.jdevs.timeo.shared.OperationType.LAST_ITEM_REACHED
-import com.jdevs.timeo.shared.OperationType.MODIFIED
-import com.jdevs.timeo.shared.OperationType.REMOVED
-import com.jdevs.timeo.shared.OperationType.SUCCESSFUL
+import com.jdevs.timeo.domain.model.Operation.ChangeType.Added
+import com.jdevs.timeo.domain.model.Operation.ChangeType.Modified
+import com.jdevs.timeo.domain.model.Operation.ChangeType.Removed
+import com.jdevs.timeo.domain.model.Operation.Changed
+import com.jdevs.timeo.domain.model.Operation.LastItemReached
+import com.jdevs.timeo.domain.model.Operation.Successful
 
 class ListLiveData<T : Any, O : Any>(
     private val query: Query,
@@ -21,23 +25,23 @@ class ListLiveData<T : Any, O : Any>(
     private val type: Class<T>,
     private val mapFunction: (T) -> O,
     private val pageSize: Long
-) : FirestoreListenerLiveData<Operation<O>>(), EventListener<QuerySnapshot> {
+) : FirestoreListenerLiveData<Operation<O>>(),
+    EventListener<QuerySnapshot> {
 
     override fun registerListener() = query.addSnapshotListener(this)
 
     override fun onEvent(querySnapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {
 
         if (exception != null || querySnapshot == null) {
-
             Log.w(TAG, "Firestore data update failed", exception)
             return
         }
 
         querySnapshot.documentChanges.forEach(::processDocumentChange)
-        value = Operation(type = SUCCESSFUL)
+        value = Successful()
 
         if (querySnapshot.size() < pageSize) {
-            value = Operation(type = LAST_ITEM_REACHED)
+            value = LastItemReached()
             onLastItemReached()
         } else {
             setLastDocument(querySnapshot.documents.last())
@@ -48,21 +52,19 @@ class ListLiveData<T : Any, O : Any>(
     private fun processDocumentChange(documentChange: DocumentChange) {
 
         val item = try {
-
             documentChange.document.toObject(type)
         } catch (e: RuntimeException) {
-
             e.printStackTrace()
             return
         }
 
-        val operationType = when (documentChange.type) {
-            DocumentChange.Type.ADDED -> ADDED
-            DocumentChange.Type.MODIFIED -> MODIFIED
-            DocumentChange.Type.REMOVED -> REMOVED
+        val changeType = when (documentChange.type) {
+            ADDED -> Added
+            MODIFIED -> Modified
+            REMOVED -> Removed
         }
 
-        value = Operation(mapFunction(item), type = operationType)
+        value = Changed(mapFunction(item), changeType)
     }
 
     companion object {

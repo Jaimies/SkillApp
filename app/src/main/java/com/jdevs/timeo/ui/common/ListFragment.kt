@@ -8,14 +8,15 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jdevs.timeo.domain.model.Operation
+import com.jdevs.timeo.domain.model.Operation.ChangeType.Added
+import com.jdevs.timeo.domain.model.Operation.ChangeType.Modified
+import com.jdevs.timeo.domain.model.Operation.ChangeType.Removed
+import com.jdevs.timeo.domain.model.Operation.Changed
+import com.jdevs.timeo.domain.model.Operation.LastItemReached
+import com.jdevs.timeo.domain.model.Operation.Successful
 import com.jdevs.timeo.domain.repository.AuthRepository
-import com.jdevs.timeo.model.OperationItem
 import com.jdevs.timeo.model.ViewItem
-import com.jdevs.timeo.shared.OperationType.ADDED
-import com.jdevs.timeo.shared.OperationType.LAST_ITEM_REACHED
-import com.jdevs.timeo.shared.OperationType.MODIFIED
-import com.jdevs.timeo.shared.OperationType.REMOVED
-import com.jdevs.timeo.shared.OperationType.SUCCESSFUL
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
@@ -37,7 +38,6 @@ abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBar
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         if (authRepository.isSignedIn) {
             viewModel.getRemoteLiveDatas(false).forEach(::observeOperation)
         } else {
@@ -47,7 +47,6 @@ abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBar
 
     @Suppress("UNCHECKED_CAST")
     private fun observeLiveData(liveData: LiveData<PagedList<T>>) {
-
         observe(liveData) {
             adapter.submitList(it as PagedList<ViewItem>)
             viewModel.setLength(it.size)
@@ -55,26 +54,25 @@ abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBar
         }
     }
 
-    private fun observeOperation(liveData: LiveData<OperationItem<T>>) {
+    private fun observeOperation(liveData: LiveData<Operation<T>>) {
 
-        if (liveData.hasObservers()) {
-            return
-        }
+        if (liveData.hasObservers()) return
 
         observe(liveData) { operation ->
 
-            when (operation.type) {
+            when (operation) {
+                is Changed -> when (operation.changeType) {
+                    Added -> firestoreAdapter.addItem(operation.item)
+                    Modified -> firestoreAdapter.modifyItem(operation.item)
+                    Removed -> firestoreAdapter.removeItem(operation.item)
+                }
 
-                ADDED -> firestoreAdapter.addItem(operation.data!!)
-                MODIFIED -> firestoreAdapter.modifyItem(operation.data!!)
-                REMOVED -> firestoreAdapter.removeItem(operation.data!!)
-
-                SUCCESSFUL -> {
+                is Successful -> {
                     viewModel.setLength(firestoreAdapter.dataItemCount)
                     firestoreAdapter.showLoader()
                 }
 
-                LAST_ITEM_REACHED -> firestoreAdapter.hideLoader()
+                is LastItemReached -> firestoreAdapter.hideLoader()
             }
         }
     }

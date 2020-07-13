@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.addactivity
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -12,14 +11,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddactivityFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
-import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.mainActivity
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.snackbar
 import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.lifecycle.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddEditActivityFragment : ActionBarFragment(R.menu.addactivity_frag_menu) {
 
     private val viewModel by viewModels { viewModelFactory.create(args.activity) }
@@ -27,11 +27,6 @@ class AddEditActivityFragment : ActionBarFragment(R.menu.addactivity_frag_menu) 
     @Inject
     lateinit var viewModelFactory: AddEditActivityViewModel.Factory
     private val args: AddEditActivityFragmentArgs by navArgs()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        appComponent.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

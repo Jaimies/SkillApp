@@ -14,9 +14,11 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.navigation.setupWithNavController
 import com.jdevs.timeo.util.ui.navigateAnimated
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_act.bottom_nav_view
 import kotlinx.android.synthetic.main.main_act.nav_host_container
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 

@@ -14,24 +14,19 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.AddTaskLayoutBinding
-import com.jdevs.timeo.di.ViewModelFactory
-import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.hardware.showKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.add_task_layout.name_edit_text
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddTaskFragment : Fragment() {
 
-    private val viewModel: AddTaskViewModel by viewModels { viewModelFactory }
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: AddTaskViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        appComponent.inject(this)
         viewModel.projectId = requireArguments().getString("projectId")!!
     }
 

@@ -1,16 +1,16 @@
 package com.jdevs.timeo.ui.auth
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.jdevs.timeo.R
 import com.jdevs.timeo.domain.model.result.SignUpResult
 import com.jdevs.timeo.domain.usecase.auth.SignUpUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.util.hardware.NetworkUtils
-import javax.inject.Inject
 
 private const val PASSWORD_MIN_LENGTH = 8
 private const val PASSWORD_MAX_LENGTH = 100
 
-class SignUpViewModel @Inject constructor(
+class SignUpViewModel @ViewModelInject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val networkUtils: NetworkUtils
 ) : AuthViewModel() {

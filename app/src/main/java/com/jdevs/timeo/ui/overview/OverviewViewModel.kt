@@ -1,5 +1,6 @@
 package com.jdevs.timeo.ui.overview
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,9 +16,8 @@ import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.shared.util.mapList
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
-import javax.inject.Inject
 
-class OverviewViewModel @Inject constructor(
+class OverviewViewModel @ViewModelInject constructor(
     getTopProjects: GetTopProjectsUseCase,
     getTopActivities: GetTopActivitiesUseCase,
     private val addRecord: AddRecordUseCase,

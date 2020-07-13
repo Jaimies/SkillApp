@@ -1,5 +1,6 @@
 package com.jdevs.timeo.ui.tasks
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.paging.toLiveData
 import com.jdevs.timeo.domain.model.Task
 import com.jdevs.timeo.domain.usecase.tasks.GetTasksUseCase
@@ -9,9 +10,8 @@ import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.lifecycle.mapOperation
-import javax.inject.Inject
 
-class TasksViewModel @Inject constructor(
+class TasksViewModel @ViewModelInject constructor(
     private val getTasks: GetTasksUseCase,
     private val setTaskCompleted: SetTaskCompletedUseCase
 ) : ListViewModel<TaskItem>() {

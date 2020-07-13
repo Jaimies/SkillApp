@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.jdevs.timeo.TimeoApplication
 import com.jdevs.timeo.ui.MainActivity
 
 fun Fragment.snackbar(@StringRes resId: Int) =
@@ -29,5 +28,3 @@ inline fun <T> Fragment.observe(liveData: LiveData<T>, crossinline onEvent: (T) 
 }
 
 val Fragment.mainActivity get() = requireActivity() as MainActivity
-val Fragment.application get() = requireActivity().application as TimeoApplication
-val Fragment.appComponent get() = application.appComponent

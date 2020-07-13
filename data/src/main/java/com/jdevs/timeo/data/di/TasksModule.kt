@@ -8,10 +8,12 @@ import com.jdevs.timeo.data.tasks.TasksRemoteDataSource
 import com.jdevs.timeo.domain.repository.TasksRepository
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
 @Module
+@InstallIn(ApplicationComponent::class)
 interface TasksModule {
-
     @Binds
     fun provideRepository(tasksRepository: DefaultTasksRepository): TasksRepository
 

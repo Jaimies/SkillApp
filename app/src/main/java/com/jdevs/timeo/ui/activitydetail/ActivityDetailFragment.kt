@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.activitydetail
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -15,17 +14,18 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.Recordable
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
-import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.lifecycle.viewModels
 import com.jdevs.timeo.util.time.getMins
 import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.ui.setupAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
 import kotlinx.android.synthetic.main.activitydetail_frag.subactivities_recycler_view
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ActivityDetailFragment : ActionBarFragment(R.menu.activitydetail_frag_menu) {
     private val viewModel by viewModels { viewModelFactory.create(args.activityId) }
 
@@ -36,11 +36,6 @@ class ActivityDetailFragment : ActionBarFragment(R.menu.activitydetail_frag_menu
     private val subactivitiesAdapter = ListAdapter(
         SubactivityDelegateAdapter(::showSubactivityRecordDialog, ::navigateToSubActivity)
     )
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        appComponent.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

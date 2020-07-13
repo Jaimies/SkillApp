@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
@@ -101,10 +102,13 @@ dependencies {
     implementation "androidx.preference:preference-ktx:$Versions.preference"
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
     testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
-    implementation "com.google.dagger:dagger:$Versions.dagger"
 
-    kapt "com.google.dagger:dagger-compiler:$Versions.dagger"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$Versions.dagger"
+    // Dagger
+    implementation "com.google.dagger:hilt-android:$Versions.hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$Versions.androidxHilt"
+    kapt "androidx.hilt:hilt-compiler:$Versions.androidxHilt"
+
     kapt "com.android.databinding:compiler:$Versions.dataBinding"
 
     lintChecks project(':lint')

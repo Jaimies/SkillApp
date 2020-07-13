@@ -1,5 +1,6 @@
 package com.jdevs.timeo.ui.activities
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.paging.toLiveData
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
@@ -11,11 +12,10 @@ import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.lifecycle.mapOperation
-import javax.inject.Inject
 
 private const val ACTIVITIES_PAGE_SIZE = 20
 
-class ActivitiesViewModel @Inject constructor(
+class ActivitiesViewModel @ViewModelInject constructor(
     private val getActivities: GetActivitiesUseCase,
     private val addRecord: AddRecordUseCase
 ) : ListViewModel<ActivityItem>() {

@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.projectdetail
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -14,15 +13,16 @@ import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.tasks.AddTaskFragment
 import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
-import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.lifecycle.viewModels
 import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.ui.setupAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 import javax.inject.Inject
 
-class ProjectDetailFragment : ActionBarFragment(R.menu.activities_frag_menu) {
+@AndroidEntryPoint
+class ProjectDetailFragment : ActionBarFragment(R.menu.activitydetail_frag_menu) {
 
     private val args: ProjectDetailFragmentArgs by navArgs()
     private val adapter by lazy { ListAdapter(TaskDelegateAdapter(viewModel::setTaskCompleted)) }
@@ -30,11 +30,6 @@ class ProjectDetailFragment : ActionBarFragment(R.menu.activities_frag_menu) {
 
     @Inject
     lateinit var viewModelFactory: ProjectDetailViewModel.Factory
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        appComponent.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

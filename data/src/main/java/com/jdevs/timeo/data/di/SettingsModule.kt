@@ -8,10 +8,12 @@ import com.jdevs.timeo.data.settings.LocalUserDataSource
 import com.jdevs.timeo.domain.repository.SettingsRepository
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
 @Module
+@InstallIn(ApplicationComponent::class)
 interface SettingsModule {
-
     @Binds
     fun provideRepository(settingsRepository: DefaultSettingsRepository): SettingsRepository
 

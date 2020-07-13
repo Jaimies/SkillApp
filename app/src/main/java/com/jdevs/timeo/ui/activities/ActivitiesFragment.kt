@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -12,36 +11,26 @@ import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
-import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.ui.common.ListFragment
-import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.time.getMins
 import com.jdevs.timeo.util.ui.navigateAnimated
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.history_frag.recycler_view
-import javax.inject.Inject
 
 private const val ACTIVITIES_VISIBLE_THRESHOLD = 5
 
+@AndroidEntryPoint
 class ActivitiesFragment : ListFragment<ActivityItem>(R.menu.activities_frag_menu) {
 
     override val delegateAdapter by lazy {
         ActivityDelegateAdapter(::showRecordDialog, ::navigateToDetails)
     }
 
-    override val viewModel: ActivitiesViewModel by viewModels { viewModelFactory }
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    override val viewModel: ActivitiesViewModel by viewModels()
     private var isLoadEventHandled = false
-
-    override fun onAttach(context: Context) {
-
-        super.onAttach(context)
-        appComponent.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -64,6 +64,6 @@ dependencies {
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
     testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
 
-    implementation "com.google.dagger:dagger:$Versions.dagger"
-    kapt "com.google.dagger:dagger-compiler:$Versions.dagger"
+    implementation "com.google.dagger:hilt-android:$Versions.hilt"
+    kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
 }

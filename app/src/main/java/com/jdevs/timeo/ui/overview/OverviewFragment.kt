@@ -1,6 +1,5 @@
 package com.jdevs.timeo.ui.overview
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,21 +12,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.OverviewFragBinding
-import com.jdevs.timeo.di.ViewModelFactory
 import com.jdevs.timeo.ui.activities.ActivityDelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.ui.projects.ProjectDelegateAdapter
-import com.jdevs.timeo.util.fragment.appComponent
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.fragment.snackbar
-import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.time.getMins
+import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.ui.setupAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.overview_frag.activities_list
 import kotlinx.android.synthetic.main.overview_frag.projects_list
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class OverviewFragment : Fragment() {
 
     private val projectsAdapter by lazy {
@@ -38,15 +36,7 @@ class OverviewFragment : Fragment() {
         ListAdapter(ActivityDelegateAdapter(::showActivityRecordDialog, ::navigateToActivityDetail))
     }
 
-    private val viewModel: OverviewViewModel by viewModels { viewModelFactory }
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        appComponent.inject(this)
-    }
+    private val viewModel: OverviewViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

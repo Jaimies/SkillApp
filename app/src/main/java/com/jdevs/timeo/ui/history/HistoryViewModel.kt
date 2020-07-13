@@ -1,5 +1,6 @@
 package com.jdevs.timeo.ui.history
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.paging.toLiveData
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.records.DeleteRecordUseCase
@@ -10,11 +11,10 @@ import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.lifecycle.mapOperation
-import javax.inject.Inject
 
 private const val RECORDS_PAGE_SIZE = 50
 
-class HistoryViewModel @Inject constructor(
+class HistoryViewModel @ViewModelInject constructor(
     private val getRecords: GetRecordsUseCase,
     private val deleteRecord: DeleteRecordUseCase
 ) : ListViewModel<RecordItem>() {

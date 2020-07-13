@@ -25,7 +25,8 @@ object Versions {
     const val threeTenABP = "1.2.1"
     const val threeTenBP = "1.4.0"
 
-    const val dagger = "2.28"
+    const val hilt = "2.28-alpha"
+    const val androidxHilt = "1.0.0-alpha01"
 
     // Firebase
     const val firestore = "21.4.3"

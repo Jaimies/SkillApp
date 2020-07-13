@@ -12,7 +12,7 @@ import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import javax.inject.Inject
 
-class AddEditProjectViewModel @Inject constructor(
+class AddEditProjectViewModel constructor(
     private val addProject: AddProjectUseCase,
     private val saveProjectUseCase: SaveProjectUseCase,
     private val deleteProject: DeleteProjectUseCase,

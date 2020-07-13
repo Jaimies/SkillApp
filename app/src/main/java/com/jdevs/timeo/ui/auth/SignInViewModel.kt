@@ -2,6 +2,7 @@ package com.jdevs.timeo.ui.auth
 
 import android.content.Context
 import android.content.Intent
+import androidx.hilt.lifecycle.ViewModelInject
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.jdevs.timeo.R
@@ -10,12 +11,12 @@ import com.jdevs.timeo.domain.model.result.SignInResult
 import com.jdevs.timeo.domain.usecase.auth.SignInUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.util.hardware.NetworkUtils
-import javax.inject.Inject
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-class SignInViewModel @Inject constructor(
+class SignInViewModel @ViewModelInject constructor(
     private val signInUseCase: SignInUseCase,
     private val networkUtils: NetworkUtils,
-    context: Context
+    @ApplicationContext context: Context
 ) : AuthViewModel() {
 
     private val googleSignInIntent by lazy {
@@ -82,6 +83,9 @@ class SignInViewModel @Inject constructor(
         GoogleSignInResult.Cancelled -> Unit
     }
 
-    fun showGoogleSignIn() = showGoogleSignInIntent.setValue(googleSignInIntent)
+    fun showGoogleSignIn() {
+        showGoogleSignInIntent.value = googleSignInIntent
+    }
+
     fun navigateToSignUp() = navigateToSignUp.call()
 }

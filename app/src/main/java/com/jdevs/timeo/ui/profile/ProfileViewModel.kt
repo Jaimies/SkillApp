@@ -1,5 +1,6 @@
 package com.jdevs.timeo.ui.profile
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jdevs.timeo.domain.usecase.auth.GetAuthStateUseCase
@@ -7,9 +8,8 @@ import com.jdevs.timeo.domain.usecase.auth.SignOutUseCase
 import com.jdevs.timeo.domain.usecase.stats.GetStatsUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.ui.stats.StatsViewModel
-import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(
+class ProfileViewModel @ViewModelInject constructor(
     private val signOutUseCase: SignOutUseCase,
     getStatsUseCase: GetStatsUseCase,
     authState: GetAuthStateUseCase

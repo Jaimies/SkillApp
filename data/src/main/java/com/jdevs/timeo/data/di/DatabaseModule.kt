@@ -4,14 +4,17 @@ import android.content.Context
 import com.jdevs.timeo.data.db.TimeoDatabase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 @Module
+@InstallIn(ApplicationComponent::class)
 class DatabaseModule {
-
     @Provides
     @Singleton
-    fun provideDatabase(context: Context) = TimeoDatabase.create(context)
+    fun provideDatabase(@ApplicationContext context: Context) = TimeoDatabase.create(context)
 
     @Provides
     @Singleton

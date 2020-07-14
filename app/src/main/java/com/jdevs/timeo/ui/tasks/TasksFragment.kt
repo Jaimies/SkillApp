@@ -8,9 +8,11 @@ import androidx.fragment.app.viewModels
 import com.jdevs.timeo.databinding.TasksFragBinding
 import com.jdevs.timeo.model.TaskItem
 import com.jdevs.timeo.ui.common.ListFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 
-class TasksFragment : ListFragment<TaskItem>() {
+@AndroidEntryPoint
+class TasksFragment : ListFragment<TaskItem>(-1) {
 
     override val viewModel: TasksViewModel by viewModels()
     override val delegateAdapter by lazy { TaskDelegateAdapter(::setTaskCompleted) }
@@ -21,7 +23,6 @@ class TasksFragment : ListFragment<TaskItem>() {
     ): View {
 
         val binding = TasksFragBinding.inflate(inflater, container, false).also {
-
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }

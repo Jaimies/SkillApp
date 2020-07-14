@@ -62,7 +62,7 @@
                     <include
                         android:id="@+id/projects_preloader"
                         layout="@layout/preloader"
-                        app:visible="@{viewModel.projects.isLoading}" />
+                        app:visible="@{!viewModel.projects.isLoaded}" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                     <include
                         android:id="@+id/activities_preloader"
                         layout="@layout/preloader"
-                        app:visible="@{viewModel.activities.isLoading}" />
+                        app:visible="@{!viewModel.activities.isLoaded}" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

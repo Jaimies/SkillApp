@@ -2,8 +2,8 @@ package com.jdevs.timeo.ui.overview
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.model.Record
@@ -25,32 +25,20 @@ class OverviewViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     val activitiesEnabled get() = settings.activitiesEnabled
-
     val activities = DataWrapper(getTopActivities().mapList(Activity::mapToPresentation))
     val projects = DataWrapper(getTopProjects().mapList(Project::mapToPresentation))
 
     fun createRecord(index: Int, time: Int) = launchCoroutine {
-
         val activity = activities.data.value!![index]
         val record = Record(name = activity.name, time = time, activityId = activity.id)
         addRecord(record)
     }
 
     class DataWrapper<T : ViewItem>(val data: LiveData<List<T>>) {
-
-        val isLoading get() = _isLoading as LiveData<Boolean>
-        val isEmpty get() = _isEmpty as LiveData<Boolean>
-        private val _isLoading = MutableLiveData(true)
-        private val _isEmpty = MutableLiveData(false)
-
+        val isEmpty = data.map { it.isEmpty() }
+        val isLoaded = data.map { true }
         val navigateToList = SingleLiveEvent<Any>()
         val navigateToAdd = SingleLiveEvent<Any>()
-
-        fun setSize(size: Int) {
-
-            _isLoading.value = false
-            _isEmpty.value = size <= 0
-        }
 
         fun navigateToList() = navigateToList.call()
         fun navigateToAdd() = navigateToAdd.call()

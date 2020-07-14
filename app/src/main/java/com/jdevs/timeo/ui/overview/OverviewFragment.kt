@@ -44,7 +44,6 @@ class OverviewFragment : Fragment() {
     ): View {
 
         val binding = OverviewFragBinding.inflate(inflater, container, false).also {
-
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }
@@ -53,7 +52,6 @@ class OverviewFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         viewModel.projects.observe(
             R.id.projects_fragment_dest,
             R.id.addproject_fragment_dest,
@@ -61,16 +59,13 @@ class OverviewFragment : Fragment() {
         )
 
         observe(viewModel.activitiesEnabled) { isEnabled ->
-
             if (isEnabled) {
-
                 viewModel.activities.observe(
                     R.id.activities_fragment_dest,
                     R.id.addactivity_fragment_dest,
                     activitiesAdapter, activities_list
                 )
             } else {
-
                 viewModel.activities.navigateToAdd.removeObservers(viewLifecycleOwner)
                 viewModel.activities.navigateToList.removeObservers(viewLifecycleOwner)
             }
@@ -84,31 +79,24 @@ class OverviewFragment : Fragment() {
     }
 
     private fun navigateToProjectDetail(index: Int) {
-
         val directions = OverviewDirections
             .actionToProjectDetailFragment(viewModel.projects.data.value!![index])
+
         findNavController().navigateAnimated(directions)
     }
 
     private fun navigateToActivityDetail(index: Int) {
-
         val directions = OverviewDirections
             .actionToActivityDetailFragment(viewModel.activities.data.value!![index].id)
+
         findNavController().navigateAnimated(directions)
     }
 
     private fun OverviewViewModel.DataWrapper<*>.observe(
         @IdRes listId: Int, @IdRes addId: Int, adapter: ListAdapter, recyclerView: RecyclerView
     ) {
-
         recyclerView.setupAdapter(adapter)
-
-        observe(data) { list ->
-
-            adapter.submitList(list)
-            setSize(list.size)
-        }
-
+        observe(data, adapter::submitList)
         observe(navigateToList) { findNavController().navigateAnimated(listId) }
         observe(navigateToAdd) { findNavController().navigateAnimated(addId) }
     }

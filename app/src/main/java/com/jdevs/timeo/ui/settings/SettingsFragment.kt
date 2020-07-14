@@ -12,20 +12,20 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
     private val viewModel: SettingsViewModel by viewModels()
-    private lateinit var activitiesEnabled: SwitchPreferenceCompat
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-
         setPreferencesFromResource(R.xml.settings, rootKey)
-        activitiesEnabled = findPreference("activitiesEnabled")!!
-        activitiesEnabled.setOnPreferenceChangeListener { _, newValue ->
-            viewModel.setActivitiesEnabled(newValue as Boolean)
-            true
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val activitiesEnabled = findPreference<SwitchPreferenceCompat>("activitiesEnabled")!!
         observe(viewModel.activitiesEnabled, activitiesEnabled::setChecked)
+
+        activitiesEnabled.setOnPreferenceChangeListener { _, newValue ->
+            viewModel.setActivitiesEnabled(newValue as Boolean)
+            true
+        }
     }
 }

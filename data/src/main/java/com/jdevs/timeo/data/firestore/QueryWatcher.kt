@@ -2,6 +2,7 @@ package com.jdevs.timeo.data.firestore
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.Query.Direction.DESCENDING
 import com.jdevs.timeo.data.TOTAL_TIME
 
 class QueryWatcher<T : Any, O : Any>(
@@ -19,7 +20,7 @@ class QueryWatcher<T : Any, O : Any>(
     fun setQuery(query: Query) {
         lastDocument = null
         isLastItemReached = false
-        this.query = query.orderBy(orderBy, Query.Direction.DESCENDING).limit(pageSize)
+        this.query = query.orderBy(orderBy, DESCENDING).limit(pageSize)
         liveDatas.clear()
     }
 

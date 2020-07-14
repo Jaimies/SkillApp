@@ -3,6 +3,11 @@ package com.jdevs.timeo.ui.auth
 import androidx.hilt.lifecycle.ViewModelInject
 import com.jdevs.timeo.R
 import com.jdevs.timeo.domain.model.result.SignUpResult
+import com.jdevs.timeo.domain.model.result.SignUpResult.InternalError
+import com.jdevs.timeo.domain.model.result.SignUpResult.InvalidEmail
+import com.jdevs.timeo.domain.model.result.SignUpResult.Success
+import com.jdevs.timeo.domain.model.result.SignUpResult.UserAlreadyExists
+import com.jdevs.timeo.domain.model.result.SignUpResult.WeakPassword
 import com.jdevs.timeo.domain.usecase.auth.SignUpUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.util.hardware.NetworkUtils
@@ -24,7 +29,7 @@ class SignUpViewModel @ViewModelInject constructor(
         when {
             !(checkEmail(email) and checkPassword(password)) -> return
             !networkUtils.hasNetworkConnection() -> _snackbar.value = R.string.check_connection
-            else -> launchSuspendingProcess(::onSignUpResult, { it == SignUpResult.Success }) {
+            else -> launchSuspendingProcess(::onSignUpResult, { it == Success }) {
                 signUpUseCase(email, password)
             }
         }
@@ -45,11 +50,11 @@ class SignUpViewModel @ViewModelInject constructor(
     }
 
     private fun onSignUpResult(result: SignUpResult) = when (result) {
-        SignUpResult.Success -> _navigateToOverview.call()
-        SignUpResult.InvalidEmail -> emailError.value = R.string.email_invalid
-        SignUpResult.WeakPassword -> passwordError.value = R.string.password_too_weak
-        SignUpResult.UserAlreadyExists -> emailError.value = R.string.user_already_exists
-        SignUpResult.InternalError -> _snackbar.value = R.string.try_again
+        Success -> _navigateToOverview.call()
+        InvalidEmail -> emailError.value = R.string.email_invalid
+        WeakPassword -> passwordError.value = R.string.password_too_weak
+        UserAlreadyExists -> emailError.value = R.string.user_already_exists
+        InternalError -> _snackbar.value = R.string.try_again
     }
 
     fun navigateToSignIn() = navigateToSignIn.call()

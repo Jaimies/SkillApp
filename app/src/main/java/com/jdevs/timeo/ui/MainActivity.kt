@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
     private lateinit var currentNavController: LiveData<NavController>
-    private val bottomNavView get() = bottom_nav_view
     private var graphToRecreate = -1
 
     private val navGraphIds =
@@ -37,28 +36,25 @@ class MainActivity : AppCompatActivity(),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         setTheme(R.style.Theme_Timeo)
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.main_act)
-        currentNavController = bottomNavView.setupWithNavController(
+
+        currentNavController = bottom_nav_view.setupWithNavController(
             navGraphIds, supportFragmentManager,
             R.id.nav_host_container, intent
         )
 
         currentNavController.observe(this) { navController ->
-
             setupActionBarWithNavController(navController)
             navController.addOnDestinationChangedListener(this)
         }
 
         val selectedItemId = savedInstanceState?.getInt(SELECTED_ITEM_ID) ?: -1
 
-        if (selectedItemId != bottomNavView.selectedItemId) {
-
-            bottomNavView.selectedItemId = selectedItemId
-            bottomNavView.jumpDrawablesToCurrentState()
+        if (selectedItemId != bottom_nav_view.selectedItemId) {
+            bottom_nav_view.selectedItemId = selectedItemId
+            bottom_nav_view.jumpDrawablesToCurrentState()
         }
     }
 
@@ -68,7 +64,6 @@ class MainActivity : AppCompatActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId in knownActions) {
-
             currentNavController.value?.navigateAnimated(item.itemId)
             return true
         }
@@ -81,14 +76,11 @@ class MainActivity : AppCompatActivity(),
         destination: NavDestination,
         arguments: Bundle?
     ) {
-        val graphId = controller.graph.id
-
-        if (graphId == graphToRecreate) {
+        if (controller.graph.id == graphToRecreate) {
 
             nav_host_container.post {
-
                 val options = NavOptions.Builder()
-                    .setPopUpTo(graphId, true)
+                    .setPopUpTo(controller.graph.id, true)
                     .build()
 
                 controller.navigate(controller.graph.startDestination, null, options)
@@ -101,14 +93,13 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(SELECTED_ITEM_ID, bottomNavView.selectedItemId)
+        outState.putInt(SELECTED_ITEM_ID, bottom_nav_view.selectedItemId)
         super.onSaveInstanceState(outState)
     }
 
     fun navigateToGraph(@IdRes graphId: Int) {
-
         graphToRecreate = graphId
-        bottomNavView.selectedItemId = graphId
+        bottom_nav_view.selectedItemId = graphId
     }
 
     companion object {

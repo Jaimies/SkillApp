@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FieldValue.arrayUnion
 import com.google.firebase.firestore.Query.Direction.DESCENDING
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.Source.CACHE
+import com.google.firebase.firestore.Source.SERVER
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.functions.ktx.functions
@@ -18,6 +20,7 @@ import com.jdevs.timeo.data.TOTAL_TIME
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.watch
+import com.jdevs.timeo.data.util.getCacheFirst
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.repository.AuthRepository
@@ -55,14 +58,18 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
         val liveData = MutableLiveData<List<Activity>>()
 
-        activitiesRef.whereEqualTo("isTopLevel", true)
+        val query = activitiesRef.whereEqualTo("isTopLevel", true)
             .orderBy(TOTAL_TIME, DESCENDING)
-            .get(CACHE).addOnSuccessListener { snapshot ->
 
-                liveData.value = snapshot.toObjects<FirestoreActivity>()
-                    .map { it.mapToDomain() }
-                    .filter { it.id != activityIdToExclude }
-            }
+        val listener = { snapshot: QuerySnapshot ->
+            liveData.value = snapshot.toObjects<FirestoreActivity>()
+                .map { it.mapToDomain() }
+                .filter { it.id != activityIdToExclude }
+        }
+
+        query.get(CACHE).addOnSuccessListener(listener).addOnFailureListener {
+            query.get(SERVER).addOnSuccessListener(listener)
+        }
 
         return liveData
     }
@@ -76,18 +83,15 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
             "isTopLevel", activity.parentActivity == null
         )
 
-        val prevActivity = activityRef.get(CACHE).await().toObject<FirestoreActivity>()!!
+        val oldActivity = activityRef.getCacheFirst().toObject<FirestoreActivity>()!!
 
-        if (prevActivity.name != activity.name) {
-
+        if (oldActivity.name != activity.name) {
             val querySnapshot = recordsRef
                 .whereEqualTo(ACTIVITY_ID, activity.id)
                 .get().await()
 
             db.runBatch { batch ->
-
                 for (document in querySnapshot.documents) {
-
                     batch.update(document.reference, NAME, activity.name)
                 }
 

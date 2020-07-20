@@ -3,7 +3,6 @@ package com.jdevs.timeo.data.records
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.Source.CACHE
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.firestore.ktx.toObject
 import com.jdevs.timeo.data.ACTIVITIES_COLLECTION
@@ -19,6 +18,7 @@ import com.jdevs.timeo.data.activities.FirestoreActivity
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.RecordMinimal
+import com.jdevs.timeo.data.util.getCacheFirst
 import com.jdevs.timeo.data.util.increment
 import com.jdevs.timeo.data.util.runBatchSuspend
 import com.jdevs.timeo.domain.model.Operation
@@ -29,13 +29,11 @@ import com.jdevs.timeo.shared.util.WEEK_DAYS
 import com.jdevs.timeo.shared.util.daysSinceEpoch
 import com.jdevs.timeo.shared.util.monthSinceEpoch
 import com.jdevs.timeo.shared.util.weeksSinceEpoch
-import kotlinx.coroutines.tasks.await
 import org.threeten.bp.OffsetDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
 interface RecordsRemoteDataSource : RecordsDataSource {
-
     fun getRecords(fetchNewItems: Boolean): List<LiveData<Operation<Record>>>
 }
 
@@ -45,15 +43,14 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
     RecordsRemoteDataSource {
 
     private val recordsWatcher = QueryWatcher(PAGE_SIZE, FirestoreRecord::mapToDomain, TIMESTAMP)
-
-    override fun getRecords(fetchNewItems: Boolean) =
-        recordsWatcher.safeAccess().getLiveDataList(fetchNewItems)
-
     private var recordsRef: CollectionReference by SafeAccess()
     private var activitiesRef: CollectionReference by SafeAccess()
     private var dayStatsRef: CollectionReference by SafeAccess()
     private var weekStatsRef: CollectionReference by SafeAccess()
     private var monthStatsRef: CollectionReference by SafeAccess()
+
+    override fun getRecords(fetchNewItems: Boolean) =
+        recordsWatcher.safeAccess().getLiveDataList(fetchNewItems)
 
     override suspend fun addRecord(record: Record) {
 
@@ -81,13 +78,10 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
     ) {
 
         val activityRef = activitiesRef.document(activityId)
-
-        val activity = activityRef.get(CACHE).await().toObject<FirestoreActivity>()!!
-
+        val activity = activityRef.getCacheFirst().toObject<FirestoreActivity>()!!
         val newRecords = activity.recentRecords.toMutableList()
 
         newRecords.removeAll {
-
             it.creationDate.toLocalDate()
                 .isBefore(OffsetDateTime.now().minusDays((WEEK_DAYS - 1L)).toLocalDate())
         }

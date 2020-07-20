@@ -32,7 +32,5 @@ val OffsetDateTime.daysSinceEpoch get() = LocalDate.from(this).toEpochDay().toIn
 val OffsetDateTime.weeksSinceEpoch get() = WEEKS.between(EPOCH, this).toInt()
 val OffsetDateTime.monthSinceEpoch get() = MONTHS.between(EPOCH, this).toInt()
 
-fun OffsetDateTime.isDateAfter(other: OffsetDateTime) = toLocalDate().isAfter(other.toLocalDate())
-
 const val WEEK_DAYS = 7
 const val HOUR_MINUTES = 60

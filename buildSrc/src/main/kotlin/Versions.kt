@@ -29,11 +29,11 @@ object Versions {
     const val androidxHilt = "1.0.0-alpha01"
 
     // Firebase
-    const val firestore = "21.4.3"
+    const val firestore = "21.5.0"
     const val functions = "19.0.2"
     const val coroutinesPlay = "1.1.1"
-    const val auth = "19.3.1"
-    const val gmsAuth = "18.0.0"
+    const val auth = "19.3.2"
+    const val gmsAuth = "18.1.0"
 
     const val gson = "2.8.6"
 

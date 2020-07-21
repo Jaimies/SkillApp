@@ -25,7 +25,7 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
     private val projectsWatcher = QueryWatcher(PAGE_SIZE, FirestoreProject::mapToDomain)
 
     override fun getProjects(fetchNewItems: Boolean) =
-        projectsWatcher.safeAccess().getLiveDataList(fetchNewItems)
+        projectsWatcher.getLiveDataList(fetchNewItems)
 
     private var projectsRef by SafeAccess<CollectionReference>()
 

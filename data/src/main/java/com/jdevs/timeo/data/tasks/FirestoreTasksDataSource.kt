@@ -25,25 +25,20 @@ class FirestoreTasksDataSource @Inject constructor(authRepository: AuthRepositor
     private val tasksWatcher = QueryWatcher(PAGE_SIZE, FirestoreTask::mapToDomain, "name")
     private var tasksRef by SafeAccess<CollectionReference>()
 
-    override fun getTasks(fetchNewItems: Boolean) =
-        tasksWatcher.safeAccess().getLiveDataList(fetchNewItems)
+    override fun getTasks(fetchNewItems: Boolean) = tasksWatcher.getLiveDataList(fetchNewItems)
 
     override fun getTopTasks() =
-        tasksRef.safeAccess().orderBy("name").limit(TOP_TASKS_COUNT)
-            .watch(FirestoreTask::mapToDomain)
+        tasksRef.orderBy("name").limit(TOP_TASKS_COUNT).watch(FirestoreTask::mapToDomain)
 
     override suspend fun addTask(name: String, projectId: String) {
-
         tasksRef.add(FirestoreTask(name = name, projectId = projectId))
     }
 
     override suspend fun deleteTask(task: Task) {
-
         tasksRef.document(task.id).delete()
     }
 
     override suspend fun setTaskCompleted(taskId: String, isCompleted: Boolean) {
-
         tasksRef.document(taskId).set(hashMapOf(IS_COMPLETED to isCompleted), SetOptions.merge())
     }
 

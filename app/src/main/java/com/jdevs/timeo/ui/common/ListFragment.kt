@@ -31,14 +31,14 @@ abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBar
 
     protected open val firestoreAdapter by lazy { FirestoreListAdapter(delegateAdapter) }
     private val adapter by lazy { PagingAdapter(delegateAdapter) }
-    private val currentAdapter get() = if (authRepository.isSignedIn) firestoreAdapter else adapter
+    private val currentAdapter get() = if (authRepository.isSignedIn.value == true) firestoreAdapter else adapter
 
     @Inject
     lateinit var authRepository: AuthRepository
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (authRepository.isSignedIn) {
+        if (authRepository.isSignedIn.value == true) {
             viewModel.getRemoteLiveDatas(false).forEach(::observeOperation)
         } else {
             observeLiveData(viewModel.localLiveData)
@@ -83,7 +83,7 @@ abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBar
         layoutManager = linearLayoutManager
         adapter = currentAdapter
 
-        if (authRepository.isSignedIn) {
+        if (authRepository.isSignedIn.value == true) {
 
             addOnScrollListener(InfiniteScrollListener(linearLayoutManager, visibleThreshold) {
 
@@ -93,7 +93,7 @@ abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBar
     }
 
     @Suppress("UNCHECKED_CAST")
-    protected fun getItem(position: Int) = if (authRepository.isSignedIn) {
+    protected fun getItem(position: Int) = if (authRepository.isSignedIn.value == true) {
         firestoreAdapter.getItem(position)
     } else {
         adapter.getItem(position)

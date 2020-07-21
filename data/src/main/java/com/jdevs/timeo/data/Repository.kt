@@ -10,5 +10,5 @@ abstract class Repository<T>(
 ) {
 
     protected val currentDataSource
-        get() = if (authRepository.isSignedIn) remoteDataSource else localDataSource
+        get() = if (authRepository.isSignedIn.value == true) remoteDataSource else localDataSource
 }

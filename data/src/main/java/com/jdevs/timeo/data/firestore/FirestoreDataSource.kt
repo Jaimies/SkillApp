@@ -6,33 +6,24 @@ import com.jdevs.timeo.domain.repository.AuthRepository
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-abstract class FirestoreDataSource(private val authRepository: AuthRepository) {
-
+abstract class FirestoreDataSource(authRepository: AuthRepository) {
     protected val db = Firebase.firestore
     private var mUid = ""
 
     protected abstract fun resetRefs(uid: String)
 
-    protected fun reset() {
-
-         val uid = authRepository.uid
-        if (uid == null || uid == mUid) return
-
-        resetRefs(uid)
-        mUid = uid
-    }
-
-    fun <T> T.safeAccess(): T {
-        reset()
-        return this
+    init {
+        authRepository.uid.observeForever { uid ->
+            if (uid == null) return@observeForever
+            resetRefs(uid)
+            mUid = uid
+        }
     }
 
     inner class SafeAccess<T : Any> : ReadWriteProperty<Any?, T> {
         private val fieldHolder = FieldHolder<T>()
 
-        override fun getValue(thisRef: Any?, property: KProperty<*>) =
-            fieldHolder.safeAccess().field
-
+        override fun getValue(thisRef: Any?, property: KProperty<*>) = fieldHolder.field
         override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
             fieldHolder.field = value
         }

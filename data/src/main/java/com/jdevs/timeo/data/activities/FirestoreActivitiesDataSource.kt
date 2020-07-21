@@ -45,7 +45,7 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
     private var recordsRef: CollectionReference by SafeAccess()
 
     override fun getActivities(fetchNewItems: Boolean) =
-        activitiesWatcher.safeAccess().getLiveDataList(fetchNewItems)
+        activitiesWatcher.getLiveDataList(fetchNewItems)
 
     override fun getTopActivities() =
         activitiesRef.orderBy(TOTAL_TIME, DESCENDING).limit(TOP_ACTIVITIES_COUNT)

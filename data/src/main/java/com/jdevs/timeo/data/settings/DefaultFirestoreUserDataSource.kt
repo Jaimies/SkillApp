@@ -10,12 +10,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface UserDataSource {
-
     fun setActivitiesEnabled(enabled: Boolean)
 }
 
 interface FirestoreUserDataSource : UserDataSource {
-
     val user: LiveData<User>?
 }
 
@@ -25,11 +23,6 @@ class DefaultFirestoreUserDataSource @Inject constructor(authRepository: AuthRep
     FirestoreUserDataSource {
 
     private var userRef: DocumentReference? = null
-        get() {
-            reset()
-            return field
-        }
-
     override val user get() = userRef?.watch(FirestoreUser::mapToDomain)
 
     override fun setActivitiesEnabled(enabled: Boolean) {

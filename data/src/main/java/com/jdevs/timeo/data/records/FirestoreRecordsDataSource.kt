@@ -49,8 +49,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
     private var weekStatsRef: CollectionReference by SafeAccess()
     private var monthStatsRef: CollectionReference by SafeAccess()
 
-    override fun getRecords(fetchNewItems: Boolean) =
-        recordsWatcher.safeAccess().getLiveDataList(fetchNewItems)
+    override fun getRecords(fetchNewItems: Boolean) = recordsWatcher.getLiveDataList(fetchNewItems)
 
     override suspend fun addRecord(record: Record) {
 

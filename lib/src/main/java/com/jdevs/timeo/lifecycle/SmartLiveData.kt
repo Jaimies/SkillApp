@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
  *
  * @param T type of data hold by this instance
  */
-class SmartLiveData<T> : MutableLiveData<T>() {
+class SmartLiveData<T> : MutableLiveData<T> {
+    constructor() : super()
+    constructor(value: T) : super(value)
 
     override fun setValue(value: T?) {
         if (this.value != value) super.setValue(value)

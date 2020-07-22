@@ -8,17 +8,14 @@ import kotlin.reflect.KProperty
 
 abstract class FirestoreDataSource(authRepository: AuthRepository) {
     protected val db = Firebase.firestore
-    private var mUid = ""
-
-    protected abstract fun resetRefs(uid: String)
 
     init {
         authRepository.uid.observeForever { uid ->
-            if (uid == null) return@observeForever
-            resetRefs(uid)
-            mUid = uid
+            uid?.let(::resetRefs)
         }
     }
+
+    protected abstract fun resetRefs(uid: String)
 
     inner class SafeAccess<T : Any> : ReadWriteProperty<Any?, T> {
         private val fieldHolder = FieldHolder<T>()

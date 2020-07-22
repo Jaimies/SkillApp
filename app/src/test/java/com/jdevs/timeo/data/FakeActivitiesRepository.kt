@@ -12,10 +12,8 @@ import javax.inject.Singleton
 
 @Singleton
 class FakeActivitiesRepository @Inject constructor() : ActivitiesRepository {
-
     private val activityList = mutableListOf<Activity>()
     override val activities = ListDataSource.Factory(activityList)
-
     override val topActivities get() = MutableLiveData(activityList.toList())
 
     override fun getTopLevelActivitiesFromCache(activityIdToExclude: String): LiveData<List<Activity>> {
@@ -26,7 +24,6 @@ class FakeActivitiesRepository @Inject constructor() : ActivitiesRepository {
         listOf(createLiveData<Operation<Activity>>())
 
     override suspend fun addActivity(activity: Activity) {
-
         activityList.add(activity.copy(id = activityList.size.toString()))
         notifyObservers()
     }
@@ -34,18 +31,15 @@ class FakeActivitiesRepository @Inject constructor() : ActivitiesRepository {
     override fun getActivityById(id: String) = MutableLiveData(activityList.single { it.id == id })
 
     override suspend fun saveActivity(activity: Activity) {
-
         activityList.replaceAll { if (it.id != activity.id) it else activity }
     }
 
     override suspend fun deleteActivity(activity: Activity) {
-
         activityList.remove(activity)
         notifyObservers()
     }
 
     fun reset() {
-
         activityList.clear()
         notifyObservers()
     }

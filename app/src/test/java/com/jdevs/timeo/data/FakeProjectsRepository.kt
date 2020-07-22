@@ -13,35 +13,29 @@ import javax.inject.Singleton
 
 @Singleton
 class FakeProjectsRepository @Inject constructor() : ProjectsRepository {
-
     private val projectsList = mutableListOf<Project>()
     override val projects = ListDataSource.Factory(projectsList)
+    override val topProjects get() = MutableLiveData(projectsList.toList())
 
     override fun getProjectsRemote(fetchNewItems: Boolean) =
         listOf(createLiveData<Operation<Project>>())
 
     override suspend fun addProject(name: String, description: String) {
-
         projectsList.add(Project("", name, description, 0, 0, OffsetDateTime.now()))
         notifyObservers()
     }
 
     override suspend fun deleteProject(project: Project) {
-
         projectsList.remove(project)
         notifyObservers()
     }
 
-    override val topProjects get() = MutableLiveData(projectsList.toList())
-
     override fun getProjectById(id: String): LiveData<Project> {
-
         val project = projectsList.find { it.id == id }!!
         return MutableLiveData(project)
     }
 
     override suspend fun saveProject(project: Project) {
-
         projectsList.replaceAll { if (it.id != project.id) it else project }
     }
 

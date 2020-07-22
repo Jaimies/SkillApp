@@ -11,7 +11,6 @@ class FakeStatsRepository @Inject constructor() : StatsRepository {
     private val dayStatsList = mutableListOf<Statistic>()
     private val weekStatsList = mutableListOf<Statistic>()
     private val monthStatsList = mutableListOf<Statistic>()
-
     override val dayStats = MutableLiveData(dayStatsList.toList())
     override val weekStats = MutableLiveData(weekStatsList.toList())
     override val monthStats = MutableLiveData(monthStatsList.toList())

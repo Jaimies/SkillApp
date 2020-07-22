@@ -1,5 +1,7 @@
 package com.jdevs.timeo.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.jdevs.timeo.domain.model.result.GoogleSignInResult
@@ -11,14 +13,16 @@ import javax.inject.Singleton
 
 @Singleton
 class FakeAuthRepository @Inject constructor() : AuthRepository {
-
-    override var isSignedIn = false
-        private set
-
-    override val uid = ""
+    override val isSignedIn: LiveData<Boolean> get() = _isSignedIn
+    private val _isSignedIn = MutableLiveData(false)
+    override val uid = MutableLiveData("")
 
     fun signIn() {
-        isSignedIn = true
+        _isSignedIn.value = true
+    }
+
+    override fun signOut() {
+        _isSignedIn.value = false
     }
 
     override suspend fun createUser(email: String, password: String): SignUpResult {
@@ -31,9 +35,5 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
 
     override suspend fun signInWithGoogle(accountTask: Task<GoogleSignInAccount>): GoogleSignInResult {
         return signIn().let { GoogleSignInResult.Success }
-    }
-
-    override fun signOut() {
-        isSignedIn = false
     }
 }

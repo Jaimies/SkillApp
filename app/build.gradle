@@ -31,7 +31,6 @@ android {
         targetSdkVersion App.targetSdk
         versionCode App.versionCode
         versionName App.versionName
-        testInstrumentationRunner = 'com.jdevs.timeo.TimeoTestRunner'
     }
 
     buildTypes {
@@ -42,11 +41,6 @@ android {
             signingConfig = signingConfigs.release
         }
         debug.multiDexEnabled = true
-    }
-
-    sourceSets {
-        androidTest.java.srcDirs = ['src/sharedTest/kotlin', 'src/androidTest/kotlin']
-        test.java.srcDirs = ['src/sharedTest/kotlin', 'src/test/kotlin']
     }
 
     compileOptions {
@@ -115,20 +109,6 @@ dependencies {
 
     testImplementation 'io.kotest:kotest-runner-junit5-jvm:4.1.0'
     testImplementation "org.hamcrest:hamcrest-all:$Versions.hamcrest"
-
-    androidTestImplementation "androidx.test.ext:junit:$Versions.junitExt"
-    androidTestImplementation "androidx.test:runner:$Versions.androidxTestRunner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$Versions.espresso"
-    androidTestImplementation "junit:junit:$Versions.junit"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$Versions.coroutines"
-    androidTestImplementation "org.mockito:mockito-core:$Versions.mockito"
-    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$Versions.dexMaker"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$Versions.espresso"
-
-    // Testing code should not be included in the main code.
-    // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
-    debugImplementation "androidx.fragment:fragment-testing:$Versions.fragment"
-    implementation "androidx.test:core:$Versions.androidxTestCore"
 
     // Browsing SQLite database
     // To enable, run $ adb forward tcp:8080 tcp:8080

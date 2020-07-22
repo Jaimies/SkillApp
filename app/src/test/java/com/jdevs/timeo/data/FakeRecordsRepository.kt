@@ -10,7 +10,6 @@ import javax.inject.Singleton
 
 @Singleton
 class FakeRecordsRepository @Inject constructor() : RecordsRepository {
-
     private val recordsList = mutableListOf<Record>()
     override val records = ListDataSource.Factory(recordsList)
 
@@ -18,19 +17,16 @@ class FakeRecordsRepository @Inject constructor() : RecordsRepository {
         listOf(createLiveData<Operation<Record>>())
 
     override suspend fun addRecord(record: Record) {
-
         recordsList.add(record)
         notifyObservers()
     }
 
     override suspend fun deleteRecord(record: Record) {
-
         recordsList.remove(record)
         notifyObservers()
     }
 
     fun reset() {
-
         recordsList.clear()
         notifyObservers()
     }

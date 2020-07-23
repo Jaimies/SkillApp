@@ -1,9 +1,7 @@
-# Timeo - Productivity Manager & Skill Tracker
+# Timeo - Productivity Tracker & Booster
 ## Functionality
 * Activities/subactivities, projects and records
 * Planning & organizing stuff
-* TODO tracker
-* Blocking notifications(Instagram, Facebook, messengers) // this doesn't really matter much
 ## Graphs
 * Completion percentage (completed/planned)
 * Hours worked
@@ -14,5 +12,3 @@
 * Weekly progress reports
 * Working on projects with other people
 * Seamless synchronization across all devices
-
-For more detailed information on the app's screens see [Screens.md](Screens.md)

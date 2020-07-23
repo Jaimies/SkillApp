@@ -27,7 +27,7 @@ class FirestoreProjectsDataSource @Inject constructor(authRepository: AuthReposi
     override fun getProjects(fetchNewItems: Boolean) =
         projectsWatcher.getLiveDataList(fetchNewItems)
 
-    private var projectsRef by SafeAccess<CollectionReference>()
+    private lateinit var projectsRef: CollectionReference
 
     override fun getTopProjects() =
         projectsRef.limit(TOP_PROJECTS_COUNT).watch(FirestoreProject::mapToDomain)

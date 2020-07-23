@@ -41,8 +41,8 @@ class FirestoreActivitiesDataSource @Inject constructor(authRepository: AuthRepo
 
     private val functions = Firebase.functions("europe-west1")
     private val activitiesWatcher = QueryWatcher(PAGE_SIZE, FirestoreActivity::mapToDomain)
-    private var activitiesRef: CollectionReference by SafeAccess()
-    private var recordsRef: CollectionReference by SafeAccess()
+    private lateinit var activitiesRef: CollectionReference
+    private lateinit var recordsRef: CollectionReference
 
     override fun getActivities(fetchNewItems: Boolean) =
         activitiesWatcher.getLiveDataList(fetchNewItems)

@@ -27,9 +27,9 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     override val weekStats get() = weekStatsRef.watch { weeksSinceEpoch }
     override val monthStats get() = monthStatsRef.watch { monthSinceEpoch }
 
-    private var dayStatsRef: CollectionReference by SafeAccess()
-    private var weekStatsRef: CollectionReference by SafeAccess()
-    private var monthStatsRef: CollectionReference by SafeAccess()
+    private lateinit var dayStatsRef: CollectionReference
+    private lateinit var weekStatsRef: CollectionReference
+    private lateinit var monthStatsRef: CollectionReference
 
     override fun resetRefs(uid: String) {
         dayStatsRef = createRef(uid, DAY_STATS_COLLECTION)

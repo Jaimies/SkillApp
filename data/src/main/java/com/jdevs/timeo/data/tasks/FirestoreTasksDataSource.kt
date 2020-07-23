@@ -23,7 +23,7 @@ class FirestoreTasksDataSource @Inject constructor(authRepository: AuthRepositor
     TasksRemoteDataSource {
 
     private val tasksWatcher = QueryWatcher(PAGE_SIZE, FirestoreTask::mapToDomain, "name")
-    private var tasksRef by SafeAccess<CollectionReference>()
+    private lateinit var tasksRef: CollectionReference
 
     override fun getTasks(fetchNewItems: Boolean) = tasksWatcher.getLiveDataList(fetchNewItems)
 

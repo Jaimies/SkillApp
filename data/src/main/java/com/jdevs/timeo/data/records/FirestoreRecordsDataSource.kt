@@ -43,11 +43,11 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
     RecordsRemoteDataSource {
 
     private val recordsWatcher = QueryWatcher(PAGE_SIZE, FirestoreRecord::mapToDomain, TIMESTAMP)
-    private var recordsRef: CollectionReference by SafeAccess()
-    private var activitiesRef: CollectionReference by SafeAccess()
-    private var dayStatsRef: CollectionReference by SafeAccess()
-    private var weekStatsRef: CollectionReference by SafeAccess()
-    private var monthStatsRef: CollectionReference by SafeAccess()
+    private lateinit var recordsRef: CollectionReference
+    private lateinit var activitiesRef: CollectionReference
+    private lateinit var dayStatsRef: CollectionReference
+    private lateinit var weekStatsRef: CollectionReference
+    private lateinit var monthStatsRef: CollectionReference
 
     override fun getRecords(fetchNewItems: Boolean) = recordsWatcher.getLiveDataList(fetchNewItems)
 

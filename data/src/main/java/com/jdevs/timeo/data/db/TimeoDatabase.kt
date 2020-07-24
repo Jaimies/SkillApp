@@ -15,12 +15,10 @@ import com.jdevs.timeo.data.stats.DBDayStats
 import com.jdevs.timeo.data.stats.DBMonthStats
 import com.jdevs.timeo.data.stats.DBWeekStats
 import com.jdevs.timeo.data.stats.StatsDao
-import com.jdevs.timeo.data.tasks.DBTask
-import com.jdevs.timeo.data.tasks.TasksDao
 
 @Database(
     entities = [
-        DBActivity::class, DBProject::class, DBTask::class, DBRecord::class,
+        DBActivity::class, DBProject::class, DBRecord::class,
         DBDayStats::class, DBWeekStats::class, DBMonthStats::class
     ],
     version = 1,
@@ -31,7 +29,6 @@ abstract class TimeoDatabase : RoomDatabase() {
 
     abstract fun activitiesDao(): ActivitiesDao
     abstract fun projectsDao(): ProjectsDao
-    abstract fun tasksDao(): TasksDao
     abstract fun recordsDao(): RecordsDao
     abstract fun statsDao(): StatsDao
 

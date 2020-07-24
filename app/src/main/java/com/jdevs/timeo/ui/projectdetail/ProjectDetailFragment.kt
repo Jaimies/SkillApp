@@ -10,22 +10,14 @@ import androidx.navigation.fragment.navArgs
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProjectdetailFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
-import com.jdevs.timeo.ui.common.adapter.ListAdapter
-import com.jdevs.timeo.ui.tasks.AddTaskFragment
-import com.jdevs.timeo.ui.tasks.TaskDelegateAdapter
-import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.lifecycle.viewModels
-import com.jdevs.timeo.util.ui.navigateAnimated
-import com.jdevs.timeo.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.tasks_frag.tasks_list
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProjectDetailFragment : ActionBarFragment(R.menu.activitydetail_frag_menu) {
 
     private val args: ProjectDetailFragmentArgs by navArgs()
-    private val adapter by lazy { ListAdapter(TaskDelegateAdapter(viewModel::setTaskCompleted)) }
     private val viewModel by viewModels { viewModelFactory.create(args.project.id) }
 
     @Inject
@@ -35,7 +27,6 @@ class ProjectDetailFragment : ActionBarFragment(R.menu.activitydetail_frag_menu)
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val binding = ProjectdetailFragBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
@@ -44,25 +35,9 @@ class ProjectDetailFragment : ActionBarFragment(R.menu.activitydetail_frag_menu)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        tasks_list.setupAdapter(adapter)
-
-        observe(viewModel.topTasks) { tasks -> adapter.submitList(tasks) }
-
-        observe(viewModel.goToTasks) {
-            findNavController().navigateAnimated(R.id.tasks_fragment_dest)
-        }
-
-        observe(viewModel.addTask) {
-            AddTaskFragment.create(requireActivity().supportFragmentManager, args.project.id)
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == R.id.editActivity) {
-
             val directions = ProjectDetailFragmentDirections
                 .actionProjectDetailFragmentToAddProjectFragment(viewModel.project.value!!)
 

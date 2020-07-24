@@ -8,7 +8,6 @@
     <string name="sign_in">Sign in</string>
     <string name="sign_in_button">Sign in</string>
     <string name="profile">Profile</string>
-    <string name="add">Add</string>
     <string name="add_record">Add record</string>
     <string name="name">Name</string>
 
@@ -68,12 +67,6 @@
     <string name="calendar">Calendar</string>
     <string name="enable_activities">Enable activities</string>
     <string name="description">Description (optional)</string>
-    <string name="no_tasks_yet">No tasks yet</string>
-    <string name="create_task">Create a task</string>
-    <string name="tasks">Tasks</string>
-    <string name="show_more">Show more</string>
-    <string name="add_task">Add a task</string>
-    <string name="task_example">e.g. polish the new feature</string>
     <string name="parent_activity">Parent activity</string>
     <string name="subactivity_of">Subactivity of %s</string>
     <string name="hours">%sh</string>

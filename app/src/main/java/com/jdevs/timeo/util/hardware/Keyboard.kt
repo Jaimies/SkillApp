@@ -10,9 +10,4 @@ fun View.hideKeyboard() {
     imm?.hideSoftInputFromWindow(windowToken, 0)
 }
 
-fun View.showKeyboard() {
-    val imm = context.getSystemService<InputMethodManager>()
-    imm?.showSoftInput(this, 0)
-}
-
 fun Fragment.hideKeyboard() = view?.hideKeyboard()

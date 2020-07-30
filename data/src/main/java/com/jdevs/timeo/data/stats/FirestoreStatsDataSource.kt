@@ -1,5 +1,6 @@
 package com.jdevs.timeo.data.stats
 
+import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query.Direction.ASCENDING
 import com.jdevs.timeo.data.DAY
@@ -8,11 +9,14 @@ import com.jdevs.timeo.data.MONTH_STATS_COLLECTION
 import com.jdevs.timeo.data.WEEK_STATS_COLLECTION
 import com.jdevs.timeo.data.firestore.FirestoreListDataSource
 import com.jdevs.timeo.data.firestore.watch
+import com.jdevs.timeo.data.util.whereInRange
+import com.jdevs.timeo.domain.model.Statistic
 import com.jdevs.timeo.domain.repository.AuthRepository
-import com.jdevs.timeo.shared.util.daysSinceEpoch
-import com.jdevs.timeo.shared.util.monthSinceEpoch
-import com.jdevs.timeo.shared.util.weeksSinceEpoch
-import org.threeten.bp.OffsetDateTime
+import com.jdevs.timeo.shared.util.getUnitsSinceEpoch
+import org.threeten.bp.temporal.ChronoUnit
+import org.threeten.bp.temporal.ChronoUnit.DAYS
+import org.threeten.bp.temporal.ChronoUnit.MONTHS
+import org.threeten.bp.temporal.ChronoUnit.WEEKS
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,9 +27,9 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
     FirestoreListDataSource(authRepository),
     StatsRemoteDataSource {
 
-    override val dayStats get() = dayStatsRef.watch(DAY_STATS_ENTRIES) { daysSinceEpoch }
-    override val weekStats get() = weekStatsRef.watch { weeksSinceEpoch }
-    override val monthStats get() = monthStatsRef.watch { monthSinceEpoch }
+    override val dayStats get() = dayStatsRef.watch(DAYS, DAY_STATS_ENTRIES)
+    override val weekStats get() = weekStatsRef.watch(WEEKS)
+    override val monthStats get() = monthStatsRef.watch(MONTHS)
 
     private lateinit var dayStatsRef: CollectionReference
     private lateinit var weekStatsRef: CollectionReference
@@ -37,13 +41,15 @@ class FirestoreStatsDataSource @Inject constructor(authRepository: AuthRepositor
         monthStatsRef = createRef(uid, MONTH_STATS_COLLECTION)
     }
 
-    private inline fun CollectionReference.watch(
-        count: Int = STATS_ENTRIES,
-        converter: OffsetDateTime.() -> Int
-    ) =
-        this.whereGreaterThan(DAY, OffsetDateTime.now().converter() - count)
-            .whereLessThanOrEqualTo(DAY, OffsetDateTime.now().converter())
+    private fun CollectionReference.watch(
+        unit: ChronoUnit, resultCount: Int = STATS_ENTRIES
+    ): LiveData<List<Statistic>> {
+
+        val unitsSinceEpoch = getUnitsSinceEpoch(unit)
+
+        return this
+            .whereInRange(DAY, unitsSinceEpoch - resultCount, unitsSinceEpoch)
             .orderBy(DAY, ASCENDING)
-            .limit(count.toLong())
             .watch(FirestoreStat::mapToDomain)
+    }
 }

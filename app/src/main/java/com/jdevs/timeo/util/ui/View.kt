@@ -18,15 +18,11 @@ val ViewGroup.fragmentActivity get() = context.getBaseContext() as FragmentActiv
 inline fun <reified T> Context.getBaseContext() =
     if (this is T) this else (this as ContextWrapper).baseContext as T
 
-fun RecyclerView.setupAdapter(
-    adapter: RecyclerView.Adapter<*>,
-    @RecyclerView.Orientation orientation: Int = RecyclerView.VERTICAL
-) {
+fun RecyclerView.setupAdapter(adapter: RecyclerView.Adapter<*>) {
 
-    if (layoutManager != null && this.adapter != null) {
+    if (layoutManager != null && this.adapter != null)
         return
-    }
 
-    layoutManager = LinearLayoutManager(context, orientation, false)
+    layoutManager = LinearLayoutManager(context)
     this.adapter = adapter
 }

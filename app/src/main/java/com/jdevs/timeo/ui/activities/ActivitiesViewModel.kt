@@ -17,8 +17,9 @@ private const val ACTIVITIES_PAGE_SIZE = 20
 
 class ActivitiesViewModel @ViewModelInject constructor(
     private val getActivities: GetActivitiesUseCase,
-    private val addRecord: AddRecordUseCase
-) : ListViewModel<ActivityItem>() {
+    private val addRecord: AddRecordUseCase,
+    authRepository: AuthRepository
+) : ListViewModel<ActivityItem>(authRepository) {
 
     override val localLiveData =
         getActivities.activities.map(Activity::mapToPresentation).toLiveData(ACTIVITIES_PAGE_SIZE)
@@ -29,7 +30,6 @@ class ActivitiesViewModel @ViewModelInject constructor(
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
     fun createRecord(activity: ActivityItem, time: Int) = launchCoroutine {
-
         val record = Record(name = activity.name, time = time, activityId = activity.id)
         addRecord(record)
     }

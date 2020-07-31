@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.model.ViewItem
 
 open class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    BaseAdapter {
 
     val dataItemCount get() = items.filter { it != loadingItem }.size
 
@@ -38,7 +39,7 @@ open class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
     override fun getItemViewType(position: Int) =
         if (items[position] == loadingItem) LOADING else ITEM
 
-    fun getItem(position: Int) = items[position]
+    override fun getItem(position: Int) = items[position]
 
     fun showLoader() {
 

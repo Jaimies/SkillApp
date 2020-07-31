@@ -6,8 +6,8 @@ import androidx.annotation.CallSuper
 import androidx.annotation.MenuRes
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Operation.ChangeType.Added
 import com.jdevs.timeo.domain.model.Operation.ChangeType.Modified
@@ -15,14 +15,14 @@ import com.jdevs.timeo.domain.model.Operation.ChangeType.Removed
 import com.jdevs.timeo.domain.model.Operation.Changed
 import com.jdevs.timeo.domain.model.Operation.LastItemReached
 import com.jdevs.timeo.domain.model.Operation.Successful
-import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.model.ViewItem
+import com.jdevs.timeo.ui.common.adapter.BaseAdapter
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.adapter.FirestoreListAdapter
 import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.ui.common.viewmodel.ListViewModel
 import com.jdevs.timeo.util.fragment.observe
-import javax.inject.Inject
+import com.jdevs.timeo.util.ui.setupAdapter
 
 abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBarFragment(menuId) {
 
@@ -31,14 +31,14 @@ abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBar
 
     protected open val firestoreAdapter by lazy { FirestoreListAdapter(delegateAdapter) }
     private val adapter by lazy { PagingAdapter(delegateAdapter) }
-    private val currentAdapter get() = if (authRepository.isSignedIn.value == true) firestoreAdapter else adapter
 
-    @Inject
-    lateinit var authRepository: AuthRepository
+    private val currentAdapter: Adapter<*>
+        get() = if (viewModel.isSignedIn) firestoreAdapter else adapter
+
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (authRepository.isSignedIn.value == true) {
+        if (currentAdapter is FirestoreListAdapter) {
             viewModel.getRemoteLiveDatas(false).forEach(::observeOperation)
         } else {
             observeLiveData(viewModel.localLiveData)
@@ -79,23 +79,24 @@ abstract class ListFragment<T : ViewItem>(@MenuRes menuId: Int = -1) : ActionBar
 
     protected fun RecyclerView.setup(visibleThreshold: Int) {
 
-        val linearLayoutManager = LinearLayoutManager(context)
-        layoutManager = linearLayoutManager
-        adapter = currentAdapter
+        setupAdapter(currentAdapter)
 
-        if (authRepository.isSignedIn.value == true) {
-
-            addOnScrollListener(InfiniteScrollListener(linearLayoutManager, visibleThreshold) {
-
-                viewModel.getRemoteLiveDatas(true).forEach(::observeOperation)
-            })
+        if (currentAdapter is FirestoreListAdapter) {
+            setupInfiniteScroll(visibleThreshold)
         }
     }
 
+    private fun RecyclerView.setupInfiniteScroll(visibleThreshold: Int) {
+
+        val infiniteScrollListener = InfiniteScrollListener(visibleThreshold) {
+            viewModel.getRemoteLiveDatas(true).forEach(::observeOperation)
+        }
+
+        addOnScrollListener(infiniteScrollListener)
+    }
+
     @Suppress("UNCHECKED_CAST")
-    protected fun getItem(position: Int) = if (authRepository.isSignedIn.value == true) {
-        firestoreAdapter.getItem(position)
-    } else {
-        adapter.getItem(position)
-    } as T
+    protected fun getItem(position: Int): T {
+        return (currentAdapter as BaseAdapter).getItem(position) as T
+    }
 }

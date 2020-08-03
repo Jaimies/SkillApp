@@ -32,7 +32,7 @@ class ChartsAdapter(private vararg val chartLiveDatas: LiveData<ChartData>) :
         }
 
         fun setLiveData(liveData: LiveData<ChartData>) {
-            liveData.observe(lifecycleOwner) { chart.setData(it) }
+            liveData.observe { chart.data = it }
         }
     }
 }

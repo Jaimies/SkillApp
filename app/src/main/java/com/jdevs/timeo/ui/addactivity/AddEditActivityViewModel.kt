@@ -46,8 +46,10 @@ class AddEditActivityViewModel(
     val activities = getParentActivitySuggestions(activity?.id.orEmpty())
     val activityNames = activities.mapList(Activity::name)
 
-    fun deleteActivity(activity: ActivityItem) = ioScope.launch {
-        deleteActivity(activity.mapToDomain())
+    fun deleteActivity() = ioScope.launch {
+        activity?.let {
+            deleteActivity.run(activity.mapToDomain())
+        }
     }
 
     // Since the first item in dropdown is "–" and other activities start at index of 1,

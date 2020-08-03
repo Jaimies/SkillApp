@@ -52,7 +52,6 @@ dependencies {
     kapt "androidx.room:room-compiler:$Versions.room"
 
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
-
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
 
     implementation "com.google.firebase:firebase-auth:$Versions.auth"

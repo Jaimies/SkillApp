@@ -35,11 +35,9 @@ detekt {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
-
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
-
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.livedata"
 
-    // For tests use default ThreeTenBP library
+    // For tests using the regular ThreeTenBP library is required
     testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
 }

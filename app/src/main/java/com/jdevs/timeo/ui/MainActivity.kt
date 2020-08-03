@@ -11,6 +11,14 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.jdevs.timeo.R
+import com.jdevs.timeo.R.id.addactivity_fragment_dest
+import com.jdevs.timeo.R.id.addproject_fragment_dest
+import com.jdevs.timeo.R.id.history_fragment_dest
+import com.jdevs.timeo.R.id.settings_fragment_dest
+import com.jdevs.timeo.R.navigation.calendar
+import com.jdevs.timeo.R.navigation.overview
+import com.jdevs.timeo.R.navigation.profile
+import com.jdevs.timeo.R.style.Theme_Timeo
 import com.jdevs.timeo.util.hardware.hideKeyboard
 import com.jdevs.timeo.util.navigation.setupWithNavController
 import com.jdevs.timeo.util.ui.navigateAnimated
@@ -22,35 +30,28 @@ import kotlinx.android.synthetic.main.main_act.nav_host_container
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
-    private lateinit var currentNavController: LiveData<NavController>
+    private lateinit var navController: LiveData<NavController>
     private var graphToRecreate = -1
 
-    private val navGraphIds =
-        intArrayOf(R.navigation.overview, R.navigation.calendar, R.navigation.profile)
+    private val navGraphIds = intArrayOf(overview, calendar, profile)
 
-    private val knownActions = intArrayOf(
-        R.id.addactivity_fragment_dest,
-        R.id.addproject_fragment_dest,
-        R.id.history_fragment_dest,
-        R.id.settings_fragment_dest
+    private val navActions = intArrayOf(
+        addactivity_fragment_dest,
+        addproject_fragment_dest,
+        history_fragment_dest,
+        settings_fragment_dest
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_Timeo)
+        setTheme(Theme_Timeo)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_act)
+        setupNavController()
+        savedInstanceState?.let(::restoreBottomNavState)
+    }
 
-        currentNavController = bottom_nav_view.setupWithNavController(
-            navGraphIds, supportFragmentManager,
-            R.id.nav_host_container, intent
-        )
-
-        currentNavController.observe(this) { navController ->
-            setupActionBarWithNavController(navController)
-            navController.addOnDestinationChangedListener(this)
-        }
-
-        val selectedItemId = savedInstanceState?.getInt(SELECTED_ITEM_ID) ?: -1
+    private fun restoreBottomNavState(savedInstanceState: Bundle) {
+        val selectedItemId = savedInstanceState.getInt(SELECTED_ITEM_ID)
 
         if (selectedItemId != bottom_nav_view.selectedItemId) {
             bottom_nav_view.selectedItemId = selectedItemId
@@ -58,13 +59,33 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onSupportNavigateUp() =
-        currentNavController.value?.navigateUp() ?: false || super.onSupportNavigateUp()
+    private fun setupNavController() {
+        navController = bottom_nav_view.setupWithNavController(
+            navGraphIds, supportFragmentManager,
+            R.id.nav_host_container, intent
+        )
+
+        setupNavControllerObserver()
+    }
+
+    private fun setupNavControllerObserver() {
+        navController.observe(this) { navController ->
+            setupActionBarWithNavController(navController)
+            navController.addOnDestinationChangedListener(this)
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navigateUp() || super.onSupportNavigateUp()
+    }
+
+    private fun navigateUp(): Boolean {
+        return navController.value?.navigateUp() ?: false
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        if (item.itemId in knownActions) {
-            currentNavController.value?.navigateAnimated(item.itemId)
+        if (item.itemId in navActions) {
+            navController.value?.navigateAnimated(item.itemId)
             return true
         }
 
@@ -76,20 +97,24 @@ class MainActivity : AppCompatActivity(),
         destination: NavDestination,
         arguments: Bundle?
     ) {
-        if (controller.graph.id == graphToRecreate) {
-
-            nav_host_container.post {
-                val options = NavOptions.Builder()
-                    .setPopUpTo(controller.graph.id, true)
-                    .build()
-
-                controller.navigate(controller.graph.startDestination, null, options)
-            }
-
+        if (controller.shouldBeRecreated()) {
+            controller.recreateNavGraph()
             graphToRecreate = -1
         }
 
-        window.decorView.hideKeyboard()
+        hideKeyboard()
+    }
+
+    private fun NavController.shouldBeRecreated() = graph.id == graphToRecreate
+
+    private fun NavController.recreateNavGraph() {
+        nav_host_container.post {
+            val options = NavOptions.Builder()
+                .setPopUpTo(graph.id, true)
+                .build()
+
+            navigate(graph.startDestination, null, options)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

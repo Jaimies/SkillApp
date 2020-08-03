@@ -45,6 +45,4 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
-
-    lintChecks project(':lint')
 }

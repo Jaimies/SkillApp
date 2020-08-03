@@ -6,14 +6,11 @@ import com.jdevs.timeo.domain.repository.SettingsRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val ACTIVITIES_ENABLED = "activitiesEnabled"
-
 @Singleton
 class DefaultSettingsRepository @Inject constructor(
     private val localDataSource: LocalUserDataSource,
     private val remoteDataSource: FirestoreUserDataSource
 ) : SettingsRepository {
-
     init {
         remoteDataSource.user?.observeForever { user ->
             _activitiesEnabled.value = user.activitiesEnabled
@@ -25,7 +22,6 @@ class DefaultSettingsRepository @Inject constructor(
     private val _activitiesEnabled = MutableLiveData(localDataSource.activitiesEnabled)
 
     override fun setActivitiesEnabled(enabled: Boolean) {
-        _activitiesEnabled.value = enabled
         remoteDataSource.setActivitiesEnabled(enabled)
     }
 }

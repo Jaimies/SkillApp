@@ -2,13 +2,14 @@ package com.jdevs.timeo.data.settings
 
 import android.content.Context
 import androidx.core.content.edit
-import androidx.preference.PreferenceManager
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
-interface LocalUserDataSource {
+private const val ACTIVITIES_ENABLED = "activitiesEnabled"
 
+interface LocalUserDataSource {
     var activitiesEnabled: Boolean
 }
 
@@ -16,7 +17,7 @@ interface LocalUserDataSource {
 class DefaultLocalUserDataSource @Inject constructor(@ApplicationContext context: Context) :
     LocalUserDataSource {
 
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    private val prefs = getDefaultSharedPreferences(context)
 
     override var activitiesEnabled: Boolean
         get() = prefs.getBoolean(ACTIVITIES_ENABLED, true)

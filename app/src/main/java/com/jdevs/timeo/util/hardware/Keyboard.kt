@@ -1,5 +1,6 @@
 package com.jdevs.timeo.util.hardware
 
+import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.getSystemService
@@ -11,3 +12,4 @@ fun View.hideKeyboard() {
 }
 
 fun Fragment.hideKeyboard() = view?.hideKeyboard()
+fun Activity.hideKeyboard() = window.decorView.hideKeyboard()

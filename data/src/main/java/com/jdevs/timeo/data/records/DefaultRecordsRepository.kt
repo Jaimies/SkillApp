@@ -17,10 +17,9 @@ class DefaultRecordsRepository @Inject constructor(
     RecordsRepository {
 
     override val records get() = localDataSource.records
-    override fun getRecordsRemote(fetchNewItems: Boolean) =
-        remoteDataSource.getRecords(fetchNewItems)
+
+    override fun getRecordsFromRemote(fetchNewItems: Boolean) = remoteDataSource.getRecords(fetchNewItems)
 
     override suspend fun addRecord(record: Record) = currentDataSource.addRecord(record)
-
     override suspend fun deleteRecord(record: Record) = currentDataSource.deleteRecord(record)
 }

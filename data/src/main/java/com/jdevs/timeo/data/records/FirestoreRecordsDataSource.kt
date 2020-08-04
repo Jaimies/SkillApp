@@ -20,7 +20,7 @@ import com.jdevs.timeo.data.firestore.QueryWatcher
 import com.jdevs.timeo.data.firestore.RecordMinimal
 import com.jdevs.timeo.data.util.getCacheFirst
 import com.jdevs.timeo.data.util.increment
-import com.jdevs.timeo.data.util.runBatchSuspend
+import com.jdevs.timeo.data.util.runSuspendBatch
 import com.jdevs.timeo.domain.model.Operation
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.AuthRepository
@@ -55,7 +55,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
         val newRecordRef = recordsRef.document()
 
-        db.runBatchSuspend { batch ->
+        db.runSuspendBatch { batch ->
             batch.set(newRecordRef, record.mapToFirestore())
             batch.increaseActivityTime(record.activityId, record.time, record.creationDate)
         }
@@ -63,7 +63,7 @@ class FirestoreRecordsDataSource @Inject constructor(authRepository: AuthReposit
 
     override suspend fun deleteRecord(record: Record) {
 
-        db.runBatchSuspend { batch ->
+        db.runSuspendBatch { batch ->
             batch.delete(recordsRef.document(record.id))
             batch.increaseActivityTime(record.activityId, -record.time, record.creationDate)
         }

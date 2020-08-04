@@ -8,6 +8,7 @@ const val TOTAL_TIME = "totalTime"
 
 const val ACTIVITIES_COLLECTION = "activities"
 const val RECORDS_COLLECTION = "records"
+const val RECENT_RECORDS = "recentRecords"
 const val PROJECTS_COLLECTION = "projects"
 const val DAY_STATS_COLLECTION = "dayStats"
 const val WEEK_STATS_COLLECTION = "weekStats"

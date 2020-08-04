@@ -12,14 +12,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface RecordsDataSource {
-
     suspend fun addRecord(record: Record)
-
     suspend fun deleteRecord(record: Record)
 }
 
 interface RecordsLocalDataSource : RecordsDataSource {
-
     val records: DataSource.Factory<Int, Record>
 }
 
@@ -30,9 +27,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
     override val records by lazy { db.recordsDao().getRecords().map(DBRecord::mapToDomain) }
 
     override suspend fun addRecord(record: Record) {
-
         db.withTransaction {
-
             db.recordsDao().insert(record.mapToDB())
             db.activitiesDao().increaseTime(record.activityId.toInt(), record.time)
             registerStats(record.time, record.creationDate)
@@ -40,9 +35,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
     }
 
     override suspend fun deleteRecord(record: Record) {
-
         db.withTransaction {
-
             db.recordsDao().delete(record.mapToDB())
             db.activitiesDao().increaseTime(record.activityId.toInt(), -record.time)
             registerStats(-record.time, record.creationDate)
@@ -50,9 +43,7 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
     }
 
     private fun registerStats(time: Int, creationDate: OffsetDateTime) {
-
         with(db.statsDao()) {
-
             registerDayStats(time, creationDate.daysSinceEpoch)
             registerWeekStats(time, creationDate.weeksSinceEpoch)
             registerMonthStats(time, creationDate.monthSinceEpoch)

@@ -14,7 +14,9 @@ import javax.inject.Singleton
 class DatabaseModule {
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context) = TimeoDatabase.create(context)
+    fun provideDatabase(@ApplicationContext context: Context): TimeoDatabase {
+        return TimeoDatabase.create(context)
+    }
 
     @Provides
     @Singleton

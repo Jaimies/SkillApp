@@ -17,6 +17,5 @@ class DocumentLiveData<I : Any, O : Any>(
 }
 
 inline fun <reified I : Any, O : Any> DocumentReference.watch(noinline mapFunction: (I) -> O): LiveData<O> {
-
     return DocumentLiveData(this, I::class.java, mapFunction)
 }

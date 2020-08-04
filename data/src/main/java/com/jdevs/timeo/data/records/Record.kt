@@ -47,7 +47,5 @@ fun FirestoreRecord.mapToDomain() =
     Record(documentId, name, time, activityId, timestamp.toOffsetDate())
 
 fun DBRecord.mapToDomain() = Record(id.toString(), name, time, activityId.toString(), creationDate)
-
 fun Record.mapToDB() = DBRecord(id.toIntOrNull() ?: 0, name, time, activityId.toInt(), creationDate)
-
 fun Record.mapToFirestore() = FirestoreRecord(id, name, time, activityId, creationDate.toDate())

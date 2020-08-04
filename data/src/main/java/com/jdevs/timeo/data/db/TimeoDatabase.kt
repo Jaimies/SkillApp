@@ -26,22 +26,15 @@ import com.jdevs.timeo.data.stats.StatsDao
 )
 @TypeConverters(Converters::class)
 abstract class TimeoDatabase : RoomDatabase() {
-
     abstract fun activitiesDao(): ActivitiesDao
     abstract fun projectsDao(): ProjectsDao
     abstract fun recordsDao(): RecordsDao
     abstract fun statsDao(): StatsDao
 
     companion object {
-
-        fun create(context: Context): TimeoDatabase {
-
-            return Room.databaseBuilder(
-                context.applicationContext,
-                TimeoDatabase::class.java, "timeo"
-            )
-                .fallbackToDestructiveMigration()
-                .build()
-        }
+        fun create(context: Context) = Room
+            .databaseBuilder(context, TimeoDatabase::class.java, "timeo")
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

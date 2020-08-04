@@ -11,7 +11,6 @@ class QueryWatcher<T : Any, O : Any>(
     private val modelClass: Class<T>,
     private val mapFunction: (T) -> O
 ) {
-
     private lateinit var query: Query
     private var lastDocument: DocumentSnapshot? = null
     private var isLastItemReached = false
@@ -42,7 +41,6 @@ class QueryWatcher<T : Any, O : Any>(
     }
 
     companion object {
-
         inline operator fun <reified T : Any, O : Any> invoke(
             pageSize: Long,
             noinline mapFunction: (T) -> O,

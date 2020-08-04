@@ -17,6 +17,5 @@ class QueryLiveData<I : Any, O : Any>(
 }
 
 inline fun <reified I : Any, O : Any> Query.watch(noinline mapFunction: (I) -> O): LiveData<List<O>> {
-
     return QueryLiveData(this, I::class.java, mapFunction)
 }

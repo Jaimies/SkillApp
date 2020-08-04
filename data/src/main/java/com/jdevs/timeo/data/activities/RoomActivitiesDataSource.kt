@@ -9,20 +9,15 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface ActivitiesDataSource {
-
     fun getTopActivities(): LiveData<List<Activity>>
-
     fun getActivityById(id: String): LiveData<Activity>
 
     suspend fun addActivity(activity: Activity)
-
     suspend fun saveActivity(activity: Activity)
-
     suspend fun deleteActivity(activity: Activity)
 }
 
 interface ActivitiesLocalDataSource : ActivitiesDataSource {
-
     val activities: DataSource.Factory<Int, Activity>
 }
 

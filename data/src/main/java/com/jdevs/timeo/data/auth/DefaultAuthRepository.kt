@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.GoogleAuthProvider.getCredential
 import com.jdevs.timeo.domain.model.result.GoogleSignInResult
 import com.jdevs.timeo.domain.model.result.SignInResult
 import com.jdevs.timeo.domain.model.result.SignUpResult
@@ -42,12 +42,16 @@ class DefaultAuthRepository @Inject constructor() : AuthRepository {
             auth.createUserWithEmailAndPassword(email, password).await()
             SignUpResult.Success
         } catch (exception: FirebaseAuthException) {
-            when (exception) {
-                is FirebaseAuthInvalidCredentialsException -> SignUpResult.InvalidEmail
-                is FirebaseAuthWeakPasswordException -> SignUpResult.WeakPassword
-                is FirebaseAuthUserCollisionException -> SignUpResult.UserAlreadyExists
-                else -> SignUpResult.InternalError
-            }
+            handleSignUpException(exception)
+        }
+    }
+
+    private fun handleSignUpException(exception: FirebaseAuthException): SignUpResult {
+        return when (exception) {
+            is FirebaseAuthInvalidCredentialsException -> SignUpResult.InvalidEmail
+            is FirebaseAuthWeakPasswordException -> SignUpResult.WeakPassword
+            is FirebaseAuthUserCollisionException -> SignUpResult.UserAlreadyExists
+            else -> SignUpResult.InternalError
         }
     }
 
@@ -56,33 +60,43 @@ class DefaultAuthRepository @Inject constructor() : AuthRepository {
             auth.signInWithEmailAndPassword(email, password).await()
             SignInResult.Success
         } catch (exception: FirebaseAuthException) {
-            when (exception) {
-                is FirebaseAuthInvalidUserException -> SignInResult.NoSuchUser
-                is FirebaseAuthInvalidCredentialsException -> SignInResult.IncorrectPassword
-                else -> SignInResult.InternalError
-            }
+            handleSignInException(exception)
+        }
+    }
+
+    private fun handleSignInException(exception: FirebaseAuthException): SignInResult {
+        return when (exception) {
+            is FirebaseAuthInvalidUserException -> SignInResult.NoSuchUser
+            is FirebaseAuthInvalidCredentialsException -> SignInResult.IncorrectPassword
+            else -> SignInResult.InternalError
         }
     }
 
     @Suppress("TooGenericExceptionCaught")
     override suspend fun signInWithGoogle(accountTask: Task<GoogleSignInAccount>): GoogleSignInResult {
         return try {
-            val account = accountTask.getResult(ApiException::class.java)!!
-            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-
-            auth.signInWithCredential(credential).await()
+            signInWithGoogleAccount(accountTask)
             GoogleSignInResult.Success
         } catch (exception: Exception) {
-            when (exception) {
-                is FirebaseAuthInvalidUserException -> GoogleSignInResult.UserAccountDisabled
-                is ApiException -> when (exception.statusCode) {
-                    NETWORK_ERROR -> GoogleSignInResult.NetworkFailure
-                    SIGN_IN_CANCELLED -> GoogleSignInResult.Cancelled
-                    else -> GoogleSignInResult.InternalError
-                }
+            handleGoogleSignInException(exception)
+        }
+    }
+
+    private fun handleGoogleSignInException(exception: Exception): GoogleSignInResult {
+        return when (exception) {
+            is FirebaseAuthInvalidUserException -> GoogleSignInResult.UserAccountDisabled
+            is ApiException -> when (exception.statusCode) {
+                NETWORK_ERROR -> GoogleSignInResult.NetworkFailure
+                SIGN_IN_CANCELLED -> GoogleSignInResult.Cancelled
                 else -> GoogleSignInResult.InternalError
             }
+            else -> GoogleSignInResult.InternalError
         }
+    }
+
+    private suspend fun signInWithGoogleAccount(accountTask: Task<GoogleSignInAccount>) {
+        val account = accountTask.getResult(ApiException::class.java)!!
+        auth.signInWithCredential(getCredential(account.idToken, null)).await()
     }
 
     override fun signOut() = auth.signOut()

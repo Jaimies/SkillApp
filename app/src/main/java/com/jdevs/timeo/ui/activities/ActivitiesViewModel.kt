@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.paging.toLiveData
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.domain.usecase.activities.GetActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent

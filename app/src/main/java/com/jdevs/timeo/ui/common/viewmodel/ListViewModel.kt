@@ -8,7 +8,7 @@ import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.model.ViewItem
 
 abstract class ListViewModel<T : ViewItem>(authRepository: AuthRepository) :
-    LoadingViewModel(isLoadingByDefault = true) {
+    LoadingViewModel(loadingByDefault = true) {
 
     abstract val localLiveData: LiveData<PagedList<T>>
     abstract fun getRemoteLiveDatas(fetchNewItems: Boolean): List<LiveData<Operation<T>>>

@@ -5,6 +5,5 @@ import com.jdevs.timeo.domain.repository.ProjectsRepository
 import javax.inject.Inject
 
 class SaveProjectUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
-
-    suspend operator fun invoke(project: Project) = projectsRepository.saveProject(project)
+    suspend fun run(project: Project) = projectsRepository.saveProject(project)
 }

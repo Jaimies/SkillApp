@@ -13,9 +13,9 @@ import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import javax.inject.Inject
 
 class AddEditProjectViewModel constructor(
-    private val addProject: AddProjectUseCase,
+    private val addProjectUseCase: AddProjectUseCase,
     private val saveProjectUseCase: SaveProjectUseCase,
-    private val deleteProject: DeleteProjectUseCase,
+    private val deleteProjectUseCase: DeleteProjectUseCase,
     project: ProjectItem?
 ) : KeyboardHidingViewModel() {
 
@@ -32,15 +32,15 @@ class AddEditProjectViewModel constructor(
     }
 
     fun addProject(name: String, description: String) = launchCoroutine {
-        addProject.invoke(name, description)
+        addProjectUseCase.run(name, description)
     }
 
     fun saveProject(project: ProjectItem) = launchCoroutine {
-        saveProjectUseCase.invoke(project.mapToDomain())
+        saveProjectUseCase.run(project.mapToDomain())
     }
 
     fun deleteProject(project: ProjectItem) = launchCoroutine {
-        deleteProject.invoke(project.mapToDomain())
+        deleteProjectUseCase.run(project.mapToDomain())
     }
 
     fun showDeleteDialog() = showDeleteDialog.call()

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.jdevs.timeo.R
+import com.jdevs.timeo.R.id.action_to_signUpFragment
 import com.jdevs.timeo.databinding.SigninFragBinding
 import com.jdevs.timeo.util.fragment.observe
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,10 +24,11 @@ class SignInFragment : AuthFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = SigninFragBinding.inflate(inflater, container, false).also {
-            it.lifecycleOwner = viewLifecycleOwner
-            it.viewModel = viewModel
-        }
+        val binding =
+            SigninFragBinding.inflate(inflater, container, false).also {
+                it.lifecycleOwner = viewLifecycleOwner
+                it.viewModel = viewModel
+            }
 
         return binding.root
     }
@@ -36,16 +37,16 @@ class SignInFragment : AuthFragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.showGoogleSignInIntent) { startActivityForResult(it, RC_SIGN_IN) }
+        observe(viewModel.showGoogleSignInIntent) { intent ->
+            startActivityForResult(intent, RC_SIGN_IN)
+        }
         observe(viewModel.navigateToSignUp) {
-            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+            findNavController().navigate(action_to_signUpFragment)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN)
             viewModel.onSignInCompleted(intent)
-        }
     }
 }

@@ -19,7 +19,7 @@
         tools:layout="@layout/signup_frag">
 
         <action
-            android:id="@+id/action_signInFragment_to_signUpFragment"
+            android:id="@+id/action_to_signUpFragment"
             app:destination="@id/signup_fragment_dest"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"

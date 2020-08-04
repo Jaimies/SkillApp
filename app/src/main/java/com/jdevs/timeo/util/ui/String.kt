@@ -5,6 +5,6 @@ package com.jdevs.timeo.util.ui
 import android.content.Context
 import androidx.annotation.StringRes
 
-fun Context.getStringSafe(@StringRes resId: Int): String? {
-    return if (resId != -1) getString(resId) else null
+fun Context.getStringOrNull(@StringRes resId: Int): String? {
+    return runCatching { getString(resId) }.getOrNull()
 }

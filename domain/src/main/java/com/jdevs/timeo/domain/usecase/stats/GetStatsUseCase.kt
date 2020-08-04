@@ -9,14 +9,24 @@ import javax.inject.Inject
 
 class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
 
-    fun getDayStats(activityId: String) = statsRepository.dayStats.getStatistics(activityId)
-    fun getWeekStats(activityId: String) = statsRepository.weekStats.getStatistics(activityId)
-    fun getMonthStats(activityId: String) = statsRepository.monthStats.getStatistics(activityId)
+    fun getDayStats(activityId: String) =
+        statsRepository.dayStats.getStatsByActivityId(activityId)
 
-    private fun LiveData<List<Statistic>>.getStatistics(activityId: String) = mapList { stat ->
-        ActivityStatistic(
-            if (activityId == "") stat.time else stat.activityTimes[activityId] ?: 0,
-            stat.day
-        )
+    fun getWeekStats(activityId: String) =
+        statsRepository.weekStats.getStatsByActivityId(activityId)
+
+    fun getMonthStats(activityId: String) =
+        statsRepository.monthStats.getStatsByActivityId(activityId)
+
+    private fun LiveData<List<Statistic>>.getStatsByActivityId(activityId: String) =
+        mapList { statistic -> statistic.toActivityStat(activityId) }
+
+    private fun Statistic.toActivityStat(activityId: String): ActivityStatistic {
+        return ActivityStatistic(getActivityTime(activityId), day)
+    }
+
+    private fun Statistic.getActivityTime(activityId: String): Int {
+        if (activityId != "") return activityTimes[activityId] ?: 0
+        return time
     }
 }

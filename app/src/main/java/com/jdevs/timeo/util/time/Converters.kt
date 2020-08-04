@@ -3,7 +3,6 @@ package com.jdevs.timeo.util.time
 import com.jdevs.timeo.shared.util.HOUR_MINUTES
 
 fun getFriendlyTime(totalMinutes: Int) = buildString {
-
     val hours = totalMinutes / HOUR_MINUTES
     val minutes = totalMinutes % HOUR_MINUTES
 

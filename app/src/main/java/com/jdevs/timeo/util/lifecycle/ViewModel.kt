@@ -16,10 +16,8 @@ inline fun ViewModel.launchCoroutine(crossinline block: suspend () -> Unit) {
 inline fun <reified VM : ViewModel> Fragment.viewModels(
     noinline viewModelProducer: () -> VM
 ) = viewModels<VM> {
-
     object : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-
             require(modelClass.isAssignableFrom(VM::class.java)) {
                 "ViewModel not found: $modelClass"
             }

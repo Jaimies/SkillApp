@@ -9,11 +9,9 @@ class SettingsViewModel @ViewModelInject constructor(
     private val updateSettings: UpdateSettingsUseCase,
     settings: GetSettingsUseCase
 ) : ViewModel() {
-
     val activitiesEnabled = settings.activitiesEnabled
 
     fun setActivitiesEnabled(isEnabled: Boolean) {
-
         updateSettings.setActivitiesEnabled(isEnabled)
     }
 }

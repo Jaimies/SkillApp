@@ -93,10 +93,7 @@ open class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
     @CallSuper
     open fun removeItem(item: ViewItem) {
 
-        if (item !in items) {
-            return
-        }
-
+        if (item !in items) return
         val index = items.indexOfFirst { it.id == item.id }
 
         items.removeAt(index)
@@ -104,7 +101,6 @@ open class FirestoreListAdapter(delegateAdapter: DelegateAdapter) :
     }
 
     companion object {
-
         private const val LOADING = 0
         private const val ITEM = 1
     }

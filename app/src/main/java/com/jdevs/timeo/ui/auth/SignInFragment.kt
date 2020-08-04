@@ -47,6 +47,6 @@ class SignInFragment : AuthFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (requestCode == RC_SIGN_IN)
-            viewModel.onSignInCompleted(intent)
+            viewModel.onGoogleSignInCompleted(intent)
     }
 }

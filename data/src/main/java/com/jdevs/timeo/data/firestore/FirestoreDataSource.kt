@@ -8,6 +8,7 @@ abstract class FirestoreDataSource(authRepository: AuthRepository) {
     protected val db = Firebase.firestore
 
     init {
+        authRepository.uid.value?.let { resetRefs(it) }
         authRepository.uid.observeForever { uid ->
             uid?.let(::resetRefs)
         }

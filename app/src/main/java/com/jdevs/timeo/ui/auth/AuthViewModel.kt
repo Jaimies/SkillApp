@@ -4,34 +4,47 @@ import androidx.annotation.StringRes
 import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.jdevs.timeo.R
+import com.jdevs.timeo.R.string.email_empty
+import com.jdevs.timeo.R.string.email_invalid
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.ui.common.viewmodel.LoadingViewModel
 
 abstract class AuthViewModel : LoadingViewModel() {
 
     val snackbar: LiveData<Int> get() = _snackbar
-    protected val _snackbar = SingleLiveEvent<@StringRes Int>()
+    private val _snackbar = SingleLiveEvent<Int>()
 
     val navigateToOverview: LiveData<Any> get() = _navigateToOverview
-    protected val _navigateToOverview = SingleLiveEvent<Any>()
+    private val _navigateToOverview = SingleLiveEvent<Any>()
 
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
-    val emailError = MutableLiveData(-1)
-    val passwordError = MutableLiveData(-1)
+    val emailError get() = _emailError as LiveData<Int>
+    private val _emailError = MutableLiveData(-1)
+    val passwordError get() = _passwordError as LiveData<Int>
+    private val _passwordError = MutableLiveData(-1)
 
     protected fun checkEmail(email: String): Boolean {
-
-        emailError.value = when {
-            email.isBlank() -> R.string.email_empty
-            !EMAIL_ADDRESS.matcher(email).matches() -> R.string.email_invalid
-            else -> {
-                emailError.value = -1
-                return true
-            }
+        if (email.isBlank()) setEmailError(email_empty)
+        else if (!EMAIL_ADDRESS.matcher(email).matches()) setEmailError(
+            email_invalid
+        )
+        else {
+            setEmailError(-1)
+            return true
         }
 
         return false
     }
+
+    protected fun setEmailError(@StringRes resId: Int) {
+        _emailError.value = resId
+    }
+
+    protected fun setPasswordError(@StringRes resId: Int) {
+        _passwordError.value = resId
+    }
+
+    protected fun snackbar(@StringRes resId: Int) = _snackbar.setValue(resId)
+    protected fun navigateToOverview() = _navigateToOverview.call()
 }

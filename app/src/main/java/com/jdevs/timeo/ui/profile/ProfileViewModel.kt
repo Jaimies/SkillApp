@@ -12,7 +12,7 @@ class ProfileViewModel @ViewModelInject constructor(
     private val signOutUseCase: SignOutUseCase,
     getStatsUseCase: GetStatsUseCase,
     private val authState: GetAuthStateUseCase
-) : StatsViewModel(getStatsUseCase) {
+) : StatsViewModel(getStatsUseCase, "") {
 
     val isSignedIn get() = authState.isSignedIn
     val navigateToSignIn = SingleLiveEvent<Any>()

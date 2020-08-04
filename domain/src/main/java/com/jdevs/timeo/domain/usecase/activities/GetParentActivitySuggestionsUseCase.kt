@@ -6,7 +6,6 @@ import javax.inject.Inject
 class GetParentActivitySuggestionsUseCase @Inject constructor(
     private val activitiesRepository: ActivitiesRepository
 ) {
-
-    operator fun invoke(activityId: String) =
+    fun run(activityId: String) =
         activitiesRepository.getTopLevelActivitiesFromCache(activityId)
 }

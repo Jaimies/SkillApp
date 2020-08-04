@@ -3,9 +3,8 @@ package com.jdevs.timeo.lifecycle
 import androidx.lifecycle.MutableLiveData
 
 /**
- * [MutableLiveData] that only accepts new values in [setValue] method
- *
- * @param T type of data hold by this instance
+ * [MutableLiveData] that only notifies observers about new values
+ * when [setValue] method is called
  */
 class SmartLiveData<T> : MutableLiveData<T> {
     constructor() : super()

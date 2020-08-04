@@ -5,6 +5,5 @@ import com.jdevs.timeo.domain.repository.RecordsRepository
 import javax.inject.Inject
 
 class DeleteRecordUseCase @Inject constructor(private val recordsRepository: RecordsRepository) {
-
-    suspend operator fun invoke(record: Record) = recordsRepository.deleteRecord(record)
+    suspend fun run(record: Record) = recordsRepository.deleteRecord(record)
 }

@@ -22,13 +22,14 @@ class HistoryViewModel @ViewModelInject constructor(
 ) : ListViewModel<RecordItem>(authRepository) {
 
     override val localLiveData =
-        getRecords.records.map(Record::mapToPresentation).toLiveData(RECORDS_PAGE_SIZE)
+        getRecords.records.map(Record::mapToPresentation)
+            .toLiveData(RECORDS_PAGE_SIZE)
 
     override fun getRemoteLiveDatas(fetchNewItems: Boolean) =
-        getRecords.getRecordsRemote(fetchNewItems).mapOperation(Record::mapToPresentation)
+        getRecords.getRecordsRemote(fetchNewItems)
+            .mapOperation(Record::mapToPresentation)
 
     fun deleteRecord(record: RecordItem) = launchCoroutine {
-
-        deleteRecord.invoke(record.mapToDomain())
+        deleteRecord.run(record.mapToDomain())
     }
 }

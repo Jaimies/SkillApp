@@ -41,9 +41,9 @@ class AddEditActivityViewModel(
     val navigateBack: LiveData<Any> get() = _navigateBack
     private val _navigateBack = SingleLiveEvent<Any>()
 
-    var parentActivityIndex: Int? = -1
+    var parentActivityIndex = -1
 
-    val activities = getParentActivitySuggestions(activity?.id.orEmpty())
+    val activities = getParentActivitySuggestions.run(activity?.id.orEmpty())
     val activityNames = activities.mapList(Activity::name)
 
     fun deleteActivity() = ioScope.launch {
@@ -54,7 +54,8 @@ class AddEditActivityViewModel(
 
     // Since the first item in dropdown is "–" and other activities start at index of 1,
     // we need to subtract 1 from index when trying to get the needed item
-    private fun getParentActivity(index: Int) = activities.value!!.getOrNull(index - 1)
+    private fun getParentActivity(index: Int) =
+        activities.value!!.getOrNull(index - 1)
 
     fun saveActivity() {
 
@@ -63,7 +64,7 @@ class AddEditActivityViewModel(
 
         val index = parentActivityIndex
 
-        if (index == null) {
+        if (index == -1) {
             parentActivityError.value = R.string.invalid_activity_error
             return
         }
@@ -76,14 +77,18 @@ class AddEditActivityViewModel(
 
                 val newActivity = activity.mapToDomain().run {
                     if (index == -1) copy(name = name)
-                    else copy(name = name, parentActivity = parentActivity?.toMinimal())
+                    else copy(
+                        name = name,
+                        parentActivity = parentActivity?.toMinimal()
+                    )
                 }
 
                 saveActivity(newActivity)
             } else {
                 addActivity(
                     Activity(
-                        name = name, totalTime = getMins(totalTime.value?.toInt() ?: 0, 0),
+                        name = name,
+                        totalTime = getMins(totalTime.value?.toInt() ?: 0, 0),
                         parentActivity = parentActivity?.toMinimal()
                     )
                 )
@@ -96,7 +101,8 @@ class AddEditActivityViewModel(
     private fun validateName(name: String): Boolean {
         when {
             name.isEmpty() -> nameError.value = R.string.name_empty
-            name.length >= NAME_MAX_LENGTH -> nameError.value = R.string.name_too_long
+            name.length >= NAME_MAX_LENGTH -> nameError.value =
+                R.string.name_too_long
             else -> return true
         }
 

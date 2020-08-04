@@ -49,7 +49,7 @@ fun AutoCompleteTextView.setEntries(entries: List<*>?) {
 }
 
 @BindingAdapter("onSelectedItemChanged")
-fun AutoCompleteTextView.setOnSelectedItemPositionChanged(onChanged: Consumer<Int?>) {
+fun AutoCompleteTextView.setOnSelectedItemPositionChanged(onChanged: Consumer<Int>) {
     setOnItemClickListener { _, _, position, _ -> onChanged.accept(position) }
-    doAfterTextChanged { onChanged.accept(null) }
+    doAfterTextChanged { onChanged.accept(-1) }
 }

@@ -36,7 +36,6 @@ class OverviewViewModel @ViewModelInject constructor(
 
     class DataWrapper<T : ViewItem>(val data: LiveData<List<T>>) {
         val isEmpty = data.map { it.isEmpty() }
-        val isLoaded = data.map { true }
         val navigateToList = SingleLiveEvent<Any>()
         val navigateToAdd = SingleLiveEvent<Any>()
 

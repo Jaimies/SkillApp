@@ -4,32 +4,17 @@ import android.R.layout.simple_list_item_1
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.EditText
 import androidx.core.util.Consumer
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.common.SignInButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 @BindingAdapter("visible")
 fun View.isVisible(value: Boolean) {
     isVisible = value
-}
-
-@BindingAdapter("android:onClick")
-fun SignInButton.setOnClickListener(onClick: Runnable) {
-    setOnClickListener { onClick.run() }
-}
-
-@BindingAdapter("onEnterPressed")
-fun EditText.setOnEnterPressedListener(block: Runnable) {
-    setOnEditorActionListener { _, _, _ ->
-        block.run()
-        true
-    }
 }
 
 @BindingAdapter("viewpager", "entries")

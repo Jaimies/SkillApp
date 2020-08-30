@@ -75,10 +75,7 @@ dependencies {
     implementation project(':shared')
     implementation project(':lib')
 
-    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
-
     implementation "androidx.room:room-ktx:$Versions.room"
-    implementation "com.google.firebase:firebase-firestore:$Versions.firestore"
 
     implementation "androidx.fragment:fragment-ktx:$Versions.fragment"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
@@ -105,6 +102,7 @@ dependencies {
     kapt "com.android.databinding:compiler:$Versions.dataBinding"
 
     testImplementation 'io.kotest:kotest-runner-junit5-jvm:4.1.0'
+    testImplementation 'io.kotest:kotest-runner-console-jvm:4.1.0'
     testImplementation "org.hamcrest:hamcrest-all:$Versions.hamcrest"
 
     debugImplementation "com.amitshekhar.android:debug-db:$Versions.debugDb"

@@ -1,33 +1,25 @@
 package com.jdevs.timeo.data.projects
 
-import com.jdevs.timeo.data.Repository
 import com.jdevs.timeo.domain.model.Project
-import com.jdevs.timeo.domain.repository.AuthRepository
 import com.jdevs.timeo.domain.repository.ProjectsRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DefaultProjectsRepository @Inject constructor(
-    private val remoteDataSource: ProjectsRemoteDataSource,
-    private val localDataSource: ProjectsLocalDataSource,
-    authRepository: AuthRepository
-) :
-    Repository<ProjectsDataSource>(remoteDataSource, localDataSource, authRepository),
-    ProjectsRepository {
+    private val dataSource: ProjectsLocalDataSource
+) : ProjectsRepository {
 
-    override val projects get() = localDataSource.projects
-    override fun getProjectsRemote(fetchNewItems: Boolean) =
-        remoteDataSource.getProjects(fetchNewItems)
+    override val projects get() = dataSource.projects
 
-    override val topProjects get() = currentDataSource.getTopProjects()
+    override val topProjects get() = dataSource.getTopProjects()
 
-    override fun getProjectById(id: String) = currentDataSource.getProjectById(id)
+    override fun getProjectById(id: Int) = dataSource.getProjectById(id)
 
     override suspend fun addProject(name: String, description: String) =
-        currentDataSource.addProject(name, description)
+        dataSource.addProject(name, description)
 
-    override suspend fun saveProject(project: Project) = currentDataSource.saveProject(project)
+    override suspend fun saveProject(project: Project) = dataSource.saveProject(project)
 
-    override suspend fun deleteProject(project: Project) = currentDataSource.deleteProject(project)
+    override suspend fun deleteProject(project: Project) = dataSource.deleteProject(project)
 }

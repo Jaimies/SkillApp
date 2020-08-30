@@ -8,20 +8,13 @@ import javax.inject.Singleton
 
 @Singleton
 class DefaultSettingsRepository @Inject constructor(
-    private val localDataSource: LocalUserDataSource,
-    private val remoteDataSource: FirestoreUserDataSource
+    private val dataSource: UserDataSource
 ) : SettingsRepository {
-    init {
-        remoteDataSource.user?.observeForever { user ->
-            _activitiesEnabled.value = user.activitiesEnabled
-            localDataSource.activitiesEnabled = user.activitiesEnabled
-        }
-    }
-
     override val activitiesEnabled: LiveData<Boolean> get() = _activitiesEnabled
-    private val _activitiesEnabled = MutableLiveData(localDataSource.activitiesEnabled)
+    private val _activitiesEnabled =
+        MutableLiveData(dataSource.activitiesEnabled)
 
     override fun setActivitiesEnabled(enabled: Boolean) {
-        remoteDataSource.setActivitiesEnabled(enabled)
+        dataSource.activitiesEnabled = enabled
     }
 }

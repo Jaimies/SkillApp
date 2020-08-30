@@ -21,7 +21,7 @@ class ActivityDetailViewModel(
     private val addRecord: AddRecordUseCase,
     getActivityById: GetActivityByIdUseCase,
     getStats: GetStatsUseCase,
-    activityId: String
+    activityId: Int
 ) : StatsViewModel(getStats, activityId) {
 
     val showRecordDialog = SingleLiveEvent<Any>()
@@ -31,7 +31,7 @@ class ActivityDetailViewModel(
     val activity = getActivityById(activityId).map(Activity::mapToPresentation)
     val state = activity.map { ActivityDetailState(it) }
 
-    fun addRecord(activityId: String, activityName: String, time: Int) = launchCoroutine {
+    fun addRecord(activityId: Int, activityName: String, time: Int) = launchCoroutine {
         val record = Record(name = activityName, time = time, activityId = activityId)
         addRecord(record)
     }
@@ -51,7 +51,7 @@ class ActivityDetailViewModel(
         private val getActivityById: GetActivityByIdUseCase,
         private val getStats: GetStatsUseCase
     ) {
-        fun create(activityId: String): ActivityDetailViewModel {
+        fun create(activityId: Int): ActivityDetailViewModel {
             return ActivityDetailViewModel(addRecord, getActivityById, getStats, activityId)
         }
     }

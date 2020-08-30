@@ -1,9 +1,7 @@
 package com.jdevs.timeo.data.di
 
 import com.jdevs.timeo.data.records.DefaultRecordsRepository
-import com.jdevs.timeo.data.records.FirestoreRecordsDataSource
-import com.jdevs.timeo.data.records.RecordsLocalDataSource
-import com.jdevs.timeo.data.records.RecordsRemoteDataSource
+import com.jdevs.timeo.data.records.RecordsDataSource
 import com.jdevs.timeo.data.records.RoomRecordsDataSource
 import com.jdevs.timeo.domain.repository.RecordsRepository
 import dagger.Binds
@@ -18,8 +16,5 @@ interface RecordsModule {
     fun provideRepository(repository: DefaultRecordsRepository): RecordsRepository
 
     @Binds
-    fun provideRemoteDataSource(source: FirestoreRecordsDataSource): RecordsRemoteDataSource
-
-    @Binds
-    fun provideLocalDataSource(source: RoomRecordsDataSource): RecordsLocalDataSource
+    fun provideLocalDataSource(source: RoomRecordsDataSource): RecordsDataSource
 }

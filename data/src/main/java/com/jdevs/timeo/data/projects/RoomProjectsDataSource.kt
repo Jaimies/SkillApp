@@ -12,7 +12,7 @@ interface ProjectsDataSource {
 
     fun getTopProjects(): LiveData<List<Project>>
 
-    fun getProjectById(id: String): LiveData<Project>
+    fun getProjectById(id: Int): LiveData<Project>
 
     suspend fun addProject(name: String, description: String)
 
@@ -30,17 +30,22 @@ interface ProjectsLocalDataSource : ProjectsDataSource {
 class RoomProjectsDataSource @Inject constructor(private val projectsDao: ProjectsDao) :
     ProjectsLocalDataSource {
 
-    override val projects by lazy { projectsDao.getProjects().map(DBProject::mapToDomain) }
+    override val projects by lazy {
+        projectsDao.getProjects().map(DBProject::mapToDomain)
+    }
 
-    override fun getTopProjects() = projectsDao.getTopProjects().mapList(DBProject::mapToDomain)
+    override fun getTopProjects() =
+        projectsDao.getTopProjects().mapList(DBProject::mapToDomain)
 
-    override fun getProjectById(id: String) =
-        projectsDao.getProjectById(id.toInt()).map(DBProject::mapToDomain)
+    override fun getProjectById(id: Int) =
+        projectsDao.getProjectById(id).map(DBProject::mapToDomain)
 
     override suspend fun addProject(name: String, description: String) =
         projectsDao.insert(DBProject(name = name, description = description))
 
-    override suspend fun saveProject(project: Project) = projectsDao.update(project.mapToDB())
+    override suspend fun saveProject(project: Project) =
+        projectsDao.update(project.mapToDB())
 
-    override suspend fun deleteProject(project: Project) = projectsDao.delete(project.mapToDB())
+    override suspend fun deleteProject(project: Project) =
+        projectsDao.delete(project.mapToDB())
 }

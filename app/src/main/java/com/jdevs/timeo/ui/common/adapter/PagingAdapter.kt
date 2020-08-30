@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.model.ViewItem
 
 class PagingAdapter(private val delegateAdapter: DelegateAdapter) :
-    PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(DiffCallback),
-    BaseAdapter {
+    PagedListAdapter<ViewItem, RecyclerView.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return delegateAdapter.onCreateViewHolder(parent)
@@ -17,5 +16,5 @@ class PagingAdapter(private val delegateAdapter: DelegateAdapter) :
         delegateAdapter.onBindViewHolder(holder, getItem(position))
     }
 
-    override fun getItem(position: Int) = super.getItem(position)!!
+    public override fun getItem(position: Int) = super.getItem(position)!!
 }

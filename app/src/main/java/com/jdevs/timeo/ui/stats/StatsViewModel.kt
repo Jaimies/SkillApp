@@ -15,7 +15,7 @@ import org.threeten.bp.temporal.ChronoUnit.WEEKS
 
 open class StatsViewModel(
     getStats: GetStatsUseCase,
-    activityId: String
+    activityId: Int
 ) : ViewModel() {
 
     val dayStats by lazy {

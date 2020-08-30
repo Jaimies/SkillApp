@@ -12,6 +12,9 @@ interface ActivitiesDao : BaseDao<DBActivity> {
     @Query("SELECT * FROM activities ORDER BY totalTime DESC")
     fun getActivities(): DataSource.Factory<Int, DBActivity>
 
+    @Query("SELECT * FROM activities WHERE id <> :activityId ORDER BY totalTime DESC")
+    fun getParentActivitySuggestions(activityId: Int): LiveData<List<DBActivity>>
+
     @Query("SELECT * FROM activities ORDER BY totalTime DESC LIMIT 3")
     fun getTopActivities(): LiveData<List<DBActivity>>
 

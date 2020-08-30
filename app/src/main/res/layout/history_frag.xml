@@ -19,7 +19,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:visible="@{!viewModel.isEmpty &amp;&amp; !viewModel.isLoading}"
+            app:visible="@{!viewModel.isEmpty}"
             tools:itemCount="12"
             tools:listitem="@layout/records_item" />
 
@@ -31,12 +31,7 @@
             android:orientation="vertical"
             android:text="@string/there_is_nothing_here_yet"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            app:visible="@{viewModel.isEmpty &amp;&amp; !viewModel.isLoading}"
+            app:visible="@{viewModel.isEmpty}"
             tools:visibility="gone" />
-
-        <include
-            android:id="@+id/preloader"
-            layout="@layout/preloader"
-            app:visible="@{viewModel.isLoading}" />
     </FrameLayout>
 </layout>

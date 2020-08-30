@@ -34,7 +34,7 @@ detekt {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
-    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$Versions.coroutines"
     implementation "androidx.paging:paging-runtime:$Versions.paging"
 
     implementation project(':shared')

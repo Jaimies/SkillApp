@@ -1,42 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Widget.Timeo.Header" parent="">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:paddingTop">@dimen/padding_tiny</item>
-        <item name="android:paddingEnd">@dimen/padding_default</item>
-        <item name="android:paddingBottom">@dimen/padding_tiny</item>
-        <item name="android:paddingStart">@dimen/padding_default</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4
-        </item>
-    </style>
-
     <style name="Widget.Timeo.Divider" parent="">
         <item name="android:background">@color/white_100</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-    </style>
-
-    <style name="Widget.Timeo.AlternativeText" parent="">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">false</item>
-        <item name="android:layout_marginEnd">@dimen/margin_default</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">?attr/colorAccent</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
-    </style>
-
-    <style name="Widget.Timeo.SignInLayout" parent="">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/margin_default</item>
-        <item name="android:orientation">vertical</item>
     </style>
 
     <style name="mdtp_ActionButton.Text" parent="Widget.MaterialComponents.Button.TextButton.Dialog" />

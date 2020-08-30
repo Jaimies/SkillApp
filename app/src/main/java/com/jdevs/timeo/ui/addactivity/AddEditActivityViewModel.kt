@@ -43,7 +43,7 @@ class AddEditActivityViewModel(
 
     var parentActivityIndex = -1
 
-    val activities = getParentActivitySuggestions.run(activity?.id.orEmpty())
+    val activities = getParentActivitySuggestions.run(activity?.id ?: -1)
     val activityNames = activities.mapList(Activity::name)
 
     fun deleteActivity() = ioScope.launch {

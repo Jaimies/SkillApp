@@ -121,6 +121,6 @@
 
         <argument
             android:name="activityId"
-            app:argType="string" />
+            app:argType="integer" />
     </fragment>
 </navigation>

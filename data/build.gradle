@@ -54,12 +54,6 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
 
-    implementation "com.google.firebase:firebase-auth:$Versions.auth"
-    implementation "com.google.android.gms:play-services-auth:$Versions.gmsAuth"
-    implementation "com.google.firebase:firebase-functions-ktx:$Versions.functions"
-    implementation "com.google.firebase:firebase-firestore-ktx:$Versions.firestore"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$Versions.coroutinesPlay"
-
     implementation "androidx.preference:preference-ktx:$Versions.preference"
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
     testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"

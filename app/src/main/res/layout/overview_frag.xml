@@ -59,11 +59,6 @@
                         tools:itemCount="3"
                         tools:listitem="@layout/projects_item" />
 
-                    <include
-                        android:id="@+id/projects_preloader"
-                        layout="@layout/preloader"
-                        app:visible="@{!viewModel.projects.isLoaded}" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -125,11 +120,6 @@
                         app:visible="@{!viewModel.activities.isEmpty}"
                         tools:itemCount="3"
                         tools:listitem="@layout/activities_item" />
-
-                    <include
-                        android:id="@+id/activities_preloader"
-                        layout="@layout/preloader"
-                        app:visible="@{!viewModel.activities.isLoaded}" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

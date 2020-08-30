@@ -19,8 +19,6 @@ import com.jdevs.timeo.util.ui.navigateAnimated
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 
-private const val VISIBLE_THRESHOLD = 5
-
 @AndroidEntryPoint
 class ActivitiesFragment : ListFragment<ActivityItem>(activities_frag_menu) {
 
@@ -46,7 +44,7 @@ class ActivitiesFragment : ListFragment<ActivityItem>(activities_frag_menu) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recycler_view.setup(VISIBLE_THRESHOLD)
+        recycler_view.setup()
 
         observe(viewModel.navigateToAddEdit) {
             findNavController().navigateAnimated(addactivity_fragment_dest)

@@ -4,8 +4,5 @@ import com.jdevs.timeo.domain.repository.ProjectsRepository
 import javax.inject.Inject
 
 class GetProjectsUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
-
     val projects get() = projectsRepository.projects
-    fun getProjectsRemote(fetchNewItems: Boolean) =
-        projectsRepository.getProjectsRemote(fetchNewItems)
 }

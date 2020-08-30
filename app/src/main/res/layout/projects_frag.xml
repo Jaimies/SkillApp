@@ -24,7 +24,7 @@
             android:paddingEnd="16dp"
             android:paddingBottom="6dp"
             android:scrollbars="none"
-            app:visible="@{!viewModel.isEmpty &amp;&amp; !viewModel.isLoading}"
+            app:visible="@{!viewModel.isEmpty}"
             tools:itemCount="7"
             tools:listitem="@layout/projects_item" />
 
@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:visible="@{viewModel.isEmpty &amp;&amp; !viewModel.isLoading}"
+            app:visible="@{viewModel.isEmpty}"
             tools:visibility="gone">
 
             <TextView
@@ -49,10 +49,5 @@
                 android:onClick="@{() -> viewModel.navigateToAddActivity()}"
                 android:text="@string/create_project" />
         </LinearLayout>
-
-        <include
-            android:id="@+id/preloader"
-            layout="@layout/preloader"
-            app:visible="@{viewModel.isLoading}" />
     </FrameLayout>
 </layout>

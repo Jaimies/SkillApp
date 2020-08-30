@@ -14,13 +14,10 @@ import com.jdevs.timeo.util.fragment.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 
-private const val RECORDS_VISIBLE_THRESHOLD = 12
-
 @AndroidEntryPoint
 class HistoryFragment : ListFragment<RecordItem>(-1) {
 
     override val delegateAdapter by lazy { RecordDelegateAdapter(::showDeleteDialog) }
-    override val firestoreAdapter by lazy { FirestoreHistoryAdapter(delegateAdapter) }
 
     override val viewModel: HistoryViewModel by viewModels()
 
@@ -40,7 +37,7 @@ class HistoryFragment : ListFragment<RecordItem>(-1) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recycler_view.setup(RECORDS_VISIBLE_THRESHOLD)
+        recycler_view.setup()
     }
 
     private fun showDeleteDialog(index: Int) {

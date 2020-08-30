@@ -13,39 +13,6 @@
         tools:layout="@layout/profile_frag" />
 
     <fragment
-        android:id="@+id/signin_fragment_dest"
-        android:name="com.jdevs.timeo.ui.auth.SignInFragment"
-        android:label="@string/sign_in"
-        tools:layout="@layout/signup_frag">
-
-        <action
-            android:id="@+id/action_to_signUpFragment"
-            app:destination="@id/signup_fragment_dest"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit"
-            app:popUpTo="@id/profile_fragment_dest"
-            app:popUpToInclusive="false" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/signup_fragment_dest"
-        android:name="com.jdevs.timeo.ui.auth.SignUpFragment"
-        android:label="@string/sign_up">
-
-        <action
-            android:id="@+id/action_signUpFragment_to_signInFragment"
-            app:destination="@id/signin_fragment_dest"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit"
-            app:popUpTo="@id/profile_fragment_dest"
-            app:popUpToInclusive="false" />
-    </fragment>
-
-    <fragment
         android:id="@+id/settings_fragment_dest"
         android:name="com.jdevs.timeo.ui.settings.SettingsFragment"
         android:label="@string/settings" />

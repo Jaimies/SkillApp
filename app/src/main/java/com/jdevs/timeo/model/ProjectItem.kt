@@ -9,7 +9,7 @@ import org.threeten.bp.OffsetDateTime
 @Keep
 @Parcelize
 data class ProjectItem(
-    override val id: String,
+    override val id: Int,
     override val name: String,
     val description: String,
     override val totalTime: Int,

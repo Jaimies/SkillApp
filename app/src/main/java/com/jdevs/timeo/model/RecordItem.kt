@@ -6,10 +6,10 @@ import org.threeten.bp.OffsetDateTime
 
 @Keep
 data class RecordItem(
-    override val id: String,
+    override val id: Int,
     val name: String,
     val time: Int,
-    val activityId: String,
+    val activityId: Int,
     val creationDate: OffsetDateTime
 ) : ViewItem
 

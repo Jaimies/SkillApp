@@ -1,18 +1,12 @@
 package com.jdevs.timeo.data.records
 
-import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.google.firebase.firestore.DocumentId
 import com.jdevs.timeo.data.activities.DBActivity
 import com.jdevs.timeo.domain.model.Record
-import com.jdevs.timeo.shared.util.toDate
-import com.jdevs.timeo.shared.util.toOffsetDate
 import org.threeten.bp.OffsetDateTime
-import java.util.Calendar
-import java.util.Date
 
 @Entity(
     tableName = "records",
@@ -33,19 +27,5 @@ data class DBRecord(
     val creationDate: OffsetDateTime = OffsetDateTime.now()
 )
 
-@Keep
-data class FirestoreRecord(
-    @DocumentId
-    val documentId: String = "",
-    val name: String = "",
-    val time: Int = 0,
-    val activityId: String = "",
-    val timestamp: Date = Calendar.getInstance().time
-)
-
-fun FirestoreRecord.mapToDomain() =
-    Record(documentId, name, time, activityId, timestamp.toOffsetDate())
-
-fun DBRecord.mapToDomain() = Record(id.toString(), name, time, activityId.toString(), creationDate)
-fun Record.mapToDB() = DBRecord(id.toIntOrNull() ?: 0, name, time, activityId.toInt(), creationDate)
-fun Record.mapToFirestore() = FirestoreRecord(id, name, time, activityId, creationDate.toDate())
+fun DBRecord.mapToDomain() = Record(id, name, time, activityId, creationDate)
+fun Record.mapToDB() = DBRecord(id, name, time, activityId, creationDate)

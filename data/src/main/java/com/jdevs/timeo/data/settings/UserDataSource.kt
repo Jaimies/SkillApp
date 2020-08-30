@@ -9,13 +9,13 @@ import javax.inject.Singleton
 
 private const val ACTIVITIES_ENABLED = "activitiesEnabled"
 
-interface LocalUserDataSource {
+interface UserDataSource {
     var activitiesEnabled: Boolean
 }
 
 @Singleton
-class DefaultLocalUserDataSource @Inject constructor(@ApplicationContext context: Context) :
-    LocalUserDataSource {
+class DefaultUserDataSource @Inject constructor(@ApplicationContext context: Context) :
+    UserDataSource {
 
     private val prefs = getDefaultSharedPreferences(context)
 

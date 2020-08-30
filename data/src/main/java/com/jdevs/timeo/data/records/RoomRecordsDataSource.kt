@@ -14,15 +14,12 @@ import javax.inject.Singleton
 interface RecordsDataSource {
     suspend fun addRecord(record: Record)
     suspend fun deleteRecord(record: Record)
-}
-
-interface RecordsLocalDataSource : RecordsDataSource {
     val records: DataSource.Factory<Int, Record>
 }
 
 @Singleton
 class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
-    RecordsLocalDataSource {
+    RecordsDataSource {
 
     override val records by lazy { db.recordsDao().getRecords().map(DBRecord::mapToDomain) }
 

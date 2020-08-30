@@ -27,14 +27,6 @@ object Versions {
     const val hilt = "2.28-alpha"
     const val androidxHilt = "1.0.0-alpha01"
 
-    // Firebase
-    const val firestore = "21.5.0"
-    const val functions = "19.0.2"
-    const val coroutinesPlay = "1.1.1"
-    const val auth = "19.3.2"
-    const val gmsAuth = "18.1.0"
-    const val gson = "2.8.6"
-
     const val lint = "26.5.3"
     const val dataBinding = "3.1.4"
     const val gradle = "4.0.0"

@@ -13,15 +13,6 @@ import com.jdevs.timeo.ui.MainActivity
 fun Fragment.snackbar(@StringRes resId: Int) =
     Snackbar.make(requireView(), resId, LENGTH_LONG).show()
 
-fun Fragment.navigateToGraph(@IdRes graphId: Int) {
-
-    mainActivity.navigateToGraph(graphId)
-
-    findNavController().run {
-        popBackStack(graph.id, true)
-    }
-}
-
 fun Fragment.navigate(@IdRes resId: Int) {
     findNavController().navigate(resId)
 }

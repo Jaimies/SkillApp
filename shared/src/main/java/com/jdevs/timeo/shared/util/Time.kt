@@ -1,7 +1,5 @@
 package com.jdevs.timeo.shared.util
 
-import org.threeten.bp.DateTimeUtils.toDate
-import org.threeten.bp.DateTimeUtils.toInstant
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.Instant
 import org.threeten.bp.Month
@@ -12,7 +10,6 @@ import org.threeten.bp.temporal.ChronoUnit
 import org.threeten.bp.temporal.ChronoUnit.DAYS
 import org.threeten.bp.temporal.ChronoUnit.MONTHS
 import org.threeten.bp.temporal.ChronoUnit.WEEKS
-import java.util.Date
 import java.util.Locale
 
 val currentOffset: ZoneOffset get() = OffsetDateTime.now().offset
@@ -23,9 +20,6 @@ val Month.shortName: String
 
 val DayOfWeek.shortName: String
     get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
-
-fun Date.toOffsetDate(): OffsetDateTime = toInstant(this).atOffset(currentOffset)
-fun OffsetDateTime.toDate(): Date = toDate(this.toInstant())
 
 val OffsetDateTime.daysAgo get() = DAYS.between(this, OffsetDateTime.now())
 
@@ -41,5 +35,4 @@ val OffsetDateTime.daysSinceEpoch get() = getUnitsSinceEpoch(DAYS)
 val OffsetDateTime.weeksSinceEpoch get() = getUnitsSinceEpoch(WEEKS)
 val OffsetDateTime.monthSinceEpoch get() = getUnitsSinceEpoch(MONTHS)
 
-const val WEEK_DAYS = 7
 const val HOUR_MINUTES = 60

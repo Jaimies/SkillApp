@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class ProjectDetailViewModel(
     getProjectById: GetProjectByIdUseCase,
-    projectId: String
+    projectId: Int
 ) : ViewModel() {
     val project = getProjectById(projectId).map(Project::mapToPresentation)
     val state = project.map { ProjectDetailState(it) }
@@ -28,6 +28,6 @@ class ProjectDetailViewModel(
     }
 
     class Factory @Inject constructor(private val getProjectById: GetProjectByIdUseCase) {
-        fun create(projectId: String) = ProjectDetailViewModel(getProjectById, projectId)
+        fun create(projectId: Int) = ProjectDetailViewModel(getProjectById, projectId)
     }
 }

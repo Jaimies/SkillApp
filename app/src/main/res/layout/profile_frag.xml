@@ -18,16 +18,6 @@
         android:orientation="vertical"
         tools:context=".ui.profile.ProfileFragment">
 
-        <Button
-            android:id="@+id/sign_in_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:onClick="@{() -> viewModel.navigateToSignIn()}"
-            android:text="@string/sign_in"
-            app:visible="@{!viewModel.isSignedIn}"
-            tools:visibility="gone" />
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/linear_layout"
             android:layout_width="match_parent"
@@ -57,14 +47,5 @@
                     android:layout_height="@dimen/stats_height" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
-        <Button
-            android:id="@+id/sign_out_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:onClick="@{() -> viewModel.signOut()}"
-            android:text="@string/sign_out"
-            app:visible="@{viewModel.isSignedIn}" />
     </LinearLayout>
 </layout>

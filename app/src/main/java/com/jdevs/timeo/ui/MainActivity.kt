@@ -2,13 +2,11 @@ package com.jdevs.timeo.ui
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.NavOptions
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.jdevs.timeo.R
 import com.jdevs.timeo.R.id.addactivity_fragment_dest
@@ -24,14 +22,12 @@ import com.jdevs.timeo.util.navigation.setupWithNavController
 import com.jdevs.timeo.util.ui.navigateAnimated
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_act.bottom_nav_view
-import kotlinx.android.synthetic.main.main_act.nav_host_container
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
     private lateinit var navController: LiveData<NavController>
-    private var graphToRecreate = -1
 
     private val navGraphIds = intArrayOf(overview, calendar, profile)
 
@@ -97,34 +93,12 @@ class MainActivity : AppCompatActivity(),
         destination: NavDestination,
         arguments: Bundle?
     ) {
-        if (controller.shouldBeRecreated()) {
-            controller.recreateNavGraph()
-            graphToRecreate = -1
-        }
-
         hideKeyboard()
-    }
-
-    private fun NavController.shouldBeRecreated() = graph.id == graphToRecreate
-
-    private fun NavController.recreateNavGraph() {
-        nav_host_container.post {
-            val options = NavOptions.Builder()
-                .setPopUpTo(graph.id, true)
-                .build()
-
-            navigate(graph.startDestination, null, options)
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(SELECTED_ITEM_ID, bottom_nav_view.selectedItemId)
         super.onSaveInstanceState(outState)
-    }
-
-    fun navigateToGraph(@IdRes graphId: Int) {
-        graphToRecreate = graphId
-        bottom_nav_view.selectedItemId = graphId
     }
 
     companion object {

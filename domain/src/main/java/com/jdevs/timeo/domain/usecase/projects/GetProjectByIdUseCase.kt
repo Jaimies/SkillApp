@@ -4,6 +4,5 @@ import com.jdevs.timeo.domain.repository.ProjectsRepository
 import javax.inject.Inject
 
 class GetProjectByIdUseCase @Inject constructor(private val projectsRepository: ProjectsRepository) {
-
-    operator fun invoke(id: String) = projectsRepository.getProjectById(id)
+    operator fun invoke(id: Int) = projectsRepository.getProjectById(id)
 }

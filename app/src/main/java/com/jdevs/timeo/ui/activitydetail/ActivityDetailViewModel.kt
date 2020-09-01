@@ -1,7 +1,7 @@
 package com.jdevs.timeo.ui.activitydetail
 
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetActivityByIdUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
@@ -15,6 +15,7 @@ import com.jdevs.timeo.util.lifecycle.launchCoroutine
 import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
 import com.jdevs.timeo.util.time.getFriendlyHours
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ActivityDetailViewModel(
@@ -28,20 +29,30 @@ class ActivityDetailViewModel(
     val showParentRecordDialog = SingleLiveEvent<Any>()
     val navigateToParentActivity = SingleLiveEvent<Any>()
 
-    val activity = getActivityById(activityId).map(Activity::mapToPresentation)
+    val activity = getActivityById(activityId)
+        .map { it.mapToPresentation() }
+        .asLiveData()
+
     val state = activity.map { ActivityDetailState(it) }
 
-    fun addRecord(activityId: Int, activityName: String, time: Int) = launchCoroutine {
-        val record = Record(name = activityName, time = time, activityId = activityId)
-        addRecord(record)
-    }
+    fun addRecord(activityId: Int, activityName: String, time: Int) =
+        launchCoroutine {
+            val record = Record(
+                name = activityName,
+                time = time,
+                activityId = activityId
+            )
+            addRecord(record)
+        }
 
     fun showRecordDialog() = showRecordDialog.call()
     fun showParentRecordDialog() = showParentRecordDialog.call()
     fun navigateToParentActivity() = navigateToParentActivity.call()
 
-    class ActivityDetailState(activity: ActivityItem) : ActivityState(activity) {
-        val avgWeekTime = getAvgWeekHours(activity.totalTime, activity.creationDate)
+    class ActivityDetailState(activity: ActivityItem) :
+        ActivityState(activity) {
+        val avgWeekTime =
+            getAvgWeekHours(activity.totalTime, activity.creationDate)
         val lastWeekTime = getFriendlyHours(activity.lastWeekTime)
         val daysSpent = activity.creationDate.getDaysSpentSince().toString()
     }
@@ -52,7 +63,12 @@ class ActivityDetailViewModel(
         private val getStats: GetStatsUseCase
     ) {
         fun create(activityId: Int): ActivityDetailViewModel {
-            return ActivityDetailViewModel(addRecord, getActivityById, getStats, activityId)
+            return ActivityDetailViewModel(
+                addRecord,
+                getActivityById,
+                getStats,
+                activityId
+            )
         }
     }
 }

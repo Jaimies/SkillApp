@@ -1,10 +1,10 @@
 package com.jdevs.timeo.domain.repository
 
-import androidx.lifecycle.LiveData
 import com.jdevs.timeo.domain.model.Statistic
+import kotlinx.coroutines.flow.Flow
 
 interface StatsRepository {
-    val dayStats: LiveData<List<Statistic>>
-    val weekStats: LiveData<List<Statistic>>
-    val monthStats: LiveData<List<Statistic>>
+    val dayStats: Flow<List<Statistic>>
+    val weekStats: Flow<List<Statistic>>
+    val monthStats: Flow<List<Statistic>>
 }

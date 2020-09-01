@@ -1,10 +1,10 @@
 package com.jdevs.timeo.domain.repository
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {
 
-    val activitiesEnabled: LiveData<Boolean>
+    val activitiesEnabled: Flow<Boolean>
 
     fun setActivitiesEnabled(enabled: Boolean)
 }

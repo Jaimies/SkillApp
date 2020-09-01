@@ -1,10 +1,10 @@
 package com.jdevs.timeo.domain.usecase.stats
 
-import androidx.lifecycle.LiveData
 import com.jdevs.timeo.domain.model.ActivityStatistic
 import com.jdevs.timeo.domain.model.Statistic
 import com.jdevs.timeo.domain.repository.StatsRepository
 import com.jdevs.timeo.shared.util.mapList
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
@@ -18,7 +18,7 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
     fun getMonthStats(activityId: Int) =
         statsRepository.monthStats.getStatsByActivityId(activityId)
 
-    private fun LiveData<List<Statistic>>.getStatsByActivityId(activityId: Int) =
+    private fun Flow<List<Statistic>>.getStatsByActivityId(activityId: Int) =
         mapList { statistic -> statistic.toActivityStat(activityId) }
 
     private fun Statistic.toActivityStat(activityId: Int): ActivityStatistic {

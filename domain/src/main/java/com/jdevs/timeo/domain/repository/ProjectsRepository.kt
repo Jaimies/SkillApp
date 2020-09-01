@@ -1,20 +1,16 @@
 package com.jdevs.timeo.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.jdevs.timeo.domain.model.Project
+import kotlinx.coroutines.flow.Flow
 
 interface ProjectsRepository {
-
     val projects: DataSource.Factory<Int, Project>
+    val topProjects: Flow<List<Project>>
 
-    val topProjects: LiveData<List<Project>>
-
-    fun getProjectById(id: Int): LiveData<Project>
+    fun getProjectById(id: Int): Flow<Project>
 
     suspend fun addProject(name: String, description: String)
-
     suspend fun saveProject(project: Project)
-
     suspend fun deleteProject(project: Project)
 }

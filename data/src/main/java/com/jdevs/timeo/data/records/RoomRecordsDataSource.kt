@@ -21,12 +21,15 @@ interface RecordsDataSource {
 class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
     RecordsDataSource {
 
-    override val records by lazy { db.recordsDao().getRecords().map(DBRecord::mapToDomain) }
+    override val records by lazy {
+        db.recordsDao().getRecords().map(DBRecord::mapToDomain)
+    }
 
     override suspend fun addRecord(record: Record) {
         db.withTransaction {
             db.recordsDao().insert(record.mapToDB())
-            db.activitiesDao().increaseTime(record.activityId.toInt(), record.time)
+            db.activitiesDao()
+                .increaseTime(record.activityId, record.time)
             registerStats(record.time, record.creationDate)
         }
     }
@@ -34,7 +37,8 @@ class RoomRecordsDataSource @Inject constructor(private val db: TimeoDatabase) :
     override suspend fun deleteRecord(record: Record) {
         db.withTransaction {
             db.recordsDao().delete(record.mapToDB())
-            db.activitiesDao().increaseTime(record.activityId.toInt(), -record.time)
+            db.activitiesDao()
+                .increaseTime(record.activityId, -record.time)
             registerStats(-record.time, record.creationDate)
         }
     }

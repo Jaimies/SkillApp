@@ -2,6 +2,7 @@ package com.jdevs.timeo.ui.addactivity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.jdevs.timeo.R
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.toMinimal
@@ -12,8 +13,8 @@ import com.jdevs.timeo.domain.usecase.activities.SaveActivityUseCase
 import com.jdevs.timeo.lifecycle.SingleLiveEvent
 import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.mapToDomain
-import com.jdevs.timeo.shared.util.mapList
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
+import com.jdevs.timeo.util.lifecycle.mapList
 import com.jdevs.timeo.util.time.getMins
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -43,7 +44,8 @@ class AddEditActivityViewModel(
 
     var parentActivityIndex = -1
 
-    val activities = getParentActivitySuggestions.run(activity?.id ?: -1)
+    val activities =
+        getParentActivitySuggestions.run(activity?.id ?: -1).asLiveData()
     val activityNames = activities.mapList(Activity::name)
 
     fun deleteActivity() = ioScope.launch {

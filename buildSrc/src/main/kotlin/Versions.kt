@@ -1,6 +1,6 @@
 @Suppress("unused")
 object Versions {
-    const val kotlin = "1.3.72"
+    const val kotlin = "1.4.0"
     const val coroutines = "1.3.4"
 
     const val androidxCore = "1.3.0"

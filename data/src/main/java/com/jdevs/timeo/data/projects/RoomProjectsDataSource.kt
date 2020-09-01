@@ -1,18 +1,18 @@
 package com.jdevs.timeo.data.projects
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import androidx.paging.DataSource
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.shared.util.mapList
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 interface ProjectsDataSource {
 
-    fun getTopProjects(): LiveData<List<Project>>
+    fun getTopProjects(): Flow<List<Project>>
 
-    fun getProjectById(id: Int): LiveData<Project>
+    fun getProjectById(id: Int): Flow<Project>
 
     suspend fun addProject(name: String, description: String)
 
@@ -35,10 +35,10 @@ class RoomProjectsDataSource @Inject constructor(private val projectsDao: Projec
     }
 
     override fun getTopProjects() =
-        projectsDao.getTopProjects().mapList(DBProject::mapToDomain)
+        projectsDao.getTopProjects().mapList { it.mapToDomain() }
 
     override fun getProjectById(id: Int) =
-        projectsDao.getProjectById(id).map(DBProject::mapToDomain)
+        projectsDao.getProjectById(id).map { it.mapToDomain() }
 
     override suspend fun addProject(name: String, description: String) =
         projectsDao.insert(DBProject(name = name, description = description))

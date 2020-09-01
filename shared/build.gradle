@@ -1,26 +1,6 @@
 plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-android-extensions'
-
+    id 'kotlin'
     id 'io.gitlab.arturbosch.detekt' version '1.5.0'
-}
-android {
-    compileSdkVersion App.compileSdk
-    buildToolsVersion App.buildTools
-
-    defaultConfig {
-        minSdkVersion App.minSdk
-        targetSdkVersion App.targetSdk
-        versionCode App.versionCode
-        versionName App.versionName
-        testInstrumentationRunner = 'com.jdevs.timeo.TimeoTestRunner'
-    }
-
-    kotlinOptions {
-        freeCompilerArgs += '-Xopt-in=kotlin.contracts.ExperimentalContracts'
-        jvmTarget = '1.8'
-    }
 }
 
 detekt {

@@ -3,9 +3,8 @@ package com.jdevs.timeo.ui.overview
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetTopActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.projects.GetTopProjectsUseCase
@@ -24,13 +23,19 @@ class OverviewViewModel @ViewModelInject constructor(
     private val settings: GetSettingsUseCase
 ) : ViewModel() {
 
-    val activitiesEnabled get() = settings.activitiesEnabled
-    val activities = DataWrapper(getTopActivities().mapList(Activity::mapToPresentation))
-    val projects = DataWrapper(getTopProjects().mapList(Project::mapToPresentation))
+    val activitiesEnabled get() = settings.activitiesEnabled.asLiveData()
+
+    val activities = DataWrapper(
+        getTopActivities().mapList { it.mapToPresentation() }.asLiveData()
+    )
+    val projects = DataWrapper(
+        getTopProjects().mapList { it.mapToPresentation() }.asLiveData()
+    )
 
     fun createRecord(index: Int, time: Int) = launchCoroutine {
         val activity = activities.data.value!![index]
-        val record = Record(name = activity.name, time = time, activityId = activity.id)
+        val record =
+            Record(name = activity.name, time = time, activityId = activity.id)
         addRecord(record)
     }
 

@@ -1,8 +1,8 @@
 package com.jdevs.timeo.data.stats
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StatsDao {
@@ -42,7 +42,7 @@ interface StatsDao {
         AND time > 0 
         ORDER BY day LIMIT 7"""
     )
-    fun getDayStats(): LiveData<List<DBDayStats>>
+    fun getDayStats(): Flow<List<DBDayStats>>
 
     @Query(
         """
@@ -52,7 +52,7 @@ interface StatsDao {
         AND time > 0 
         ORDER BY week LIMIT 7"""
     )
-    fun getWeekStats(): LiveData<List<DBWeekStats>>
+    fun getWeekStats(): Flow<List<DBWeekStats>>
 
     @Query(
         """
@@ -62,5 +62,5 @@ interface StatsDao {
         AND time > 0 
         ORDER BY month LIMIT 7"""
     )
-    fun getMonthStats(): LiveData<List<DBMonthStats>>
+    fun getMonthStats(): Flow<List<DBMonthStats>>
 }

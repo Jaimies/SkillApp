@@ -1,4 +1,4 @@
-package com.jdevs.timeo.shared.util
+package com.jdevs.timeo.util.lifecycle
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map

@@ -32,6 +32,8 @@ object Versions {
     const val gradle = "4.0.0"
     const val gms = "4.3.3"
 
-    const val hamcrest = "1.3"
+    const val kotestJUnit5 = "4.2.2"
+    const val kotestConsole = "4.1.2"
+
     const val debugDb = "1.0.6"
 }

@@ -11,7 +11,6 @@ plugins {
 }
 
 android {
-
     kotlinOptions.jvmTarget = '1.8'
     signingConfigs {
         release {
@@ -101,9 +100,8 @@ dependencies {
 
     kapt "com.android.databinding:compiler:$Versions.dataBinding"
 
-    testImplementation 'io.kotest:kotest-runner-junit5-jvm:4.1.0'
-    testImplementation 'io.kotest:kotest-runner-console-jvm:4.1.0'
-    testImplementation "org.hamcrest:hamcrest-all:$Versions.hamcrest"
+    testImplementation "io.kotest:kotest-runner-junit5-jvm:$Versions.kotestJUnit5"
+    testImplementation "io.kotest:kotest-runner-console-jvm:$Versions.kotestConsole"
 
     debugImplementation "com.amitshekhar.android:debug-db:$Versions.debugDb"
 }

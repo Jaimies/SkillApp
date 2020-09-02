@@ -15,8 +15,9 @@ class ProjectsViewModel @ViewModelInject constructor(
     getProjects: GetProjectsUseCase
 ) : ListViewModel<ProjectItem>() {
 
-    override val liveData =
-        getProjects.projects.map(Project::mapToPresentation).toLiveData(PROJECTS_PAGE_SIZE)
+    override val liveData = getProjects.run()
+        .map(Project::mapToPresentation)
+        .toLiveData(PROJECTS_PAGE_SIZE)
 
     val navigateToAddActivity = SingleLiveEvent<Any>()
     fun navigateToAddActivity() = navigateToAddActivity.call()

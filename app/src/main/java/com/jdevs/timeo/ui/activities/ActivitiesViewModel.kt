@@ -20,7 +20,7 @@ class ActivitiesViewModel @ViewModelInject constructor(
 ) : ListViewModel<ActivityItem>() {
 
     override val liveData =
-        getActivities.activities.map(Activity::mapToPresentation)
+        getActivities.run().map(Activity::mapToPresentation)
             .toLiveData(ACTIVITIES_PAGE_SIZE)
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
@@ -28,7 +28,7 @@ class ActivitiesViewModel @ViewModelInject constructor(
     fun createRecord(activity: ActivityItem, time: Int) = launchCoroutine {
         val record =
             Record(name = activity.name, time = time, activityId = activity.id)
-        addRecord(record)
+        addRecord.run(record)
     }
 
     fun navigateToAddActivity() = navigateToAddEdit.call()

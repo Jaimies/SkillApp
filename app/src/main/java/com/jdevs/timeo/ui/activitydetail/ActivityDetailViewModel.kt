@@ -29,7 +29,7 @@ class ActivityDetailViewModel(
     val showParentRecordDialog = SingleLiveEvent<Any>()
     val navigateToParentActivity = SingleLiveEvent<Any>()
 
-    val activity = getActivityById(activityId)
+    val activity = getActivityById.run(activityId)
         .map { it.mapToPresentation() }
         .asLiveData()
 
@@ -42,7 +42,7 @@ class ActivityDetailViewModel(
                 time = time,
                 activityId = activityId
             )
-            addRecord(record)
+            addRecord.run(record)
         }
 
     fun showRecordDialog() = showRecordDialog.call()

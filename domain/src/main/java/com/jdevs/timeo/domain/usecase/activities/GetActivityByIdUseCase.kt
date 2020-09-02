@@ -4,5 +4,5 @@ import com.jdevs.timeo.domain.repository.ActivitiesRepository
 import javax.inject.Inject
 
 class GetActivityByIdUseCase @Inject constructor(private val activitiesRepository: ActivitiesRepository) {
-    operator fun invoke(id: Int) = activitiesRepository.getActivityById(id)
+    fun run(id: Int) = activitiesRepository.getActivityById(id)
 }

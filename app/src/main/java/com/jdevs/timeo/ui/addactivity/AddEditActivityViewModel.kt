@@ -85,9 +85,9 @@ class AddEditActivityViewModel(
                     )
                 }
 
-                saveActivity(newActivity)
+                saveActivity.run(newActivity)
             } else {
-                addActivity(
+                addActivity.run(
                     Activity(
                         name = name,
                         totalTime = getMins(totalTime.value?.toInt() ?: 0, 0),

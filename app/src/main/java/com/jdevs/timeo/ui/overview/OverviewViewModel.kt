@@ -26,17 +26,17 @@ class OverviewViewModel @ViewModelInject constructor(
     val activitiesEnabled get() = settings.activitiesEnabled.asLiveData()
 
     val activities = DataWrapper(
-        getTopActivities().mapList { it.mapToPresentation() }.asLiveData()
+        getTopActivities.run().mapList { it.mapToPresentation() }.asLiveData()
     )
     val projects = DataWrapper(
-        getTopProjects().mapList { it.mapToPresentation() }.asLiveData()
+        getTopProjects.run().mapList { it.mapToPresentation() }.asLiveData()
     )
 
     fun createRecord(index: Int, time: Int) = launchCoroutine {
         val activity = activities.data.value!![index]
         val record =
             Record(name = activity.name, time = time, activityId = activity.id)
-        addRecord(record)
+        addRecord.run(record)
     }
 
     class DataWrapper<T : ViewItem>(val data: LiveData<List<T>>) {

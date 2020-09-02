@@ -19,9 +19,8 @@ class HistoryViewModel @ViewModelInject constructor(
 ) : ListViewModel<RecordItem>() {
 
     override val liveData =
-        getRecords.records.map(Record::mapToPresentation)
+        getRecords.run().map(Record::mapToPresentation)
             .toLiveData(RECORDS_PAGE_SIZE)
-
 
     fun deleteRecord(record: RecordItem) = launchCoroutine {
         deleteRecord.run(record.mapToDomain())

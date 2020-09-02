@@ -17,7 +17,7 @@ class ProjectDetailViewModel(
     projectId: Int
 ) : ViewModel() {
     val project =
-        getProjectById(projectId).map { it.mapToPresentation() }.asLiveData()
+        getProjectById.run(projectId).map { it.mapToPresentation() }.asLiveData()
 
     val state = project.map { ProjectDetailState(it) }
 

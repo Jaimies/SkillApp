@@ -1,4 +1,5 @@
-import com.jdevs.timeo.shared.util.sumBy
+package com.jdevs.timeo.shared.util
+
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 

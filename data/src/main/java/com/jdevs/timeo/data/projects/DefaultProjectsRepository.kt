@@ -16,6 +16,10 @@ class DefaultProjectsRepository @Inject constructor(
         projectsDao.getProjects().map(DBProject::mapToDomain)
     }
 
+    override val topProjects by lazy {
+        projectsDao.getTopProjects().mapList { it.mapToDomain() }
+    }
+
     override fun getProjectById(id: Int) =
         projectsDao.getProjectById(id).map { it.mapToDomain() }
 
@@ -27,7 +31,4 @@ class DefaultProjectsRepository @Inject constructor(
 
     override suspend fun deleteProject(project: Project) =
         projectsDao.delete(project.mapToDB())
-
-    override val topProjects
-        get() = projectsDao.getTopProjects().mapList { it.mapToDomain() }
 }

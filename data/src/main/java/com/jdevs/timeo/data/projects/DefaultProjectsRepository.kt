@@ -2,24 +2,32 @@ package com.jdevs.timeo.data.projects
 
 import com.jdevs.timeo.domain.model.Project
 import com.jdevs.timeo.domain.repository.ProjectsRepository
+import com.jdevs.timeo.shared.util.mapList
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DefaultProjectsRepository @Inject constructor(
-    private val dataSource: ProjectsLocalDataSource
+    private val projectsDao: ProjectsDao
 ) : ProjectsRepository {
 
-    override val projects get() = dataSource.projects
+    override val projects by lazy {
+        projectsDao.getProjects().map(DBProject::mapToDomain)
+    }
 
-    override val topProjects get() = dataSource.getTopProjects()
-
-    override fun getProjectById(id: Int) = dataSource.getProjectById(id)
+    override fun getProjectById(id: Int) =
+        projectsDao.getProjectById(id).map { it.mapToDomain() }
 
     override suspend fun addProject(name: String, description: String) =
-        dataSource.addProject(name, description)
+        projectsDao.insert(DBProject(name = name, description = description))
 
-    override suspend fun saveProject(project: Project) = dataSource.saveProject(project)
+    override suspend fun saveProject(project: Project) =
+        projectsDao.update(project.mapToDB())
 
-    override suspend fun deleteProject(project: Project) = dataSource.deleteProject(project)
+    override suspend fun deleteProject(project: Project) =
+        projectsDao.delete(project.mapToDB())
+
+    override val topProjects
+        get() = projectsDao.getTopProjects().mapList { it.mapToDomain() }
 }

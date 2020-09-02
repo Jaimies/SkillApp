@@ -48,7 +48,7 @@ private fun List<ActivityStatistic>.createStatsList(
         val units = unitsSinceEpoch - index
         val item = find { chartItem -> chartItem.day == units }
 
-        if (item != null && item.time > 0) item else ActivityStatistic(0, units)
+        if (item != null && item.time > 0) item else ActivityStatistic(units, 0)
     }
 }
 

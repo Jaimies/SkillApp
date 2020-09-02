@@ -1,7 +1,11 @@
 package com.jdevs.timeo.domain.model
 
-/** Key for id, value for time */
-typealias ActivityTimes = Map<Int, Int>
+import com.jdevs.timeo.shared.util.sumBy
 
-data class Statistic(val time: Int, val day: Int, val activityTimes: ActivityTimes)
-data class ActivityStatistic(val time: Int, val day: Int)
+class StatisticTime(private val timeMap: Map<Int, Int>) {
+    fun getActivityTime(activityId: Int) = timeMap[activityId] ?: 0
+    fun getTotalTime() = timeMap.sumBy { entry -> entry.value }
+}
+
+data class Statistic(val day: Int, val time: StatisticTime)
+data class ActivityStatistic(val day: Int, val time: Int)

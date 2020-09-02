@@ -18,15 +18,13 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
     fun getMonthStats(activityId: Int) =
         statsRepository.monthStats.getStatsByActivityId(activityId)
 
-    private fun Flow<List<Statistic>>.getStatsByActivityId(activityId: Int) =
-        mapList { statistic -> statistic.toActivityStat(activityId) }
-
-    private fun Statistic.toActivityStat(activityId: Int): ActivityStatistic {
-        return ActivityStatistic(getActivityTime(activityId), day)
+    private fun Flow<List<Statistic>>.getStatsByActivityId(activityId: Int): Flow<List<ActivityStatistic>> {
+        return mapList { statistic ->
+            statistic.toActivityStatistic(activityId)
+        }
     }
 
-    private fun Statistic.getActivityTime(activityId: Int): Int {
-        if (activityId != -1) return activityTimes[activityId] ?: 0
-        return time
+    private fun Statistic.toActivityStatistic(activityId: Int): ActivityStatistic {
+        return ActivityStatistic(time.getActivityTime(activityId), day)
     }
 }

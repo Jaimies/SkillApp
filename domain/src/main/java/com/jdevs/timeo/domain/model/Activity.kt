@@ -3,13 +3,13 @@ package com.jdevs.timeo.domain.model
 import org.threeten.bp.OffsetDateTime
 
 data class Activity(
-    val id: Int = 0,
+    val id: Int,
     val name: String,
     val totalTime: Int,
-    val lastWeekTime: Int = 0,
-    val timestamp: OffsetDateTime = OffsetDateTime.now(),
+    val lastWeekTime: Int,
+    val timestamp: OffsetDateTime,
     val parentActivity: ActivityMinimal?,
-    val subActivities: List<ActivityMinimal> = emptyList()
+    val subActivities: List<ActivityMinimal>
 )
 
 data class ActivityMinimal(val id: Int, val name: String, val totalTime: Int)

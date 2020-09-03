@@ -5,7 +5,7 @@ import org.threeten.bp.OffsetDateTime
 data class Project(
     val id: Int,
     val name: String,
-    val description: String,
+    val activity: ActivityMinimal?,
     val totalTime: Int,
     val lastWeekTime: Int,
     val timestamp: OffsetDateTime

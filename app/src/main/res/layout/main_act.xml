@@ -22,9 +22,4 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/bottom_nav_actions" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/add_task_frag"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </merge>

@@ -7,11 +7,6 @@
         android:title="@string/overview" />
 
     <item
-        android:id="@id/calendar"
-        android:icon="@drawable/ic_calendar"
-        android:title="@string/calendar" />
-
-    <item
         android:id="@id/profile"
         android:icon="@drawable/ic_profile"
         android:title="@string/profile" />

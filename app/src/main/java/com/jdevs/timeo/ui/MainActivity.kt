@@ -12,7 +12,6 @@ import com.jdevs.timeo.R
 import com.jdevs.timeo.R.id.addactivity_fragment_dest
 import com.jdevs.timeo.R.id.addproject_fragment_dest
 import com.jdevs.timeo.R.id.history_fragment_dest
-import com.jdevs.timeo.R.navigation.calendar
 import com.jdevs.timeo.R.navigation.overview
 import com.jdevs.timeo.R.navigation.profile
 import com.jdevs.timeo.R.style.Theme_Timeo
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var navController: LiveData<NavController>
 
-    private val navGraphIds = intArrayOf(overview, calendar, profile)
+    private val navGraphIds = intArrayOf(overview, profile)
 
     private val navActions = intArrayOf(
         addactivity_fragment_dest,

@@ -42,7 +42,6 @@
     <string name="no_data">No data available</string>
     <string name="projects">Projects</string>
     <string name="project_detail">Project detail</string>
-    <string name="calendar">Calendar</string>
     <string name="description">Description (optional)</string>
     <string name="parent_activity">Parent activity</string>
     <string name="subactivity_of">Subactivity of %s</string>

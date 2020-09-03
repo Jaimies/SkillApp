@@ -14,4 +14,5 @@ interface ActivitiesRepository {
     suspend fun addActivity(activity: Activity)
     suspend fun saveActivity(activity: Activity)
     suspend fun deleteActivity(activity: Activity)
+    suspend fun increaseTime(id: Int, time: Int)
 }

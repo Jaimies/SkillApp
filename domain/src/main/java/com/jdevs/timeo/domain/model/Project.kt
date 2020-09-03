@@ -8,5 +8,5 @@ data class Project(
     val description: String,
     val totalTime: Int,
     val lastWeekTime: Int,
-    val creationDate: OffsetDateTime
+    val timestamp: OffsetDateTime
 )

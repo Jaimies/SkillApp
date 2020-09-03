@@ -7,7 +7,7 @@ data class Activity(
     val name: String,
     val totalTime: Int,
     val lastWeekTime: Int = 0,
-    val creationDate: OffsetDateTime = OffsetDateTime.now(),
+    val timestamp: OffsetDateTime = OffsetDateTime.now(),
     val parentActivity: ActivityMinimal?,
     val subActivities: List<ActivityMinimal> = emptyList()
 )

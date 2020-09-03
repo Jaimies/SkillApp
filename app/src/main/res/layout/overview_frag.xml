@@ -95,8 +95,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> viewModel.activities.navigateToList()}"
                     android:orientation="vertical"
-                    android:paddingTop="16dp"
-                    app:visible="@{viewModel.activitiesEnabled}">
+                    android:paddingTop="16dp">
 
                     <TextView
                         android:layout_width="match_parent"

@@ -89,7 +89,6 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:$Versions.viewpager"
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
-    implementation "androidx.preference:preference-ktx:$Versions.preference"
     implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
     testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
 

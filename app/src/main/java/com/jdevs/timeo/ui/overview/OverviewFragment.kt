@@ -58,18 +58,11 @@ class OverviewFragment : Fragment() {
             projectsAdapter, projects_list
         )
 
-        observe(viewModel.activitiesEnabled) { isEnabled ->
-            if (isEnabled) {
-                viewModel.activities.observe(
-                    R.id.activities_fragment_dest,
-                    R.id.addactivity_fragment_dest,
-                    activitiesAdapter, activities_list
-                )
-            } else {
-                viewModel.activities.navigateToAdd.removeObservers(viewLifecycleOwner)
-                viewModel.activities.navigateToList.removeObservers(viewLifecycleOwner)
-            }
-        }
+        viewModel.activities.observe(
+            R.id.activities_fragment_dest,
+            R.id.addactivity_fragment_dest,
+            activitiesAdapter, activities_list
+        )
     }
 
     private fun showProjectRecordDialog() = showTimePicker { _, _ -> snackbar(R.string.todo) }

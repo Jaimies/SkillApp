@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ProfileFragBinding
 import com.jdevs.timeo.ui.activitydetail.ChartsAdapter
-import com.jdevs.timeo.ui.common.ActionBarFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
 
 @AndroidEntryPoint
-class ProfileFragment : ActionBarFragment(R.menu.profile_frag_menu) {
+class ProfileFragment : Fragment() {
     private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreateView(

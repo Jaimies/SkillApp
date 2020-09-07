@@ -25,6 +25,6 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
     }
 
     private fun Statistic.toActivityStatistic(activityId: Int): ActivityStatistic {
-        return ActivityStatistic(time.getActivityTime(activityId), day)
+        return ActivityStatistic(date, time.getActivityTime(activityId))
     }
 }

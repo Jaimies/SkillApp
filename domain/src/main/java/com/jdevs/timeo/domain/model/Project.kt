@@ -3,7 +3,7 @@ package com.jdevs.timeo.domain.model
 import org.threeten.bp.OffsetDateTime
 
 data class Project(
-    val id: Int,
+    val id: Id,
     val name: String,
     val activity: ActivityMinimal?,
     val totalTime: Int,

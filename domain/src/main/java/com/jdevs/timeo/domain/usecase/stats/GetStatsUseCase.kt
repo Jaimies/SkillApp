@@ -1,6 +1,7 @@
 package com.jdevs.timeo.domain.usecase.stats
 
 import com.jdevs.timeo.domain.model.ActivityStatistic
+import com.jdevs.timeo.domain.model.Id
 import com.jdevs.timeo.domain.model.Statistic
 import com.jdevs.timeo.domain.repository.StatsRepository
 import com.jdevs.timeo.shared.util.mapList
@@ -9,22 +10,22 @@ import javax.inject.Inject
 
 class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
 
-    fun getDayStats(activityId: Int) =
+    fun getDayStats(activityId: Id) =
         statsRepository.dayStats.getStatsByActivityId(activityId)
 
-    fun getWeekStats(activityId: Int) =
+    fun getWeekStats(activityId: Id) =
         statsRepository.weekStats.getStatsByActivityId(activityId)
 
-    fun getMonthStats(activityId: Int) =
+    fun getMonthStats(activityId: Id) =
         statsRepository.monthStats.getStatsByActivityId(activityId)
 
-    private fun Flow<List<Statistic>>.getStatsByActivityId(activityId: Int): Flow<List<ActivityStatistic>> {
+    private fun Flow<List<Statistic>>.getStatsByActivityId(activityId: Id): Flow<List<ActivityStatistic>> {
         return mapList { statistic ->
             statistic.toActivityStatistic(activityId)
         }
     }
 
-    private fun Statistic.toActivityStatistic(activityId: Int): ActivityStatistic {
+    private fun Statistic.toActivityStatistic(activityId: Id): ActivityStatistic {
         return ActivityStatistic(date, time.getActivityTime(activityId))
     }
 }

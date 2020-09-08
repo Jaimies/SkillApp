@@ -1,10 +1,11 @@
 package com.jdevs.timeo.shared.util
+import org.threeten.bp.Duration
 
-fun <K, V> Map<K, V>.sumBy(predicate: (Map.Entry<K, V>) -> Int): Int {
-    var total = 0
+fun Map<*, Duration>.sumByDuration(): Duration {
+    var total = Duration.ZERO
 
     this.forEach { entry ->
-        total += predicate(entry)
+        total += entry.value
     }
 
     return total

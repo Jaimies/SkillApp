@@ -2,10 +2,15 @@ package com.jdevs.timeo.shared.util
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import org.threeten.bp.Duration
 
 class MapTest : StringSpec({
-    "sumBy" {
-        mapOf("a" to "b").sumBy { 1 } shouldBe 1
-        mapOf("a" to "b", "c" to "d").sumBy { 2 } shouldBe 4
+    "sumByDuration" {
+        mapOf(0 to Duration.ZERO).sumByDuration() shouldBe Duration.ZERO
+
+        mapOf(
+            0 to Duration.ofDays(1),
+            1 to Duration.ofDays(2)
+        ).sumByDuration() shouldBe Duration.ofDays(3)
     }
 })

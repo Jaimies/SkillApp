@@ -25,8 +25,4 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun provideStatsDao(db: TimeoDatabase) = db.statsDao()
-
-    @Provides
-    @Singleton
-    fun provideProjectsDao(db: TimeoDatabase) = db.projectsDao()
 }

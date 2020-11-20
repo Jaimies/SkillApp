@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Timeo</string>
 
-    <string name="todo">TODO : Functionality is not implemented</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="profile">Profile</string>
@@ -13,11 +12,6 @@
     <string name="delete_activity_message">All data about this activity and its records will be wiped</string>
     <string name="activity_deleted_message">Activity deleted</string>
 
-    <string name="delete_project_label">Delete project</string>
-    <string name="delete_project_title">Delete this project?</string>
-    <string name="delete_project_message">All data about this project and its records will be wiped</string>
-    <string name="project_deleted_message">Project deleted</string>
-
     <string name="delete_record_title">Delete this record?</string>
     <string name="delete_record_message">The total time of the corresponding activity will be decreased as well</string>
     <string name="record_deleted_message">Record deleted</string>
@@ -25,9 +19,7 @@
     <string name="overview">Overview</string>
     <string name="there_is_nothing_here_yet">There is nothing here yet</string>
     <string name="create_activity">Create activity</string>
-    <string name="create_project">Create project</string>
     <string name="edit_activity">Edit activity</string>
-    <string name="edit_project">Edit project</string>
     <string name="history">History</string>
     <string name="activities">Activities</string>
     <string name="activity_detail">Activity detail</string>
@@ -40,9 +32,6 @@
     <string name="name_empty">Enter a name for the activity</string>
     <string name="name_too_long">Use 100 characters or fewer for your activity name</string>
     <string name="no_data">No data available</string>
-    <string name="projects">Projects</string>
-    <string name="project_detail">Project detail</string>
-    <string name="description">Description (optional)</string>
     <string name="parent_activity">Parent activity</string>
     <string name="subactivity_of">Subactivity of %s</string>
     <string name="hours">%sh</string>

@@ -13,65 +13,6 @@
         tools:layout="@layout/overview_frag" />
 
     <fragment
-        android:id="@+id/projects_fragment_dest"
-        android:name="com.jdevs.timeo.ui.projects.ProjectsFragment"
-        android:label="@string/projects"
-        tools:layout="@layout/projects_frag">
-
-        <action
-            android:id="@+id/action_to_projectDetailFragment"
-            app:destination="@id/project_detail_fragment_dest"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
-    </fragment>
-
-    <action
-        android:id="@+id/action_to_projectDetailFragment"
-        app:destination="@id/project_detail_fragment_dest" />
-
-    <fragment
-        android:id="@+id/project_detail_fragment_dest"
-        android:name="com.jdevs.timeo.ui.projectdetail.ProjectDetailFragment"
-        android:label="@string/project_detail"
-        tools:layout="@layout/projectdetail_frag">
-
-        <argument
-            android:name="project"
-            app:argType="com.jdevs.timeo.model.ProjectItem" />
-
-        <action
-            android:id="@+id/action_projectDetailFragment_to_addProjectFragment"
-            app:destination="@id/addproject_fragment_dest"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
-    </fragment>
-    <fragment
-        android:id="@+id/addproject_fragment_dest"
-        android:name="com.jdevs.timeo.ui.addproject.AddEditProjectFragment"
-        tools:layout="@layout/addproject_frag">
-
-        <argument
-            android:name="project"
-            android:defaultValue="@null"
-            app:argType="com.jdevs.timeo.model.ProjectItem"
-            app:nullable="true" />
-
-        <action
-            android:id="@+id/action_addEditProjectFragment_to_projectsFragment"
-            app:destination="@id/projects_fragment_dest"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit"
-            app:popUpTo="@id/overview_fragment_dest"
-            app:popUpToInclusive="false" />
-    </fragment>
-
-    <fragment
         android:id="@+id/activities_fragment_dest"
         android:name="com.jdevs.timeo.ui.activities.ActivitiesFragment"
         android:label="@string/activities"

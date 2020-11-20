@@ -2,7 +2,6 @@
 <resources>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_default">16dp</dimen>
-    <dimen name="margin_large">20dp</dimen>
 
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_default">16dp</dimen>

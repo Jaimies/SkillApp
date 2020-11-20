@@ -8,15 +8,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ActivitiesDao : BaseDao<DBActivity> {
-
     @Query("SELECT * FROM activities ORDER BY totalTime DESC")
     fun getActivities(): DataSource.Factory<Int, DBActivity>
 
     @Query("SELECT * FROM activities WHERE id <> :activityId ORDER BY totalTime DESC")
     fun getParentActivitySuggestions(activityId: Int): Flow<List<DBActivity>>
-
-    @Query("SELECT * FROM activities ORDER BY totalTime DESC LIMIT 3")
-    fun getTopActivities(): Flow<List<DBActivity>>
 
     @Query(
         """SELECT activities.*, SUM(records.time) as lastWeekTime FROM activities

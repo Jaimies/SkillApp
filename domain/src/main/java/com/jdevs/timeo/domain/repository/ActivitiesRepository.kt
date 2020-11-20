@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface ActivitiesRepository {
     val activities: DataSource.Factory<Id, Activity>
-    val topActivities: Flow<List<Activity>>
 
     fun getParentActivitySuggestions(activityId: Id): Flow<List<Activity>>
     fun getActivityById(id: Id): Flow<Activity>

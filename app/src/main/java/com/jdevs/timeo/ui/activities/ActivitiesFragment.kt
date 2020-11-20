@@ -10,23 +10,25 @@ import com.jdevs.timeo.OverviewDirections.Companion.actionToActivityDetailFragme
 import com.jdevs.timeo.R.id.addactivity_fragment_dest
 import com.jdevs.timeo.R.menu.activities_frag_menu
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
-import com.jdevs.timeo.model.ActivityItem
-import com.jdevs.timeo.ui.common.ListFragment
+import com.jdevs.timeo.ui.common.ActionBarFragment
+import com.jdevs.timeo.ui.common.adapter.PagingAdapter
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.time.getMins
 import com.jdevs.timeo.util.ui.navigateAnimated
+import com.jdevs.timeo.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 
 @AndroidEntryPoint
-class ActivitiesFragment : ListFragment<ActivityItem>(activities_frag_menu) {
+class ActivitiesFragment : ActionBarFragment(activities_frag_menu) {
 
-    override val delegateAdapter by lazy {
+    private val delegateAdapter by lazy {
         ActivityDelegateAdapter(::showRecordDialog, ::navigateToDetails)
     }
 
-    override val viewModel: ActivitiesViewModel by viewModels()
+    private val listAdapter by lazy { PagingAdapter(delegateAdapter) }
+    val viewModel: ActivitiesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +46,8 @@ class ActivitiesFragment : ListFragment<ActivityItem>(activities_frag_menu) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recycler_view.setup()
+        recycler_view.setupAdapter(listAdapter)
+        viewModel.activities.observe(viewLifecycleOwner, listAdapter::submitList)
 
         observe(viewModel.navigateToAddEdit) {
             findNavController().navigateAnimated(addactivity_fragment_dest)
@@ -52,14 +55,14 @@ class ActivitiesFragment : ListFragment<ActivityItem>(activities_frag_menu) {
     }
 
     private fun navigateToDetails(index: Int) {
-        val activity = getItem(index)
+        val activity = listAdapter.getItem(index)
         val directions = actionToActivityDetailFragment(activity.id)
         findNavController().navigateAnimated(directions)
     }
 
     private fun showRecordDialog(index: Int) {
         showTimePicker { hours, minutes ->
-            val activity = getItem(index)
+            val activity = listAdapter.getItem(index)
             val totalMins = getMins(hours, minutes)
             viewModel.createRecord(activity, totalMins)
         }

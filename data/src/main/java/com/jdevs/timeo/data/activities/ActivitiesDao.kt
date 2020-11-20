@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ActivitiesDao : BaseDao<DBActivity> {
     @Query("SELECT * FROM activities ORDER BY totalTime DESC")
-    fun getActivities(): DataSource.Factory<Int, DBActivity>
+    fun getActivities(): Flow<List<DBActivity>>
 
     @Query("SELECT * FROM activities WHERE id <> :activityId ORDER BY totalTime DESC")
     fun getParentActivitySuggestions(activityId: Int): Flow<List<DBActivity>>

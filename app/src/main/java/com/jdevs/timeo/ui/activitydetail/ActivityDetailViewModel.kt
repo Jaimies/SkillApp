@@ -37,11 +37,7 @@ class ActivityDetailViewModel(
 
     fun addRecord(activityId: Int, activityName: String, time: Int) =
         launchCoroutine {
-            val record = Record(
-                name = activityName,
-                time = time,
-                activityId = activityId
-            )
+            val record = Record(activityName, activityId, time)
             addRecord.run(record)
         }
 

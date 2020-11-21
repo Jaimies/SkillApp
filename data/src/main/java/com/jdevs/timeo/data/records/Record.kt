@@ -27,5 +27,5 @@ data class DBRecord(
     val timestamp: OffsetDateTime = OffsetDateTime.now()
 )
 
-fun DBRecord.mapToDomain() = Record(id, activityName, activityId, time, timestamp)
+fun DBRecord.mapToDomain() = Record(activityName, activityId, time, id, timestamp)
 fun Record.mapToDB() = DBRecord(id, time, activityId, name, timestamp)

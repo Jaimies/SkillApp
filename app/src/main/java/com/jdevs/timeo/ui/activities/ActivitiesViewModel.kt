@@ -27,8 +27,7 @@ class ActivitiesViewModel @ViewModelInject constructor(
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
     fun createRecord(activity: ActivityItem, time: Int) = launchCoroutine {
-        val record =
-            Record(name = activity.name, time = time, activityId = activity.id)
+        val record = Record(activity.name, activity.id, time)
         addRecord.run(record)
     }
 

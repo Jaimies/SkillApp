@@ -15,4 +15,4 @@ data class RecordItem(
 
 fun Record.mapToPresentation() = RecordItem(id, name, time, activityId, timestamp)
 
-fun RecordItem.mapToDomain() = Record(id, name, time, activityId, timestamp)
+fun RecordItem.mapToDomain() = Record(name, time, activityId, id, timestamp)

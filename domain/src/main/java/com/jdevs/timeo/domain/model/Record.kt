@@ -4,7 +4,8 @@ import org.threeten.bp.OffsetDateTime
 
 data class Record(
     val id: Id,
-    val activity: ActivityMinimal,
+    val name: String,
+    val activityId: Id,
     val time: Int,
     val timestamp: OffsetDateTime
 )

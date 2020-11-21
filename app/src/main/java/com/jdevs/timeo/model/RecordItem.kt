@@ -10,9 +10,9 @@ data class RecordItem(
     val name: String,
     val time: Int,
     val activityId: Int,
-    val creationDate: OffsetDateTime
+    val timestamp: OffsetDateTime
 ) : ViewItem
 
-fun Record.mapToPresentation() = RecordItem(id, name, time, activityId, creationDate)
+fun Record.mapToPresentation() = RecordItem(id, name, time, activityId, timestamp)
 
-fun RecordItem.mapToDomain() = Record(id, name, time, activityId, creationDate)
+fun RecordItem.mapToDomain() = Record(id, name, time, activityId, timestamp)

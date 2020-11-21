@@ -21,11 +21,11 @@ import org.threeten.bp.OffsetDateTime
 data class DBRecord(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val name: String = "",
     val time: Int = 0,
     val activityId: Int = 0,
-    val creationDate: OffsetDateTime = OffsetDateTime.now()
+    val activityName: String = "",
+    val timestamp: OffsetDateTime = OffsetDateTime.now()
 )
 
-fun DBRecord.mapToDomain() = Record(id, name, time, activityId, creationDate)
-fun Record.mapToDB() = DBRecord(id, name, time, activityId, creationDate)
+fun DBRecord.mapToDomain() = Record(id, activityName, activityId, time, timestamp)
+fun Record.mapToDB() = DBRecord(id, time, activityId, name, timestamp)

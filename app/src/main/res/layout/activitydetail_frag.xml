@@ -90,25 +90,12 @@
                         app:barrierDirection="bottom"
                         app:constraint_referenced_ids="total_label,title,total_time" />
 
-                    <ImageView
-                        android:id="@+id/icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:src="@drawable/ic_surf"
-                        app:layout_constraintEnd_toStartOf="@id/days_spent_label"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/header_barrier"
-                        tools:ignore="ContentDescription" />
-
                     <TextView
                         android:id="@+id/per_week_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/per_week"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        app:layout_constraintBottom_toBottomOf="@id/icon"
                         app:layout_constraintEnd_toStartOf="@id/last_week_label"
                         app:layout_constraintStart_toEndOf="@id/days_spent_label"
                         app:layout_constraintTop_toBottomOf="@id/per_week" />
@@ -143,10 +130,8 @@
                         android:id="@+id/last_week_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="32dp"
                         android:text="@string/last_week"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        app:layout_constraintBottom_toBottomOf="@id/icon"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/per_week_label"
                         app:layout_constraintTop_toBottomOf="@id/last_week" />
@@ -170,9 +155,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/days"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        app:layout_constraintBottom_toBottomOf="@id/icon"
                         app:layout_constraintEnd_toStartOf="@id/per_week_label"
-                        app:layout_constraintStart_toEndOf="@id/icon"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/days_spent" />
 
                     <Button

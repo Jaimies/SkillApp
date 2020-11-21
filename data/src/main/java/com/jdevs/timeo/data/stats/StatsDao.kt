@@ -14,7 +14,7 @@ interface StatsDao {
                 :time), :day)
             """
     )
-    fun registerDayStats(time: Int, day: Int)
+    suspend fun addDayRecord(day: Int, time: Int)
 
     @Query(
         """INSERT OR REPLACE INTO weekStats (time, week) VALUES(
@@ -23,7 +23,7 @@ interface StatsDao {
                 :time), :week)
                 """
     )
-    fun registerWeekStats(time: Int, week: Int)
+    suspend fun addWeekRecord(week: Int, time: Int)
 
     @Query(
         """INSERT OR REPLACE INTO monthStats (time, month) VALUES(
@@ -32,7 +32,7 @@ interface StatsDao {
                 :time), :month)
                 """
     )
-    fun registerMonthStats(time: Int, month: Int)
+    suspend fun addMonthRecord(month: Int, time: Int)
 
     @Query(
         """

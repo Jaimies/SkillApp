@@ -9,7 +9,7 @@ interface StatsRepository {
     val weekStats: Flow<List<Statistic>>
     val monthStats: Flow<List<Statistic>>
 
-    fun registerDayStats(activityId: Id, time: Int)
-    fun registerWeekStats(activityId: Id, time: Int)
-    fun registerMonthStats(activityId: Id, time: Int)
+    suspend fun addDayRecord(activityId: Id, time: Int)
+    suspend fun addWeekRecord(activityId: Id, time: Int)
+    suspend fun addMonthRecord(activityId: Id, time: Int)
 }

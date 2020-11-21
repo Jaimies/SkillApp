@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.jdevs.timeo.OverviewDirections.Companion.actionToActivityDetailFragment
 import com.jdevs.timeo.R.id.addactivity_fragment_dest

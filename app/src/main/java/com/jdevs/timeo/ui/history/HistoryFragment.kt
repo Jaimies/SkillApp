@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.HistoryFragBinding
@@ -27,7 +28,6 @@ class HistoryFragment : Fragment() {
     ): View {
 
         val binding = HistoryFragBinding.inflate(inflater, container, false).also {
-
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }

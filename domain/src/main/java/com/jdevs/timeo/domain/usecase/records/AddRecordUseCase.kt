@@ -4,6 +4,9 @@ import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.repository.ActivitiesRepository
 import com.jdevs.timeo.domain.repository.RecordsRepository
 import com.jdevs.timeo.domain.repository.StatsRepository
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AddRecordUseCase @Inject constructor(
@@ -12,14 +15,18 @@ class AddRecordUseCase @Inject constructor(
     private val statsRepository: StatsRepository
 ) {
     suspend fun run(record: Record) {
-        recordsRepository.addRecord(record)
-        activitiesRepository.increaseTime(record.activity.id, record.time)
-        statsRepository.registerStats(record)
+        withContext(IO) {
+            launch { recordsRepository.addRecord(record) }
+            launch { activitiesRepository.increaseTime(record.activityId, record.time) }
+            launch { statsRepository.recordStats(record) }
+        }
     }
 
-    private fun StatsRepository.registerStats(record: Record) {
-        registerDayStats(record.activity.id, record.time)
-        registerWeekStats(record.activity.id, record.time)
-        registerMonthStats(record.activity.id, record.time)
+    private suspend fun StatsRepository.recordStats(record: Record) {
+        withContext(IO) {
+            launch { addDayRecord(record.activityId, record.time) }
+            launch { addWeekRecord(record.activityId, record.time) }
+            launch { addMonthRecord(record.activityId, record.time) }
+        }
     }
 }

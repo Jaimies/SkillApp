@@ -1,5 +1,6 @@
 package com.jdevs.timeo.data.stats
 
+import com.jdevs.timeo.domain.model.Id
 import com.jdevs.timeo.domain.repository.StatsRepository
 import com.jdevs.timeo.shared.util.mapList
 import javax.inject.Inject
@@ -21,5 +22,17 @@ class DefaultStatsRepository @Inject constructor(
     }
     override val monthStats by lazy {
         statsDao.getMonthStats().mapList { it.mapToDomain() }
+    }
+
+    override suspend fun addDayRecord(activityId: Id, time: Int) {
+        statsDao.addDayRecord(activityId, time)
+    }
+
+    override suspend fun addWeekRecord(activityId: Id, time: Int) {
+        statsDao.addWeekRecord(activityId, time)
+    }
+
+    override suspend fun addMonthRecord(activityId: Id, time: Int) {
+        statsDao.addMonthRecord(activityId, time)
     }
 }

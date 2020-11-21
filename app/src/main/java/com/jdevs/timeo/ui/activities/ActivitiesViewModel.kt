@@ -3,6 +3,7 @@ package com.jdevs.timeo.ui.activities
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.activities.GetActivitiesUseCase
 import com.jdevs.timeo.domain.usecase.records.AddRecordUseCase
@@ -20,6 +21,8 @@ class ActivitiesViewModel @ViewModelInject constructor(
     val activities = getActivities.run()
         .mapList { it.mapToPresentation() }
         .asLiveData()
+
+    val isEmpty = activities.map { it.isEmpty() }
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
 

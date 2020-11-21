@@ -2,6 +2,7 @@ package com.jdevs.timeo.ui.history
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.paging.toLiveData
 import com.jdevs.timeo.domain.model.Record
 import com.jdevs.timeo.domain.usecase.records.DeleteRecordUseCase
@@ -18,9 +19,11 @@ class HistoryViewModel @ViewModelInject constructor(
     private val deleteRecord: DeleteRecordUseCase
 ) : ViewModel() {
 
-    val records =
-        getRecords.run().map(Record::mapToPresentation)
-            .toLiveData(RECORDS_PAGE_SIZE)
+    val records = getRecords.run()
+        .map(Record::mapToPresentation)
+        .toLiveData(RECORDS_PAGE_SIZE)
+
+    val isEmpty = records.map { it.isEmpty() }
 
     fun deleteRecord(record: RecordItem) = launchCoroutine {
         deleteRecord.run(record.mapToDomain())

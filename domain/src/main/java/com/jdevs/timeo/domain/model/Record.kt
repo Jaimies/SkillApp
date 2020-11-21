@@ -1,6 +1,6 @@
 package com.jdevs.timeo.domain.model
 
-import org.threeten.bp.OffsetDateTime
+import java.time.OffsetDateTime
 
 data class Record(
     val name: String,

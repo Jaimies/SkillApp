@@ -2,7 +2,7 @@ package com.jdevs.timeo.shared.util
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import org.threeten.bp.Duration
+import java.time.Duration
 
 class MapTest : StringSpec({
     "sumByDuration" {

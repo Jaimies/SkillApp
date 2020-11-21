@@ -1,8 +1,8 @@
 package com.jdevs.timeo.domain.model
 
 import com.jdevs.timeo.shared.util.sumByDuration
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalDate
+import java.time.Duration
+import java.time.LocalDate
 
 class StatisticTime(private val timeMap: Map<Id, Duration>) {
     fun getActivityTime(activityId: Id): Duration {

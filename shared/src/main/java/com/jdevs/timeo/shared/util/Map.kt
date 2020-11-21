@@ -1,5 +1,5 @@
 package com.jdevs.timeo.shared.util
-import org.threeten.bp.Duration
+import java.time.Duration
 
 fun Map<*, Duration>.sumByDuration(): Duration {
     var total = Duration.ZERO

@@ -6,8 +6,8 @@ import com.jdevs.timeo.data.stats.STATS_ENTRIES
 import com.jdevs.timeo.domain.model.ActivityStatistic
 import com.jdevs.timeo.shared.util.getUnitsSinceEpoch
 import com.jdevs.timeo.util.time.getHours
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.temporal.ChronoUnit
+import java.time.OffsetDateTime
+import java.time.temporal.ChronoUnit
 
 class ChartState(val entries: StatsEntries, val formatter: ValueFormatter) {
     companion object {

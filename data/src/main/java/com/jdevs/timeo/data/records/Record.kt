@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.jdevs.timeo.data.activities.DBActivity
 import com.jdevs.timeo.domain.model.Record
-import org.threeten.bp.OffsetDateTime
+import java.time.OffsetDateTime
 
 @Entity(
     tableName = "records",

@@ -10,9 +10,9 @@ import com.jdevs.timeo.ui.common.YearWeekFormatter
 import com.jdevs.timeo.util.charts.ChartState
 import com.jdevs.timeo.util.charts.toEntries
 import kotlinx.coroutines.flow.map
-import org.threeten.bp.temporal.ChronoUnit.DAYS
-import org.threeten.bp.temporal.ChronoUnit.MONTHS
-import org.threeten.bp.temporal.ChronoUnit.WEEKS
+import java.time.temporal.ChronoUnit.DAYS
+import java.time.temporal.ChronoUnit.MONTHS
+import java.time.temporal.ChronoUnit.WEEKS
 
 open class StatsViewModel(
     getStats: GetStatsUseCase,

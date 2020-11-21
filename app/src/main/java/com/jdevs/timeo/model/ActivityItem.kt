@@ -5,7 +5,7 @@ import androidx.annotation.Keep
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.ActivityMinimal
 import kotlinx.android.parcel.Parcelize
-import org.threeten.bp.OffsetDateTime
+import java.time.OffsetDateTime
 
 @Keep
 @Parcelize

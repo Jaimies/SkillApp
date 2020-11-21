@@ -3,7 +3,7 @@ package com.jdevs.timeo.domain
 import com.jdevs.timeo.domain.model.StatisticTime
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import org.threeten.bp.Duration
+import java.time.Duration
 
 class StatisticTimeTest : StringSpec({
 

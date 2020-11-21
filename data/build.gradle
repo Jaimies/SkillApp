@@ -53,9 +53,6 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
 
-    implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
-    testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
-
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
 }

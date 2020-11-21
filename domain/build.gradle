@@ -22,9 +22,6 @@ dependencies {
 
     implementation project(':shared')
 
-    implementation "com.jakewharton.threetenabp:threetenabp:$Versions.threeTenABP"
-    testImplementation "org.threeten:threetenbp:$Versions.threeTenBP"
-
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
 

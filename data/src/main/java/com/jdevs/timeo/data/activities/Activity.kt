@@ -3,8 +3,7 @@ package com.jdevs.timeo.data.activities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.jdevs.timeo.domain.model.Activity
-import com.jdevs.timeo.domain.model.ActivityMinimal
-import org.threeten.bp.OffsetDateTime
+import java.time.OffsetDateTime
 
 @Entity(tableName = "activities")
 data class DBActivity(

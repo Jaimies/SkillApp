@@ -4,7 +4,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.jdevs.timeo.shared.util.EPOCH
 import com.jdevs.timeo.shared.util.shortName
 import com.jdevs.timeo.util.time.toReadableFloat
-import org.threeten.bp.temporal.IsoFields.WEEK_OF_WEEK_BASED_YEAR
+import java.time.temporal.IsoFields.WEEK_OF_WEEK_BASED_YEAR
 import kotlin.math.roundToInt
 
 class WeekDayFormatter : ValueFormatter() {

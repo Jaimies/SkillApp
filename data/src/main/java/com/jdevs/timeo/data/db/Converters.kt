@@ -1,8 +1,8 @@
 package com.jdevs.timeo.data.db
 
 import androidx.room.TypeConverter
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 object Converters {
 

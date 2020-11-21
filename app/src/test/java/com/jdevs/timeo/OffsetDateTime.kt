@@ -1,5 +1,5 @@
 package com.jdevs.timeo
 
-import org.threeten.bp.OffsetDateTime
+import java.time.OffsetDateTime
 
 fun daysAgoDate(daysAgo: Long): OffsetDateTime = OffsetDateTime.now().minusDays(daysAgo)

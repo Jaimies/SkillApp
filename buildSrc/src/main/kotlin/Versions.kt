@@ -20,9 +20,6 @@ object Versions {
     const val datepicker = "4.2.3"
     const val viewpager = "1.0.0"
 
-    const val threeTenABP = "1.2.1"
-    const val threeTenBP = "1.4.0"
-
     const val hilt = "2.28-alpha"
     const val androidxHilt = "1.0.0-alpha02"
 

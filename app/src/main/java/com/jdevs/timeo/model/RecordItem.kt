@@ -2,7 +2,7 @@ package com.jdevs.timeo.model
 
 import androidx.annotation.Keep
 import com.jdevs.timeo.domain.model.Record
-import org.threeten.bp.OffsetDateTime
+import java.time.OffsetDateTime
 
 @Keep
 data class RecordItem(

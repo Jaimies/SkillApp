@@ -20,13 +20,18 @@ data class ActivityItem(
 ) : Recordable, Parcelable
 
 fun Activity.mapToPresentation() = ActivityItem(
-    id, name, totalTime, lastWeekTime, creationDate,
+    id, name, totalTime, lastWeekTime, timestamp,
     parentActivity?.mapToPresentation(), subActivities.map { it.mapToPresentation() }
 )
 
 fun ActivityItem.mapToDomain() = Activity(
-    id, name, totalTime, lastWeekTime, creationDate,
-    parentActivity?.mapToDomain(), subActivities.map { it.mapToDomain() }
+    name,
+    totalTime,
+    parentActivity?.mapToDomain(),
+    subActivities.map { it.mapToDomain() },
+    lastWeekTime,
+    id,
+    creationDate
 )
 
 @Parcelize

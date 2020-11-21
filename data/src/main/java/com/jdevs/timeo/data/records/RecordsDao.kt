@@ -8,10 +8,9 @@ import com.jdevs.timeo.data.db.BaseDao
 
 @Dao
 interface RecordsDao : BaseDao<DBRecord> {
-
     @Transaction
     @Query(
-        """SELECT records.*, activities.name FROM records
+        """SELECT records.*, activities.name as activityName FROM records
         LEFT JOIN activities ON activities.id = records.activityId 
         ORDER BY records.id DESC"""
     )

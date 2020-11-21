@@ -12,5 +12,4 @@ interface StatsRepository {
     fun registerDayStats(activityId: Id, time: Int)
     fun registerWeekStats(activityId: Id, time: Int)
     fun registerMonthStats(activityId: Id, time: Int)
-    fun registerTotalStats(time: Int)
 }

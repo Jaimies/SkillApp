@@ -21,6 +21,5 @@ class AddRecordUseCase @Inject constructor(
         registerDayStats(record.activity.id, record.time)
         registerWeekStats(record.activity.id, record.time)
         registerMonthStats(record.activity.id, record.time)
-        registerTotalStats(record.time)
     }
 }

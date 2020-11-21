@@ -11,7 +11,7 @@ import com.jdevs.timeo.R.id.addactivity_fragment_dest
 import com.jdevs.timeo.R.menu.activities_frag_menu
 import com.jdevs.timeo.databinding.ActivitiesFragBinding
 import com.jdevs.timeo.ui.common.ActionBarFragment
-import com.jdevs.timeo.ui.common.adapter.PagingAdapter
+import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.time.getMins
@@ -27,7 +27,7 @@ class ActivitiesFragment : ActionBarFragment(activities_frag_menu) {
         ActivityDelegateAdapter(::showRecordDialog, ::navigateToDetails)
     }
 
-    private val listAdapter by lazy { PagingAdapter(delegateAdapter) }
+    private val listAdapter by lazy { ListAdapter(delegateAdapter) }
     val viewModel: ActivitiesViewModel by viewModels()
 
     override fun onCreateView(

@@ -17,7 +17,7 @@ interface ActivitiesDao : BaseDao<DBActivity> {
     @Query(
         """SELECT activities.*, SUM(records.time) as lastWeekTime FROM activities
         LEFT JOIN records ON activityId = activities.id
-        AND DATE(records.creationDate, 'localtime') > DATE('now', 'localtime', '-6 day')
+        AND DATE(records.timestamp, 'localtime') > DATE('now', 'localtime', '-6 day')
         WHERE activities.id = :id"""
     )
     fun getActivity(id: Int): Flow<DBActivity>

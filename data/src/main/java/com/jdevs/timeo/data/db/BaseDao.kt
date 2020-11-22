@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.Update
 
 interface BaseDao<T> {
-
     @Insert
     suspend fun insert(item: T)
 

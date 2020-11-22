@@ -24,9 +24,9 @@ class AddRecordUseCase @Inject constructor(
 
     private suspend fun StatsRepository.recordStats(record: Record) {
         withContext(IO) {
-            launch { addDayRecord(record.activityId, record.time) }
-            launch { addWeekRecord(record.activityId, record.time) }
-            launch { addMonthRecord(record.activityId, record.time) }
+            launch { addDayRecord(record) }
+            launch { addWeekRecord(record) }
+            launch { addMonthRecord(record) }
         }
     }
 }

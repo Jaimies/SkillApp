@@ -4,7 +4,7 @@ import java.time.Duration
 
 fun getFriendlyTime(duration: Duration) = buildString {
     val hours = duration.toHours()
-    val minutes = duration.toMinutes()
+    val minutes = duration.toMinutes() - hours * 60
 
     if (hours != 0L) append("${hours}h")
     if (minutes != 0L) append(" ${minutes}m")

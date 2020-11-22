@@ -6,6 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.jdevs.timeo.data.activities.DBActivity
 import com.jdevs.timeo.domain.model.Record
+import com.jdevs.timeo.shared.util.getCurrentDateTime
 import java.time.Duration
 import java.time.OffsetDateTime
 
@@ -25,7 +26,7 @@ data class DBRecord(
     val time: Duration = Duration.ZERO,
     val activityId: Int = 0,
     val activityName: String = "",
-    val timestamp: OffsetDateTime = OffsetDateTime.now()
+    val timestamp: OffsetDateTime = getCurrentDateTime()
 )
 
 fun DBRecord.mapToDomain() = Record(activityName, activityId, time, id, timestamp)

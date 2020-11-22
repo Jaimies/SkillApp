@@ -3,6 +3,7 @@ package com.jdevs.timeo.data.activities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.jdevs.timeo.domain.model.Activity
+import com.jdevs.timeo.shared.util.getCurrentDateTime
 import java.time.Duration
 import java.time.OffsetDateTime
 
@@ -13,7 +14,7 @@ data class DBActivity(
     val name: String = "",
     val totalTime: Duration = Duration.ZERO,
     val lastWeekTime: Duration = Duration.ZERO,
-    val creationDate: OffsetDateTime = OffsetDateTime.now()
+    val creationDate: OffsetDateTime = getCurrentDateTime()
 )
 
 fun DBActivity.mapToDomain(): Activity {

@@ -1,5 +1,7 @@
 package com.jdevs.timeo.shared.util
 
+import androidx.annotation.VisibleForTesting
+import java.time.Clock
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Month
@@ -24,10 +26,12 @@ val Temporal.daysSinceEpoch get() = DAYS.between(EPOCH, this)
 val Temporal.weeksSinceEpoch get() = WEEKS.between(EPOCH, this)
 val Temporal.monthSinceEpoch get() = MONTHS.between(EPOCH, this)
 
-fun getUnitsSinceEpoch(unit: ChronoUnit): Int {
-    return OffsetDateTime.now().getUnitsSinceEpoch(unit)
-}
+fun getCurrentDate() : LocalDate = LocalDate.now(clock)
+fun getCurrentDateTime(): OffsetDateTime = OffsetDateTime.now(clock)
 
-fun OffsetDateTime.getUnitsSinceEpoch(unit: ChronoUnit): Int {
-    return unit.between(EPOCH, this).toInt()
+private var clock: Clock = Clock.systemDefaultZone()
+
+@VisibleForTesting
+fun setClock(newClock: Clock) {
+    clock = newClock
 }

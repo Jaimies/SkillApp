@@ -16,6 +16,7 @@ detekt {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.livedata"
+    implementation "org.threeten:threeten-extra:$Versions.threeTenExtra"
 
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
 }

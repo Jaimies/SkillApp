@@ -12,6 +12,7 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.mapToPresentation
 import com.jdevs.timeo.shared.util.mapList
 import com.jdevs.timeo.util.lifecycle.launchCoroutine
+import java.time.Duration
 
 class ActivitiesViewModel @ViewModelInject constructor(
     getActivities: GetActivitiesUseCase,
@@ -26,7 +27,7 @@ class ActivitiesViewModel @ViewModelInject constructor(
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
-    fun createRecord(activity: ActivityItem, time: Int) = launchCoroutine {
+    fun createRecord(activity: ActivityItem, time: Duration) = launchCoroutine {
         val record = Record(activity.name, activity.id, time)
         addRecord.run(record)
     }

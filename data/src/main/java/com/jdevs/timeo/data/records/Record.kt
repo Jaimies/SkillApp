@@ -6,6 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.jdevs.timeo.data.activities.DBActivity
 import com.jdevs.timeo.domain.model.Record
+import java.time.Duration
 import java.time.OffsetDateTime
 
 @Entity(
@@ -21,7 +22,7 @@ import java.time.OffsetDateTime
 data class DBRecord(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val time: Int = 0,
+    val time: Duration = Duration.ZERO,
     val activityId: Int = 0,
     val activityName: String = "",
     val timestamp: OffsetDateTime = OffsetDateTime.now()

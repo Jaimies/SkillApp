@@ -3,6 +3,7 @@ package com.jdevs.timeo.data.activities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.jdevs.timeo.domain.model.Activity
+import java.time.Duration
 import java.time.OffsetDateTime
 
 @Entity(tableName = "activities")
@@ -10,8 +11,8 @@ data class DBActivity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String = "",
-    val totalTime: Int = 0,
-    val lastWeekTime: Int = 0,
+    val totalTime: Duration = Duration.ZERO,
+    val lastWeekTime: Duration = Duration.ZERO,
     val creationDate: OffsetDateTime = OffsetDateTime.now()
 )
 

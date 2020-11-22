@@ -17,7 +17,6 @@ import com.jdevs.timeo.ui.common.adapter.ListAdapter
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.lifecycle.viewModels
-import com.jdevs.timeo.util.time.getMins
 import com.jdevs.timeo.util.ui.navigateAnimated
 import com.jdevs.timeo.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -94,9 +93,9 @@ class ActivityDetailFragment : ActionBarFragment(R.menu.activitydetail_frag_menu
     }
 
     private fun showRecordDialog(getActivity: (activity: ActivityItem) -> Recordable? = { it }) {
-        showTimePicker { hours, minutes ->
+        showTimePicker { duration ->
             val activity = getActivity(viewModel.activity.value!!) ?: return@showTimePicker
-            viewModel.addRecord(activity.id, activity.name, getMins(hours, minutes))
+            viewModel.addRecord(activity.id, activity.name, duration)
         }
     }
 }

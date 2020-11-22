@@ -16,6 +16,7 @@ import com.jdevs.timeo.util.time.getAvgWeekHours
 import com.jdevs.timeo.util.time.getDaysSpentSince
 import com.jdevs.timeo.util.time.getFriendlyHours
 import kotlinx.coroutines.flow.map
+import java.time.Duration
 import javax.inject.Inject
 
 class ActivityDetailViewModel(
@@ -35,20 +36,19 @@ class ActivityDetailViewModel(
 
     val state = activity.map { ActivityDetailState(it) }
 
-    fun addRecord(activityId: Int, activityName: String, time: Int) =
+    fun addRecord(activityId: Int, activityName: String, time: Duration) {
         launchCoroutine {
             val record = Record(activityName, activityId, time)
             addRecord.run(record)
         }
+    }
 
     fun showRecordDialog() = showRecordDialog.call()
     fun showParentRecordDialog() = showParentRecordDialog.call()
     fun navigateToParentActivity() = navigateToParentActivity.call()
 
-    class ActivityDetailState(activity: ActivityItem) :
-        ActivityState(activity) {
-        val avgWeekTime =
-            getAvgWeekHours(activity.totalTime, activity.creationDate)
+    class ActivityDetailState(activity: ActivityItem) : ActivityState(activity) {
+        val avgWeekTime = getAvgWeekHours(activity.totalTime, activity.creationDate)
         val lastWeekTime = getFriendlyHours(activity.lastWeekTime)
         val daysSpent = activity.creationDate.getDaysSpentSince().toString()
     }

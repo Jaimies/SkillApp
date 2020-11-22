@@ -6,6 +6,7 @@ import com.jdevs.timeo.domain.repository.ActivitiesRepository
 import com.jdevs.timeo.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,7 +36,11 @@ class DefaultActivitiesRepository @Inject constructor(
     override suspend fun deleteActivity(activity: Activity) =
         activitiesDao.delete(activity.mapToDB())
 
-    override suspend fun increaseTime(id: Id, time: Int) {
-        activitiesDao.increaseTime(id, time)
+    override suspend fun increaseTime(id: Id, time: Duration) {
+        activitiesDao.increaseTime(id, time.toMinutes())
+    }
+
+    override suspend fun decreaseTime(id: Id, time: Duration) {
+        activitiesDao.increaseTime(id, -time.toMinutes())
     }
 }

@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 import com.jdevs.timeo.domain.model.Activity
 import com.jdevs.timeo.domain.model.ActivityMinimal
 import kotlinx.android.parcel.Parcelize
+import java.time.Duration
 import java.time.OffsetDateTime
 
 @Keep
@@ -12,8 +13,8 @@ import java.time.OffsetDateTime
 data class ActivityItem(
     override val id: Int,
     override val name: String,
-    override val totalTime: Int,
-    val lastWeekTime: Int,
+    override val totalTime: Duration,
+    val lastWeekTime: Duration,
     val creationDate: OffsetDateTime,
     val parentActivity: ActivityMinimalItem?,
     val subActivities: List<ActivityMinimalItem>
@@ -36,7 +37,9 @@ fun ActivityItem.mapToDomain() = Activity(
 
 @Parcelize
 class ActivityMinimalItem(
-    override val id: Int, override val name: String, override val totalTime: Int
+    override val id: Int,
+    override val name: String,
+    override val totalTime: Duration
 ) : Recordable, Parcelable
 
 fun ActivityMinimal.mapToPresentation() = ActivityMinimalItem(id, name, totalTime)

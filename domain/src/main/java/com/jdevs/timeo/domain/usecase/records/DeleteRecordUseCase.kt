@@ -13,7 +13,7 @@ class DeleteRecordUseCase @Inject constructor(
 ) {
     suspend fun run(record: Record) {
         withContext(IO) {
-            activitiesRepository.increaseTime(record.activityId, -record.time)
+            activitiesRepository.decreaseTime(record.activityId, record.time)
             recordsRepository.deleteRecord(record)
         }
     }

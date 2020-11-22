@@ -1,12 +1,21 @@
 package com.jdevs.timeo.util.fragment
 
 import androidx.fragment.app.Fragment
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
+import java.time.Duration
 
-inline fun Fragment.showTimePicker(crossinline onTimeSet: (hours: Int, minutes: Int) -> Unit) {
-    val dialog = TimePickerDialog.newInstance({ _, hour, minute, _ ->
-        if (hour != 0 || minute != 0) onTimeSet(hour, minute)
-    }, 0, 0, true)
+inline fun Fragment.showTimePicker(crossinline onTimeSet: (Duration) -> Unit) {
+    val dialog = MaterialTimePicker.Builder()
+        .setTimeFormat(TimeFormat.CLOCK_24H)
+        .build()
+
+
+    dialog.addOnPositiveButtonClickListener {
+        val hours = Duration.ofHours(dialog.hour.toLong())
+        val minutes = Duration.ofMinutes(dialog.minute.toLong())
+        onTimeSet(hours.plus(minutes))
+    }
 
     dialog.show(childFragmentManager, null)
 }

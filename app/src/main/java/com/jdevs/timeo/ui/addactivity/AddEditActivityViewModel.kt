@@ -15,9 +15,9 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.mapToDomain
 import com.jdevs.timeo.ui.common.viewmodel.KeyboardHidingViewModel
 import com.jdevs.timeo.util.lifecycle.mapList
-import com.jdevs.timeo.util.time.getMins
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.time.Duration
 import javax.inject.Inject
 
 private const val NAME_MAX_LENGTH = 100
@@ -90,7 +90,7 @@ class AddEditActivityViewModel(
                 addActivity.run(
                     Activity(
                         name = name,
-                        totalTime = getMins(totalTime.value?.toInt() ?: 0, 0),
+                        totalTime = Duration.ofHours(totalTime.value?.toLong()?: 0),
                         parentActivity = parentActivity?.toMinimal()
                     )
                 )

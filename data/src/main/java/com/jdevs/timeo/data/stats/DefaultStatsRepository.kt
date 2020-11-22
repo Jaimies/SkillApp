@@ -24,15 +24,15 @@ class DefaultStatsRepository @Inject constructor(
         statsDao.getMonthStats().mapList { it.mapToDomain() }
     }
 
-    override suspend fun addDayRecord(activityId: Id, time: Int) {
-        statsDao.addDayRecord(activityId, time)
+    override suspend fun addDayRecord(record: Record) {
+        statsDao.addDayRecord(record.activityId, record.timestamp.daysSinceEpoch, record.time.toMinutes())
     }
 
-    override suspend fun addWeekRecord(activityId: Id, time: Int) {
-        statsDao.addWeekRecord(activityId, time)
+    override suspend fun addWeekRecord(record: Record) {
+        statsDao.addWeekRecord(record.activityId, record.timestamp.weeksSinceEpoch, record.time.toMinutes())
     }
 
-    override suspend fun addMonthRecord(activityId: Id, time: Int) {
-        statsDao.addMonthRecord(activityId, time)
+    override suspend fun addMonthRecord(record: Record) {
+        statsDao.addMonthRecord(record.activityId, record.timestamp.monthSinceEpoch, record.time.toMinutes())
     }
 }

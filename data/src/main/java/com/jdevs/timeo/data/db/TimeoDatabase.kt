@@ -9,16 +9,11 @@ import com.jdevs.timeo.data.activities.ActivitiesDao
 import com.jdevs.timeo.data.activities.DBActivity
 import com.jdevs.timeo.data.records.DBRecord
 import com.jdevs.timeo.data.records.RecordsDao
-import com.jdevs.timeo.data.stats.DBDayStats
-import com.jdevs.timeo.data.stats.DBMonthStats
-import com.jdevs.timeo.data.stats.DBWeekStats
+import com.jdevs.timeo.data.stats.DBStatistic
 import com.jdevs.timeo.data.stats.StatsDao
 
 @Database(
-    entities = [
-        DBActivity::class, DBRecord::class,
-        DBDayStats::class, DBWeekStats::class, DBMonthStats::class
-    ],
+    entities = [DBActivity::class, DBRecord::class, DBStatistic::class],
     version = 1,
     exportSchema = false
 )

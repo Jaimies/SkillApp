@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.github.mikephil.charting.charts.LineChart
 import com.jdevs.timeo.OverviewDirections
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitydetailFragBinding
@@ -14,13 +15,15 @@ import com.jdevs.timeo.model.ActivityItem
 import com.jdevs.timeo.model.Recordable
 import com.jdevs.timeo.ui.common.ActionBarFragment
 import com.jdevs.timeo.ui.common.adapter.ListAdapter
+import com.jdevs.timeo.util.charts.setup
 import com.jdevs.timeo.util.fragment.observe
 import com.jdevs.timeo.util.fragment.showTimePicker
 import com.jdevs.timeo.util.lifecycle.viewModels
 import com.jdevs.timeo.util.ui.navigateAnimated
+import com.jdevs.timeo.util.ui.setState
 import com.jdevs.timeo.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
+import kotlinx.android.synthetic.main.activitydetail_frag.chart
 import kotlinx.android.synthetic.main.activitydetail_frag.subactivities_recycler_view
 import javax.inject.Inject
 
@@ -50,9 +53,9 @@ class ActivityDetailFragment : ActionBarFragment(R.menu.activitydetail_frag_menu
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        stats_viewpager.adapter =
-            ChartsAdapter(viewModel.dayStats, viewModel.weekStats, viewModel.monthStats)
+        val chart = chart as LineChart
+        chart.setup()
+        observe(viewModel.stats, chart::setState)
 
         subactivities_recycler_view.setupAdapter(subactivitiesAdapter)
 

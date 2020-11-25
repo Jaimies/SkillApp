@@ -1,15 +1,17 @@
 package com.jdevs.timeo.util.charts
 
 import com.github.mikephil.charting.data.Entry
-import com.jdevs.timeo.domain.model.DayStatistic
+import com.jdevs.timeo.data.stats.DAY_STATS_ENTRIES
+import com.jdevs.timeo.data.stats.STATS_ENTRIES
+import com.jdevs.timeo.domain.model.Statistic
+import com.jdevs.timeo.shared.util.daysSinceEpoch
 import com.jdevs.timeo.shared.util.getCurrentDate
 import java.time.Duration
-import java.time.temporal.ChronoUnit
 import kotlin.math.ceil
 import kotlin.math.max
 
-const val HOURS_BREAKPOINT = 4
-private const val HOURS_DIVIDER = 3
+const val HOURS_BREAKPOINT = 160f
+private const val HOURS_DIVIDER = 120
 
 data class StatsEntries(
     val entries: List<Entry>,
@@ -36,15 +38,46 @@ private fun List<Entry>.getHighestEntryValue(): Float {
     return this.maxBy(Entry::getY)!!.y
 }
 
-fun List<DayStatistic>.withMissingStats(
-    entriesCount: Int, timeUnit: ChronoUnit
-): List<DayStatistic> {
-
-    return List(entriesCount) { index ->
-        val neededDate = getCurrentDate().minus(index.toLong(), timeUnit)
+fun List<Statistic>.withMissingStats(count: Int = DAY_STATS_ENTRIES): List<Statistic> {
+    return List(count) { index ->
+        val neededDate = getCurrentDate().minusDays(index.toLong())
         val item = find { chartItem -> chartItem.date == neededDate }
 
         if (item != null && item.time > Duration.ZERO) item
-        else DayStatistic(neededDate, Duration.ZERO)
+        else Statistic(neededDate, Duration.ZERO)
     }.sortedBy { it.date }
+}
+
+fun List<Statistic>.toStatsEntries(): StatsEntries? {
+    if (!this.hasPositiveValues())
+        return null
+
+    return createEntries(this)
+}
+
+private fun createEntries(statsList: List<Statistic>): StatsEntries {
+    val entries = statsList.getEntries()
+    val previousEntries = statsList.getPrevEntries()
+
+    return StatsEntries(entries, previousEntries)
+}
+
+private fun List<Statistic>.hasPositiveValues(): Boolean {
+    return this.any { it.time > Duration.ZERO }
+}
+
+private fun List<Statistic>.getPrevEntries(): List<Entry>? {
+    return take(STATS_ENTRIES).toEntries().map {
+        Entry(it.x + STATS_ENTRIES, it.y)
+    }
+}
+
+private fun List<Statistic>.getEntries(): List<Entry> {
+    return takeLast(STATS_ENTRIES).toEntries()
+}
+
+private fun List<Statistic>.toEntries(): List<Entry> {
+    return map { statistic ->
+        Entry(statistic.date.daysSinceEpoch.toFloat(), statistic.time.toMinutes().toFloat())
+    }
 }

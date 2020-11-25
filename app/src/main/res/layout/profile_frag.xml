@@ -28,24 +28,7 @@
             android:layout_marginBottom="12dp"
             app:cardCornerRadius="@dimen/default_corner_radius">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/stats_tablayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/statistic_types"
-                    app:entries="@{R.array.statistic_types}"
-                    app:viewpager="@{statsViewpager}" />
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/stats_viewpager"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/stats_height" />
-            </LinearLayout>
+            <include android:id="@+id/chart" layout="@layout/chart" />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>

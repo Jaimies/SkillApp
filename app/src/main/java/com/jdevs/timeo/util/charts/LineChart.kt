@@ -5,6 +5,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
 import com.jdevs.timeo.R
 import com.jdevs.timeo.ui.common.TimeFormatter
+import com.jdevs.timeo.ui.common.WeekDayFormatter
 
 private const val LEFT_OFFSET = 1.5f
 private const val TOP_OFFSET = 24f
@@ -40,6 +41,7 @@ private fun LineChart.setupNoDataText() {
 
 private fun LineChart.setupXAxis() {
     xAxis.run {
+        valueFormatter = WeekDayFormatter()
         spaceMin = X_AXIS_SPACE_MIN
         spaceMax = X_AXIS_SPACE_MAX
         textSize = X_AXIS_TEXT_SIZE

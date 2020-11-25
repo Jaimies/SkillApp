@@ -5,7 +5,5 @@ import com.jdevs.timeo.domain.repository.StatsRepository
 import javax.inject.Inject
 
 class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
-    fun getDayStats(activityId: Id) = statsRepository.getDayStats(activityId)
-    fun getWeekStats(activityId: Id) = statsRepository.getWeekStats(activityId)
-    fun getMonthStats(activityId: Id) = statsRepository.getMonthStats(activityId)
+    fun run(activityId: Id) = statsRepository.getStats(activityId)
 }

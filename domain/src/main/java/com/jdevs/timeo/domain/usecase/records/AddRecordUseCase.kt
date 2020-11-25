@@ -18,15 +18,7 @@ class AddRecordUseCase @Inject constructor(
         withContext(IO) {
             launch { recordsRepository.addRecord(record) }
             launch { activitiesRepository.increaseTime(record.activityId, record.time) }
-            launch { statsRepository.recordStats(record) }
-        }
-    }
-
-    private suspend fun StatsRepository.recordStats(record: Record) {
-        withContext(IO) {
-            launch { addDayRecord(record) }
-            launch { addWeekRecord(record) }
-            launch { addMonthRecord(record) }
+            launch { statsRepository.addRecord(record) }
         }
     }
 }

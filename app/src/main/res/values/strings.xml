@@ -26,8 +26,6 @@
     <string name="total">total</string>
     <string name="last_week">last 7 days</string>
     <string name="days">days</string>
-    <string name="weeks">Weeks</string>
-    <string name="months">Months</string>
     <string name="per_week">per week</string>
     <string name="name_empty">Enter a name for the activity</string>
     <string name="name_too_long">Use 100 characters or fewer for your activity name</string>

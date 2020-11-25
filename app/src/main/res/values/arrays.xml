@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="statistic_types">
-        <item>@string/days</item>
-        <item>@string/weeks</item>
-        <item>@string/months</item>
-    </string-array>
-</resources>

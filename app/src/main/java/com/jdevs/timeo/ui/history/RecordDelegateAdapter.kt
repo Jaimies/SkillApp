@@ -3,11 +3,9 @@ package com.jdevs.timeo.ui.history
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.RecordsItemBinding
 import com.jdevs.timeo.model.RecordItem
-import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.BaseViewHolder
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.util.ui.getColorCompat

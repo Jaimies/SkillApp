@@ -8,22 +8,10 @@ import androidx.core.util.Consumer
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.BindingAdapter
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 
 @BindingAdapter("visible")
 fun View.isVisible(value: Boolean) {
     isVisible = value
-}
-
-@BindingAdapter("viewpager", "entries")
-fun TabLayout.setupWithViewPager(viewPager: ViewPager2, tabsResId: Int) {
-    val tabs = context.resources.getStringArray(tabsResId)
-
-    TabLayoutMediator(this, viewPager) { tab, position ->
-        tab.text = tabs[position]
-    }.attach()
 }
 
 @BindingAdapter("entries")

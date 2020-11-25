@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.github.mikephil.charting.charts.LineChart
 import com.jdevs.timeo.databinding.ProfileFragBinding
-import com.jdevs.timeo.ui.activitydetail.ChartsAdapter
+import com.jdevs.timeo.util.charts.setup
+import com.jdevs.timeo.util.fragment.observe
+import com.jdevs.timeo.util.ui.setState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activitydetail_frag.stats_viewpager
+import kotlinx.android.synthetic.main.profile_frag.chart
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -29,7 +32,8 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        stats_viewpager.adapter =
-            ChartsAdapter(viewModel.dayStats, viewModel.weekStats, viewModel.monthStats)
+        val chart = chart as LineChart
+        chart.setup()
+        observe(viewModel.stats, chart::setState)
     }
 }

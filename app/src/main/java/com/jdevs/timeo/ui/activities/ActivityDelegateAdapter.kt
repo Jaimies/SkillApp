@@ -1,11 +1,9 @@
 package com.jdevs.timeo.ui.activities
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.jdevs.timeo.R
 import com.jdevs.timeo.databinding.ActivitiesItemBinding
 import com.jdevs.timeo.model.ActivityItem
-import com.jdevs.timeo.model.ViewItem
 import com.jdevs.timeo.ui.common.adapter.DelegateAdapter
 import com.jdevs.timeo.ui.common.recordable.RecordableViewHolder
 import com.jdevs.timeo.util.ui.inflateDataBinding

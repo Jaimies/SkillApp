@@ -2,7 +2,6 @@ package com.jdevs.timeo.ui.common
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import org.threeten.extra.YearWeek
 
 class ValueFormattersTest : StringSpec({
     "TimeFormatter" {
@@ -20,18 +19,5 @@ class ValueFormattersTest : StringSpec({
         formatter.getFormattedValue(0f) shouldBe "Thu"
         formatter.getFormattedValue(1f) shouldBe "Fri"
         formatter.getFormattedValue(4f) shouldBe "Mon"
-    }
-
-    "YearWeekFormatter"  {
-        val formatter = YearWeekFormatter()
-        formatter.getFormattedValue(0f) shouldBe "1"
-        formatter.getFormattedValue(1f) shouldBe "2"
-        formatter.getFormattedValue(53f) shouldBe "1"
-    }
-
-    "YearMonthFormatter" {
-        val formatter = YearMonthFormatter()
-        formatter.getFormattedValue(0f) shouldBe "Jan"
-        formatter.getFormattedValue(1f) shouldBe "Feb"
     }
 })

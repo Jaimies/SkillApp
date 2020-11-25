@@ -10,9 +10,11 @@ class DefaultRecordsRepository @Inject constructor(
     private val recordsDao: RecordsDao
 ) : RecordsRepository {
 
-    override val records by lazy {
+    private val _records by lazy {
         recordsDao.getRecords().map(DBRecord::mapToDomain)
     }
+
+    override fun getRecords() = _records
 
     override suspend fun addRecord(record: Record) {
         recordsDao.insert(record.mapToDB())

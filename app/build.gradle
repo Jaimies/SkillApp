@@ -88,7 +88,6 @@ dependencies {
     implementation "com.google.android.material:material:$Versions.material"
 
     implementation "com.github.PhilJay:MPAndroidChart:v$Versions.MPAndroidChart"
-    implementation "com.wdullaer:materialdatetimepicker:$Versions.datepicker"
     implementation "androidx.viewpager2:viewpager2:$Versions.viewpager"
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 

@@ -17,7 +17,6 @@ object Versions {
 
     const val material = "1.3.0-alpha03"
     const val MPAndroidChart = "3.1.0"
-    const val datepicker = "4.2.3"
     const val viewpager = "1.0.0"
 
     const val threeTenExtra = "1.5.0"

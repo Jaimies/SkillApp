@@ -101,6 +101,4 @@ dependencies {
     kapt "com.android.databinding:compiler:$Versions.dataBinding"
 
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
-
-    debugImplementation "com.amitshekhar.android:debug-db:$Versions.debugDb"
 }

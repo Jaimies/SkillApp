@@ -30,6 +30,4 @@ object Versions {
     const val gms = "4.3.3"
 
     const val kotestJUnit5 = "4.2.3"
-
-    const val debugDb = "1.0.6"
 }

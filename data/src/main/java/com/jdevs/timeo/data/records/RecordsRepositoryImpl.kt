@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DefaultRecordsRepository @Inject constructor(
+class RecordsRepositoryImpl @Inject constructor(
     private val recordsDao: RecordsDao
 ) : RecordsRepository {
 

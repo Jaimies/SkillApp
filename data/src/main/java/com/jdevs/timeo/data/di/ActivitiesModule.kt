@@ -1,6 +1,6 @@
 package com.jdevs.timeo.data.di
 
-import com.jdevs.timeo.data.activities.DefaultActivitiesRepository
+import com.jdevs.timeo.data.activities.ActivitiesRepositoryImpl
 import com.jdevs.timeo.domain.repository.ActivitiesRepository
 import dagger.Binds
 import dagger.Module
@@ -11,5 +11,5 @@ import dagger.hilt.android.components.ApplicationComponent
 @InstallIn(ApplicationComponent::class)
 interface ActivitiesModule {
     @Binds
-    fun provideRepository(repository: DefaultActivitiesRepository): ActivitiesRepository
+    fun provideRepository(repository: ActivitiesRepositoryImpl): ActivitiesRepository
 }

@@ -11,7 +11,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DefaultActivitiesRepository @Inject constructor(
+class ActivitiesRepositoryImpl @Inject constructor(
     private val activitiesDao: ActivitiesDao
 ) : ActivitiesRepository {
 

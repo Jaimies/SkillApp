@@ -18,7 +18,7 @@ const val STATS_ENTRIES = 7
 const val DAY_STATS_ENTRIES = 14
 
 @Singleton
-class DefaultStatsRepository @Inject constructor(
+class StatsRepositoryImpl @Inject constructor(
     private val statsDao: StatsDao
 ) : StatsRepository {
 

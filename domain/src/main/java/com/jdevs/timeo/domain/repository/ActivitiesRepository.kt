@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.Duration
 
 interface ActivitiesRepository {
-    val activities: Flow<List<Activity>>
+    fun getActivities(): Flow<List<Activity>>
 
     fun getParentActivitySuggestions(activityId: Id): Flow<List<Activity>>
     fun getActivityById(id: Id): Flow<Activity>

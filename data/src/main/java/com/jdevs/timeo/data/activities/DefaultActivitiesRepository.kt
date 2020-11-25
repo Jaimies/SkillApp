@@ -15,9 +15,11 @@ class DefaultActivitiesRepository @Inject constructor(
     private val activitiesDao: ActivitiesDao
 ) : ActivitiesRepository {
 
-    override val activities by lazy {
+    private val _activities by lazy {
         activitiesDao.getActivities().mapList { it.mapToDomain() }
     }
+
+    override fun getActivities() = _activities
 
     override fun getParentActivitySuggestions(activityId: Int): Flow<List<Activity>> {
         return activitiesDao.getParentActivitySuggestions(activityId)

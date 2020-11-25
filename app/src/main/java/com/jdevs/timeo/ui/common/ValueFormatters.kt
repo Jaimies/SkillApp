@@ -5,7 +5,6 @@ import com.jdevs.timeo.shared.util.EPOCH
 import com.jdevs.timeo.shared.util.shortName
 import com.jdevs.timeo.util.time.toReadableFloat
 import java.time.temporal.IsoFields.WEEK_OF_WEEK_BASED_YEAR
-import kotlin.math.roundToInt
 
 class WeekDayFormatter : ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
@@ -27,8 +26,8 @@ class YearMonthFormatter : ValueFormatter() {
 
 class TimeFormatter : ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
-        if (value < 0) return ""
-        if (value < 1) return "${(value * 60).roundToInt()}m"
-        return "${value.toReadableFloat()}h"
+        if (value <= 0) return ""
+        if (value >= 60) return "${(value / 60f).toReadableFloat()}h"
+        return "${value.toInt()}m"
     }
 }

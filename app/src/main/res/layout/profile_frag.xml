@@ -7,9 +7,9 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.profile.ProfileViewModel" />
+            type="com.maxpoliakov.skillapp.ui.profile.ProfileViewModel" />
 
-        <import type="com.jdevs.timeo.R" />
+        <import type="com.maxpoliakov.skillapp.R" />
     </data>
 
     <LinearLayout

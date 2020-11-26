@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.addactivity.AddEditActivityViewModel" />
+            type="com.maxpoliakov.skillapp.ui.addactivity.AddEditActivityViewModel" />
 
-        <import type="com.jdevs.timeo.util.ListUtil" />
+        <import type="com.maxpoliakov.skillapp.util.ListUtil" />
 
-        <import type="com.jdevs.timeo.util.ui.StringUtil" />
+        <import type="com.maxpoliakov.skillapp.util.ui.StringUtil" />
     </data>
 
     <LinearLayout

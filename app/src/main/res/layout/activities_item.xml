@@ -7,9 +7,9 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.activities.ActivityViewModel" />
+            type="com.maxpoliakov.skillapp.ui.activities.ActivityViewModel" />
 
-        <import type="com.jdevs.timeo.util.ui.FormattingUtil" />
+        <import type="com.maxpoliakov.skillapp.util.ui.FormattingUtil" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

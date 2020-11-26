@@ -7,9 +7,9 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.activitydetail.ActivityDetailViewModel" />
+            type="com.maxpoliakov.skillapp.ui.activitydetail.ActivityDetailViewModel" />
 
-        <import type="com.jdevs.timeo.R" />
+        <import type="com.maxpoliakov.skillapp.R" />
     </data>
 
     <ScrollView

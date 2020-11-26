@@ -8,13 +8,13 @@
 
     <fragment
         android:id="@+id/activities_fragment_dest"
-        android:name="com.jdevs.timeo.ui.activities.ActivitiesFragment"
+        android:name="com.maxpoliakov.skillapp.ui.activities.ActivitiesFragment"
         android:label="@string/activities"
         tools:layout="@layout/activities_frag" />
 
     <fragment
         android:id="@+id/history_fragment_dest"
-        android:name="com.jdevs.timeo.ui.history.HistoryFragment"
+        android:name="com.maxpoliakov.skillapp.ui.history.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/history_frag" />
 
@@ -24,13 +24,13 @@
 
     <fragment
         android:id="@+id/addactivity_fragment_dest"
-        android:name="com.jdevs.timeo.ui.addactivity.AddEditActivityFragment"
+        android:name="com.maxpoliakov.skillapp.ui.addactivity.AddEditActivityFragment"
         tools:layout="@layout/addactivity_frag">
 
         <argument
             android:name="activity"
             android:defaultValue="@null"
-            app:argType="com.jdevs.timeo.model.ActivityItem"
+            app:argType="com.maxpoliakov.skillapp.model.ActivityItem"
             app:nullable="true" />
 
         <action
@@ -50,7 +50,7 @@
 
     <fragment
         android:id="@+id/activity_detail_fragment_dest"
-        android:name="com.jdevs.timeo.ui.activitydetail.ActivityDetailFragment"
+        android:name="com.maxpoliakov.skillapp.ui.activitydetail.ActivityDetailFragment"
         android:label="@string/activity_detail"
         tools:layout="@layout/activitydetail_frag">
 

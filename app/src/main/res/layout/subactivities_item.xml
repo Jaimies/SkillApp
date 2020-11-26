@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.jdevs.timeo.ui.activitydetail.SubActivityViewModel" />
+            type="com.maxpoliakov.skillapp.ui.activitydetail.SubActivityViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

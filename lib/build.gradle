@@ -13,7 +13,7 @@ android {
         targetSdkVersion App.targetSdk
         versionCode App.versionCode
         versionName App.versionName
-        testInstrumentationRunner = 'com.jdevs.timeo.TimeoTestRunner'
+        testInstrumentationRunner = 'com.maxpoliakov.skillapp.TimeoTestRunner'
     }
 
     kotlinOptions.jvmTarget = '1.8'

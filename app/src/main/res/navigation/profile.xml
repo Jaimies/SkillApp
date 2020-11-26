@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/profile_fragment_dest"
-        android:name="com.jdevs.timeo.ui.profile.ProfileFragment"
+        android:name="com.maxpoliakov.skillapp.ui.profile.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/profile_frag" />
 </navigation>

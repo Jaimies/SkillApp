@@ -18,14 +18,14 @@ import com.maxpoliakov.skillapp.data.stats.StatsDao
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class TimeoDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun activitiesDao(): ActivitiesDao
     abstract fun recordsDao(): RecordsDao
     abstract fun statsDao(): StatsDao
 
     companion object {
         fun create(context: Context) = Room
-            .databaseBuilder(context, TimeoDatabase::class.java, "timeo")
+            .databaseBuilder(context, AppDatabase::class.java, "timeo")
             .fallbackToDestructiveMigration()
             .build()
     }

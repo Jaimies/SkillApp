@@ -24,7 +24,6 @@ object Versions {
     const val lint = "26.5.3"
     const val dataBinding = "3.1.4"
     const val gradle = "4.1.1"
-    const val gms = "4.3.3"
 
     const val kotestJUnit5 = "4.2.3"
 }

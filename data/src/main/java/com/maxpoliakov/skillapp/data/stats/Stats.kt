@@ -11,6 +11,7 @@ import java.time.Duration
 
 @Entity(
     tableName = "stats",
+    primaryKeys = ["day", "activityId"],
     indices = [Index(value = ["activityId"])],
     foreignKeys = [ForeignKey(
         entity = DBActivity::class,
@@ -20,7 +21,6 @@ import java.time.Duration
     )]
 )
 data class DBStatistic(
-    @PrimaryKey
     val day: Long,
     val activityId: Int,
     val time: Duration

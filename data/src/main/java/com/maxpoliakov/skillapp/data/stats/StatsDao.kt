@@ -22,7 +22,7 @@ interface StatsDao {
         AND date(day * 86400, 'unixepoch') > date('now', '-14 day') 
         AND date(day * 86400, 'unixepoch') <= date('now') 
         AND time > 0
-        ORDER BY day LIMIT 14"""
+        """
     )
     fun getStats(activityId: Int): Flow<List<DBStatistic>>
 }

@@ -1,4 +1,4 @@
-package com.maxpoliakov.skilapp.data.stats
+package com.maxpoliakov.skilapp.data
 
 import androidx.paging.DataSource
 import androidx.paging.toLiveData

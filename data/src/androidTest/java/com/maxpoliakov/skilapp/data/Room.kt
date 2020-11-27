@@ -1,4 +1,4 @@
-package com.maxpoliakov.skilapp.data.stats
+package com.maxpoliakov.skilapp.data
 
 import android.content.Context
 import androidx.room.Room

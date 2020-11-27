@@ -1,5 +1,7 @@
-package com.maxpoliakov.skilapp.data.stats
+package com.maxpoliakov.skilapp.data.records
 
+import com.maxpoliakov.skilapp.data.createTestDatabase
+import com.maxpoliakov.skilapp.data.getValue
 import com.maxpoliakov.skillapp.data.activities.ActivitiesDao
 import com.maxpoliakov.skillapp.data.activities.DBActivity
 import com.maxpoliakov.skillapp.data.db.AppDatabase

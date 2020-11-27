@@ -1,8 +1,8 @@
 package com.maxpoliakov.skilapp.data.stats
 
-import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
+import com.maxpoliakov.skilapp.data.await
+import com.maxpoliakov.skilapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.activities.ActivitiesDao
 import com.maxpoliakov.skillapp.data.activities.DBActivity
 import com.maxpoliakov.skillapp.data.db.AppDatabase

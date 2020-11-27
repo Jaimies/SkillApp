@@ -1,4 +1,4 @@
-package com.maxpoliakov.skilapp.data.stats
+package com.maxpoliakov.skilapp.data
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.maxpoliakov.skilapp.data.stats
+package com.maxpoliakov.skilapp.data
 
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers

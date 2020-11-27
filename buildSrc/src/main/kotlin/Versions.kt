@@ -26,4 +26,6 @@ object Versions {
     const val gradle = "4.1.1"
 
     const val kotestJUnit5 = "4.2.3"
+    const val androidxTestRunner = "1.3.0"
+    const val androidJUnit = "1.1.2"
 }

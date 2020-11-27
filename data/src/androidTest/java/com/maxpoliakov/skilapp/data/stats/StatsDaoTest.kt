@@ -26,10 +26,7 @@ class StatsDaoTest {
 
     @Before
     fun beforeEach() = runBlocking {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(
-            context, AppDatabase::class.java
-        ).build()
+        db = createTestDatabase()
         statsDao = db.statsDao()
         activitiesDao = db.activitiesDao()
         activitiesDao.insert(DBActivity())

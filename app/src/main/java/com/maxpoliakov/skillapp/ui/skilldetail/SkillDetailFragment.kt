@@ -11,6 +11,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.maxpoliakov.skillapp.OverviewDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
+import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
@@ -67,7 +68,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
     private fun showRecordDialog() {
         showTimePicker { duration ->
             val skill = viewModel.skill.value!!
-            viewModel.addRecord(skill.id, skill.name, duration)
+            viewModel.addRecord(Record(skill.name, skill.id, duration))
         }
     }
 }

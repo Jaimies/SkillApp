@@ -3,8 +3,8 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.model.SkillItem
@@ -16,7 +16,6 @@ import com.maxpoliakov.skillapp.util.time.getAvgWeekHours
 import com.maxpoliakov.skillapp.util.time.getDaysSpentSince
 import com.maxpoliakov.skillapp.util.time.getFriendlyHours
 import kotlinx.coroutines.flow.map
-import java.time.Duration
 import javax.inject.Inject
 
 class SkillDetailViewModel(
@@ -34,11 +33,8 @@ class SkillDetailViewModel(
 
     val state = skill.map { SkillDetailState(it) }
 
-    fun addRecord(skillId: Int, skillName: String, time: Duration) {
-        launchCoroutine {
-            val record = Record(skillName, skillId, time)
-            addRecord.run(record)
-        }
+    fun addRecord(record: Record) {
+        launchCoroutine { addRecord.run(record) }
     }
 
     fun showRecordDialog() = showRecordDialog.call()

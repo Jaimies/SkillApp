@@ -4,7 +4,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 
 class TimeTest : StringSpec({
     "shortName" {
@@ -14,7 +14,7 @@ class TimeTest : StringSpec({
 
     "daysAgo" {
         LocalDate.now().minusDays(1).daysAgo shouldBe 1
-        OffsetDateTime.now().minusDays(2).daysAgo shouldBe 2
+        LocalDateTime.now().minusDays(2).daysAgo shouldBe 2
     }
 
     "daysSinceEpoch" {

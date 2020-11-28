@@ -15,6 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import java.time.Clock
 import java.time.Duration
+import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
 
@@ -52,9 +53,9 @@ class ActivitiesDaoTest {
         activitiesDao.insert(DBActivity())
 
         val recordDates = listOf(
-            OffsetDateTime.now().minusDays(6).minusMinutes(1),
-            OffsetDateTime.now().plusDays(1).withHour(0),
-            OffsetDateTime.now().withHour(23)
+            LocalDateTime.now().minusDays(6).minusMinutes(1),
+            LocalDateTime.now().plusDays(1).withHour(0),
+            LocalDateTime.now().withHour(23)
         )
 
         recordDates.forEach { timestamp ->

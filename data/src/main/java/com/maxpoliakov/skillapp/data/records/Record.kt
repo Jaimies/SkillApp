@@ -8,7 +8,7 @@ import com.maxpoliakov.skillapp.data.activities.DBActivity
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.shared.util.getCurrentDateTime
 import java.time.Duration
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 
 @Entity(
     tableName = "records",
@@ -26,7 +26,7 @@ data class DBRecord(
     val time: Duration = Duration.ZERO,
     val activityId: Int = 0,
     val activityName: String = "",
-    val timestamp: OffsetDateTime = getCurrentDateTime()
+    val timestamp: LocalDateTime = getCurrentDateTime()
 )
 
 fun DBRecord.mapToDomain() = Record(activityName, activityId, time, id, timestamp)

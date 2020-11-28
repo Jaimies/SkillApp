@@ -1,5 +1,5 @@
 package com.maxpoliakov.skillapp
 
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 
-fun daysAgoDate(daysAgo: Long): OffsetDateTime = OffsetDateTime.now().minusDays(daysAgo)
+fun daysAgoDate(daysAgo: Long): LocalDateTime = LocalDateTime.now().minusDays(daysAgo)

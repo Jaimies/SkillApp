@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.model
 import androidx.annotation.Keep
 import com.maxpoliakov.skillapp.domain.model.Record
 import java.time.Duration
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 
 @Keep
 data class RecordItem(
@@ -11,7 +11,7 @@ data class RecordItem(
     val name: String,
     val time: Duration,
     val activityId: Int,
-    val timestamp: OffsetDateTime
+    val timestamp: LocalDateTime
 ) : ViewItem
 
 fun Record.mapToPresentation() = RecordItem(id, name, time, activityId, timestamp)

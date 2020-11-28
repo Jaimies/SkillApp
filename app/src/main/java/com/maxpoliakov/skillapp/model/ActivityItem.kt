@@ -5,7 +5,7 @@ import androidx.annotation.Keep
 import com.maxpoliakov.skillapp.domain.model.Activity
 import kotlinx.android.parcel.Parcelize
 import java.time.Duration
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 
 @Keep
 @Parcelize
@@ -14,7 +14,7 @@ data class ActivityItem(
     override val name: String,
     override val totalTime: Duration,
     val lastWeekTime: Duration,
-    val creationDate: OffsetDateTime
+    val creationDate: LocalDateTime
 ) : Recordable, Parcelable
 
 fun Activity.mapToPresentation() = ActivityItem(

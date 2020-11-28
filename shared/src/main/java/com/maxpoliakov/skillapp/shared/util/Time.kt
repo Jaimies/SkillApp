@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import java.time.Clock
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit.DAYS
 import java.time.temporal.Temporal
@@ -19,7 +19,7 @@ val Temporal.daysAgo get() = DAYS.between(this, getCurrentDateTime())
 val Temporal.daysSinceEpoch get() = DAYS.between(EPOCH, this)
 
 fun getCurrentDate(): LocalDate = LocalDate.now(clock)
-fun getCurrentDateTime(): OffsetDateTime = OffsetDateTime.now(clock)
+fun getCurrentDateTime(): LocalDateTime = LocalDateTime.now(clock)
 
 private var clock: Clock = Clock.systemDefaultZone()
 

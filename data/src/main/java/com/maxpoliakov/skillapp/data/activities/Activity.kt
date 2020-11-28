@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.maxpoliakov.skillapp.domain.model.Activity
 import com.maxpoliakov.skillapp.shared.util.getCurrentDateTime
 import java.time.Duration
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 
 @Entity(tableName = "activities")
 data class DBActivity(
@@ -14,7 +14,7 @@ data class DBActivity(
     val name: String = "",
     val totalTime: Duration = Duration.ZERO,
     val lastWeekTime: Duration = Duration.ZERO,
-    val creationDate: OffsetDateTime = getCurrentDateTime()
+    val creationDate: LocalDateTime = getCurrentDateTime()
 )
 
 fun DBActivity.mapToDomain(): Activity {

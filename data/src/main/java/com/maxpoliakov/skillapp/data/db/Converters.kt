@@ -2,18 +2,18 @@ package com.maxpoliakov.skillapp.data.db
 
 import androidx.room.TypeConverter
 import java.time.Duration
-import java.time.OffsetDateTime
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class Converters {
-    private val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+    private val formatter = DateTimeFormatter.ISO_DATE_TIME
 
     @TypeConverter
-    fun toOffsetDateTime(value: String): OffsetDateTime =
-        formatter.parse(value, OffsetDateTime::from)
+    fun toLocalDateTime(value: String): LocalDateTime =
+        formatter.parse(value, LocalDateTime::from)
 
     @TypeConverter
-    fun fromOffsetDateTime(date: OffsetDateTime): String = date.format(formatter)
+    fun fromLocalDateTime(date: LocalDateTime): String = date.format(formatter)
 
     @TypeConverter
     fun toDuration(value: Long): Duration = Duration.ofMinutes(value)

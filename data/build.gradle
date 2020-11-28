@@ -55,7 +55,6 @@ dependencies {
 
     implementation project(':shared')
     implementation project(':domain')
-    implementation project(':lib')
 
     implementation "androidx.room:room-ktx:$Versions.room"
     kapt "androidx.room:room-compiler:$Versions.room"

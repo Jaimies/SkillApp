@@ -7,23 +7,23 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface StatsDao {
     @Query(
-        """INSERT OR REPLACE INTO stats (time, day, activityId) VALUES(
+        """INSERT OR REPLACE INTO stats (time, day, skillId) VALUES(
                 COALESCE((
-                    (SELECT time FROM stats WHERE day = :day AND activityId = :activityId) + :time), 
-                :time), :day, :activityId)
+                    (SELECT time FROM stats WHERE day = :day AND skillId = :skillId) + :time), 
+                :time), :day, :skillId)
             """
     )
-    suspend fun addRecord(activityId: Int, day: Long, time: Long)
+    suspend fun addRecord(skillId: Int, day: Long, time: Long)
 
     @Query(
         """
-        SELECT day, :activityId as activityId, SUM(time) as time FROM stats
-        WHERE :activityId = -1 OR activityId = :activityId
+        SELECT day, :skillId as skillId, SUM(time) as time FROM stats
+        WHERE :skillId = -1 OR skillId = :skillId
         AND date(day * 86400, 'unixepoch') > date('now', '-14 day') 
         AND date(day * 86400, 'unixepoch') <= date('now') 
         AND time > 0
         GROUP BY day
         """
     )
-    fun getStats(activityId: Int): Flow<List<DBStatistic>>
+    fun getStats(skillId: Int): Flow<List<DBStatistic>>
 }

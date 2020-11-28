@@ -2,8 +2,8 @@ package com.maxpoliakov.skilapp.data.records
 
 import com.maxpoliakov.skilapp.data.createTestDatabase
 import com.maxpoliakov.skilapp.data.getValue
-import com.maxpoliakov.skillapp.data.activities.ActivitiesDao
-import com.maxpoliakov.skillapp.data.activities.DBActivity
+import com.maxpoliakov.skillapp.data.skill.SkillDao
+import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.records.RecordsDao
@@ -17,13 +17,13 @@ import java.time.Duration
 class RecordsDaoTest {
     private lateinit var db: AppDatabase
     private lateinit var recordsDao: RecordsDao
-    private lateinit var activitiesDao: ActivitiesDao
+    private lateinit var skillDao: SkillDao
 
     @Before
     fun beforeEach() {
         db = createTestDatabase()
         recordsDao = db.recordsDao()
-        activitiesDao = db.activitiesDao()
+        skillDao = db.statisticDao()
     }
 
     @After
@@ -33,9 +33,9 @@ class RecordsDaoTest {
 
     @Test
     fun getRecords() = runBlocking {
-        activitiesDao.insert(DBActivity(name = "Activity name"))
-        recordsDao.insert(DBRecord(time = Duration.ofMinutes(50), activityId = 1))
+        skillDao.insert(DBSkill(name = "Skill name"))
+        recordsDao.insert(DBRecord(time = Duration.ofMinutes(50), skillId = 1))
         val record = recordsDao.getRecords().getValue()[0]
-        record.activityName shouldBe "Activity name"
+        record.recordName shouldBe "Skill name"
     }
 }

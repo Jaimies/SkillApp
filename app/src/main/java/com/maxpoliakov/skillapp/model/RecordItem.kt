@@ -10,9 +10,9 @@ data class RecordItem(
     override val id: Int,
     val name: String,
     val time: Duration,
-    val activityId: Int,
+    val skillId: Int,
     val timestamp: LocalDateTime
 ) : ViewItem
 
-fun Record.mapToPresentation() = RecordItem(id, name, time, activityId, timestamp)
-fun RecordItem.mapToDomain() = Record(name, activityId, time, id, timestamp)
+fun Record.mapToPresentation() = RecordItem(id, name, time, skillId, timestamp)
+fun RecordItem.mapToDomain() = Record(name, skillId, time, id, timestamp)

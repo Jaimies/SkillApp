@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.maxpoliakov.skillapp.ui.skills.SkillsViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.skills.SkillsFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/margin_default"
+            android:paddingTop="16dp"
+            android:paddingEnd="@dimen/margin_default"
+            android:paddingBottom="6dp"
+            android:scrollbars="none"
+            app:visible="@{!viewModel.isEmpty}"
+            tools:itemCount="7"
+            tools:listitem="@layout/skills_item" />
+
+        <LinearLayout
+            android:id="@+id/empty_list_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:visible="@{viewModel.isEmpty}"
+            tools:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/there_is_nothing_here_yet" />
+
+            <Button
+                android:id="@+id/create_skill_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:onClick="@{() -> viewModel.navigateToAddSkill()}"
+                android:text="@string/create_skill" />
+        </LinearLayout>
+    </FrameLayout>
+</layout>

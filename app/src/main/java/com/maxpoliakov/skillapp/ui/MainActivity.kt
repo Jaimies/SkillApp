@@ -9,7 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.R.id.addactivity_fragment_dest
+import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.R.id.history_fragment_dest
 import com.maxpoliakov.skillapp.R.navigation.overview
 import com.maxpoliakov.skillapp.R.navigation.profile
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(),
     private val navGraphIds = intArrayOf(overview, profile)
 
     private val navActions = intArrayOf(
-        addactivity_fragment_dest,
+        addskill_fragment_dest,
         history_fragment_dest
     )
 

@@ -10,8 +10,8 @@ import com.maxpoliakov.skillapp.data.db.BaseDao
 interface RecordsDao : BaseDao<DBRecord> {
     @Transaction
     @Query(
-        """SELECT records.*, activities.name as activityName FROM records
-        LEFT JOIN activities ON activities.id = records.activityId 
+        """SELECT records.*, skills.name as recordName FROM records
+        LEFT JOIN skills ON skills.id = records.skillId 
         ORDER BY records.id DESC"""
     )
     fun getRecords(): DataSource.Factory<Int, DBRecord>

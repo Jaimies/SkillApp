@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.map
 
 open class StatsViewModel(
     getStats: GetStatsUseCase,
-    activityId: Int
+    skillId: Int
 ) : ViewModel() {
-    val stats = getStats.run(activityId).map { stats ->
+    val stats = getStats.run(skillId).map { stats ->
         stats.withMissingStats().toStatsEntries()
     }.asLiveData()
 }

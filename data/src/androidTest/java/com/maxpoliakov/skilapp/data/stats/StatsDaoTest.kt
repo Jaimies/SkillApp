@@ -3,8 +3,8 @@ package com.maxpoliakov.skilapp.data.stats
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.maxpoliakov.skilapp.data.await
 import com.maxpoliakov.skilapp.data.createTestDatabase
-import com.maxpoliakov.skillapp.data.activities.ActivitiesDao
-import com.maxpoliakov.skillapp.data.activities.DBActivity
+import com.maxpoliakov.skillapp.data.skill.SkillDao
+import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
 import com.maxpoliakov.skillapp.data.stats.StatsDao
@@ -22,72 +22,72 @@ import java.time.LocalDate
 class StatsDaoTest {
     private lateinit var db: AppDatabase
     private lateinit var statsDao: StatsDao
-    private lateinit var activitiesDao: ActivitiesDao
+    private lateinit var skillDao: SkillDao
 
     @Before
     fun beforeEach() = runBlocking {
         db = createTestDatabase()
         statsDao = db.statsDao()
-        activitiesDao = db.activitiesDao()
-        activitiesDao.insert(DBActivity())
+        skillDao = db.statisticDao()
+        skillDao.insert(DBSkill())
     }
 
     @Test
     fun addRecord() = runBlocking {
-        statsDao.addRecord(activityId, day, recordTime)
-        statsDao.getStats(activityId).await() shouldBe listOf(
-            DBStatistic(day, activityId, Duration.ofMinutes(100))
+        statsDao.addRecord(skillId, day, recordTime)
+        statsDao.getStats(skillId).await() shouldBe listOf(
+            DBStatistic(day, skillId, Duration.ofMinutes(100))
         )
     }
 
     @Test
     fun addRecord_recordAtGivenDayExists_sumsTime() = runBlocking {
-        statsDao.addRecord(activityId, day, recordTime)
-        statsDao.addRecord(activityId, day, recordTime)
-        statsDao.getStats(activityId).await() shouldBe listOf(
-            DBStatistic(day, activityId, Duration.ofMinutes(200))
+        statsDao.addRecord(skillId, day, recordTime)
+        statsDao.addRecord(skillId, day, recordTime)
+        statsDao.getStats(skillId).await() shouldBe listOf(
+            DBStatistic(day, skillId, Duration.ofMinutes(200))
         )
     }
 
     @Test
-    fun addRecord_multipleActivitiesAtOneDay_areHandledIndependently() = runBlocking {
-        activitiesDao.insert(DBActivity())
-        statsDao.addRecord(activityId, day, recordTime)
-        statsDao.addRecord(otherActivityId, day, recordTime)
-        statsDao.getStats(activityId).await() shouldBe listOf(
-            DBStatistic(day, activityId, Duration.ofMinutes(100))
+    fun addRecord_multipleSkillsAtOneDay_areHandledIndependently() = runBlocking {
+        skillDao.insert(DBSkill())
+        statsDao.addRecord(skillId, day, recordTime)
+        statsDao.addRecord(otherSkillId, day, recordTime)
+        statsDao.getStats(skillId).await() shouldBe listOf(
+            DBStatistic(day, skillId, Duration.ofMinutes(100))
         )
     }
 
     @Test
-    fun getStats_selectsOnlyFromSpecifiedActivity() = runBlocking {
-        statsDao.addRecord(activityId, day, recordTime)
-        statsDao.getStats(otherActivityId).await() shouldBe listOf()
+    fun getStats_selectsOnlyFromSpecifiedSkill() = runBlocking {
+        statsDao.addRecord(skillId, day, recordTime)
+        statsDao.getStats(otherSkillId).await() shouldBe listOf()
     }
 
     @Test
     fun getStats_selectsOnlyWithPositiveTime() = runBlocking {
-        statsDao.addRecord(activityId, day, -recordTime)
-        statsDao.getStats(activityId).await() shouldBe listOf()
+        statsDao.addRecord(skillId, day, -recordTime)
+        statsDao.getStats(skillId).await() shouldBe listOf()
     }
 
     @Test
     fun getStats_ignoresOlderThan13DaysAgo() = runBlocking {
-        statsDao.addRecord(activityId, day - 14, recordTime)
-        statsDao.getStats(activityId).await() shouldBe listOf()
+        statsDao.addRecord(skillId, day - 14, recordTime)
+        statsDao.getStats(skillId).await() shouldBe listOf()
     }
 
     @Test
     fun getStats_ignoresMoreRecentThanToday() = runBlocking {
-        statsDao.addRecord(activityId, day + 1, recordTime)
-        statsDao.getStats(activityId).await() shouldBe listOf()
+        statsDao.addRecord(skillId, day + 1, recordTime)
+        statsDao.getStats(skillId).await() shouldBe listOf()
     }
 
     @Test
     fun getStats_getsTotal() = runBlocking {
-        activitiesDao.insert(DBActivity())
-        statsDao.addRecord(activityId, day, recordTime)
-        statsDao.addRecord(otherActivityId, day, recordTime)
+        skillDao.insert(DBSkill())
+        statsDao.addRecord(skillId, day, recordTime)
+        statsDao.addRecord(otherSkillId, day, recordTime)
         statsDao.getStats(-1).await() shouldBe listOf(
             DBStatistic(day, -1, Duration.ofMinutes(200))
         )
@@ -100,8 +100,8 @@ class StatsDaoTest {
 
     companion object {
         private val day = LocalDate.now().daysSinceEpoch
-        private const val activityId = 1
-        private const val otherActivityId = 2
+        private const val skillId = 1
+        private const val otherSkillId = 2
         private const val recordTime = 100L
     }
 }

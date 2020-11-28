@@ -4,10 +4,10 @@ import com.maxpoliakov.skillapp.shared.util.getCurrentDateTime
 import java.time.Duration
 import java.time.LocalDateTime
 
-data class Record(
+data class Skill(
     val name: String,
-    val skillId: Id,
-    val time: Duration,
+    val totalTime: Duration,
+    val lastWeekTime: Duration = Duration.ZERO,
     val id: Id = 0,
     val timestamp: LocalDateTime = getCurrentDateTime()
 )

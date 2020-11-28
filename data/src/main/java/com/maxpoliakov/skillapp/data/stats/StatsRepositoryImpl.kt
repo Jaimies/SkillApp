@@ -18,11 +18,11 @@ class StatsRepositoryImpl @Inject constructor(
     private val statsDao: StatsDao
 ) : StatsRepository {
 
-    override fun getStats(activityId: Id): Flow<List<Statistic>> {
-        return statsDao.getStats(activityId).mapList { it.mapToDomain() }
+    override fun getStats(skillId: Id): Flow<List<Statistic>> {
+        return statsDao.getStats(skillId).mapList { it.mapToDomain() }
     }
 
     override suspend fun addRecord(record: Record) {
-        statsDao.addRecord(record.activityId, record.timestamp.daysSinceEpoch, record.time.toMinutes())
+        statsDao.addRecord(record.skillId, record.timestamp.daysSinceEpoch, record.time.toMinutes())
     }
 }

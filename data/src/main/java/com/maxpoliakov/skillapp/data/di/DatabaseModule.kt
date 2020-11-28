@@ -20,7 +20,7 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideActivitiesDao(db: AppDatabase) = db.activitiesDao()
+    fun provideStatisticDao(db: AppDatabase) = db.statisticDao()
 
     @Provides
     @Singleton

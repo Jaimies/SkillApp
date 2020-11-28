@@ -1,9 +1,9 @@
 package com.maxpoliakov.skillapp.data.di
 
-import com.maxpoliakov.skillapp.data.activities.ActivitiesRepositoryImpl
+import com.maxpoliakov.skillapp.data.skill.SkillRepositoryImpl
 import com.maxpoliakov.skillapp.data.records.RecordsRepositoryImpl
 import com.maxpoliakov.skillapp.data.stats.StatsRepositoryImpl
-import com.maxpoliakov.skillapp.domain.repository.ActivitiesRepository
+import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import dagger.Binds
@@ -15,7 +15,7 @@ import dagger.hilt.android.components.ApplicationComponent
 @InstallIn(ApplicationComponent::class)
 interface RepositoryModule {
     @Binds
-    fun provideActivitiesRepository(repository: ActivitiesRepositoryImpl): ActivitiesRepository
+    fun provideSkillRepository(repository: SkillRepositoryImpl): SkillRepository
 
     @Binds
     fun provideRecordsRepository(repository: RecordsRepositoryImpl): RecordsRepository

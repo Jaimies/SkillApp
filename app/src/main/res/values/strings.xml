@@ -7,28 +7,28 @@
     <string name="add_record">Add record</string>
     <string name="name">Name</string>
 
-    <string name="delete_activity_label">Delete activity</string>
-    <string name="delete_activity_title">Delete this activity?</string>
-    <string name="delete_activity_message">All data about this activity and its records will be wiped</string>
-    <string name="activity_deleted_message">Activity deleted</string>
+    <string name="delete_skill_label">Delete skill</string>
+    <string name="delete_skill_title">Delete this skill?</string>
+    <string name="delete_skill_message">All data about this skill and its records will be wiped</string>
+    <string name="skill_deleted_message">Skill deleted</string>
 
     <string name="delete_record_title">Delete this record?</string>
-    <string name="delete_record_message">The total time of the corresponding activity will be decreased as well</string>
+    <string name="delete_record_message">The total time of the corresponding skill will be decreased as well</string>
     <string name="record_deleted_message">Record deleted</string>
 
     <string name="overview">Overview</string>
     <string name="there_is_nothing_here_yet">There is nothing here yet</string>
-    <string name="create_activity">Create activity</string>
-    <string name="edit_activity">Edit activity</string>
+    <string name="create_skill">Create skill</string>
+    <string name="edit_skill">Edit skill</string>
     <string name="history">History</string>
-    <string name="activities">Activities</string>
-    <string name="activity_detail">Activity detail</string>
+    <string name="skills">Skills</string>
+    <string name="skill_detail">Skill detail</string>
     <string name="total">total</string>
     <string name="last_week">last 7 days</string>
     <string name="days">days</string>
     <string name="per_week">per week</string>
-    <string name="name_empty">Enter a name for the activity</string>
-    <string name="name_too_long">Use 100 characters or fewer for your activity name</string>
+    <string name="name_empty">Please enter a name.</string>
+    <string name="name_too_long">Please use 100 characters or fewer.</string>
     <string name="no_data">No data available</string>
     <string name="hours">%sh</string>
     <string name="hours_symbol">h</string>

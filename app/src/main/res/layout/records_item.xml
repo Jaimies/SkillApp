@@ -28,7 +28,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/time_text_view"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Activity name" />
+            tools:text="Skill name" />
 
         <TextView
             android:id="@+id/time_text_view"

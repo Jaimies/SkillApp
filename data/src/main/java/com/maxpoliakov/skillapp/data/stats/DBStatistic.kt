@@ -3,25 +3,25 @@ package com.maxpoliakov.skillapp.data.stats
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.maxpoliakov.skillapp.data.activities.DBActivity
+import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.shared.util.EPOCH
 import java.time.Duration
 
 @Entity(
     tableName = "stats",
-    primaryKeys = ["day", "activityId"],
-    indices = [Index(value = ["activityId"])],
+    primaryKeys = ["day", "skillId"],
+    indices = [Index(value = ["skillId"])],
     foreignKeys = [ForeignKey(
-        entity = DBActivity::class,
+        entity = DBSkill::class,
         parentColumns = ["id"],
-        childColumns = ["activityId"],
+        childColumns = ["skillId"],
         onDelete = ForeignKey.CASCADE
     )]
 )
 data class DBStatistic(
     val day: Long,
-    val activityId: Int,
+    val skillId: Int,
     val time: Duration
 )
 

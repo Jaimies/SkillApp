@@ -46,26 +46,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/parent_activity_textlayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/parent_activity"
-            app:error="@{StringUtil.getStringOrNull(context, viewModel.parentActivityError)}">
-
-            <AutoCompleteTextView
-                android:id="@+id/parent_activity_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:inputType="text"
-                android:text="@{viewModel.parentActivityName}"
-                app:entries="@{ListUtil.unshift(viewModel.activityNames, @string/subactivity_none)}"
-                app:onSelectedItemChanged="@{viewModel::setParentActivityIndex}"
-                tools:ignore="LabelFor" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/total_hours"

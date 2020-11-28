@@ -8,8 +8,6 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.activities.ActivityViewModel" />
-
-        <import type="com.maxpoliakov.skillapp.util.ui.FormattingUtil" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -36,26 +34,12 @@
                 android:singleLine="true"
                 android:text="@{viewModel.state.name}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                app:layout_constraintBottom_toTopOf="@id/subactivities_info"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/total_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Activity name" />
-
-            <TextView
-                android:id="@+id/subactivities_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:text="@{FormattingUtil.getSubactivityLabel(viewModel.state, context)}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/total_time"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name"
-                app:visible="@{subactivitiesInfo.text.length() > 0}"
-                tools:text="Subactivity of Parent activity" />
 
             <TextView
                 android:id="@+id/total_time"

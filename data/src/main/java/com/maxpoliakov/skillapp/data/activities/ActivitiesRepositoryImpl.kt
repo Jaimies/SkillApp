@@ -21,11 +21,6 @@ class ActivitiesRepositoryImpl @Inject constructor(
 
     override fun getActivities() = _activities
 
-    override fun getParentActivitySuggestions(activityId: Int): Flow<List<Activity>> {
-        return activitiesDao.getParentActivitySuggestions(activityId)
-            .mapList { it.mapToDomain() }
-    }
-
     override fun getActivityById(id: Int) =
         activitiesDao.getActivity(id).map { it.mapToDomain() }
 

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="subactivities_count">
-        <item quantity="one">1 subactivity</item>
-        <item quantity="other">%d subactivities</item>
-    </plurals>
-</resources>

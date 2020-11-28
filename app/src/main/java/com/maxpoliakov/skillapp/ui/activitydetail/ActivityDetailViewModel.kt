@@ -27,8 +27,6 @@ class ActivityDetailViewModel(
 ) : StatsViewModel(getStats, activityId) {
 
     val showRecordDialog = SingleLiveEvent<Any>()
-    val showParentRecordDialog = SingleLiveEvent<Any>()
-    val navigateToParentActivity = SingleLiveEvent<Any>()
 
     val activity = getActivityById.run(activityId)
         .map { it.mapToPresentation() }
@@ -44,8 +42,6 @@ class ActivityDetailViewModel(
     }
 
     fun showRecordDialog() = showRecordDialog.call()
-    fun showParentRecordDialog() = showParentRecordDialog.call()
-    fun navigateToParentActivity() = navigateToParentActivity.call()
 
     class ActivityDetailState(activity: ActivityItem) : ActivityState(activity) {
         val avgWeekTime = getAvgWeekHours(activity.totalTime, activity.creationDate)

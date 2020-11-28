@@ -8,7 +8,6 @@ import java.time.Duration
 interface ActivitiesRepository {
     fun getActivities(): Flow<List<Activity>>
 
-    fun getParentActivitySuggestions(activityId: Id): Flow<List<Activity>>
     fun getActivityById(id: Id): Flow<Activity>
 
     suspend fun addActivity(activity: Activity)

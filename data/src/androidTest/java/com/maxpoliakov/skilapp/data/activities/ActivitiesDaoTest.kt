@@ -48,18 +48,6 @@ class ActivitiesDaoTest {
     }
 
     @Test
-    fun getParentActivitySuggestions_excludesActivityWithGivenId() = runBlocking {
-        activitiesDao.insert(DBActivity())
-        activitiesDao.insert(DBActivity())
-        activitiesDao.insert(DBActivity())
-
-        activitiesDao.getParentActivitySuggestions(2).await() shouldBe listOf(
-            DBActivity(id = 1),
-            DBActivity(id = 3)
-        )
-    }
-
-    @Test
     fun getActivity_calculatesLastWeekTime() = runBlocking {
         activitiesDao.insert(DBActivity())
 

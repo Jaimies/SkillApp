@@ -26,7 +26,6 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         fun create(context: Context) = Room
             .databaseBuilder(context, AppDatabase::class.java, "timeo")
-            .fallbackToDestructiveMigration()
             .build()
     }
 }

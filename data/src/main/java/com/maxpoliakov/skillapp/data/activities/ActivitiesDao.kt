@@ -10,9 +10,6 @@ interface ActivitiesDao : BaseDao<DBActivity> {
     @Query("SELECT * FROM activities ORDER BY totalTime DESC")
     fun getActivities(): Flow<List<DBActivity>>
 
-    @Query("SELECT * FROM activities WHERE id <> :activityId ORDER BY totalTime DESC")
-    fun getParentActivitySuggestions(activityId: Int): Flow<List<DBActivity>>
-
     @Query(
         """SELECT activities.*, SUM(records.time) as lastWeekTime FROM activities
         LEFT JOIN records ON activityId = activities.id

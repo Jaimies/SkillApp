@@ -21,8 +21,6 @@ fun DBActivity.mapToDomain(): Activity {
     return Activity(
         name,
         totalTime,
-        null,
-        listOf(),
         lastWeekTime,
         id,
         creationDate

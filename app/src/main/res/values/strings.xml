@@ -30,12 +30,7 @@
     <string name="name_empty">Enter a name for the activity</string>
     <string name="name_too_long">Use 100 characters or fewer for your activity name</string>
     <string name="no_data">No data available</string>
-    <string name="parent_activity">Parent activity</string>
-    <string name="subactivity_of">Subactivity of %s</string>
     <string name="hours">%sh</string>
     <string name="hours_symbol">h</string>
     <string name="total_hours">Total hours</string>
-    <string name="invalid_activity_error">Choose an item from the list</string>
-    <string name="subactivities">Subactivities:</string>
-    <string name="subactivity_none" />
 </resources>

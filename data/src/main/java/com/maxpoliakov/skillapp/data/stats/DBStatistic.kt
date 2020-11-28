@@ -3,7 +3,6 @@ package com.maxpoliakov.skillapp.data.stats
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.maxpoliakov.skillapp.data.activities.DBActivity
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.shared.util.EPOCH

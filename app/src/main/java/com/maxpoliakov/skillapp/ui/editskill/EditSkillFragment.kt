@@ -1,0 +1,72 @@
+package com.maxpoliakov.skillapp.ui.editskill
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.databinding.EditSkillFragBinding
+import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
+import com.maxpoliakov.skillapp.util.fragment.navigate
+import com.maxpoliakov.skillapp.util.fragment.observe
+import com.maxpoliakov.skillapp.util.fragment.snackbar
+import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
+import com.maxpoliakov.skillapp.util.lifecycle.viewModels
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class EditSkillFragment : ActionBarFragment(R.menu.addskill_frag_menu) {
+    private val viewModel by viewModels { viewModelFactory.create(args.skill!!) }
+
+    @Inject
+    lateinit var viewModelFactory: EditSkillViewModel.Factory
+    private val args: EditSkillFragmentArgs by navArgs()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val binding = EditSkillFragBinding.inflate(inflater, container, false).also {
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        observe(viewModel.navigateBack) { findNavController().popBackStack() }
+        observe(viewModel.hideKeyboard) { hideKeyboard() }
+        observe(viewModel.showDeleteDialog) { showDeleteDialog() }
+    }
+
+    private fun showDeleteDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete_skill_title)
+            .setMessage(R.string.delete_skill_message)
+            .setPositiveButton(R.string.delete) { _, _ -> deleteSkill() }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun deleteSkill() {
+        viewModel.deleteSkill()
+        snackbar(R.string.skill_deleted_message)
+        navigate(R.id.action_addEditFragment_to_skillsFragment)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_save) {
+            viewModel.updateSkill()
+            return true
+        }
+
+        return false
+    }
+}
+

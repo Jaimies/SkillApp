@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.addskill.AddSkillViewModel" />
+            type="com.maxpoliakov.skillapp.ui.editskill.EditSkillViewModel" />
     </data>
 
     <LinearLayout
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
-            app:error="@{viewModel.nameIsEmpty ? @string/name_empty: null}">
+            app:error="@{viewModel.nameIsEmpty ? @string/name_empty : null}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_edit_text"
@@ -41,18 +41,12 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/total_hours"
-            app:suffixText="@string/hours_symbol">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:inputType="number"
-                android:text="@={viewModel.totalTime}" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_default"
+            android:onClick="@{() -> viewModel.showDeleteDialog()}"
+            android:text="@string/delete_skill_label" />
     </LinearLayout>
 </layout>

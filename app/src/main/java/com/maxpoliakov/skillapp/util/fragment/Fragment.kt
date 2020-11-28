@@ -20,5 +20,3 @@ fun Fragment.navigate(@IdRes resId: Int) {
 inline fun <T> Fragment.observe(liveData: LiveData<T>, crossinline onChange: (T) -> Unit) {
     liveData.observe(viewLifecycleOwner) { onChange(it) }
 }
-
-val Fragment.mainActivity get() = requireActivity() as MainActivity

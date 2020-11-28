@@ -56,7 +56,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
 
         if (item.itemId == R.id.edit) {
             val directions = OverviewDirections
-                .actionToAddSkillFragment(viewModel.skill.value!!)
+                .actionToEditSkillFragment(viewModel.skill.value!!)
 
             findNavController().navigateAnimated(directions)
             return true

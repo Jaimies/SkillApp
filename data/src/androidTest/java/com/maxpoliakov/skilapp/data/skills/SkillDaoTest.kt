@@ -55,7 +55,7 @@ class SkillDaoTest {
         val recordDates = listOf(
             LocalDateTime.now().minusDays(6).minusMinutes(1),
             LocalDateTime.now().plusDays(1).withHour(0),
-            LocalDateTime.now().withHour(23)
+            LocalDateTime.now()
         )
 
         recordDates.forEach { timestamp ->

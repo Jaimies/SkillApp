@@ -25,7 +25,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         fun create(context: Context) = Room
-            .databaseBuilder(context, AppDatabase::class.java, "timeo")
+            .databaseBuilder(context, AppDatabase::class.java, "main")
             .build()
     }
 }

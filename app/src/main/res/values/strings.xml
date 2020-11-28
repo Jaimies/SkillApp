@@ -28,7 +28,6 @@
     <string name="days">days</string>
     <string name="per_week">per week</string>
     <string name="name_empty">Please enter a name.</string>
-    <string name="name_too_long">Please use 100 characters or fewer.</string>
     <string name="no_data">No data available</string>
     <string name="hours">%sh</string>
     <string name="hours_symbol">h</string>

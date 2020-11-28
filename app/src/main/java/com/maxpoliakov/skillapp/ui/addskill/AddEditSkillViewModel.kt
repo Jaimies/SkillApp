@@ -16,8 +16,6 @@ import kotlinx.coroutines.launch
 import java.time.Duration
 import javax.inject.Inject
 
-private const val NAME_MAX_LENGTH = 100
-
 class AddEditSkillViewModel(
     private val addSkill: AddSkillUseCase,
     private val saveSkill: SaveSkillUseCase,
@@ -43,8 +41,11 @@ class AddEditSkillViewModel(
 
     fun saveSkill() {
 
-        val name = name.value.orEmpty()
-        if (!validateName(name)) return
+        val name = name.value
+        if (name == null) {
+            nameError.value = R.string.name_empty
+            return
+        }
 
         ioScope.launch {
 
@@ -61,17 +62,6 @@ class AddEditSkillViewModel(
         }
 
         _navigateBack.call()
-    }
-
-    private fun validateName(name: String): Boolean {
-        when {
-            name.isEmpty() -> nameError.value = R.string.name_empty
-            name.length >= NAME_MAX_LENGTH -> nameError.value =
-                R.string.name_too_long
-            else -> return true
-        }
-
-        return false
     }
 
     fun showDeleteDialog() = showDeleteDialog.call()

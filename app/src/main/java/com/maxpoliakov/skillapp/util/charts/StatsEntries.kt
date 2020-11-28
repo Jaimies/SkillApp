@@ -66,7 +66,7 @@ private fun List<Statistic>.hasPositiveValues(): Boolean {
     return this.any { it.time > Duration.ZERO }
 }
 
-private fun List<Statistic>.getPrevEntries(): List<Entry>? {
+private fun List<Statistic>.getPrevEntries(): List<Entry> {
     return take(STATS_ENTRIES).toEntries().map {
         Entry(it.x + STATS_ENTRIES, it.y)
     }

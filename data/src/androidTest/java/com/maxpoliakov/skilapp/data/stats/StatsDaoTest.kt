@@ -83,6 +83,16 @@ class StatsDaoTest {
         statsDao.getStats(activityId).await() shouldBe listOf()
     }
 
+    @Test
+    fun getStats_getsTotal() = runBlocking {
+        activitiesDao.insert(DBActivity())
+        statsDao.addRecord(activityId, day, recordTime)
+        statsDao.addRecord(otherActivityId, day, recordTime)
+        statsDao.getStats(-1).await() shouldBe listOf(
+            DBStatistic(day, -1, Duration.ofMinutes(200))
+        )
+    }
+
     @After
     fun afterEach() {
         db.close()

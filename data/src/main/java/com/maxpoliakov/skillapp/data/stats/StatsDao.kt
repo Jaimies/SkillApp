@@ -17,11 +17,12 @@ interface StatsDao {
 
     @Query(
         """
-        SELECT * FROM stats
-        WHERE activityId = :activityId
+        SELECT day, :activityId as activityId, SUM(time) as time FROM stats
+        WHERE :activityId = -1 OR activityId = :activityId
         AND date(day * 86400, 'unixepoch') > date('now', '-14 day') 
         AND date(day * 86400, 'unixepoch') <= date('now') 
         AND time > 0
+        GROUP BY day
         """
     )
     fun getStats(activityId: Int): Flow<List<DBStatistic>>

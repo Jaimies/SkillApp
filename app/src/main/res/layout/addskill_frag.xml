@@ -9,8 +9,6 @@
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.addskill.AddEditSkillViewModel" />
 
-        <import type="com.maxpoliakov.skillapp.util.ListUtil" />
-
         <import type="com.maxpoliakov.skillapp.util.ui.StringUtil" />
     </data>
 

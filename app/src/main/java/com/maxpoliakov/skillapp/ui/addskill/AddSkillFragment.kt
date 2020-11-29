@@ -2,14 +2,11 @@ package com.maxpoliakov.skillapp.ui.addskill
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.R.menu.addskill_frag_menu
 import com.maxpoliakov.skillapp.databinding.AddskillFragBinding
-import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
@@ -17,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddSkillFragment : ActionBarFragment(addskill_frag_menu) {
+class AddSkillFragment : Fragment() {
     private val viewModel by viewModels { viewModelFactory.create() }
 
     @Inject
@@ -38,14 +35,5 @@ class AddSkillFragment : ActionBarFragment(addskill_frag_menu) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observe(viewModel.navigateBack) { findNavController().popBackStack() }
         observe(viewModel.hideKeyboard) { hideKeyboard() }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_save) {
-            viewModel.addSkill()
-            return true
-        }
-
-        return false
     }
 }

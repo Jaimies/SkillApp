@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EditSkillFragment : ActionBarFragment(R.menu.addskill_frag_menu) {
+class EditSkillFragment : Fragment() {
     private val viewModel by viewModels { viewModelFactory.create(args.skill!!) }
 
     @Inject
@@ -58,15 +59,6 @@ class EditSkillFragment : ActionBarFragment(R.menu.addskill_frag_menu) {
         viewModel.deleteSkill()
         snackbar(R.string.skill_deleted_message)
         navigate(R.id.action_addEditFragment_to_skillsFragment)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_save) {
-            viewModel.updateSkill()
-            return true
-        }
-
-        return false
     }
 }
 

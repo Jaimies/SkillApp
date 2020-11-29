@@ -17,7 +17,8 @@
     <string name="record_deleted_message">Record deleted</string>
 
     <string name="overview">Overview</string>
-    <string name="there_is_nothing_here_yet">There is nothing here yet</string>
+    <string name="no_skills">To create a skill, tap the \"+\" button</string>
+    <string name="no_records">You haven\'t added any records yet.</string>
     <string name="create_skill">Create skill</string>
     <string name="edit_skill">Edit skill</string>
     <string name="history">History</string>

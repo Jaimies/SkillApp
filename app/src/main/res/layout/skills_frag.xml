@@ -10,7 +10,7 @@
             type="com.maxpoliakov.skillapp.ui.skills.SkillsViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.skills.SkillsFragment">
@@ -28,28 +28,26 @@
             tools:itemCount="7"
             tools:listitem="@layout/skills_item" />
 
-        <LinearLayout
-            android:id="@+id/empty_list_layout"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            app:visible="@{viewModel.isEmpty}"
-            tools:visibility="gone">
+            android:text="@string/no_skills"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:maxWidth="220dp"
+            app:visible="@{viewModel.isEmpty}" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/there_is_nothing_here_yet" />
-
-            <Button
-                android:id="@+id/create_skill_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_default"
-                android:onClick="@{() -> viewModel.navigateToAddSkill()}"
-                android:text="@string/create_skill" />
-        </LinearLayout>
-    </FrameLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/create_skill"
+            android:onClick="@{() -> viewModel.navigateToAddSkill()}"
+            android:src="@drawable/ic_plus_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@android:color/white" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

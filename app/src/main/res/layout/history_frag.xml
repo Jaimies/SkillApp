@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:text="@string/there_is_nothing_here_yet"
+            android:text="@string/no_records"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:visible="@{viewModel.isEmpty}"
             tools:visibility="gone" />

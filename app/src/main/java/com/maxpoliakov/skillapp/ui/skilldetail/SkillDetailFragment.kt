@@ -8,14 +8,17 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.mikephil.charting.charts.LineChart
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maxpoliakov.skillapp.OverviewDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.util.charts.setup
+import com.maxpoliakov.skillapp.util.fragment.navigate
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
+import com.maxpoliakov.skillapp.util.fragment.snackbar
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setState
@@ -53,16 +56,35 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        if (item.itemId == R.id.edit) {
-            val directions = OverviewDirections
-                .actionToEditSkillFragment(viewModel.skill.value!!)
-
-            findNavController().navigateAnimated(directions)
-            return true
+        when (item.itemId) {
+            R.id.edit -> navigateToEditSkillFragment()
+            R.id.delete -> showDeleteDialog()
+            else -> return false
         }
 
-        return false
+        return true
+    }
+
+    private fun navigateToEditSkillFragment() {
+        val directions = OverviewDirections
+            .actionToEditSkillFragment(viewModel.skill.value!!)
+
+        findNavController().navigateAnimated(directions)
+    }
+
+    private fun showDeleteDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete_skill_title)
+            .setMessage(R.string.delete_skill_message)
+            .setPositiveButton(R.string.delete) { _, _ -> deleteSkill() }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun deleteSkill() {
+        viewModel.deleteSkill()
+        snackbar(R.string.skill_deleted_message)
+        navigate(R.id.action_skillDetailFragment_to_skillsFragment)
     }
 
     private fun showRecordDialog() {

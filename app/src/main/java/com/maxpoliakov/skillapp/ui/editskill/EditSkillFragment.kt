@@ -43,22 +43,5 @@ class EditSkillFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observe(viewModel.navigateBack) { findNavController().popBackStack() }
         observe(viewModel.hideKeyboard) { hideKeyboard() }
-        observe(viewModel.showDeleteDialog) { showDeleteDialog() }
-    }
-
-    private fun showDeleteDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.delete_skill_title)
-            .setMessage(R.string.delete_skill_message)
-            .setPositiveButton(R.string.delete) { _, _ -> deleteSkill() }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-    }
-
-    private fun deleteSkill() {
-        viewModel.deleteSkill()
-        snackbar(R.string.skill_deleted_message)
-        navigate(R.id.action_addEditFragment_to_skillsFragment)
     }
 }
-

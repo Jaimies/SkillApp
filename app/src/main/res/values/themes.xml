@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-
-    <style name="Theme.Timeo" parent="Theme.MaterialComponents">
+    <style name="Theme.SkillApp" parent="Theme.MaterialComponents">
         <item name="colorPrimary">@color/yellow_500</item>
         <item name="colorSecondary">@color/blue_600</item>
         <item name="android:windowBackground">@color/black_500</item>
         <item name="colorSurface">@color/black_500</item>
     </style>
 
-    <style name="Theme.Timeo.Splash" />
+    <style name="Theme.SkillApp.Splash" />
 </resources>

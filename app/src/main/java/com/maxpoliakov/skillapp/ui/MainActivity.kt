@@ -13,7 +13,7 @@ import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.R.id.history_fragment_dest
 import com.maxpoliakov.skillapp.R.id.profile_fragment_dest
 import com.maxpoliakov.skillapp.R.id.skills_fragment_dest
-import com.maxpoliakov.skillapp.R.style.Theme_Timeo
+import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.ui.findNavHostFragment
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(Theme_Timeo)
+        setTheme(Theme_SkillApp)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_act)
         setupNavController()

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.profile.ProfileViewModel" />
+            type="com.maxpoliakov.skillapp.ui.statistics.StatisticsViewModel" />
 
         <import type="com.maxpoliakov.skillapp.R" />
     </data>
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.profile.ProfileFragment">
+        tools:context=".ui.statistics.StatisticsFragment">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/linear_layout"

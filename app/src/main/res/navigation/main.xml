@@ -69,8 +69,8 @@
     </fragment>
 
     <fragment
-        android:id="@+id/profile_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.profile.ProfileFragment"
+        android:id="@+id/statistics_fragment_dest"
+        android:name="com.maxpoliakov.skillapp.ui.statistics.StatisticsFragment"
         android:label="@string/statistics"
-        tools:layout="@layout/profile_frag" />
+        tools:layout="@layout/statistics_frag" />
 </navigation>

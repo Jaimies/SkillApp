@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,23 +11,15 @@
         <import type="com.maxpoliakov.skillapp.R" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         tools:context=".ui.statistics.StatisticsFragment">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="@dimen/default_corner_radius">
-
-            <include android:id="@+id/chart" layout="@layout/chart" />
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
+        <include
+            android:id="@+id/chart"
+            layout="@layout/chart" />
+    </FrameLayout>
 </layout>

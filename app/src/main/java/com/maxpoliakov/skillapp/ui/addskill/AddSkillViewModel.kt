@@ -3,7 +3,6 @@ package com.maxpoliakov.skillapp.ui.addskill
 import androidx.lifecycle.MutableLiveData
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
-import com.maxpoliakov.skillapp.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.Duration
@@ -15,7 +14,6 @@ class AddSkillViewModel(
 ) : SkillViewModel() {
 
     val totalTime = MutableLiveData<String>()
-    val showDeleteDialog = SingleLiveEvent<Any>()
 
     fun addSkill() {
         val name = name.value.orEmpty()
@@ -35,8 +33,6 @@ class AddSkillViewModel(
 
         navigateBack()
     }
-
-    fun showDeleteDialog() = showDeleteDialog.call()
 
     class Factory @Inject constructor(
         private val addSkill: AddSkillUseCase,

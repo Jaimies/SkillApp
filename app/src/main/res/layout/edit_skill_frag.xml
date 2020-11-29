@@ -22,8 +22,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_text_input_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:hint="@string/name"
             app:error="@{viewModel.nameIsEmpty ? @string/name_empty : null}"
             app:layout_constraintTop_toTopOf="parent">
@@ -32,7 +34,6 @@
                 android:id="@+id/name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:text="@={viewModel.name}" />

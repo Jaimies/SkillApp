@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.maxpoliakov.skillapp.OverviewDirections.Companion.actionToSkillDetailFragment
+import com.maxpoliakov.skillapp.MainDirections.Companion.actionToSkillDetailFragment
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.R.menu.skills_frag_menu
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
@@ -36,9 +36,9 @@ class SkillsFragment : ActionBarFragment(skills_frag_menu) {
     ): View {
 
         val binding = SkillsFragBinding.inflate(inflater, container, false).also {
-                it.lifecycleOwner = viewLifecycleOwner
-                it.viewModel = viewModel
-            }
+            it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
+        }
 
         return binding.root
     }

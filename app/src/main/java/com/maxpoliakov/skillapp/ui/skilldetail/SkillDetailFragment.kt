@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.github.mikephil.charting.charts.LineChart
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.maxpoliakov.skillapp.OverviewDirections
+import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
 import com.maxpoliakov.skillapp.domain.model.Record
@@ -68,7 +68,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
     }
 
     private fun navigateToEditSkillFragment() {
-        val directions = OverviewDirections
+        val directions = MainDirections
             .actionToEditSkillFragment(viewModel.skill.value!!)
 
         findNavController().navigateAnimated(directions)

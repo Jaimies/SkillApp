@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.addskill
 
 import androidx.lifecycle.MutableLiveData
-import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
 import com.maxpoliakov.skillapp.lifecycle.SingleLiveEvent

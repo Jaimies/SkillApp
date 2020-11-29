@@ -9,7 +9,6 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
-import com.maxpoliakov.skillapp.ui.MainActivity
 
 fun Fragment.snackbar(@StringRes resId: Int) =
     Snackbar.make(requireView(), resId, LENGTH_LONG).show()

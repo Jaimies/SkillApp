@@ -2,19 +2,13 @@ package com.maxpoliakov.skillapp.ui.editskill
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.EditSkillFragBinding
-import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
-import com.maxpoliakov.skillapp.util.fragment.navigate
 import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.fragment.snackbar
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import dagger.hilt.android.AndroidEntryPoint

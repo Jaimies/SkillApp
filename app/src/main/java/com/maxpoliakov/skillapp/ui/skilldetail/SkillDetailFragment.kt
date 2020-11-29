@@ -17,6 +17,7 @@ import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.navigate
 import com.maxpoliakov.skillapp.util.fragment.observe
+import com.maxpoliakov.skillapp.util.fragment.setTitle
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.fragment.snackbar
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
@@ -53,6 +54,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
         chart.setup()
         observe(viewModel.stats, chart::setState)
         observe(viewModel.showRecordDialog) { showRecordDialog() }
+        observe(viewModel.skill) { skill -> setTitle(skill.name) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -19,25 +19,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="18dp"
-            android:singleLine="true"
-            android:text="@{viewModel.state.name}"
-            android:textSize="30sp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Programming" />
-
-        <View
-            android:id="@+id/title_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?attr/dividerHorizontal"
-            app:layout_constraintTop_toBottomOf="@id/title" />
-
-        <TextView
             android:id="@+id/per_week_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +38,7 @@
             app:layout_constraintBottom_toTopOf="@id/per_week_label"
             app:layout_constraintEnd_toEndOf="@id/per_week_label"
             app:layout_constraintStart_toStartOf="@id/per_week_label"
-            app:layout_constraintTop_toBottomOf="@id/title_divider"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="4h" />
 
@@ -71,7 +52,7 @@
             app:layout_constraintBottom_toTopOf="@id/last_week_label"
             app:layout_constraintEnd_toEndOf="@id/last_week_label"
             app:layout_constraintStart_toStartOf="@id/last_week_label"
-            app:layout_constraintTop_toBottomOf="@id/title_divider"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="56h" />
 
@@ -95,7 +76,7 @@
             app:layout_constraintBottom_toTopOf="@id/days_spent_label"
             app:layout_constraintEnd_toEndOf="@id/days_spent_label"
             app:layout_constraintStart_toStartOf="@id/days_spent_label"
-            app:layout_constraintTop_toBottomOf="@id/title_divider"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="2000h" />
 

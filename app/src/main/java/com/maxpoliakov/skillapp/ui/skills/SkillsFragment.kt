@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.MainDirections.Companion.actionToSkillDetailFragment
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
-import com.maxpoliakov.skillapp.R.menu.skills_frag_menu
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
-import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
@@ -21,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 
 @AndroidEntryPoint
-class SkillsFragment : ActionBarFragment(skills_frag_menu) {
+class SkillsFragment : Fragment() {
 
     private val delegateAdapter by lazy {
         SkillDelegateAdapter(::showRecordDialog, ::navigateToDetails)

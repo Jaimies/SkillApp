@@ -15,7 +15,6 @@
     <string name="delete_record_message">The total time of the corresponding skill will be decreased as well</string>
     <string name="record_deleted_message">Record deleted</string>
 
-    <string name="overview">Overview</string>
     <string name="no_skills">To add a skill, tap the \"+\" button</string>
     <string name="no_records">History is empty.</string>
     <string name="add_skill">Add a skill</string>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:id="@id/skills_fragment_dest"
-        android:icon="@drawable/ic_home"
         android:title="@string/skills" />
 
     <item
+        android:id="@id/history_fragment_dest"
+        android:title="@string/history" />
+
+    <item
         android:id="@id/profile_fragment_dest"
-        android:icon="@drawable/ic_profile"
         android:title="@string/statistics" />
 </menu>

@@ -13,7 +13,6 @@ import com.maxpoliakov.skillapp.ui.skills.SkillState
 import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
 import com.maxpoliakov.skillapp.util.time.getAvgWeekHours
-import com.maxpoliakov.skillapp.util.time.getDaysSpentSince
 import com.maxpoliakov.skillapp.util.time.getFriendlyHours
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -42,7 +41,6 @@ class SkillDetailViewModel(
     class SkillDetailState(skill: SkillItem) : SkillState(skill) {
         val avgWeekTime = getAvgWeekHours(skill.totalTime, skill.creationDate)
         val lastWeekTime = getFriendlyHours(skill.lastWeekTime)
-        val daysSpent = skill.creationDate.getDaysSpentSince().toString()
     }
 
     class Factory @Inject constructor(

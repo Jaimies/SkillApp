@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.util.time
 
-import com.maxpoliakov.skillapp.shared.util.daysAgo
 import com.maxpoliakov.skillapp.shared.util.getCurrentDateTime
 import java.time.Duration
 import java.time.LocalDateTime
@@ -12,5 +11,3 @@ fun getAvgWeekHours(duration: Duration, startedAt: LocalDateTime): String {
 
     return getFriendlyHours(avgMins)
 }
-
-fun LocalDateTime.getDaysSpentSince() = daysAgo.coerceAtLeast(0) + 1

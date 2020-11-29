@@ -2,4 +2,5 @@
 <resources>
     <color name="yellow_500">#E0E32E</color>
     <color name="blue_600">#312ee3</color>
+    <color name="black_500">#202125</color>
 </resources>

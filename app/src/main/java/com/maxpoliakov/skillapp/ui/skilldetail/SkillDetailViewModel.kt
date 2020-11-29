@@ -7,12 +7,12 @@ import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.DeleteSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
-import com.maxpoliakov.skillapp.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.model.SkillItem
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.model.mapToPresentation
 import com.maxpoliakov.skillapp.ui.skills.SkillState
 import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
+import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
 import com.maxpoliakov.skillapp.util.time.getAvgWeekHours
 import com.maxpoliakov.skillapp.util.time.getFriendlyHours

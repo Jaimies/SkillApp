@@ -2,8 +2,8 @@ package com.maxpoliakov.skillapp.ui.history
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.maxpoliakov.skillapp.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.model.RecordItem
+import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.time.getFriendlyTime
 
 class RecordViewModel {

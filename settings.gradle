@@ -1,2 +1,2 @@
-include ':app', ':lib', ':domain', ':data', ':shared'
+include ':app', ':domain', ':data', ':shared'
 rootProject.name = 'Timeo'

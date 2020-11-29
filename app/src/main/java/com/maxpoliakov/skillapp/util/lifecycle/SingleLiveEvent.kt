@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.lifecycle
+package com.maxpoliakov.skillapp.util.lifecycle
 
 import android.util.Log
 import androidx.annotation.MainThread

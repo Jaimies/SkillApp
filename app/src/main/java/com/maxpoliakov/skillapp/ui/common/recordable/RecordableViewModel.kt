@@ -2,8 +2,8 @@ package com.maxpoliakov.skillapp.ui.common.recordable
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.maxpoliakov.skillapp.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.model.Recordable
+import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 
 abstract class RecordableViewModel<State : RecordableState, Item : Recordable> {
 

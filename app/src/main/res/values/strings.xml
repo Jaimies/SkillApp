@@ -7,7 +7,6 @@
     <string name="add_record">Add record</string>
     <string name="name">Name</string>
 
-    <string name="delete_skill_label">Delete skill</string>
     <string name="delete_skill_title">Delete this skill?</string>
     <string name="delete_skill_message">All data about this skill and its records will be wiped</string>
     <string name="skill_deleted_message">Skill deleted</string>
@@ -25,7 +24,6 @@
     <string name="skills">Skills</string>
     <string name="total">total</string>
     <string name="last_week">last 7 days</string>
-    <string name="days">days</string>
     <string name="per_week">per week</string>
     <string name="name_empty">Please enter a name.</string>
     <string name="no_data">No data available</string>

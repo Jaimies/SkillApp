@@ -34,4 +34,5 @@
     <string name="hours_symbol">h</string>
     <string name="total_hours">Total hours</string>
     <string name="save">Save</string>
+    <string name="add_a_record">Add a record</string>
 </resources>

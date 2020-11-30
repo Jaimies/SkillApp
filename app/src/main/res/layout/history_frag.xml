@@ -30,7 +30,6 @@
             android:layout_gravity="center"
             android:orientation="vertical"
             android:text="@string/no_records"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:visible="@{viewModel.isEmpty}"
             tools:visibility="gone" />
     </FrameLayout>

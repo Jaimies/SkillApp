@@ -19,6 +19,7 @@ import com.maxpoliakov.skillapp.util.ui.findNavHostFragment
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_act.bottom_app_bar
+import kotlinx.android.synthetic.main.main_act.toolbar
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity(),
         setTheme(Theme_SkillApp)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_act)
+        setSupportActionBar(toolbar)
         setupNavController()
     }
 

@@ -62,7 +62,6 @@
             android:contentDescription="@string/save"
             android:onClick="@{() -> viewModel.addSkill()}"
             android:src="@drawable/ic_check"
-            app:tint="?android:attr/textColorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

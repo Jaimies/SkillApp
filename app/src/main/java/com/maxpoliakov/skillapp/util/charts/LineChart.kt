@@ -1,11 +1,11 @@
 package com.maxpoliakov.skillapp.util.charts
 
-import android.graphics.Color.WHITE
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekDayFormatter
+import com.maxpoliakov.skillapp.util.ui.getTextColor
 
 private const val LEFT_OFFSET = 1.5f
 private const val TOP_OFFSET = 24f
@@ -35,7 +35,7 @@ private fun LineChart.setupOffsets() {
 }
 
 private fun LineChart.setupNoDataText() {
-    setNoDataTextColor(WHITE)
+    setNoDataTextColor(context.getTextColor())
     setNoDataText(context.getString(R.string.no_data))
 }
 
@@ -46,23 +46,24 @@ private fun LineChart.setupXAxis() {
         spaceMax = X_AXIS_SPACE_MAX
         textSize = X_AXIS_TEXT_SIZE
         yOffset = X_AXIS_Y_OFFSET
-        textColor = WHITE
+        textColor = context.getTextColor()
         position = BOTTOM
         setDrawGridLines(false)
     }
 }
 
 private fun LineChart.setupLeftAxis() {
+    val textColor = context.getTextColor()
+
     axisLeft.run {
         setLabelCount(Y_AXIS_LABEL_COUNT, true)
         textSize = Y_AXIS_TEXT_SIZE
         valueFormatter = TimeFormatter()
         isGranularityEnabled = true
         granularity = Y_AXIS_GRANULARITY
-        textColor = WHITE
+        this.textColor = textColor
         axisMinimum = 0f
-        gridColor = WHITE
-        enableGridDashedLine(DASHED_LINE_SIZE, DASHED_LINE_SIZE, 0f)
+        gridColor = textColor
         setDrawAxisLine(false)
     }
 }

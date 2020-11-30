@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="yellow_500">#E0E32E</color>
-    <color name="blue_600">#312ee3</color>
+    <color name="yellow_500">#ffff00</color>
+    <color name="pink_700">#c2185b</color>
+    <color name="blue_600">#2F69C1</color>
+    <color name="blue_700">#4089FC</color>
     <color name="black_500">#202125</color>
 </resources>

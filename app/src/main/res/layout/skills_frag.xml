@@ -44,7 +44,6 @@
             android:onClick="@{() -> viewModel.navigateToAddSkill()}"
             android:src="@drawable/ic_plus_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/white" />
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

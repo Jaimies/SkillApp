@@ -8,34 +8,18 @@ import com.maxpoliakov.skillapp.shared.util.daysSinceEpoch
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import java.time.Duration
 import kotlin.math.ceil
-import kotlin.math.max
 
-const val HOURS_BREAKPOINT = 160f
 private const val HOURS_DIVIDER = 120
 
-data class StatsEntries(
-    val entries: List<Entry>,
-    val previousEntries: List<Entry>?
-) {
+data class StatsEntries(val entries: List<Entry>) {
     fun getMaximumValue(): Float {
         val maxValue = getHighestEntryValue()
-
-        if (maxValue <= HOURS_BREAKPOINT) return ceil(maxValue)
+        if (maxValue <= HOURS_DIVIDER) return maxValue.ceilTo(60)
         return maxValue.ceilTo(HOURS_DIVIDER)
     }
 
     private fun Float.ceilTo(to: Int) = ceil(this / to) * to
-
-    private fun getHighestEntryValue(): Float {
-        return max(
-            entries.getHighestEntryValue(),
-            previousEntries?.getHighestEntryValue() ?: 0f
-        )
-    }
-}
-
-private fun List<Entry>.getHighestEntryValue(): Float {
-    return this.maxBy(Entry::getY)!!.y
+    private fun getHighestEntryValue() = entries.maxBy(Entry::getY)!!.y
 }
 
 fun List<Statistic>.withMissingStats(count: Int = DAY_STATS_ENTRIES): List<Statistic> {
@@ -56,20 +40,11 @@ fun List<Statistic>.toStatsEntries(): StatsEntries? {
 }
 
 private fun createEntries(statsList: List<Statistic>): StatsEntries {
-    val entries = statsList.getEntries()
-    val previousEntries = statsList.getPrevEntries()
-
-    return StatsEntries(entries, previousEntries)
+    return StatsEntries(statsList.getEntries())
 }
 
 private fun List<Statistic>.hasPositiveValues(): Boolean {
     return this.any { it.time > Duration.ZERO }
-}
-
-private fun List<Statistic>.getPrevEntries(): List<Entry> {
-    return take(STATS_ENTRIES).toEntries().map {
-        Entry(it.x + STATS_ENTRIES, it.y)
-    }
 }
 
 private fun List<Statistic>.getEntries(): List<Entry> {

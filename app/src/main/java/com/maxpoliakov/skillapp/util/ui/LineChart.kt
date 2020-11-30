@@ -1,20 +1,14 @@
 package com.maxpoliakov.skillapp.util.ui
 
-import android.graphics.Color.WHITE
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
-import com.maxpoliakov.skillapp.util.charts.HOURS_BREAKPOINT
 import com.maxpoliakov.skillapp.util.charts.StatsEntries
 
 private const val VALUE_TEXT_SIZE = 12f
 private const val LINE_WIDTH = 1.5f
-private const val LABEL_COUNT = 5
-private const val LABEL_COUNT_SMALL = 4
-private const val DASHED_LINE_LENGTH = 7f
 
 fun LineChart.setState(entries: StatsEntries?) {
     if (entries != null) {
@@ -27,27 +21,12 @@ fun LineChart.setState(entries: StatsEntries?) {
 private fun LineChart.updateUI(entries: StatsEntries) {
     this.data = LineData(createDataSets(entries))
     setupAxises(entries)
-
     notifyDataSetChanged()
     invalidate()
 }
 
 private fun LineChart.createDataSets(entries: StatsEntries): List<LineDataSet> {
-    val currentDataSet = createDataSet(entries.entries)
-    val previousDataSet = createPreviousDataSet(entries.previousEntries)
-
-    return listOfNotNull(currentDataSet, previousDataSet)
-}
-
-private fun LineChart.createPreviousDataSet(entries: List<Entry>?): LineDataSet? {
-    return entries?.let(::createSecondaryDataSet)
-}
-
-private fun LineChart.createSecondaryDataSet(entries: List<Entry>): LineDataSet {
-    return createDataSet(entries).apply {
-        enableDashedLine(DASHED_LINE_LENGTH, DASHED_LINE_LENGTH, 0f)
-        setDrawValues(false)
-    }
+    return listOf(createDataSet(entries.entries))
 }
 
 private fun LineChart.createDataSet(entries: List<Entry>?): LineDataSet {
@@ -60,14 +39,13 @@ private fun LineChart.createDataSet(entries: List<Entry>?): LineDataSet {
         this.color = textColor
         lineWidth = LINE_WIDTH
         setDrawCircles(false)
+        setDrawValues(false)
+        lineWidth = 3f
+        color = context.getPrimaryColor()
         isHighlightEnabled = false
     }
 }
 
 private fun LineChart.setupAxises(entries: StatsEntries) {
     axisLeft.axisMaximum = entries.getMaximumValue()
-    axisLeft.setLabelCount(getLabelCount(axisLeft.axisMaximum), true)
 }
-
-private fun getLabelCount(axisMaximum: Float) =
-    if (axisMaximum <= HOURS_BREAKPOINT) LABEL_COUNT else LABEL_COUNT_SMALL

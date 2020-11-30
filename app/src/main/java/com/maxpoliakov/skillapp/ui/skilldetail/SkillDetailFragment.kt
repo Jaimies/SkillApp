@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.github.mikephil.charting.charts.LineChart
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
@@ -24,7 +23,7 @@ import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.skilldetail_frag.chart
+import kotlinx.android.synthetic.main.chart.chart
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,7 +49,6 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val chart = chart as LineChart
         chart.setup()
         observe(viewModel.stats, chart::setState)
         observe(viewModel.showRecordDialog) { showRecordDialog() }

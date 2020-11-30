@@ -52,13 +52,10 @@
             android:background="?attr/dividerHorizontal"
             app:layout_constraintTop_toBottomOf="@id/summary" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
+        <include layout="@layout/chart"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginStart="6dp"
+            android:layout_height="@dimen/chart_height"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="6dp"
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

@@ -55,7 +55,7 @@ class SkillDaoTest {
         val recordDates = listOf(
             LocalDateTime.now().minusDays(6).minusMinutes(1),
             LocalDateTime.now().plusDays(1).withHour(0),
-            LocalDateTime.now()
+            LocalDateTime.now().minusMinutes(1)
         )
 
         recordDates.forEach { timestamp ->
@@ -71,9 +71,14 @@ class SkillDaoTest {
     }
 
     @Test
+    fun getSkill_skillDoesNotExist_returnsNull() = runBlocking {
+        skillDao.getSkill(1).await() shouldBe null
+    }
+
+    @Test
     fun increaseTime() = runBlocking {
         skillDao.insert(DBSkill(totalTime = Duration.ZERO))
         skillDao.increaseTime(1, 100)
-        skillDao.getSkill(1).await().totalTime shouldBe Duration.ofMinutes(100)
+        skillDao.getSkill(1).await()!!.totalTime shouldBe Duration.ofMinutes(100)
     }
 }

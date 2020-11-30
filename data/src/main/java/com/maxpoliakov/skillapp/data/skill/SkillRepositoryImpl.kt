@@ -1,9 +1,10 @@
 package com.maxpoliakov.skillapp.data.skill
 
-import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Id
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.time.Duration
 import javax.inject.Inject
@@ -20,8 +21,9 @@ class SkillRepositoryImpl @Inject constructor(
 
     override fun getSkills() = _skills
 
-    override fun getSkillById(id: Int) =
-        skillDao.getSkill(id).map { it.mapToDomain() }
+    override fun getSkillById(id: Int) = skillDao.getSkill(id)
+        .filterNotNull()
+        .map { it.mapToDomain() }
 
     override suspend fun addSkill(skill: Skill) =
         skillDao.insert(skill.mapToDB())

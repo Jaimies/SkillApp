@@ -11,13 +11,15 @@ interface SkillDao : BaseDao<DBSkill> {
     fun getSkills(): Flow<List<DBSkill>>
 
     @Query(
-        """SELECT skills.*, SUM(records.time) as lastWeekTime FROM skills
-        LEFT JOIN records ON skillId = skills.id
-        AND date(records.timestamp, 'localtime') > date('now','localtime', '-6 day')
-        AND date(records.timestamp, 'localtime') <= date('now', 'localtime')
+         """
+        SELECT skills.*, (
+            SELECT SUM(time) FROM records WHERE skillId = :id
+            AND date(records.timestamp, 'localtime') > date('now','localtime', '-6 day')
+            AND date(records.timestamp, 'localtime') <= date('now', 'localtime')
+        ) as lastWeekTime FROM skills
         WHERE skills.id = :id"""
     )
-    fun getSkill(id: Int): Flow<DBSkill>
+    fun getSkill(id: Int): Flow<DBSkill?>
 
     @Query("UPDATE skills SET totalTime = totalTime + :by WHERE id = :id")
     suspend fun increaseTime(id: Int, by: Long)

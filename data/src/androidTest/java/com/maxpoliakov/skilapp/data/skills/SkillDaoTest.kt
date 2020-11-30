@@ -55,7 +55,8 @@ class SkillDaoTest {
         val recordDates = listOf(
             LocalDateTime.now().minusDays(6).minusMinutes(1),
             LocalDateTime.now().plusDays(1).withHour(0),
-            LocalDateTime.now().minusMinutes(1)
+            LocalDateTime.now().minusMinutes(1),
+            LocalDateTime.now().withHour(23)
         )
 
         recordDates.forEach { timestamp ->
@@ -66,7 +67,7 @@ class SkillDaoTest {
 
         skillDao.getSkill(1).await() shouldBe DBSkill(
             id = 1,
-            lastWeekTime = Duration.ofHours(3)
+            lastWeekTime = Duration.ofHours(6)
         )
     }
 

@@ -11,5 +11,4 @@ fun View.hideKeyboard() {
     imm?.hideSoftInputFromWindow(windowToken, 0)
 }
 
-fun Fragment.hideKeyboard() = view?.hideKeyboard()
 fun Activity.hideKeyboard() = window.decorView.hideKeyboard()

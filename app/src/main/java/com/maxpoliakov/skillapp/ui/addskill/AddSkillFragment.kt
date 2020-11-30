@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.databinding.AddskillFragBinding
 import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -34,6 +33,5 @@ class AddSkillFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observe(viewModel.navigateBack) { findNavController().popBackStack() }
-        observe(viewModel.hideKeyboard) { hideKeyboard() }
     }
 }

@@ -19,8 +19,6 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:overScrollMode="never"
             app:visible="@{!viewModel.isEmpty}"
             tools:itemCount="7"
             tools:listitem="@layout/skills_item" />

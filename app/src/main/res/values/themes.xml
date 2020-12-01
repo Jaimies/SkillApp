@@ -8,6 +8,8 @@
         <item name="colorOnSecondary">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:scrollViewStyle">@style/Widget.SkillApp.ScrollableView</item>
+        <item name="recyclerViewStyle">@style/Widget.SkillApp.ScrollableView</item>
     </style>
 
     <style name="Theme.SkillApp.Splash" />

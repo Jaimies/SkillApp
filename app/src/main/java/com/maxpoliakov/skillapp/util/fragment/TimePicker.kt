@@ -14,7 +14,9 @@ inline fun Fragment.showTimePicker(crossinline onTimeSet: (Duration) -> Unit) {
     dialog.addOnPositiveButtonClickListener {
         val hours = Duration.ofHours(dialog.hour.toLong())
         val minutes = Duration.ofMinutes(dialog.minute.toLong())
-        onTimeSet(hours.plus(minutes))
+        val time = hours.plus(minutes)
+        if (time > Duration.ZERO)
+            onTimeSet(time)
     }
 
     dialog.show(childFragmentManager, null)

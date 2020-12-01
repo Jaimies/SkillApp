@@ -13,6 +13,7 @@ import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
 import com.maxpoliakov.skillapp.util.fragment.observe
+ import com.maxpoliakov.skillapp.util.fragment.setTitle
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
@@ -56,6 +57,7 @@ class SkillsFragment : Fragment() {
         val skill = listAdapter.getItem(index)
         val directions = actionToSkillDetailFragment(skill.id)
         findNavController().navigateAnimated(directions)
+        setTitle(skill.name)
     }
 
     private fun showRecordDialog(index: Int) {

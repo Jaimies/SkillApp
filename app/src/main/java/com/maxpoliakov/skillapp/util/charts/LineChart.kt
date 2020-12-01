@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekDayFormatter
 import com.maxpoliakov.skillapp.util.ui.getTextColor
+import com.maxpoliakov.skillapp.util.ui.sp
 
 private const val LEFT_OFFSET = 1.5f
 private const val TOP_OFFSET = 24f
@@ -20,13 +21,11 @@ private const val X_AXIS_Y_OFFSET = 10f
 private const val Y_AXIS_LABEL_COUNT = 5
 private const val Y_AXIS_GRANULARITY = 3f
 
-private const val TEXT_SIZE = 11F
-
 fun LineChart.setup() {
     disableUnneededFeatures()
     setupOffsets()
-    setupLeftAxis()
-    setupXAxis()
+    setupFonts()
+    setupAxes()
     setupNoDataText()
 }
 
@@ -39,12 +38,22 @@ private fun LineChart.setupNoDataText() {
     setNoDataText(context.getString(R.string.no_data))
 }
 
+private fun LineChart.setupFonts() {
+    val textSize = 12.sp(context)
+    axisLeft.textSize = textSize
+    xAxis.textSize = textSize
+}
+
+private fun LineChart.setupAxes() {
+    setupXAxis()
+    setupLeftAxis()
+}
+
 private fun LineChart.setupXAxis() {
     xAxis.run {
         valueFormatter = WeekDayFormatter()
         spaceMin = X_AXIS_SPACE_MIN
         spaceMax = X_AXIS_SPACE_MAX
-        textSize = TEXT_SIZE
         yOffset = X_AXIS_Y_OFFSET
         textColor = context.getTextColor()
         position = BOTTOM
@@ -58,7 +67,6 @@ private fun LineChart.setupLeftAxis() {
 
     axisLeft.run {
         setLabelCount(Y_AXIS_LABEL_COUNT, true)
-        textSize = TEXT_SIZE
         valueFormatter = TimeFormatter()
         isGranularityEnabled = true
         granularity = Y_AXIS_GRANULARITY

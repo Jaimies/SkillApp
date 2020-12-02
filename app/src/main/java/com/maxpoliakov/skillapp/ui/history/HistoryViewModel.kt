@@ -2,25 +2,28 @@ package com.maxpoliakov.skillapp.ui.history
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagingData
+import androidx.paging.insertSeparators
 import androidx.paging.map
-import com.maxpoliakov.skillapp.domain.usecase.records.DeleteRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
-import com.maxpoliakov.skillapp.model.RecordItem
-import com.maxpoliakov.skillapp.model.mapToDomain
+import com.maxpoliakov.skillapp.model.HistoryUiModel
+import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
+import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
 import com.maxpoliakov.skillapp.model.mapToPresentation
-import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
 import kotlinx.coroutines.flow.map
 
 class HistoryViewModel @ViewModelInject constructor(
-    getRecords: GetRecordsUseCase,
-    private val deleteRecord: DeleteRecordUseCase
+    getRecords: GetRecordsUseCase
 ) : ViewModel() {
 
     val records = getRecords.run().map { data ->
-        data.map { it.mapToPresentation() }
+        data.map { it.mapToPresentation() }.withSeparators()
     }
+}
 
-    fun deleteRecord(record: RecordItem) = launchCoroutine {
-        deleteRecord.run(record.mapToDomain())
+fun PagingData<Record>.withSeparators(): PagingData<HistoryUiModel> {
+    return this.insertSeparators { record, record2 ->
+        if (record2 != null && record?.date != record2.date) Separator(record2.date)
+        else null
     }
 }

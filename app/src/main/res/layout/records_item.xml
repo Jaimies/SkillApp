@@ -12,20 +12,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/records_item_height"
-        android:paddingStart="@dimen/margin_default"
-        android:paddingEnd="@dimen/margin_default">
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
 
-        <!--suppress AndroidUnknownAttribute -->
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:onLongClick="@{(view) -> viewModel.showDeleteDialog()}"
             android:singleLine="true"
-            android:text="@{viewModel.state.name}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textSize="18sp"
+            android:text="@{viewModel.record.name}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/time_text_view"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Skill name" />
@@ -35,7 +38,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@{viewModel.state.time}"
+            android:text="@{viewModel.record.time}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="25m" />
     </androidx.constraintlayout.widget.ConstraintLayout>

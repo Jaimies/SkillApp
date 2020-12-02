@@ -5,6 +5,7 @@ import java.time.Clock
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.Month
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit.DAYS
 import java.time.temporal.Temporal
@@ -13,6 +14,9 @@ import java.util.Locale
 val EPOCH: LocalDate get() = LocalDate.ofEpochDay(0)
 
 val DayOfWeek.shortName: String
+    get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
+
+val Month.shortName: String
     get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
 
 val Temporal.daysAgo get() = DAYS.between(this, getCurrentDateTime())

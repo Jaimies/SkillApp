@@ -15,6 +15,8 @@ import com.maxpoliakov.skillapp.util.fragment.snackbar
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.history_frag.recycler_view
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HistoryFragment : Fragment() {
@@ -38,7 +40,9 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recycler_view.setupAdapter(listAdapter)
-        viewModel.records.observe(viewLifecycleOwner, listAdapter::submitList)
+        lifecycleScope.launch {
+            viewModel.records.collectLatest(listAdapter::submitData)
+        }
     }
 
     private fun showDeleteDialog(index: Int) {

@@ -1,6 +1,6 @@
 package com.maxpoliakov.skillapp.data.records
 
-import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
@@ -14,5 +14,5 @@ interface RecordsDao : BaseDao<DBRecord> {
         LEFT JOIN skills ON skills.id = records.skillId 
         ORDER BY records.id DESC"""
     )
-    fun getRecords(): DataSource.Factory<Int, DBRecord>
+    fun getRecords(): PagingSource<Int, DBRecord>
 }

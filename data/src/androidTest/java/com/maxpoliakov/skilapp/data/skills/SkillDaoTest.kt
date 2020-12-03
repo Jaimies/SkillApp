@@ -61,7 +61,7 @@ class SkillDaoTest {
 
         recordDates.forEach { timestamp ->
             recordsDao.insert(
-                DBRecord(skillId = 1, time = Duration.ofHours(3), record = timestamp)
+                DBRecord(skillId = 1, time = Duration.ofHours(3), date = timestamp)
             )
         }
 

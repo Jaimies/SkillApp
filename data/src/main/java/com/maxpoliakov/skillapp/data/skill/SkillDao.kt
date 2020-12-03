@@ -14,8 +14,8 @@ interface SkillDao : BaseDao<DBSkill> {
         """
         SELECT skills.*, (
             SELECT SUM(time) FROM records WHERE skillId = :id
-            AND date(records.record) >= date('now','localtime', '-6 day')
-            AND date(records.record) <= date('now', 'localtime')
+            AND date(records.date) >= date('now','localtime', '-6 day')
+            AND date(records.date) <= date('now', 'localtime')
         ) as lastWeekTime FROM skills
         WHERE skills.id = :id"""
     )

@@ -26,8 +26,8 @@ data class DBRecord(
     val time: Duration = Duration.ZERO,
     val skillId: Int = 0,
     val recordName: String = "",
-    val record: LocalDate = getCurrentDate()
+    val date: LocalDate = getCurrentDate()
 )
 
-fun DBRecord.mapToDomain() = Record(recordName, skillId, time, id, record)
+fun DBRecord.mapToDomain() = Record(recordName, skillId, time, id, date)
 fun Record.mapToDB() = DBRecord(id, time, skillId, name, date)

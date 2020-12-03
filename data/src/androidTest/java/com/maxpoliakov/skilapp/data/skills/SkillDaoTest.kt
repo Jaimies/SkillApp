@@ -1,6 +1,6 @@
 package com.maxpoliakov.skilapp.data.skills
 
-import com.maxpoliakov.skilapp.data.await
+import com.maxpoliakov.skillapp.test.await
 import com.maxpoliakov.skilapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.data.skill.DBSkill

@@ -69,4 +69,5 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$Versions.androidxTestRunner"
     androidTestImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
     androidTestImplementation "androidx.test.ext:junit:$Versions.androidJUnit"
+    androidTestImplementation project(":sharedTest")
 }

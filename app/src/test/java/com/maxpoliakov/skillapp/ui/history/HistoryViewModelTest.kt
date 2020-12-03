@@ -2,10 +2,10 @@ package com.maxpoliakov.skillapp.ui.history
 
 import androidx.paging.PagingData
 import com.maxpoliakov.skillapp.clockOfEpochDay
-import com.maxpoliakov.skillapp.awaitData
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import com.maxpoliakov.skillapp.shared.util.setClock
+import com.maxpoliakov.skillapp.test.awaitData
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.Clock

@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp
+package com.maxpoliakov.skillapp.test
 
 import androidx.paging.CombinedLoadStates
 import androidx.paging.DifferCallback

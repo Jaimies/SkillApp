@@ -1,4 +1,4 @@
-package com.maxpoliakov.skilapp.data
+package com.maxpoliakov.skillapp.test
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

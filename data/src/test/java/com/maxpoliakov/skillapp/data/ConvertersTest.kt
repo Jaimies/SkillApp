@@ -4,19 +4,18 @@ import com.maxpoliakov.skillapp.data.db.Converters
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.Duration
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.LocalDate
 
 class ConvertersTest : StringSpec({
     val converters = Converters()
-    val epochDateTime = LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC)
+    val epoch = LocalDate.ofEpochDay(0)
 
-    "fromLocalDateTime()" {
-        converters.fromLocalDateTime(epochDateTime) shouldBe "1970-01-01T00:00:00"
+    "fromLocalDate()" {
+        converters.fromLocalDate(epoch) shouldBe "1970-01-01"
     }
 
-    "toLocalDateTime()" {
-        converters.toLocalDateTime("1970-01-01T00:00:00") shouldBe epochDateTime
+    "toLocalDate()" {
+        converters.toLocalDate("1970-01-01") shouldBe epoch
     }
 
     "toDuration()" {

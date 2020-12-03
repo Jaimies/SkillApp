@@ -1,13 +1,13 @@
 package com.maxpoliakov.skilapp.data.skills
 
-import com.maxpoliakov.skillapp.test.await
 import com.maxpoliakov.skilapp.data.createTestDatabase
-import com.maxpoliakov.skillapp.data.skill.SkillDao
-import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.records.RecordsDao
+import com.maxpoliakov.skillapp.data.skill.DBSkill
+import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.shared.util.setClock
+import com.maxpoliakov.skillapp.test.await
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import java.time.Clock
 import java.time.Duration
-import java.time.LocalDateTime
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.ZoneId
 
@@ -53,15 +53,15 @@ class SkillDaoTest {
         skillDao.insert(DBSkill())
 
         val recordDates = listOf(
-            LocalDateTime.now().minusDays(6).minusMinutes(1),
-            LocalDateTime.now().plusDays(1).withHour(0),
-            LocalDateTime.now().minusMinutes(1),
-            LocalDateTime.now().withHour(23)
+            LocalDate.now().minusDays(7),
+            LocalDate.now().minusDays(6),
+            LocalDate.now().plusDays(1),
+            LocalDate.now()
         )
 
         recordDates.forEach { timestamp ->
             recordsDao.insert(
-                DBRecord(skillId = 1, time = Duration.ofHours(3), timestamp = timestamp)
+                DBRecord(skillId = 1, time = Duration.ofHours(3), record = timestamp)
             )
         }
 

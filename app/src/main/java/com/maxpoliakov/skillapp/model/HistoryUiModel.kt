@@ -16,5 +16,5 @@ sealed class HistoryUiModel {
 }
 
 fun Record.mapToPresentation(): HistoryUiModel.Record {
-    return HistoryUiModel.Record(id, name, getFriendlyTime(time), timestamp.toLocalDate())
+    return HistoryUiModel.Record(id, name, getFriendlyTime(time), date)
 }

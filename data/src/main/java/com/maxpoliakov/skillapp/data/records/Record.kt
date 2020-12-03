@@ -6,9 +6,9 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.shared.util.getCurrentDateTime
+import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import java.time.Duration
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @Entity(
     tableName = "records",
@@ -26,8 +26,8 @@ data class DBRecord(
     val time: Duration = Duration.ZERO,
     val skillId: Int = 0,
     val recordName: String = "",
-    val timestamp: LocalDateTime = getCurrentDateTime()
+    val record: LocalDate = getCurrentDate()
 )
 
-fun DBRecord.mapToDomain() = Record(recordName, skillId, time, id, timestamp)
-fun Record.mapToDB() = DBRecord(id, time, skillId, name, timestamp)
+fun DBRecord.mapToDomain() = Record(recordName, skillId, time, id, record)
+fun Record.mapToDB() = DBRecord(id, time, skillId, name, date)

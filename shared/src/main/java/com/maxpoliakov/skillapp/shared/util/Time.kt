@@ -4,7 +4,6 @@ import androidx.annotation.VisibleForTesting
 import java.time.Clock
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.Month
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit.DAYS
@@ -19,11 +18,10 @@ val DayOfWeek.shortName: String
 val Month.shortName: String
     get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
 
-val Temporal.daysAgo get() = DAYS.between(this, getCurrentDateTime())
+val Temporal.daysAgo get() = DAYS.between(this, getCurrentDate())
 val Temporal.daysSinceEpoch get() = DAYS.between(EPOCH, this)
 
 fun getCurrentDate(): LocalDate = LocalDate.now(clock)
-fun getCurrentDateTime(): LocalDateTime = LocalDateTime.now(clock)
 
 private var clock: Clock = Clock.systemDefaultZone()
 

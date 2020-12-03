@@ -5,7 +5,7 @@ import androidx.annotation.Keep
 import com.maxpoliakov.skillapp.domain.model.Skill
 import kotlinx.android.parcel.Parcelize
 import java.time.Duration
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @Keep
 @Parcelize
@@ -14,11 +14,11 @@ data class SkillItem(
     override val name: String,
     override val totalTime: Duration,
     val lastWeekTime: Duration,
-    val creationDate: LocalDateTime
+    val creationDate: LocalDate
 ) : Recordable, Parcelable
 
 fun Skill.mapToPresentation() = SkillItem(
-    id, name, totalTime, lastWeekTime, timestamp
+    id, name, totalTime, lastWeekTime, date
 )
 
 fun SkillItem.mapToDomain() = Skill(

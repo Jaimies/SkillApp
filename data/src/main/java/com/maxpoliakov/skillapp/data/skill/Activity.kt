@@ -3,9 +3,9 @@ package com.maxpoliakov.skillapp.data.skill
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.shared.util.getCurrentDateTime
+import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import java.time.Duration
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @Entity(tableName = "skills")
 data class DBSkill(
@@ -14,7 +14,7 @@ data class DBSkill(
     val name: String = "",
     val totalTime: Duration = Duration.ZERO,
     val lastWeekTime: Duration = Duration.ZERO,
-    val creationDate: LocalDateTime = getCurrentDateTime()
+    val creationDate: LocalDate = getCurrentDate()
 )
 
 fun DBSkill.mapToDomain(): Skill {
@@ -33,5 +33,5 @@ fun Skill.mapToDB(): DBSkill {
         name,
         totalTime,
         lastWeekTime,
-        timestamp)
+        date)
 }

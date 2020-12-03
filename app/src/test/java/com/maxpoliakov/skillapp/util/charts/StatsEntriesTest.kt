@@ -33,41 +33,26 @@ class StatsEntriesTest : StringSpec({
 
     "toStatsEntries() returns null for empty list" {
         val stats = listOf<Statistic>()
-        stats.toStatsEntries() shouldBe null
+        stats.toEntries() shouldBe null
     }
 
     "toStatsEntries() returns null for list with no positive time" {
         val stats = listOf(Statistic(LocalDate.ofEpochDay(0), Duration.ZERO))
-        stats.toStatsEntries() shouldBe null
+        stats.toEntries() shouldBe null
     }
 
     fun List<Entry>.toPairs() = map { it.x to it.y }
 
-    "toStatsEntries() splits the list in two parts and increases x of the first one by 7" {
+    "toStatsEntries() maps the original list to Entry" {
         val stats = listOf(
-            Statistic(LocalDate.ofEpochDay(-1), Duration.ofHours(2)),
-            Statistic(LocalDate.ofEpochDay(1), Duration.ofMinutes(20))
-        ).withMissingStats()
-
-        val statsEntries = stats.toStatsEntries()!!
-        statsEntries.entries.toPairs() shouldBe listOf(
-            1f to 20f,
-            2f to 0f,
-            3f to 0f,
-            4f to 0f,
-            5f to 0f,
-            6f to 0f,
-            7f to 0f
+            Statistic(LocalDate.ofEpochDay(1), Duration.ofMinutes(20)),
+            Statistic(LocalDate.ofEpochDay(2), Duration.ofHours(2))
         )
 
-        statsEntries.previousEntries!!.toPairs() shouldBe listOf(
-            1f to 0f,
-            2f to 0f,
-            3f to 0f,
-            4f to 0f,
-            5f to 0f,
-            6f to 120f,
-            7f to 0f
+        val statsEntries = stats.toEntries()!!
+        statsEntries.toPairs() shouldBe listOf(
+            1f to 20f,
+            2f to 120f
         )
     }
 

@@ -12,7 +12,7 @@ interface RecordsDao : BaseDao<DBRecord> {
     @Query(
         """SELECT records.*, skills.name as recordName FROM records
         LEFT JOIN skills ON skills.id = records.skillId 
-        ORDER BY records.id DESC"""
+        ORDER BY records.date DESC, records.id DESC"""
     )
     fun getRecords(): PagingSource<Int, DBRecord>
 

@@ -22,4 +22,16 @@ class TimeTest : StringSpec({
         LocalDate.ofEpochDay(1).daysSinceEpoch shouldBe 1
         LocalDate.ofEpochDay(365).daysSinceEpoch shouldBe 365
     }
+
+    "millisSinceEpoch" {
+        LocalDate.ofEpochDay(0).millisSinceEpoch shouldBe 0
+        LocalDate.ofEpochDay(1).millisSinceEpoch shouldBe 86_400_000
+        LocalDate.ofEpochDay(10).millisSinceEpoch shouldBe 864_000_000
+    }
+
+    "dateOfEpochMillis()" {
+        dateOfEpochMillis(0) shouldBe LocalDate.ofEpochDay(0)
+        dateOfEpochMillis(86_400_000) shouldBe LocalDate.ofEpochDay(1)
+        dateOfEpochMillis(86_399_999) shouldBe LocalDate.ofEpochDay(0)
+    }
 })

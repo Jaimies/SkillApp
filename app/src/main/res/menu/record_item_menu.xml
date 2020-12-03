@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/change_date"
+        android:title="@string/change_date" />
+
+    <item
         android:id="@+id/delete"
         android:title="@string/delete" />
 </menu>

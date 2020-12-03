@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.history.RecordDelegateAdapter.ViewHolder
+import com.maxpoliakov.skillapp.util.fragment.showDatePicker
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 import com.maxpoliakov.skillapp.util.ui.showPopupMenu
 import kotlinx.android.synthetic.main.records_item.view.more_btn
@@ -43,8 +44,10 @@ class RecordDelegateAdapter @Inject constructor(
         }
 
         private fun onMenuItemClicked(menuItem: MenuItem): Boolean {
-            if (menuItem.itemId == R.id.delete)
-                showDeleteDialog()
+            when (menuItem.itemId) {
+                R.id.delete -> showDeleteDialog()
+                R.id.change_date -> showChangeDateDialog()
+            }
 
             return true
         }
@@ -56,6 +59,12 @@ class RecordDelegateAdapter @Inject constructor(
                 .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteRecord() }
                 .setNegativeButton(R.string.cancel, null)
                 .show()
+        }
+
+        private fun showChangeDateDialog() {
+            context.showDatePicker(viewModel.record.value!!.date) { date ->
+                viewModel.changeRecordDate(date)
+            }
         }
 
         fun bindRecord(record: Record) {

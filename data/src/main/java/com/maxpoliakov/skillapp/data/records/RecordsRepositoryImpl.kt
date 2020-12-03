@@ -34,6 +34,10 @@ class RecordsRepositoryImpl @Inject constructor(
         recordsDao.insert(record.mapToDB())
     }
 
+    override suspend fun updateRecord(record: Record) {
+        recordsDao.update(record.mapToDB())
+    }
+
     override suspend fun deleteRecord(record: Record) {
         recordsDao.delete(record.mapToDB())
     }

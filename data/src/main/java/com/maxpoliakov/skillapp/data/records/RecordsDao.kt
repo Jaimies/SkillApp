@@ -15,4 +15,7 @@ interface RecordsDao : BaseDao<DBRecord> {
         ORDER BY records.id DESC"""
     )
     fun getRecords(): PagingSource<Int, DBRecord>
+
+    @Query("SELECT * FROM records WHERE id = :id")
+    suspend fun getRecordById(id: Int): DBRecord
 }

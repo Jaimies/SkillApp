@@ -11,8 +11,9 @@ class DeleteRecordUseCase @Inject constructor(
     private val recordsRepository: RecordsRepository,
     private val skillRepository: SkillRepository
 ) {
-    suspend fun run(record: Record) {
+    suspend fun run(id: Int) {
         withContext(IO) {
+            val record = recordsRepository.getRecord(id)
             skillRepository.decreaseTime(record.skillId, record.time)
             recordsRepository.deleteRecord(record)
         }

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RecordsRepository {
     fun getRecords(): Flow<PagingData<Record>>
+    suspend fun getRecord(id: Int): Record
 
     suspend fun addRecord(record: Record)
     suspend fun deleteRecord(record: Record)

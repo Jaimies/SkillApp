@@ -13,11 +13,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HistoryFragment : Fragment() {
-    private val listAdapter by lazy { HistoryPagingAdapter() }
     val viewModel: HistoryViewModel by viewModels()
+
+    @Inject
+    lateinit var listAdapter: HistoryPagingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -6,10 +6,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
+import javax.inject.Inject
 
-class HistoryPagingAdapter : PagingDataAdapter<HistoryUiModel, ViewHolder>(HistoryDiffCallback()) {
+class HistoryPagingAdapter @Inject constructor(
+    recordDelegateAdapter: RecordDelegateAdapter
+) : PagingDataAdapter<HistoryUiModel, ViewHolder>(HistoryDiffCallback()) {
+
     private val delegateAdapters = listOf(
-        RecordDelegateAdapter(),
+        recordDelegateAdapter,
         SeparatorDelegateAdapter()
     ) as List<DelegateAdapter<HistoryUiModel, ViewHolder>>
 

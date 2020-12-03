@@ -8,7 +8,7 @@ import com.maxpoliakov.skillapp.ui.common.TimeFormatter
 import kotlin.math.ceil
 
 private const val VALUE_TEXT_SIZE = 12f
-private const val LINE_WIDTH = 1.5f
+private const val LINE_WIDTH = 3f
 
 fun LineChart.setState(entries: List<Entry>?) {
     if (entries != null) {
@@ -40,7 +40,6 @@ private fun LineChart.createDataSet(entries: List<Entry>): LineDataSet {
         lineWidth = LINE_WIDTH
         setDrawCircles(false)
         setDrawValues(false)
-        lineWidth = 3f
         color = context.getPrimaryColor()
         isHighlightEnabled = false
     }

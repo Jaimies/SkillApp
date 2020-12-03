@@ -1,22 +1,30 @@
 package com.maxpoliakov.skillapp.util.fragment
 
+import android.content.Context
 import androidx.fragment.app.Fragment
-import com.google.android.material.datepicker.MaterialDatePicker.INPUT_MODE_CALENDAR
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.maxpoliakov.skillapp.util.persistence.getIntPreference
 import com.maxpoliakov.skillapp.util.persistence.saveIntPreference
+import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
 
-inline fun Fragment.showTimePicker(crossinline onTimeSet: (Duration) -> Unit) {
+inline fun Context.showTimePicker(
+    initialTime: Duration = Duration.ZERO,
+    fragmentManager: FragmentManager = getFragmentManager(),
+    crossinline onTimeSet: (Duration) -> Unit
+) {
     val dialog = MaterialTimePicker.Builder()
         .setTimeFormat(TimeFormat.CLOCK_24H)
-        .setInputMode(requireContext().getIntPreference(INPUT_MODE, INPUT_MODE_CALENDAR))
+        .setHour(initialTime.toHours().toInt())
+        .setMinute(initialTime.toMinutes().toInt())
+        .setInputMode(getIntPreference(INPUT_MODE, INPUT_MODE_CLOCK))
         .build()
 
-
     dialog.addOnPositiveButtonClickListener {
-        requireContext().saveIntPreference(INPUT_MODE, dialog.inputMode)
+        saveIntPreference(INPUT_MODE, dialog.inputMode)
         val hours = Duration.ofHours(dialog.hour.toLong())
         val minutes = Duration.ofMinutes(dialog.minute.toLong())
         val time = hours.plus(minutes)
@@ -24,7 +32,14 @@ inline fun Fragment.showTimePicker(crossinline onTimeSet: (Duration) -> Unit) {
             onTimeSet(time)
     }
 
-    dialog.show(childFragmentManager, null)
+    dialog.show(fragmentManager, null)
+}
+
+inline fun Fragment.showTimePicker(crossinline onTimeSet: (Duration) -> Unit) {
+    requireContext().showTimePicker(
+        fragmentManager = childFragmentManager,
+        onTimeSet = onTimeSet
+    )
 }
 
 const val INPUT_MODE = "input_mode"

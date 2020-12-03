@@ -5,6 +5,10 @@
         android:title="@string/change_date" />
 
     <item
+        android:id="@+id/change_time"
+        android:title="@string/change_time" />
+
+    <item
         android:id="@+id/delete"
         android:title="@string/delete" />
 </menu>

@@ -11,6 +11,7 @@ import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.history.RecordDelegateAdapter.ViewHolder
 import com.maxpoliakov.skillapp.util.fragment.showDatePicker
+import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 import com.maxpoliakov.skillapp.util.ui.showPopupMenu
 import kotlinx.android.synthetic.main.records_item.view.more_btn
@@ -47,6 +48,7 @@ class RecordDelegateAdapter @Inject constructor(
             when (menuItem.itemId) {
                 R.id.delete -> showDeleteDialog()
                 R.id.change_date -> showChangeDateDialog()
+                R.id.change_time -> showTimePickerDialog()
             }
 
             return true
@@ -64,6 +66,12 @@ class RecordDelegateAdapter @Inject constructor(
         private fun showChangeDateDialog() {
             context.showDatePicker(viewModel.record.value!!.date) { date ->
                 viewModel.changeRecordDate(date)
+            }
+        }
+
+        private fun showTimePickerDialog() {
+            context.showTimePicker(viewModel.record.value!!.time) { time ->
+                viewModel.changeRecordTime(time)
             }
         }
 

@@ -36,4 +36,7 @@
     <string name="yesterday">Yesterday</string>
     <string name="date">%1$s, %2$s %3$d</string>
     <string name="date_with_year">%1$s, %2$s %3$d, %4$d</string>
+    <string name="more">More</string>
+    <string name="change_date">Change date</string>
+    <string name="change_time">Change time</string>
 </resources>

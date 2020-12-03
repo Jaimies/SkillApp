@@ -12,36 +12,51 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
         android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp">
+        android:paddingEnd="15dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:paddingEnd="12dp"
             android:singleLine="true"
             android:text="@{viewModel.record.name}"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/time_text_view"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Skill name" />
 
         <TextView
             android:id="@+id/time_text_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
             android:gravity="center_vertical"
             android:text="@{viewModel.record.time}"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/more_btn"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="25m" />
+
+        <ImageButton
+            android:id="@+id/more_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/more"
+            android:src="@drawable/ic_more_vert"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

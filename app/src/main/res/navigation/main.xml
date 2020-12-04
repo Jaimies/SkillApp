@@ -56,16 +56,6 @@
         <argument
             android:name="skillId"
             app:argType="integer" />
-
-        <action
-            android:id="@+id/action_skillDetailFragment_to_skillsFragment"
-            app:destination="@id/skills_fragment_dest"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/skills_fragment_dest"
-            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

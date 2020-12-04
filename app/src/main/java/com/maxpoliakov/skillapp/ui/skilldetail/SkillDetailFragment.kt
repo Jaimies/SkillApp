@@ -14,7 +14,6 @@ import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.util.charts.setup
-import com.maxpoliakov.skillapp.util.fragment.navigate
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.setTitle
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
@@ -84,7 +83,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
     private fun deleteSkill() {
         viewModel.deleteSkill()
         snackbar(R.string.skill_deleted_message)
-        navigate(R.id.action_skillDetailFragment_to_skillsFragment)
+        findNavController().popBackStack()
     }
 
     private fun showRecordDialog() {

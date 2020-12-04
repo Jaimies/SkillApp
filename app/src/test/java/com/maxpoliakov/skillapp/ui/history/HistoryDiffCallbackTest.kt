@@ -4,6 +4,7 @@ import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import java.time.Duration
 import java.time.LocalDate
 
 class HistoryDiffCallbackTest : StringSpec({
@@ -42,5 +43,5 @@ class HistoryDiffCallbackTest : StringSpec({
 })
 
 fun createRecord(id: Int, name: String = ""): Record {
-    return Record(id, name, "", LocalDate.ofEpochDay(0))
+    return Record(id, name, Duration.ZERO, "", LocalDate.ofEpochDay(0))
 }

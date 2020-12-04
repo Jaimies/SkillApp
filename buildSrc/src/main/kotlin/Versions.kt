@@ -9,7 +9,7 @@ object Versions {
     const val legacy = "1.0.0"
 
     const val room = "2.3.0-alpha03"
-    const val paging = "3.0.0-alpha09"
+    const val paging = "3.0.0-alpha10"
     const val navigation = "2.3.1"
     const val lifecycle = "2.2.0"
     const val livedata = "2.2.0"

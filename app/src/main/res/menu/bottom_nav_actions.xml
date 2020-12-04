@@ -13,5 +13,5 @@
     <item
         android:id="@id/statistics_fragment_dest"
         android:icon="@drawable/ic_trending_up"
-        android:title="@string/statistics" />
+        android:title="@string/productivity" />
 </menu>

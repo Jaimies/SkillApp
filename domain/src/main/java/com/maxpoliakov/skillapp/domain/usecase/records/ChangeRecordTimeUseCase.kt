@@ -8,13 +8,13 @@ import java.time.Duration
 import javax.inject.Inject
 
 class ChangeRecordTimeUseCase @Inject constructor(
-    private val recordsRepository: RecordsRepository,
-    private val statsRepository: StatsRepository
+    private val addRecord: AddRecordUseCase,
+    private val deleteRecord: DeleteRecordUseCase,
+    private val recordsRepository: RecordsRepository
 ) {
     suspend fun run(id: Int, time: Duration) = withContext(Dispatchers.IO) {
         val oldRecord = recordsRepository.getRecord(id)
-        val newRecord = oldRecord.copy(time = time)
-        recordsRepository.updateRecord(newRecord)
-        statsRepository.addRecord(newRecord.copy(time = newRecord.time - oldRecord.time))
+        deleteRecord.run(id)
+        addRecord.run(oldRecord.copy(time = time))
     }
 }

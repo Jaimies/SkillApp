@@ -9,6 +9,5 @@ interface RecordsRepository {
     suspend fun getRecord(id: Int): Record
 
     suspend fun addRecord(record: Record)
-    suspend fun updateRecord(record: Record)
     suspend fun deleteRecord(record: Record)
 }

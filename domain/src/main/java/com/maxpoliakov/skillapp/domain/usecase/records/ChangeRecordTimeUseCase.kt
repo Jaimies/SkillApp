@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.domain.usecase.records
 
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
-import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.Duration

@@ -1,13 +1,12 @@
 package com.maxpoliakov.skillapp.ui.history
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
+import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.util.time.toReadableDate
 
 class SeparatorDelegateAdapter : DelegateAdapter<Separator, SeparatorDelegateAdapter.ViewHolder> {

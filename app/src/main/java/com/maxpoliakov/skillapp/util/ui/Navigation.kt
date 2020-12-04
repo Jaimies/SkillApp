@@ -7,10 +7,10 @@ import androidx.navigation.NavOptions
 import com.maxpoliakov.skillapp.R
 
 private val navOptions = NavOptions.Builder()
-    .setEnterAnim(R.anim.fragment_open_enter)
-    .setExitAnim(R.anim.fragment_open_exit)
-    .setPopEnterAnim(R.anim.fragment_close_enter)
-    .setPopExitAnim(R.anim.fragment_close_exit)
+    .setEnterAnim(R.anim.slide_in_right)
+    .setExitAnim(R.anim.slide_out_left)
+    .setPopEnterAnim(R.anim.slide_in_left)
+    .setPopExitAnim(R.anim.slide_out_right)
     .build()
 
 fun NavController.navigateAnimated(@IdRes resId: Int) = navigate(resId, null, navOptions)

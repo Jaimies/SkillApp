@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.maxpoliakov.skillapp.databinding.HistoryFragBinding
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.history_frag.empty_text
 import kotlinx.android.synthetic.main.history_frag.recycler_view
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -40,6 +42,9 @@ class HistoryFragment : Fragment() {
         recycler_view.setupAdapter(listAdapter)
         lifecycleScope.launch {
             viewModel.records.collectLatest(listAdapter::submitData)
+        }
+        listAdapter.addLoadStateListener {
+            empty_text.isVisible = listAdapter.itemCount == 0
         }
     }
 }

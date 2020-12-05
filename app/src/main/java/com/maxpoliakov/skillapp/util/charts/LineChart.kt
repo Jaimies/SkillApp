@@ -35,7 +35,7 @@ private fun LineChart.setupOffsets() {
 
 private fun LineChart.setupNoDataText() {
     setNoDataTextColor(context.getTextColor())
-    setNoDataText(context.getString(R.string.no_data))
+    setNoDataText(context.getString(R.string.no_records))
 }
 
 private fun LineChart.setupFonts() {

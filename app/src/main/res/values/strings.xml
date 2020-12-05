@@ -14,7 +14,7 @@
     <string name="delete_record_message">Are you sure you want to delete this record?</string>
 
     <string name="no_skills">To add a skill, tap the \"+\" button</string>
-    <string name="no_records">History is empty</string>
+    <string name="no_records">You haven\'t added any records yet</string>
     <string name="add_skill">Add a skill</string>
     <string name="edit_skill">Edit skill</string>
     <string name="history">History</string>
@@ -23,7 +23,6 @@
     <string name="last_week">last 7 days</string>
     <string name="per_week">per week</string>
     <string name="name_empty">Please enter a name</string>
-    <string name="no_data">You haven\'t added any records yet</string>
     <string name="hours">%sh</string>
     <string name="hours_symbol">h</string>
     <string name="total_hours">Total hours</string>

@@ -7,6 +7,7 @@ import java.time.LocalDate
 data class Skill(
     val name: String,
     val totalTime: Duration,
+    val initialTime: Duration,
     val lastWeekTime: Duration = Duration.ZERO,
     val id: Id = 0,
     val date: LocalDate = getCurrentDate()

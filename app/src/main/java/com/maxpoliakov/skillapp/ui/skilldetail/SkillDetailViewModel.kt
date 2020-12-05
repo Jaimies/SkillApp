@@ -49,8 +49,13 @@ class SkillDetailViewModel(
     fun showRecordDialog() = showRecordDialog.call()
 
     class SkillDetailState(skill: SkillItem) : SkillState(skill) {
-        val avgWeekTime = getAvgWeekHours(skill.totalTime, skill.creationDate)
+        val avgWeekTime = getAvgWeekTime(skill)
         val lastWeekTime = getFriendlyHours(skill.lastWeekTime)
+
+        private fun getAvgWeekTime(skill: SkillItem): String {
+            val recordedTime = skill.totalTime - skill.initialTime
+            return getAvgWeekHours(recordedTime, skill.creationDate)
+        }
     }
 
     class Factory @Inject constructor(

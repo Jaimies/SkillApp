@@ -13,6 +13,7 @@ data class DBSkill(
     val id: Int = 0,
     val name: String = "",
     val totalTime: Duration = Duration.ZERO,
+    val initialTime: Duration = Duration.ZERO,
     val lastWeekTime: Duration = Duration.ZERO,
     val creationDate: LocalDate = getCurrentDate()
 )
@@ -21,6 +22,7 @@ fun DBSkill.mapToDomain(): Skill {
     return Skill(
         name,
         totalTime,
+        initialTime,
         lastWeekTime,
         id,
         creationDate
@@ -32,6 +34,8 @@ fun Skill.mapToDB(): DBSkill {
         id,
         name,
         totalTime,
+        initialTime,
         lastWeekTime,
-        date)
+        date
+    )
 }

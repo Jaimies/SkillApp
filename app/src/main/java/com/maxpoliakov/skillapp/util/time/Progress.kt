@@ -6,8 +6,8 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit.WEEKS
 
 fun getAvgWeekHours(duration: Duration, startedAt: LocalDate): String {
-    val weekCount = WEEKS.between(startedAt, getCurrentDate()) + 1
-    val avgMins = duration.dividedBy(weekCount.coerceAtLeast(1L))
+    val weeks = WEEKS.between(startedAt, getCurrentDate()) + 1
+    val average = duration.dividedBy(weeks.coerceAtLeast(1L))
 
-    return avgMins.toReadableHours()
+    return average.toReadableHours()
 }

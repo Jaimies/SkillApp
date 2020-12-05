@@ -15,7 +15,7 @@ import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
 import com.maxpoliakov.skillapp.util.time.getAvgWeekHours
-import com.maxpoliakov.skillapp.util.time.getFriendlyHours
+import com.maxpoliakov.skillapp.util.time.toReadableHours
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -43,9 +43,9 @@ class SkillDetailViewModel(
         }
 
         ProductivitySummary(
-            getFriendlyHours(skill.totalTime),
+            skill.totalTime.toReadableHours(),
             skill.getAvgWeekTime(),
-            getFriendlyHours(skill.lastWeekTime)
+            skill.lastWeekTime.toReadableHours()
         )
     }
 

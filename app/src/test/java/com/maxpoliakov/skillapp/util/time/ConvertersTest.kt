@@ -14,10 +14,10 @@ import java.time.LocalDate
 
 class ConvertersTest : StringSpec({
     "get friendly time" {
-        getFriendlyTime(Duration.ofMinutes(89)) shouldBe "1h 29m"
-        getFriendlyTime(Duration.ofMinutes(60)) shouldBe "1h"
-        getFriendlyTime(Duration.ZERO) shouldBe ""
-        getFriendlyTime(Duration.ofMinutes(1439)) shouldBe "23h 59m"
+        Duration.ofMinutes(89).toReadableTime() shouldBe "1h 29m"
+        Duration.ofMinutes(60).toReadableTime() shouldBe "1h"
+        Duration.ZERO.toReadableTime() shouldBe ""
+        Duration.ofMinutes(1439).toReadableTime() shouldBe "23h 59m"
     }
 
     "to readable float" {
@@ -27,10 +27,10 @@ class ConvertersTest : StringSpec({
     }
 
     "get friendly hours" {
-        getFriendlyHours(Duration.ofMinutes(120)) shouldBe "2"
-        getFriendlyHours(Duration.ZERO) shouldBe "0"
-        getFriendlyHours(Duration.ofMinutes(102)) shouldBe "1.7"
-        getFriendlyHours(Duration.ofMinutes(101)) shouldBe "1.7"
+        Duration.ofMinutes(120).toReadableHours() shouldBe "2"
+        Duration.ZERO.toReadableHours() shouldBe "0"
+        Duration.ofMinutes(102).toReadableHours() shouldBe "1.7"
+        Duration.ofMinutes(101).toReadableHours() shouldBe "1.7"
     }
 
     "toReadableDate()" {

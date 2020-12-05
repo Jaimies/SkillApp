@@ -7,15 +7,15 @@ import com.maxpoliakov.skillapp.shared.util.shortName
 import java.time.Duration
 import java.time.LocalDate
 
-fun getFriendlyTime(duration: Duration) = buildString {
-    val hours = duration.toHours()
-    val minutes = duration.toMinutes() - hours * 60
+fun Duration.toReadableTime() = buildString {
+    val hours = toHours()
+    val minutes = toMinutes() - hours * 60
 
     if (hours != 0L) append("${hours}h")
     if (minutes != 0L) append(" ${minutes}m")
 }.trim()
 
-fun getFriendlyHours(duration: Duration) = getHours(duration.toMinutes()).toReadableFloat()
+fun Duration.toReadableHours() = getHours(toMinutes()).toReadableFloat()
 
 fun Float.toReadableFloat(): String {
     val string = "%.1f".format(this)

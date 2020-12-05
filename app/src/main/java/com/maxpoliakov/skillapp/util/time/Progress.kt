@@ -9,5 +9,5 @@ fun getAvgWeekHours(duration: Duration, startedAt: LocalDate): String {
     val weekCount = WEEKS.between(startedAt, getCurrentDate()) + 1
     val avgMins = duration.dividedBy(weekCount.coerceAtLeast(1L))
 
-    return getFriendlyHours(avgMins)
+    return avgMins.toReadableHours()
 }

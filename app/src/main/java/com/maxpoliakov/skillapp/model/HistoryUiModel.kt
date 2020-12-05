@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.model
 
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.util.time.getFriendlyTime
+import com.maxpoliakov.skillapp.util.time.toReadableTime
 import java.time.Duration
 import java.time.LocalDate
 
@@ -18,5 +18,5 @@ sealed class HistoryUiModel {
 }
 
 fun Record.mapToPresentation(): HistoryUiModel.Record {
-    return HistoryUiModel.Record(id, name, time, getFriendlyTime(time), date)
+    return HistoryUiModel.Record(id, name, time, time.toReadableTime(), date)
 }

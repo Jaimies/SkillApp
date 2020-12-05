@@ -7,10 +7,10 @@ import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.DeleteSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
+import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.SkillItem
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.model.mapToPresentation
-import com.maxpoliakov.skillapp.ui.skills.SkillState
 import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
@@ -36,7 +36,18 @@ class SkillDetailViewModel(
         .map { it.mapToPresentation() }
         .asLiveData()
 
-    val state = skill.map { SkillDetailState(it) }
+    val summary = skill.map { skill ->
+        fun SkillItem.getAvgWeekTime(): String {
+            val recordedTime = totalTime - initialTime
+            return getAvgWeekHours(recordedTime, creationDate)
+        }
+
+        ProductivitySummary(
+            getFriendlyHours(skill.totalTime),
+            skill.getAvgWeekTime(),
+            getFriendlyHours(skill.lastWeekTime)
+        )
+    }
 
     fun addRecord(record: Record) {
         launchCoroutine { addRecord.run(record) }
@@ -47,16 +58,6 @@ class SkillDetailViewModel(
     }
 
     fun showRecordDialog() = showRecordDialog.call()
-
-    class SkillDetailState(skill: SkillItem) : SkillState(skill) {
-        val avgWeekTime = getAvgWeekTime(skill)
-        val lastWeekTime = getFriendlyHours(skill.lastWeekTime)
-
-        private fun getAvgWeekTime(skill: SkillItem): String {
-            val recordedTime = skill.totalTime - skill.initialTime
-            return getAvgWeekHours(recordedTime, skill.creationDate)
-        }
-    }
 
     class Factory @Inject constructor(
         private val addRecord: AddRecordUseCase,

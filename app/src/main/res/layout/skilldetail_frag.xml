@@ -26,32 +26,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <include
                     android:id="@+id/summary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="30dp"
-                    android:paddingBottom="30dp"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <include
-                        android:id="@+id/total"
-                        layout="@layout/time_with_label"
-                        app:label="@{@string/total}"
-                        app:time="@{viewModel.state.totalTime}" />
-
-                    <include
-                        android:id="@+id/per_week"
-                        layout="@layout/time_with_label"
-                        app:label="@{@string/per_week}"
-                        app:time="@{viewModel.state.avgWeekTime}" />
-
-                    <include
-                        android:id="@+id/last_week"
-                        layout="@layout/time_with_label"
-                        app:label="@{@string/last_week}"
-                        app:time="@{viewModel.state.lastWeekTime}" />
-                </LinearLayout>
+                    layout="@layout/productivity_summary"
+                    app:summary="@{viewModel.summary}"/>
 
                 <View
                     android:id="@+id/divider"

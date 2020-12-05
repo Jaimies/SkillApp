@@ -17,7 +17,6 @@ import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.setTitle
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
-import com.maxpoliakov.skillapp.util.fragment.snackbar
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setState
@@ -82,7 +81,6 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
 
     private fun deleteSkill() {
         viewModel.deleteSkill()
-        snackbar(R.string.skill_deleted_message)
         findNavController().popBackStack()
     }
 

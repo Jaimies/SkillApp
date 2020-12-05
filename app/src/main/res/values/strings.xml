@@ -9,11 +9,9 @@
 
     <string name="delete_skill_title">Delete this skill?</string>
     <string name="delete_skill_message">All data about this skill and its records will be wiped</string>
-    <string name="skill_deleted_message">Skill deleted</string>
 
     <string name="delete_record_title">Delete this record?</string>
     <string name="delete_record_message">The total time of the corresponding skill will be decreased as well</string>
-    <string name="record_deleted_message">Record deleted</string>
 
     <string name="no_skills">To add a skill, tap the \"+\" button</string>
     <string name="no_records">History is empty.</string>

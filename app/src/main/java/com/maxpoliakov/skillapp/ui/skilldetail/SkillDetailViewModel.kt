@@ -15,10 +15,10 @@ import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
 import com.maxpoliakov.skillapp.util.time.getAvgWeekHours
-import com.maxpoliakov.skillapp.util.time.toReadableHours
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.time.Duration
 import javax.inject.Inject
 
 class SkillDetailViewModel(
@@ -37,15 +37,15 @@ class SkillDetailViewModel(
         .asLiveData()
 
     val summary = skill.map { skill ->
-        fun SkillItem.getAvgWeekTime(): String {
+        fun SkillItem.getAvgWeekTime(): Duration {
             val recordedTime = totalTime - initialTime
             return getAvgWeekHours(recordedTime, creationDate)
         }
 
         ProductivitySummary(
-            skill.totalTime.toReadableHours(),
+            skill.totalTime,
             skill.getAvgWeekTime(),
-            skill.lastWeekTime.toReadableHours()
+            skill.lastWeekTime
         )
     }
 

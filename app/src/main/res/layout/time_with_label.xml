@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="time" type="String" />
+        <variable name="time" type="java.time.Duration" />
         <variable name="label" type="String" />
+
+        <import type="com.maxpoliakov.skillapp.util.time.ConvertersKt"/>
     </data>
 
     <LinearLayout
@@ -19,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/hours(time)}"
+            android:text="@{time != null ? @string/hours(ConvertersKt.toReadableHours(time)): null}"
             android:focusable="false"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             tools:text="2000h" />

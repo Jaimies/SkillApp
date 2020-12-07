@@ -6,8 +6,10 @@ import io.kotest.matchers.shouldBe
 import java.time.Duration
 
 class ProgressTest : StringSpec({
-    "get avg week hours" {
-        getAvgWeekHours(Duration.ofMinutes(238), daysAgoDate(7)) shouldBe "2"
-        getAvgWeekHours(Duration.ofMinutes(444), daysAgoDate(8)) shouldBe "3.7"
+    "getAvgWeekTime()" {
+        getAvgWeekHours(Duration.ofHours(2), daysAgoDate(6)) shouldBe Duration.ofHours(2)
+        getAvgWeekHours(Duration.ofHours(2), daysAgoDate(7)) shouldBe Duration.ofHours(1)
+        getAvgWeekHours(Duration.ofHours(3), daysAgoDate(14)) shouldBe Duration.ofHours(1)
     }
 })
+

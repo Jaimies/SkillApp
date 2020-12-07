@@ -9,8 +9,6 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.skilldetail.SkillDetailViewModel" />
-
-        <import type="com.maxpoliakov.skillapp.R" />
     </data>
 
     <FrameLayout
@@ -21,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -31,20 +29,12 @@
                     layout="@layout/productivity_summary"
                     app:summary="@{viewModel.summary}"/>
 
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?attr/dividerHorizontal"
-                    app:layout_constraintTop_toBottomOf="@id/summary" />
-
                 <include
                     layout="@layout/chart"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chart_height"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@id/divider" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_marginTop="24dp" />
+            </LinearLayout>
         </ScrollView>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

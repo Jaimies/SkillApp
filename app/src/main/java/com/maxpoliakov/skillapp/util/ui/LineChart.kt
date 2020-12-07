@@ -46,16 +46,17 @@ private fun LineChart.createDataSet(entries: List<Entry>): LineDataSet {
 }
 
 private fun LineChart.setupAxises(entries: List<Entry>) {
-    axisLeft.axisMaximum = entries.getMaximumValue()
+    axisLeft.axisMaximum = entries.getAxisMaximum()
 }
 
 private const val HOURS_DIVIDER = 120
 
-fun List<Entry>.getMaximumValue(): Float {
-    val maxValue = getHighestEntryValue()
-    if (maxValue <= HOURS_DIVIDER) return maxValue.ceilTo(60)
-    return maxValue.ceilTo(HOURS_DIVIDER)
+fun List<Entry>.getAxisMaximum(): Float = getAxisMaximum(getHighestValue())
+
+fun getAxisMaximum(maxEntryValue: Float): Float {
+    if (maxEntryValue <= HOURS_DIVIDER) return maxEntryValue.ceilTo(60)
+    return maxEntryValue.ceilTo(HOURS_DIVIDER)
 }
 
 private fun Float.ceilTo(to: Int) = ceil(this / to) * to
-private fun List<Entry>.getHighestEntryValue() = this.maxBy(Entry::getY)!!.y
+private fun List<Entry>.getHighestValue() = this.maxBy(Entry::getY)!!.y

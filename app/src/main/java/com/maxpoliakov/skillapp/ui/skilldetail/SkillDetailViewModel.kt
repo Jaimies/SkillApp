@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.DeleteSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
@@ -32,14 +33,12 @@ class SkillDetailViewModel(
 
     val showRecordDialog = SingleLiveEvent<Any>()
 
-    val skill = getSkillById.run(skillId)
-        .map { it.mapToPresentation() }
-        .asLiveData()
+    val skill = getSkillById.run(skillId).asLiveData()
 
     val summary = skill.map { skill ->
-        fun SkillItem.getAvgWeekTime(): Duration {
+        fun Skill.getAvgWeekTime(): Duration {
             val recordedTime = totalTime - initialTime
-            return getAvgWeekHours(recordedTime, creationDate)
+            return getAvgWeekHours(recordedTime, date)
         }
 
         ProductivitySummary(
@@ -54,7 +53,7 @@ class SkillDetailViewModel(
     }
 
     fun deleteSkill() = this.skill.value?.let { skill ->
-        ioScope.launch { deleteSkill.run(skill.mapToDomain()) }
+        ioScope.launch { deleteSkill.run(skill) }
     }
 
     fun showRecordDialog() = showRecordDialog.call()

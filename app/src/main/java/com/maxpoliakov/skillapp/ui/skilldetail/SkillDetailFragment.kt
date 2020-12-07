@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.model.mapToPresentation
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
@@ -65,7 +66,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
 
     private fun navigateToEditSkillFragment() {
         val directions = MainDirections
-            .actionToEditSkillFragment(viewModel.skill.value!!)
+            .actionToEditSkillFragment(viewModel.skill.value!!.mapToPresentation())
 
         findNavController().navigateAnimated(directions)
     }

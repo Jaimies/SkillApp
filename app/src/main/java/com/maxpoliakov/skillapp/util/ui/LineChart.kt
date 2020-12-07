@@ -49,12 +49,14 @@ private fun LineChart.setupAxises(entries: List<Entry>) {
     axisLeft.axisMaximum = entries.getAxisMaximum()
 }
 
-private const val HOURS_DIVIDER = 120
+private const val HOURS_DIVIDER = 60
+private const val HOURS_DIVIDER_SMALL = 30
+private const val HOURS_BREAKPOINT = 120
 
 fun List<Entry>.getAxisMaximum(): Float = getAxisMaximum(getHighestValue())
 
 fun getAxisMaximum(maxEntryValue: Float): Float {
-    if (maxEntryValue <= HOURS_DIVIDER) return maxEntryValue.ceilTo(60)
+    if (maxEntryValue <= HOURS_BREAKPOINT) return maxEntryValue.ceilTo(HOURS_DIVIDER_SMALL)
     return maxEntryValue.ceilTo(HOURS_DIVIDER)
 }
 

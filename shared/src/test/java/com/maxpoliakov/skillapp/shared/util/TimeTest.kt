@@ -14,7 +14,7 @@ class TimeTest : StringSpec({
 
     "daysAgo" {
         LocalDate.now().minusDays(1).daysAgo shouldBe 1
-        LocalDateTime.now().minusDays(2).daysAgo shouldBe 2
+        LocalDate.now().minusDays(2).daysAgo shouldBe 2
     }
 
     "daysSinceEpoch" {

@@ -12,6 +12,5 @@ fun getAvgWeekHours(duration: Duration, startedAt: LocalDate): Duration {
 }
 
 fun Skill.getAvgWeekTime(): Duration {
-    val recordedTime = totalTime - initialTime
     return getAvgWeekHours(recordedTime, date)
 }

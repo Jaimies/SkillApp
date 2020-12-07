@@ -19,8 +19,8 @@ val DayOfWeek.shortName: String
 val Month.shortName: String
     get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
 
-val Temporal.daysAgo get() = DAYS.between(this, getCurrentDate())
-val Temporal.daysSinceEpoch get() = DAYS.between(EPOCH, this)
+val LocalDate.daysAgo get() = DAYS.between(this, getCurrentDate())
+val LocalDate.daysSinceEpoch get() = DAYS.between(EPOCH, this)
 
 val LocalDate.millisSinceEpoch
     get() = Duration.ofDays(this.toEpochDay()).toMillis()

@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.data.stats
 import androidx.room.Dao
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import java.time.Duration
 import java.time.LocalDate
 
 @Dao
@@ -14,7 +15,7 @@ interface StatsDao {
                 :time), :date, :skillId)
             """
     )
-    suspend fun addRecord(skillId: Int, date: LocalDate, time: Long)
+    suspend fun addRecord(skillId: Int, date: LocalDate, time: Duration)
 
     @Query(
         """

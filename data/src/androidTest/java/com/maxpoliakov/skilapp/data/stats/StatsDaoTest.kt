@@ -66,7 +66,7 @@ class StatsDaoTest {
 
     @Test
     fun getStats_selectsOnlyWithPositiveTime() = runBlocking {
-        statsDao.addRecord(skillId, date, -recordTime)
+        statsDao.addRecord(skillId, date, recordTime.negated())
         statsDao.getStats(skillId).await() shouldBe listOf()
     }
 
@@ -99,8 +99,8 @@ class StatsDaoTest {
 
     companion object {
         private val date = LocalDate.now()
+        private val recordTime = Duration.ofMinutes(100)
         private const val skillId = 1
         private const val otherSkillId = 2
-        private const val recordTime = 100L
     }
 }

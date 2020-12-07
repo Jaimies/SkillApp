@@ -24,6 +24,7 @@ class StatisticsFragment : Fragment() {
 
         val binding = StatisticsFragBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
+            it.viewModel = viewModel
         }
 
         return binding.root

@@ -71,6 +71,14 @@ class StatsDaoTest {
     }
 
     @Test
+    fun getStats_includes6DaysAgo() = runBlocking {
+        statsDao.addRecord(skillId, date.minusDays(6), recordTime)
+        statsDao.getStats(skillId).await() shouldBe listOf(
+            DBStatistic(date.minusDays(6), skillId, recordTime)
+        )
+    }
+
+    @Test
     fun getStats_ignoresOlderThan6DaysAgo() = runBlocking {
         statsDao.addRecord(skillId, date.minusDays(7), recordTime)
         statsDao.getStats(skillId).await() shouldBe listOf()

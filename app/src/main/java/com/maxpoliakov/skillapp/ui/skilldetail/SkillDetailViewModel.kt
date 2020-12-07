@@ -3,23 +3,17 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.DeleteSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
-import com.maxpoliakov.skillapp.model.SkillItem
-import com.maxpoliakov.skillapp.model.mapToDomain
-import com.maxpoliakov.skillapp.model.mapToPresentation
 import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
-import com.maxpoliakov.skillapp.util.time.getAvgWeekHours
+import com.maxpoliakov.skillapp.util.time.getAvgWeekTime
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.time.Duration
 import javax.inject.Inject
 
 class SkillDetailViewModel(
@@ -36,11 +30,6 @@ class SkillDetailViewModel(
     val skill = getSkillById.run(skillId).asLiveData()
 
     val summary = skill.map { skill ->
-        fun Skill.getAvgWeekTime(): Duration {
-            val recordedTime = totalTime - initialTime
-            return getAvgWeekHours(recordedTime, date)
-        }
-
         ProductivitySummary(
             skill.totalTime,
             skill.getAvgWeekTime(),

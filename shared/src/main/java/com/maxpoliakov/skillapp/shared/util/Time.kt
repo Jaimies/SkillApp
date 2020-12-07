@@ -8,7 +8,6 @@ import java.time.LocalDate
 import java.time.Month
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit.DAYS
-import java.time.temporal.Temporal
 import java.util.Locale
 
 val EPOCH: LocalDate get() = LocalDate.ofEpochDay(0)
@@ -28,6 +27,12 @@ val LocalDate.millisSinceEpoch
 fun dateOfEpochMillis(millis: Long) : LocalDate {
     val epochDay = Duration.ofMillis(millis).toDays()
     return LocalDate.ofEpochDay(epochDay)
+}
+
+fun durationOfHoursAndMinutes(hours: Int, minutes: Int) : Duration {
+    val hours = Duration.ofHours(hours.toLong())
+    val minutes = Duration.ofMinutes(minutes.toLong())
+    return hours.plus(minutes)
 }
 
 fun getCurrentDate(): LocalDate = LocalDate.now(clock)

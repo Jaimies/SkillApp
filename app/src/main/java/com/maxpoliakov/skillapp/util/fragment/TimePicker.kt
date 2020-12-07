@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.maxpoliakov.skillapp.shared.util.durationOfHoursAndMinutes
 import com.maxpoliakov.skillapp.util.persistence.getIntPreference
 import com.maxpoliakov.skillapp.util.persistence.saveIntPreference
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
@@ -25,9 +26,7 @@ inline fun Context.showTimePicker(
 
     dialog.addOnPositiveButtonClickListener {
         saveIntPreference(INPUT_MODE, dialog.inputMode)
-        val hours = Duration.ofHours(dialog.hour.toLong())
-        val minutes = Duration.ofMinutes(dialog.minute.toLong())
-        val time = hours.plus(minutes)
+        val time = durationOfHoursAndMinutes(dialog.hour, dialog.minute)
         if (time > Duration.ZERO)
             onTimeSet(time)
     }

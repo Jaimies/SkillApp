@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.shared.util
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.DayOfWeek
+import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -33,5 +34,11 @@ class TimeTest : StringSpec({
         dateOfEpochMillis(0) shouldBe LocalDate.ofEpochDay(0)
         dateOfEpochMillis(86_400_000) shouldBe LocalDate.ofEpochDay(1)
         dateOfEpochMillis(86_399_999) shouldBe LocalDate.ofEpochDay(0)
+    }
+
+    "durationOfHoursAndMinutes()" {
+        durationOfHoursAndMinutes(0, 0) shouldBe Duration.ZERO
+        durationOfHoursAndMinutes(0, 1) shouldBe Duration.ofMinutes(1)
+        durationOfHoursAndMinutes(1, 0) shouldBe Duration.ofHours(1)
     }
 })

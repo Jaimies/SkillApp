@@ -5,12 +5,12 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.domain.model.Statistic
-import com.maxpoliakov.skillapp.shared.util.EPOCH
 import java.time.Duration
+import java.time.LocalDate
 
 @Entity(
     tableName = "stats",
-    primaryKeys = ["day", "skillId"],
+    primaryKeys = ["date", "skillId"],
     indices = [Index(value = ["skillId"])],
     foreignKeys = [ForeignKey(
         entity = DBSkill::class,
@@ -20,9 +20,9 @@ import java.time.Duration
     )]
 )
 data class DBStatistic(
-    val day: Long,
+    val date: LocalDate,
     val skillId: Int,
     val time: Duration
 )
 
-fun DBStatistic.mapToDomain() = Statistic(EPOCH.plusDays(day), time)
+fun DBStatistic.mapToDomain() = Statistic(date, time)

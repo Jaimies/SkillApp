@@ -22,6 +22,6 @@ class StatsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addRecord(record: Record) {
-        statsDao.addRecord(record.skillId, record.date.daysSinceEpoch, record.time.toMinutes())
+        statsDao.addRecord(record.skillId, record.date, record.time.toMinutes())
     }
 }

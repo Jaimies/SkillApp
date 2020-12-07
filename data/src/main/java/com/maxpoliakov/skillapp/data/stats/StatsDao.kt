@@ -21,7 +21,7 @@ interface StatsDao {
         """
         SELECT date, :skillId as skillId, SUM(time) as time FROM stats
         WHERE :skillId = -1 OR skillId = :skillId
-        AND date(date) > date('now','localtime', '-14 day') 
+        AND date(date) > date('now','localtime', '-7 day') 
         AND date(date) <= date('now', 'localtime')
         AND time > 0
         GROUP BY date

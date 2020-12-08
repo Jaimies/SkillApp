@@ -96,9 +96,10 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
     implementation 'com.google.android.gms:play-services-ads:19.6.0'
-    implementation platform('com.google.firebase:firebase-bom:26.1.1')
+    implementation platform("com.google.firebase:firebase-bom:$Versions.firebase")
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-config-ktx'
 
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"

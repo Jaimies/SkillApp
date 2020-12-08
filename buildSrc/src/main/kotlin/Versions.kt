@@ -21,6 +21,8 @@ object Versions {
     const val hilt = "2.28-alpha"
     const val androidxHilt = "1.0.0-alpha02"
 
+    const val firebase = "26.1.1"
+
     const val lint = "26.5.3"
     const val dataBinding = "3.1.4"
     const val gradle = "4.1.1"

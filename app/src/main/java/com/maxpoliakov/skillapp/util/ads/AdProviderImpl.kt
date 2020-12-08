@@ -7,7 +7,7 @@ import com.google.android.gms.ads.InterstitialAd
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-private const val INTERSTITIAL_AD_ID = "ca-app-pub-3940256099942544/1033173712"
+private const val INTERSTITIAL_AD_ID = "ca-app-pub-3620260144623649/3189554368"
 
 class AdProviderImpl @Inject constructor(
     @ApplicationContext private val context: Context

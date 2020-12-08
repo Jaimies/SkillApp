@@ -86,7 +86,9 @@ dependencies {
     implementation "com.google.android.material:material:$Versions.material"
 
     implementation "com.github.PhilJay:MPAndroidChart:v$Versions.MPAndroidChart"
-     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
+    implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
+
+    implementation 'com.google.android.gms:play-services-ads:19.6.0'
 
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"

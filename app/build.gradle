@@ -4,8 +4,8 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
     id 'io.gitlab.arturbosch.detekt' version '1.5.0'
 }
 
@@ -37,8 +37,12 @@ android {
             shrinkResources = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig = signingConfigs.release
+            resValue("bool", "FIREBASE_ANALYTICS_DEACTIVATED", "false")
         }
-        debug.multiDexEnabled = true
+        debug {
+            multiDexEnabled = true
+            resValue("bool", "FIREBASE_ANALYTICS_DEACTIVATED", "true")
+        }
     }
 
     compileOptions {
@@ -89,6 +93,8 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
     implementation 'com.google.android.gms:play-services-ads:19.6.0'
+    implementation platform('com.google.firebase:firebase-bom:26.1.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"

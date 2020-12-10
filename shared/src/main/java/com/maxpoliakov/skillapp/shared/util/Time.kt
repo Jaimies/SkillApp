@@ -14,10 +14,10 @@ import java.util.Locale
 val EPOCH: LocalDate get() = LocalDate.ofEpochDay(0)
 
 val DayOfWeek.shortName: String
-    get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
+    get() = getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
 
 val Month.shortName: String
-    get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
+    get() = getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
 
 val LocalDate.daysAgo get() = DAYS.between(this, getCurrentDate())
 val LocalDate.daysSinceEpoch get() = DAYS.between(EPOCH, this)

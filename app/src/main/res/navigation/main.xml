@@ -63,4 +63,10 @@
         android:name="com.maxpoliakov.skillapp.ui.statistics.StatisticsFragment"
         android:label="@string/productivity"
         tools:layout="@layout/statistics_frag" />
+
+    <fragment
+        android:id="@+id/settings_fragment_dest"
+        android:name="com.maxpoliakov.skillapp.ui.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@xml/settings" />
 </navigation>

@@ -9,6 +9,7 @@ import com.google.android.material.timepicker.TimeFormat
 import com.maxpoliakov.skillapp.shared.util.durationOfHoursAndMinutes
 import com.maxpoliakov.skillapp.util.persistence.getIntPreference
 import com.maxpoliakov.skillapp.util.persistence.saveIntPreference
+import com.maxpoliakov.skillapp.util.persistence.sharedPrefs
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
 
@@ -21,11 +22,11 @@ inline fun Context.showTimePicker(
         .setTimeFormat(TimeFormat.CLOCK_24H)
         .setHour(initialTime.toHours().toInt())
         .setMinute(initialTime.toMinutes().toInt())
-        .setInputMode(getIntPreference(INPUT_MODE, INPUT_MODE_CLOCK))
+        .setInputMode(sharedPrefs.getIntPreference(INPUT_MODE, INPUT_MODE_CLOCK))
         .build()
 
     dialog.addOnPositiveButtonClickListener {
-        saveIntPreference(INPUT_MODE, dialog.inputMode)
+        sharedPrefs.saveIntPreference(INPUT_MODE, dialog.inputMode)
         val time = durationOfHoursAndMinutes(dialog.hour, dialog.minute)
         if (time > Duration.ZERO)
             onTimeSet(time)

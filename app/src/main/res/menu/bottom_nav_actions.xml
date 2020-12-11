@@ -14,4 +14,9 @@
         android:id="@id/statistics_fragment_dest"
         android:icon="@drawable/ic_trending_up"
         android:title="@string/productivity" />
+
+    <item
+        android:id="@id/settings_fragment_dest"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
 </menu>

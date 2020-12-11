@@ -7,6 +7,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'com.google.android.gms.oss-licenses-plugin'
     id 'io.gitlab.arturbosch.detekt' version '1.5.0'
 }
 
@@ -77,6 +78,8 @@ dependencies {
     implementation "androidx.core:core-ktx:$Versions.androidxCore"
     implementation "androidx.constraintlayout:constraintlayout:$Versions.constraintLayout"
     implementation "androidx.legacy:legacy-support-v4:$Versions.legacy"
+    implementation "androidx.preference:preference-ktx:1.1.1"
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
 
     implementation project(':domain')
     implementation project(':data')

@@ -1,17 +1,21 @@
 package com.maxpoliakov.skillapp.util.persistence
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 
-private val Context.prefs: SharedPreferences
-    get() = getSharedPreferences("main", MODE_PRIVATE)
+val Context.sharedPrefs: SharedPreferences
+    get() = PreferenceManager.getDefaultSharedPreferences(this)
 
-fun Context.getIntPreference(name: String, defValue: Int): Int {
-    return prefs.getInt(name, defValue)
+fun SharedPreferences.getIntPreference(name: String, defValue: Int): Int {
+    return getInt(name, defValue)
 }
 
-fun Context.saveIntPreference(name: String, value: Int) {
-    prefs.edit { putInt(name, value) }
+fun SharedPreferences.saveIntPreference(name: String, value: Int) {
+    this.edit { putInt(name, value) }
+}
+
+fun SharedPreferences.getStringPreference(name: String, defValue: String): String {
+    return getString(name, defValue) ?: defValue
 }

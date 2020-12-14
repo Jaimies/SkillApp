@@ -24,7 +24,7 @@ class AddSkillViewModelTest : StringSpec({
 
     "addSkill()" {
         viewModel.totalTime.value = "100"
-        viewModel.name.value = "Skill name"
+        viewModel.name.value = "Skill name "
         viewModel.addSkill()
         verify(useCase).run(Skill("Skill name", Duration.ofHours(100), Duration.ofHours(100)))
     }

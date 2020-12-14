@@ -17,7 +17,7 @@ class AddSkillViewModel(
 
     fun addSkill() {
         ioScope.launch {
-            val name = name.value.orEmpty()
+            val name = name.value.orEmpty().trim()
             val time = Duration.ofHours(totalTime.value?.toLongOrNull() ?: 0)
 
             addSkill.run(

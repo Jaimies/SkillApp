@@ -15,13 +15,8 @@ class EditSkillViewModel(
 ) : SkillViewModel(skill) {
 
     fun updateSkill() {
-        val name = name.value.orEmpty()
-        if (name.isEmpty()) {
-            nameIsEmpty.value = true
-            return
-        }
-
         ioScope.launch {
+            val name = name.value.orEmpty()
             saveSkill.run(skill.mapToDomain().copy(name = name))
         }
 

@@ -16,13 +16,8 @@ class AddSkillViewModel(
     val totalTime = MutableLiveData<String>()
 
     fun addSkill() {
-        val name = name.value.orEmpty()
-        if (name.isBlank()) {
-            nameIsEmpty.value = true
-            return
-        }
-
         ioScope.launch {
+            val name = name.value.orEmpty()
             val time = Duration.ofHours(totalTime.value?.toLongOrNull() ?: 0)
 
             addSkill.run(

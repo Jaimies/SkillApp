@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/name"
-            app:error="@{viewModel.nameIsEmpty ? @string/name_empty: null}"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -60,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/save"
+            android:enabled="@{viewModel.inputIsValid}"
             android:onClick="@{() -> viewModel.addSkill()}"
             android:src="@drawable/ic_check"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -16,7 +16,7 @@ class EditSkillViewModel(
 
     fun updateSkill() {
         ioScope.launch {
-            val name = name.value.orEmpty()
+            val name = name.value!!.trim()
             saveSkill.run(skill.mapToDomain().copy(name = name))
         }
 

@@ -112,6 +112,7 @@ dependencies {
     kapt "com.android.databinding:compiler:$Versions.dataBinding"
 
     testImplementation "org.mockito:mockito-core:$Versions.mockito"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
     testImplementation project(":sharedTest")
 }

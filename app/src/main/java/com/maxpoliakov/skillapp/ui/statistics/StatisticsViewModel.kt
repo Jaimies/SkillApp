@@ -21,11 +21,11 @@ class StatisticsViewModel @ViewModelInject constructor(
         if (skills.isEmpty())
             return@zip ProductivitySummary.ZERO
 
-        calculateSummmary(skills, stats)
+        calculateSummary(skills, stats)
     }.asLiveData()
 }
 
-private fun calculateSummmary(skills: List<Skill>, stats: List<Statistic>): ProductivitySummary {
+fun calculateSummary(skills: List<Skill>, stats: List<Statistic>): ProductivitySummary {
     val totalTime = skills.sumByDuration { it.recordedTime }
     val oldestSkill = skills.minByOrNull { it.date }!!
 

@@ -68,6 +68,8 @@ dependencies {
     implementation platform("com.google.firebase:firebase-bom:$Versions.firebase")
     implementation 'com.google.firebase:firebase-config-ktx'
 
+    testImplementation project(":sharedTest")
+    testImplementation "org.mockito:mockito-core:$Versions.mockito"
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
     androidTestImplementation "androidx.test:runner:$Versions.androidxTestRunner"
     androidTestImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"

@@ -18,14 +18,13 @@ class AdUtilImpl @Inject constructor(
     private var lastAdTime = getCurrentDateTime()
 
     override fun showAdIfAvailable() {
-        val ad = this.ad
-        if (canShowAd(ad)) {
+        if (canShowAd()) {
             ad.show()
-            this.ad = createAd()
+            ad = createAd()
         }
     }
 
-    private fun canShowAd(ad: InterstitialAd): Boolean {
+    private fun canShowAd(): Boolean {
         val seconds = lastAdTime.until(getCurrentDateTime(), SECONDS)
         return ad.isLoaded && seconds >= remoteConfigRepository.getAdInterval().seconds
     }

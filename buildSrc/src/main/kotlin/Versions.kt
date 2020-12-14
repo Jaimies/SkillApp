@@ -27,6 +27,7 @@ object Versions {
     const val dataBinding = "3.1.4"
     const val gradle = "4.1.1"
 
+    const val mockito = "3.2.4"
     const val kotestJUnit5 = "4.2.3"
     const val androidxTestRunner = "1.3.0"
     const val androidJUnit = "1.1.2"

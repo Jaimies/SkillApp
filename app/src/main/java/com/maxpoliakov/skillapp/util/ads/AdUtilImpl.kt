@@ -19,8 +19,10 @@ class AdUtilImpl @Inject constructor(
 
     override fun showAdIfAvailable() {
         val ad = this.ad
-        if (canShowAd(ad)) ad.show()
-        this.ad = createAd()
+        if (canShowAd(ad)) {
+            ad.show()
+            this.ad = createAd()
+        }
     }
 
     private fun canShowAd(ad: InterstitialAd): Boolean {

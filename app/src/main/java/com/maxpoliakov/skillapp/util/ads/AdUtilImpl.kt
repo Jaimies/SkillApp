@@ -14,12 +14,12 @@ class AdUtilImpl @Inject constructor(
     private val remoteConfigRepository: RemoteConfigRepository
 ) : AdUtil {
 
-    private var ad: InterstitialAd? = null
+    private var ad = createAd()
     private var lastAdTime = getCurrentDateTime()
 
     override fun showAdIfAvailable() {
         val ad = this.ad
-        if (ad != null && canShowAd(ad)) ad.show()
+        if (canShowAd(ad)) ad.show()
         this.ad = createAd()
     }
 

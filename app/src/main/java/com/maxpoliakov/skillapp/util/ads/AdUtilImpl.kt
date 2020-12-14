@@ -15,7 +15,7 @@ class AdUtilImpl @Inject constructor(
 ) : AdUtil {
 
     private var ad: InterstitialAd? = null
-    private var lastAdTime = LocalDateTime.now()
+    private var lastAdTime = getCurrentDateTime()
 
     override fun showAdIfAvailable() {
         val ad = this.ad

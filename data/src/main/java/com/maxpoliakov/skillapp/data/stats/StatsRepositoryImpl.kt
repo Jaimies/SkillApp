@@ -4,7 +4,6 @@ import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.repository.StatsRepository
-import com.maxpoliakov.skillapp.shared.util.daysSinceEpoch
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

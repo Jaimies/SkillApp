@@ -5,7 +5,6 @@ import io.kotest.matchers.shouldBe
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 class TimeTest : StringSpec({
     "shortName" {

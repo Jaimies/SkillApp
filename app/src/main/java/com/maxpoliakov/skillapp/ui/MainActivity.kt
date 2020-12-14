@@ -75,6 +75,6 @@ class MainActivity : AppCompatActivity(),
         arguments: Bundle?
     ) {
         hideKeyboard()
-        adUtil.showAdIfAvailable()
+        adUtil.showAdIfAvailable(destination)
     }
 }

@@ -13,6 +13,7 @@ import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.R.id.history_fragment_dest
 import com.maxpoliakov.skillapp.R.id.statistics_fragment_dest
 import com.maxpoliakov.skillapp.R.id.skills_fragment_dest
+import com.maxpoliakov.skillapp.R.id.settings_fragment_dest
 import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
 import com.maxpoliakov.skillapp.util.ads.AdUtil
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
@@ -35,7 +36,12 @@ class MainActivity : AppCompatActivity(),
     )
 
     private val appBarConfiguration = AppBarConfiguration(
-        setOf(skills_fragment_dest, history_fragment_dest, statistics_fragment_dest)
+        setOf(
+            skills_fragment_dest,
+            history_fragment_dest,
+            statistics_fragment_dest,
+            settings_fragment_dest
+        )
     )
 
     @Inject

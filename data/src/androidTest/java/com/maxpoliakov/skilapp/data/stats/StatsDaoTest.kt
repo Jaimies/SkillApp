@@ -93,6 +93,7 @@ class StatsDaoTest {
     @Test
     fun getStats_getsTotal() = runBlocking {
         skillDao.insert(DBSkill())
+        statsDao.addRecord(skillId, date.minusDays(7), recordTime)
         statsDao.addRecord(skillId, date, recordTime)
         statsDao.addRecord(otherSkillId, date, recordTime)
         statsDao.getStats(-1).await() shouldBe listOf(

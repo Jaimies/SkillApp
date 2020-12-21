@@ -52,7 +52,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         chart.setup()
-        observe(viewModel.stats, chart::setState)
+        observe(viewModel.statsChartData, chart::setState)
         observe(viewModel.showRecordDialog) { showRecordDialog() }
         lifecycleScope.launch {
             viewModel.skill.collectLatest { skill -> setTitle(skill.name) }

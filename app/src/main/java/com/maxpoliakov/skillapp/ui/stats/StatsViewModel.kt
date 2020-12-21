@@ -11,7 +11,10 @@ open class StatsViewModel(
     getStats: GetStatsUseCase,
     skillId: Int
 ) : ViewModel() {
-    val stats = getStats.run(skillId).map { stats ->
+
+    protected val stats = getStats.run(skillId)
+
+    val statsChartData = stats.map { stats ->
         stats.withMissingStats().toEntries()
     }.asLiveData()
 }

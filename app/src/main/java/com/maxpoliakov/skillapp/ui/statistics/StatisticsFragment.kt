@@ -32,6 +32,6 @@ class StatisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         chart.setup()
-        observe(viewModel.stats, chart::setState)
+        observe(viewModel.statsChartData, chart::setState)
     }
 }

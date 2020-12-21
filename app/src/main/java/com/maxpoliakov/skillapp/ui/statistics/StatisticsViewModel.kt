@@ -17,7 +17,7 @@ class StatisticsViewModel @ViewModelInject constructor(
     getStats: GetStatsUseCase
 ) : StatsViewModel(getStats, -1) {
 
-    val summary = getSkills.run().zip(getStats.run(-1)) { skills, stats ->
+    val summary = getSkills.run().zip(stats) { skills, stats ->
         if (skills.isEmpty())
             return@zip ProductivitySummary.ZERO
 

@@ -11,11 +11,11 @@ import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
-import com.maxpoliakov.skillapp.util.time.getAvgWeekTime
+import com.maxpoliakov.skillapp.util.statistics.getTodayTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,10 +32,10 @@ class SkillDetailViewModel(
 
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
 
-    val summary = skill.map { skill ->
+    val summary = skill.zip(stats) { skill, stats ->
         ProductivitySummary(
             skill.totalTime,
-            skill.getAvgWeekTime(),
+            stats.getTodayTime(),
             skill.lastWeekTime
         )
     }.asLiveData()

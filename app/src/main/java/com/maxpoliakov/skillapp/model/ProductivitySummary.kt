@@ -4,7 +4,7 @@ import java.time.Duration
 
 data class ProductivitySummary(
     val totalTime: Duration,
-    val averageWeekTime: Duration,
+    val timeToday: Duration,
     val lastWeekTime: Duration
 ) {
     companion object {

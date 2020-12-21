@@ -21,7 +21,6 @@
     <string name="skills">Skills</string>
     <string name="total">total</string>
     <string name="last_week">last 7 days</string>
-    <string name="per_week">per week</string>
     <string name="hours">%sh</string>
     <string name="hours_symbol">h</string>
     <string name="total_hours">Total hours</string>
@@ -29,6 +28,7 @@
     <string name="add_a_record">Add a record</string>
     <string name="edit">Edit</string>
     <string name="today">Today</string>
+    <string name="today_lowercase">today</string>
     <string name="yesterday">Yesterday</string>
     <string name="date">%1$s, %2$s %3$d</string>
     <string name="date_with_year">%1$s, %2$s %3$d, %4$d</string>

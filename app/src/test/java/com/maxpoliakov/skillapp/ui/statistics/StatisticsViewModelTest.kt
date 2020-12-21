@@ -15,21 +15,21 @@ class StatisticsViewModelTest : StringSpec({
 
     "calculateSummary()" {
         val skills = listOf(
-            createSkill(Duration.ofHours(2), Duration.ofHours(1), LocalDate.ofEpochDay(-10)),
-            createSkill(Duration.ofHours(4), Duration.ofHours(2), LocalDate.ofEpochDay(-5)),
-            createSkill(Duration.ofHours(6), Duration.ofHours(3), LocalDate.ofEpochDay(-3))
+            createSkill(Duration.ofHours(5), Duration.ofHours(1), LocalDate.ofEpochDay(-10)),
+            createSkill(Duration.ofHours(6), Duration.ofHours(2), LocalDate.ofEpochDay(-5)),
+            createSkill(Duration.ofHours(11), Duration.ofHours(3), LocalDate.ofEpochDay(-3))
         )
 
         val stats = listOf(
-            Statistic(LocalDate.ofEpochDay(-2), Duration.ofHours(1)),
-            Statistic(LocalDate.ofEpochDay(-1), Duration.ofHours(2)),
-            Statistic(LocalDate.ofEpochDay(0), Duration.ofHours(3))
+            Statistic(LocalDate.ofEpochDay(-2), Duration.ofHours(3)),
+            Statistic(LocalDate.ofEpochDay(-1), Duration.ofHours(3)),
+            Statistic(LocalDate.ofEpochDay(0), Duration.ofHours(10))
         )
 
         calculateSummary(skills, stats) shouldBe ProductivitySummary(
-            totalTime = Duration.ofHours(12),
-            lastWeekTime = Duration.ofHours(6),
-            averageWeekTime = Duration.ofHours(3)
+            totalTime = Duration.ofHours(22),
+            lastWeekTime = Duration.ofHours(16),
+            timeToday = Duration.ofHours(10)
         )
     }
 })

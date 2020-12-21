@@ -19,16 +19,16 @@
             android:paddingBottom="30dp">
 
             <include
+                android:id="@+id/today"
+                layout="@layout/time_with_label"
+                app:label="@{@string/today_lowercase}"
+                app:time="@{summary.timeToday}" />
+
+            <include
                 android:id="@+id/total"
                 layout="@layout/time_with_label"
                 app:label="@{@string/total}"
                 app:time="@{summary.totalTime}" />
-
-            <include
-                android:id="@+id/per_week"
-                layout="@layout/time_with_label"
-                app:label="@{@string/per_week}"
-                app:time="@{summary.averageWeekTime}" />
 
             <include
                 android:id="@+id/last_week"

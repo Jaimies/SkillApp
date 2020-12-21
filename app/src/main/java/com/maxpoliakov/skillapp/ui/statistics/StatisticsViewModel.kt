@@ -9,7 +9,7 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.shared.util.sumByDuration
 import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
-import com.maxpoliakov.skillapp.util.time.getAvgWeekHours
+import com.maxpoliakov.skillapp.util.statistics.getTodayTime
 import kotlinx.coroutines.flow.zip
 
 class StatisticsViewModel @ViewModelInject constructor(
@@ -26,12 +26,9 @@ class StatisticsViewModel @ViewModelInject constructor(
 }
 
 fun calculateSummary(skills: List<Skill>, stats: List<Statistic>): ProductivitySummary {
-    val totalTime = skills.sumByDuration { it.recordedTime }
-    val oldestSkill = skills.minByOrNull { it.date }!!
-
     return ProductivitySummary(
         totalTime = skills.sumByDuration { it.totalTime },
         lastWeekTime = stats.sumByDuration { it.time },
-        averageWeekTime = getAvgWeekHours(totalTime, oldestSkill.date)
+        timeToday = stats.getTodayTime()
     )
 }

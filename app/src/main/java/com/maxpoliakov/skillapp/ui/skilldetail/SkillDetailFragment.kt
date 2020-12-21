@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,6 +24,8 @@ import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.chart.chart
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -51,7 +54,9 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
         chart.setup()
         observe(viewModel.stats, chart::setState)
         observe(viewModel.showRecordDialog) { showRecordDialog() }
-        observe(viewModel.skill) { skill -> setTitle(skill.name) }
+        lifecycleScope.launch {
+            viewModel.skill.collectLatest { skill -> setTitle(skill.name) }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -66,7 +71,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
 
     private fun navigateToEditSkillFragment() {
         val directions = MainDirections
-            .actionToEditSkillFragment(viewModel.skill.value!!.mapToPresentation())
+            .actionToEditSkillFragment(viewModel.skill.replayCache.last().mapToPresentation())
 
         findNavController().navigateAnimated(directions)
     }
@@ -87,7 +92,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
 
     private fun showRecordDialog() {
         showTimePicker { duration ->
-            val skill = viewModel.skill.value!!
+            val skill = viewModel.skill.replayCache.last()
             viewModel.addRecord(Record(skill.name, skill.id, duration))
         }
     }

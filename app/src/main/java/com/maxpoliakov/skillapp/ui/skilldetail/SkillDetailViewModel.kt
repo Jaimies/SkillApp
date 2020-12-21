@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skilldetail
 
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.DeleteSkillUseCase
@@ -13,6 +13,9 @@ import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
 import com.maxpoliakov.skillapp.util.time.getAvgWeekTime
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +30,7 @@ class SkillDetailViewModel(
 
     val showRecordDialog = SingleLiveEvent<Any>()
 
-    val skill = getSkillById.run(skillId).asLiveData()
+    val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
 
     val summary = skill.map { skill ->
         ProductivitySummary(
@@ -35,13 +38,13 @@ class SkillDetailViewModel(
             skill.getAvgWeekTime(),
             skill.lastWeekTime
         )
-    }
+    }.asLiveData()
 
     fun addRecord(record: Record) {
         launchCoroutine { addRecord.run(record) }
     }
 
-    fun deleteSkill() = this.skill.value?.let { skill ->
+    fun deleteSkill() = this.skill.replayCache.lastOrNull()?.let { skill ->
         ioScope.launch { deleteSkill.run(skill) }
     }
 

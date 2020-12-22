@@ -25,16 +25,16 @@
                 app:time="@{summary.timeToday}" />
 
             <include
-                android:id="@+id/total"
-                layout="@layout/time_with_label"
-                app:label="@{@string/total}"
-                app:time="@{summary.totalTime}" />
-
-            <include
                 android:id="@+id/last_week"
                 layout="@layout/time_with_label"
                 app:label="@{@string/last_week}"
                 app:time="@{summary.lastWeekTime}" />
+
+            <include
+                android:id="@+id/total"
+                layout="@layout/time_with_label"
+                app:label="@{@string/total}"
+                app:time="@{summary.totalTime}" />
         </LinearLayout>
 
         <View

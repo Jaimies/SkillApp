@@ -15,7 +15,7 @@ import com.maxpoliakov.skillapp.util.statistics.getTodayTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.shareIn
-import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ class SkillDetailViewModel(
 
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
 
-    val summary = skill.zip(stats) { skill, stats ->
+    val summary = skill.combine(stats) { skill, stats ->
         ProductivitySummary(
             skill.totalTime,
             stats.getTodayTime(),

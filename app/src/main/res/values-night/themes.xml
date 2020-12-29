@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/blue</item>
         <item name="colorOnSecondary">@android:color/white</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:scrollViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="recyclerViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="bottomNavigationStyle">@style/Widget.SkillApp.BottomNavigationView.Dark</item>

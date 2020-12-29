@@ -14,7 +14,10 @@ sealed class HistoryUiModel {
         val date: LocalDate
     ) : HistoryUiModel()
 
-    data class Separator(val date: LocalDate) : HistoryUiModel()
+    data class Separator(
+        val date: LocalDate,
+        val time: Duration
+    ) : HistoryUiModel()
 }
 
 fun Record.mapToPresentation(): HistoryUiModel.Record {

@@ -6,6 +6,8 @@ import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
+import java.time.Duration
+import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,5 +24,9 @@ class StatsRepositoryImpl @Inject constructor(
 
     override suspend fun addRecord(record: Record) {
         statsDao.addRecord(record.skillId, record.date, record.time)
+    }
+
+    override suspend fun getTimeAtDate(date: LocalDate): Duration {
+        return statsDao.getTimeAtDate(date)
     }
 }

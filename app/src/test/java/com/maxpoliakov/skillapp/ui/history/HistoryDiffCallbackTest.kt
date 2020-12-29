@@ -17,19 +17,19 @@ class HistoryDiffCallbackTest : StringSpec({
 
     "areItemsTheSame() compares Separators by date" {
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1)),
-            Separator(LocalDate.ofEpochDay(1))
+            Separator(LocalDate.ofEpochDay(1), Duration.ZERO),
+            Separator(LocalDate.ofEpochDay(1), Duration.ZERO)
         ) shouldBe true
 
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1)),
-            Separator(LocalDate.ofEpochDay(2))
+            Separator(LocalDate.ofEpochDay(1), Duration.ZERO),
+            Separator(LocalDate.ofEpochDay(2), Duration.ZERO)
         ) shouldBe false
     }
 
     "areItemsTheSame() returns false if the items are of different types" {
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1)),
+            Separator(LocalDate.ofEpochDay(1), Duration.ZERO),
             createRecord(1)
         ) shouldBe false
     }

@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
+import com.maxpoliakov.skillapp.domain.usecase.stats.GetTotalTimeAtDayUseCase
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
@@ -13,17 +14,19 @@ import com.maxpoliakov.skillapp.model.mapToPresentation
 import kotlinx.coroutines.flow.map
 
 class HistoryViewModel @ViewModelInject constructor(
-    getRecords: GetRecordsUseCase
+    getRecords: GetRecordsUseCase,
+    private val getTotalTimeAtDay: GetTotalTimeAtDayUseCase
 ) : ViewModel() {
 
     val records = getRecords.run().map { data ->
         data.map { it.mapToPresentation() }.withSeparators()
     }
-}
 
-fun PagingData<Record>.withSeparators(): PagingData<HistoryUiModel> {
-    return this.insertSeparators { record, record2 ->
-        if (record2 != null && record?.date != record2.date) Separator(record2.date)
-        else null
+    private fun PagingData<Record>.withSeparators(): PagingData<HistoryUiModel> {
+        return this.insertSeparators { record, record2 ->
+            if (record2 != null && record?.date != record2.date)
+                Separator(record2.date, getTotalTimeAtDay.run(record2.date))
+            else null
+        }
     }
 }

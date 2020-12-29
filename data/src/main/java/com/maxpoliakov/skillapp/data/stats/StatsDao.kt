@@ -28,4 +28,7 @@ interface StatsDao {
         """
     )
     fun getStats(skillId: Int): Flow<List<DBStatistic>>
+
+    @Query("SELECT SUM(time) as time FROM stats WHERE date = :date")
+    suspend fun getTimeAtDate(date: LocalDate): Duration
 }

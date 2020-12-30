@@ -39,7 +39,7 @@ private fun LineChart.setupNoDataText() {
 }
 
 private fun LineChart.setupFonts() {
-    val textSize = 12.sp(context)
+    val textSize = 12.5f.sp(context)
     axisLeft.textSize = textSize
     xAxis.textSize = textSize
 }

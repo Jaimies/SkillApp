@@ -44,6 +44,7 @@ android {
         }
         debug {
             multiDexEnabled = true
+            ext.enableCrashlytics = false
             resValue("bool", "FIREBASE_ANALYTICS_DEACTIVATED", "true")
             resValue("bool", "FIREBASE_CRASH_ENABLED", "false")
         }

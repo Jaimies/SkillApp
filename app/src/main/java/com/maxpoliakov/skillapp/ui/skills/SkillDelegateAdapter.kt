@@ -11,14 +11,13 @@ import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 typealias ViewHolder = RecordableViewHolder<SkillItem>
 
 class SkillDelegateAdapter(
-    private val showRecordDialog: (index: Int) -> Unit,
     private val navigateToDetails: (index: Int) -> Unit
 ) : DelegateAdapter<SkillItem, ViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
         parent.inflateDataBinding<SkillsItemBinding>(R.layout.skills_item).run {
             val viewModel = SkillViewModel().also { viewModel = it }
-            return RecordableViewHolder(root, viewModel, showRecordDialog, navigateToDetails)
+            return RecordableViewHolder(root, viewModel, navigateToDetails)
         }
     }
 

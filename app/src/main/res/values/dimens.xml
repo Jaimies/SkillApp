@@ -2,6 +2,5 @@
 <resources>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="padding_default">16dp</dimen>
-    <dimen name="plus_button_size">40dp</dimen>
     <dimen name="chart_height">250dp</dimen>
 </resources>

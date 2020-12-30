@@ -13,8 +13,7 @@ import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
 import com.maxpoliakov.skillapp.util.fragment.observe
- import com.maxpoliakov.skillapp.util.fragment.setTitle
-import com.maxpoliakov.skillapp.util.fragment.showTimePicker
+import com.maxpoliakov.skillapp.util.fragment.setTitle
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +23,7 @@ import kotlinx.android.synthetic.main.history_frag.recycler_view
 class SkillsFragment : Fragment() {
 
     private val delegateAdapter by lazy {
-        SkillDelegateAdapter(::showRecordDialog, ::navigateToDetails)
+        SkillDelegateAdapter(::navigateToDetails)
     }
 
     private val listAdapter by lazy { ListAdapter(delegateAdapter) }
@@ -58,12 +57,5 @@ class SkillsFragment : Fragment() {
         val directions = actionToSkillDetailFragment(skill.id)
         findNavController().navigateAnimated(directions)
         setTitle(skill.name)
-    }
-
-    private fun showRecordDialog(index: Int) {
-        showTimePicker { duration ->
-            val skill = listAdapter.getItem(index)
-            viewModel.createRecord(skill, duration)
-        }
     }
 }

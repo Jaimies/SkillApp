@@ -25,7 +25,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_small"
-            android:gravity="center_vertical"
             android:singleLine="true"
             android:text="@{viewModel.state.name}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
@@ -42,20 +41,8 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@{@string/hours(viewModel.state.totalTime)}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintEnd_toStartOf="@id/plus_button"
-            tools:text="820h" />
-
-        <ImageButton
-            android:id="@+id/plus_button"
-            android:layout_width="@dimen/plus_button_size"
-            android:layout_height="@dimen/plus_button_size"
-            android:background="@null"
-            android:contentDescription="@string/add_record"
-            android:onClick="@{() -> viewModel.showRecordDialog()}"
-            android:src="@drawable/ic_plus_28dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:text="820h" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,7 +6,6 @@ import com.maxpoliakov.skillapp.model.Recordable
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 
 abstract class RecordableViewModel<State : RecordableState, Item : Recordable> {
-
     val state: LiveData<State> get() = _state
     private val _state = MutableLiveData<State>()
 
@@ -17,7 +16,5 @@ abstract class RecordableViewModel<State : RecordableState, Item : Recordable> {
     }
 
     val navigateToDetails = SingleLiveEvent<Any>()
-    val showRecordDialog = SingleLiveEvent<Any>()
     fun navigateToDetails() = navigateToDetails.call()
-    fun showRecordDialog() = showRecordDialog.call()
 }

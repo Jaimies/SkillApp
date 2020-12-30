@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.SkillApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.SkillApp.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/blue</item>
         <item name="colorOnPrimary">@android:color/white</item>
         <item name="colorOnSecondary">@android:color/white</item>
-        <item name="android:statusBarColor">@android:color/white</item>
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:statusBarColor">@color/blue_dark</item>
         <item name="android:scrollViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="recyclerViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
     </style>
+
+    <style name="Theme.SkillApp.V23" parent="Theme.SkillApp.Base">
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+    </style>
+
+    <style name="Theme.SkillApp" parent="Theme.SkillApp.Base" />
 
     <style name="Theme.SkillApp.Splash" />
 </resources>

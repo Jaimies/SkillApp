@@ -6,7 +6,7 @@
         <variable name="time" type="java.time.Duration" />
         <variable name="label" type="String" />
 
-        <import type="com.maxpoliakov.skillapp.util.time.ConvertersKt"/>
+        <import type="com.maxpoliakov.skillapp.util.time.ConvertersKt" />
     </data>
 
     <LinearLayout
@@ -24,6 +24,7 @@
             android:text="@{time != null ? @string/hours(ConvertersKt.toReadableHours(time)): null}"
             android:focusable="false"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textSize="18sp"
             tools:text="2000h" />
 
         <TextView
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:text="@{label}"
             android:focusable="false"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             tools:text="per week"/>
     </LinearLayout>
 </layout>

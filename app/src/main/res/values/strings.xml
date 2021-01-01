@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SkillApp</string>
+    <string name="app_name" translatable="false">SkillApp</string>
 
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>

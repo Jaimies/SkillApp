@@ -28,6 +28,5 @@
         android:layout_height="wrap_content"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_actions"
-        app:navigationIcon="@drawable/ic_menu" />
+        app:menu="@menu/bottom_nav_actions" />
 </androidx.constraintlayout.widget.ConstraintLayout>

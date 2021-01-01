@@ -10,6 +10,7 @@
         <item name="android:scrollViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="recyclerViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
+        <item name="colorControlNormal">@android:color/black</item>
     </style>
 
     <style name="Theme.SkillApp.V23" parent="Theme.SkillApp.Base">

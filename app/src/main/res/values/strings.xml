@@ -21,6 +21,7 @@
     <string name="total">total</string>
     <string name="last_week">last 7\u00A0days</string>
     <string name="hours">%sh</string>
+    <string name="minutes">%sm</string>
     <string name="hours_symbol">h</string>
     <string name="initial_time">Initial time</string>
     <string name="save">Save</string>

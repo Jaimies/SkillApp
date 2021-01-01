@@ -19,7 +19,7 @@
     <string name="history">History</string>
     <string name="skills">Skills</string>
     <string name="total">total</string>
-    <string name="last_week">last 7 days</string>
+    <string name="last_week">last 7\u00A0days</string>
     <string name="hours">%sh</string>
     <string name="hours_symbol">h</string>
     <string name="initial_time">Initial time</string>

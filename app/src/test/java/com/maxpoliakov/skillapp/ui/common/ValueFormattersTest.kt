@@ -1,11 +1,12 @@
 package com.maxpoliakov.skillapp.ui.common
 
+import com.maxpoliakov.skillapp.createMockContext
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class ValueFormattersTest : StringSpec({
     "TimeFormatter" {
-        val formatter = TimeFormatter()
+        val formatter = TimeFormatter(createMockContext())
         formatter.getFormattedValue(0f) shouldBe ""
         formatter.getFormattedValue(1f) shouldBe "1m"
         formatter.getFormattedValue(2f) shouldBe "2m"

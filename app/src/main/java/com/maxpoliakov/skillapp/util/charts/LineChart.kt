@@ -68,7 +68,7 @@ private fun LineChart.setupLeftAxis() {
 
     axisLeft.run {
         setLabelCount(Y_AXIS_LABEL_COUNT, true)
-        valueFormatter = TimeFormatter()
+        valueFormatter = TimeFormatter(context)
         isGranularityEnabled = true
         granularity = Y_AXIS_GRANULARITY
         this.textColor = textColor

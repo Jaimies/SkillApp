@@ -1,6 +1,8 @@
 package com.maxpoliakov.skillapp.ui.common
 
+import android.content.Context
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.shared.util.EPOCH
 import com.maxpoliakov.skillapp.shared.util.shortName
 import com.maxpoliakov.skillapp.util.time.toReadableFloat
@@ -11,10 +13,18 @@ class WeekDayFormatter : ValueFormatter() {
     }
 }
 
-class TimeFormatter : ValueFormatter() {
+class TimeFormatter(private val context: Context) : ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
         if (value <= 0) return ""
-        if (value >= 60) return "${(value / 60f).toReadableFloat()}h"
-        return "${value.toInt()}m"
+        if (value >= 60) return toHours(value)
+        return toMinutes(value)
+    }
+
+    private fun toMinutes(value: Float): String {
+        return context.getString(R.string.minutes, value.toInt().toString())
+    }
+
+    private fun toHours(value: Float): String {
+        return context.getString(R.string.hours, (value / 60f).toReadableFloat())
     }
 }

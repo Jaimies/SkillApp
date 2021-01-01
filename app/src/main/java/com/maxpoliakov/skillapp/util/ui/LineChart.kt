@@ -34,7 +34,7 @@ private fun LineChart.createDataSet(entries: List<Entry>): LineDataSet {
 
     return LineDataSet(entries, "").apply {
         valueTextSize = VALUE_TEXT_SIZE
-        valueFormatter = TimeFormatter()
+        valueFormatter = TimeFormatter(context)
         valueTextColor = textColor
         this.color = textColor
         lineWidth = LINE_WIDTH

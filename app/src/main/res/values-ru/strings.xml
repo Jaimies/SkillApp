@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="productivity_destination">Статистика</string>
+    <string name="name">Название</string>
+
+    <string name="delete_skill_title">Удалить этот навык?</string>
+    <string name="delete_skill_message">Вы уверены, что хотите удалить этот навык?</string>
+
+    <string name="delete_record_title">Удалить эту запись?</string>
+    <string name="delete_record_message">Вы уверены, что Вы хотите удалить эту запись?</string>
+
+    <string name="no_skills">Чтобы добавить навык, нажмите кнопку \"+\"</string>
+    <string name="no_records">Вы еще не добавили ни одной записи</string>
+    <string name="add_skill">Добавить навык</string>
+    <string name="edit_skill">Изменить</string>
+    <string name="history">История</string>
+    <string name="skills">Навыки</string>
+    <string name="total">общее время</string>
+    <string name="last_week">последние 7\u00A0дней</string>
+    <string name="hours">%sч</string>
+    <string name="hours_symbol">ч</string>
+    <string name="initial_time">Начальное время</string>
+    <string name="save">Сохранить</string>
+    <string name="add_a_record">Добавить запись</string>
+    <string name="edit">Редактировать</string>
+    <string name="today">Сегодня</string>
+    <string name="today_lowercase">сегодня</string>
+    <string name="yesterday">Вчера</string>
+    <string name="date">%1$s, %3$d %2$s</string>
+    <string name="date_with_year">%1$s, %3$d %2$s, %4$d</string>
+    <string name="change_date">Изменить дату</string>
+    <string name="change_time">Изменить время</string>
+    <string name="settings">Настройки</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="about">О приложении</string>
+    <string name="open_source_licences">Лицензии открытого ПО</string>
+    <string name="theme">Тема</string>
+    <string name="general">Общие</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Темная</string>
+    <string name="automatic">Автоматическая</string>
+    <string name="more">Ещё</string>
+    <string name="minutes">%sм</string>
+</resources>

@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:text="@{label}"
             android:focusable="false"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             tools:text="per week"/>
     </LinearLayout>

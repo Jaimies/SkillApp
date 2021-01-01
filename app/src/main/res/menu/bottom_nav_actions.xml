@@ -13,7 +13,7 @@
     <item
         android:id="@id/statistics_fragment_dest"
         android:icon="@drawable/ic_trending_up"
-        android:title="@string/productivity" />
+        android:title="@string/productivity_destination" />
 
     <item
         android:id="@id/settings_fragment_dest"

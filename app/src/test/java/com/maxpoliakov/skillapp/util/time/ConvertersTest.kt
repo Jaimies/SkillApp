@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.util.time
 import android.content.Context
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.clockOfEpochDay
+import com.maxpoliakov.skillapp.createMockContext
 import com.maxpoliakov.skillapp.shared.util.setClock
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -14,10 +15,11 @@ import java.time.LocalDate
 
 class ConvertersTest : StringSpec({
     "get friendly time" {
-        Duration.ofMinutes(89).toReadableTime() shouldBe "1h 29m"
-        Duration.ofMinutes(60).toReadableTime() shouldBe "1h"
-        Duration.ZERO.toReadableTime() shouldBe ""
-        Duration.ofMinutes(1439).toReadableTime() shouldBe "23h 59m"
+        val context = createMockContext()
+        Duration.ofMinutes(89).toReadableTime(context) shouldBe "1h 29m"
+        Duration.ofMinutes(60).toReadableTime(context) shouldBe "1h"
+        Duration.ZERO.toReadableTime(context) shouldBe ""
+        Duration.ofMinutes(1439).toReadableTime(context) shouldBe "23h 59m"
     }
 
     "to readable float" {

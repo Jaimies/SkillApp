@@ -43,5 +43,5 @@ class HistoryDiffCallbackTest : StringSpec({
 })
 
 fun createRecord(id: Int, name: String = ""): Record {
-    return Record(id, name, Duration.ZERO, "", LocalDate.ofEpochDay(0))
+    return Record(id, name, Duration.ZERO, LocalDate.ofEpochDay(0))
 }

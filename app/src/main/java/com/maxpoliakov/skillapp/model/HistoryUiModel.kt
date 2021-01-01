@@ -10,7 +10,6 @@ sealed class HistoryUiModel {
         val id: Int,
         val name: String,
         val time: Duration,
-        val timeString: String,
         val date: LocalDate
     ) : HistoryUiModel()
 
@@ -21,5 +20,5 @@ sealed class HistoryUiModel {
 }
 
 fun Record.mapToPresentation(): HistoryUiModel.Record {
-    return HistoryUiModel.Record(id, name, time, time.toReadableTime(), date)
+    return HistoryUiModel.Record(id, name, time, date)
 }

@@ -59,4 +59,6 @@ class HistoryViewModelTest : StringSpec({
     }
 })
 
-private fun createUiRecord(id: Int, date: LocalDate) = HistoryUiModel.Record(id, "", Duration.ZERO, "", date)
+private fun createUiRecord(id: Int, date: LocalDate): HistoryUiModel.Record {
+    return HistoryUiModel.Record(id, "", Duration.ZERO, date)
+}

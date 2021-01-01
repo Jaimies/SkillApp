@@ -13,6 +13,7 @@
 
     <string name="no_skills">Чтобы добавить навык, нажмите кнопку \"+\"</string>
     <string name="no_records">Вы еще не добавили ни одной записи</string>
+    <string name="no_stats">Вы не добавляли никаких записей за последние 7 дней</string>
     <string name="add_skill">Добавить навык</string>
     <string name="edit_skill">Изменить</string>
     <string name="history">История</string>

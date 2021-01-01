@@ -45,4 +45,5 @@
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="automatic">Automatic</string>
+    <string name="no_stats">You haven\'t added any records in the last 7 days</string>
 </resources>

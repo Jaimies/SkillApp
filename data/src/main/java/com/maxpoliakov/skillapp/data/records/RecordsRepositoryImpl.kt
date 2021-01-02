@@ -9,7 +9,13 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val pagingConfig = PagingConfig(pageSize = 12, initialLoadSize = 12)
+private const val PAGE_SIZE = 12
+
+private val pagingConfig = PagingConfig(
+    pageSize = PAGE_SIZE,
+    initialLoadSize = PAGE_SIZE,
+    enablePlaceholders = false
+)
 
 @Singleton
 class RecordsRepositoryImpl @Inject constructor(

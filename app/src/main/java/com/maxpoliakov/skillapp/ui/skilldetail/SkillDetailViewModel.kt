@@ -12,23 +12,37 @@ import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
 import com.maxpoliakov.skillapp.util.statistics.getTodayTime
+import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
+import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
-import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import java.time.Duration
 import javax.inject.Inject
 
 class SkillDetailViewModel(
     private val addRecord: AddRecordUseCase,
     private val deleteSkill: DeleteSkillUseCase,
     private val ioScope: CoroutineScope,
+    private val stopwatchUtil: StopwatchUtil,
+    private val skillId: Int,
     getSkillById: GetSkillByIdUseCase,
-    getStats: GetStatsUseCase,
-    skillId: Int
+    getStats: GetStatsUseCase
 ) : StatsViewModel(getStats, skillId) {
 
     val showRecordDialog = SingleLiveEvent<Any>()
+
+    val stopwatchIsRunning = stopwatchUtil.state.map {
+        it is Running && it.skillId == skillId
+    }.asLiveData()
+
+    val stopwatchTime = stopwatchUtil.state.map {
+        if (it is Running) it.time
+        else Duration.ZERO
+    }.asLiveData()
 
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
 
@@ -48,6 +62,7 @@ class SkillDetailViewModel(
         ioScope.launch { deleteSkill.run(skill) }
     }
 
+    fun toggleTimer() = stopwatchUtil.toggle(skillId)
     fun showRecordDialog() = showRecordDialog.call()
 
     class Factory @Inject constructor(
@@ -55,16 +70,18 @@ class SkillDetailViewModel(
         private val getSkillById: GetSkillByIdUseCase,
         private val getStats: GetStatsUseCase,
         private val deleteSkill: DeleteSkillUseCase,
-        private val ioScope: CoroutineScope
+        private val ioScope: CoroutineScope,
+        private val stopwatchUtil: StopwatchUtil
     ) {
         fun create(skillId: Int): SkillDetailViewModel {
             return SkillDetailViewModel(
                 addRecord,
                 deleteSkill,
                 ioScope,
+                stopwatchUtil,
+                skillId,
                 getSkillById,
-                getStats,
-                skillId
+                getStats
             )
         }
     }

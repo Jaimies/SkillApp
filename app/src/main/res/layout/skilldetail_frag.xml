@@ -9,6 +9,8 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.skilldetail.SkillDetailViewModel" />
+
+        <import type="com.maxpoliakov.skillapp.util.stopwatch.StopwatchState" />
     </data>
 
     <FrameLayout
@@ -27,14 +29,25 @@
                 <include
                     android:id="@+id/summary"
                     layout="@layout/productivity_summary"
-                    app:summary="@{viewModel.summary}"/>
+                    app:summary="@{viewModel.summary}" />
 
                 <include
                     layout="@layout/chart"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chart_height"
                     android:layout_marginTop="24dp"
-                    android:layout_marginBottom="78dp"/>
+                    android:layout_marginBottom="78dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.toggleTimer()}"
+                    android:text="@{!viewModel.stopwatchIsRunning ? @string/start_the_timer: @string/stop_the_timer}" />
+
+                <include
+                    layout="@layout/stopwatch"
+                    app:time="@{viewModel.stopwatchTime}"
+                    app:visible="@{viewModel.stopwatchIsRunning}" />
             </LinearLayout>
         </ScrollView>
 

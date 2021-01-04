@@ -18,12 +18,14 @@ class StopwatchUtilImpl @Inject constructor(
     override val state: StateFlow<StopwatchState> get() = _state;
     private val _state = MutableStateFlow<StopwatchState>(Paused)
 
-    override fun toggle(skillId: Int) {
-        if (_state.value is Running) stop()
+    override fun toggle(skillId: Int, callback: StopwatchCallback) {
+        if (_state.value is Running) stop(callback)
         else start(skillId)
     }
 
-    private fun stop() {
+    private fun stop(callback: StopwatchCallback) {
+        val state = _state.value
+        if (state is Running) callback.invoke(state.time)
         _state.value = Paused
     }
 

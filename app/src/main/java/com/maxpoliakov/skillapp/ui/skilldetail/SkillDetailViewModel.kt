@@ -64,7 +64,7 @@ class SkillDetailViewModel(
         ioScope.launch { deleteSkill.run(skill) }
     }
 
-    fun toggleTimer() = stopwatchUtil.toggle(skillId)
+    fun toggleTimer() = stopwatchUtil.toggle(skillId, this::addRecord)
     fun showRecordDialog() = showRecordDialog.call()
 
     class Factory @Inject constructor(

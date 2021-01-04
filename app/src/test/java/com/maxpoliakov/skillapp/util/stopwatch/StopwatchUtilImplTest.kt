@@ -7,25 +7,24 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Unconfined
 import kotlinx.coroutines.delay
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 import java.time.Duration
 import java.time.Duration.ZERO
 
 
 class StopwatchUtilImplTest : StringSpec({
-    suspend fun verifyCountsProperly(stopwatch: StopwatchUtilImpl) {
-        stopwatch.state.value shouldBe Running(ZERO, skillId)
-        stopwatch.toggle(skillId)
-        delay(1000)
-        stopwatch.state.value shouldBe Running(Duration.ofSeconds(1), skillId)
-    }
+    val callback = mock({ _: Duration -> }::class.java)
 
     "ticks the time properly" {
         val stopwatch = StopwatchUtilImpl(CoroutineScope(Unconfined))
         stopwatch.state.value shouldBe Paused
-        stopwatch.toggle(skillId)
-        verifyCountsProperly(stopwatch)
-        stopwatch.state.value shouldBe Paused
-        verifyCountsProperly(stopwatch)
+        stopwatch.toggle(skillId, callback)
+        stopwatch.state.value shouldBe Running(ZERO, skillId)
+        delay(1000)
+        stopwatch.state.value shouldBe Running(Duration.ofSeconds(1), skillId)
+        stopwatch.toggle(skillId, callback)
+        verify(callback).invoke(Duration.ofSeconds(1))
     }
 }) {
     companion object {

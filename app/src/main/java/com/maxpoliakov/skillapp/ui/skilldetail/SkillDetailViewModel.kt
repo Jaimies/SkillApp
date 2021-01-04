@@ -54,7 +54,9 @@ class SkillDetailViewModel(
         )
     }.asLiveData()
 
-    fun addRecord(record: Record) {
+    fun addRecord(time: Duration) {
+        val skill = skill.replayCache.last()
+        val record = Record(skill.name, skill.id, time)
         launchCoroutine { addRecord.run(record) }
     }
 

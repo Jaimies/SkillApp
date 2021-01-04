@@ -91,9 +91,6 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
     }
 
     private fun showRecordDialog() {
-        showTimePicker { duration ->
-            val skill = viewModel.skill.replayCache.last()
-            viewModel.addRecord(Record(skill.name, skill.id, duration))
-        }
+        showTimePicker(viewModel::addRecord)
     }
 }

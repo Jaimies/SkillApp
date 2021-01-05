@@ -1,22 +1,19 @@
 package com.maxpoliakov.skillapp.util.stopwatch
 
+import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Paused
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class StopwatchUtilImpl @Inject constructor(
-    private val coroutineScope: CoroutineScope
+    private val persistence: StopwatchPersistence
 ) : StopwatchUtil {
-    override val state: StateFlow<StopwatchState> get() = _state;
-    private val _state = MutableStateFlow<StopwatchState>(Paused)
+    override val state: StateFlow<StopwatchState> get() = _state
+    private val _state = MutableStateFlow(persistence.getState())
 
     override fun toggle(skillId: Int, callback: StopwatchCallback) {
         if (_state.value is Running) stop(callback)
@@ -26,16 +23,16 @@ class StopwatchUtilImpl @Inject constructor(
     private fun stop(callback: StopwatchCallback) {
         val state = _state.value
         if (state is Running) callback.invoke(state.time)
-        _state.value = Paused
+        setState(Paused)
     }
 
-    private fun start(skillId: Int) = coroutineScope.launch {
-        _state.value = Running(Duration.ZERO, skillId)
-        while (true) {
-            delay(1000)
-            val state = _state.value
-            if (state !is Running) break
-            _state.value = state.copy(time = state.time.plusSeconds(1))
-        }
+    private fun start(skillId: Int) {
+        val startTime = getZonedDateTime()
+        setState(Running(startTime, skillId))
+    }
+
+    private fun setState(state: StopwatchState) {
+        _state.value = state
+        persistence.saveState(state)
     }
 }

@@ -7,8 +7,11 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
+import java.time.ZonedDateTime
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit.DAYS
+import java.time.temporal.ChronoUnit.MILLIS
+import java.time.temporal.Temporal
 import java.util.Locale
 
 val EPOCH: LocalDate get() = LocalDate.ofEpochDay(0)
@@ -30,6 +33,11 @@ fun dateOfEpochMillis(millis: Long): LocalDate {
     return LocalDate.ofEpochDay(epochDay)
 }
 
+fun Temporal.until(other: Temporal): Duration {
+    val millis = this.until(other, MILLIS)
+    return Duration.ofMillis(millis)
+}
+
 fun durationOfHoursAndMinutes(hours: Int, minutes: Int): Duration {
     val hours = Duration.ofHours(hours.toLong())
     val minutes = Duration.ofMinutes(minutes.toLong())
@@ -38,6 +46,7 @@ fun durationOfHoursAndMinutes(hours: Int, minutes: Int): Duration {
 
 fun getCurrentDate(): LocalDate = LocalDate.now(clock)
 fun getCurrentDateTime(): LocalDateTime = LocalDateTime.now(clock)
+fun getZonedDateTime(): ZonedDateTime = ZonedDateTime.now(clock)
 
 private var clock: Clock = Clock.systemDefaultZone()
 

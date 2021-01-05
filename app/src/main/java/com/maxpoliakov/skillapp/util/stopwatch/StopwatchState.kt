@@ -1,12 +1,16 @@
 package com.maxpoliakov.skillapp.util.stopwatch
 
-import java.time.Duration
+import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
+import com.maxpoliakov.skillapp.shared.util.until
+import java.time.ZonedDateTime
 
 sealed class StopwatchState {
     data class Running(
-        val time: Duration,
+        val startTime: ZonedDateTime,
         val skillId: Int
-    ) : StopwatchState()
+    ) : StopwatchState() {
+        val time get() = startTime.until(getZonedDateTime())
+    }
 
     object Paused : StopwatchState()
 }

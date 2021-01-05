@@ -4,7 +4,9 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.DayOfWeek
 import java.time.Duration
+import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class TimeTest : StringSpec({
     "shortName" {
@@ -39,5 +41,11 @@ class TimeTest : StringSpec({
         durationOfHoursAndMinutes(0, 0) shouldBe Duration.ZERO
         durationOfHoursAndMinutes(0, 1) shouldBe Duration.ofMinutes(1)
         durationOfHoursAndMinutes(1, 0) shouldBe Duration.ofHours(1)
+    }
+
+    "until()" {
+        Instant.ofEpochSecond(0).until(Instant.ofEpochSecond(1)) shouldBe Duration.ofSeconds(1)
+        Instant.ofEpochSecond(0).until(Instant.ofEpochSecond(2)) shouldBe Duration.ofSeconds(2)
+        Instant.ofEpochMilli(0).until(Instant.ofEpochMilli(5)) shouldBe Duration.ofMillis(5)
     }
 })

@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="time"
             type="java.time.Duration" />
+
+        <variable
+            name="isActive"
+            type="boolean" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:visible="@{isActive}">
 
-        <TextView
+        <Chronometer
             android:id="@+id/time_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{time.toString()}" />
+            app:base="@{time}"
+            app:isActive="@{isActive}" />
     </FrameLayout>
 </layout>

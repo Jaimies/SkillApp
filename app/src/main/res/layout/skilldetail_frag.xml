@@ -46,8 +46,8 @@
 
                 <include
                     layout="@layout/stopwatch"
-                    app:time="@{viewModel.stopwatchTime}"
-                    app:visible="@{viewModel.stopwatchIsRunning}" />
+                    app:isActive="@{viewModel.stopwatchIsRunning}"
+                    app:time="@{viewModel.stopwatchTime}" />
             </LinearLayout>
         </ScrollView>
 

@@ -7,22 +7,6 @@ import com.maxpoliakov.skillapp.shared.util.shortName
 import java.time.Duration
 import java.time.LocalDate
 
-fun Duration.toReadableTime(context: Context) = buildString {
-    val hours = toHours()
-    val minutes = toMinutes() - hours * 60
-
-    if (hours != 0L) append(context.getHoursString(hours))
-    if (minutes != 0L) append(context.getMinutesString(minutes))
-}.trim()
-
-private fun Context.getHoursString(hours: Long) : String {
-    return getString(R.string.hours, hours.toString())
-}
-
-private fun Context.getMinutesString(minutes: Long): String {
-    return " " + getString(R.string.minutes, minutes.toString())
-}
-
 fun Duration.toReadableHours() = getHours(toMinutes()).toReadableFloat()
 
 fun Float.toReadableFloat(): String {

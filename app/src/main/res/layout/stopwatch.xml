@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="time"
-            type="java.time.Duration" />
+            name="startTime"
+            type="java.time.ZonedDateTime" />
 
         <variable
             name="isActive"
@@ -22,7 +22,7 @@
             android:id="@+id/time_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:base="@{time}"
+            app:startTime="@{startTime}"
             app:isActive="@{isActive}" />
     </FrameLayout>
 </layout>

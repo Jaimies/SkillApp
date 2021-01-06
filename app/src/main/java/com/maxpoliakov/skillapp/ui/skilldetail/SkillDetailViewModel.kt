@@ -8,6 +8,7 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.DeleteSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
+import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
@@ -39,9 +40,9 @@ class SkillDetailViewModel(
         it is Running && it.skillId == skillId
     }.asLiveData()
 
-    val stopwatchTime = stopwatchUtil.state.map {
-        if (it is Running) it.time
-        else Duration.ZERO
+    val stopwatchStartTime = stopwatchUtil.state.map {
+        if (it is Running) it.startTime
+        else getZonedDateTime()
     }.asLiveData()
 
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)

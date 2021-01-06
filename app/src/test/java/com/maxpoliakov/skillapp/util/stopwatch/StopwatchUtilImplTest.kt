@@ -32,10 +32,18 @@ class StopwatchUtilImplTest : StringSpec({
         verify(callback).invoke(Duration.ofSeconds(1))
     }
 
+    "stops the current timer when trying to starting a new one" {
+        val persistence = StubStopwatchPersistence(Paused)
+        val stopwatch = StopwatchUtilImpl(persistence)
+        stopwatch.toggle(skillId, callback)
+        stopwatch.toggle(otherSkillId, callback)
+        stopwatch.state.value shouldBe Running(getZonedDateTime(), otherSkillId)
+    }
+
     "gets the initial state from the persistence" {
         val date = ZonedDateTime.parse("2007-12-03T10:15:30+01:00[Europe/Paris]")
         val persistence = StubStopwatchPersistence(Running(date, skillId))
-        val stopwatch =StopwatchUtilImpl(persistence)
+        val stopwatch = StopwatchUtilImpl(persistence)
         stopwatch.state.value shouldBe Running(date, skillId)
     }
 
@@ -48,5 +56,6 @@ class StopwatchUtilImplTest : StringSpec({
 }) {
     companion object {
         private const val skillId = 12
+        private const val otherSkillId = 13
     }
 }

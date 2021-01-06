@@ -15,7 +15,7 @@ import com.maxpoliakov.skillapp.data.stats.StatsDao
 @Database(
     entities = [DBSkill::class, DBRecord::class, DBStatistic::class],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

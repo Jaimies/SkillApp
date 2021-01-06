@@ -30,6 +30,6 @@ private fun List<Statistic>.hasPositiveValues(): Boolean {
 
 private fun List<Statistic>.convertToEntries(): List<Entry> {
     return map { statistic ->
-        Entry(statistic.date.daysSinceEpoch.toFloat(), statistic.time.toMinutes().toFloat())
+        Entry(statistic.date.daysSinceEpoch.toFloat(), statistic.time.seconds.toFloat())
     }
 }

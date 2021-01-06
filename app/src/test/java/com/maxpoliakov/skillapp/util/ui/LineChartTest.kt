@@ -6,9 +6,9 @@ import io.kotest.matchers.shouldBe
 class LineChartTest : StringSpec({
     "getAxisMaximum()" {
         getAxisMaximum(0f) shouldBe 0f
-        getAxisMaximum(1f) shouldBe 30f
-        getAxisMaximum(31f) shouldBe 60f
-        getAxisMaximum(121f) shouldBe 180f
-        getAxisMaximum(181f) shouldBe 240f
+        getAxisMaximum(1f) shouldBe 1800f
+        getAxisMaximum(1801f) shouldBe 3600f
+        getAxisMaximum(7201f) shouldBe 10800f
+        getAxisMaximum(10801f) shouldBe 14400f
     }
 })

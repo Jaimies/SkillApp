@@ -15,16 +15,16 @@ class WeekDayFormatter : ValueFormatter() {
 
 class TimeFormatter(private val context: Context) : ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
-        if (value <= 0) return ""
-        if (value >= 60) return toHours(value)
+        if (value < 60) return ""
+        if (value >= 3600) return toHours(value)
         return toMinutes(value)
     }
 
     private fun toMinutes(value: Float): String {
-        return context.getString(R.string.minutes, value.toInt().toString())
+        return context.getString(R.string.minutes, (value / 60).toReadableFloat())
     }
 
     private fun toHours(value: Float): String {
-        return context.getString(R.string.hours, (value / 60f).toReadableFloat())
+        return context.getString(R.string.hours, (value / 3600).toReadableFloat())
     }
 }

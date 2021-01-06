@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="startTime"
+            type="java.time.ZonedDateTime" />
+
+        <variable
+            name="isActive"
+            type="boolean" />
+
+        <variable
+            name="skill"
+            type="com.maxpoliakov.skillapp.domain.model.Skill" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:visible="@{isActive}">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tracking"
+            android:textAppearance="@style/TextAppearance.SkillApp.Headline" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{skill.name}"
+            tools:text="Programming" />
+
+        <include
+            layout="@layout/stopwatch"
+            app:isActive="@{isActive}"
+            app:startTime="@{startTime}" />
+    </LinearLayout>
+</layout>

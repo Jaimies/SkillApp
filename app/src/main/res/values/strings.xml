@@ -48,4 +48,5 @@
     <string name="no_stats">You haven\'t added any records in the last 7 days</string>
     <string name="start_the_timer">Start the timer</string>
     <string name="stop_the_timer">Stop the timer</string>
+    <string name="tracking">Tracking</string>
 </resources>

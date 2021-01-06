@@ -41,8 +41,8 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{() -> viewModel.toggleTimer()}"
-                    android:text="@{!viewModel.stopwatchIsRunning ? @string/start_the_timer: @string/stop_the_timer}" />
+                    android:onClick="@{() -> viewModel.showRecordDialog()}"
+                    android:text="@string/add_a_record" />
 
                 <include
                     layout="@layout/stopwatch"
@@ -57,8 +57,11 @@
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="16dp"
-            android:onClick="@{() -> viewModel.showRecordDialog()}"
-            android:text="@string/add_a_record"
-            app:icon="@drawable/ic_plus_24dp" />
+            android:backgroundTint="@{!viewModel.stopwatchIsRunning ? @color/blue : @color/red}"
+            android:onClick="@{() -> viewModel.toggleTimer()}"
+            android:text="@{!viewModel.stopwatchIsRunning ? @string/start_the_timer: @string/stop_the_timer}"
+            app:icon="@{!viewModel.stopwatchIsRunning ? @drawable/ic_play: @drawable/ic_stop}"
+            tools:icon="@drawable/ic_play"
+            tools:text="@string/start_the_timer" />
     </FrameLayout>
 </layout>

@@ -35,10 +35,10 @@ class SkillRepositoryImpl @Inject constructor(
         skillDao.delete(skill.mapToDB())
 
     override suspend fun increaseTime(id: Id, time: Duration) {
-        skillDao.increaseTime(id, time.toMinutes())
+        skillDao.increaseTime(id, time)
     }
 
     override suspend fun decreaseTime(id: Id, time: Duration) {
-        skillDao.increaseTime(id, -time.toMinutes())
+        skillDao.increaseTime(id, time.negated())
     }
 }

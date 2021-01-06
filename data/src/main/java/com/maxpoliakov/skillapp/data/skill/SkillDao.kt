@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.maxpoliakov.skillapp.data.db.BaseDao
 import kotlinx.coroutines.flow.Flow
+import java.time.Duration
 
 @Dao
 interface SkillDao : BaseDao<DBSkill> {
@@ -22,5 +23,5 @@ interface SkillDao : BaseDao<DBSkill> {
     fun getSkill(id: Int): Flow<DBSkill?>
 
     @Query("UPDATE skills SET totalTime = totalTime + :by WHERE id = :id")
-    suspend fun increaseTime(id: Int, by: Long)
+    suspend fun increaseTime(id: Int, by: Duration)
 }

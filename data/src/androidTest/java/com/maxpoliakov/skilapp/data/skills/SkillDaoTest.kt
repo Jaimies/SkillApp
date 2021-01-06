@@ -78,8 +78,8 @@ class SkillDaoTest {
 
     @Test
     fun increaseTime() = runBlocking {
-        skillDao.insert(DBSkill(totalTime = Duration.ZERO))
-        skillDao.increaseTime(1, 100)
-        skillDao.getSkill(1).await()!!.totalTime shouldBe Duration.ofMinutes(100)
+        skillDao.insert(DBSkill(totalTime = Duration.ofMinutes(10)))
+        skillDao.increaseTime(1, Duration.ofMinutes(20))
+        skillDao.getSkill(1).await()!!.totalTime shouldBe Duration.ofMinutes(30)
     }
 }

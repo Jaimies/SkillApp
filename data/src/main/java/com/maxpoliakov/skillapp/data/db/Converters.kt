@@ -15,8 +15,8 @@ class Converters {
     fun fromLocalDate(date: LocalDate): String = date.format(formatter)
 
     @TypeConverter
-    fun toDuration(value: Long): Duration = Duration.ofMinutes(value)
+    fun toDuration(value: Long): Duration = Duration.ofMillis(value)
 
     @TypeConverter
-    fun fromDuration(duration: Duration): Long = duration.toMinutes()
+    fun fromDuration(duration: Duration): Long = duration.toMillis()
 }

@@ -18,13 +18,9 @@ class ConvertersTest : StringSpec({
         converters.toLocalDate("1970-01-01") shouldBe epoch
     }
 
-    "toDuration()" {
-        converters.toDuration(120) shouldBe Duration.ofHours(2)
-        converters.toDuration(20) shouldBe Duration.ofMinutes(20)
-    }
-
-    "fromDuration()" {
-        converters.fromDuration(Duration.ofHours(2)) shouldBe 120
-        converters.fromDuration(Duration.ofMinutes(50)) shouldBe 50
+    "toDuration() and fromDuration()" {
+        listOf(Duration.ofMillis(3), Duration.ofMillis(5)).forEach { time ->
+            converters.toDuration(converters.fromDuration(time)) shouldBe time
+        }
     }
 })

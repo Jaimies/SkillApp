@@ -20,9 +20,11 @@
 
         <Chronometer
             android:id="@+id/time_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:startTime="@{startTime}"
-            app:isActive="@{isActive}" />
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:isActive="@{isActive}"
+            app:startTime="@{startTime}" />
     </FrameLayout>
 </layout>

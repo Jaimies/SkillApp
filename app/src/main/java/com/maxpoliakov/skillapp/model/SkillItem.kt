@@ -11,12 +11,12 @@ import java.time.LocalDate
 @Parcelize
 data class SkillItem(
     override val id: Int,
-    override val name: String,
-    override val totalTime: Duration,
+    val name: String,
+    val totalTime: Duration,
     val initialTime: Duration,
     val lastWeekTime: Duration,
     val creationDate: LocalDate
-) : Recordable, Parcelable
+) : ViewItem, Parcelable
 
 fun Skill.mapToPresentation() = SkillItem(
     id, name, totalTime, initialTime, lastWeekTime, date

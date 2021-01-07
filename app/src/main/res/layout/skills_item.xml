@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="@{@string/hours(viewModel.state.totalTime)}"
+            android:text="@{@string/hours(viewModel.state.time)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="820h" />

@@ -6,9 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsUseCase
-import com.maxpoliakov.skillapp.model.mapToPresentation
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
-import com.maxpoliakov.skillapp.shared.util.mapList
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
@@ -22,9 +20,7 @@ class SkillsViewModel @ViewModelInject constructor(
     private val stopwatchUtil: StopwatchUtil
 ) : ViewModel() {
 
-    val skills = getSkills.run()
-        .mapList { it.mapToPresentation() }
-        .asLiveData()
+    val skills = getSkills.run().asLiveData()
 
     val isEmpty = skills.map { it.isEmpty() }
 

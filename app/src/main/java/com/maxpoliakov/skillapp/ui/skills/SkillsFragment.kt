@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.MainDirections.Companion.actionToSkillDetailFragment
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
-import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.setTitle
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
@@ -26,7 +25,7 @@ class SkillsFragment : Fragment() {
         SkillDelegateAdapter(::navigateToDetails)
     }
 
-    private val listAdapter by lazy { ListAdapter(delegateAdapter) }
+    private val listAdapter by lazy { SkillListAdapter(delegateAdapter) }
     val viewModel: SkillsViewModel by viewModels()
 
     override fun onCreateView(

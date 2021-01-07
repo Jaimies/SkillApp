@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.map
 class SkillsViewModel @ViewModelInject constructor(
     getSkill: GetSkillByIdUseCase,
     getSkills: GetSkillsUseCase,
-    stopwatchUtil: StopwatchUtil
+    private val stopwatchUtil: StopwatchUtil
 ) : ViewModel() {
 
     val skills = getSkills.run()
@@ -39,5 +39,7 @@ class SkillsViewModel @ViewModelInject constructor(
     val isActive = stopwatchUtil.state.map { it is Running }.asLiveData()
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
+
+    fun stopTimer() = stopwatchUtil.stop()
     fun navigateToAddSkill() = navigateToAddEdit.call()
 }

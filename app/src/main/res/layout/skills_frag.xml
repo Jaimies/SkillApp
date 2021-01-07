@@ -20,6 +20,7 @@
             layout="@layout/stopwatch_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:onStop="@{() -> viewModel.stopTimer()}"
             app:isActive="@{viewModel.isActive}"
             app:layout_constraintTop_toTopOf="parent"
             app:skill="@{viewModel.trackingSkill}"

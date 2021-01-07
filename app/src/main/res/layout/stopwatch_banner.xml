@@ -15,6 +15,10 @@
         <variable
             name="skill"
             type="com.maxpoliakov.skillapp.domain.model.Skill" />
+
+        <variable
+            name="onStop"
+            type="com.maxpoliakov.skillapp.util.Callback" />
     </data>
 
     <FrameLayout
@@ -67,6 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="@string/stop"
+                    android:onClick="@{() -> onStop.invoke()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/stopwatch" />
             </androidx.constraintlayout.widget.ConstraintLayout>

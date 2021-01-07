@@ -12,7 +12,6 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Unconfined
-import org.mockito.Mockito
 import org.mockito.Mockito.clearInvocations
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
@@ -29,9 +28,13 @@ class StopwatchUtilImplTest : StringSpec({
     afterEach { clearInvocations(addRecord) }
     afterSpec { setClock(Clock.systemDefaultZone()) }
 
+    fun createStopwatch(state: StopwatchState = Paused): StopwatchUtilImpl {
+        val persistence = StubStopwatchPersistence(state)
+        return StopwatchUtilImpl(persistence, addRecord, coroutineScope)
+    }
+
     "add the record properly" {
-        val persistence = StubStopwatchPersistence(Paused)
-        val stopwatch = StopwatchUtilImpl(persistence, addRecord, coroutineScope)
+        val stopwatch = createStopwatch()
         stopwatch.state.value shouldBe Paused
         stopwatch.toggle(skillId)
         stopwatch.state.value shouldBe Running(getZonedDateTime(), skillId)
@@ -41,8 +44,7 @@ class StopwatchUtilImplTest : StringSpec({
     }
 
     "records the time of the current timer when trying to start a new one" {
-        val persistence = StubStopwatchPersistence(Paused)
-        val stopwatch = StopwatchUtilImpl(persistence, addRecord, coroutineScope)
+        val stopwatch = createStopwatch()
         stopwatch.toggle(skillId)
         setClock(clockOfEpochSecond(1))
         stopwatch.toggle(otherSkillId)
@@ -52,8 +54,7 @@ class StopwatchUtilImplTest : StringSpec({
 
     "gets the initial state from the persistence" {
         val date = ZonedDateTime.parse("2007-12-03T10:15:30+01:00[Europe/Paris]")
-        val persistence = StubStopwatchPersistence(Running(date, skillId))
-        val stopwatch = StopwatchUtilImpl(persistence, addRecord, coroutineScope)
+        val stopwatch = createStopwatch(Running(date, skillId))
         stopwatch.state.value shouldBe Running(date, skillId)
     }
 
@@ -62,6 +63,20 @@ class StopwatchUtilImplTest : StringSpec({
         val stopwatch = StopwatchUtilImpl(persistence, addRecord, coroutineScope)
         stopwatch.toggle(skillId)
         verify(persistence).saveState(Running(getZonedDateTime(), skillId))
+    }
+
+    "stop() does nothing if the timer is not running" {
+        val stopwatch = createStopwatch()
+        stopwatch.stop()
+        stopwatch.state.value shouldBe Paused
+    }
+
+    "stop() stops the timer" {
+        val stopwatch = createStopwatch(Running(getZonedDateTime(), skillId))
+        setClock(clockOfEpochSecond(1))
+        stopwatch.stop()
+        stopwatch.state.value shouldBe Paused
+        verify(addRecord).run(Record("", skillId, Duration.ofSeconds(1)))
     }
 }) {
     companion object {

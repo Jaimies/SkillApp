@@ -23,12 +23,11 @@ class StopwatchUtilImpl @Inject constructor(
 
     override fun toggle(skillId: Int) {
         val state = _state.value
-        if (state is Running) addRecord(state)
         if (state is Running && state.skillId == skillId) stop()
         else start(skillId)
     }
 
-    private fun stop() = scope.launch {
+    override fun stop() {
         setState(Paused)
     }
 
@@ -37,12 +36,18 @@ class StopwatchUtilImpl @Inject constructor(
         setState(Running(startTime, skillId))
     }
 
-    private fun addRecord(state: Running) = scope.launch {
-        addRecord.run(Record("", state.skillId, state.time))
-    }
-
     private fun setState(state: StopwatchState) {
+        addRecordIfNeeded()
         _state.value = state
         persistence.saveState(state)
+    }
+
+    private fun addRecordIfNeeded() {
+        val state = _state.value
+        if(state is Running) addRecord(state)
+    }
+
+    private fun addRecord(state: Running) = scope.launch {
+        addRecord.run(Record("", state.skillId, state.time))
     }
 }

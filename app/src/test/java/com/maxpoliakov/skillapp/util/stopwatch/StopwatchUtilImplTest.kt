@@ -40,11 +40,13 @@ class StopwatchUtilImplTest : StringSpec({
         verify(addRecord).run(Record("", skillId, Duration.ofSeconds(1)))
     }
 
-    "stops the current timer when trying to starting a new one" {
+    "records the time of the current timer when trying to start a new one" {
         val persistence = StubStopwatchPersistence(Paused)
         val stopwatch = StopwatchUtilImpl(persistence, addRecord, coroutineScope)
         stopwatch.toggle(skillId)
+        setClock(clockOfEpochSecond(1))
         stopwatch.toggle(otherSkillId)
+        verify(addRecord).run(Record("", skillId, Duration.ofSeconds(1)))
         stopwatch.state.value shouldBe Running(getZonedDateTime(), otherSkillId)
     }
 

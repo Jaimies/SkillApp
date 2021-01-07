@@ -23,19 +23,22 @@ class StopwatchUtilImpl @Inject constructor(
 
     override fun toggle(skillId: Int) {
         val state = _state.value
+        if (state is Running) addRecord(state)
         if (state is Running && state.skillId == skillId) stop()
         else start(skillId)
     }
 
     private fun stop() = scope.launch {
-        val state = _state.value
-        if (state is Running) addRecord.run(Record("", state.skillId, state.time))
         setState(Paused)
     }
 
     private fun start(skillId: Int) {
         val startTime = getZonedDateTime()
         setState(Running(startTime, skillId))
+    }
+
+    private fun addRecord(state: Running) = scope.launch {
+        addRecord.run(Record("", state.skillId, state.time))
     }
 
     private fun setState(state: StopwatchState) {

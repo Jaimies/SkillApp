@@ -27,6 +27,12 @@
                 android:orientation="vertical">
 
                 <include
+                    android:id="@+id/stopwatch_banner"
+                    layout="@layout/skilldetail_stopwatch_banner"
+                    app:isActive="@{viewModel.stopwatchIsRunning}"
+                    app:startTime="@{viewModel.stopwatchStartTime}" />
+
+                <include
                     android:id="@+id/summary"
                     layout="@layout/productivity_summary"
                     app:summary="@{viewModel.summary}" />
@@ -43,11 +49,6 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> viewModel.showRecordDialog()}"
                     android:text="@string/add_a_record" />
-
-                <include
-                    layout="@layout/stopwatch"
-                    app:isActive="@{viewModel.stopwatchIsRunning}"
-                    app:startTime="@{viewModel.stopwatchStartTime}" />
             </LinearLayout>
         </ScrollView>
 

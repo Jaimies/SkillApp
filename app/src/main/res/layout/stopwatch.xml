@@ -22,7 +22,6 @@
             android:id="@+id/time_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:isActive="@{isActive}"
             app:startTime="@{startTime}" />

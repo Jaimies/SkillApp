@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         app:cardCornerRadius="5dp"
-        app:cardElevation="4dp">
+        app:cardElevation="4dp"
+        app:visible="@{isActive}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,8 +27,7 @@
             android:orientation="vertical"
             android:paddingStart="16dp"
             android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            app:visible="@{isActive}">
+            android:paddingBottom="20dp">
 
             <TextView
                 android:id="@+id/title"

@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="com.maxpoliakov.skillapp.util.Callback" />
+
         <variable
             name="startTime"
             type="java.time.ZonedDateTime" />
@@ -18,7 +20,11 @@
 
         <variable
             name="onStop"
-            type="com.maxpoliakov.skillapp.util.Callback" />
+            type="Callback" />
+
+        <variable
+            name="navigateToDetail"
+            type="Callback" />
     </data>
 
     <FrameLayout
@@ -31,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
+            android:onClick="@{() -> navigateToDetail.invoke()}"
             app:cardCornerRadius="5dp"
             app:cardElevation="4dp">
 
@@ -70,8 +77,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="@string/stop"
                     android:onClick="@{() -> onStop.invoke()}"
+                    android:text="@string/stop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/stopwatch" />
             </androidx.constraintlayout.widget.ConstraintLayout>

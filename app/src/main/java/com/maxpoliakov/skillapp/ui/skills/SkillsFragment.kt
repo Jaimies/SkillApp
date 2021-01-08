@@ -50,6 +50,8 @@ class SkillsFragment : Fragment() {
         observe(viewModel.navigateToAddEdit) {
             findNavController().navigateAnimated(addskill_fragment_dest)
         }
+
+        observe(viewModel.navigateToSkill, this::navigateToDetails)
     }
 
     private fun navigateToDetails(skill: Skill) {

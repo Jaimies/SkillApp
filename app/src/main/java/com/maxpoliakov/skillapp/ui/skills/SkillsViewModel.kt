@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
@@ -35,6 +36,11 @@ class SkillsViewModel @ViewModelInject constructor(
     val isActive = stopwatchUtil.state.map { it is Running }.asLiveData()
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
+    val navigateToSkill = SingleLiveEvent<Skill>()
+
+    fun navigateToCurrentlyTrackedSkill() {
+        navigateToSkill.value = trackingSkill.value!!
+    }
 
     fun stopTimer() = stopwatchUtil.stop()
     fun navigateToAddSkill() = navigateToAddEdit.call()

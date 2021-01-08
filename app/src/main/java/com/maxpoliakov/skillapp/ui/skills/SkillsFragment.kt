@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.MainDirections.Companion.actionToSkillDetailFragment
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.setTitle
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
@@ -51,8 +52,7 @@ class SkillsFragment : Fragment() {
         }
     }
 
-    private fun navigateToDetails(index: Int) {
-        val skill = listAdapter.getItem(index)
+    private fun navigateToDetails(skill: Skill) {
         val directions = actionToSkillDetailFragment(skill.id)
         findNavController().navigateAnimated(directions)
         setTitle(skill.name)

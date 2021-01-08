@@ -7,11 +7,13 @@ import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 class SkillViewHolder(
     view: View,
     private val viewModel: SkillViewModel,
-    navigateToDetail: (index: Int) -> Unit
+    navigateToDetail: (skill: Skill) -> Unit
 ) : BaseViewHolder(view) {
 
     init {
-        viewModel.navigateToDetails.observe { navigateToDetail(adapterPosition) }
+        viewModel.navigateToDetails.observe {
+            viewModel.skill.value?.let(navigateToDetail)
+        }
     }
 
     fun setItem(item: Skill) = viewModel.setSkill(item)

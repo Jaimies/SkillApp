@@ -8,7 +8,7 @@ import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 
 class SkillDelegateAdapter(
-    private val navigateToDetails: (index: Int) -> Unit
+    private val navigateToDetails: (skill: Skill) -> Unit
 ) : DelegateAdapter<Skill, SkillViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup): SkillViewHolder {

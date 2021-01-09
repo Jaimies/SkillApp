@@ -44,4 +44,9 @@
     <string name="automatic">Автоматическая</string>
     <string name="more">Ещё</string>
     <string name="minutes">%sм</string>
+    <string name="timers">Таймеры</string>
+    <string name="start_the_timer">Запустить таймер</string>
+    <string name="stop_the_timer">Остановить таймер</string>
+    <string name="stop">Остановить</string>
+    <string name="tracking">Таймер</string>
 </resources>

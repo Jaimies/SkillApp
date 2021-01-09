@@ -3,7 +3,9 @@ package com.maxpoliakov.skillapp.util.notifications
 import android.app.NotificationChannel
 import android.app.NotificationManager.IMPORTANCE_LOW
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -11,6 +13,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.StopTimerBroadcastReceiver
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.util.collectOnce
@@ -44,18 +47,24 @@ class NotificationUtilImpl @Inject constructor(
             .setSmallIcon(R.drawable.ic_timer)
             .setContentText(skill.name)
             .setUsesChronometer(true)
-            .setContentIntent(getIntent(skill.id))
+            .setContentIntent(getContentIntent(skill.id))
+            .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent())
             .build()
 
         notificationManager.notify(STOPWATCH_NOTIFICATION_ID, notification)
     }
 
-    private fun getIntent(skillId: Int): PendingIntent {
+    private fun getContentIntent(skillId: Int): PendingIntent {
         return NavDeepLinkBuilder(context)
             .setGraph(R.navigation.main)
             .setDestination(R.id.skill_detail_fragment_dest)
             .setArguments(bundleOf("skillId" to skillId))
             .createPendingIntent()
+    }
+
+    private fun getStopTimerIntent(): PendingIntent {
+        val intent = Intent(context, StopTimerBroadcastReceiver::class.java)
+        return PendingIntent.getBroadcast(context, STOP_INTENT_REQUEST_CODE, intent, FLAG_UPDATE_CURRENT)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -68,5 +77,6 @@ class NotificationUtilImpl @Inject constructor(
     companion object {
         const val TRACKING = "com.maxpoliakov.skillapp.TRACKING"
         const val STOPWATCH_NOTIFICATION_ID = 1
+        const val STOP_INTENT_REQUEST_CODE = 1
     }
 }

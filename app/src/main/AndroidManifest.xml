@@ -36,6 +36,8 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".StopTimerBroadcastReceiver" />
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3620260144623649~1471533618" />

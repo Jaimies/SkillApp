@@ -4,6 +4,7 @@
     package="com.maxpoliakov.skillapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-permission
         android:name="android.permission.READ_PHONE_STATE"
@@ -37,6 +38,12 @@
         </activity>
 
         <receiver android:name=".StopTimerBroadcastReceiver" />
+
+        <receiver android:name=".ShowStopwatchNotificationBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

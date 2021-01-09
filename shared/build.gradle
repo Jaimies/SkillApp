@@ -17,5 +17,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.livedata"
 
+    testImplementation "org.mockito:mockito-inline:$Versions.mockito"
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
 }

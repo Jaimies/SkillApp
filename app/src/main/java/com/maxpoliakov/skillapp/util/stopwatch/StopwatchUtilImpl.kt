@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.util.stopwatch
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
+import com.maxpoliakov.skillapp.util.notifications.NotificationUtil
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Paused
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import kotlinx.coroutines.CoroutineScope
@@ -16,6 +17,7 @@ import javax.inject.Singleton
 class StopwatchUtilImpl @Inject constructor(
     private val persistence: StopwatchPersistence,
     private val addRecord: AddRecordUseCase,
+    private val notificationUtil: NotificationUtil,
     private val scope: CoroutineScope
 ) : StopwatchUtil {
     override val state: StateFlow<StopwatchState> get() = _state
@@ -29,11 +31,15 @@ class StopwatchUtilImpl @Inject constructor(
 
     override fun stop() {
         setState(Paused)
+        notificationUtil.removeStopwatchNotification()
     }
 
     private fun start(skillId: Int) {
         val startTime = getZonedDateTime()
         setState(Running(startTime, skillId))
+        scope.launch {
+            notificationUtil.showStopwatchNotification(skillId)
+        }
     }
 
     private fun setState(state: StopwatchState) {
@@ -44,7 +50,7 @@ class StopwatchUtilImpl @Inject constructor(
 
     private fun addRecordIfNeeded() {
         val state = _state.value
-        if(state is Running) addRecord(state)
+        if (state is Running) addRecord(state)
     }
 
     private fun addRecord(state: Running) = scope.launch {

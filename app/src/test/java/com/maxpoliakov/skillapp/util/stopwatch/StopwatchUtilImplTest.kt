@@ -6,6 +6,7 @@ import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.shared.util.setClock
+import com.maxpoliakov.skillapp.util.notifications.NotificationUtil
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Paused
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import io.kotest.core.spec.style.StringSpec
@@ -23,14 +24,15 @@ import java.time.ZonedDateTime
 class StopwatchUtilImplTest : StringSpec({
     val coroutineScope = CoroutineScope(Unconfined)
     val addRecord = mock(AddRecordUseCase::class.java)
+    val notificationUtil = mock(NotificationUtil::class.java)
 
     beforeEach { setClock(clockOfEpochSecond(0)) }
-    afterEach { clearInvocations(addRecord) }
+    afterEach { clearInvocations(addRecord, notificationUtil) }
     afterSpec { setClock(Clock.systemDefaultZone()) }
 
     fun createStopwatch(state: StopwatchState = Paused): StopwatchUtilImpl {
         val persistence = StubStopwatchPersistence(state)
-        return StopwatchUtilImpl(persistence, addRecord, coroutineScope)
+        return StopwatchUtilImpl(persistence, addRecord, notificationUtil, coroutineScope)
     }
 
     "add the record properly" {
@@ -58,11 +60,12 @@ class StopwatchUtilImplTest : StringSpec({
         stopwatch.state.value shouldBe Running(date, skillId)
     }
 
-    "persists the state" {
+    "persists the state and shows the notification" {
         val persistence = mock(StopwatchPersistence::class.java)
-        val stopwatch = StopwatchUtilImpl(persistence, addRecord, coroutineScope)
+        val stopwatch = StopwatchUtilImpl(persistence, addRecord, notificationUtil, coroutineScope)
         stopwatch.toggle(skillId)
         verify(persistence).saveState(Running(getZonedDateTime(), skillId))
+        verify(notificationUtil).showStopwatchNotification(skillId)
     }
 
     "stop() does nothing if the timer is not running" {
@@ -71,12 +74,13 @@ class StopwatchUtilImplTest : StringSpec({
         stopwatch.state.value shouldBe Paused
     }
 
-    "stop() stops the timer" {
+    "stop() stops the timer and removes the notification" {
         val stopwatch = createStopwatch(Running(getZonedDateTime(), skillId))
         setClock(clockOfEpochSecond(1))
         stopwatch.stop()
         stopwatch.state.value shouldBe Paused
         verify(addRecord).run(Record("", skillId, Duration.ofSeconds(1)))
+        verify(notificationUtil).removeStopwatchNotification()
     }
 }) {
     companion object {

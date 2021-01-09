@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
@@ -23,5 +24,10 @@ class BaseModule {
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
+    }
+
+    @Provides
+    fun provideNotificationManager(@ApplicationContext context: Context): NotificationManagerCompat {
+        return NotificationManagerCompat.from(context)
     }
 }

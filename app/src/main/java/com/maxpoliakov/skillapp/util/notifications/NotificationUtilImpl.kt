@@ -7,6 +7,7 @@ import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -18,6 +19,7 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState
+import com.maxpoliakov.skillapp.util.ui.chronometerBase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -40,7 +42,7 @@ class NotificationUtilImpl @Inject constructor(
     override fun showStopwatchNotification(state: StopwatchState.Running) {
         scope.launch {
             getSkill.run(state.skillId).collectOnce { skill ->
-                showNotification(skill)
+                showNotification(skill, state)
             }
         }
     }
@@ -49,12 +51,17 @@ class NotificationUtilImpl @Inject constructor(
         notificationManager.cancel(STOPWATCH_NOTIFICATION_ID)
     }
 
-    private fun showNotification(skill: Skill) {
+    private fun showNotification(skill: Skill, state: StopwatchState.Running) {
+        val remoteViews = RemoteViews(context.packageName, R.layout.notification)
+        remoteViews.setTextViewText(R.id.title, skill.name)
+        remoteViews.setChronometer(R.id.chronometer, state.startTime.chronometerBase, null, true)
+
         val notification = NotificationCompat.Builder(context, TRACKING)
             .setOngoing(true)
             .setSmallIcon(R.drawable.ic_timer)
-            .setContentText(skill.name)
-            .setUsesChronometer(true)
+            .setShowWhen(false)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setCustomContentView(remoteViews)
             .setContentIntent(getContentIntent(skill.id))
             .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent())
             .build()

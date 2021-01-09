@@ -10,14 +10,20 @@ import java.time.ZonedDateTime
 
 @BindingAdapter("startTime")
 fun Chronometer.setBase(dateTime: ZonedDateTime) {
-    setTime(dateTime.until(getZonedDateTime()))
+    this.base = dateTime.chronometerBase
 }
 
 @BindingAdapter("time")
 fun Chronometer.setTime(time: Duration?) {
     if (time == null) return
-    this.base = SystemClock.elapsedRealtime() - time.toMillis()
+    this.base = time.chronometerBase
 }
+
+val ZonedDateTime.chronometerBase: Long
+    get() = this.until(getZonedDateTime()).chronometerBase
+
+val Duration.chronometerBase: Long
+    get() = SystemClock.elapsedRealtime() - this.toMillis()
 
 @BindingAdapter("isActive")
 fun Chronometer.setIsActive(isActive: Boolean) {

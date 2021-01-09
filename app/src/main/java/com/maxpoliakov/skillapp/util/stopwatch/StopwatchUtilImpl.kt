@@ -35,9 +35,9 @@ class StopwatchUtilImpl @Inject constructor(
     }
 
     private fun start(skillId: Int) {
-        val startTime = getZonedDateTime()
-        setState(Running(startTime, skillId))
-        notificationUtil.showStopwatchNotification(skillId)
+        val state = Running(getZonedDateTime(), skillId)
+        setState(state)
+        notificationUtil.showStopwatchNotification(state)
     }
 
     private fun setState(state: StopwatchState) {

@@ -64,8 +64,9 @@ class StopwatchUtilImplTest : StringSpec({
         val persistence = mock(StopwatchPersistence::class.java)
         val stopwatch = StopwatchUtilImpl(persistence, addRecord, notificationUtil, coroutineScope)
         stopwatch.toggle(skillId)
-        verify(persistence).saveState(Running(getZonedDateTime(), skillId))
-        verify(notificationUtil).showStopwatchNotification(skillId)
+        val state = Running(getZonedDateTime(), skillId)
+        verify(persistence).saveState(state)
+        verify(notificationUtil).showStopwatchNotification(state)
     }
 
     "stop() does nothing if the timer is not running" {

@@ -17,6 +17,7 @@ import com.maxpoliakov.skillapp.StopTimerBroadcastReceiver
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.util.collectOnce
+import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -36,9 +37,9 @@ class NotificationUtilImpl @Inject constructor(
             createChannels()
     }
 
-    override fun showStopwatchNotification(skillId: Int) {
+    override fun showStopwatchNotification(state: StopwatchState.Running) {
         scope.launch {
-            getSkill.run(skillId).collectOnce { skill ->
+            getSkill.run(state.skillId).collectOnce { skill ->
                 showNotification(skill)
             }
         }

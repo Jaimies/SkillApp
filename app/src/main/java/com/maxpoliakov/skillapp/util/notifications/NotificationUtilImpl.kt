@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.util.notifications
 
 import android.app.NotificationChannel
-import android.app.NotificationManager.IMPORTANCE_LOW
+import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
@@ -63,6 +63,7 @@ class NotificationUtilImpl @Inject constructor(
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(remoteViews)
             .setContentIntent(getContentIntent(skill.id))
+            .setNotificationSilent()
             .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent())
             .build()
 
@@ -85,7 +86,7 @@ class NotificationUtilImpl @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createChannels() {
         val title = context.getString(R.string.timers)
-        val channel = NotificationChannel(TRACKING, title, IMPORTANCE_LOW)
+        val channel = NotificationChannel(TRACKING, title, IMPORTANCE_HIGH)
         notificationManager.createNotificationChannel(channel)
     }
 

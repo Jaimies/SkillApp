@@ -18,6 +18,8 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.util.collectOnce
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,7 +27,8 @@ import javax.inject.Singleton
 class NotificationUtilImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val notificationManager: NotificationManagerCompat,
-    private val getSkill: GetSkillByIdUseCase
+    private val getSkill: GetSkillByIdUseCase,
+    private val scope: CoroutineScope
 ) : NotificationUtil {
 
     init {
@@ -33,8 +36,12 @@ class NotificationUtilImpl @Inject constructor(
             createChannels()
     }
 
-    override suspend fun showStopwatchNotification(skillId: Int) {
-        getSkill.run(skillId).collectOnce(this::showNotification)
+    override fun showStopwatchNotification(skillId: Int) {
+        scope.launch {
+            getSkill.run(skillId).collectOnce { skill ->
+                showNotification(skill)
+            }
+        }
     }
 
     override fun removeStopwatchNotification() {

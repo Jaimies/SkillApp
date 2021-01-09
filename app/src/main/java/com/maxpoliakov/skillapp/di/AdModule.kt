@@ -7,10 +7,10 @@ import com.maxpoliakov.skillapp.util.ads.AdUtilImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 interface AdModule {
     @Binds
     fun bindAdUtil(adUtilImpl: AdUtilImpl): AdUtil

@@ -7,10 +7,10 @@ import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtilImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 interface StopwatchModule {
     @Binds
     fun provideStopwatchUtil(stopwatchUtil: StopwatchUtilImpl): StopwatchUtil

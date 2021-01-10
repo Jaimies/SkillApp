@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.model
 
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.util.time.toReadableTime
 import java.time.Duration
 import java.time.LocalDate
 

@@ -18,6 +18,7 @@ class AdProviderImpl @Inject constructor(
 
     init {
         MobileAds.initialize(context)
+        MobileAds.setAppMuted(true)
     }
 
     override fun createAd(onClosed: () -> Unit): InterstitialAd {

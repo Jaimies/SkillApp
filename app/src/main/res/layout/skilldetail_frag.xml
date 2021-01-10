@@ -41,12 +41,17 @@
                     layout="@layout/chart"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chart_height"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="78dp" />
+                    android:layout_marginTop="24dp" />
 
                 <Button
-                    android:layout_width="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="78dp"
                     android:onClick="@{() -> viewModel.showRecordDialog()}"
                     android:text="@string/add_a_record" />
             </LinearLayout>

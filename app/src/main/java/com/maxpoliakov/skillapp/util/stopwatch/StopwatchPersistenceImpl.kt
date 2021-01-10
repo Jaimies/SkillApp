@@ -2,10 +2,10 @@ package com.maxpoliakov.skillapp.util.stopwatch
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.maxpoliakov.skillapp.shared.util.toZonedDateTimeOrNull
 import com.maxpoliakov.skillapp.util.persistence.getStringPreference
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Paused
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME
 import javax.inject.Inject
 
@@ -15,10 +15,11 @@ class StopwatchPersistenceImpl @Inject constructor(
     override fun getState(): StopwatchState {
         val skillId = sharedPreferences.getInt(SKILL_ID, -1)
         val startTimeString = sharedPreferences.getStringPreference(START_TIME, "")
-        if (startTimeString == "" || skillId == -1)
+        val startTime = startTimeString.toZonedDateTimeOrNull()
+        if (startTime == null || skillId == -1)
             return Paused
 
-        return Running(ZonedDateTime.parse(startTimeString), skillId)
+        return Running(startTime, skillId)
     }
 
     override fun saveState(state: StopwatchState) = sharedPreferences.edit {

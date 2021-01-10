@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.shared.util
 
 import androidx.annotation.VisibleForTesting
 import java.time.Clock
+import java.time.DateTimeException
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
@@ -42,6 +43,14 @@ fun durationOfHoursAndMinutes(hours: Int, minutes: Int): Duration {
     val hours = Duration.ofHours(hours.toLong())
     val minutes = Duration.ofMinutes(minutes.toLong())
     return hours.plus(minutes)
+}
+
+fun String.toZonedDateTimeOrNull(): ZonedDateTime? {
+    return try {
+        ZonedDateTime.parse(this)
+    } catch (e: DateTimeException) {
+        null
+    }
 }
 
 fun getCurrentDate(): LocalDate = LocalDate.now(clock)

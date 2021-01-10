@@ -31,6 +31,11 @@ class StopwatchPersistenceImplTest : StringSpec({
         persistence.getState() shouldBe Paused
     }
 
+    "getState() returns StopwatchState.Paused if the start time is not a valid date" {
+        val persistence = createPersistence(skillId, "malformed")
+        persistence.getState() shouldBe Paused
+    }
+
     "saveState() saves StopwatchState.Running" {
         val persistence = createPersistence(-1, "")
         val state = Running(date, skillId)

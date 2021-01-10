@@ -43,6 +43,12 @@ class TimeTest : StringSpec({
         durationOfHoursAndMinutes(1, 0) shouldBe Duration.ofHours(1)
     }
 
+    "String.toZonedDateTimeOrNull()" {
+        val dateString = "2007-12-03T10:15:30+01:00[Europe/Paris]"
+        "".toZonedDateTimeOrNull() shouldBe null
+        dateString.toZonedDateTimeOrNull() shouldBe ZonedDateTime.parse(dateString)
+    }
+
     "until()" {
         Instant.ofEpochSecond(0).until(Instant.ofEpochSecond(1)) shouldBe Duration.ofSeconds(1)
         Instant.ofEpochSecond(0).until(Instant.ofEpochSecond(2)) shouldBe Duration.ofSeconds(2)

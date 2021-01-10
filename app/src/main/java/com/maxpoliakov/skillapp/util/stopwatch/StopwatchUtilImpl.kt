@@ -9,6 +9,7 @@ import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,6 +24,18 @@ class StopwatchUtilImpl @Inject constructor(
     override val state: StateFlow<StopwatchState> get() = _state
     private val _state = MutableStateFlow(persistence.getState())
 
+    init {
+        scope.launch {
+            _state.collect { updateNotification() }
+        }
+    }
+
+    override fun updateNotification() {
+        val state = _state.value
+        if (state is Running) notificationUtil.showStopwatchNotification(state)
+        else notificationUtil.removeStopwatchNotification()
+    }
+
     override fun toggle(skillId: Int) {
         val state = _state.value
         if (state is Running && state.skillId == skillId) stop()
@@ -31,13 +44,11 @@ class StopwatchUtilImpl @Inject constructor(
 
     override fun stop() {
         setState(Paused)
-        notificationUtil.removeStopwatchNotification()
     }
 
     private fun start(skillId: Int) {
         val state = Running(getZonedDateTime(), skillId)
         setState(state)
-        notificationUtil.showStopwatchNotification(state)
     }
 
     private fun setState(state: StopwatchState) {

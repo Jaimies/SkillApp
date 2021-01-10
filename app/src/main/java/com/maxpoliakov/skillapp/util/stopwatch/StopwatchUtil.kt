@@ -7,4 +7,5 @@ interface StopwatchUtil {
 
     fun stop()
     fun toggle(skillId: Int)
+    fun updateNotification()
 }

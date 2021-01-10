@@ -16,21 +16,21 @@ class StopwatchPersistenceImplTest : StringSpec({
     beforeEach { setClock(clockOfEpochSecond(0)) }
     afterSpec { setClock(Clock.systemDefaultZone()) }
 
-    "getState() returns StopwatchPersistenceState if the data is present" {
+    "getState() returns StowpatchState.Running if the data is present" {
         val persistence = createPersistence(skillId, date.toString())
         persistence.getState() shouldBe Running(date, skillId)
     }
 
-    "getState() returns null if the skill id is not defined" {
+    "getState() returns StopwatchState.Paused if the skill id is not defined" {
         val persistence = createPersistence(-1, date.toString())
         persistence.getState() shouldBe Paused
     }
 
-    "getState() returns null if the start time is not defined" {
+    "getState() returns StopwatchState.Paused if the start time is not defined" {
         val persistence = createPersistence(skillId, "")
         persistence.getState() shouldBe Paused
     }
-    
+
     "saveState() saves StopwatchState.Running" {
         val persistence = createPersistence(-1, "")
         val state = Running(date, skillId)

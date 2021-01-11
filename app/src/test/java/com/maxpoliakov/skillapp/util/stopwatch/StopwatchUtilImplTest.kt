@@ -30,6 +30,8 @@ class StopwatchUtilImplTest : StringSpec({
     afterEach { clearInvocations(addRecord, notificationUtil) }
     afterSpec { setClock(Clock.systemDefaultZone()) }
 
+    fun getRunningState() = Running(getZonedDateTime(), skillId)
+
     fun createStopwatch(state: StopwatchState = Paused): StopwatchUtilImpl {
         val persistence = StubStopwatchPersistence(state)
         return StopwatchUtilImpl(persistence, addRecord, notificationUtil, coroutineScope)
@@ -39,7 +41,7 @@ class StopwatchUtilImplTest : StringSpec({
         val stopwatch = createStopwatch()
         stopwatch.state.value shouldBe Paused
         stopwatch.toggle(skillId)
-        stopwatch.state.value shouldBe Running(getZonedDateTime(), skillId)
+        stopwatch.state.value shouldBe getRunningState()
         setClock(clockOfEpochSecond(1))
         stopwatch.toggle(skillId)
         verify(addRecord).run(Record("", skillId, Duration.ofSeconds(1)))
@@ -64,9 +66,8 @@ class StopwatchUtilImplTest : StringSpec({
         val persistence = mock(StopwatchPersistence::class.java)
         val stopwatch = StopwatchUtilImpl(persistence, addRecord, notificationUtil, coroutineScope)
         stopwatch.toggle(skillId)
-        val state = Running(getZonedDateTime(), skillId)
-        verify(persistence).saveState(state)
-        verify(notificationUtil).showStopwatchNotification(state)
+        verify(persistence).saveState(getRunningState())
+        verify(notificationUtil).showStopwatchNotification(getRunningState())
     }
 
     "stop() does nothing if the timer is not running" {
@@ -76,11 +77,21 @@ class StopwatchUtilImplTest : StringSpec({
     }
 
     "stop() stops the timer and removes the notification" {
-        val stopwatch = createStopwatch(Running(getZonedDateTime(), skillId))
+        val stopwatch = createStopwatch(getRunningState())
         setClock(clockOfEpochSecond(1))
         stopwatch.stop()
         stopwatch.state.value shouldBe Paused
         verify(addRecord).run(Record("", skillId, Duration.ofSeconds(1)))
+        verify(notificationUtil).removeStopwatchNotification()
+    }
+
+    "shows the notification if the state is Running on startup" {
+        createStopwatch(getRunningState())
+        verify(notificationUtil).showStopwatchNotification(getRunningState())
+    }
+
+    "removes the notification if the state isd Paused on startup" {
+        createStopwatch(Paused)
         verify(notificationUtil).removeStopwatchNotification()
     }
 }) {

@@ -17,6 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
+        android:focusable="true"
+        android:screenReaderFocusable="true"
         app:cardCornerRadius="5dp"
         app:visible="@{isActive}">
 
@@ -32,7 +34,9 @@
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:focusable="false"
                 android:fontFamily="sans-serif-medium"
+                android:screenReaderFocusable="false"
                 android:text="@string/tracking"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintBottom_toBottomOf="@+id/stopwatch"

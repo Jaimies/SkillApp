@@ -16,6 +16,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="false"
+        android:screenReaderFocusable="false"
         app:visible="@{isActive}">
 
         <Chronometer

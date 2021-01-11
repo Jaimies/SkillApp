@@ -58,7 +58,7 @@ class NotificationUtilImpl @Inject constructor(
 
         val notification = NotificationCompat.Builder(context, TRACKING)
             .setOngoing(true)
-            .setSmallIcon(R.drawable.ic_timer)
+            .setSmallIcon(R.drawable.notification_icon)
             .setShowWhen(false)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(remoteViews)

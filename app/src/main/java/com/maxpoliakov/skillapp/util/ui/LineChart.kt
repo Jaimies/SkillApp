@@ -56,6 +56,7 @@ private const val HOURS_BREAKPOINT = 7200
 fun List<Entry>.getAxisMaximum(): Float = getAxisMaximum(getHighestValue())
 
 fun getAxisMaximum(maxEntryValue: Float): Float {
+    if (maxEntryValue <= 0) return HOURS_DIVIDER_SMALL.toFloat()
     if (maxEntryValue <= HOURS_BREAKPOINT) return maxEntryValue.ceilTo(HOURS_DIVIDER_SMALL)
     return maxEntryValue.ceilTo(HOURS_DIVIDER)
 }

@@ -28,6 +28,9 @@ class AddSkillFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        observe(viewModel.navigateBack) { findNavController().popBackStack() }
+        observe(viewModel.goToSkillDetail) { skillId ->
+            val directions = AddSkillFragmentDirections.actionAddSkillToSkillDetail(skillId)
+            findNavController().navigate(directions)
+        }
     }
 }

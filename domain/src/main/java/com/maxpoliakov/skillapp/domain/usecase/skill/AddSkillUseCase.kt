@@ -5,7 +5,5 @@ import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import javax.inject.Inject
 
 class AddSkillUseCase @Inject constructor(private val skillRepository: SkillRepository) {
-    suspend fun run(skill: Skill) {
-        skillRepository.addSkill(skill)
-    }
+    suspend fun run(skill: Skill) = skillRepository.addSkill(skill)
 }

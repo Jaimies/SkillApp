@@ -24,7 +24,7 @@ class StatsDaoTest {
     private lateinit var skillDao: SkillDao
 
     @Before
-    fun beforeEach() = runBlocking {
+    fun beforeEach() = runBlocking<Unit> {
         db = createTestDatabase()
         statsDao = db.statsDao()
         skillDao = db.statisticDao()

@@ -3,9 +3,9 @@ package com.maxpoliakov.skillapp.ui.addskill
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
 import com.maxpoliakov.skillapp.setupThreads
+import com.maxpoliakov.skillapp.test.any
 import io.kotest.core.spec.style.StringSpec
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Unconfined
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import java.time.Duration
@@ -19,7 +19,8 @@ class AddSkillViewModelTest : StringSpec({
 
     beforeEach {
         useCase = mock(AddSkillUseCase::class.java)
-        viewModel = AddSkillViewModel(useCase, CoroutineScope(Unconfined))
+        `when`(useCase.run(any())).thenReturn(1)
+        viewModel = AddSkillViewModel(useCase)
     }
 
     "addSkill()" {

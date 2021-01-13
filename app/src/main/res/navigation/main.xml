@@ -29,7 +29,18 @@
         android:id="@+id/addskill_fragment_dest"
         android:name="com.maxpoliakov.skillapp.ui.addskill.AddSkillFragment"
         android:label="@string/add_skill"
-        tools:layout="@layout/addskill_frag" />
+        tools:layout="@layout/addskill_frag">
+
+        <action
+            android:id="@+id/action_addSkill_to_skillDetail"
+            app:destination="@id/skill_detail_fragment_dest"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/addskill_fragment_dest"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/editskill_fragment_dest"

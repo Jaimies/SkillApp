@@ -1,8 +1,10 @@
 package com.maxpoliakov.skillapp.util.charts
 
 import androidx.core.graphics.ColorUtils
+import com.github.mikephil.charting.charts.Chart.PAINT_INFO
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
+import com.github.mikephil.charting.utils.Utils
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekDayFormatter
@@ -34,6 +36,8 @@ private fun LineChart.setupOffsets() {
 }
 
 private fun LineChart.setupNoDataText() {
+    val textSize = Utils.convertDpToPixel(14f.sp(context))
+    getPaint(PAINT_INFO).textSize = textSize
     setNoDataTextColor(context.getTextColor())
     setNoDataText(context.getString(R.string.no_stats))
 }

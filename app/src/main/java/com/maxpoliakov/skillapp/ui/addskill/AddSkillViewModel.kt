@@ -1,14 +1,14 @@
 package com.maxpoliakov.skillapp.ui.addskill
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.Duration
-import javax.inject.Inject
 
-class AddSkillViewModel(
+class AddSkillViewModel @ViewModelInject constructor(
     private val addSkill: AddSkillUseCase,
     private val ioScope: CoroutineScope
 ) : SkillViewModel() {
@@ -26,12 +26,5 @@ class AddSkillViewModel(
         }
 
         navigateBack()
-    }
-
-    class Factory @Inject constructor(
-        private val addSkill: AddSkillUseCase,
-        private val ioScope: CoroutineScope
-    ) {
-        fun create() = AddSkillViewModel(addSkill, ioScope)
     }
 }

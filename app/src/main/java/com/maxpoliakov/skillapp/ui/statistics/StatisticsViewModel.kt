@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.ui.statistics
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Statistic
@@ -10,9 +9,12 @@ import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.shared.util.sumByDuration
 import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.statistics.getTodayTime
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
+import javax.inject.Inject
 
-class StatisticsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class StatisticsViewModel @Inject constructor(
     getSkills: GetSkillsUseCase,
     getStats: GetStatsUseCase
 ) : StatsViewModel(getStats, -1) {

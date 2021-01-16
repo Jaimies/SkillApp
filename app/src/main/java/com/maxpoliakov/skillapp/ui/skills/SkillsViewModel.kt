@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.ui.skills
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
@@ -11,11 +10,14 @@ import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SkillsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SkillsViewModel @Inject constructor(
     getSkill: GetSkillByIdUseCase,
     getSkills: GetSkillsUseCase,
     private val stopwatchUtil: StopwatchUtil

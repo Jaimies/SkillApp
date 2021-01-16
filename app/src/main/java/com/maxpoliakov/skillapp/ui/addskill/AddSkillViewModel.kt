@@ -1,16 +1,18 @@
 package com.maxpoliakov.skillapp.ui.addskill
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.Duration
+import javax.inject.Inject
 
-class AddSkillViewModel @ViewModelInject constructor(
+@HiltViewModel
+class AddSkillViewModel @Inject constructor(
     private val addSkill: AddSkillUseCase
 ) : SkillViewModel() {
 

@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.ui.history
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import androidx.paging.insertSeparators
@@ -8,12 +7,15 @@ import androidx.paging.map
 import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetTotalTimeAtDayUseCase
 import com.maxpoliakov.skillapp.model.HistoryUiModel
-import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
+import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import com.maxpoliakov.skillapp.model.mapToPresentation
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class HistoryViewModel @ViewModelInject constructor(
+@HiltViewModel
+class HistoryViewModel @Inject constructor(
     getRecords: GetRecordsUseCase,
     private val getTotalTimeAtDay: GetTotalTimeAtDayUseCase
 ) : ViewModel() {

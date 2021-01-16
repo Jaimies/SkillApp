@@ -16,14 +16,15 @@ import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 import com.maxpoliakov.skillapp.util.ui.showPopupMenu
 import kotlinx.android.synthetic.main.records_item.view.more_btn
 import javax.inject.Inject
+import javax.inject.Provider
 
 class RecordDelegateAdapter @Inject constructor(
-    private val viewModelFactory: RecordViewModel.Factory
+    private val viewModelProvider: Provider<RecordViewModel>
 ) : DelegateAdapter<Record, ViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
         parent.inflateDataBinding<RecordsItemBinding>(R.layout.records_item).run {
-            val viewModel = viewModelFactory.create().also { viewModel = it }
+            val viewModel = viewModelProvider.get().also { viewModel = it }
             return ViewHolder(root, viewModel)
         }
     }

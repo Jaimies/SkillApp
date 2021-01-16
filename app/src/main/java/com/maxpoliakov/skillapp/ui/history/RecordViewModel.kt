@@ -13,7 +13,7 @@ import java.time.Duration
 import java.time.LocalDate
 import javax.inject.Inject
 
-class RecordViewModel(
+class RecordViewModel @Inject constructor(
     private val changeRecordDate: ChangeRecordDateUseCase,
     private val changeRecordTime: ChangeRecordTimeUseCase,
     private val deleteRecord: DeleteRecordUseCase,
@@ -46,18 +46,4 @@ class RecordViewModel(
     }
 
     fun showMenu() = showMenu.call()
-
-    class Factory @Inject constructor(
-        private val changeRecordDate: ChangeRecordDateUseCase,
-        private val changeRecordTime: ChangeRecordTimeUseCase,
-        private val deleteRecord: DeleteRecordUseCase,
-        private val ioScope: CoroutineScope
-    ) {
-        fun create() = RecordViewModel(
-            changeRecordDate,
-            changeRecordTime,
-            deleteRecord,
-            ioScope
-        )
-    }
 }

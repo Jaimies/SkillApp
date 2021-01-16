@@ -21,10 +21,14 @@ suspend fun <T : Any> PagingData<T>.awaitData(): List<T> {
             previousList: NullPaddedList<T>,
             newList: NullPaddedList<T>,
             newCombinedLoadStates: CombinedLoadStates,
-            lastAccessedIndex: Int
+            lastAccessedIndex: Int,
+            onListPresentable: () -> Unit
         ): Int? {
             for (index in 0 until newList.size)
                 items.add(newList.getFromStorage(index))
+
+            onListPresentable()
+
             return null
         }
     }

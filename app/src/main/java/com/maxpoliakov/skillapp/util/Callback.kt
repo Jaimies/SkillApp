@@ -1,5 +1,5 @@
 package com.maxpoliakov.skillapp.util
 
-interface Callback {
+fun interface Callback {
     fun invoke()
 }

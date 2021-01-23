@@ -99,7 +99,6 @@ dependencies {
     implementation "com.github.PhilJay:MPAndroidChart:v$Versions.MPAndroidChart"
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
 
-    implementation 'com.google.android.gms:play-services-ads:19.6.0'
     implementation platform("com.google.firebase:firebase-bom:$Versions.firebase")
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'

@@ -13,13 +13,11 @@ import com.maxpoliakov.skillapp.R.id.settings_fragment_dest
 import com.maxpoliakov.skillapp.R.id.skills_fragment_dest
 import com.maxpoliakov.skillapp.R.id.statistics_fragment_dest
 import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
-import com.maxpoliakov.skillapp.util.ads.AdUtil
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.ui.findNavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.main_act.bottom_app_bar
 import kotlinx.android.synthetic.main.main_act.toolbar
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
@@ -35,9 +33,6 @@ class MainActivity : AppCompatActivity(),
             settings_fragment_dest
         )
     )
-
-    @Inject
-    lateinit var adUtil: AdUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Theme_SkillApp)
@@ -64,6 +59,5 @@ class MainActivity : AppCompatActivity(),
         arguments: Bundle?
     ) {
         hideKeyboard()
-        adUtil.showAdIfAvailable(destination)
     }
 }

@@ -6,7 +6,6 @@ import java.time.DateTimeException
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.Month
 import java.time.ZonedDateTime
 import java.time.format.TextStyle
@@ -54,7 +53,6 @@ fun String.toZonedDateTimeOrNull(): ZonedDateTime? {
 }
 
 fun getCurrentDate(): LocalDate = LocalDate.now(clock)
-fun getCurrentDateTime(): LocalDateTime = LocalDateTime.now(clock)
 fun getZonedDateTime(): ZonedDateTime = ZonedDateTime.now(clock)
 
 private var clock: Clock = Clock.systemDefaultZone()

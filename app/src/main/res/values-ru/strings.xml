@@ -21,8 +21,7 @@
     <string name="total">общее время</string>
     <string name="last_week">последние 7\u00A0дней</string>
     <string name="hours">%sч</string>
-    <string name="hours_symbol">ч</string>
-    <string name="initial_time">Начальное время</string>
+    <string name="initial_time">Начальное время (в часах)</string>
     <string name="save">Сохранить</string>
     <string name="add_a_record">Добавить запись</string>
     <string name="edit">Изменить</string>

@@ -8,18 +8,18 @@ object Versions {
     const val constraintLayout = "2.0.4"
     const val legacy = "1.0.0"
 
-    const val room = "2.3.0-beta02"
-    const val paging = "3.0.0-beta01"
-    const val navigation = "2.3.3"
+    const val room = "2.3.0-beta03"
+    const val paging = "3.0.0-beta02"
+    const val navigation = "2.3.4"
     const val lifecycle = "2.3.0"
     const val livedata = "2.2.0"
-    const val fragment = "1.3.0"
+    const val fragment = "1.3.1"
 
     const val material = "1.3.0"
     const val MPAndroidChart = "3.1.0"
 
     const val hilt = "2.31-alpha"
-    const val androidxHilt = "1.0.0-alpha02"
+    const val androidxHilt = "1.0.0-alpha03"
 
     const val firebase = "26.5.0"
 

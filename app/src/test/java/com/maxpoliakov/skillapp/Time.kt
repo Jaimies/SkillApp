@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit.DAYS
 
 fun clockOfEpochDay(epochDay: Long): Clock {
@@ -15,4 +16,9 @@ fun clockOfEpochSecond(second: Long): Clock {
 
 fun clockOfInstant(instant: Instant): Clock {
     return Clock.fixed(instant, ZoneId.systemDefault())
+}
+
+fun dateOfEpochSecond(second: Long): ZonedDateTime {
+    val instant = Instant.ofEpochSecond(second)
+    return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault())
 }

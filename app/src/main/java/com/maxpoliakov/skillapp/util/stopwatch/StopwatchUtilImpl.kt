@@ -47,8 +47,14 @@ class StopwatchUtilImpl @Inject constructor(
     }
 
     override fun start(skillId: Int) {
+        if (!shouldStartTimer(skillId)) return
         val state = Running(getZonedDateTime(), skillId)
         setState(state)
+    }
+
+    private fun shouldStartTimer(skillId: Int): Boolean {
+        val state = this.state.value
+        return state !is Running || state.skillId != skillId
     }
 
     private fun setState(state: StopwatchState) {

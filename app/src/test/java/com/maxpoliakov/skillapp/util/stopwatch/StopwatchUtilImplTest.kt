@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.util.stopwatch
 
 import com.maxpoliakov.skillapp.StubStopwatchPersistence
 import com.maxpoliakov.skillapp.clockOfEpochSecond
+import com.maxpoliakov.skillapp.dateOfEpochSecond
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
@@ -68,6 +69,14 @@ class StopwatchUtilImplTest : StringSpec({
         stopwatch.toggle(skillId)
         verify(persistence).saveState(getRunningState())
         verify(notificationUtil).showStopwatchNotification(getRunningState())
+    }
+
+    "start() does nothing if the timer is already running with the same id" {
+        val stopwatch = createStopwatch()
+        stopwatch.start(skillId)
+        setClock(clockOfEpochSecond(1))
+        stopwatch.start(skillId)
+        stopwatch.state.value shouldBe Running(dateOfEpochSecond(0), skillId)
     }
 
     "stop() does nothing if the timer is not running" {

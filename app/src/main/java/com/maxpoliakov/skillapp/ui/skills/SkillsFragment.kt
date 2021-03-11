@@ -18,12 +18,15 @@ import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.history_frag.recycler_view
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SkillsFragment : Fragment() {
+    @Inject
+    lateinit var delegateAdapterFactory: SkillDelegateAdapter.Factory
 
     private val delegateAdapter by lazy {
-        SkillDelegateAdapter(::navigateToDetails)
+        delegateAdapterFactory.create(this::navigateToDetails)
     }
 
     private val listAdapter by lazy { SkillListAdapter(delegateAdapter) }

@@ -12,12 +12,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="65dp"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{() -> viewModel.navigateToDetails()}"
-        android:paddingStart="24dp"
+        android:paddingStart="32dp"
         android:paddingEnd="24dp">
 
         <TextView

@@ -46,7 +46,7 @@ class StopwatchUtilImpl @Inject constructor(
         setState(Paused)
     }
 
-    private fun start(skillId: Int) {
+    override fun start(skillId: Int) {
         val state = Running(getZonedDateTime(), skillId)
         setState(state)
     }

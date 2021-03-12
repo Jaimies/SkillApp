@@ -7,7 +7,8 @@ import io.kotest.matchers.shouldBe
 class ValueFormattersTest : StringSpec({
     "TimeFormatter" {
         val formatter = TimeFormatter(createMockContext())
-        formatter.getFormattedValue(59f) shouldBe ""
+        formatter.getFormattedValue(0f) shouldBe ""
+        formatter.getFormattedValue(1f) shouldBe "1m"
         formatter.getFormattedValue(60f) shouldBe "1m"
         formatter.getFormattedValue(120f) shouldBe "2m"
         formatter.getFormattedValue(3600f) shouldBe "1h"

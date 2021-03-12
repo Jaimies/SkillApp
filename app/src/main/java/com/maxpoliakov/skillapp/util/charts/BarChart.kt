@@ -1,8 +1,8 @@
 package com.maxpoliakov.skillapp.util.charts
 
 import androidx.core.graphics.ColorUtils
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.Chart.PAINT_INFO
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
 import com.github.mikephil.charting.utils.Utils
 import com.maxpoliakov.skillapp.R
@@ -11,10 +11,10 @@ import com.maxpoliakov.skillapp.ui.common.WeekDayFormatter
 import com.maxpoliakov.skillapp.util.ui.getTextColor
 import com.maxpoliakov.skillapp.util.ui.sp
 
-private const val LEFT_OFFSET = 1.5f
-private const val TOP_OFFSET = 24f
-private const val RIGHT_OFFSET = 8f
-private const val BOTTOM_OFFSET = 8f
+private const val LEFT_OFFSET = 15f
+private const val TOP_OFFSET = 27f
+private const val RIGHT_OFFSET = 20f
+private const val BOTTOM_OFFSET = 30f
 
 private const val X_AXIS_SPACE_MIN = 0.4f
 private const val X_AXIS_SPACE_MAX = 0.4f
@@ -23,7 +23,7 @@ private const val X_AXIS_Y_OFFSET = 10f
 private const val Y_AXIS_LABEL_COUNT = 5
 private const val Y_AXIS_GRANULARITY = 3f
 
-fun LineChart.setup() {
+fun BarChart.setup() {
     disableUnneededFeatures()
     setupOffsets()
     setupFonts()
@@ -31,30 +31,30 @@ fun LineChart.setup() {
     setupNoDataText()
 }
 
-private fun LineChart.setupOffsets() {
+private fun BarChart.setupOffsets() {
     setExtraOffsets(LEFT_OFFSET, TOP_OFFSET, RIGHT_OFFSET, BOTTOM_OFFSET)
 }
 
-private fun LineChart.setupNoDataText() {
+private fun BarChart.setupNoDataText() {
     val textSize = Utils.convertDpToPixel(14f.sp(context))
     getPaint(PAINT_INFO).textSize = textSize
     setNoDataTextColor(context.getTextColor())
     setNoDataText(context.getString(R.string.no_stats))
 }
 
-private fun LineChart.setupFonts() {
+private fun BarChart.setupFonts() {
     val textSize = 12.5f.sp(context)
     axisLeft.textSize = textSize
     axisLeft.xOffset = 7f
     xAxis.textSize = textSize
 }
 
-private fun LineChart.setupAxes() {
+private fun BarChart.setupAxes() {
     setupXAxis()
     setupLeftAxis()
 }
 
-private fun LineChart.setupXAxis() {
+private fun BarChart.setupXAxis() {
     xAxis.run {
         valueFormatter = WeekDayFormatter()
         spaceMin = X_AXIS_SPACE_MIN
@@ -67,7 +67,7 @@ private fun LineChart.setupXAxis() {
     }
 }
 
-private fun LineChart.setupLeftAxis() {
+private fun BarChart.setupLeftAxis() {
     val textColor = context.getTextColor()
 
     axisLeft.run {
@@ -83,9 +83,10 @@ private fun LineChart.setupLeftAxis() {
     }
 }
 
-private fun LineChart.disableUnneededFeatures() {
+private fun BarChart.disableUnneededFeatures() {
     legend.isEnabled = false
     axisRight.isEnabled = false
+    axisLeft.isEnabled = false
     description.isEnabled = false
     setScaleEnabled(false)
     isDragEnabled = false

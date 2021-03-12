@@ -1,6 +1,6 @@
 package com.maxpoliakov.skillapp.util.charts
 
-import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.BarEntry
 import com.maxpoliakov.skillapp.data.stats.STATS_ENTRIES
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.shared.util.daysSinceEpoch
@@ -17,7 +17,7 @@ fun List<Statistic>.withMissingStats(count: Int = STATS_ENTRIES): List<Statistic
     }.sortedBy { it.date }
 }
 
-fun List<Statistic>.toEntries(): List<Entry>? {
+fun List<Statistic>.toEntries(): List<BarEntry>? {
     if (!this.hasPositiveValues())
         return null
 
@@ -28,8 +28,8 @@ private fun List<Statistic>.hasPositiveValues(): Boolean {
     return this.any { it.time > Duration.ZERO }
 }
 
-private fun List<Statistic>.convertToEntries(): List<Entry> {
+private fun List<Statistic>.convertToEntries(): List<BarEntry> {
     return map { statistic ->
-        Entry(statistic.date.daysSinceEpoch.toFloat(), statistic.time.seconds.toFloat())
+        BarEntry(statistic.date.daysSinceEpoch.toFloat(), statistic.time.seconds.toFloat())
     }
 }

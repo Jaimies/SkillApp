@@ -1,39 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="time" type="java.time.Duration" />
-        <variable name="label" type="String" />
+
+        <variable
+            name="time"
+            type="java.time.Duration" />
+
+        <variable
+            name="label"
+            type="String" />
 
         <import type="com.maxpoliakov.skillapp.util.time.ConvertersKt" />
     </data>
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".3333"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_height="120dp"
+        android:layout_margin="8dp"
+        android:layout_weight=".5"
+        android:focusable="true"
         android:screenReaderFocusable="true"
-        android:focusable="true">
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{time != null ? @string/hours(ConvertersKt.toReadableHours(time)): null}"
-            android:focusable="false"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textSize="18sp"
-            tools:text="2000h" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{label}"
-            android:focusable="false"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            tools:text="per week"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="@{label}"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                tools:text="per week" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="@{time != null ? @string/hours(ConvertersKt.toReadableHours(time)): null}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textSize="30sp"
+                tools:text="2000h" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

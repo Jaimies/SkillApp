@@ -6,7 +6,7 @@
         <item name="colorSecondary">@color/blue</item>
         <item name="colorOnPrimary">@android:color/white</item>
         <item name="colorOnSecondary">@android:color/white</item>
-        <item name="android:statusBarColor">@color/blue_dark</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:scrollViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="recyclerViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
@@ -14,7 +14,6 @@
     </style>
 
     <style name="Theme.SkillApp.V23" parent="Theme.SkillApp.Base">
-        <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
 

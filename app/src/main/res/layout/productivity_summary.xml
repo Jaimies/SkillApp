@@ -9,38 +9,23 @@
             type="com.maxpoliakov.skillapp.model.ProductivitySummary" />
     </data>
 
-    <merge>
+    <LinearLayout
+        android:id="@+id/productivity_summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp">
 
-        <LinearLayout
-            android:id="@+id/productivity_summary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="30dp"
-            android:paddingBottom="30dp">
+        <include
+            android:id="@+id/last_week"
+            layout="@layout/time_with_label"
+            app:label="@{@string/last_week}"
+            app:time="@{summary.lastWeekTime}" />
 
-            <include
-                android:id="@+id/today"
-                layout="@layout/time_with_label"
-                app:label="@{@string/today_lowercase}"
-                app:time="@{summary.timeToday}" />
-
-            <include
-                android:id="@+id/last_week"
-                layout="@layout/time_with_label"
-                app:label="@{@string/last_week}"
-                app:time="@{summary.lastWeekTime}" />
-
-            <include
-                android:id="@+id/total"
-                layout="@layout/time_with_label"
-                app:label="@{@string/total}"
-                app:time="@{summary.totalTime}" />
-        </LinearLayout>
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?attr/dividerHorizontal" />
-    </merge>
+        <include
+            android:id="@+id/total"
+            layout="@layout/time_with_label"
+            app:label="@{@string/total}"
+            app:time="@{summary.totalTime}" />
+    </LinearLayout>
 </layout>

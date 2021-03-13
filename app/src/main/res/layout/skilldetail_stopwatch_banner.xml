@@ -23,6 +23,7 @@
         android:focusable="true"
         android:screenReaderFocusable="true"
         app:cardCornerRadius="5dp"
+        app:cardElevation="4dp"
         app:visible="@{isActive}">
 
         <androidx.constraintlayout.widget.ConstraintLayout

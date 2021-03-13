@@ -3,6 +3,7 @@
 
     <style name="Theme.SkillApp" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
+        <item name="colorAccent">@color/blue_light</item>
         <item name="colorSecondary">@color/blue</item>
         <item name="colorOnSecondary">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

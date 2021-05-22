@@ -2,5 +2,5 @@
 <resources>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="padding_default">16dp</dimen>
-    <dimen name="chart_height">250dp</dimen>
+    <dimen name="chart_height">300dp</dimen>
 </resources>

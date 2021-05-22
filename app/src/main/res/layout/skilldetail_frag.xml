@@ -26,16 +26,35 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:paddingStart="60dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginBottom="25dp"
+                        android:text="Programming"
+                        android:singleLine="true"
+                        android:textColor="?android:attr/textColorPrimary"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <include
+                        android:id="@+id/summary"
+                        layout="@layout/productivity_summary"
+                        app:summary="@{viewModel.summary}" />
+                </LinearLayout>
+
                 <include
                     android:id="@+id/stopwatch_banner"
                     layout="@layout/skilldetail_stopwatch_banner"
                     app:isActive="@{viewModel.stopwatchIsRunning}"
                     app:startTime="@{viewModel.stopwatchStartTime}" />
-
-                <include
-                    android:id="@+id/summary"
-                    layout="@layout/productivity_summary"
-                    app:summary="@{viewModel.summary}" />
 
                 <include
                     layout="@layout/chart"

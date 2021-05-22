@@ -16,44 +16,36 @@
         <import type="com.maxpoliakov.skillapp.util.time.ConvertersKt" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_weight=".5"
         android:focusable="true"
+        android:orientation="vertical"
         android:screenReaderFocusable="true"
-        app:cardCornerRadius="16dp"
-        app:contentPaddingLeft="10dp"
-        app:contentPaddingRight="10dp"
-        app:contentPaddingTop="13dp"
         app:contentPaddingBottom="13dp"
-        app:cardElevation="2dp">
+        app:contentPaddingTop="13dp">
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:focusable="false"
+            android:text="@{label}"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="#eee"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            tools:text="per week" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:text="@{label}"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                tools:text="per week" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:text="@{time != null ? @string/hours(ConvertersKt.toReadableHours(time)): null}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textSize="22sp"
-                tools:text="2000h" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:text="@{time != null ? @string/hours(ConvertersKt.toReadableHours(time)): null}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
+            tools:text="2000h" />
+    </LinearLayout>
 </layout>

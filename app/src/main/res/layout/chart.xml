@@ -12,7 +12,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         app:cardCornerRadius="24dp"
-        app:cardElevation="4dp">
+        app:cardElevation="2dp">
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart"

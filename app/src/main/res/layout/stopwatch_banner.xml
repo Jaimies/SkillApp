@@ -39,7 +39,7 @@
             android:layout_margin="12dp"
             android:onClick="@{() -> navigateToDetail.invoke()}"
             app:cardCornerRadius="5dp"
-            app:cardElevation="4dp">
+            app:cardElevation="2dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

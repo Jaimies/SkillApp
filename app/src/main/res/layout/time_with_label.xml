@@ -18,13 +18,17 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_weight=".5"
         android:focusable="true"
         android:screenReaderFocusable="true"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="4dp">
+        app:cardCornerRadius="16dp"
+        app:contentPaddingLeft="10dp"
+        app:contentPaddingRight="10dp"
+        app:contentPaddingTop="13dp"
+        app:contentPaddingBottom="13dp"
+        app:cardElevation="2dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -48,7 +52,7 @@
                 android:focusable="false"
                 android:text="@{time != null ? @string/hours(ConvertersKt.toReadableHours(time)): null}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textSize="30sp"
+                android:textSize="22sp"
                 tools:text="2000h" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

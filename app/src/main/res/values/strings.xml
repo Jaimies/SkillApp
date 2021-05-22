@@ -18,7 +18,7 @@
     <string name="edit_skill">Edit skill</string>
     <string name="history">History</string>
     <string name="skills">Skills</string>
-    <string name="total">Total</string>
+    <string name="total">Total time</string>
     <string name="last_week">Last 7\u00A0days</string>
     <string name="hours">%sh</string>
     <string name="minutes">%sm</string>

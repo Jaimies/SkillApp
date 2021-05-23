@@ -29,7 +29,7 @@
                 <include
                     android:id="@+id/summary"
                     layout="@layout/productivity_summary"
-                    app:title="@{`Programming`}"
+                    app:title="@{viewModel.skillLiveData.name}"
                     app:summary="@{viewModel.summary}" />
 
                 <include

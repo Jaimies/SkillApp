@@ -45,8 +45,8 @@
     <string name="dark">Dark</string>
     <string name="automatic">Automatic</string>
     <string name="no_stats">You haven\'t added any records in the last 7 days</string>
-    <string name="start_the_timer">Start the timer</string>
-    <string name="stop_the_timer">Stop the timer</string>
+    <string name="start_the_timer">Start timer</string>
+    <string name="stop_the_timer">Stop timer</string>
     <string name="tracking">Tracking</string>
     <string name="stop">Stop</string>
     <string name="timers">Timers</string>

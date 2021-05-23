@@ -5,4 +5,6 @@
     <color name="red">#F70C37</color>
     <color name="black">#1e202a</color>
     <color name="black_light">#2f313e</color>
+    <color name="gray_dark">#333b46</color>
+    <color name="gray_light">#f5f5f5</color>
 </resources>

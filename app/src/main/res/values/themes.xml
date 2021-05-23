@@ -4,6 +4,8 @@
     <style name="Theme.SkillApp.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/blue</item>
+        <item name="colorButtonSecondary">@color/gray_light</item>
+        <item name="textColorButtonSecondary">?android:attr/textColorPrimary</item>
         <item name="colorOnPrimary">@android:color/white</item>
         <item name="colorOnSecondary">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

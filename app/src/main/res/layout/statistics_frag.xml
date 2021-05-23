@@ -23,7 +23,8 @@
             <include
                 android:id="@+id/summary"
                 layout="@layout/productivity_summary"
-                app:summary="@{viewModel.summary}" />
+                app:summary="@{viewModel.summary}"
+                app:title="@{@string/productivity_destination}" />
 
             <include
                 layout="@layout/chart"

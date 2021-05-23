@@ -1,29 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="summary"
             type="com.maxpoliakov.skillapp.model.ProductivitySummary" />
+
+        <variable
+            name="title"
+            type="String" />
     </data>
 
     <LinearLayout
-        android:id="@+id/productivity_summary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        android:paddingStart="60dp">
 
-        <include
-            android:id="@+id/last_week"
-            layout="@layout/time_with_label"
-            app:label="@{@string/last_week}"
-            app:time="@{summary.lastWeekTime}" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="25dp"
+            android:singleLine="true"
+            android:text="@{title}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            tools:text="Programming"/>
 
-        <include
-            android:id="@+id/total"
-            layout="@layout/time_with_label"
-            app:label="@{@string/total}"
-            app:time="@{summary.totalTime}" />
+        <LinearLayout
+            android:id="@+id/productivity_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/last_week"
+                layout="@layout/time_with_label"
+                app:label="@{@string/last_week}"
+                app:time="@{summary.lastWeekTime}" />
+
+            <include
+                android:id="@+id/total"
+                layout="@layout/time_with_label"
+                app:label="@{@string/total}"
+                app:time="@{summary.totalTime}" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

@@ -34,7 +34,7 @@
             android:text="@{label}"
             android:textAlignment="center"
             android:textSize="12sp"
-            android:textColor="#eee"
+            android:textColor="?android:attr/textColorSecondary"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             tools:text="per week" />
 

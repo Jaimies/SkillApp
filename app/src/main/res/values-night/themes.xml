@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/blue_light</item>
         <item name="colorButtonSecondary">@color/gray_dark</item>
         <item name="textColorButtonSecondary">?android:attr/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/gray_light</item>
         <item name="colorSecondary">@color/blue</item>
         <item name="colorOnSecondary">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

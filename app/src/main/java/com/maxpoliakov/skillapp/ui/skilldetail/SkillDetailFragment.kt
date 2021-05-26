@@ -13,17 +13,18 @@ import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
 import com.maxpoliakov.skillapp.model.mapToPresentation
+import com.maxpoliakov.skillapp.ui.MainActivity
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.fragment.setTitle
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.chart.chart
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.android.synthetic.main.skilldetal_collapsing_toolbar.collapsing_toolbar
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -53,9 +54,27 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
         chart.setup()
         observe(viewModel.statsChartData, chart::setState)
         observe(viewModel.showRecordDialog) { showRecordDialog() }
-        lifecycleScope.launch {
-            viewModel.skill.collectLatest { skill -> setTitle(skill.name) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.skillLiveData.observe(viewLifecycleOwner) { skill ->
+            collapsing_toolbar.title = skill.name
         }
+        lifecycleScope.launch {
+            awaitUntilAnimationFinished()
+            (requireActivity() as MainActivity).setToolbar(collapsing_toolbar)
+        }
+    }
+
+    private suspend fun awaitUntilAnimationFinished() {
+        val animationDuration = requireContext().resources.getInteger(R.integer.animation_duration)
+        delay(animationDuration.toLong())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as MainActivity).resetToolbar()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

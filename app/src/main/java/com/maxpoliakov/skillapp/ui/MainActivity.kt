@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -61,5 +62,15 @@ class MainActivity : AppCompatActivity(),
     ) {
         hideKeyboard()
         toolbar.isGone = destination.id == statistics_fragment_dest
+    }
+
+    fun setToolbar(newToolbar: Toolbar) {
+        toolbar.isGone = newToolbar.id != R.id.toolbar
+        setSupportActionBar(newToolbar)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    fun resetToolbar() {
+        setToolbar(toolbar)
     }
 }

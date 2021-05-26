@@ -6,4 +6,11 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
+
+    <style name="TextAppearance.SkillApp.ProductivitySummaryTitle" parent="">
+        <item name="android:textStyle">bold</item>
+        <item name="singleLine">true</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">22sp</item>
+    </style>
 </resources>

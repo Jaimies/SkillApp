@@ -26,11 +26,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
             android:layout_marginBottom="25dp"
-            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
             android:text="@{title}"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="22sp"
-            android:textStyle="bold"
+            app:visible="@{title != null &amp;&amp; title != ``}"
             tools:text="Programming"/>
 
         <LinearLayout

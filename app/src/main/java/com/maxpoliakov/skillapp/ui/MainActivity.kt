@@ -65,9 +65,14 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun setToolbar(newToolbar: Toolbar) {
-        toolbar.isGone = newToolbar.id != R.id.toolbar
+        toolbar.isGone = !shouldDisplayDefaultToolbar(newToolbar)
         setSupportActionBar(newToolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun shouldDisplayDefaultToolbar(newToolbar: Toolbar): Boolean {
+        return newToolbar.id == R.id.toolbar
+                && navController.currentDestination!!.id != statistics_fragment_dest
     }
 
     fun resetToolbar() {

@@ -1,19 +1,19 @@
 @Suppress("unused")
 object Versions {
-    const val kotlin = "1.4.31"
-    const val coroutines = "1.4.1"
+    const val kotlin = "1.4.32"
+    const val coroutines = "1.4.3"
 
-    const val androidxCore = "1.3.2"
+    const val androidxCore = "1.5.0"
     const val appcompat = "1.2.0"
     const val constraintLayout = "2.0.4"
     const val legacy = "1.0.0"
 
-    const val room = "2.3.0-beta03"
-    const val paging = "3.0.0-beta02"
-    const val navigation = "2.3.4"
-    const val lifecycle = "2.3.0"
+    const val room = "2.3.0"
+    const val paging = "3.0.0"
+    const val navigation = "2.3.5"
+    const val lifecycle = "2.3.1"
     const val livedata = "2.2.0"
-    const val fragment = "1.3.1"
+    const val fragment = "1.3.4"
 
     const val material = "1.3.0"
     const val MPAndroidChart = "3.1.0"

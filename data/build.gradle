@@ -75,7 +75,7 @@ dependencies {
     testImplementation project(":sharedTest")
     testImplementation "org.mockito:mockito-core:$Versions.mockito"
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
-    androidTestImplementation "androidx.room:room-testing:2.2.6"
+    androidTestImplementation "androidx.room:room-testing:2.3.0"
     androidTestImplementation "androidx.test:runner:$Versions.androidxTestRunner"
     androidTestImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
     androidTestImplementation "androidx.test.ext:junit:$Versions.androidJUnit"

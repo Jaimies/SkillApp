@@ -13,6 +13,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:scrollViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="android:windowBackground">@color/black</item>
+        <item name="colorSurface">@color/black</item>
         <item name="materialCardViewStyle">@style/Widget.SkillApp.CardView.Dark</item>
         <item name="recyclerViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="bottomNavigationStyle">@style/Widget.SkillApp.BottomNavigationView.Dark</item>

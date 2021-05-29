@@ -26,27 +26,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
             android:layout_marginBottom="25dp"
-            android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
             android:text="@{title}"
-            app:visible="@{title != null &amp;&amp; title != ``}"
-            tools:text="Programming"/>
+            android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
+            tools:text="Programming" />
 
-        <LinearLayout
-            android:id="@+id/productivity_summary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <include
-                android:id="@+id/last_week"
-                layout="@layout/time_with_label"
-                app:label="@{@string/last_week}"
-                app:time="@{summary.lastWeekTime}" />
-
-            <include
-                android:id="@+id/total"
-                layout="@layout/time_with_label"
-                app:label="@{@string/total}"
-                app:time="@{summary.totalTime}" />
-        </LinearLayout>
+        <include
+            layout="@layout/productivity_summary_without_title"
+            app:summary="@{summary}" />
     </LinearLayout>
 </layout>

@@ -32,7 +32,7 @@
 
                 <include
                     android:id="@+id/summary"
-                    layout="@layout/productivity_summary"
+                    layout="@layout/productivity_summary_without_title"
                     app:summary="@{viewModel.summary}" />
 
                 <include

@@ -24,7 +24,7 @@ object Versions {
     const val firebase = "26.5.0"
 
     const val lint = "26.5.3"
-    const val gradle = "4.1.1"
+    const val gradle = "4.1.3"
 
     const val mockito = "3.2.4"
     const val kotestJUnit5 = "4.2.3"

@@ -22,8 +22,6 @@ import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.chart.chart
-import kotlinx.android.synthetic.main.skilldetal_collapsing_toolbar.collapsing_toolbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +33,8 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
     @Inject
     lateinit var viewModelFactory: SkillDetailViewModel.Factory
 
+    private lateinit var binding: SkilldetailFragBinding
+
     private val args: SkillDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -42,7 +42,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = SkilldetailFragBinding.inflate(inflater, container, false).also {
+        binding = SkilldetailFragBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }
@@ -51,19 +51,19 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        chart.setup()
-        observe(viewModel.statsChartData, chart::setState)
+        binding.productivityChart.chart.setup()
+        observe(viewModel.statsChartData, binding.productivityChart.chart::setState)
         observe(viewModel.showRecordDialog) { showRecordDialog() }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.skillLiveData.observe(viewLifecycleOwner) { skill ->
-            collapsing_toolbar.title = skill.name
+            binding.collapsingToolbarLayout.collapsingToolbar.title = skill.name
         }
         lifecycleScope.launch {
             awaitUntilAnimationFinished()
-            (requireActivity() as MainActivity).setToolbar(collapsing_toolbar)
+            (requireActivity() as MainActivity).setToolbar(binding.collapsingToolbarLayout.collapsingToolbar)
         }
     }
 

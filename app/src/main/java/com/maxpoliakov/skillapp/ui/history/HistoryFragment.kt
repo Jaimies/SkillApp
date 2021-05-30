@@ -12,8 +12,6 @@ import androidx.paging.LoadState
 import com.maxpoliakov.skillapp.databinding.HistoryFragBinding
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.history_frag.empty_text
-import kotlinx.android.synthetic.main.history_frag.recycler_view
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,12 +23,14 @@ class HistoryFragment : Fragment() {
     @Inject
     lateinit var listAdapter: HistoryPagingAdapter
 
+    private lateinit var binding: HistoryFragBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = HistoryFragBinding.inflate(inflater, container, false).also {
+        binding = HistoryFragBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }
@@ -40,13 +40,13 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recycler_view.setupAdapter(listAdapter)
+        binding.recyclerView.setupAdapter(listAdapter)
         lifecycleScope.launch {
             viewModel.records.collectLatest(listAdapter::submitData)
         }
         listAdapter.addLoadStateListener { loadStates ->
             if (loadStates.refresh !is LoadState.Loading)
-                empty_text.isVisible = listAdapter.itemCount == 0
+                binding.emptyText.isVisible = listAdapter.itemCount == 0
         }
     }
 }

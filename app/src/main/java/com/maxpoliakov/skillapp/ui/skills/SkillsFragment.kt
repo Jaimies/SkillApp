@@ -16,13 +16,14 @@ import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.history_frag.recycler_view
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SkillsFragment : Fragment() {
     @Inject
     lateinit var delegateAdapterFactory: SkillDelegateAdapter.Factory
+
+    private lateinit var binding: SkillsFragBinding
 
     private val delegateAdapter by lazy {
         delegateAdapterFactory.create(this::navigateToDetails)
@@ -36,7 +37,7 @@ class SkillsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = SkillsFragBinding.inflate(inflater, container, false).also {
+        binding = SkillsFragBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }
@@ -46,7 +47,7 @@ class SkillsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recycler_view.setupAdapter(listAdapter)
+        binding.recyclerView.setupAdapter(listAdapter)
         viewModel.skills.observe(viewLifecycleOwner, listAdapter::submitList)
 
         observe(viewModel.navigateToAddEdit) {

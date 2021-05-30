@@ -27,6 +27,7 @@
                 app:title="@{@string/productivity_destination}" />
 
             <include
+                android:id="@+id/productivity_chart"
                 layout="@layout/chart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/chart_height"

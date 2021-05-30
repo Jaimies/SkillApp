@@ -17,7 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/skilldetal_collapsing_toolbar" />
+        <include
+            android:id="@+id/collapsing_toolbar_layout"
+            layout="@layout/skilldetal_collapsing_toolbar" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -42,6 +44,7 @@
                     app:startTime="@{viewModel.stopwatchStartTime}" />
 
                 <include
+                    android:id="@+id/productivity_chart"
                     layout="@layout/chart"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chart_height"

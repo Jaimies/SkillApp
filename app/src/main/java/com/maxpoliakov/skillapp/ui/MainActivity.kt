@@ -15,17 +15,17 @@ import com.maxpoliakov.skillapp.R.id.settings_fragment_dest
 import com.maxpoliakov.skillapp.R.id.skills_fragment_dest
 import com.maxpoliakov.skillapp.R.id.statistics_fragment_dest
 import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
+import com.maxpoliakov.skillapp.databinding.MainActBinding
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.ui.findNavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.main_act.bottom_app_bar
-import kotlinx.android.synthetic.main.main_act.toolbar
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
     private lateinit var navController: NavController
+    private lateinit var binding: MainActBinding
 
     private val appBarConfiguration = AppBarConfiguration(
         setOf(
@@ -39,14 +39,15 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Theme_SkillApp)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_act)
-        setSupportActionBar(toolbar)
+        binding = MainActBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
         setupNavController()
     }
 
     private fun setupNavController() {
         navController = findNavHostFragment().navController
-        bottom_app_bar.setupWithNavController(navController)
+        binding.bottomAppBar.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener(this)
     }
@@ -61,11 +62,11 @@ class MainActivity : AppCompatActivity(),
         arguments: Bundle?
     ) {
         hideKeyboard()
-        toolbar.isGone = destination.id == statistics_fragment_dest
+        binding.toolbar.isGone = destination.id == statistics_fragment_dest
     }
 
     fun setToolbar(newToolbar: Toolbar) {
-        toolbar.isGone = !shouldDisplayDefaultToolbar(newToolbar)
+        binding.toolbar.isGone = !shouldDisplayDefaultToolbar(newToolbar)
         setSupportActionBar(newToolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
@@ -76,6 +77,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun resetToolbar() {
-        setToolbar(toolbar)
+        setToolbar(binding.toolbar)
     }
 }

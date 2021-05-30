@@ -11,18 +11,19 @@ import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.setState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.chart.chart
 
 @AndroidEntryPoint
 class StatisticsFragment : Fragment() {
     private val viewModel: StatisticsViewModel by viewModels()
+
+    private lateinit var binding: StatisticsFragBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = StatisticsFragBinding.inflate(inflater, container, false).also {
+        binding = StatisticsFragBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }
@@ -31,7 +32,7 @@ class StatisticsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        chart.setup()
-        observe(viewModel.statsChartData, chart::setState)
+        binding.productivityChart.chart.setup()
+        observe(viewModel.statsChartData, binding.productivityChart.chart::setState)
     }
 }

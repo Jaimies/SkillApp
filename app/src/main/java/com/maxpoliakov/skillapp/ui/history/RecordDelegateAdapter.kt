@@ -14,7 +14,6 @@ import com.maxpoliakov.skillapp.util.fragment.showDatePicker
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 import com.maxpoliakov.skillapp.util.ui.showPopupMenu
-import kotlinx.android.synthetic.main.records_item.view.more_btn
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -25,7 +24,7 @@ class RecordDelegateAdapter @Inject constructor(
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
         parent.inflateDataBinding<RecordsItemBinding>(R.layout.records_item).run {
             val viewModel = viewModelProvider.get().also { viewModel = it }
-            return ViewHolder(root, viewModel)
+            return ViewHolder(this, viewModel)
         }
     }
 
@@ -34,13 +33,13 @@ class RecordDelegateAdapter @Inject constructor(
     }
 
     class ViewHolder(
-        private val view: View,
+        private val binding: RecordsItemBinding,
         private val viewModel: RecordViewModel
-    ) : BaseViewHolder(view) {
+    ) : BaseViewHolder(binding.root) {
 
         init {
             viewModel.showMenu.observe {
-                val popup = showPopupMenu(context, view.more_btn, R.menu.record_item_menu)
+                val popup = showPopupMenu(context, binding.moreBtn, R.menu.record_item_menu)
                 popup.setOnMenuItemClickListener(this::onMenuItemClicked)
             }
         }

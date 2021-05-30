@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.model
 import android.os.Parcelable
 import androidx.annotation.Keep
 import com.maxpoliakov.skillapp.domain.model.Skill
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.time.Duration
 import java.time.LocalDate
 

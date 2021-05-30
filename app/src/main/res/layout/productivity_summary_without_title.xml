@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:paddingStart="60dp">
+        android:paddingStart="@dimen/productivity_summary_spacing_start">
 
         <include
             android:id="@+id/last_week"

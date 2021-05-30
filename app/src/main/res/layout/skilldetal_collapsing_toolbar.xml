@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:expandedTitleMarginBottom="35dp"
-        app:expandedTitleMarginStart="60dp"
+        app:expandedTitleMarginStart="@dimen/productivity_summary_spacing_start"
         app:expandedTitleTextAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
         app:toolbarId="@+id/toolbar">

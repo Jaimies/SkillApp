@@ -20,6 +20,7 @@ import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
+import com.maxpoliakov.skillapp.util.ui.setMarginTop
 import com.maxpoliakov.skillapp.util.ui.setState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -56,15 +57,22 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
         observe(viewModel.showRecordDialog) { showRecordDialog() }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() = binding.collapsingToolbarLayout.run {
+        super.onStart()
+        appBar.post {
+            appBar.setMarginTop(-collapsingToolbar.height)
+        }
+
         viewModel.skillLiveData.observe(viewLifecycleOwner) { skill ->
-            binding.collapsingToolbarLayout.collapsingToolbar.title = skill.name
+            collapsingToolbar.title = skill.name
         }
         lifecycleScope.launch {
             awaitUntilAnimationFinished()
-            (requireActivity() as MainActivity).setToolbar(binding.collapsingToolbarLayout.collapsingToolbar)
+            (requireActivity() as MainActivity).setToolbar(collapsingToolbar)
+            appBar.setMarginTop(0)
         }
+
+        Unit
     }
 
     private suspend fun awaitUntilAnimationFinished() {
@@ -72,7 +80,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
         delay(animationDuration.toLong())
     }
 
-    override fun onPause() {
+    override fun onPause() = binding.collapsingToolbarLayout.run {
         super.onPause()
         (requireActivity() as MainActivity).resetToolbar()
     }

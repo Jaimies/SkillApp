@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.util.ui
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -26,4 +27,14 @@ fun RecyclerView.setupAdapter(adapter: RecyclerView.Adapter<*>) {
 
     layoutManager = LinearLayoutManager(context)
     this.adapter = adapter
+}
+
+fun View.setMarginTop(value: Int) {
+    setMargins(0, value, 0, 0)
+}
+
+fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
+    val params = layoutParams as? ViewGroup.MarginLayoutParams ?: return
+    params.setMargins(left, top, right, bottom)
+    requestLayout()
 }

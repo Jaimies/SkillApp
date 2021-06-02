@@ -64,7 +64,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
         }
 
         viewModel.skillLiveData.observe(viewLifecycleOwner) { skill ->
-            collapsingToolbar.title = skill.name
+            toolbarLayout.title = skill.name
         }
         lifecycleScope.launch {
             awaitUntilAnimationFinished()

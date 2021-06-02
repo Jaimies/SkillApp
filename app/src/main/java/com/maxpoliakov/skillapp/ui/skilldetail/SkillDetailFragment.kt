@@ -80,8 +80,8 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
         delay(animationDuration.toLong())
     }
 
-    override fun onPause() = binding.collapsingToolbarLayout.run {
-        super.onPause()
+    override fun onStop() = binding.collapsingToolbarLayout.run {
+        super.onStop()
         (requireActivity() as MainActivity).resetToolbar()
     }
 

@@ -26,7 +26,6 @@
     <string name="add_a_record">Добавить запись</string>
     <string name="edit">Изменить</string>
     <string name="today">Сегодня</string>
-    <string name="today_lowercase">сегодня</string>
     <string name="yesterday">Вчера</string>
     <string name="date">%1$s, %3$d %2$s</string>
     <string name="date_with_year">%1$s, %3$d %2$s, %4$d</string>

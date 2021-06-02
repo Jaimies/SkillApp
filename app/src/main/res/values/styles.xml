@@ -5,7 +5,12 @@
         <item name="android:overScrollMode">never</item>
     </style>
 
-    <style name="Widget.SkillApp.CardView.Dark" parent="Widget.MaterialComponents.CardView">
+    <style name="Widget.SkillApp.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">20dp</item>
+    </style>
+
+    <style name="Widget.SkillApp.CardView.Dark" >
         <item name="cardBackgroundColor">@color/black_light</item>
     </style>
 

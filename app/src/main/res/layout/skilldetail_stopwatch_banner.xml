@@ -29,6 +29,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingStart="24dp"
+            android:paddingEnd="24dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp">
 
@@ -49,7 +50,6 @@
                 android:id="@+id/stopwatch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:isActive="@{isActive}"
                 app:layout_constraintEnd_toEndOf="parent"

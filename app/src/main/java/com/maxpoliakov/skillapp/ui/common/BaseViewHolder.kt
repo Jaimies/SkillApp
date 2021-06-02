@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.util.ui.getBaseContext
 

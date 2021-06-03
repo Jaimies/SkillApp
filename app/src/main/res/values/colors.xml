@@ -4,9 +4,11 @@
     <color name="blue_light">#1b8fff</color>
     <color name="red">#F70C37</color>
     <color name="black">#1e202a</color>
-    <color name="black_light">#2f313e</color>
+    <color name="black_light">#272833</color>
+    <color name="black_lighter">#2f313e</color>
     <color name="gray_darker">#313131</color>
     <color name="gray_dark">#333b46</color>
     <color name="gray_light">#eee</color>
     <color name="gray_lighter">#f5f5f5</color>
+    <color name="gray_lightest">#f7f7f7</color>
 </resources>

@@ -19,6 +19,7 @@
         <item name="bottomNavigationStyle">@style/Widget.SkillApp.BottomNavigationView.Dark</item>
         <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
         <item name="colorControlNormal">@android:color/white</item>
+        <item name="dividerColor">@color/black_light</item>
     </style>
 
     <style name="Theme.SkillApp.Splash" />

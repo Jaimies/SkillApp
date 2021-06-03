@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.maxpoliakov.skillapp.databinding.HistoryFragBinding
+import com.maxpoliakov.skillapp.util.ui.addDividers
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -41,6 +42,7 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.setupAdapter(listAdapter)
+        binding.recyclerView.addDividers()
         lifecycleScope.launch {
             viewModel.records.collectLatest(listAdapter::submitData)
         }

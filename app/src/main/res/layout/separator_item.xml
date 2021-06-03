@@ -17,8 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingTop="24dp"
+        android:paddingStart="24dp"
+        android:paddingTop="32dp"
         android:paddingEnd="20dp"
         android:paddingBottom="12dp">
 

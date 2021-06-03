@@ -15,6 +15,7 @@
         <item name="android:popupMenuStyle">@style/Widget.MaterialComponents.PopupMenu</item>
         <item name="colorControlNormal">@android:color/black</item>
         <item name="materialCardViewStyle">@style/Widget.SkillApp.CardView</item>
+        <item name="dividerColor">@color/gray_lighter</item>
     </style>
 
     <style name="Theme.SkillApp.V23" parent="Theme.SkillApp.Base">

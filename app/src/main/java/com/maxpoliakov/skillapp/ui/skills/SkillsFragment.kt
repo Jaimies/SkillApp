@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.util.fragment.observe
+import com.maxpoliakov.skillapp.util.ui.createDraggingItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +20,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SkillsFragment : Fragment() {
+    private val itemTouchHelper by lazy {
+       createDraggingItemTouchHelper { adapter, from, to ->
+           (adapter as SkillListAdapter).moveItem(from, to)
+       }
+    }
+
     @Inject
     lateinit var delegateAdapterFactory: SkillDelegateAdapter.Factory
 
@@ -48,6 +55,7 @@ class SkillsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.setupAdapter(listAdapter)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
         viewModel.skills.observe(viewLifecycleOwner, listAdapter::submitList)
 
         observe(viewModel.isActive, this::setStopwatchActive)

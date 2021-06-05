@@ -57,6 +57,19 @@ class SkillListAdapter(
             submitList(currentList.slice(1..currentList.lastIndex))
     }
 
+    fun moveItem(from: Int, to: Int) {
+        if (stopwatchIsShown() && (to == 0 || from == 0)) return
+        val list = currentList.toMutableList()
+        val item = list[from]
+        list.removeAt(from)
+        if (to < from) {
+            list.add(to + 1, item)
+        } else {
+            list.add(to - 1, item)
+        }
+        submitList(list)
+    }
+
     private fun stopwatchIsShown(): Boolean {
         return itemCount != 0 && getItemViewType(0) == 1
     }

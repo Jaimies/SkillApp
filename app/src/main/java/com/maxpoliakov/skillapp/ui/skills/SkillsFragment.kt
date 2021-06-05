@@ -24,12 +24,13 @@ class SkillsFragment : Fragment() {
 
     private lateinit var binding: SkillsFragBinding
 
-    private val delegateAdapter by lazy {
+    private val skillDelegateAdapter by lazy {
         delegateAdapterFactory.create(this::navigateToDetails)
     }
 
-    private val listAdapter by lazy { SkillListAdapter(delegateAdapter) }
-    val viewModel: SkillsViewModel by viewModels()
+    private val stopwatchAdapter by lazy { StopwatchDelegateAdapter(viewModel) }
+    private val listAdapter by lazy { SkillListAdapter(skillDelegateAdapter, stopwatchAdapter) }
+    private val viewModel: SkillsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,12 +50,28 @@ class SkillsFragment : Fragment() {
         binding.recyclerView.setupAdapter(listAdapter)
         viewModel.skills.observe(viewLifecycleOwner, listAdapter::submitList)
 
+        observe(viewModel.isActive, this::setStopwatchActive)
+
         observe(viewModel.navigateToAddEdit) {
             findNavController().navigateAnimated(addskill_fragment_dest)
         }
 
         observe(viewModel.navigateToSkill, this::navigateToDetails)
     }
+
+    private fun setStopwatchActive(isActive: Boolean) {
+        if (isActive) showStopwatch()
+        else hideStopwatch()
+    }
+
+    private fun showStopwatch() {
+        listAdapter.showStopwatch()
+        binding.recyclerView.post {
+            binding.recyclerView.smoothScrollToPosition(0)
+        }
+    }
+
+    private fun hideStopwatch() = listAdapter.hideStopwatch()
 
     private fun navigateToDetails(skill: Skill) {
         val directions = actionToSkillDetailFragment(skill.id)

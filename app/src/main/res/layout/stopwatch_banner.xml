@@ -5,40 +5,22 @@
 
     <data>
 
-        <import type="com.maxpoliakov.skillapp.util.Callback" />
-
         <variable
-            name="startTime"
-            type="java.time.ZonedDateTime" />
-
-        <variable
-            name="isActive"
-            type="boolean" />
-
-        <variable
-            name="skill"
-            type="com.maxpoliakov.skillapp.domain.model.Skill" />
-
-        <variable
-            name="onStop"
-            type="Callback" />
-
-        <variable
-            name="navigateToDetail"
-            type="Callback" />
+            name="viewModel"
+            type="com.maxpoliakov.skillapp.ui.skills.SkillsViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="4dp"
-        app:visible="@{isActive}">
+        app:visible="@{viewModel.isActive}">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
-            android:onClick="@{() -> navigateToDetail.invoke()}">
+            android:onClick="@{() -> viewModel.navigateToCurrentlyTrackedSkill()}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -55,7 +37,7 @@
                     android:focusable="false"
                     android:fontFamily="sans-serif-medium"
                     android:screenReaderFocusable="false"
-                    android:text="@{skill.name}"
+                    android:text="@{viewModel.trackingSkill.name}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     app:layout_constraintBottom_toBottomOf="@+id/stopwatch"
                     app:layout_constraintEnd_toStartOf="@+id/stopwatch"
@@ -69,10 +51,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                    app:isActive="@{isActive}"
+                    app:isActive="@{viewModel.isActive}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:startTime="@{startTime}" />
+                    app:startTime="@{viewModel.stopwatchStartTime}" />
 
                 <Button
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -80,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:textColor="?attr/colorAccent"
-                    android:onClick="@{() -> onStop.invoke()}"
+                    android:onClick="@{() -> viewModel.stopTimer()}"
                     android:text="@string/stop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/stopwatch" />

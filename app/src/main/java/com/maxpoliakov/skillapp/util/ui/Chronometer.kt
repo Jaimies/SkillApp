@@ -9,7 +9,8 @@ import java.time.Duration
 import java.time.ZonedDateTime
 
 @BindingAdapter("startTime")
-fun Chronometer.setBase(dateTime: ZonedDateTime) {
+fun Chronometer.setBase(dateTime: ZonedDateTime?) {
+    if(dateTime == null) return
     this.base = dateTime.chronometerBase
 }
 

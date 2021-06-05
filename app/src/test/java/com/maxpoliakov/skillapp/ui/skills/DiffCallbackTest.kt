@@ -13,11 +13,14 @@ class DiffCallbackTest : StringSpec({
     "areItemsTheSame" {
         callback.areItemsTheSame(createSkill(1, "B"), createSkill(1, "A")) shouldBe true
         callback.areItemsTheSame(createSkill(1, "A"), createSkill(2, "A")) shouldBe false
+        callback.areItemsTheSame(StopwatchUiModel, StopwatchUiModel) shouldBe true
+        callback.areItemsTheSame(StopwatchUiModel, createSkill(1, "A")) shouldBe false
     }
 
     "areContentsTheSame" {
         callback.areContentsTheSame(createSkill(1, "A"), createSkill(1, "A")) shouldBe true
         callback.areContentsTheSame(createSkill(1, "A"), createSkill(1, "B")) shouldBe false
+        callback.areContentsTheSame(StopwatchUiModel, StopwatchUiModel) shouldBe true
     }
 })
 

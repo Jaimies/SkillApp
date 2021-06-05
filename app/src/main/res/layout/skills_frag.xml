@@ -15,18 +15,6 @@
         android:layout_height="match_parent"
         tools:context=".ui.skills.SkillsFragment">
 
-        <include
-            android:id="@+id/stopwatch_banner"
-            layout="@layout/stopwatch_banner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:isActive="@{viewModel.isActive}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigateToDetail="@{viewModel::navigateToCurrentlyTrackedSkill}"
-            app:onStop="@{viewModel::stopTimer}"
-            app:skill="@{viewModel.trackingSkill}"
-            app:startTime="@{viewModel.stopwatchStartTime}" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
@@ -35,7 +23,7 @@
             android:paddingBottom="80dp"
             android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stopwatch_banner"
+            app:layout_constraintTop_toTopOf="parent"
             app:visible="@{!viewModel.isEmpty}"
             tools:itemCount="7"
             tools:listitem="@layout/skills_item" />

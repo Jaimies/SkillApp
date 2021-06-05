@@ -5,7 +5,8 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
-import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaByDp
+import com.maxpoliakov.skillapp.util.ui.dp
+import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaBy
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 import javax.inject.Inject
 import javax.inject.Provider
@@ -19,7 +20,7 @@ class SkillDelegateAdapter(
         parent.inflateDataBinding<SkillsItemBinding>(R.layout.skills_item).run {
             val viewModel = viewModelProvider.get()
             this.viewModel = viewModel
-            this.startTimer.increaseTouchAreaByDp(35)
+            this.startTimer.increaseTouchAreaBy(35.dp)
             return SkillViewHolder(root, viewModel, navigateToDetails)
         }
     }
@@ -31,7 +32,7 @@ class SkillDelegateAdapter(
     class Factory @Inject constructor(
         private val viewModelProvider: Provider<SkillViewModel>,
     ) {
-        fun create(navigateToDetails: (skill: Skill) -> Unit) : SkillDelegateAdapter {
+        fun create(navigateToDetails: (skill: Skill) -> Unit): SkillDelegateAdapter {
             return SkillDelegateAdapter(viewModelProvider, navigateToDetails)
         }
     }

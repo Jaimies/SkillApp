@@ -36,14 +36,14 @@ private fun BarChart.setupOffsets() {
 }
 
 private fun BarChart.setupNoDataText() {
-    val textSize = Utils.convertDpToPixel(14f.sp(context))
-    getPaint(PAINT_INFO).textSize = textSize
+    val textSize = 14f.sp.toPx(context)
+    getPaint(PAINT_INFO).textSize = textSize.toFloat()
     setNoDataTextColor(context.getTextColor())
     setNoDataText(context.getString(R.string.no_stats))
 }
 
 private fun BarChart.setupFonts() {
-    val textSize = 12.5f.sp(context)
+    val textSize = 12.5f.sp.toDp(context)
     axisLeft.textSize = textSize
     axisLeft.xOffset = 7f
     xAxis.textSize = textSize

@@ -42,8 +42,8 @@ fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
     requestLayout()
 }
 
-fun View.increaseTouchAreaByDp(numberOfDp: Int) {
-    val numberOfPx = numberOfDp.toFloat().dp(context).roundToInt()
+fun View.increaseTouchAreaBy(size: Unit) {
+    val numberOfPx = size.toPx(context)
     val parent = parent as View
     parent.post {
         val rect = Rect()

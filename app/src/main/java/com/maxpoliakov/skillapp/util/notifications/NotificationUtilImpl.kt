@@ -63,7 +63,7 @@ class NotificationUtilImpl @Inject constructor(
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(remoteViews)
             .setContentIntent(getContentIntent(skill.id))
-            .setNotificationSilent()
+            .setSilent(true)
             .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent())
             .build()
 

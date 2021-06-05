@@ -45,5 +45,8 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    fun showMenu() = showMenu.call()
+    fun showMenu(): Boolean {
+        showMenu.call()
+        return false
+    }
 }

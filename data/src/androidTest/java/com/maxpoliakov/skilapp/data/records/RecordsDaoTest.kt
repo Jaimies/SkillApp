@@ -23,7 +23,7 @@ class RecordsDaoTest {
     fun beforeEach() {
         db = createTestDatabase()
         recordsDao = db.recordsDao()
-        skillDao = db.statisticDao()
+        skillDao = db.skillDao()
     }
 
     @After

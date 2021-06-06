@@ -20,7 +20,7 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideStatisticDao(db: AppDatabase) = db.statisticDao()
+    fun provideSkillDao(db: AppDatabase) = db.skillDao()
 
     @Provides
     @Singleton

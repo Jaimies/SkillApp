@@ -19,7 +19,7 @@ import com.maxpoliakov.skillapp.data.stats.StatsDao
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun statisticDao(): SkillDao
+    abstract fun skillDao(): SkillDao
     abstract fun recordsDao(): RecordsDao
     abstract fun statsDao(): StatsDao
 

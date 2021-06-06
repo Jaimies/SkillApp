@@ -27,7 +27,7 @@ class StatsDaoTest {
     fun beforeEach() = runBlocking<Unit> {
         db = createTestDatabase()
         statsDao = db.statsDao()
-        skillDao = db.statisticDao()
+        skillDao = db.skillDao()
         skillDao.insert(DBSkill())
     }
 

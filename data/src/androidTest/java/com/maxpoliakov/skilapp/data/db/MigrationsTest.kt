@@ -54,7 +54,7 @@ class MigrationsTest {
 
         val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
 
-        roomDb.statisticDao().getSkill(1).await() shouldBe skill
+        roomDb.skillDao().getSkill(1).await() shouldBe skill
         roomDb.statsDao().getTimeAtDate(statistic.date) shouldBe statistic.time
         roomDb.recordsDao().getRecordById(1) shouldBe record
     }

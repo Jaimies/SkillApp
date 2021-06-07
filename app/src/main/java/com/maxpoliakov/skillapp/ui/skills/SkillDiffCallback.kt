@@ -9,7 +9,10 @@ class SkillDiffCallback : DiffUtil.ItemCallback<Any>() {
     }
 
     override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
-        return compare(oldItem, newItem) { old, new -> old == new }
+        return compare(oldItem, newItem) { old, new ->
+            // order should be ignored when comparing for equality
+            old.copy(order = 0) == new.copy(order = 0)
+        }
     }
 
     private fun compare(

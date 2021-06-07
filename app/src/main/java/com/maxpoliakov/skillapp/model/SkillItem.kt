@@ -15,11 +15,12 @@ data class SkillItem(
     val totalTime: Duration,
     val initialTime: Duration,
     val lastWeekTime: Duration,
-    val creationDate: LocalDate
+    val creationDate: LocalDate,
+    val order: Int,
 ) : ViewItem, Parcelable
 
 fun Skill.mapToPresentation() = SkillItem(
-    id, name, totalTime, initialTime, lastWeekTime, date
+    id, name, totalTime, initialTime, lastWeekTime, date, order,
 )
 
 fun SkillItem.mapToDomain() = Skill(
@@ -28,5 +29,6 @@ fun SkillItem.mapToDomain() = Skill(
     initialTime,
     lastWeekTime,
     id,
-    creationDate
+    creationDate,
+    order,
 )

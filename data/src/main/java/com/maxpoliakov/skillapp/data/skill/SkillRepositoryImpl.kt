@@ -38,6 +38,10 @@ class SkillRepositoryImpl @Inject constructor(
         skillDao.increaseTime(id, time)
     }
 
+    override suspend fun setOrder(id: Int, order: Int) {
+        skillDao.setOrder(id, order)
+    }
+
     override suspend fun decreaseTime(id: Id, time: Duration) {
         skillDao.increaseTime(id, time.negated())
     }

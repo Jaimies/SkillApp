@@ -3,9 +3,11 @@ package com.maxpoliakov.skillapp.ui.skills
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
@@ -14,12 +16,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SkillsViewModel @Inject constructor(
     getSkill: GetSkillByIdUseCase,
     getSkills: GetSkillsUseCase,
+    private val updateOrder: UpdateOrderUseCase,
     private val stopwatchUtil: StopwatchUtil
 ) : ViewModel() {
 
@@ -42,6 +46,10 @@ class SkillsViewModel @Inject constructor(
 
     fun navigateToCurrentlyTrackedSkill() {
         navigateToSkill.value = trackingSkill.value!!
+    }
+
+    fun updateOrder(skills: List<Skill>) = viewModelScope.launch {
+        updateOrder.run(skills)
     }
 
     fun stopTimer() = stopwatchUtil.stop()

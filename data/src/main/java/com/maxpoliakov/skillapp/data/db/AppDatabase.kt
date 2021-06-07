@@ -14,7 +14,7 @@ import com.maxpoliakov.skillapp.data.stats.StatsDao
 
 @Database(
     entities = [DBSkill::class, DBRecord::class, DBStatistic::class],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
@@ -26,7 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         fun create(context: Context) = Room
             .databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
             .build()
 
         const val DATABASE_NAME = "main"

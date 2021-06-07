@@ -8,7 +8,7 @@ import java.time.Duration
 
 @Dao
 interface SkillDao : BaseDao<DBSkill> {
-    @Query("SELECT * FROM skills ORDER BY totalTime DESC")
+    @Query("SELECT * FROM skills ORDER BY `order` ASC, id ASC")
     fun getSkills(): Flow<List<DBSkill>>
 
     @Query(
@@ -21,6 +21,9 @@ interface SkillDao : BaseDao<DBSkill> {
         WHERE skills.id = :id"""
     )
     fun getSkill(id: Int): Flow<DBSkill?>
+
+    @Query("UPDATE skills SET `order` = :order WHERE id = :id")
+    suspend fun setOrder(id: Int, order: Int)
 
     @Query("UPDATE skills SET totalTime = totalTime + :by WHERE id = :id")
     suspend fun increaseTime(id: Int, by: Duration)

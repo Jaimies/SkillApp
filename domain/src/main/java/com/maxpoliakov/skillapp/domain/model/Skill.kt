@@ -10,7 +10,8 @@ data class Skill(
     val initialTime: Duration,
     val lastWeekTime: Duration = Duration.ZERO,
     val id: Id = 0,
-    val date: LocalDate = getCurrentDate()
+    val date: LocalDate = getCurrentDate(),
+    val order: Int = -1
 ) {
     val recordedTime get() = totalTime - initialTime
 }

@@ -62,11 +62,7 @@ class SkillListAdapter(
         val list = currentList.toMutableList()
         val item = list[from]
         list.removeAt(from)
-        if (to < from) {
-            list.add(to + 1, item)
-        } else {
-            list.add(to - 1, item)
-        }
+        list.add(to, item)
         submitList(list)
     }
 

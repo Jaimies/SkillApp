@@ -5,6 +5,7 @@ import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.platform.app.InstrumentationRegistry
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.db.MIGRATION_1_2
+import com.maxpoliakov.skillapp.data.db.MIGRATION_2_3
 import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
@@ -57,5 +58,22 @@ class MigrationsTest {
         roomDb.skillDao().getSkill(1).await() shouldBe skill
         roomDb.statsDao().getTimeAtDate(statistic.date) shouldBe statistic.time
         roomDb.recordsDao().getRecordById(1) shouldBe record
+    }
+
+    @Test
+    fun migration_from_2_to_3() = runBlocking {
+        helper.createDatabase(AppDatabase.DATABASE_NAME, 2).apply {
+            execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate)
+                VALUES ("name", 100000, 1000, 100, "1970-01-01")
+            """)
+        }
+
+        helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 3, true, MIGRATION_2_3)
+
+        val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
+        val skill = roomDb.skillDao().getSkill(1).await()!!
+        skill.order shouldBe -1
+        skill.name shouldBe "name"
+        skill.totalTime shouldBe Duration.ofMillis(100000)
     }
 }

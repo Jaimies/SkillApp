@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.util.fragment.observe
+import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createDraggingItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
@@ -20,10 +21,18 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SkillsFragment : Fragment() {
+    private val itemTouchHelperCallback = object : ItemTouchHelperCallback {
+        override fun onMove(from: Int, to: Int) {
+            listAdapter.moveItem(from, to)
+        }
+
+        override fun onDropped() {
+            viewModel.updateOrder(listAdapter.currentList.filterIsInstance<Skill>())
+        }
+    }
+
     private val itemTouchHelper by lazy {
-       createDraggingItemTouchHelper { adapter, from, to ->
-           (adapter as SkillListAdapter).moveItem(from, to)
-       }
+        createDraggingItemTouchHelper(itemTouchHelperCallback)
     }
 
     @Inject

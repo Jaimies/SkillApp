@@ -1,18 +1,29 @@
 package com.maxpoliakov.skillapp.ui.skills
 
-import android.view.View
+import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
+import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 
 class SkillViewHolder(
-    view: View,
+    binding: SkillsItemBinding,
     private val viewModel: SkillViewModel,
     navigateToDetail: (skill: Skill) -> Unit,
     startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
-) : BaseViewHolder(view) {
+) : BaseViewHolder(binding.root) {
 
     init {
+
+        binding.dragHandle.setOnTouchListener { view, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                view.performClick()
+                startDrag(this)
+            }
+
+            false
+        }
+
         viewModel.navigateToDetails.observe {
             viewModel.skill.value?.let(navigateToDetail)
         }

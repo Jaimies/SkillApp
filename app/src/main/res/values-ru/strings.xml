@@ -47,4 +47,5 @@
     <string name="stop_the_timer">Остановить таймер</string>
     <string name="stop">Остановить</string>
     <string name="tracking">Таймер</string>
+    <string name="drag_handle_label">Перетащите, чтобы изменить порядок</string>
 </resources>

@@ -23,7 +23,7 @@ class SkillDelegateAdapter(
             val viewModel = viewModelProvider.get()
             this.viewModel = viewModel
             this.startTimer.increaseTouchAreaBy(35.dp)
-            return SkillViewHolder(root, viewModel, navigateToDetails, startDrag)
+            return SkillViewHolder(this, viewModel, navigateToDetails, startDrag)
         }
     }
 

@@ -13,31 +13,43 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/small_card_height"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="12dp"
+        android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
-        android:onLongClick="@{(view) -> viewModel.startDrag()}"
-        android:onClick="@{() -> viewModel.navigateToDetails()}">
+        android:onClick="@{() -> viewModel.navigateToDetails()}"
+        android:onLongClick="@{(view) -> viewModel.startDrag()}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="24dp"
+            android:paddingStart="9dp"
             android:paddingEnd="24dp">
+
+            <ImageButton
+                android:id="@+id/drag_handle"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:clickable="true"
+                android:contentDescription="@string/drag_handle_label"
+                android:focusable="true"
+                android:src="@drawable/ic_drag_handle"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:text="@{viewModel.state.name}"
                 android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/total_time"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/drag_handle"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Skill name" />

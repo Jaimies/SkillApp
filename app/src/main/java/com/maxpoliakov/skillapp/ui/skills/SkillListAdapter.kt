@@ -1,9 +1,9 @@
 package com.maxpoliakov.skillapp.ui.skills
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
+import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
 
 private const val ITEM_TYPE_SKILL = 0
 private const val ITEM_TYPE_STOPWATCH = 1
@@ -63,7 +63,8 @@ class SkillListAdapter(
         val item = list[from]
         list.removeAt(from)
         list.add(to, item)
-        submitList(list)
+        setListWithoutDiffing(list)
+        notifyItemMoved(from, to)
     }
 
     private fun stopwatchIsShown(): Boolean {

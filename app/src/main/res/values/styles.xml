@@ -49,4 +49,8 @@
     <style name="ThemeOverlay.SkillApp.TextInput" parent="">
         <item name="colorPrimary">?attr/colorAccent</item>
     </style>
+
+    <style name="Widget.SkillApp.NegativeButton.Dark" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
 </resources>

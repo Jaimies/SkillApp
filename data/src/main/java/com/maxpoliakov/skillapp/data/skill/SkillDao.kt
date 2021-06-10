@@ -8,7 +8,7 @@ import java.time.Duration
 
 @Dao
 interface SkillDao : BaseDao<DBSkill> {
-    @Query("SELECT * FROM skills ORDER BY `order` ASC, id ASC")
+    @Query("SELECT * FROM skills ORDER BY `order` ASC, id DESC")
     fun getSkills(): Flow<List<DBSkill>>
 
     @Query(

@@ -103,7 +103,7 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
     }
 
     private fun showDeleteDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_SkillApp_AlertDialog)
             .setTitle(R.string.delete_skill_title)
             .setMessage(R.string.delete_skill_message)
             .setPositiveButton(R.string.delete) { _, _ -> deleteSkill() }

@@ -16,6 +16,8 @@ fun createDraggingItemTouchHelper(
 ): ItemTouchHelper {
 
     val simpleItemTouchCallback = object : SimpleCallback(UP or DOWN, 0) {
+        override fun isLongPressDragEnabled() = false
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,

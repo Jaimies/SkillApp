@@ -24,5 +24,12 @@ class SkillViewModel @Inject constructor(
     }
 
     val navigateToDetails = SingleLiveEvent<Any>()
+    val startDrag = SingleLiveEvent<Any>()
+
     fun navigateToDetails() = navigateToDetails.call()
+
+    fun startDrag(): Boolean {
+        startDrag.call()
+        return false
+    }
 }

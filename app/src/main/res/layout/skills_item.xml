@@ -19,6 +19,7 @@
         android:layout_marginEnd="12dp"
         android:clickable="true"
         android:focusable="true"
+        android:onLongClick="@{(view) -> viewModel.startDrag()}"
         android:onClick="@{() -> viewModel.navigateToDetails()}">
 
         <androidx.constraintlayout.widget.ConstraintLayout

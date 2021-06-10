@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.MainDirections.Companion.actionToSkillDetailFragment
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
@@ -41,7 +42,7 @@ class SkillsFragment : Fragment() {
     private lateinit var binding: SkillsFragBinding
 
     private val skillDelegateAdapter by lazy {
-        delegateAdapterFactory.create(this::navigateToDetails)
+        delegateAdapterFactory.create(this::navigateToDetails, this::startDrag)
     }
 
     private val stopwatchAdapter by lazy { StopwatchDelegateAdapter(viewModel) }
@@ -93,5 +94,9 @@ class SkillsFragment : Fragment() {
     private fun navigateToDetails(skill: Skill) {
         val directions = actionToSkillDetailFragment(skill.id)
         findNavController().navigateAnimated(directions)
+    }
+
+    private fun startDrag(viewHolder: RecyclerView.ViewHolder) {
+        itemTouchHelper.startDrag(viewHolder)
     }
 }

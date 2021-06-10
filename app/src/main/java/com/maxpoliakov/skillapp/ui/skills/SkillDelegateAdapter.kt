@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skills
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -13,7 +14,8 @@ import javax.inject.Provider
 
 class SkillDelegateAdapter(
     private val viewModelProvider: Provider<SkillViewModel>,
-    private val navigateToDetails: (skill: Skill) -> Unit
+    private val navigateToDetails: (skill: Skill) -> Unit,
+    private val startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
 ) : DelegateAdapter<Skill, SkillViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup): SkillViewHolder {
@@ -21,7 +23,7 @@ class SkillDelegateAdapter(
             val viewModel = viewModelProvider.get()
             this.viewModel = viewModel
             this.startTimer.increaseTouchAreaBy(35.dp)
-            return SkillViewHolder(root, viewModel, navigateToDetails)
+            return SkillViewHolder(root, viewModel, navigateToDetails, startDrag)
         }
     }
 
@@ -32,8 +34,11 @@ class SkillDelegateAdapter(
     class Factory @Inject constructor(
         private val viewModelProvider: Provider<SkillViewModel>,
     ) {
-        fun create(navigateToDetails: (skill: Skill) -> Unit): SkillDelegateAdapter {
-            return SkillDelegateAdapter(viewModelProvider, navigateToDetails)
+        fun create(
+            navigateToDetails: (skill: Skill) -> Unit,
+            startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
+        ): SkillDelegateAdapter {
+            return SkillDelegateAdapter(viewModelProvider, navigateToDetails, startDrag)
         }
     }
 }

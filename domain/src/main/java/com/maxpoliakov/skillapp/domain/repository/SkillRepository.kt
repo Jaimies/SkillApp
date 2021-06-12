@@ -13,7 +13,7 @@ interface SkillRepository {
     suspend fun addSkill(skill: Skill): Long
     suspend fun saveSkill(skill: Skill)
     suspend fun deleteSkill(skill: Skill)
-    suspend fun setOrder(id: Int, order: Int)
+    suspend fun updateOrder(skills: List<Skill>)
     suspend fun increaseTime(id: Id, time: Duration)
     suspend fun decreaseTime(id: Id, time: Duration)
 }

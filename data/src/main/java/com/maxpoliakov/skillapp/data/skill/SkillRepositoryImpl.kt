@@ -1,5 +1,7 @@
 package com.maxpoliakov.skillapp.data.skill
 
+import androidx.room.withTransaction
+import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
@@ -12,7 +14,8 @@ import javax.inject.Singleton
 
 @Singleton
 class SkillRepositoryImpl @Inject constructor(
-    private val skillDao: SkillDao
+    private val skillDao: SkillDao,
+    private val db: AppDatabase,
 ) : SkillRepository {
 
     private val _skills by lazy {
@@ -38,8 +41,12 @@ class SkillRepositoryImpl @Inject constructor(
         skillDao.increaseTime(id, time)
     }
 
-    override suspend fun setOrder(id: Int, order: Int) {
-        skillDao.setOrder(id, order)
+    override suspend fun updateOrder(skills: List<Skill>) {
+        db.withTransaction {
+            skills.forEachIndexed { index, skill ->
+                skillDao.setOrder(skill.id, index)
+            }
+        }
     }
 
     override suspend fun decreaseTime(id: Id, time: Duration) {

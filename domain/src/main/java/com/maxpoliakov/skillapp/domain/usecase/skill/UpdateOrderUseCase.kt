@@ -8,8 +8,6 @@ class UpdateOrderUseCase @Inject constructor(
     private val skillRepository: SkillRepository
 ) {
     suspend fun run(skills: List<Skill>) {
-        skills.forEachIndexed { index, skill ->
-            skillRepository.setOrder(skill.id, index)
-        }
+        skillRepository.updateOrder(skills)
     }
 }

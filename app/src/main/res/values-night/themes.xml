@@ -21,6 +21,8 @@
         <item name="colorControlNormal">@android:color/white</item>
         <item name="dividerColor">@color/black_light</item>
         <item name="buttonBarNegativeButtonStyle">@style/Widget.SkillApp.NegativeButton.Dark</item>
+        <item name="materialTimePickerTheme">@style/ThemeOverlay.SkillApp.TimePicker</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.SkillApp.DatePicker</item>
     </style>
 
     <style name="Theme.SkillApp.Splash" />

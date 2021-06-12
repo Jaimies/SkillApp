@@ -2,7 +2,7 @@
 <resources>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="padding_default">16dp</dimen>
-    <dimen name="chart_height">300dp</dimen>
+    <dimen name="chart_height">200dp</dimen>
     <dimen name="productivity_summary_spacing_start">60dp</dimen>
     <dimen name="small_card_height">70dp</dimen>
 </resources>

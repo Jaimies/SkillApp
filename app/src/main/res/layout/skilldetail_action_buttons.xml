@@ -15,28 +15,28 @@
         android:orientation="vertical"
         android:layout_marginBottom="70dp">
 
-        <Button
-            style="@style/Widget.SkillApp.RoundButton.Secondary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:onClick="@{() -> viewModel.showRecordDialog()}"
-            android:text="@string/add_a_record" />
-
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.SkillApp.RoundButton.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:backgroundTint="@{!viewModel.stopwatchIsRunning ? @color/blue : @color/red}"
             android:onClick="@{() -> viewModel.toggleTimer()}"
             android:text="@{!viewModel.stopwatchIsRunning ? @string/start_the_timer: @string/stop_the_timer}"
             tools:text="@string/start_the_timer" />
+
+        <Button
+            style="@style/Widget.SkillApp.RoundButton.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:onClick="@{() -> viewModel.showRecordDialog()}"
+            android:text="@string/add_a_record" />
     </LinearLayout>
 </layout>

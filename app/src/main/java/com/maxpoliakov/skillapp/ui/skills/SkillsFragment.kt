@@ -16,6 +16,7 @@ import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createDraggingItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
+import com.maxpoliakov.skillapp.util.ui.setOnItemAddedListener
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -46,7 +47,13 @@ class SkillsFragment : Fragment() {
     }
 
     private val stopwatchAdapter by lazy { StopwatchDelegateAdapter(viewModel) }
-    private val listAdapter by lazy { SkillListAdapter(skillDelegateAdapter, stopwatchAdapter) }
+    private val listAdapter by lazy {
+        SkillListAdapter(skillDelegateAdapter, stopwatchAdapter).apply {
+            setOnItemAddedListener {
+                binding.recyclerView.smoothScrollToPosition(0)
+            }
+        }
+    }
     private val viewModel: SkillsViewModel by viewModels()
 
     override fun onCreateView(

@@ -45,15 +45,17 @@
                     app:startTime="@{viewModel.stopwatchStartTime}" />
 
                 <include
+                    layout="@layout/skilldetail_action_buttons"
+                    app:viewModel="@{viewModel}" />
+
+                <include
                     android:id="@+id/productivity_chart"
                     layout="@layout/chart"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/chart_height"
+                    android:layout_marginBottom="70dp"
                     android:layout_marginTop="6dp" />
 
-                <include
-                    layout="@layout/skilldetail_action_buttons"
-                    app:viewModel="@{viewModel}" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

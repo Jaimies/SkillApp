@@ -91,9 +91,7 @@ class SkillsFragment : Fragment() {
 
     private fun showStopwatch() {
         listAdapter.showStopwatch()
-        binding.recyclerView.post {
-            binding.recyclerView.smoothScrollToPosition(0)
-        }
+        binding.recyclerView.smoothScrollToPosition(0)
     }
 
     private fun hideStopwatch() = listAdapter.hideStopwatch()

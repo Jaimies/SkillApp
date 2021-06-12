@@ -24,5 +24,17 @@
                 android:targetClass="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
                 android:targetPackage="com.maxpoliakov.skillapp" />
         </Preference>
+
+        <Preference android:title="@string/rate_the_app">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/market_uri" />
+        </Preference>
+
+        <Preference android:title="@string/contact_developer">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/mail_dev_uri" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

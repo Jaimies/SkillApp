@@ -50,4 +50,8 @@
     <string name="stop">Stop</string>
     <string name="timers">Timers</string>
     <string name="drag_handle_label">Drag to reorder</string>
+    <string name="rate_the_app">Rate the app</string>
+    <string name="contact_developer">Contact the developer</string>
+    <string name="mail_dev_uri" translatable="false">mailto:theskillapp@gmail.com</string>
+    <string name="market_uri" translatable="false">market://details?id=com.maxpoliakov.skillapp</string>
 </resources>

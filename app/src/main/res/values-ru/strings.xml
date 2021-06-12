@@ -48,4 +48,6 @@
     <string name="stop">Остановить</string>
     <string name="tracking">Таймер</string>
     <string name="drag_handle_label">Перетащите, чтобы изменить порядок</string>
+    <string name="rate_the_app">Оценить приложение</string>
+    <string name="contact_developer">Связаться с разработчиком</string>
 </resources>

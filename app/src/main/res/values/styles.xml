@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Widget.SkillApp.ScrollableView" parent="">
         <item name="android:scrollbars">none</item>
         <item name="android:overScrollMode">never</item>
@@ -10,7 +11,7 @@
         <item name="cardCornerRadius">20dp</item>
     </style>
 
-    <style name="Widget.SkillApp.CardView.Dark" >
+    <style name="Widget.SkillApp.CardView.Dark">
         <item name="cardBackgroundColor">@color/black_lighter</item>
     </style>
 

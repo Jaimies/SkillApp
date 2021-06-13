@@ -26,36 +26,11 @@
             tools:itemCount="7"
             tools:listitem="@layout/skills_item" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="30dp"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:visible="@{viewModel.isEmpty}">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:focusable="false"
-                android:text="@string/no_skills_title"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
-                android:textSize="28sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="@string/no_skills_text"
-                android:textAlignment="center" />
-        </LinearLayout>
+        <include
+            layout="@layout/empty_list_layout"
+            app:text="@{@string/no_skills_text}"
+            app:title="@{@string/no_skills_title}"
+            app:visible="@{viewModel.isEmpty()}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"

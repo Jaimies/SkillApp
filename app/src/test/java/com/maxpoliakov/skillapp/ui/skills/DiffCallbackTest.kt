@@ -22,8 +22,12 @@ class DiffCallbackTest : StringSpec({
         callback.areContentsTheSame(createSkill(1, "A"), createSkill(1, "B")) shouldBe false
         callback.areContentsTheSame(StopwatchUiModel, StopwatchUiModel) shouldBe true
     }
+
+    "contents are the same if order is order is different" {
+        callback.areContentsTheSame(createSkill(0, "A", 2), createSkill(0, "A", 3))
+    }
 })
 
-private fun createSkill(id: Int, name: String) : Skill {
-    return Skill(name, ZERO, ZERO, ZERO, id, LocalDate.ofEpochDay(0))
+private fun createSkill(id: Int, name: String, order: Int = 0) : Skill {
+    return Skill(name, ZERO, ZERO, ZERO, id, LocalDate.ofEpochDay(0), order)
 }

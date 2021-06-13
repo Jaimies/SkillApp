@@ -48,7 +48,7 @@ class HistoryFragment : Fragment() {
         }
         listAdapter.addLoadStateListener { loadStates ->
             if (loadStates.refresh !is LoadState.Loading)
-                binding.emptyText.isVisible = listAdapter.itemCount == 0
+                binding.emptyListLayout.root.isVisible = listAdapter.itemCount == 0
         }
     }
 }

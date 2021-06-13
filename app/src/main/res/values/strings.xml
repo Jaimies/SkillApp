@@ -13,7 +13,8 @@
     <string name="delete_record_message">Are you sure you want to delete this record?</string>
     <string name="no_skills_title">Want to be more\n productive?</string>
     <string name="no_skills_text">Add some skills and let\'s go</string>
-    <string name="no_records">You haven\'t added any records yet</string>
+    <string name="no_records_title">No data yet</string>
+    <string name="no_records_text">Start tracking your time and the records will appear here</string>
     <string name="add_skill">Add a skill</string>
     <string name="edit_skill">Edit skill</string>
     <string name="history">History</string>

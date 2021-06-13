@@ -10,7 +10,7 @@
             type="com.maxpoliakov.skillapp.ui.skills.SkillsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.skills.SkillsFragment">
@@ -18,12 +18,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="5dp"
             android:paddingBottom="80dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:visible="@{!viewModel.isEmpty}"
             tools:itemCount="7"
             tools:listitem="@layout/skills_item" />
@@ -31,31 +29,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="?attr/actionBarSize"
-            android:focusable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:visible="@{viewModel.isEmpty}">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:textAlignment="center"
                 android:layout_height="wrap_content"
-                android:text="@string/no_skills_title"
                 android:layout_marginBottom="8dp"
                 android:focusable="false"
-                android:textSize="28sp"
-                android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle" />
+                android:text="@string/no_skills_title"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
+                android:textSize="28sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
                 android:focusable="false"
+                android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="@string/no_skills_text"
                 android:textAlignment="center" />
@@ -64,11 +60,10 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
             android:contentDescription="@string/add_skill"
             android:onClick="@{() -> viewModel.navigateToAddSkill()}"
-            android:src="@drawable/ic_plus_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:src="@drawable/ic_plus_24dp" />
+    </FrameLayout>
 </layout>

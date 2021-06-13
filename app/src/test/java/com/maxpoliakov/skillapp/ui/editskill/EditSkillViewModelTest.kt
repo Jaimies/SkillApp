@@ -31,5 +31,5 @@ class EditSkillViewModelTest : StringSpec({
 })
 
 private fun createSkillItem(name: String = "name"): SkillItem {
-    return SkillItem(0, name, ZERO, ZERO, ZERO, LocalDate.ofEpochDay(0))
+    return SkillItem(0, name, ZERO, ZERO, ZERO, LocalDate.ofEpochDay(0), 0)
 }

@@ -10,8 +10,8 @@
 
     <string name="delete_record_title">Удалить эту запись?</string>
     <string name="delete_record_message">Вы уверены, что Вы хотите удалить эту запись?</string>
-
-    <string name="no_skills">Чтобы добавить навык, нажмите кнопку \"+\"</string>
+    <string name="no_skills_title">Хотите быть продуктивнее?</string>
+    <string name="no_skills_text">Добавьте пару навыков и поехали</string>
     <string name="no_records">Вы еще не добавили ни одной записи</string>
     <string name="no_stats">Нет данных за последние 7 дней</string>
     <string name="add_skill">Добавить навык</string>

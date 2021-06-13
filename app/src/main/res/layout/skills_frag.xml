@@ -19,27 +19,47 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             android:paddingTop="5dp"
             android:paddingBottom="80dp"
-            android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:visible="@{!viewModel.isEmpty}"
             tools:itemCount="7"
             tools:listitem="@layout/skills_item" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:text="@string/no_skills"
-            android:textAlignment="center"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="?attr/actionBarSize"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:visible="@{viewModel.isEmpty}" />
+            app:visible="@{viewModel.isEmpty}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:text="@string/no_skills_title"
+                android:layout_marginBottom="8dp"
+                android:focusable="false"
+                android:textSize="28sp"
+                android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:focusable="false"
+                android:paddingEnd="20dp"
+                android:text="@string/no_skills_text"
+                android:textAlignment="center" />
+        </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"

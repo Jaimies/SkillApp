@@ -25,9 +25,7 @@ class StopwatchUtilImpl @Inject constructor(
     private val _state = MutableStateFlow(persistence.getState())
 
     init {
-        scope.launch {
-            _state.collect { updateNotification() }
-        }
+        updateNotification()
     }
 
     override fun updateNotification() {
@@ -61,6 +59,7 @@ class StopwatchUtilImpl @Inject constructor(
         addRecordIfNeeded()
         _state.value = state
         persistence.saveState(state)
+        updateNotification()
     }
 
     private fun addRecordIfNeeded() {

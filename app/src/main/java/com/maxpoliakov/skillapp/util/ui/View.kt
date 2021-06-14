@@ -50,6 +50,8 @@ fun View.increaseTouchAreaBy(size: Unit) {
         getHitRect(rect)
         rect.top -= numberOfPx
         rect.bottom += numberOfPx
+        rect.left -= numberOfPx
+        rect.right += numberOfPx
         parent.touchDelegate = TouchDelegate(rect, this)
     }
 }

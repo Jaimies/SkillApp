@@ -24,7 +24,7 @@
     <string name="hours">%sч</string>
     <string name="initial_time">Начальное время (в часах)</string>
     <string name="save">Сохранить</string>
-    <string name="add_a_record">Добавить запись</string>
+    <string name="add_a_record">Добавить время вручную</string>
     <string name="edit">Изменить</string>
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>

@@ -25,7 +25,7 @@
     <string name="minutes">%sm</string>
     <string name="initial_time">Initial time (hours)</string>
     <string name="save">Save</string>
-    <string name="add_a_record">Add a record</string>
+    <string name="add_a_record">Add time manually</string>
     <string name="edit">Edit</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>

@@ -12,6 +12,8 @@ import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.history.RecordDelegateAdapter.ViewHolder
 import com.maxpoliakov.skillapp.util.fragment.showDatePicker
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
+import com.maxpoliakov.skillapp.util.ui.dp
+import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaBy
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 import com.maxpoliakov.skillapp.util.ui.showPopupMenu
 import javax.inject.Inject
@@ -38,6 +40,8 @@ class RecordDelegateAdapter @Inject constructor(
     ) : BaseViewHolder(binding.root) {
 
         init {
+            binding.moreBtn.increaseTouchAreaBy(35.dp)
+
             viewModel.showMenu.observe {
                 val popup = showPopupMenu(context, binding.moreBtn, R.menu.record_item_menu)
                 popup.setOnMenuItemClickListener(this::onMenuItemClicked)

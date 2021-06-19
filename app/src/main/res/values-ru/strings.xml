@@ -22,7 +22,7 @@
     <string name="total">Общее время</string>
     <string name="last_week">Последние 7\u00A0дней</string>
     <string name="hours">%sч</string>
-    <string name="initial_time">Начальное время (в часах)</string>
+    <string name="initial_time">Общее количество часов практики</string>
     <string name="save">Сохранить</string>
     <string name="add_a_record">Добавить время вручную</string>
     <string name="edit">Изменить</string>

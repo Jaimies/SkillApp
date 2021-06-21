@@ -70,7 +70,6 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
 
     implementation platform("com.google.firebase:firebase-bom:$Versions.firebase")
-    implementation 'com.google.firebase:firebase-config-ktx'
 
     testImplementation project(":sharedTest")
     testImplementation "org.mockito:mockito-core:$Versions.mockito"

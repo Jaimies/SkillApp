@@ -22,7 +22,7 @@ dependencies {
 
     implementation project(':shared')
 
-    implementation "com.google.dagger:hilt-android:$Versions.hilt"
+    implementation "com.google.dagger:hilt-core:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
 
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"

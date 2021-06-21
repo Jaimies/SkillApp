@@ -106,8 +106,8 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$Versions.androidxHilt"
-    kapt "androidx.hilt:hilt-compiler:$Versions.androidxHilt"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    kapt "androidx.hilt:hilt-compiler:1.0.0"
 
     testImplementation "org.mockito:mockito-core:$Versions.mockito"
     testImplementation "androidx.arch.core:core-testing:2.1.0"

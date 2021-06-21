@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
 
-    private lateinit var navController: NavController
+    lateinit var navController: NavController
     private lateinit var binding: MainActBinding
 
     private val appBarConfiguration = AppBarConfiguration(

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="software_engineering">Программирование</string>
+    <string name="ux_design">Дизайн приложений</string>
+    <string name="cycling">Стрельба из лука</string>
+    <string name="playing_guitar">Игра на гитаре</string>
+</resources>

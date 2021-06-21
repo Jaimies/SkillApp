@@ -16,6 +16,7 @@ bin/
 gen/
 out/
 release/
+!app/src/release/
 
 # Gradle files
 .gradle/
@@ -76,6 +77,8 @@ fastlane/readme.md
 
 # Version control
 vcs.xml
+
+fastlane/metadata/
 
 # lint
 lint/intermediates/

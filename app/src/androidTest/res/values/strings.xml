@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="software_engineering">Software engineering</string>
+    <string name="ux_design">UX Design</string>
+    <string name="cycling">Cycling</string>
+    <string name="playing_guitar">Playing the guitar</string>
+</resources>

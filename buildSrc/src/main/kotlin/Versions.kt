@@ -1,7 +1,7 @@
 @Suppress("unused")
 object Versions {
-    const val kotlin = "1.4.32"
-    const val coroutines = "1.4.3"
+    const val kotlin = "1.5.10"
+    const val coroutines = "1.5.0"
 
     const val androidxCore = "1.6.0"
     const val appcompat = "1.3.0"
@@ -26,7 +26,7 @@ object Versions {
     const val gradle = "4.2.2"
 
     const val mockito = "3.2.4"
-    const val kotestJUnit5 = "4.2.3"
+    const val kotestJUnit5 = "4.6.0"
     const val androidxTestRunner = "1.3.0"
     const val androidJUnit = "1.1.2"
 }

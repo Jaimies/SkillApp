@@ -113,7 +113,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$Versions.mockito"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$Versions.coroutines"
     testImplementation project(":sharedTest")
 
     androidTestImplementation project(":sharedTest")

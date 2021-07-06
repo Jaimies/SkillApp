@@ -13,7 +13,7 @@ object Versions {
     const val navigation = "2.3.5"
     const val lifecycle = "2.3.1"
     const val livedata = "2.2.0"
-    const val fragment = "1.3.4"
+    const val fragment = "1.3.5"
 
     const val material = "1.4.0"
     const val MPAndroidChart = "3.1.0"

@@ -15,7 +15,7 @@ object Versions {
     const val livedata = "2.2.0"
     const val fragment = "1.3.4"
 
-    const val material = "1.4.0-rc01"
+    const val material = "1.4.0"
     const val MPAndroidChart = "3.1.0"
 
     const val hilt = "2.37"

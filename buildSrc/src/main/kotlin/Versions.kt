@@ -3,7 +3,7 @@ object Versions {
     const val kotlin = "1.4.32"
     const val coroutines = "1.4.3"
 
-    const val androidxCore = "1.5.0"
+    const val androidxCore = "1.6.0"
     const val appcompat = "1.3.0"
     const val constraintLayout = "2.0.4"
     const val legacy = "1.0.0"

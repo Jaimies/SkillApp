@@ -20,7 +20,7 @@ object Versions {
 
     const val hilt = "2.37"
 
-    const val firebase = "26.5.0"
+    const val firebase = "28.2.0"
 
     const val lint = "26.5.3"
     const val gradle = "4.2.2"

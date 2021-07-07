@@ -2,7 +2,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="@string/general">
+    <PreferenceCategory
+        android:title="@string/general"
+        app:iconSpaceReserved="false">
         <ListPreference
             android:defaultValue="Auto"
             android:entries="@array/theme_entries"
@@ -13,7 +15,9 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/about">
+    <PreferenceCategory
+        android:title="@string/about"
+        app:iconSpaceReserved="false">
         <Preference
             android:icon="@drawable/ic_lock"
             android:title="@string/privacy_policy">

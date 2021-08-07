@@ -8,7 +8,7 @@ import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 
 class SkillViewHolder(
     binding: SkillsItemBinding,
-    private val viewModel: SkillViewModel,
+    val viewModel: SkillViewModel,
     navigateToDetail: (skill: Skill) -> Unit,
     startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
 ) : BaseViewHolder(binding.root) {

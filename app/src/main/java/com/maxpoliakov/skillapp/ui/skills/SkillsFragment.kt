@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,10 +32,14 @@ class SkillsFragment : Fragment() {
         override fun onDropped() {
             viewModel.updateOrder(listAdapter.currentList.filterIsInstance<Skill>())
         }
+
+        override fun onGroup(first: Skill, second: Skill) {
+            Toast.makeText(requireContext(), "Grouping ${first.name} with ${second.name}", Toast.LENGTH_LONG).show()
+        }
     }
 
     private val itemTouchHelper by lazy {
-        createDraggingItemTouchHelper(itemTouchHelperCallback)
+        createDraggingItemTouchHelper(requireContext(), itemTouchHelperCallback)
     }
 
     @Inject

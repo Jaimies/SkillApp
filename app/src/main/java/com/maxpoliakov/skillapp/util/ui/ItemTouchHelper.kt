@@ -78,9 +78,10 @@ fun createDraggingItemTouchHelper(
                 }
             }
 
-            if (distanceToViewHolder < 20.dp.toPx(context)) {
-                viewHolder as SkillViewHolder
-                closestViewHolder as SkillViewHolder
+            if (distanceToViewHolder < 20.dp.toPx(context)
+                && viewHolder is SkillViewHolder
+                && closestViewHolder is SkillViewHolder
+            ) {
                 val firstSkill = viewHolder.viewModel.skill.value!!
                 val secondSkill = closestViewHolder.viewModel.skill.value!!
 

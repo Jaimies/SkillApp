@@ -44,14 +44,7 @@ class SkillsFragment : Fragment() {
         createDraggingItemTouchHelper(requireContext(), itemTouchHelperCallback)
     }
 
-    @Inject
-    lateinit var delegateAdapterFactory: SkillDelegateAdapter.Factory
-
     private lateinit var binding: SkillsFragBinding
-
-    private val skillDelegateAdapter by lazy {
-        delegateAdapterFactory.create(this::navigateToDetails, this::startDrag)
-    }
 
     private val stopwatchAdapter by lazy { StopwatchDelegateAdapter(viewModel) }
 
@@ -59,7 +52,7 @@ class SkillsFragment : Fragment() {
     lateinit var listAdapterFactory: SkillListAdapter.Factory
 
     private val listAdapter by lazy {
-        listAdapterFactory.create(skillDelegateAdapter, stopwatchAdapter).apply {
+        listAdapterFactory.create(this::navigateToDetails, this::startDrag, stopwatchAdapter).apply {
             setOnItemAddedListener {
                 binding.recyclerView.smoothScrollToPosition(0)
             }

@@ -3,8 +3,10 @@ package com.maxpoliakov.skillapp.ui.skills
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillGroupBinding
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
@@ -12,40 +14,59 @@ import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import javax.inject.Inject
 
-class SkillGroupDelegateAdapter @Inject constructor(
+class SkillGroupDelegateAdapter constructor(
     private val viewHolderFactory: SkillGroupViewHolder.Factory,
+    private val navigateToDetails: (skill: Skill) -> Unit,
+    private val startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
 ) : DelegateAdapter<SkillGroup, SkillGroupViewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup): SkillGroupViewHolder {
         parent.inflateDataBinding<SkillGroupBinding>(R.layout.skill_group).run {
             val viewModel = SkillGroupViewModel()
             this.viewModel = viewModel
-            return viewHolderFactory.create(this)
+            return viewHolderFactory.create(this, navigateToDetails, startDrag)
         }
     }
 
     override fun onBindViewHolder(holder: SkillGroupViewHolder, item: SkillGroup) {
         holder.setSkillGroup(item)
     }
+
+    class Factory @Inject constructor(
+        private val viewHolderFactory: SkillGroupViewHolder.Factory,
+    ) {
+        fun create(
+            navigateToDetails: (skill: Skill) -> Unit,
+            startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
+        ) = SkillGroupDelegateAdapter(viewHolderFactory, navigateToDetails, startDrag)
+    }
 }
 
 class SkillGroupViewHolder(
-    private val listAdapter: SkillOnlyListAdapter,
+    adapterFactory: SkillOnlyListAdapter.Factory,
     private val binding: SkillGroupBinding,
+    navigateToDetails: (skill: Skill) -> Unit,
+    startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
 ) : BaseViewHolder(binding.root) {
+    private val adapter = adapterFactory.create(navigateToDetails, startDrag)
+
     init {
-        binding.recyclerView.setupAdapter(listAdapter)
+        binding.recyclerView.setupAdapter(adapter)
     }
 
     fun setSkillGroup(skillGroup: SkillGroup) {
-        listAdapter.submitList(skillGroup.skills)
+        adapter.submitList(skillGroup.skills)
         binding.viewModel!!.setSkillGroup(skillGroup)
     }
 
     class Factory @Inject constructor(
-        private val adapter: SkillOnlyListAdapter,
+        private val adapterFactory: SkillOnlyListAdapter.Factory,
     ) {
-        fun create(binding: SkillGroupBinding): SkillGroupViewHolder {
-            return SkillGroupViewHolder(adapter, binding)
+        fun create(
+            binding: SkillGroupBinding,
+            navigateToDetails: (skill: Skill) -> Unit,
+            startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
+        ): SkillGroupViewHolder {
+            return SkillGroupViewHolder(adapterFactory, binding, navigateToDetails, startDrag)
         }
     }
 }

@@ -16,14 +16,13 @@ import javax.inject.Inject
 
 class SkillGroupDelegateAdapter constructor(
     private val viewHolderFactory: SkillGroupViewHolder.Factory,
-    private val navigateToDetails: (skill: Skill) -> Unit,
     private val startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
 ) : DelegateAdapter<SkillGroup, SkillGroupViewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup): SkillGroupViewHolder {
         parent.inflateDataBinding<SkillGroupBinding>(R.layout.skill_group).run {
             val viewModel = SkillGroupViewModel()
             this.viewModel = viewModel
-            return viewHolderFactory.create(this, navigateToDetails, startDrag)
+            return viewHolderFactory.create(this, startDrag)
         }
     }
 
@@ -35,19 +34,17 @@ class SkillGroupDelegateAdapter constructor(
         private val viewHolderFactory: SkillGroupViewHolder.Factory,
     ) {
         fun create(
-            navigateToDetails: (skill: Skill) -> Unit,
             startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
-        ) = SkillGroupDelegateAdapter(viewHolderFactory, navigateToDetails, startDrag)
+        ) = SkillGroupDelegateAdapter(viewHolderFactory, startDrag)
     }
 }
 
 class SkillGroupViewHolder(
     adapterFactory: SkillOnlyListAdapter.Factory,
     private val binding: SkillGroupBinding,
-    navigateToDetails: (skill: Skill) -> Unit,
     startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
 ) : BaseViewHolder(binding.root) {
-    private val adapter = adapterFactory.create(navigateToDetails, startDrag)
+    private val adapter = adapterFactory.create(startDrag)
 
     init {
         binding.recyclerView.setupAdapter(adapter)
@@ -63,10 +60,9 @@ class SkillGroupViewHolder(
     ) {
         fun create(
             binding: SkillGroupBinding,
-            navigateToDetails: (skill: Skill) -> Unit,
             startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
         ): SkillGroupViewHolder {
-            return SkillGroupViewHolder(adapterFactory, binding, navigateToDetails, startDrag)
+            return SkillGroupViewHolder(adapterFactory, binding, startDrag)
         }
     }
 }

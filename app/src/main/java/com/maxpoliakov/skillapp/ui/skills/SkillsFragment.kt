@@ -50,7 +50,7 @@ class SkillsFragment : Fragment() {
     lateinit var listAdapterFactory: SkillListAdapter.Factory
 
     private val listAdapter by lazy {
-        listAdapterFactory.create(this::navigateToDetails, this::startDrag).apply {
+        listAdapterFactory.create(this::startDrag).apply {
             setOnItemAddedListener {
                 binding.recyclerView.smoothScrollToPosition(0)
             }
@@ -86,8 +86,6 @@ class SkillsFragment : Fragment() {
         observe(viewModel.navigateToAddEdit) {
             findNavController().navigateAnimated(addskill_fragment_dest)
         }
-
-        observe(viewModel.navigateToSkill, this::navigateToDetails)
     }
 
     private fun setStopwatchActive(isActive: Boolean) {
@@ -101,11 +99,6 @@ class SkillsFragment : Fragment() {
     }
 
     private fun hideStopwatch() = listAdapter.hideStopwatch()
-
-    private fun navigateToDetails(skill: Skill) {
-        val directions = actionToSkillDetailFragment(skill.id)
-        findNavController().navigateAnimated(directions)
-    }
 
     private fun startDrag(viewHolder: RecyclerView.ViewHolder) {
         itemTouchHelper.startDrag(viewHolder)

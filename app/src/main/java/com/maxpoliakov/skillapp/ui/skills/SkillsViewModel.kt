@@ -34,7 +34,6 @@ class SkillsViewModel @Inject constructor(
     val isActive = stopwatchUtil.state.map { it is Running }.asLiveData()
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
-    val navigateToSkill = SingleLiveEvent<Skill>()
 
     fun updateOrder(skills: List<Skill>) = viewModelScope.launch {
         updateOrder.run(skills)

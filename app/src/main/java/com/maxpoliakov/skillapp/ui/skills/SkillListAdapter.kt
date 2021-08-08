@@ -13,14 +13,13 @@ private const val ITEM_TYPE_STOPWATCH = 2
 
 class SkillListAdapter(
     startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
-    navigateToDetails: (skill: Skill) -> Unit,
     stopwatchDelegateAdapter: StopwatchDelegateAdapter,
     skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
     skillGroupDelegateAdapterFactory: SkillGroupDelegateAdapter.Factory,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
 
-    private val skillDelegateAdapter = skillDelegateAdapterFactory.create(navigateToDetails, startDrag)
-    private val skillGroupDelegateAdapter = skillGroupDelegateAdapterFactory.create(navigateToDetails, startDrag)
+    private val skillDelegateAdapter = skillDelegateAdapterFactory.create(startDrag)
+    private val skillGroupDelegateAdapter = skillGroupDelegateAdapterFactory.create(startDrag)
 
     val adapters = mapOf(
         ITEM_TYPE_SKILL to skillDelegateAdapter,
@@ -85,11 +84,9 @@ class SkillListAdapter(
         private val stopwatchDelegateAdapter: StopwatchDelegateAdapter,
     ) {
         fun create(
-            navigateToDetails: (skill: Skill) -> Unit,
             startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
         ) = SkillListAdapter(
             startDrag,
-            navigateToDetails,
             stopwatchDelegateAdapter,
             skillDelegateAdapterFactory,
             skillGroupDelegateAdapterFactory

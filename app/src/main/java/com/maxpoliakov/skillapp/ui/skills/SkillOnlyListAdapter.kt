@@ -7,11 +7,10 @@ import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
 import javax.inject.Inject
 
 class SkillOnlyListAdapter constructor(
-    navigateToDetails: (skill: Skill) -> Unit,
     startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
     skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
 ) : ListAdapter<Any, SkillViewHolder>(SkillDiffCallback()) {
-    private val skillDelegateAdapter = skillDelegateAdapterFactory.create(navigateToDetails, startDrag)
+    private val skillDelegateAdapter = skillDelegateAdapterFactory.create(startDrag)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillViewHolder {
         return skillDelegateAdapter.onCreateViewHolder(parent)
@@ -23,10 +22,9 @@ class SkillOnlyListAdapter constructor(
 
     class Factory @Inject constructor(
         private val skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
-    ){
+    ) {
         fun create(
-            navigateToDetails: (skill: Skill) -> Unit,
             startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
-        ) = SkillOnlyListAdapter(navigateToDetails, startDrag, skillDelegateAdapterFactory)
+        ) = SkillOnlyListAdapter(startDrag, skillDelegateAdapterFactory)
     }
 }

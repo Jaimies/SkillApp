@@ -1,31 +1,39 @@
 package com.maxpoliakov.skillapp.ui.skills
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
+import javax.inject.Inject
 
 private const val ITEM_TYPE_SKILL = 0
-private const val ITEM_TYPE_STOPWATCH = 1
+private const val ITEM_TYPE_SKILL_GROUP = 1
+private const val ITEM_TYPE_STOPWATCH = 2
 
 class SkillListAdapter(
     private val skillDelegateAdapter: SkillDelegateAdapter,
     stopwatchDelegateAdapter: StopwatchDelegateAdapter,
-) : ListAdapter<Any, BaseViewHolder>(SkillDiffCallback()) {
+    private val skillGroupDelegateAdapter: SkillGroupDelegateAdapter,
+) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
 
     val adapters = mapOf(
         ITEM_TYPE_SKILL to skillDelegateAdapter,
+        ITEM_TYPE_SKILL_GROUP to skillGroupDelegateAdapter,
         ITEM_TYPE_STOPWATCH to stopwatchDelegateAdapter,
     )
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return adapters[viewType]!!.onCreateViewHolder(parent)
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
-        if (item !is Skill) return
-        skillDelegateAdapter.onBindViewHolder(holder as SkillViewHolder, item)
+
+        if (item is Skill)
+            skillDelegateAdapter.onBindViewHolder(holder as SkillViewHolder, item)
+        else if (item is SkillGroup)
+            skillGroupDelegateAdapter.onBindViewHolder(holder as SkillGroupViewHolder, item)
     }
 
     fun getSkill(position: Int): Skill {
@@ -35,6 +43,7 @@ class SkillListAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
+        if (getItem(position) is SkillGroup) return ITEM_TYPE_SKILL_GROUP
         if (getItem(position) is Skill) return ITEM_TYPE_SKILL
         return ITEM_TYPE_STOPWATCH
     }
@@ -69,5 +78,16 @@ class SkillListAdapter(
 
     private fun stopwatchIsShown(): Boolean {
         return itemCount != 0 && getItemViewType(0) == 1
+    }
+
+    class Factory @Inject constructor(
+        private val skillGroupDelegateAdapter: SkillGroupDelegateAdapter,
+    ) {
+        fun create(
+            skillDelegateAdapter: SkillDelegateAdapter,
+            stopwatchDelegateAdapter: StopwatchDelegateAdapter,
+        ): SkillListAdapter {
+            return SkillListAdapter(skillDelegateAdapter, stopwatchDelegateAdapter, skillGroupDelegateAdapter)
+        }
     }
 }

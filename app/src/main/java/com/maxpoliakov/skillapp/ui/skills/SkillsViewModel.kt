@@ -2,11 +2,11 @@ package com.maxpoliakov.skillapp.ui.skills
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.usecase.grouping.CreateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
-import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
@@ -22,14 +22,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SkillsViewModel @Inject constructor(
     getSkill: GetSkillByIdUseCase,
-    getSkills: GetSkillsUseCase,
+    getSkills: GetSkillsAndSkillGroupsUseCase,
+    private val createGroup: CreateGroupUseCase,
     private val updateOrder: UpdateOrderUseCase,
     private val stopwatchUtil: StopwatchUtil
 ) : ViewModel() {
 
-    val skills = getSkills.run().asLiveData()
+    val skillsAndGroups = getSkills.getSkillsAndGroups()
 
-    val isEmpty = skills.map { it.isEmpty() }
+    val isEmpty = skillsAndGroups.map { it.skills.isEmpty() && it.groups.isEmpty() }.asLiveData()
 
     val trackingSkill = stopwatchUtil.state.flatMapLatest { state ->
         if (state is Running) getSkill.run(state.skillId)
@@ -50,6 +51,10 @@ class SkillsViewModel @Inject constructor(
 
     fun updateOrder(skills: List<Skill>) = viewModelScope.launch {
         updateOrder.run(skills)
+    }
+
+    fun createGroup(name: String, skills: List<Skill>) = viewModelScope.launch {
+        createGroup.run(name, skills)
     }
 
     fun stopTimer() = stopwatchUtil.stop()

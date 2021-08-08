@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.ui.statistics
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Statistic
-import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.shared.util.sumByDuration
@@ -15,11 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
-    getSkills: GetSkillsUseCase,
+    getSkills: GetSkillsAndSkillGroupsUseCase,
     getStats: GetStatsUseCase
 ) : StatsViewModel(getStats, -1) {
 
-    val summary = getSkills.run().zip(stats) { skills, stats ->
+    val summary = getSkills.getSkills().zip(stats) { skills, stats ->
         if (skills.isEmpty())
             return@zip ProductivitySummary.ZERO
 

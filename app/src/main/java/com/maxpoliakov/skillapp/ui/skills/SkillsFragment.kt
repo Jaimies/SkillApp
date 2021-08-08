@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.MainDirections.Companion.actionToSkillDetailFragment
@@ -20,6 +20,8 @@ import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setOnItemAddedListener
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,7 +36,7 @@ class SkillsFragment : Fragment() {
         }
 
         override fun onGroup(first: Skill, second: Skill) {
-            Toast.makeText(requireContext(), "Grouping ${first.name} with ${second.name}", Toast.LENGTH_LONG).show()
+            viewModel.createGroup("New group", listOf(first, second))
         }
     }
 
@@ -52,8 +54,12 @@ class SkillsFragment : Fragment() {
     }
 
     private val stopwatchAdapter by lazy { StopwatchDelegateAdapter(viewModel) }
+
+    @Inject
+    lateinit var listAdapterFactory: SkillListAdapter.Factory
+
     private val listAdapter by lazy {
-        SkillListAdapter(skillDelegateAdapter, stopwatchAdapter).apply {
+        listAdapterFactory.create(skillDelegateAdapter, stopwatchAdapter).apply {
             setOnItemAddedListener {
                 binding.recyclerView.smoothScrollToPosition(0)
             }
@@ -78,7 +84,11 @@ class SkillsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.setupAdapter(listAdapter)
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
-        viewModel.skills.observe(viewLifecycleOwner, listAdapter::submitList)
+        lifecycleScope.launch {
+            viewModel.skillsAndGroups.collect {
+                listAdapter.submitList(it.skills + it.groups)
+            }
+        }
 
         observe(viewModel.isActive, this::setStopwatchActive)
 

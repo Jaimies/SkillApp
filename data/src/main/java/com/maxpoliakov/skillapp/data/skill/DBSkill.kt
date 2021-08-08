@@ -16,6 +16,7 @@ data class DBSkill(
     val initialTime: Duration = Duration.ZERO,
     val lastWeekTime: Duration = Duration.ZERO,
     val creationDate: LocalDate = getCurrentDate(),
+    val groupId: Int = -1,
     val order: Int = -1,
 )
 
@@ -27,6 +28,7 @@ fun DBSkill.mapToDomain(): Skill {
         lastWeekTime,
         id,
         creationDate,
+        groupId,
         order,
     )
 }

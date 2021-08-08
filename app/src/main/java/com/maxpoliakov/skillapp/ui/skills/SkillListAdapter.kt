@@ -48,7 +48,7 @@ class SkillListAdapter(
     }
 
     @JvmName("submitSkillList")
-    fun submitList(data: List<Skill>) {
+    fun submitList(data: List<Any>) {
         if (stopwatchIsShown())
             super.submitList(listOf(StopwatchUiModel) + data)
         else
@@ -57,12 +57,12 @@ class SkillListAdapter(
 
     fun showStopwatch() {
         if (!stopwatchIsShown())
-            submitList(listOf(StopwatchUiModel) + currentList)
+            super.submitList(listOf(StopwatchUiModel) + currentList)
     }
 
     fun hideStopwatch() {
         if (stopwatchIsShown())
-            submitList(currentList.slice(1..currentList.lastIndex))
+            super.submitList(currentList.slice(1..currentList.lastIndex))
     }
 
     fun moveItem(from: Int, to: Int) {
@@ -76,7 +76,7 @@ class SkillListAdapter(
     }
 
     private fun stopwatchIsShown(): Boolean {
-        return itemCount != 0 && getItemViewType(0) == 1
+        return itemCount != 0 && getItemViewType(0) == ITEM_TYPE_STOPWATCH
     }
 
     class Factory @Inject constructor(

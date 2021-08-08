@@ -13,6 +13,4 @@ data class Skill(
     val date: LocalDate = getCurrentDate(),
     val groupId: Int = -1,
     val order: Int = -1,
-) {
-    val recordedTime get() = totalTime - initialTime
-}
+)

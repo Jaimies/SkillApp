@@ -5,13 +5,14 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.StopwatchBannerBinding
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
+import javax.inject.Inject
 
-class StopwatchDelegateAdapter(
-    private val skillsViewModel: SkillsViewModel,
-): DelegateAdapter<Unit, StopwatchViewHolder> {
+class StopwatchDelegateAdapter @Inject constructor(
+    private val stopwatchViewModel: StopwatchViewModel,
+) : DelegateAdapter<Unit, StopwatchViewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup): StopwatchViewHolder {
         val binding = parent.inflateDataBinding<StopwatchBannerBinding>(R.layout.stopwatch_banner).apply {
-            viewModel = skillsViewModel
+            viewModel = stopwatchViewModel
         }
 
         return StopwatchViewHolder(binding.root)

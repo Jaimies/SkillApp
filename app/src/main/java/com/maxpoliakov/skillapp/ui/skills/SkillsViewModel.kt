@@ -21,7 +21,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SkillsViewModel @Inject constructor(
-    getSkill: GetSkillByIdUseCase,
     getSkills: GetSkillsAndSkillGroupsUseCase,
     private val createGroup: CreateGroupUseCase,
     private val updateOrder: UpdateOrderUseCase,
@@ -32,22 +31,10 @@ class SkillsViewModel @Inject constructor(
 
     val isEmpty = skillsAndGroups.map { it.skills.isEmpty() && it.groups.isEmpty() }.asLiveData()
 
-    val trackingSkill = stopwatchUtil.state.flatMapLatest { state ->
-        if (state is Running) getSkill.run(state.skillId)
-        else flowOf(null)
-    }.asLiveData()
-
-    val stopwatchStartTime = stopwatchUtil.state.map { state ->
-        if (state is Running) state.startTime else getZonedDateTime()
-    }.asLiveData()
     val isActive = stopwatchUtil.state.map { it is Running }.asLiveData()
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
     val navigateToSkill = SingleLiveEvent<Skill>()
-
-    fun navigateToCurrentlyTrackedSkill() {
-        navigateToSkill.value = trackingSkill.value!!
-    }
 
     fun updateOrder(skills: List<Skill>) = viewModelScope.launch {
         updateOrder.run(skills)

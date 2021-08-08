@@ -82,11 +82,11 @@ class SkillListAdapter(
     class Factory @Inject constructor(
         private val skillGroupDelegateAdapterFactory: SkillGroupDelegateAdapter.Factory,
         private val skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
+        private val stopwatchDelegateAdapter: StopwatchDelegateAdapter,
     ) {
         fun create(
             navigateToDetails: (skill: Skill) -> Unit,
             startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
-            stopwatchDelegateAdapter: StopwatchDelegateAdapter,
         ) = SkillListAdapter(
             startDrag,
             navigateToDetails,

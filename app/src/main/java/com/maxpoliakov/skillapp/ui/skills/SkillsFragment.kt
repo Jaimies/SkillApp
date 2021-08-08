@@ -46,13 +46,11 @@ class SkillsFragment : Fragment() {
 
     private lateinit var binding: SkillsFragBinding
 
-    private val stopwatchAdapter by lazy { StopwatchDelegateAdapter(viewModel) }
-
     @Inject
     lateinit var listAdapterFactory: SkillListAdapter.Factory
 
     private val listAdapter by lazy {
-        listAdapterFactory.create(this::navigateToDetails, this::startDrag, stopwatchAdapter).apply {
+        listAdapterFactory.create(this::navigateToDetails, this::startDrag).apply {
             setOnItemAddedListener {
                 binding.recyclerView.smoothScrollToPosition(0)
             }

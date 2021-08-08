@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.skills.SkillsViewModel" />
+            type="com.maxpoliakov.skillapp.ui.skills.StopwatchViewModel" />
     </data>
 
     <FrameLayout
@@ -43,7 +43,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/stopwatch"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/stopwatch"
-                    tools:text="Programming"/>
+                    tools:text="Programming" />
 
                 <Chronometer
                     android:id="@+id/stopwatch"
@@ -60,12 +60,12 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:onClick="@{() -> viewModel.stopTimer()}"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp"
-                    android:layout_marginTop="12dp"
-                    android:textColor="?attr/colorAccent"
-                    android:onClick="@{() -> viewModel.stopTimer()}"
                     android:text="@string/stop"
+                    android:textColor="?attr/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/stopwatch" />
             </androidx.constraintlayout.widget.ConstraintLayout>

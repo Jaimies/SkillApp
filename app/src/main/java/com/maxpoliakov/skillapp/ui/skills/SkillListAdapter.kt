@@ -36,12 +36,6 @@ class SkillListAdapter(
             skillGroupDelegateAdapter.onBindViewHolder(holder as SkillGroupViewHolder, item)
     }
 
-    fun getSkill(position: Int): Skill {
-        val item = getItem(position)
-        if (item !is Skill) return getItem(position + 1) as Skill
-        return item
-    }
-
     override fun getItemViewType(position: Int): Int {
         if (getItem(position) is SkillGroup) return ITEM_TYPE_SKILL_GROUP
         if (getItem(position) is Skill) return ITEM_TYPE_SKILL

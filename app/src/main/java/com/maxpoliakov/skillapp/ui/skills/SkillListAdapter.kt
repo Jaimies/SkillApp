@@ -5,6 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
+import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupDelegateAdapter
+import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
+import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchDelegateAdapter
+import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
 import javax.inject.Inject
 
 private const val ITEM_TYPE_SKILL = 0

@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skills
 
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.Duration.ZERO

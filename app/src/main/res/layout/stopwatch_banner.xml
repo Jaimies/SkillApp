@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.skills.StopwatchViewModel" />
+            type="com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchViewModel" />
     </data>
 
     <FrameLayout

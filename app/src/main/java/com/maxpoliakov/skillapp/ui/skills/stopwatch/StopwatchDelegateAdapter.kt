@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills
+package com.maxpoliakov.skillapp.ui.skills.stopwatch
 
 import android.view.ViewGroup
 import com.maxpoliakov.skillapp.R

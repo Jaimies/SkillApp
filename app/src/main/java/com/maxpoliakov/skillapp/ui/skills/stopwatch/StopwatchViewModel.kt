@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills
+package com.maxpoliakov.skillapp.ui.skills.stopwatch
 
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase

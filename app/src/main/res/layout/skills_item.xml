@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
                 android:layout_marginEnd="@dimen/margin_small"
+                android:singleLine="true"
                 android:text="@{viewModel.state.name}"
                 android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"
                 app:layout_constraintBottom_toBottomOf="parent"

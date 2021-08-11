@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 class SkillViewHolder(
     binding: SkillsItemBinding,
-    navigationUtil: NavigationUtil,
     startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
 ) : BaseViewHolder(binding.root) {
     val viewModel = binding.viewModel!!
@@ -25,25 +24,10 @@ class SkillViewHolder(
             false
         }
 
-        viewModel.navigateToDetails.observe {
-            viewModel.skill.value?.let { skill ->
-                navigationUtil.navigateToSkillDetail(skill.id)
-            }
-        }
-
         viewModel.startDrag.observe {
             startDrag(this)
         }
     }
 
     fun setItem(item: Skill) = viewModel.setSkill(item)
-
-    class Factory @Inject constructor(
-        private val navigationUtil: NavigationUtil,
-    ) {
-        fun create(
-            binding: SkillsItemBinding,
-            startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
-        ) = SkillViewHolder(binding, navigationUtil, startDrag)
-    }
 }

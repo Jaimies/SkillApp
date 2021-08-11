@@ -14,7 +14,6 @@ import javax.inject.Provider
 
 class SkillDelegateAdapter(
     private val viewModelProvider: Provider<SkillViewModel>,
-    private val viewHolderFactory: SkillViewHolder.Factory,
     private val startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
 ) : DelegateAdapter<Skill, SkillViewHolder> {
 
@@ -23,7 +22,7 @@ class SkillDelegateAdapter(
             val viewModel = viewModelProvider.get()
             this.viewModel = viewModel
             this.startTimer.increaseTouchAreaBy(35.dp)
-            return viewHolderFactory.create(this, startDrag)
+            return SkillViewHolder(this, startDrag)
         }
     }
 
@@ -33,12 +32,11 @@ class SkillDelegateAdapter(
 
     class Factory @Inject constructor(
         private val viewModelProvider: Provider<SkillViewModel>,
-        private val viewHolderFactory: SkillViewHolder.Factory,
     ) {
         fun create(
             startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
         ): SkillDelegateAdapter {
-            return SkillDelegateAdapter(viewModelProvider, viewHolderFactory, startDrag)
+            return SkillDelegateAdapter(viewModelProvider, startDrag)
         }
     }
 }

@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.util.navigation.NavigationUtil
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
 import javax.inject.Inject
 
 class SkillViewModel @Inject constructor(
-    private val stopwatchUtil: StopwatchUtil
+    private val stopwatchUtil: StopwatchUtil,
+    private val navigationUtil: NavigationUtil,
 ) {
     val skill: LiveData<Skill> get() = _skill
     private val _skill = MutableLiveData<Skill>()
@@ -23,10 +25,13 @@ class SkillViewModel @Inject constructor(
         stopwatchUtil.start(this.skill.value!!.id)
     }
 
-    val navigateToDetails = SingleLiveEvent<Any>()
     val startDrag = SingleLiveEvent<Any>()
 
-    fun navigateToDetails() = navigateToDetails.call()
+    fun navigateToDetails() {
+        skill.value?.let { skill ->
+            navigationUtil.navigateToSkillDetail(skill.id)
+        }
+    }
 
     fun startDrag(): Boolean {
         startDrag.call()

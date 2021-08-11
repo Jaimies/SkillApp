@@ -28,9 +28,9 @@ class SkillGroupViewHolder(
 
     class Factory @Inject constructor(
         private val adapterFactory: SkillOnlyListAdapter.Factory,
+        private val viewModel: SkillGroupViewModel,
     ) {
         fun create(
-            viewModel: SkillGroupViewModel,
             binding: SkillGroupBinding,
             startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
         ): SkillGroupViewHolder {

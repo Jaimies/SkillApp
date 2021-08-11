@@ -15,4 +15,9 @@ class NavigationUtilImpl @Inject constructor(
         val directions = MainDirections.actionToSkillDetailFragment(skillId)
         navController.navigateAnimated(directions)
     }
+
+    override fun navigateToSkillGroupDetail(skillId: Int) {
+        val directions = MainDirections.actionToSkillGroupFragment(skillId)
+        navController.navigateAnimated(directions)
+    }
 }

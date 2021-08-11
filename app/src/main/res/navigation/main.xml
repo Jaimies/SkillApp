@@ -81,4 +81,19 @@
         android:name="com.maxpoliakov.skillapp.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@xml/settings" />
+
+    <fragment
+        android:id="@+id/skill_group_fragment_dest"
+        android:name="com.maxpoliakov.skillapp.ui.skillgroup.SkillGroupFragment"
+        android:label=""
+        tools:layout="@layout/skill_group_frag">
+
+        <argument
+            android:name="groupId"
+            app:argType="integer" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_to_skillGroupFragment"
+        app:destination="@id/skill_group_fragment_dest" />
 </navigation>

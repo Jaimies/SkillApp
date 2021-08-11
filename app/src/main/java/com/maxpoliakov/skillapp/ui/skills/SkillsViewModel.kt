@@ -4,17 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.usecase.grouping.CreateGroupUseCase
-import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
-import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +21,7 @@ import javax.inject.Inject
 class SkillsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
     private val createGroup: CreateGroupUseCase,
+    private val addSkillToGroup: AddSkillToGroupUseCase,
     private val updateOrder: UpdateOrderUseCase,
     private val stopwatchUtil: StopwatchUtil
 ) : ViewModel() {
@@ -41,6 +40,10 @@ class SkillsViewModel @Inject constructor(
 
     fun createGroup(name: String, skills: List<Skill>) = viewModelScope.launch {
         createGroup.run(name, skills)
+    }
+
+    fun addToGroup(skill: Skill, group: SkillGroup) = viewModelScope.launch {
+        addSkillToGroup.run(skill.id, group.id)
     }
 
     fun stopTimer() = stopwatchUtil.stop()

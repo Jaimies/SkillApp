@@ -10,28 +10,31 @@ import javax.inject.Inject
 
 class SkillGroupViewHolder(
     adapterFactory: SkillOnlyListAdapter.Factory,
-    private val binding: SkillGroupBinding,
+    binding: SkillGroupBinding,
+    val viewModel: SkillGroupViewModel,
     startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
 ) : BaseViewHolder(binding.root) {
     private val adapter = adapterFactory.create(startDrag)
 
     init {
+        binding.viewModel = viewModel
         binding.recyclerView.setupAdapter(adapter)
     }
 
     fun setSkillGroup(skillGroup: SkillGroup) {
         adapter.submitList(skillGroup.skills)
-        binding.viewModel!!.setSkillGroup(skillGroup)
+        viewModel.setSkillGroup(skillGroup)
     }
 
     class Factory @Inject constructor(
         private val adapterFactory: SkillOnlyListAdapter.Factory,
     ) {
         fun create(
+            viewModel: SkillGroupViewModel,
             binding: SkillGroupBinding,
             startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
         ): SkillGroupViewHolder {
-            return SkillGroupViewHolder(adapterFactory, binding, startDrag)
+            return SkillGroupViewHolder(adapterFactory, binding, viewModel, startDrag)
         }
     }
 }

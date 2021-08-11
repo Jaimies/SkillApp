@@ -16,8 +16,7 @@ class SkillGroupDelegateAdapter constructor(
     override fun onCreateViewHolder(parent: ViewGroup): SkillGroupViewHolder {
         parent.inflateDataBinding<SkillGroupBinding>(R.layout.skill_group).run {
             val viewModel = SkillGroupViewModel()
-            this.viewModel = viewModel
-            return viewHolderFactory.create(this, startDrag)
+            return viewHolderFactory.create(viewModel, this, startDrag)
         }
     }
 

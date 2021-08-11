@@ -13,6 +13,7 @@ import com.maxpoliakov.skillapp.MainDirections.Companion.actionToSkillDetailFrag
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createDraggingItemTouchHelper
@@ -37,6 +38,10 @@ class SkillsFragment : Fragment() {
 
         override fun onGroup(first: Skill, second: Skill) {
             viewModel.createGroup("New group", listOf(first, second))
+        }
+
+        override fun onGroup(skill: Skill, skillGroup: SkillGroup) {
+            viewModel.addToGroup(skill, skillGroup)
         }
     }
 

@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.data.group
 
-import com.maxpoliakov.skillapp.data.skill.mapToDomain
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
@@ -15,9 +14,11 @@ class SkillGroupRepositoryImpl @Inject constructor(
 ) : SkillGroupRepository {
 
     override fun getSkillGroups(): Flow<List<SkillGroup>> {
-        return groupDao.getGroups().mapList { group ->
-            SkillGroup(group.group.name, group.skills.map { it.mapToDomain() })
-        }
+        return groupDao.getGroups().mapList { it.mapToDomain() }
+    }
+
+    override suspend fun addSkillToGroup(skillId: Int, groupId: Int) {
+        groupDao.addSkillToGroup(skillId, groupId)
     }
 
     override suspend fun createGroup(name: String, skills: List<Skill>) {

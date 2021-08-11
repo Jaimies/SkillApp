@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.domain.model
 import com.maxpoliakov.skillapp.shared.util.sumByDuration
 
 data class SkillGroup(
+    val id: Int,
     val name: String,
     val skills: List<Skill>,
 ) {

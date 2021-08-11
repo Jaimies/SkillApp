@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
+import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import kotlin.math.abs
 
 interface ItemTouchHelperCallback {
     fun onMove(from: Int, to: Int)
     fun onGroup(first: Skill, second: Skill)
+    fun onGroup(skill: Skill, skillGroup: SkillGroup)
     fun onDropped()
 }
 
@@ -78,16 +81,28 @@ fun createDraggingItemTouchHelper(
                 }
             }
 
-            if (distanceToViewHolder < 20.dp.toPx(context)
-                && viewHolder is SkillViewHolder
-                && closestViewHolder is SkillViewHolder
-            ) {
-                val firstSkill = viewHolder.viewModel.skill.value!!
-                val secondSkill = closestViewHolder.viewModel.skill.value!!
-
-                callback.onGroup(firstSkill, secondSkill)
-            }
+            fireGroupingCallbacks(distanceToViewHolder, viewHolder, closestViewHolder)
             callback.onDropped()
+        }
+
+        private fun fireGroupingCallbacks(
+            distanceToViewHolder: Float,
+            viewHolder: RecyclerView.ViewHolder,
+            closestViewHolder: RecyclerView.ViewHolder?,
+        ) {
+            if (viewHolder !is SkillViewHolder || distanceToViewHolder > 20.dp.toPx(context)) return
+
+            val skill = viewHolder.viewModel.skill.value!!
+
+            if (closestViewHolder is SkillViewHolder) {
+                val secondSkill = closestViewHolder.viewModel.skill.value!!
+                callback.onGroup(skill, secondSkill)
+            }
+
+            if (closestViewHolder is SkillGroupViewHolder) {
+                val group = closestViewHolder.viewModel.skillGroup.value!!
+                callback.onGroup(skill, group)
+            }
         }
     }
 

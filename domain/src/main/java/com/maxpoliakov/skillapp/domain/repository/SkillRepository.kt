@@ -11,7 +11,7 @@ interface SkillRepository {
     fun getSkillById(id: Id): Flow<Skill>
 
     suspend fun addSkill(skill: Skill): Long
-    suspend fun saveSkill(skill: Skill)
+    suspend fun updateName(skillId: Int, newName: String)
     suspend fun deleteSkill(skill: Skill)
     suspend fun updateOrder(skills: List<Skill>)
     suspend fun increaseTime(id: Id, time: Duration)

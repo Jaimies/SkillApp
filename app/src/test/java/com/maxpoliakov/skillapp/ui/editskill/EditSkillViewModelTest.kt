@@ -1,6 +1,6 @@
 package com.maxpoliakov.skillapp.ui.editskill
 
-import com.maxpoliakov.skillapp.domain.usecase.skill.SaveSkillUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
 import com.maxpoliakov.skillapp.model.SkillItem
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.setupThreads
@@ -13,13 +13,13 @@ import java.time.Duration.ZERO
 import java.time.LocalDate
 
 class EditSkillViewModelTest : StringSpec({
-    lateinit var useCase: SaveSkillUseCase
+    lateinit var useCase: UpdateSkillUseCase
     lateinit var viewModel: EditSkillViewModel
 
     beforeSpec { setupThreads() }
 
     beforeEach {
-        useCase = mock(SaveSkillUseCase::class.java)
+        useCase = mock(UpdateSkillUseCase::class.java)
         viewModel = EditSkillViewModel(useCase, createSkillItem(), CoroutineScope(Unconfined))
     }
 

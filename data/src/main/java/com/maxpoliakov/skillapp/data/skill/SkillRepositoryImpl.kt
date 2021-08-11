@@ -31,8 +31,9 @@ class SkillRepositoryImpl @Inject constructor(
     override suspend fun addSkill(skill: Skill) =
         skillDao.insert(skill.mapToDB())
 
-    override suspend fun saveSkill(skill: Skill) =
-        skillDao.update(skill.mapToDB())
+    override suspend fun updateName(skillId: Int, newName: String) {
+        skillDao.updateName(skillId, newName)
+    }
 
     override suspend fun deleteSkill(skill: Skill) =
         skillDao.delete(skill.mapToDB())

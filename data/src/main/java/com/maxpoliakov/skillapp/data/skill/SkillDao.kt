@@ -22,6 +22,9 @@ interface SkillDao : BaseDao<DBSkill> {
     )
     fun getSkill(id: Int): Flow<DBSkill?>
 
+    @Query("UPDATE skills SET name = :name WHERE id = :id")
+    suspend fun updateName(id: Int, name: String)
+
     @Query("UPDATE skills SET `order` = :order WHERE id = :id")
     suspend fun setOrder(id: Int, order: Int)
 

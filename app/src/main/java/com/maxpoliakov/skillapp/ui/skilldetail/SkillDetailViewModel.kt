@@ -12,12 +12,10 @@ import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
-import com.maxpoliakov.skillapp.util.statistics.getTodayTime
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
@@ -48,12 +46,8 @@ class SkillDetailViewModel(
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
     val skillLiveData = skill.asLiveData()
 
-    val summary = skill.combine(stats) { skill, stats ->
-        ProductivitySummary(
-            skill.totalTime,
-            stats.getTodayTime(),
-            skill.lastWeekTime
-        )
+    val summary = skill.map { skill ->
+        ProductivitySummary(skill.totalTime, skill.lastWeekTime)
     }.asLiveData()
 
     fun addRecord(time: Duration) {

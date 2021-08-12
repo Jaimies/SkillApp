@@ -29,4 +29,8 @@ class SkillGroupRepositoryImpl @Inject constructor(
     override suspend fun createGroup(name: String, skills: List<Skill>) {
         groupDao.createGroup(name, skills.map { skill -> skill.id })
     }
+
+    override suspend fun updateGroupName(groupId: Int, newName: String) {
+        groupDao.updateGroupName(groupId, newName)
+    }
 }

@@ -19,6 +19,9 @@ interface GroupDao : BaseDao<DBGroup> {
     @Query("UPDATE skills SET groupId = :groupId WHERE id = :skillId ")
     suspend fun addSkillToGroup(skillId: Int, groupId: Int)
 
+    @Query("UPDATE groups SET name = :newName WHERE id = :groupId")
+    suspend fun updateGroupName(groupId: Int, newName: String)
+
     @Transaction
     suspend fun createGroup(name: String, skillIds: List<Int>) {
         val groupId = this.insert(DBGroup(name = name))

@@ -46,7 +46,7 @@
         android:id="@+id/editskill_fragment_dest"
         android:name="com.maxpoliakov.skillapp.ui.editskill.EditSkillFragment"
         android:label="@string/edit_skill"
-        tools:layout="@layout/edit_skill_frag">
+        tools:layout="@layout/editable_layout">
 
         <argument
             android:name="skill"
@@ -96,4 +96,19 @@
     <action
         android:id="@+id/action_to_skillGroupFragment"
         app:destination="@id/skill_group_fragment_dest" />
+
+    <fragment
+        android:id="@+id/edit_skill_group_fragment_dest"
+        android:name="com.maxpoliakov.skillapp.ui.editgroup.EditSkillGroupFragment"
+        android:label="Edit group"
+        tools:layout="@layout/editable_layout">
+
+        <argument
+            android:name="group"
+            app:argType="com.maxpoliakov.skillapp.model.SkillGroupMinimal" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_to_editSkillGroupFragment"
+        app:destination="@id/edit_skill_group_fragment_dest" />
 </navigation>

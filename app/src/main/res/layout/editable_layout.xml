@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.editskill.EditSkillViewModel" />
+            type="com.maxpoliakov.skillapp.ui.common.EditableViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +45,7 @@
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/save"
             android:enabled="@{viewModel.inputIsValid}"
-            android:onClick="@{() -> viewModel.updateSkill()}"
+            android:onClick="@{() -> viewModel.update()}"
             android:src="@drawable/ic_check"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

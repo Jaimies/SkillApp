@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface SkillGroupRepository {
     fun getSkillGroups(): Flow<List<SkillGroup>>
+    fun getSkillGroupById(id: Int): Flow<SkillGroup>
 
     suspend fun addSkillToGroup(skillId: Int, groupId: Int)
     suspend fun createGroup(name: String, skills: List<Skill>)

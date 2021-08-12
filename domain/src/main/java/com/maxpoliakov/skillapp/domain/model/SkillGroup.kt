@@ -8,4 +8,5 @@ data class SkillGroup(
     val skills: List<Skill>,
 ) {
     val totalTime get() = skills.sumByDuration(Skill::totalTime)
+    val lastWeekTime get() = skills.sumByDuration(Skill::lastWeekTime)
 }

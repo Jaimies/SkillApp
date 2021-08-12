@@ -12,6 +12,10 @@ interface GroupDao : BaseDao<DBGroup> {
     @Query("SELECT * from groups")
     fun getGroups(): Flow<List<GroupWithSkills>>
 
+    @Transaction
+    @Query("SELECT * FROM groups WHERE id = :id")
+    fun getGroupById(id: Int): Flow<GroupWithSkills>
+
     @Query("UPDATE skills SET groupId = :groupId WHERE id = :skillId ")
     suspend fun addSkillToGroup(skillId: Int, groupId: Int)
 

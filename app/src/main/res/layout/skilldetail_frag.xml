@@ -19,7 +19,7 @@
 
         <include
             android:id="@+id/collapsing_toolbar_layout"
-            layout="@layout/skilldetal_collapsing_toolbar"
+            layout="@layout/collapsing_toolbar"
             app:title="@{viewModel.skillLiveData.name}" />
 
         <androidx.core.widget.NestedScrollView

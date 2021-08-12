@@ -63,9 +63,6 @@ class SkillDetailFragment : ActionBarFragment(R.menu.skilldetail_frag_menu) {
             appBar.setMarginTop(-collapsingToolbar.height)
         }
 
-        viewModel.skillLiveData.observe(viewLifecycleOwner) { skill ->
-            toolbarLayout.title = skill.name
-        }
         lifecycleScope.launch {
             awaitUntilAnimationFinished()
             (requireActivity() as MainActivity).setToolbar(collapsingToolbar)

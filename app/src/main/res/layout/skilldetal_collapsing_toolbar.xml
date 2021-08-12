@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/app_bar"
-    android:layout_width="match_parent"
-    android:layout_height="135dp"
-    android:background="@android:color/transparent"
-    app:elevation="0dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.appbar.CollapsingToolbarLayout
-        android:id="@+id/toolbar_layout"
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+    </data>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        app:expandedTitleMarginBottom="35dp"
-        app:expandedTitleMarginStart="@dimen/productivity_summary_spacing_start"
-        app:expandedTitleTextAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        app:toolbarId="@+id/toolbar">
+        android:layout_height="135dp"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/collapsing_toolbar"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin" />
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:expandedTitleMarginBottom="35dp"
+            app:expandedTitleMarginStart="@dimen/productivity_summary_spacing_start"
+            app:expandedTitleTextAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="@{title}"
+            app:toolbarId="@+id/toolbar">
 
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
-</com.google.android.material.appbar.AppBarLayout>
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+</layout>

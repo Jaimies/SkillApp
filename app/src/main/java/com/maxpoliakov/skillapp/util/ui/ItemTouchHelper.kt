@@ -78,7 +78,8 @@ fun createDraggingItemTouchHelper(
             var distanceToViewHolder = Float.POSITIVE_INFINITY
 
             for (i in 0 until recyclerView.childCount) {
-                val holder = recyclerView.findViewHolderForAdapterPosition(i) ?: continue
+                val holder = recyclerView.findViewHolderForAdapterPosition(i)
+                if (holder == null || holder == viewHolder) continue
                 val topDistance = abs(holder.itemView.top - dropCoordinates.top)
                 val bottomDistance = abs(holder.itemView.bottom - dropCoordinates.bottom)
 

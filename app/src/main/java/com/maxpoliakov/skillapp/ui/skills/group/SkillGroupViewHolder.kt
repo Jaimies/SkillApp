@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillOnlyListAdapter
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import javax.inject.Inject
+import javax.inject.Provider
 
 class SkillGroupViewHolder(
     adapterFactory: SkillOnlyListAdapter.Factory,
@@ -28,13 +29,13 @@ class SkillGroupViewHolder(
 
     class Factory @Inject constructor(
         private val adapterFactory: SkillOnlyListAdapter.Factory,
-        private val viewModel: SkillGroupViewModel,
+        private val viewModelProvider: Provider<SkillGroupViewModel>,
     ) {
         fun create(
             binding: SkillGroupBinding,
             startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
         ): SkillGroupViewHolder {
-            return SkillGroupViewHolder(adapterFactory, binding, viewModel, startDrag)
+            return SkillGroupViewHolder(adapterFactory, binding, viewModelProvider.get(), startDrag)
         }
     }
 }

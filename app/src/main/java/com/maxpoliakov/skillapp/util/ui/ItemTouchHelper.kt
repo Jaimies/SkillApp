@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import kotlin.math.abs
+import kotlin.math.min
 
 interface ItemTouchHelperCallback {
     fun onMove(from: Int, to: Int)
@@ -20,14 +21,16 @@ interface ItemTouchHelperCallback {
     fun onDropped()
 }
 
+private data class Coordinates(val top: Float, val bottom: Float)
+
 fun createDraggingItemTouchHelper(
     context: Context,
     callback: ItemTouchHelperCallback
 ): ItemTouchHelper {
 
     val simpleItemTouchCallback = object : SimpleCallback(UP or DOWN, 0) {
-        private var draggedItemY = -1f
-        private var lastDropY = -1f
+        private var currentCoordinates: Coordinates? = null
+        private var dropCoordinates: Coordinates? = null
 
         override fun isLongPressDragEnabled() = false
 
@@ -54,13 +57,13 @@ fun createDraggingItemTouchHelper(
             isCurrentlyActive: Boolean
         ) {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-            draggedItemY = viewHolder.itemView.y
+            currentCoordinates = viewHolder.itemView.run { Coordinates(y, y + height) }
         }
 
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             super.onSelectedChanged(viewHolder, actionState)
             if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
-                lastDropY = draggedItemY
+                dropCoordinates = currentCoordinates
             }
         }
 
@@ -69,28 +72,36 @@ fun createDraggingItemTouchHelper(
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
 
+            val dropCoordinates = dropCoordinates ?: return
+
             var closestViewHolder: RecyclerView.ViewHolder? = null
             var distanceToViewHolder = Float.POSITIVE_INFINITY
 
             for (i in 0 until recyclerView.childCount) {
-                val holder = recyclerView.findViewHolderForAdapterPosition(i)
-                val distance = abs(holder!!.itemView.y - lastDropY)
+                val holder = recyclerView.findViewHolderForAdapterPosition(i) ?: continue
+                val topDistance = abs(holder.itemView.top - dropCoordinates.top)
+                val bottomDistance = abs(holder.itemView.bottom - dropCoordinates.bottom)
+
+                val distance = min(topDistance, bottomDistance)
+
                 if (distance < distanceToViewHolder) {
                     distanceToViewHolder = distance
                     closestViewHolder = holder
                 }
             }
 
-            fireGroupingCallbacks(distanceToViewHolder, viewHolder, closestViewHolder)
+            fireGroupingCallbacks(dropCoordinates, viewHolder, closestViewHolder)
             callback.onDropped()
         }
 
         private fun fireGroupingCallbacks(
-            distanceToViewHolder: Float,
+            dropCoordinates: Coordinates,
             viewHolder: RecyclerView.ViewHolder,
             closestViewHolder: RecyclerView.ViewHolder?,
         ) {
-            if (viewHolder !is SkillViewHolder || distanceToViewHolder > 20.dp.toPx(context)) return
+            if (closestViewHolder == null || viewHolder !is SkillViewHolder
+                || !nearEnough(dropCoordinates, closestViewHolder)
+            ) return
 
             val skill = viewHolder.viewModel.skill.value!!
 
@@ -103,6 +114,14 @@ fun createDraggingItemTouchHelper(
                 val group = closestViewHolder.viewModel.skillGroup.value!!
                 callback.onGroup(skill, group)
             }
+        }
+
+        private fun nearEnough(
+            dropCoordinates: Coordinates,
+            closestViewHolder: RecyclerView.ViewHolder
+        ): Boolean {
+            return dropCoordinates.top > closestViewHolder.itemView.top - 20.dp.toPx(context)
+                    && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 20.dp.toPx(context)
         }
     }
 

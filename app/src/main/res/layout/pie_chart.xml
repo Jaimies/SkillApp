@@ -3,13 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:contentPaddingBottom="30dp"
     app:contentPaddingLeft="14dp"
-    app:contentPaddingRight="14dp"
-    app:contentPaddingTop="30dp">
+    app:contentPaddingRight="14dp">
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="320dp" />
+        android:layout_height="550dp" />
 </com.google.android.material.card.MaterialCardView>

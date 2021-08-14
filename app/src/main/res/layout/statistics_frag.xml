@@ -28,7 +28,7 @@
 
             <include
                 android:id="@+id/productivity_chart"
-                layout="@layout/chart"
+                layout="@layout/bar_chart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/chart_height"
                 android:layout_marginTop="8dp"

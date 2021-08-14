@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.github.mikephil.charting.data.PieEntry
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.CollapsingToolbarBinding
 import com.maxpoliakov.skillapp.databinding.SkillGroupFragBinding
 import com.maxpoliakov.skillapp.model.toMinimal
 import com.maxpoliakov.skillapp.ui.common.FragmentWithCollapsingToolbar
+import com.maxpoliakov.skillapp.util.charts.setData
 import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
@@ -45,6 +47,15 @@ class SkillGroupFragment : FragmentWithCollapsingToolbar(R.menu.skilldetail_frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.productivityChart.chart.setup()
+        binding.splitChart.chart.setup()
+
+        observe(viewModel.group) { group ->
+            val data = group.skills.map { skill ->
+                PieEntry(skill.totalTime.toMillis().toFloat() / group.totalTime.toMillis(), skill.name)
+            }
+
+            binding.splitChart.chart.setData(data)
+        }
         observe(viewModel.stats, binding.productivityChart.chart::setState)
     }
 

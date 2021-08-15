@@ -43,7 +43,7 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerView.Adap
         mDiffer.submitList(list, commitCallback)
     }
 
-    protected fun getItem(position: Int): T {
+    fun getItem(position: Int): T {
         return mDiffer.currentList[position]
     }
 

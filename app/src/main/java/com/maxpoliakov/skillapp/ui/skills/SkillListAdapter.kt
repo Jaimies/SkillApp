@@ -5,29 +5,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
-import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupDelegateAdapter
+import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupHeaderDelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchDelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
 import javax.inject.Inject
 
-private const val ITEM_TYPE_SKILL = 0
-private const val ITEM_TYPE_SKILL_GROUP = 1
-private const val ITEM_TYPE_STOPWATCH = 2
+const val ITEM_TYPE_SKILL = 0
+const val ITEM_TYPE_SKILL_GROUP_HEADER = 1
+const val ITEM_TYPE_STOPWATCH = 2
 
 class SkillListAdapter(
     startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
     stopwatchDelegateAdapter: StopwatchDelegateAdapter,
     skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
-    skillGroupDelegateAdapterFactory: SkillGroupDelegateAdapter.Factory,
+    private val skillGroupHeaderDelegateAdapter: SkillGroupHeaderDelegateAdapter,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
 
     private val skillDelegateAdapter = skillDelegateAdapterFactory.create(startDrag)
-    private val skillGroupDelegateAdapter = skillGroupDelegateAdapterFactory.create(startDrag)
 
     val adapters = mapOf(
         ITEM_TYPE_SKILL to skillDelegateAdapter,
-        ITEM_TYPE_SKILL_GROUP to skillGroupDelegateAdapter,
+        ITEM_TYPE_SKILL_GROUP_HEADER to skillGroupHeaderDelegateAdapter,
         ITEM_TYPE_STOPWATCH to stopwatchDelegateAdapter,
     )
 
@@ -41,11 +40,12 @@ class SkillListAdapter(
         if (item is Skill)
             skillDelegateAdapter.onBindViewHolder(holder as SkillViewHolder, item)
         else if (item is SkillGroup)
-            skillGroupDelegateAdapter.onBindViewHolder(holder as SkillGroupViewHolder, item)
+            skillGroupHeaderDelegateAdapter.onBindViewHolder(holder as SkillGroupViewHolder, item)
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (getItem(position) is SkillGroup) return ITEM_TYPE_SKILL_GROUP
+        if (position < 0 || position >= currentList.size) return -1
+        if (getItem(position) is SkillGroup) return ITEM_TYPE_SKILL_GROUP_HEADER
         if (getItem(position) is Skill) return ITEM_TYPE_SKILL
         return ITEM_TYPE_STOPWATCH
     }
@@ -83,7 +83,7 @@ class SkillListAdapter(
     }
 
     class Factory @Inject constructor(
-        private val skillGroupDelegateAdapterFactory: SkillGroupDelegateAdapter.Factory,
+        private val skillGroupHeaderDelegateAdapter: SkillGroupHeaderDelegateAdapter,
         private val skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
         private val stopwatchDelegateAdapter: StopwatchDelegateAdapter,
     ) {
@@ -93,7 +93,7 @@ class SkillListAdapter(
             startDrag,
             stopwatchDelegateAdapter,
             skillDelegateAdapterFactory,
-            skillGroupDelegateAdapterFactory
+            skillGroupHeaderDelegateAdapter,
         )
     }
 }

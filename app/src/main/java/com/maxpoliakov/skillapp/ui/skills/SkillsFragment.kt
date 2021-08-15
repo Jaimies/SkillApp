@@ -9,14 +9,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.maxpoliakov.skillapp.MainDirections.Companion.actionToSkillDetailFragment
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createDraggingItemTouchHelper
+import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setOnItemAddedListener
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
@@ -79,10 +80,16 @@ class SkillsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.setupAdapter(listAdapter)
+        binding.recyclerView.addItemDecoration(
+            CardViewDecoration(requireContext(), 16.dp.toPx(requireContext()).toFloat())
+        )
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
         lifecycleScope.launch {
             viewModel.skillsAndGroups.collect {
-                listAdapter.submitList(it.skills + it.groups)
+                val list = it.skills + it.groups.flatMap { group ->
+                    listOf(group) + group.skills
+                }
+                listAdapter.submitList(list)
             }
         }
 

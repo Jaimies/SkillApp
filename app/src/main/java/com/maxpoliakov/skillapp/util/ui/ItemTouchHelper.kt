@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import kotlin.math.abs
@@ -17,7 +16,7 @@ import kotlin.math.min
 interface ItemTouchHelperCallback {
     fun onMove(from: Int, to: Int)
     fun onGroup(first: Skill, second: Skill)
-    fun onGroup(skill: Skill, skillGroup: SkillGroup)
+    fun onGroup(skillId: Int, skillGroupId: Int)
     fun onDropped()
 }
 
@@ -78,7 +77,11 @@ fun createDraggingItemTouchHelper(
             var distanceToViewHolder = Float.POSITIVE_INFINITY
 
             for (i in 0 until recyclerView.childCount) {
-                val holder = recyclerView.findViewHolderForAdapterPosition(i)
+                val child = recyclerView.getChildAt(i)
+                val params = child.layoutParams as RecyclerView.LayoutParams
+                val position = params.absoluteAdapterPosition
+                val holder = recyclerView.findViewHolderForAdapterPosition(position)
+
                 if (holder == null || holder == viewHolder) continue
                 val topDistance = abs(holder.itemView.top - dropCoordinates.top)
                 val bottomDistance = abs(holder.itemView.bottom - dropCoordinates.bottom)
@@ -100,20 +103,22 @@ fun createDraggingItemTouchHelper(
             viewHolder: RecyclerView.ViewHolder,
             closestViewHolder: RecyclerView.ViewHolder?,
         ) {
-            if (closestViewHolder == null || viewHolder !is SkillViewHolder
-                || !nearEnough(dropCoordinates, closestViewHolder)
-            ) return
+            if (closestViewHolder == null || viewHolder !is SkillViewHolder) return
 
             val skill = viewHolder.viewModel.skill.value!!
 
             if (closestViewHolder is SkillViewHolder) {
                 val secondSkill = closestViewHolder.viewModel.skill.value!!
-                callback.onGroup(skill, secondSkill)
+
+                if (secondSkill.groupId != -1)
+                    callback.onGroup(skill.id, secondSkill.groupId)
+                else if (nearEnough(dropCoordinates, closestViewHolder))
+                    callback.onGroup(skill, secondSkill)
             }
 
             if (closestViewHolder is SkillGroupViewHolder) {
                 val group = closestViewHolder.viewModel.skillGroup.value!!
-                callback.onGroup(skill, group)
+                callback.onGroup(skill.id, group.id)
             }
         }
 

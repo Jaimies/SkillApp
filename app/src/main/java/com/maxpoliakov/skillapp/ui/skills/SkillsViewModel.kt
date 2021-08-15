@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.usecase.grouping.CreateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
@@ -42,8 +41,8 @@ class SkillsViewModel @Inject constructor(
         createGroup.run(name, skills)
     }
 
-    fun addToGroup(skill: Skill, group: SkillGroup) = viewModelScope.launch {
-        addSkillToGroup.run(skill.id, group.id)
+    fun addToGroup(skillId: Int, groupId: Int) = viewModelScope.launch {
+        addSkillToGroup.run(skillId, groupId)
     }
 
     fun stopTimer() = stopwatchUtil.stop()

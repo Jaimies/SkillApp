@@ -18,6 +18,7 @@ interface ItemTouchHelperCallback {
     fun onMove(from: Int, to: Int)
     fun onGroup(first: Skill, second: Skill)
     fun onGroup(skillId: Int, skillGroupId: Int)
+    fun onUngroup(skillId: Int)
     fun onDropped()
 }
 
@@ -79,8 +80,7 @@ fun createDraggingItemTouchHelper(
 
             if (adapter !is SkillListAdapter || viewHolder !is SkillViewHolder) return
 
-            val prevItem = adapter.getItem(position - 1)
-            val didGroup = groupIfNecessary(viewHolder.viewModel.skill.value!!, prevItem)
+            val didGroup = groupIfNecessary(viewHolder.viewModel.skill.value!!, position, adapter)
 
             if (!didGroup) {
                 val closestViewHolder = getClosestViewHolder(recyclerView, viewHolder, dropCoordinates)
@@ -144,12 +144,24 @@ fun createDraggingItemTouchHelper(
                     && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 20.dp.toPx(context)
         }
 
-        private fun groupIfNecessary(skill: Skill, prevItem: Any): Boolean {
+        private fun groupIfNecessary(skill: Skill, position: Int, adapter: SkillListAdapter): Boolean {
+            if (position == 0) {
+                if (skill.groupId != -1)
+                    callback.onUngroup(skill.id)
+
+                return false
+            }
+
+            val prevItem = adapter.getItem(position - 1)
+
             if (prevItem is Skill && prevItem.groupId != -1) {
                 callback.onGroup(skill.id, prevItem.groupId)
                 return true
             } else if (prevItem is SkillGroup) {
                 callback.onGroup(skill.id, prevItem.id)
+                return true
+            } else if (skill.groupId != -1) {
+                callback.onUngroup(skill.id)
                 return true
             }
 

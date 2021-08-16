@@ -19,6 +19,9 @@ interface GroupDao : BaseDao<DBGroup> {
     @Query("UPDATE skills SET groupId = :groupId WHERE id = :skillId ")
     suspend fun addSkillToGroup(skillId: Int, groupId: Int)
 
+    @Query("UPDATE skills SET groupId = -1 WHERE id = :skillId")
+    suspend fun removeSkillFromGroup(skillId: Int)
+
     @Query("UPDATE groups SET name = :newName WHERE id = :groupId")
     suspend fun updateGroupName(groupId: Int, newName: String)
 

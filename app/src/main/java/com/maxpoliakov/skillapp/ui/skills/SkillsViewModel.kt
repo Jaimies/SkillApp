@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.usecase.grouping.CreateGroupUseCase
-import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillToGroupUseCase
+import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
@@ -19,8 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SkillsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
-    private val createGroup: CreateGroupUseCase,
-    private val addSkillToGroup: AddSkillToGroupUseCase,
+    private val manageGroup: AddOrRemoveSkillToGroupUseCase,
     private val updateOrder: UpdateOrderUseCase,
     private val stopwatchUtil: StopwatchUtil
 ) : ViewModel() {
@@ -38,11 +36,15 @@ class SkillsViewModel @Inject constructor(
     }
 
     fun createGroup(name: String, skills: List<Skill>) = viewModelScope.launch {
-        createGroup.run(name, skills)
+        manageGroup.createGroup(name, skills)
     }
 
     fun addToGroup(skillId: Int, groupId: Int) = viewModelScope.launch {
-        addSkillToGroup.run(skillId, groupId)
+        manageGroup.addToGroup(skillId, groupId)
+    }
+
+    fun removeFromGroup(skillId: Int) = viewModelScope.launch {
+        manageGroup.removeFromGroup(skillId)
     }
 
     fun stopTimer() = stopwatchUtil.stop()

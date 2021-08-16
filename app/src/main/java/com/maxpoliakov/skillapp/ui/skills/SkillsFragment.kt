@@ -43,6 +43,10 @@ class SkillsFragment : Fragment() {
         override fun onGroup(skillId: Int, skillGroupId: Int) {
             viewModel.addToGroup(skillId, skillGroupId)
         }
+
+        override fun onUngroup(skillId: Int) {
+            viewModel.removeFromGroup(skillId)
+        }
     }
 
     private val itemTouchHelper by lazy {

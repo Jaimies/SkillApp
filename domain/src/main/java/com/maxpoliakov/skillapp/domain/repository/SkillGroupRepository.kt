@@ -9,6 +9,7 @@ interface SkillGroupRepository {
     fun getSkillGroupById(id: Int): Flow<SkillGroup>
 
     suspend fun addSkillToGroup(skillId: Int, groupId: Int)
+    suspend fun removeSkillFromGroup(skillId: Int)
     suspend fun createGroup(name: String, skills: List<Skill>)
     suspend fun updateGroupName(groupId: Int, newName: String)
 }

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
@@ -87,7 +86,7 @@ class SkillsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.skillsAndGroups.collect {
                 val list = it.skills + it.groups.flatMap { group ->
-                    listOf(group) + group.skills
+                    listOf(group) + group.skills + listOf(SkillGroupFooter)
                 }
                 listAdapter.submitList(list)
             }

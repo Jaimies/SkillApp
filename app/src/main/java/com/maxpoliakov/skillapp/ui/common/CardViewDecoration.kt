@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.ui.skills.ITEM_TYPE_SKILL_GROUP_FOOTER
 import com.maxpoliakov.skillapp.ui.skills.ITEM_TYPE_SKILL_GROUP_HEADER
 import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
 import com.maxpoliakov.skillapp.util.ui.dp
@@ -85,7 +87,7 @@ class CardViewDecoration(
                 c.translate(-bounds.height().toFloat(), -bounds.width() + 2 * cornerRadius)
                 c.drawRect(cornerRadius, edgeShadowTop, bounds.height().toFloat(), -cornerRadius, mEdgeShadowPaint)
             } else if (shouldDrawSideBorders(parent, position)) {
-                if (adapter.getItemViewType(position + 1) == headerViewType || position >= adapter.itemCount - 1) {
+                if (adapter.getItemViewType(position + 1) == ITEM_TYPE_SKILL_GROUP_FOOTER || position >= adapter.itemCount - 1) {
                     bounds.bottom = (bounds.bottom - padding16dp + mPadding).roundToInt()
 
                     // last item before next header
@@ -135,9 +137,15 @@ class CardViewDecoration(
         position: Int
     ): Boolean {
         val adapter = parent.adapter!! as SkillListAdapter
-        if (position < 0 || position >= adapter.itemCount) return false
+        // The first or last item can never need side borders
+        if (position <= 0 || position >= adapter.itemCount - 1) return false
+
+        val prevItem = adapter.getItem(position - 1)
         val item = adapter.getItem(position)
-        return item is Skill && item.groupId != -1
+        return item is Skill
+                && (prevItem is Skill && prevItem.groupId != -1
+                || prevItem is SkillGroup)
+
     }
 
     private fun buildShadowCorners() {

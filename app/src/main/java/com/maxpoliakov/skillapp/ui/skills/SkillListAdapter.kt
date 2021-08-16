@@ -14,6 +14,7 @@ import javax.inject.Inject
 const val ITEM_TYPE_SKILL = 0
 const val ITEM_TYPE_SKILL_GROUP_HEADER = 1
 const val ITEM_TYPE_STOPWATCH = 2
+const val ITEM_TYPE_SKILL_GROUP_FOOTER = 3
 
 class SkillListAdapter(
     startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
@@ -27,7 +28,8 @@ class SkillListAdapter(
     val adapters = mapOf(
         ITEM_TYPE_SKILL to skillDelegateAdapter,
         ITEM_TYPE_SKILL_GROUP_HEADER to skillGroupHeaderDelegateAdapter,
-        ITEM_TYPE_STOPWATCH to stopwatchDelegateAdapter,
+        ITEM_TYPE_SKILL_GROUP_FOOTER to EmptyDelegateAdapter(),
+        ITEM_TYPE_STOPWATCH to stopwatchDelegateAdapter
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -47,6 +49,7 @@ class SkillListAdapter(
         if (position < 0 || position >= currentList.size) return -1
         if (getItem(position) is SkillGroup) return ITEM_TYPE_SKILL_GROUP_HEADER
         if (getItem(position) is Skill) return ITEM_TYPE_SKILL
+        if (getItem(position) is SkillGroupFooter) return ITEM_TYPE_SKILL_GROUP_FOOTER
         return ITEM_TYPE_STOPWATCH
     }
 

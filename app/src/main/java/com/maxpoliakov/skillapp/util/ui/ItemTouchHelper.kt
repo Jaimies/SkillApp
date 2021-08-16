@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
-import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -73,6 +74,27 @@ fun createDraggingItemTouchHelper(
 
             val dropCoordinates = dropCoordinates ?: return
 
+            val position = viewHolder.absoluteAdapterPosition
+            val adapter = recyclerView.adapter
+
+            if (adapter !is SkillListAdapter || viewHolder !is SkillViewHolder) return
+
+            val prevItem = adapter.getItem(position - 1)
+            val didGroup = groupIfNecessary(viewHolder.viewModel.skill.value!!, prevItem)
+
+            if (!didGroup) {
+                val closestViewHolder = getClosestViewHolder(recyclerView, viewHolder, dropCoordinates)
+                fireGroupingCallbacks(dropCoordinates, viewHolder, closestViewHolder)
+            }
+
+            callback.onDropped()
+        }
+
+        private fun getClosestViewHolder(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dropCoordinates: Coordinates,
+        ): RecyclerView.ViewHolder? {
             var closestViewHolder: RecyclerView.ViewHolder? = null
             var distanceToViewHolder = Float.POSITIVE_INFINITY
 
@@ -94,31 +116,23 @@ fun createDraggingItemTouchHelper(
                 }
             }
 
-            fireGroupingCallbacks(dropCoordinates, viewHolder, closestViewHolder)
-            callback.onDropped()
+            return closestViewHolder
         }
 
         private fun fireGroupingCallbacks(
             dropCoordinates: Coordinates,
-            viewHolder: RecyclerView.ViewHolder,
+            viewHolder: SkillViewHolder,
             closestViewHolder: RecyclerView.ViewHolder?,
         ) {
-            if (closestViewHolder == null || viewHolder !is SkillViewHolder) return
+            if (closestViewHolder == null) return
 
             val skill = viewHolder.viewModel.skill.value!!
 
             if (closestViewHolder is SkillViewHolder) {
                 val secondSkill = closestViewHolder.viewModel.skill.value!!
 
-                if (secondSkill.groupId != -1)
-                    callback.onGroup(skill.id, secondSkill.groupId)
-                else if (nearEnough(dropCoordinates, closestViewHolder))
+                if (secondSkill.groupId == -1 && nearEnough(dropCoordinates, closestViewHolder))
                     callback.onGroup(skill, secondSkill)
-            }
-
-            if (closestViewHolder is SkillGroupViewHolder) {
-                val group = closestViewHolder.viewModel.skillGroup.value!!
-                callback.onGroup(skill.id, group.id)
             }
         }
 
@@ -128,6 +142,18 @@ fun createDraggingItemTouchHelper(
         ): Boolean {
             return dropCoordinates.top > closestViewHolder.itemView.top - 20.dp.toPx(context)
                     && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 20.dp.toPx(context)
+        }
+
+        private fun groupIfNecessary(skill: Skill, prevItem: Any): Boolean {
+            if (prevItem is Skill && prevItem.groupId != -1) {
+                callback.onGroup(skill.id, prevItem.groupId)
+                return true
+            } else if (prevItem is SkillGroup) {
+                callback.onGroup(skill.id, prevItem.id)
+                return true
+            }
+
+            return false
         }
     }
 

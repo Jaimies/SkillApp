@@ -41,6 +41,7 @@ fun Skill.mapToDB(): DBSkill {
         initialTime,
         lastWeekTime,
         date,
+        groupId,
         order,
     )
 }

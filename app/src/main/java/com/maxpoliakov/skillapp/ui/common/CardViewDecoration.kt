@@ -20,6 +20,7 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.skills.ITEM_TYPE_SKILL_GROUP_FOOTER
 import com.maxpoliakov.skillapp.ui.skills.ITEM_TYPE_SKILL_GROUP_HEADER
+import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
 import com.maxpoliakov.skillapp.util.ui.dp
 import kotlin.math.roundToInt
@@ -141,10 +142,13 @@ class CardViewDecoration(
         if (position <= 0 || position >= adapter.itemCount - 1) return false
 
         val prevItem = adapter.getItem(position - 1)
+        val nextItem = adapter.getItem(position + 1)
         val item = adapter.getItem(position)
         return item is Skill
                 && (prevItem is Skill && prevItem.groupId != -1
-                || prevItem is SkillGroup)
+                || prevItem is SkillGroup
+                || nextItem is Skill && nextItem.groupId != -1
+                || nextItem is SkillGroupFooter)
 
     }
 

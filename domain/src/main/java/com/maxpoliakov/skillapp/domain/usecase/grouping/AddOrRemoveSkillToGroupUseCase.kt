@@ -11,11 +11,23 @@ class AddOrRemoveSkillToGroupUseCase @Inject constructor(
         skillGroupRepository.createGroup(name, skills)
     }
 
-    suspend fun addToGroup(skillId: Int, groupId: Int) {
-        skillGroupRepository.addSkillToGroup(skillId, groupId)
+    suspend fun addToGroup(skill: Skill, groupId: Int) {
+        skillGroupRepository.addSkillToGroup(skill.id, groupId)
+        deleteGroupIfEmpty(skill)
+
     }
 
-    suspend fun removeFromGroup(skillId: Int) {
-        skillGroupRepository.removeSkillFromGroup(skillId)
+    suspend fun removeFromGroup(skill: Skill) {
+        skillGroupRepository.removeSkillFromGroup(skill.id)
+        deleteGroupIfEmpty(skill)
+    }
+
+    private suspend fun deleteGroupIfEmpty(skill: Skill) {
+        if (skill.groupId == -1) return
+
+        val group = skillGroupRepository.getSkillGroupById(skill.groupId)
+
+        if (group.skills.isEmpty())
+            skillGroupRepository.deleteGroup(group.id)
     }
 }

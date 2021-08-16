@@ -17,8 +17,8 @@ import kotlin.math.min
 interface ItemTouchHelperCallback {
     fun onMove(from: Int, to: Int)
     fun onGroup(first: Skill, second: Skill)
-    fun onGroup(skillId: Int, skillGroupId: Int)
-    fun onUngroup(skillId: Int)
+    fun onGroup(skill: Skill, skillGroupId: Int)
+    fun onUngroup(skill: Skill)
     fun onDropped()
 }
 
@@ -147,7 +147,7 @@ fun createDraggingItemTouchHelper(
         private fun groupIfNecessary(skill: Skill, position: Int, adapter: SkillListAdapter): Boolean {
             if (position == 0) {
                 if (skill.groupId != -1)
-                    callback.onUngroup(skill.id)
+                    callback.onUngroup(skill)
 
                 return false
             }
@@ -155,13 +155,13 @@ fun createDraggingItemTouchHelper(
             val prevItem = adapter.getItem(position - 1)
 
             if (prevItem is Skill && prevItem.groupId != -1) {
-                callback.onGroup(skill.id, prevItem.groupId)
+                callback.onGroup(skill, prevItem.groupId)
                 return true
             } else if (prevItem is SkillGroup) {
-                callback.onGroup(skill.id, prevItem.id)
+                callback.onGroup(skill, prevItem.id)
                 return true
             } else if (skill.groupId != -1) {
-                callback.onUngroup(skill.id)
+                callback.onUngroup(skill)
                 return true
             }
 

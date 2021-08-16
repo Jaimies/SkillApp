@@ -9,6 +9,6 @@ class GetGroupUseCase @Inject constructor(
     private val skillGroupRepository: SkillGroupRepository,
 ) {
     fun getById(id: Int): Flow<SkillGroup> {
-        return skillGroupRepository.getSkillGroupById(id)
+        return skillGroupRepository.getSkillGroupFlowById(id)
     }
 }

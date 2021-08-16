@@ -18,8 +18,12 @@ class SkillGroupRepositoryImpl @Inject constructor(
         return groupDao.getGroups().mapList { it.mapToDomain() }
     }
 
-    override fun getSkillGroupById(id: Int): Flow<SkillGroup> {
-        return groupDao.getGroupById(id).map { it.mapToDomain() }
+    override fun getSkillGroupFlowById(id: Int): Flow<SkillGroup> {
+        return groupDao.getGroupFlowById(id).map { it.mapToDomain() }
+    }
+
+    override suspend fun getSkillGroupById(id: Int): SkillGroup {
+        return groupDao.getGroupById(id).mapToDomain()
     }
 
     override suspend fun addSkillToGroup(skillId: Int, groupId: Int) {
@@ -36,5 +40,9 @@ class SkillGroupRepositoryImpl @Inject constructor(
 
     override suspend fun updateGroupName(groupId: Int, newName: String) {
         groupDao.updateGroupName(groupId, newName)
+    }
+
+    override suspend fun deleteGroup(groupId: Int) {
+        groupDao.deleteGroup(groupId)
     }
 }

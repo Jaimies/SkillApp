@@ -40,12 +40,12 @@ class SkillsFragment : Fragment() {
             viewModel.createGroup("New group", listOf(first, second))
         }
 
-        override fun onGroup(skillId: Int, skillGroupId: Int) {
-            viewModel.addToGroup(skillId, skillGroupId)
+        override fun onGroup(skill: Skill, skillGroupId: Int) {
+            viewModel.addToGroup(skill, skillGroupId)
         }
 
-        override fun onUngroup(skillId: Int) {
-            viewModel.removeFromGroup(skillId)
+        override fun onUngroup(skill: Skill) {
+            viewModel.removeFromGroup(skill)
         }
     }
 

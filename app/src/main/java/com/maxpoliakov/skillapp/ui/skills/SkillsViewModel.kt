@@ -39,12 +39,12 @@ class SkillsViewModel @Inject constructor(
         manageGroup.createGroup(name, skills)
     }
 
-    fun addToGroup(skillId: Int, groupId: Int) = viewModelScope.launch {
-        manageGroup.addToGroup(skillId, groupId)
+    fun addToGroup(skill: Skill, groupId: Int) = viewModelScope.launch {
+        manageGroup.addToGroup(skill, groupId)
     }
 
-    fun removeFromGroup(skillId: Int) = viewModelScope.launch {
-        manageGroup.removeFromGroup(skillId)
+    fun removeFromGroup(skill: Skill) = viewModelScope.launch {
+        manageGroup.removeFromGroup(skill)
     }
 
     fun stopTimer() = stopwatchUtil.stop()

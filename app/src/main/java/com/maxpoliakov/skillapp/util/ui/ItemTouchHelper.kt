@@ -20,9 +20,11 @@ interface ItemTouchHelperCallback {
 }
 
 sealed class Change {
-    class Group(val first: Skill, val second: Skill) : Change()
-    class AddToGroup(val skill: Skill, val groupId: Int) : Change()
-    class RemoveFromGroup(val skill: Skill) : Change()
+    abstract val skill: Skill
+
+    class Group(override val skill: Skill, val otherSkill: Skill) : Change()
+    class AddToGroup(override val skill: Skill, val groupId: Int) : Change()
+    class RemoveFromGroup(override val skill: Skill) : Change()
 }
 
 private data class Coordinates(val top: Float, val bottom: Float)

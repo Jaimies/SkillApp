@@ -38,12 +38,25 @@ class SkillsFragment : Fragment() {
             val list = listAdapter.currentList.filterIsInstance<Orderable>()
 
             when (change) {
-                is Change.Group -> viewModel.createGroup("New group", listOf(change.first, change.second))
+                is Change.Group -> viewModel.createGroup("New group", listOf(change.skill, change.otherSkill))
                 is Change.AddToGroup -> viewModel.addToGroup(change.skill, change.groupId)
                 is Change.RemoveFromGroup -> viewModel.removeFromGroup(change.skill)
             }
 
-            viewModel.updateOrder(list)
+            viewModel.updateOrder(getUpdatedList(list, change))
+        }
+
+        private fun getUpdatedList(list: List<Orderable>, change: Change?): List<Orderable> {
+            if (change is Change.AddToGroup) {
+                val updatedSkill = change.skill.copy(groupId = change.groupId)
+
+                return list.map { item ->
+                    if (item is Skill && item.id == updatedSkill.id) updatedSkill
+                    else item
+                }
+            }
+
+            return list
         }
     }
 

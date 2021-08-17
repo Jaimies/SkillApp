@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.skills
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
@@ -31,7 +32,7 @@ class SkillsViewModel @Inject constructor(
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
-    fun updateOrder(skills: List<Skill>) = viewModelScope.launch {
+    fun updateOrder(skills: List<Orderable>) = viewModelScope.launch {
         updateOrder.run(skills)
     }
 

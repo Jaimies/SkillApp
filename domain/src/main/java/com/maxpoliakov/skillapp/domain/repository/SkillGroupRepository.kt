@@ -14,5 +14,6 @@ interface SkillGroupRepository {
 
     suspend fun createGroup(name: String, skills: List<Skill>)
     suspend fun updateGroupName(groupId: Int, newName: String)
+    suspend fun updateOrder(groupId: Int, newOrder: Int)
     suspend fun deleteGroup(groupId: Int)
 }

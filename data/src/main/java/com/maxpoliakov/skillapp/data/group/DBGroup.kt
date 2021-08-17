@@ -13,13 +13,14 @@ data class DBGroup(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String = "",
+    val order: Int = -1,
 )
 
 data class GroupWithSkills(
     @Embedded val group: DBGroup,
     @Relation(
         parentColumn = "id",
-        entityColumn = "groupId"
+        entityColumn = "groupId",
     )
     val skills: List<DBSkill>
 )
@@ -27,5 +28,6 @@ data class GroupWithSkills(
 fun GroupWithSkills.mapToDomain() = SkillGroup(
     group.id,
     group.name,
-    skills.map(DBSkill::mapToDomain)
+    skills.map(DBSkill::mapToDomain),
+    group.order,
 )

@@ -29,6 +29,9 @@ interface GroupDao : BaseDao<DBGroup> {
     @Query("UPDATE groups SET name = :newName WHERE id = :groupId")
     suspend fun updateGroupName(groupId: Int, newName: String)
 
+    @Query("UPDATE groups SET `order` = :newOrder WHERE id = :groupId")
+    suspend fun updateOrder(groupId: Int, newOrder: Int)
+
     @Query("DELETE FROM groups WHERE id = :groupId")
     suspend fun deleteGroup(groupId: Int)
 

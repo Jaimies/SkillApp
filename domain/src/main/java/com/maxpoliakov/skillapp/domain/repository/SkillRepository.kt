@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.domain.repository
 
-import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Id
+import com.maxpoliakov.skillapp.domain.model.Skill
 import kotlinx.coroutines.flow.Flow
 import java.time.Duration
 
@@ -13,7 +13,7 @@ interface SkillRepository {
     suspend fun addSkill(skill: Skill): Long
     suspend fun updateName(skillId: Int, newName: String)
     suspend fun deleteSkill(skill: Skill)
-    suspend fun updateOrder(skills: List<Skill>)
+    suspend fun updateOrder(skillId: Int, newOrder: Int)
     suspend fun increaseTime(id: Id, time: Duration)
     suspend fun decreaseTime(id: Id, time: Duration)
 }

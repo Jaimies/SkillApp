@@ -33,7 +33,8 @@ class SkillsFragment : Fragment() {
         }
 
         override fun onDropped() {
-            viewModel.updateOrder(listAdapter.currentList.filterIsInstance<Skill>())
+            val list = listAdapter.currentList.filterIsInstance<Orderable>()
+            viewModel.updateOrder(list)
         }
 
         override fun onGroup(first: Skill, second: Skill) {
@@ -89,9 +90,16 @@ class SkillsFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
         lifecycleScope.launch {
             viewModel.skillsAndGroups.collect {
-                val list = it.skills + it.groups.flatMap { group ->
-                    listOf(group) + group.skills + listOf(SkillGroupFooter)
-                }
+                val list = (it.skills + it.groups)
+                    .sortedBy { it.order }
+                    .flatMap { item ->
+                        when (item) {
+                            is Skill -> listOf(item)
+                            is SkillGroup -> listOf(item) + item.skills.sortedBy { it.order } + listOf(SkillGroupFooter)
+                            else -> throw IllegalStateException("Orderables cannot be anything other than Skill or SkillGroup objects")
+                        }
+                    }
+
                 listAdapter.submitList(list)
             }
         }

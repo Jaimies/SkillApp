@@ -12,5 +12,5 @@ data class Skill(
     val id: Id = 0,
     val date: LocalDate = getCurrentDate(),
     val groupId: Int = -1,
-    val order: Int = -1,
-)
+    override val order: Int = -1,
+) : Orderable

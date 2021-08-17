@@ -42,6 +42,10 @@ class SkillGroupRepositoryImpl @Inject constructor(
         groupDao.updateGroupName(groupId, newName)
     }
 
+    override suspend fun updateOrder(groupId: Int, newOrder: Int) {
+        groupDao.updateOrder(groupId, newOrder)
+    }
+
     override suspend fun deleteGroup(groupId: Int) {
         groupDao.deleteGroup(groupId)
     }

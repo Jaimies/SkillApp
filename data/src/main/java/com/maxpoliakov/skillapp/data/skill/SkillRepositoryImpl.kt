@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.data.skill
 
-import androidx.room.withTransaction
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -42,12 +41,8 @@ class SkillRepositoryImpl @Inject constructor(
         skillDao.increaseTime(id, time)
     }
 
-    override suspend fun updateOrder(skills: List<Skill>) {
-        db.withTransaction {
-            skills.forEachIndexed { index, skill ->
-                skillDao.setOrder(skill.id, index)
-            }
-        }
+    override suspend fun updateOrder(skillId: Int, newOrder: Int) {
+        skillDao.setOrder(skillId, newOrder)
     }
 
     override suspend fun decreaseTime(id: Id, time: Duration) {

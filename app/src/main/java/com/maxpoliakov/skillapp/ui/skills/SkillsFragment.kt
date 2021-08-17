@@ -47,16 +47,21 @@ class SkillsFragment : Fragment() {
         }
 
         private fun getUpdatedList(list: List<Orderable>, change: Change?): List<Orderable> {
-            if (change is Change.AddToGroup) {
-                val updatedSkill = change.skill.copy(groupId = change.groupId)
-
-                return list.map { item ->
-                    if (item is Skill && item.id == updatedSkill.id) updatedSkill
-                    else item
-                }
-            }
+            if (change is Change.AddToGroup)
+                return list.withSkillGroupId(change.skill, change.groupId)
+            else if (change is Change.RemoveFromGroup)
+                return list.withSkillGroupId(change.skill, -1)
 
             return list
+        }
+
+        private fun List<Orderable>.withSkillGroupId(skill: Skill, groupId: Int): List<Orderable> {
+            val updatedSkill = skill.copy(groupId = groupId)
+
+            return map { item ->
+                if (item is Skill && item.id == updatedSkill.id) updatedSkill
+                else item
+            }
         }
     }
 

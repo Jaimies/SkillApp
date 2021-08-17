@@ -11,14 +11,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
+import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.util.fragment.observe
+import com.maxpoliakov.skillapp.util.ui.Change
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createDraggingItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
-import com.maxpoliakov.skillapp.util.ui.setOnItemAddedListener
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -32,21 +34,16 @@ class SkillsFragment : Fragment() {
             listAdapter.moveItem(from, to)
         }
 
-        override fun onDropped() {
+        override fun onDropped(change: Change?) {
             val list = listAdapter.currentList.filterIsInstance<Orderable>()
+
+            when (change) {
+                is Change.Group -> viewModel.createGroup("New group", listOf(change.first, change.second))
+                is Change.AddToGroup -> viewModel.addToGroup(change.skill, change.groupId)
+                is Change.RemoveFromGroup -> viewModel.removeFromGroup(change.skill)
+            }
+
             viewModel.updateOrder(list)
-        }
-
-        override fun onGroup(first: Skill, second: Skill) {
-            viewModel.createGroup("New group", listOf(first, second))
-        }
-
-        override fun onGroup(skill: Skill, skillGroupId: Int) {
-            viewModel.addToGroup(skill, skillGroupId)
-        }
-
-        override fun onUngroup(skill: Skill) {
-            viewModel.removeFromGroup(skill)
         }
     }
 

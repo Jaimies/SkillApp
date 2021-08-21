@@ -36,8 +36,8 @@ interface GroupDao : BaseDao<DBGroup> {
     suspend fun deleteGroup(groupId: Int)
 
     @Transaction
-    suspend fun createGroup(name: String, skillIds: List<Int>) {
-        val groupId = this.insert(DBGroup(name = name))
+    suspend fun createGroup(name: String, skillIds: List<Int>, order: Int) {
+        val groupId = this.insert(DBGroup(name = name, order = order))
 
         skillIds.forEach { skillId ->
             this.addSkillToGroup(skillId, groupId.toInt())

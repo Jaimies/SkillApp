@@ -42,7 +42,7 @@ class SkillsFragment : Fragment() {
 
             when (change) {
                 is Change.CreateGroup -> {
-                    viewModel.createGroup("New group", listOf(change.skill, change.otherSkill))
+                    viewModel.createGroup("New group", listOf(change.skill, change.otherSkill), change.position)
                 }
                 is Change.AddToGroup -> {
                     viewModel.addToGroup(change.skill, change.groupId)

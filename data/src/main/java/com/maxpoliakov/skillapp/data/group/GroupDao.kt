@@ -18,7 +18,7 @@ interface GroupDao : BaseDao<DBGroup> {
 
     @Transaction
     @Query("SELECT * FROM groups WHERE id = :id")
-    suspend fun getGroupById(id: Int): GroupWithSkills
+    suspend fun getGroupById(id: Int): GroupWithSkills?
 
     @Query("UPDATE skills SET groupId = :groupId WHERE id = :skillId ")
     suspend fun addSkillToGroup(skillId: Int, groupId: Int)

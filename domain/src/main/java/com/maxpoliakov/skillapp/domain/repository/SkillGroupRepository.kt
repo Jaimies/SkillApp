@@ -8,7 +8,7 @@ interface SkillGroupRepository {
     fun getSkillGroups(): Flow<List<SkillGroup>>
     fun getSkillGroupFlowById(id: Int): Flow<SkillGroup>
 
-    suspend fun getSkillGroupById(id: Int): SkillGroup
+    suspend fun getSkillGroupById(id: Int): SkillGroup?
     suspend fun addSkillToGroup(skillId: Int, groupId: Int)
     suspend fun removeSkillFromGroup(skillId: Int)
 

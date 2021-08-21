@@ -22,8 +22,8 @@ class SkillGroupRepositoryImpl @Inject constructor(
         return groupDao.getGroupFlowById(id).map { it.mapToDomain() }
     }
 
-    override suspend fun getSkillGroupById(id: Int): SkillGroup {
-        return groupDao.getGroupById(id).mapToDomain()
+    override suspend fun getSkillGroupById(id: Int): SkillGroup? {
+        return groupDao.getGroupById(id)?.mapToDomain()
     }
 
     override suspend fun addSkillToGroup(skillId: Int, groupId: Int) {

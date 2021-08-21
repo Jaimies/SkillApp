@@ -27,7 +27,7 @@ class AddOrRemoveSkillToGroupUseCase @Inject constructor(
 
         val group = skillGroupRepository.getSkillGroupById(skill.groupId)
 
-        if (group.skills.isEmpty())
+        if (group != null && group.skills.isEmpty())
             skillGroupRepository.deleteGroup(group.id)
     }
 }

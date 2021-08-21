@@ -12,18 +12,19 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_sideMargin="@{viewModel.skill.groupId == -1 ? -@dimen/padding_default: 0f}">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_card_height"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> viewModel.navigateToDetails()}"
-            android:onLongClick="@{(view) -> viewModel.startDrag()}"
-            app:layout_sideMargin="@{viewModel.skill.groupId == -1 ? 0f : @dimen/padding_default}">
+            android:onLongClick="@{(view) -> viewModel.startDrag()}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

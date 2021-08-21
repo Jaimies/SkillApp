@@ -21,7 +21,7 @@ class SkillDelegateAdapter(
         parent.inflateDataBinding<SkillsItemBinding>(R.layout.skills_item).run {
             val viewModel = viewModelProvider.get()
             this.viewModel = viewModel
-            this.startTimer.increaseTouchAreaBy(35.dp)
+            this.startTimer.increaseTouchAreaBy(5.dp)
             return SkillViewHolder(this, startDrag)
         }
     }

@@ -5,8 +5,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
-import com.maxpoliakov.skillapp.util.navigation.NavigationUtil
-import javax.inject.Inject
 
 class SkillViewHolder(
     binding: SkillsItemBinding,
@@ -30,4 +28,8 @@ class SkillViewHolder(
     }
 
     fun setItem(item: Skill) = viewModel.setSkill(item)
+
+    var isSmall: Boolean
+        get() = viewModel.isSmall.value!!
+        set(value) = viewModel.setIsSmall(value)
 }

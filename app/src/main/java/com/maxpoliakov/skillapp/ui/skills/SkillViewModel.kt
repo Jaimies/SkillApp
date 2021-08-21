@@ -17,13 +17,19 @@ class SkillViewModel @Inject constructor(
     private val _skill = MutableLiveData<Skill>()
     val state = skill.map { it.toSkillState() }
 
+    private val _isSmall = MutableLiveData(false)
+    val isSmall: LiveData<Boolean> get() = _isSmall
+
     fun setSkill(value: Skill) {
         _skill.value = value
+        _isSmall.value = value.groupId != -1
     }
 
     fun startTimer() {
         stopwatchUtil.start(this.skill.value!!.id)
     }
+
+    fun setIsSmall(isSmall: Boolean) = _isSmall.setValue(isSmall)
 
     val startDrag = SingleLiveEvent<Any>()
 

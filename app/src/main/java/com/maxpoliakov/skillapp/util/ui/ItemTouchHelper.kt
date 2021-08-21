@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.ui.skills.EmptyViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
+import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -48,9 +50,31 @@ fun createDraggingItemTouchHelper(
 
             val from = viewHolder.absoluteAdapterPosition
             val to = target.absoluteAdapterPosition
+
+            if (viewHolder is SkillViewHolder) {
+                val movingUp = from > to
+
+                val prevViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to - 1 else to)
+                val nextViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to else to + 1)
+
+                viewHolder.isSmall = isInsideGroup(prevViewHolder, nextViewHolder)
+            }
+
             callback.onMove(from, to)
 
             return true
+        }
+
+        private fun isInsideGroup(
+            prevViewHolder: RecyclerView.ViewHolder?,
+            nextViewHolder: RecyclerView.ViewHolder?
+        ): Boolean {
+            if (prevViewHolder == null || nextViewHolder == null) return false
+
+            return (prevViewHolder is SkillViewHolder && prevViewHolder.viewModel.skill.value!!.groupId != -1
+                    || prevViewHolder is SkillGroupViewHolder)
+                    && (nextViewHolder is SkillViewHolder && nextViewHolder.viewModel.skill.value!!.groupId != -1
+                    || nextViewHolder is EmptyViewHolder)
         }
 
         override fun onChildDraw(

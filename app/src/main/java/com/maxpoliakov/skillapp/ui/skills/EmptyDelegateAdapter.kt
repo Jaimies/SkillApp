@@ -15,5 +15,6 @@ class EmptyDelegateAdapter : DelegateAdapter<Nothing, RecyclerView.ViewHolder> {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Nothing) {}
 
-    private class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }
+
+class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view)

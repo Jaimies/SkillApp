@@ -13,7 +13,7 @@ class UpdateOrderUseCase @Inject constructor(
 ) {
     suspend fun run(items: List<Orderable>) {
         items.forEachIndexed { index, item ->
-            if (item is Skill) skillRepository.updateOrder(item.id, index)
+            if (item is Skill && item.groupId == -1) skillRepository.updateOrder(item.id, index)
             if (item is SkillGroup) {
                 skillGroupRepository.updateOrder(item.id, index)
 

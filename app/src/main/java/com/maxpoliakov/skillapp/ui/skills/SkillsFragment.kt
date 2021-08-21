@@ -98,12 +98,7 @@ class SkillsFragment : Fragment() {
                 val position = skillViewHolder.absoluteAdapterPosition
 
                 skillViewHolder.setItem(updatedSkill)
-
-                val newList = listAdapter.currentList.toMutableList().apply {
-                    this[position] = updatedSkill
-                }
-
-                listAdapter.setListWithoutDiffing(newList)
+                listAdapter.updateSilently(position, updatedSkill)
             }
         }
 

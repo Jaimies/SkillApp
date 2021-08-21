@@ -90,6 +90,14 @@ class SkillListAdapter(
         notifyItemMoved(from, to)
     }
 
+    fun updateSilently(position: Int, item: Any) {
+        val newList = currentList.toMutableList().apply {
+            this[position] = item
+        }
+
+        setListWithoutDiffing(newList)
+    }
+
     private fun stopwatchIsShown(): Boolean {
         return itemCount != 0 && getItemViewType(0) == ITEM_TYPE_STOPWATCH
     }

@@ -37,8 +37,8 @@ class SkillsViewModel @Inject constructor(
         updateOrder.run(skills)
     }
 
-    fun createGroup(group: SkillGroup) = viewModelScope.launch {
-        manageGroup.createGroup(group)
+    fun createGroup(originalSkill: Skill, group: SkillGroup) = viewModelScope.launch {
+        manageGroup.createGroup(originalSkill, group)
     }
 
     fun addToGroup(skill: Skill, groupId: Int) = viewModelScope.launch {

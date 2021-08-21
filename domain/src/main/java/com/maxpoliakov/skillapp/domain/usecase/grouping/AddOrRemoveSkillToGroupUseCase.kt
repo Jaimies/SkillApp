@@ -8,25 +8,25 @@ import javax.inject.Inject
 class AddOrRemoveSkillToGroupUseCase @Inject constructor(
     private val skillGroupRepository: SkillGroupRepository,
 ) {
-    suspend fun createGroup(group: SkillGroup) {
+    suspend fun createGroup(originalSkill: Skill, group: SkillGroup) {
         skillGroupRepository.createGroup(group)
+        deleteGroupIfEmpty(originalSkill.groupId)
     }
 
     suspend fun addToGroup(skill: Skill, groupId: Int) {
         skillGroupRepository.addSkillToGroup(skill.id, groupId)
-        deleteGroupIfEmpty(skill)
-
+        deleteGroupIfEmpty(skill.groupId)
     }
 
     suspend fun removeFromGroup(skill: Skill) {
         skillGroupRepository.removeSkillFromGroup(skill.id)
-        deleteGroupIfEmpty(skill)
+        deleteGroupIfEmpty(skill.groupId)
     }
 
-    private suspend fun deleteGroupIfEmpty(skill: Skill) {
-        if (skill.groupId == -1) return
+    private suspend fun deleteGroupIfEmpty(groupId: Int) {
+        if (groupId == -1) return
 
-        val group = skillGroupRepository.getSkillGroupById(skill.groupId)
+        val group = skillGroupRepository.getSkillGroupById(groupId)
 
         if (group != null && group.skills.isEmpty())
             skillGroupRepository.deleteGroup(group.id)

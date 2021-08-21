@@ -161,8 +161,10 @@ fun createDraggingItemTouchHelper(
             if (closestViewHolder is SkillViewHolder) {
                 val secondSkill = closestViewHolder.viewModel.skill.value!!
 
-                if (secondSkill.groupId == -1 && nearEnough(dropCoordinates, closestViewHolder))
-                    return Change.CreateGroup(skill, secondSkill, closestViewHolder.absoluteAdapterPosition)
+                if (secondSkill.groupId == -1 && nearEnough(dropCoordinates, closestViewHolder)) {
+                    val position = min(viewHolder.absoluteAdapterPosition, closestViewHolder.absoluteAdapterPosition) - 1
+                    return Change.CreateGroup(skill, secondSkill, position)
+                }
 
                 return null
             }

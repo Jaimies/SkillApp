@@ -37,11 +37,13 @@ interface GroupDao : BaseDao<DBGroup> {
     suspend fun deleteGroup(groupId: Int)
 
     @Transaction
-    suspend fun createGroup(group: SkillGroup) {
+    suspend fun createGroup(group: SkillGroup): Long {
         val groupId = this.insert(DBGroup(name = group.name, order = group.order))
 
         group.skills.forEach { skill ->
             this.addSkillToGroup(skill.id, groupId.toInt())
         }
+
+        return groupId
     }
 }

@@ -71,6 +71,15 @@ class SkillListAdapter(
             super.submitList(currentList.slice(1..currentList.lastIndex))
     }
 
+    fun addItem(position: Int, item: Any) {
+        val list = currentList.toMutableList().apply {
+            add(position, item)
+        }
+
+        setListWithoutDiffing(list)
+        notifyItemInserted(position)
+    }
+
     fun moveItem(from: Int, to: Int) {
         if (stopwatchIsShown() && (to == 0 || from == 0)) return
         val list = currentList.toMutableList()

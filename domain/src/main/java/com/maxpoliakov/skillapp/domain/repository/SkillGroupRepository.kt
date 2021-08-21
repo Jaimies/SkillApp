@@ -12,7 +12,7 @@ interface SkillGroupRepository {
     suspend fun addSkillToGroup(skillId: Int, groupId: Int)
     suspend fun removeSkillFromGroup(skillId: Int)
 
-    suspend fun createGroup(group: SkillGroup)
+    suspend fun createGroup(group: SkillGroup): Long
     suspend fun updateGroupName(groupId: Int, newName: String)
     suspend fun updateOrder(groupId: Int, newOrder: Int)
     suspend fun deleteGroup(groupId: Int)

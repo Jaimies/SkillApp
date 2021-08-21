@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.data.group
 
-import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
@@ -34,9 +33,7 @@ class SkillGroupRepositoryImpl @Inject constructor(
         groupDao.removeSkillFromGroup(skillId)
     }
 
-    override suspend fun createGroup(group: SkillGroup) {
-        groupDao.createGroup(group)
-    }
+    override suspend fun createGroup(group: SkillGroup) = groupDao.createGroup(group)
 
     override suspend fun updateGroupName(groupId: Int, newName: String) {
         groupDao.updateGroupName(groupId, newName)

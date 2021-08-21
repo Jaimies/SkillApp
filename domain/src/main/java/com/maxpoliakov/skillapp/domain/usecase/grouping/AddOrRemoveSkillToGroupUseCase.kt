@@ -8,9 +8,10 @@ import javax.inject.Inject
 class AddOrRemoveSkillToGroupUseCase @Inject constructor(
     private val skillGroupRepository: SkillGroupRepository,
 ) {
-    suspend fun createGroup(originalSkill: Skill, group: SkillGroup) {
-        skillGroupRepository.createGroup(group)
+    suspend fun createGroup(originalSkill: Skill, group: SkillGroup): Long {
+        val newGroupId = skillGroupRepository.createGroup(group)
         deleteGroupIfEmpty(originalSkill.groupId)
+        return newGroupId
     }
 
     suspend fun addToGroup(skill: Skill, groupId: Int) {

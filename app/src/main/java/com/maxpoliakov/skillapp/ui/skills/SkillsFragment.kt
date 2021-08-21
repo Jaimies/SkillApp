@@ -39,6 +39,7 @@ class SkillsFragment : Fragment() {
 
         override fun onDropped(change: Change?) {
             val list = listAdapter.currentList.filterIsInstance<Orderable>()
+            lastItemDropTime = System.nanoTime()
 
             when (change) {
                 is Change.CreateGroup -> {
@@ -48,7 +49,19 @@ class SkillsFragment : Fragment() {
                         skills = listOf(change.skill, change.otherSkill),
                         order = change.position,
                     )
-                    viewModel.createGroup(change.skill, group)
+
+                    val createGroupAsync = viewModel.createGroupAsync(change.skill, group)
+
+                    createGroupAsync.invokeOnCompletion {
+                        val groupId = createGroupAsync.getCompleted().toInt()
+                        updateSkillGroup(change.skill, groupId)
+                        updateSkillGroup(change.otherSkill, groupId)
+
+                        val newGroup = group.copy(id = groupId)
+
+                        listAdapter.addItem(change.position + 1, newGroup)
+                        listAdapter.addItem(change.position + group.skills.size + 2, SkillGroupFooter)
+                    }
                 }
                 is Change.AddToGroup -> {
                     viewModel.addToGroup(change.skill, change.groupId)
@@ -65,9 +78,6 @@ class SkillsFragment : Fragment() {
             }
 
             viewModel.updateOrder(getUpdatedList(list, change))
-
-            if (change !is Change.CreateGroup)
-                lastItemDropTime = System.nanoTime()
         }
 
         private fun addSkillToGroup(change: Change.AddToGroup) {

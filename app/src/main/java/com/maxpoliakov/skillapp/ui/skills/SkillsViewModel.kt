@@ -13,6 +13,7 @@ import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,7 +38,7 @@ class SkillsViewModel @Inject constructor(
         updateOrder.run(skills)
     }
 
-    fun createGroup(originalSkill: Skill, group: SkillGroup) = viewModelScope.launch {
+    fun createGroupAsync(originalSkill: Skill, group: SkillGroup) = viewModelScope.async {
         manageGroup.createGroup(originalSkill, group)
     }
 

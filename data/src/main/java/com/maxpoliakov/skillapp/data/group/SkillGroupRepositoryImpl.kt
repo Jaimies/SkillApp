@@ -34,8 +34,8 @@ class SkillGroupRepositoryImpl @Inject constructor(
         groupDao.removeSkillFromGroup(skillId)
     }
 
-    override suspend fun createGroup(name: String, skills: List<Skill>, order: Int) {
-        groupDao.createGroup(name, skills.map { skill -> skill.id }, order)
+    override suspend fun createGroup(group: SkillGroup) {
+        groupDao.createGroup(group)
     }
 
     override suspend fun updateGroupName(groupId: Int, newName: String) {

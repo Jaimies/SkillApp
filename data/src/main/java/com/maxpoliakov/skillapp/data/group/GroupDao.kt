@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.maxpoliakov.skillapp.data.db.BaseDao
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -36,11 +37,11 @@ interface GroupDao : BaseDao<DBGroup> {
     suspend fun deleteGroup(groupId: Int)
 
     @Transaction
-    suspend fun createGroup(name: String, skillIds: List<Int>, order: Int) {
-        val groupId = this.insert(DBGroup(name = name, order = order))
+    suspend fun createGroup(group: SkillGroup) {
+        val groupId = this.insert(DBGroup(name = group.name, order = group.order))
 
-        skillIds.forEach { skillId ->
-            this.addSkillToGroup(skillId, groupId.toInt())
+        group.skills.forEach { skill ->
+            this.addSkillToGroup(skill.id, groupId.toInt())
         }
     }
 }

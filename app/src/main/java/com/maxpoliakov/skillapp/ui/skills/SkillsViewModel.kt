@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
@@ -36,8 +37,8 @@ class SkillsViewModel @Inject constructor(
         updateOrder.run(skills)
     }
 
-    fun createGroup(name: String, skills: List<Skill>, order: Int) = viewModelScope.launch {
-        manageGroup.createGroup(name, skills, order)
+    fun createGroup(group: SkillGroup) = viewModelScope.launch {
+        manageGroup.createGroup(group)
     }
 
     fun addToGroup(skill: Skill, groupId: Int) = viewModelScope.launch {

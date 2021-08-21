@@ -24,7 +24,7 @@ interface ItemTouchHelperCallback {
 sealed class Change {
     abstract val skill: Skill
 
-    class Group(override val skill: Skill, val otherSkill: Skill) : Change()
+    class CreateGroup(override val skill: Skill, val otherSkill: Skill) : Change()
     class AddToGroup(override val skill: Skill, val groupId: Int) : Change()
     class RemoveFromGroup(override val skill: Skill) : Change()
 }
@@ -162,7 +162,7 @@ fun createDraggingItemTouchHelper(
                 val secondSkill = closestViewHolder.viewModel.skill.value!!
 
                 if (secondSkill.groupId == -1 && nearEnough(dropCoordinates, closestViewHolder))
-                    return Change.Group(skill, secondSkill)
+                    return Change.CreateGroup(skill, secondSkill)
 
                 return null
             }

@@ -41,7 +41,7 @@ class SkillsFragment : Fragment() {
             val list = listAdapter.currentList.filterIsInstance<Orderable>()
 
             when (change) {
-                is Change.Group -> {
+                is Change.CreateGroup -> {
                     viewModel.createGroup("New group", listOf(change.skill, change.otherSkill))
                 }
                 is Change.AddToGroup -> {
@@ -60,7 +60,7 @@ class SkillsFragment : Fragment() {
 
             viewModel.updateOrder(getUpdatedList(list, change))
 
-            if (change !is Change.Group)
+            if (change !is Change.CreateGroup)
                 lastItemDropTime = System.nanoTime()
         }
 

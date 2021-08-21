@@ -51,10 +51,7 @@ class CardViewDecoration(
         val bounds = Rect()
         val edgeShadowTop = -cornerRadius - mShadowSize
         val lm = parent.layoutManager
-        val size16dp = 16f
-        val padding16dp =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size16dp, parent.context.resources.displayMetrics)
-                .toInt()
+        val padding16dp = 16.dp.toPx(parent.context)
         for (i in 0 until parent.childCount) {
             val save: Int = c.save()
 

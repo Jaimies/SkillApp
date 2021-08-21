@@ -15,6 +15,7 @@ import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
+import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
@@ -29,6 +30,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SkillsFragment : Fragment() {
+    private var lastItemDropTime = 0L
+
     private val itemTouchHelperCallback = object : ItemTouchHelperCallback {
         override fun onMove(from: Int, to: Int) {
             listAdapter.moveItem(from, to)
@@ -38,12 +41,116 @@ class SkillsFragment : Fragment() {
             val list = listAdapter.currentList.filterIsInstance<Orderable>()
 
             when (change) {
-                is Change.Group -> viewModel.createGroup("New group", listOf(change.skill, change.otherSkill))
-                is Change.AddToGroup -> viewModel.addToGroup(change.skill, change.groupId)
-                is Change.RemoveFromGroup -> viewModel.removeFromGroup(change.skill)
+                is Change.Group -> {
+                    viewModel.createGroup("New group", listOf(change.skill, change.otherSkill))
+                }
+                is Change.AddToGroup -> {
+                    viewModel.addToGroup(change.skill, change.groupId)
+
+                    updateOldGroupIfNeeded(change.skill)
+                    addSkillToGroup(change)
+                    updateSkillGroup(change.skill, change.groupId)
+                }
+                is Change.RemoveFromGroup -> {
+                    viewModel.removeFromGroup(change.skill)
+                    updateOldGroupIfNeeded(change.skill)
+                    updateSkillGroup(change.skill, -1)
+                }
             }
 
             viewModel.updateOrder(getUpdatedList(list, change))
+
+            if (change !is Change.Group)
+                lastItemDropTime = System.nanoTime()
+        }
+
+        private fun addSkillToGroup(change: Change.AddToGroup) {
+            val groupViewHolder = findGroupViewHolderById(change.groupId)
+
+            if (groupViewHolder != null) {
+                val group = groupViewHolder.viewModel.skillGroup.value!!
+                groupViewHolder.setSkillGroup(group.copy(skills = group.skills + change.skill))
+            }
+        }
+
+        private fun updateSkillGroup(skill: Skill, newGroupId: Int) {
+            val skillViewHolder = findSkillViewHolderById(skill.id)
+
+            if (skillViewHolder != null) {
+                val skill = skillViewHolder.viewModel.skill.value!!
+                val updatedSkill = skill.copy(groupId = newGroupId)
+                val position = skillViewHolder.absoluteAdapterPosition
+
+                skillViewHolder.setItem(updatedSkill)
+
+                val newList = listAdapter.currentList.toMutableList().apply {
+                    this[position] = updatedSkill
+                }
+
+                listAdapter.setListWithoutDiffing(newList)
+            }
+        }
+
+        private fun updateOldGroupIfNeeded(skill: Skill) {
+            if (skill.groupId == -1) return
+
+            val groupViewHolder = findGroupViewHolderById(skill.groupId)
+
+            if (groupViewHolder != null) {
+                val group = groupViewHolder.viewModel.skillGroup.value!!
+
+                if (group.skills.size <= 1) {
+                    val position = groupViewHolder.absoluteAdapterPosition
+                    val nextItem = binding.recyclerView.findViewHolderForAdapterPosition(position + 1)
+
+                    val updatedList = listAdapter.currentList.toMutableList().apply {
+                        removeAt(position)
+                        // after the header is removed, the footer will take its position
+                        if (nextItem is EmptyViewHolder) removeAt(position)
+                    }
+
+                    listAdapter.setListWithoutDiffing(updatedList)
+
+                    // after the header is removed, the footer will take its position
+                    if (nextItem is EmptyViewHolder)
+                        listAdapter.notifyItemRemoved(position)
+
+                    listAdapter.notifyItemRemoved(position)
+                } else {
+                    removeSkillFromGroup(groupViewHolder, group, skill)
+                }
+            }
+        }
+
+        private fun removeSkillFromGroup(
+            groupViewHolder: SkillGroupViewHolder,
+            group: SkillGroup,
+            skill: Skill
+        ) {
+            groupViewHolder.setSkillGroup(
+                group.copy(skills = group.skills.filter { it.id != skill.id })
+            )
+        }
+
+        private inline fun <reified T : RecyclerView.ViewHolder> findViewHolder(predicate: (T) -> Boolean): T? {
+            for (i in 0 until listAdapter.itemCount) {
+                val viewHolder = binding.recyclerView.findViewHolderForAdapterPosition(i)
+                if (viewHolder is T && predicate(viewHolder)) return viewHolder
+            }
+
+            return null
+        }
+
+        private fun findGroupViewHolderById(groupId: Int): SkillGroupViewHolder? {
+            return findViewHolder { viewHolder ->
+                viewHolder.viewModel.skillGroup.value!!.id == groupId
+            }
+        }
+
+        private fun findSkillViewHolderById(skillId: Int): SkillViewHolder? {
+            return findViewHolder { viewHolder ->
+                viewHolder.viewModel.skill.value!!.id == skillId
+            }
         }
 
         private fun getUpdatedList(list: List<Orderable>, change: Change?): List<Orderable> {
@@ -105,6 +212,10 @@ class SkillsFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
         lifecycleScope.launch {
             viewModel.skillsAndGroups.collect {
+                // Don't update within 0.5sec after the drag and drop has finished, as those updates cause awful transitions
+                if (System.nanoTime() - lastItemDropTime < 500_000_000)
+                    return@collect
+
                 val list = (it.skills + it.groups)
                     .sortedBy { it.order }
                     .flatMap { item ->

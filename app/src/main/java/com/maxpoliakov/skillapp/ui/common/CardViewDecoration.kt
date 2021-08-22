@@ -21,7 +21,6 @@ import com.maxpoliakov.skillapp.ui.skills.ITEM_TYPE_SKILL_GROUP_HEADER
 import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
 import com.maxpoliakov.skillapp.util.ui.dp
-import kotlin.math.roundToInt
 
 class CardViewDecoration(
     context: Context,
@@ -38,7 +37,6 @@ class CardViewDecoration(
     private val mShadowSize = 1.dp.toPx(context).toFloat()
     private val mShadowStartColor = ContextCompat.getColor(context, R.color.cardview_shadow_start_color)
     private val mShadowEndColor = ContextCompat.getColor(context, R.color.cardview_shadow_end_color)
-    private var mPadding = 0f
     private val headerViewType = ITEM_TYPE_SKILL_GROUP_HEADER
 
     init {
@@ -55,9 +53,9 @@ class CardViewDecoration(
 
             val child: View = parent.getChildAt(i)
             bounds.set(
-                lm!!.getDecoratedLeft(child) + padding16dp - mPadding.toInt(),
+                lm!!.getDecoratedLeft(child) + padding16dp,
                 lm.getDecoratedTop(child),
-                lm.getDecoratedRight(child) - padding16dp + mPadding.toInt(),
+                lm.getDecoratedRight(child) - padding16dp,
                 lm.getDecoratedBottom(child)
             )
             val params = child.layoutParams as RecyclerView.LayoutParams
@@ -65,8 +63,6 @@ class CardViewDecoration(
             val adapter = parent.adapter!!
             val viewType = adapter.getItemViewType(position)
             if (viewType == headerViewType) {
-                bounds.top = (bounds.top - mPadding).roundToInt()
-
                 // LT
                 c.translate(bounds.left + cornerRadius, bounds.top + cornerRadius)
                 c.drawPath(mCornerShadowPath!!, cornerShadowPaint)
@@ -85,7 +81,7 @@ class CardViewDecoration(
             } else if (shouldDrawSideBorders(parent, position)) {
                 if (adapter.getItemViewType(position + 1) == ITEM_TYPE_SKILL_GROUP_FOOTER || position >= adapter.itemCount - 1) {
                     bounds.top += padding16dp
-                    bounds.bottom = (bounds.bottom + padding16dp + mPadding).roundToInt()
+                    bounds.bottom += padding16dp
 
                     // last item before next header
                     c.rotate(180f)
@@ -149,7 +145,6 @@ class CardViewDecoration(
     }
 
     private fun buildShadowCorners() {
-        mPadding = 0f
         val innerBounds = RectF(-cornerRadius, -cornerRadius, cornerRadius, cornerRadius)
         val outerBounds = RectF(innerBounds)
         outerBounds.inset(-mShadowSize, -mShadowSize)

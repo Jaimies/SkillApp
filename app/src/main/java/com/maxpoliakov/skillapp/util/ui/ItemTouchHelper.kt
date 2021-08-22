@@ -51,8 +51,6 @@ fun createDraggingItemTouchHelper(
             val from = viewHolder.absoluteAdapterPosition
             val to = target.absoluteAdapterPosition
 
-            callback.onMove(from, to)
-
             if (viewHolder is SkillViewHolder) {
                 val skill = viewHolder.viewModel.skill.value!!
                 val movingUp = from > to
@@ -66,6 +64,8 @@ fun createDraggingItemTouchHelper(
                 if (skill.groupId != -1 && !insideGroup)
                     callback.onLeaveGroup(skill)
             }
+
+            callback.onMove(from, to)
 
             return true
         }

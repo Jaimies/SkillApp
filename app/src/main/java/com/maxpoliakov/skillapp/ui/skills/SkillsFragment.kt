@@ -95,7 +95,6 @@ class SkillsFragment : Fragment() {
             val skillViewHolder = findSkillViewHolderById(skill.id)
 
             if (skillViewHolder != null) {
-                val skill = skillViewHolder.viewModel.skill.value!!
                 val updatedSkill = skill.copy(groupId = newGroupId)
                 val position = skillViewHolder.absoluteAdapterPosition
 

@@ -1,3 +1,3 @@
 package com.maxpoliakov.skillapp.ui.skills
 
-object SkillGroupFooter
+data class SkillGroupFooter(val groupId: Int)

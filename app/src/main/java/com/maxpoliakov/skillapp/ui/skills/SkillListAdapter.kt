@@ -24,11 +24,12 @@ class SkillListAdapter(
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
 
     private val skillDelegateAdapter = skillDelegateAdapterFactory.create(startDrag)
+    private val skillGroupFooterDelegateAdapter = SkillGroupFooterDelegateAdapter()
 
     val adapters = mapOf(
         ITEM_TYPE_SKILL to skillDelegateAdapter,
         ITEM_TYPE_SKILL_GROUP_HEADER to skillGroupHeaderDelegateAdapter,
-        ITEM_TYPE_SKILL_GROUP_FOOTER to EmptyDelegateAdapter(),
+        ITEM_TYPE_SKILL_GROUP_FOOTER to skillGroupFooterDelegateAdapter,
         ITEM_TYPE_STOPWATCH to stopwatchDelegateAdapter
     )
 
@@ -43,6 +44,8 @@ class SkillListAdapter(
             skillDelegateAdapter.onBindViewHolder(holder as SkillViewHolder, item)
         else if (item is SkillGroup)
             skillGroupHeaderDelegateAdapter.onBindViewHolder(holder as SkillGroupViewHolder, item)
+        else if (item is SkillGroupFooter)
+            skillGroupFooterDelegateAdapter.onBindViewHolder(holder as SkillGroupFooterViewHolder, item)
     }
 
     override fun getItemViewType(position: Int): Int {

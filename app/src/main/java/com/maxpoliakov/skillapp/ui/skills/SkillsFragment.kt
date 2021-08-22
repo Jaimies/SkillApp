@@ -67,7 +67,7 @@ class SkillsFragment : Fragment() {
                         val newGroup = group.copy(id = groupId)
 
                         listAdapter.addItem(change.position + 1, newGroup)
-                        listAdapter.addItem(change.position + group.skills.size + 2, SkillGroupFooter)
+                        listAdapter.addItem(change.position + group.skills.size + 2, SkillGroupFooter(groupId))
                     }
                 }
                 is Change.AddToGroup -> {
@@ -114,19 +114,17 @@ class SkillsFragment : Fragment() {
 
                 if (group.skills.size <= 1) {
                     val position = groupViewHolder.absoluteAdapterPosition
-                    val nextItem = binding.recyclerView.findViewHolderForAdapterPosition(position + 1)
+                    val footer = findGroupFooterViewHolderById(group.id)
 
                     val updatedList = listAdapter.currentList.toMutableList().apply {
+                        if (footer != null) removeAt(footer.absoluteAdapterPosition)
                         removeAt(position)
-                        // after the header is removed, the footer will take its position
-                        if (nextItem is EmptyViewHolder) removeAt(position)
                     }
 
                     listAdapter.setListWithoutDiffing(updatedList)
 
-                    // after the header is removed, the footer will take its position
-                    if (nextItem is EmptyViewHolder)
-                        listAdapter.notifyItemRemoved(position)
+                    if (footer != null)
+                        listAdapter.notifyItemRemoved(footer.absoluteAdapterPosition)
 
                     listAdapter.notifyItemRemoved(position)
                 } else {
@@ -157,6 +155,12 @@ class SkillsFragment : Fragment() {
         private fun findGroupViewHolderById(groupId: Int): SkillGroupViewHolder? {
             return findViewHolder { viewHolder ->
                 viewHolder.viewModel.skillGroup.value!!.id == groupId
+            }
+        }
+
+        private fun findGroupFooterViewHolderById(groupId: Int): SkillGroupFooterViewHolder? {
+            return findViewHolder { viewHolder ->
+                viewHolder.groupId == groupId
             }
         }
 
@@ -232,7 +236,7 @@ class SkillsFragment : Fragment() {
                     .flatMap { item ->
                         when (item) {
                             is Skill -> listOf(item)
-                            is SkillGroup -> listOf(item) + item.skills.sortedBy { it.order } + listOf(SkillGroupFooter)
+                            is SkillGroup -> listOf(item) + item.skills.sortedBy { it.order } + listOf(SkillGroupFooter(item.id))
                             else -> throw IllegalStateException("Orderables cannot be anything other than Skill or SkillGroup objects")
                         }
                     }

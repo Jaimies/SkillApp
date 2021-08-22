@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.skills.EmptyViewHolder
+import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooterViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
@@ -79,7 +79,7 @@ fun createDraggingItemTouchHelper(
             return (prevViewHolder is SkillViewHolder && prevViewHolder.viewModel.skill.value!!.groupId != -1
                     || prevViewHolder is SkillGroupViewHolder)
                     && (nextViewHolder is SkillViewHolder && nextViewHolder.viewModel.skill.value!!.groupId != -1
-                    || nextViewHolder is EmptyViewHolder)
+                    || nextViewHolder is SkillGroupFooterViewHolder)
         }
 
         override fun onChildDraw(

@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.common
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.LinearGradient
 import android.graphics.Paint
@@ -10,7 +9,6 @@ import android.graphics.RadialGradient
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
-import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -67,7 +65,7 @@ class CardViewDecoration(
             val adapter = parent.adapter!!
             val viewType = adapter.getItemViewType(position)
             if (viewType == headerViewType) {
-                bounds.top = (bounds.top + padding16dp - mPadding).roundToInt()
+                bounds.top = (bounds.top - mPadding).roundToInt()
 
                 // LT
                 c.translate(bounds.left + cornerRadius, bounds.top + cornerRadius)
@@ -194,22 +192,15 @@ class CardViewDecoration(
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
-        val resources: Resources = parent.context.resources
-        val size16dp = 16f
-        val padding16dp =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size16dp, resources.displayMetrics).toInt()
+
+        val padding16dp = 16.dp.toPx(parent.context)
         val params = view.layoutParams as RecyclerView.LayoutParams
-        val position = params.viewAdapterPosition
+        val position = params.absoluteAdapterPosition
         val viewType = parent.adapter!!.getItemViewType(position)
-        if (viewType == headerViewType) {
-            // header
-            outRect.set(0, padding16dp, 0, 0)
-        } else {
-            if (parent.adapter!!.getItemViewType(position + 1) == headerViewType) {
-                // last item before next header
-                outRect.set(0, 0, 0, padding16dp)
-            }
-        }
+
+        if (viewType == ITEM_TYPE_SKILL_GROUP_FOOTER)
+            outRect.set(0, 0, 0, 20.dp.toPx(parent.context))
+
         outRect.left = padding16dp
         outRect.right = padding16dp
     }

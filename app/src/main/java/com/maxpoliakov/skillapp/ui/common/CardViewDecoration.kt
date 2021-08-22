@@ -37,7 +37,7 @@ class CardViewDecoration(
 
     private val mEdgeShadowPaint = Paint(cornerShadowPaint)
     private var mCornerShadowPath: Path? = null
-    private val mShadowSize = 2.dp.toPx(context).toFloat()
+    private val mShadowSize = 1.dp.toPx(context).toFloat()
     private val mShadowStartColor = ContextCompat.getColor(context, R.color.cardview_shadow_start_color)
     private val mShadowEndColor = ContextCompat.getColor(context, R.color.cardview_shadow_end_color)
     private var mPadding = 0f
@@ -47,7 +47,7 @@ class CardViewDecoration(
         buildShadowCorners()
     }
 
-    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val bounds = Rect()
         val edgeShadowTop = -cornerRadius - mShadowSize
         val lm = parent.layoutManager
@@ -86,13 +86,14 @@ class CardViewDecoration(
                 c.drawRect(cornerRadius, edgeShadowTop, bounds.height().toFloat(), -cornerRadius, mEdgeShadowPaint)
             } else if (shouldDrawSideBorders(parent, position)) {
                 if (adapter.getItemViewType(position + 1) == ITEM_TYPE_SKILL_GROUP_FOOTER || position >= adapter.itemCount - 1) {
-                    bounds.bottom = (bounds.bottom - padding16dp + mPadding).roundToInt()
+                    bounds.top += padding16dp
+                    bounds.bottom = (bounds.bottom + padding16dp + mPadding).roundToInt()
 
                     // last item before next header
                     c.rotate(180f)
                     c.translate(
                         -bounds.left - bounds.width() + cornerRadius,
-                        -bounds.top - bounds.height() + cornerRadius
+                        -bounds.top - bounds.height() + cornerRadius + padding16dp
                     )
                     c.drawPath(mCornerShadowPath!!, cornerShadowPaint)
                     c.drawRect(0f, edgeShadowTop, bounds.width() - 2 * cornerRadius, -cornerRadius, mEdgeShadowPaint)

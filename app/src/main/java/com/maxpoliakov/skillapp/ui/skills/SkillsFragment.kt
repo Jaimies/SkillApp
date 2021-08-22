@@ -37,6 +37,13 @@ class SkillsFragment : Fragment() {
             listAdapter.moveItem(from, to)
         }
 
+        override fun onLeaveGroup(skill: Skill) {
+            lastItemDropTime = System.nanoTime()
+            viewModel.removeFromGroup(skill)
+            updateOldGroupIfNeeded(skill)
+            updateSkillGroup(skill, -1)
+        }
+
         override fun onDropped(change: Change?) {
             val list = listAdapter.currentList.filterIsInstance<Orderable>()
             lastItemDropTime = System.nanoTime()
@@ -69,11 +76,6 @@ class SkillsFragment : Fragment() {
                     updateOldGroupIfNeeded(change.skill)
                     addSkillToGroup(change)
                     updateSkillGroup(change.skill, change.groupId)
-                }
-                is Change.RemoveFromGroup -> {
-                    viewModel.removeFromGroup(change.skill)
-                    updateOldGroupIfNeeded(change.skill)
-                    updateSkillGroup(change.skill, -1)
                 }
             }
 
@@ -167,8 +169,6 @@ class SkillsFragment : Fragment() {
         private fun getUpdatedList(list: List<Orderable>, change: Change?): List<Orderable> {
             if (change is Change.AddToGroup)
                 return list.withSkillGroupId(change.skill, change.groupId)
-            else if (change is Change.RemoveFromGroup)
-                return list.withSkillGroupId(change.skill, -1)
 
             return list
         }

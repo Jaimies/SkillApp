@@ -20,7 +20,7 @@ import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createDraggingItemTouchHelper
-import com.maxpoliakov.skillapp.util.ui.dp
+import com.maxpoliakov.skillapp.util.ui.findViewHolder
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -142,29 +142,20 @@ class SkillsFragment : Fragment() {
             )
         }
 
-        private inline fun <reified T : RecyclerView.ViewHolder> findViewHolder(predicate: (T) -> Boolean): T? {
-            for (i in 0 until listAdapter.itemCount) {
-                val viewHolder = binding.recyclerView.findViewHolderForAdapterPosition(i)
-                if (viewHolder is T && predicate(viewHolder)) return viewHolder
-            }
-
-            return null
-        }
-
         private fun findGroupViewHolderById(groupId: Int): SkillGroupViewHolder? {
-            return findViewHolder { viewHolder ->
+            return binding.recyclerView.findViewHolder { viewHolder ->
                 viewHolder.viewModel.skillGroup.value!!.id == groupId
             }
         }
 
         private fun findGroupFooterViewHolderById(groupId: Int): SkillGroupFooterViewHolder? {
-            return findViewHolder { viewHolder ->
+            return binding.recyclerView.findViewHolder { viewHolder ->
                 viewHolder.groupId == groupId
             }
         }
 
         private fun findSkillViewHolderById(skillId: Int): SkillViewHolder? {
-            return findViewHolder { viewHolder ->
+            return binding.recyclerView.findViewHolder { viewHolder ->
                 viewHolder.viewModel.skill.value!!.id == skillId
             }
         }
@@ -220,9 +211,7 @@ class SkillsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.setupAdapter(listAdapter)
-        binding.recyclerView.addItemDecoration(
-            CardViewDecoration(requireContext(), 16.dp.toPx(requireContext()).toFloat())
-        )
+        binding.recyclerView.addItemDecoration(CardViewDecoration())
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
         lifecycleScope.launch {
             viewModel.skillsAndGroups.collect {

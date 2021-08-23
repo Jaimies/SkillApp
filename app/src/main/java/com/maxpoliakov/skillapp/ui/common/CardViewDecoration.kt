@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.common
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.RectF
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -13,11 +14,12 @@ import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooterViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.util.ui.dp
+import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 
 class CardViewDecoration : ItemDecoration() {
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val size16dp = 16.dp.toPx(parent.context).toFloat()
-        val strokeColor = ContextCompat.getColor(parent.context, R.color.cardview_dark_background)
+        val shadowColor = ContextCompat.getColor(parent.context, R.color.cardview_shadow_start_color)
 
         val drawnGroupIds = mutableListOf<Int>()
 
@@ -43,20 +45,19 @@ class CardViewDecoration : ItemDecoration() {
                 if (lastViewHolder is SkillGroupFooterViewHolder || nextItemViewType == ITEM_TYPE_SKILL_GROUP_FOOTER) 0
                 else 16.dp.toPx(parent.context)
 
-            val paint = Paint().apply {
-                color = strokeColor
-                style = Paint.Style.STROKE
+            val fillPaint = Paint().apply {
+                color = parent.context.getColorAttributeValue(R.attr.colorSurface)
+                setShadowLayer(2.dp.toPx(parent.context).toFloat(), 0f, 1.dp.toPx(parent.context).toFloat(), shadowColor)
             }
 
-            c.drawRoundRect(
+            val rect = RectF(
                 size16dp,
                 viewHolder.itemView.top.toFloat(),
                 viewHolder.itemView.right.toFloat(),
                 lastViewHolder.itemView.bottom.toFloat() + bottomOffset,
-                size16dp,
-                size16dp,
-                paint
             )
+
+            c.drawRoundRect(rect, size16dp, size16dp, fillPaint)
         }
     }
 

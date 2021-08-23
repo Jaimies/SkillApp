@@ -35,16 +35,24 @@ class CardViewDecoration : ItemDecoration() {
             drawnGroupIds.add(groupId)
 
             val lastViewHolder = parent.findLastViewHolderInGroup(groupId) ?: continue
+            val nextItemViewType = parent.adapter!!.getItemViewType(lastViewHolder.absoluteAdapterPosition + 1)
+
+            // This is necessary to prevent the rounded edges from showing when
+            // the last item visible is not the last item in the group
+            val bottomOffset =
+                if (lastViewHolder is SkillGroupFooterViewHolder || nextItemViewType == ITEM_TYPE_SKILL_GROUP_FOOTER) 0
+                else 16.dp.toPx(parent.context)
 
             val paint = Paint().apply {
                 color = strokeColor
                 style = Paint.Style.STROKE
             }
+
             c.drawRoundRect(
                 size16dp,
                 viewHolder.itemView.top.toFloat(),
                 viewHolder.itemView.right.toFloat(),
-                lastViewHolder.itemView.bottom.toFloat(),
+                lastViewHolder.itemView.bottom.toFloat() + bottomOffset,
                 size16dp,
                 size16dp,
                 paint

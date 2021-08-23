@@ -13,6 +13,10 @@ detekt {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.livedata"

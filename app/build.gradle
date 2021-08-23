@@ -13,6 +13,13 @@ plugins {
 
 android {
     kotlinOptions.jvmTarget = '1.8'
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
     signingConfigs {
         release {
             storeFile = file(Signing.keyPath)

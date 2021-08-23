@@ -63,9 +63,8 @@ fun createDraggingItemTouchHelper(
 
                 if (skill.groupId != -1 && !insideGroup)
                     callback.onLeaveGroup(skill)
-            }
-
-            callback.onMove(from, to)
+                else callback.onMove(from, to)
+            } else callback.onMove(from, to)
 
             return true
         }

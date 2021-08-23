@@ -84,7 +84,9 @@ class SkillListAdapter(
     }
 
     fun moveItem(from: Int, to: Int) {
-        if (stopwatchIsShown() && (to == 0 || from == 0)) return
+        if (from < 0 || from > currentList.lastIndex ||
+            stopwatchIsShown() && (to == 0 || from == 0)) return
+
         val list = currentList.toMutableList()
         val item = list[from]
         list.removeAt(from)

@@ -102,7 +102,7 @@ fun createDraggingItemTouchHelper(
                 if (holder == viewHolder || holder !is SkillViewHolder
                     || holder.viewModel.skill.value!!.groupId != -1) continue
 
-                holder.isHighlighted = nearEnough(currentCoordinates!!, holder)
+                holder.isHighlighted = closeEnough(currentCoordinates!!, holder)
             }
         }
 
@@ -177,7 +177,7 @@ fun createDraggingItemTouchHelper(
             if (closestViewHolder is SkillViewHolder) {
                 val secondSkill = closestViewHolder.viewModel.skill.value!!
 
-                if (secondSkill.groupId == -1 && nearEnough(dropCoordinates, closestViewHolder)) {
+                if (secondSkill.groupId == -1 && closeEnough(dropCoordinates, closestViewHolder)) {
                     val position = min(viewHolder.absoluteAdapterPosition, closestViewHolder.absoluteAdapterPosition) - 1
                     return Change.CreateGroup(skill, secondSkill, position)
                 }
@@ -188,7 +188,7 @@ fun createDraggingItemTouchHelper(
             return null
         }
 
-        private fun nearEnough(
+        private fun closeEnough(
             dropCoordinates: Coordinates,
             closestViewHolder: RecyclerView.ViewHolder
         ): Boolean {

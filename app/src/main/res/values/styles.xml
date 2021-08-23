@@ -12,11 +12,11 @@
     </style>
 
     <style name="Widget.SkillApp.CardView.Dark">
-        <item name="cardBackgroundColor">@color/black_lighter</item>
+        <item name="cardBackgroundColor">@color/black_lightest</item>
     </style>
 
     <style name="Widget.SkillApp.BottomNavigationView.Dark" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="backgroundTint">@color/black_lighter</item>
+        <item name="backgroundTint">@color/black_lightest</item>
         <item name="itemIconTint">@color/bottom_nav_color_dark_theme</item>
         <item name="itemTextColor">@color/bottom_nav_color_dark_theme</item>
     </style>

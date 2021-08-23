@@ -46,7 +46,7 @@ class CardViewDecoration : ItemDecoration() {
                 else 16.dp.toPx(parent.context)
 
             val fillPaint = Paint().apply {
-                color = parent.context.getColorAttributeValue(R.attr.colorSurface)
+                color = parent.context.getColorAttributeValue(R.attr.cardViewBackground)
                 setShadowLayer(2.dp.toPx(parent.context).toFloat(), 0f, 1.dp.toPx(parent.context).toFloat(), shadowColor)
             }
 

@@ -9,12 +9,6 @@ android {
     compileSdkVersion App.compileSdk
     buildToolsVersion App.buildTools
 
-    testOptions {
-        unitTests.all {
-            useJUnitPlatform()
-        }
-    }
-
     defaultConfig {
         minSdkVersion App.minSdk
         targetSdkVersion App.targetSdk

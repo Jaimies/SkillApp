@@ -20,6 +20,9 @@ class SkillViewModel @Inject constructor(
     private val _isSmall = MutableLiveData(false)
     val isSmall: LiveData<Boolean> get() = _isSmall
 
+    private val _isHighlighted = MutableLiveData(false)
+    val isHighlighted: LiveData<Boolean> get() = _isHighlighted
+
     fun setSkill(value: Skill) {
         _skill.value = value
         _isSmall.value = value.groupId != -1
@@ -30,6 +33,7 @@ class SkillViewModel @Inject constructor(
     }
 
     fun setIsSmall(isSmall: Boolean) = _isSmall.setValue(isSmall)
+    fun setIsHighlighted(isHighlighted: Boolean) = _isHighlighted.setValue(isHighlighted)
 
     val startDrag = SingleLiveEvent<Any>()
 

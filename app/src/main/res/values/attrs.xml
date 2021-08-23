@@ -4,4 +4,5 @@
     <attr name="textColorButtonSecondary" format="color|reference" />
     <attr name="dividerColor" format="color|reference" />
     <attr name="cardViewBackground" format="color|reference" />
+    <attr name="cardHighlightColor" format="color|reference" />
 </resources>

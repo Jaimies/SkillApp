@@ -93,6 +93,17 @@ fun createDraggingItemTouchHelper(
         ) {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             currentCoordinates = viewHolder.itemView.run { Coordinates(y, y + height) }
+
+            if (viewHolder !is SkillViewHolder) return
+
+            for (i in 0 until recyclerView.childCount) {
+                val holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i))
+
+                if (holder == viewHolder || holder !is SkillViewHolder
+                    || holder.viewModel.skill.value!!.groupId != -1) continue
+
+                holder.isHighlighted = nearEnough(currentCoordinates!!, holder)
+            }
         }
 
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {

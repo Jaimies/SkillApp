@@ -32,4 +32,8 @@ class SkillViewHolder(
     var isSmall: Boolean
         get() = viewModel.isSmall.value!!
         set(value) = viewModel.setIsSmall(value)
+
+    var isHighlighted: Boolean
+        get() = viewModel.isHighlighted.value!!
+        set(value) = viewModel.setIsHighlighted(value)
 }

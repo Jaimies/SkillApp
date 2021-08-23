@@ -24,7 +24,9 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> viewModel.navigateToDetails()}"
-            android:onLongClick="@{(view) -> viewModel.startDrag()}">
+            android:onLongClick="@{(view) -> viewModel.startDrag()}"
+            app:strokeColor="?attr/cardHighlightColor"
+            app:strokeWidth="@{viewModel.isHighlighted ? Math.round(@dimen/highlighted_card_stroke_width) : 0}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

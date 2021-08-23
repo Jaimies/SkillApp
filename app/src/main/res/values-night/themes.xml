@@ -24,6 +24,7 @@
         <item name="buttonBarNegativeButtonStyle">@style/Widget.SkillApp.NegativeButton.Dark</item>
         <item name="materialTimePickerTheme">@style/ThemeOverlay.SkillApp.TimePicker</item>
         <item name="materialCalendarTheme">@style/ThemeOverlay.SkillApp.DatePicker</item>
+        <item name="cardHighlightColor">#a0ffffff</item>
     </style>
 
     <style name="Theme.SkillApp.Splash" />

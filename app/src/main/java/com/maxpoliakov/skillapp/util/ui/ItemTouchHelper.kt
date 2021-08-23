@@ -181,8 +181,8 @@ fun createDraggingItemTouchHelper(
             dropCoordinates: Coordinates,
             closestViewHolder: RecyclerView.ViewHolder
         ): Boolean {
-            return dropCoordinates.top > closestViewHolder.itemView.top - 20.dp.toPx(context)
-                    && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 20.dp.toPx(context)
+            return dropCoordinates.top > closestViewHolder.itemView.top - 55.dp.toPx(context)
+                    && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 55.dp.toPx(context)
         }
 
         private fun groupIfNecessary(skill: Skill, position: Int, adapter: SkillListAdapter): Change? {

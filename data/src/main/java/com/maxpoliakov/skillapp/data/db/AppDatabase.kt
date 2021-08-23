@@ -29,7 +29,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         fun create(context: Context) = Room
             .databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
             .build()
 
         const val DATABASE_NAME = "main"

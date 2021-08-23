@@ -6,6 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.db.MIGRATION_1_2
 import com.maxpoliakov.skillapp.data.db.MIGRATION_2_3
+import com.maxpoliakov.skillapp.data.db.MIGRATION_3_4
 import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
@@ -75,5 +76,21 @@ class MigrationsTest {
         skill.order shouldBe -1
         skill.name shouldBe "name"
         skill.totalTime shouldBe Duration.ofMillis(100000)
+    }
+
+    @Test
+    fun migration_from_3_to_4() = runBlocking {
+        helper.createDatabase(AppDatabase.DATABASE_NAME, 3).apply {
+            execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate, `order`)
+                VALUES ("name", 100000, 1000, 100, "1970-01-01", 0)
+          """)
+        }
+
+        helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 4, true, MIGRATION_3_4)
+
+        val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
+        val skill = roomDb.skillDao().getSkill(1).await()!!
+
+        skill.groupId shouldBe -1
     }
 }

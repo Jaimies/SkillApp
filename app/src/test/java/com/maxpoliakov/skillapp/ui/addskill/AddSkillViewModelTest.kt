@@ -26,21 +26,21 @@ class AddSkillViewModelTest : StringSpec({
     "addSkill()" {
         viewModel.totalTime.value = "100"
         viewModel.name.value = "Skill name "
-        viewModel.addSkill()
+        viewModel.update()
         verify(useCase).run(Skill("Skill name", Duration.ofHours(100), Duration.ofHours(100)))
     }
 
     "addSkill() uses ZERO as the time if the totalTime field is null" {
         viewModel.totalTime.value = null
         viewModel.name.value = "Name"
-        viewModel.addSkill()
+        viewModel.update()
         verify(useCase).run(Skill("Name", ZERO, ZERO))
     }
 
     "addSkill() uses ZERO as the time if the totalTime field is empty" {
         viewModel.totalTime.value = ""
         viewModel.name.value = "Name"
-        viewModel.addSkill()
+        viewModel.update()
         verify(useCase).run(Skill("Name", ZERO, ZERO))
     }
 })

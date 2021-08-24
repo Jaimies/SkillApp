@@ -52,7 +52,7 @@ class SkillGroupFragment : FragmentWithCollapsingToolbar(R.menu.skilldetail_frag
         observe(viewModel.group) { group ->
             val data = group.skills.map { skill ->
                 PieEntry(skill.totalTime.toMillis().toFloat() / group.totalTime.toMillis(), skill.name)
-            }
+            }.sortedBy { -it.y }
 
             binding.splitChart.chart.setData(data)
         }

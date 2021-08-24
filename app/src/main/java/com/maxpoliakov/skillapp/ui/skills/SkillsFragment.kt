@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Orderable
@@ -52,7 +53,7 @@ class SkillsFragment : Fragment() {
                 is Change.CreateGroup -> {
                     val group = SkillGroup(
                         id = 0,
-                        name = "New Group",
+                        name = getString(R.string.new_group),
                         skills = listOf(change.skill, change.otherSkill),
                         order = change.position,
                     )

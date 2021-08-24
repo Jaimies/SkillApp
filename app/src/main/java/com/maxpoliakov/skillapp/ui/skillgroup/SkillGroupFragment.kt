@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SkillGroupFragment : FragmentWithCollapsingToolbar(R.menu.skilldetail_frag_menu) {
+class SkillGroupFragment : FragmentWithCollapsingToolbar(R.menu.skillgroup_detail_frag_menu) {
     private lateinit var binding: SkillGroupFragBinding
     private val args: SkillGroupFragmentArgs by navArgs()
 
@@ -42,7 +42,7 @@ class SkillGroupFragment : FragmentWithCollapsingToolbar(R.menu.skilldetail_frag
             it.viewModel = viewModel
         }
 
-        return binding.root
+       return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -13,6 +13,10 @@
             android:key="theme"
             android:title="@string/theme"
             app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:key="backups"
+            android:title="@string/backups" />
     </PreferenceCategory>
 
     <PreferenceCategory

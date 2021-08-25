@@ -57,4 +57,7 @@
     <string name="mail_dev_uri" translatable="false">mailto:theskillapp@gmail.com</string>
     <string name="market_uri" translatable="false">market://details?id=com.maxpoliakov.skillapp</string>
     <string name="backups">Backup &amp; Restore</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="logged_in_as">Logged in as %s</string>
 </resources>

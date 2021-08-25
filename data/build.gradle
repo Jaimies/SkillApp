@@ -46,6 +46,17 @@ android {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+
     kotlinOptions.jvmTarget = '1.8'
 }
 
@@ -76,6 +87,17 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
 
     implementation platform("com.google.firebase:firebase-bom:$Versions.firebase")
+
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+
+    implementation 'com.google.http-client:google-http-client-gson:1.26.0'
+    implementation('com.google.api-client:google-api-client-android:1.26.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation('com.google.apis:google-api-services-drive:v3-rev136-1.25.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+
 
     testImplementation project(":sharedTest")
     testImplementation "org.mockito:mockito-core:$Versions.mockito"

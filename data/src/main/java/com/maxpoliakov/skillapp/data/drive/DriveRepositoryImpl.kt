@@ -3,10 +3,13 @@ package com.maxpoliakov.skillapp.data.drive
 import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
+import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.DriveRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 class DriveRepositoryImpl @Inject constructor(
@@ -28,13 +31,13 @@ class DriveRepositoryImpl @Inject constructor(
             .setPageSize(10)
             .setOrderBy("createdTime")
             .setSpaces("appDataFolder")
+            .setFields("files(id, createdTime)")
 
         val files = theList.execute().files
         println(files.size)
         files.map { file ->
-            val stream = ByteArrayOutputStream()
-            drive.files().get(file.id).executeMediaAndDownloadTo(stream)
-            stream.toString()
+            val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.createdTime.value), ZoneId.systemDefault())
+            Backup(file.id, date)
         }
     }
 }

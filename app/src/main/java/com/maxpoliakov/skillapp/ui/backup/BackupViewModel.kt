@@ -11,7 +11,6 @@ import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,8 +35,8 @@ class BackupViewModel @Inject constructor(
 
     private fun getBackups() {
         viewModelScope.launch {
-            val names = driveRepository.getBackups()
-            _backupNames.value = names.joinToString(", ")
+            val backups = driveRepository.getBackups()
+            _backupNames.value = backups.map { it.creationDate.toString() }.joinToString(", ")
         }
     }
 

@@ -2,8 +2,8 @@ package com.maxpoliakov.skillapp.util.stopwatch
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.maxpoliakov.skillapp.data.persistence.getStringPreference
 import com.maxpoliakov.skillapp.shared.util.toZonedDateTimeOrNull
-import com.maxpoliakov.skillapp.util.persistence.getStringPreference
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Paused
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME

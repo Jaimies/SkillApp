@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.util.persistence
+package com.maxpoliakov.skillapp.data.persistence
 
 import android.content.Context
 import android.content.SharedPreferences

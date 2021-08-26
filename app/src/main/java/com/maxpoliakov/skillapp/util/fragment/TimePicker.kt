@@ -6,10 +6,10 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.maxpoliakov.skillapp.data.persistence.getIntPreference
+import com.maxpoliakov.skillapp.data.persistence.saveIntPreference
+import com.maxpoliakov.skillapp.data.persistence.sharedPrefs
 import com.maxpoliakov.skillapp.shared.util.durationOfHoursAndMinutes
-import com.maxpoliakov.skillapp.util.persistence.getIntPreference
-import com.maxpoliakov.skillapp.util.persistence.saveIntPreference
-import com.maxpoliakov.skillapp.util.persistence.sharedPrefs
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
 

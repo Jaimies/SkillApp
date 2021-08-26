@@ -21,12 +21,6 @@ class BaseModule {
     fun provideIoScope(): CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     @Provides
-    @Singleton
-    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-    }
-
-    @Provides
     fun provideNotificationManager(@ApplicationContext context: Context): NotificationManagerCompat {
         return NotificationManagerCompat.from(context)
     }

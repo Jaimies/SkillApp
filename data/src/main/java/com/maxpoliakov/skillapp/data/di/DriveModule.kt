@@ -24,10 +24,11 @@ class DriveModule {
         prefs: SharedPreferences,
     ): Drive {
         val credential = GoogleAccountCredential.usingOAuth2(context, listOf(DriveScopes.DRIVE_APPDATA)).apply {
-            selectedAccount = Account(
-                prefs.getStringPreference("account.name", ""),
-                prefs.getStringPreference("account.type", ""),
-            )
+            val name = prefs.getStringPreference("account.name", "")
+            val type = prefs.getStringPreference("account.type", "")
+
+            if(name.isNotEmpty() && type.isNotEmpty())
+            selectedAccount = Account(name, type)
         }
 
         return Drive.Builder(

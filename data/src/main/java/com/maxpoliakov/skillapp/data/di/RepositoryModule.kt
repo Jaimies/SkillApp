@@ -1,13 +1,13 @@
 package com.maxpoliakov.skillapp.data.di
 
 import com.maxpoliakov.skillapp.data.auth.AuthRepositoryImpl
-import com.maxpoliakov.skillapp.data.backup.BackupRepositoryImpl
+import com.maxpoliakov.skillapp.data.drive.DriveRepositoryImpl
 import com.maxpoliakov.skillapp.data.group.SkillGroupRepositoryImpl
 import com.maxpoliakov.skillapp.data.records.RecordsRepositoryImpl
 import com.maxpoliakov.skillapp.data.skill.SkillRepositoryImpl
 import com.maxpoliakov.skillapp.data.stats.StatsRepositoryImpl
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
-import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.repository.DriveRepository
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
@@ -36,5 +36,5 @@ interface RepositoryModule {
     fun provideAuthRepository(authRepository: AuthRepositoryImpl): AuthRepository
 
     @Binds
-    fun provideBackupRepository(repository: BackupRepositoryImpl) : BackupRepository
+    fun provideDriveRepository(repository: DriveRepositoryImpl) : DriveRepository
 }

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
-import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.repository.DriveRepository
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BackupViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val backupRepository: BackupRepository,
+    private val driveRepository: DriveRepository,
 ) : ViewModel() {
     private val _currentUser = MutableLiveData(authRepository.currentUser)
     val currentUser: LiveData<User?> get() = _currentUser
@@ -34,7 +34,7 @@ class BackupViewModel @Inject constructor(
 
     private fun getBackups() {
         viewModelScope.launch {
-            val names = backupRepository.getBackups()
+            val names = driveRepository.getBackups()
             _backupNames.value = names.joinToString(", ")
         }
     }
@@ -53,6 +53,6 @@ class BackupViewModel @Inject constructor(
     }
 
     fun createBackup() = viewModelScope.launch {
-        backupRepository.createBackup(LocalDateTime.now().toString())
+        driveRepository.uploadBackup(LocalDateTime.now().toString())
     }
 }

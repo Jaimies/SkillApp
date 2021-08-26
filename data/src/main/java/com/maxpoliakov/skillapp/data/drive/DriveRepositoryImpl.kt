@@ -1,18 +1,18 @@
-package com.maxpoliakov.skillapp.data.backup
+package com.maxpoliakov.skillapp.data.drive
 
 import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
-import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.repository.DriveRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
-class BackupRepositoryImpl @Inject constructor(
+class DriveRepositoryImpl @Inject constructor(
     private val drive: Drive,
-) : BackupRepository {
-    override suspend fun createBackup(content: String) = withContext(Dispatchers.IO) {
+) : DriveRepository {
+    override suspend fun uploadBackup(content: String) = withContext(Dispatchers.IO) {
         val file = File()
             .setParents(listOf("appDataFolder"))
             .setMimeType("text/plain")

@@ -51,12 +51,17 @@ class BackupViewModel @Inject constructor(
         _currentUser.value = authRepository.currentUser
     }
 
-    fun signOut() {
+    fun signInOrSignOut() {
+        if (currentUser.value == null) signIn()
+        else signOut()
+    }
+
+    private fun signOut() {
         authRepository.signOut()
         _currentUser.value = null
     }
 
-    fun signIn() {
+    private fun signIn() {
         _signIn.call()
     }
 

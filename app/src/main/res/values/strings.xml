@@ -57,8 +57,8 @@
     <string name="mail_dev_uri" translatable="false">mailto:theskillapp@gmail.com</string>
     <string name="market_uri" translatable="false">market://details?id=com.maxpoliakov.skillapp</string>
     <string name="backups">Backup &amp; Restore</string>
-    <string name="logout">Logout</string>
-    <string name="login">Login</string>
+    <string name="logout">Log out</string>
+    <string name="login">Log in</string>
     <string name="logged_in_as">Logged in as %s</string>
     <string name="confirm_restore_backup">Restoring a backup will replace your current tracked data. Do you want to continue?</string>
     <string name="restore">Restore</string>

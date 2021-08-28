@@ -14,16 +14,15 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:visible="@{viewModel.currentUser != null}">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="16dp"
                 android:backgroundTint="@color/blue_light"
                 android:enabled="@{!viewModel.backupCreating}"
                 android:letterSpacing="-0.01"
@@ -36,25 +35,24 @@
                 android:textSize="15sp"
                 android:textStyle="normal"
                 app:cornerRadius="100dp"
-                app:icon="@drawable/ic_drive" />
+                app:icon="@drawable/ic_drive"
+                app:visible="@{viewModel.currentUser != null}" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:onClick="@{() -> viewModel.goToRestore()}"
-                android:text="Restore" />
+                android:text="Restore"
+                app:visible="@{viewModel.currentUser != null}" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@{@string/logged_in_as(viewModel.currentUser.email)}" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.signOut()}"
-                android:text="@string/logout" />
+            <include
+                android:id="@+id/backup_section"
+                layout="@layout/backup_section"
+                android:onClick="@{() -> viewModel.signInOrSignOut()}"
+                app:label="@{viewModel.currentUser != null ? @string/logout : @string/login}"
+                app:subtitle="@{viewModel.currentUser.email}"
+                app:title="@{`Account`}" />
         </LinearLayout>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -62,13 +60,5 @@
             android:layout_height="wrap_content"
             android:indeterminate="true"
             app:visible="@{viewModel.backupCreating}" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="@{() -> viewModel.signIn()}"
-            android:text="@string/login"
-            app:visible="@{viewModel.currentUser == null}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

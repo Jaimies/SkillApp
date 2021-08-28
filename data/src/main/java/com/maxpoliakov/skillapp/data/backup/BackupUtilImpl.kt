@@ -9,6 +9,7 @@ import com.maxpoliakov.skillapp.domain.repository.BackupUtil
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
@@ -30,6 +31,11 @@ class BackupUtilImpl @Inject constructor(
         )
 
         Json.encodeToString(backupData)
+    }
+
+    override suspend fun restoreBackup(backupData: String) {
+        val backup = Json.decodeFromString<BackupData>(backupData)
+        println(backup)
     }
 }
 

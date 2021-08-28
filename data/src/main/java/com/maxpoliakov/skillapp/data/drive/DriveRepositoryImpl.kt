@@ -7,6 +7,8 @@ import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.DriveRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import java.nio.charset.StandardCharsets
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -29,7 +31,7 @@ class DriveRepositoryImpl @Inject constructor(
     override suspend fun getBackups() = withContext(Dispatchers.IO) {
         val theList = drive.files().list()
             .setPageSize(10)
-            .setOrderBy("createdTime")
+            .setOrderBy("createdTime desc")
             .setSpaces("appDataFolder")
             .setFields("files(id, createdTime)")
 
@@ -37,5 +39,11 @@ class DriveRepositoryImpl @Inject constructor(
             val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.createdTime.value), ZoneId.systemDefault())
             Backup(file.id, date)
         }
+    }
+
+    override suspend fun getBackupContents(backup: Backup): String = withContext(Dispatchers.IO) {
+        val stream = ByteArrayOutputStream()
+        drive.files().get(backup.id).executeMediaAndDownloadTo(stream)
+        stream.toByteArray().toString(StandardCharsets.UTF_8)
     }
 }

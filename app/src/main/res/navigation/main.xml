@@ -117,4 +117,10 @@
         android:name="com.maxpoliakov.skillapp.ui.backup.BackupFragment"
         android:label="@string/backups"
         tools:layout="@layout/backup_frag" />
+
+    <fragment
+        android:id="@+id/restore_backup_fragment_dest"
+        android:name="com.maxpoliakov.skillapp.ui.restore.RestoreBackupFragment"
+        android:label="Restore"
+        tools:layout="@layout/restore_backup_frag" />
 </navigation>

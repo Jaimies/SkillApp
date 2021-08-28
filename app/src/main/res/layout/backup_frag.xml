@@ -21,28 +21,23 @@
             android:orientation="vertical"
             app:visible="@{viewModel.currentUser != null}">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@{@string/logged_in_as(viewModel.currentUser.email)}" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.restoreBackup()}"
-                android:text="Restore the first backup" />
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> viewModel.createBackup()}"
                 android:text="Create backup" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.goToRestore()}"
+                android:text="Restore" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.backups.toString()}" />
+                android:layout_marginBottom="8dp"
+                android:text="@{@string/logged_in_as(viewModel.currentUser.email)}" />
 
             <Button
                 android:layout_width="wrap_content"

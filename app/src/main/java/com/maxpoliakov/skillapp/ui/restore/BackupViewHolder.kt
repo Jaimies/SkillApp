@@ -15,6 +15,7 @@ class BackupViewHolder(
     private val restoreBackupUseCase: RestoreBackupUseCase,
     private val ioScope: CoroutineScope,
 ) : RecyclerView.ViewHolder(binding.root) {
+
     var backup: Backup? = null
         private set
 
@@ -27,6 +28,8 @@ class BackupViewHolder(
     }
 
     fun requestRestoreBackup() {
+        if (restoreBackupUseCase.isRestorationInProgress.value) return
+
         MaterialAlertDialogBuilder(itemView.context, R.style.ThemeOverlay_SkillApp_AlertDialog)
             .setMessage(R.string.confirm_restore_backup)
             .setPositiveButton(R.string.restore) { _, _ -> restoreBackup() }

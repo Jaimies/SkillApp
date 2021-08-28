@@ -17,7 +17,7 @@
         android:onClick="@{() -> viewHolder.requestRestoreBackup()}"
         android:paddingHorizontal="20dp"
         android:paddingVertical="24dp"
-        android:text="@{viewHolder.backup.creationDate.toString()}"
+        android:text="@{viewHolder.backupCreationDate}"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="15sp" />
 </layout>

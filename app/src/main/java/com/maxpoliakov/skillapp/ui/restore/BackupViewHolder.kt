@@ -1,5 +1,8 @@
 package com.maxpoliakov.skillapp.ui.restore
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maxpoliakov.skillapp.R
@@ -9,6 +12,7 @@ import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class BackupViewHolder(
@@ -17,15 +21,17 @@ class BackupViewHolder(
     private val ioScope: CoroutineScope,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    var backup: Backup? = null
-        private set
+    private val _backup = MutableLiveData<Backup>()
+    val backup: LiveData<Backup> get() = _backup
+
+    val backupCreationDate = backup.map { backup -> formatter.format(backup.creationDate) }
 
     init {
         binding.viewHolder = this
     }
 
     fun setBackup(backup: Backup) {
-        this.backup = backup
+        _backup.value = backup
     }
 
     fun requestRestoreBackup() {
@@ -39,7 +45,7 @@ class BackupViewHolder(
     }
 
     private fun restoreBackup() = ioScope.launch {
-        val backup = backup ?: return@launch
+        val backup = backup.value ?: return@launch
         restoreBackupUseCase.restoreBackup(backup)
     }
 
@@ -50,5 +56,9 @@ class BackupViewHolder(
         fun create(binding: BackupListItemBinding): BackupViewHolder {
             return BackupViewHolder(binding, restoreBackupUseCase, ioScope)
         }
+    }
+
+    companion object {
+        private val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy  hh:mm:ss")
     }
 }

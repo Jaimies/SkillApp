@@ -8,22 +8,26 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+enum class RestorationState {
+    NotStarted, Active, Finished
+}
+
 @Singleton
 class RestoreBackupUseCase @Inject constructor(
     private val driveRepository: DriveRepository,
     private val backupUtil: BackupUtil,
 ) {
-    private val _isRestorationInProgress = MutableStateFlow(false)
-    val isRestorationInProgress: StateFlow<Boolean> get() = _isRestorationInProgress
+    private val _state = MutableStateFlow(RestorationState.NotStarted)
+    val state: StateFlow<RestorationState> get() = _state
 
     suspend fun restoreBackup(backup: Backup) {
-        if (isRestorationInProgress.value) return
+        if (state.value == RestorationState.Active) return
 
-        _isRestorationInProgress.emit(true)
+        _state.emit(RestorationState.Active)
 
         val backupContents = driveRepository.getBackupContents(backup)
         backupUtil.restoreBackup(backupContents)
 
-        _isRestorationInProgress.emit(false)
+        _state.emit(RestorationState.Finished)
     }
 }

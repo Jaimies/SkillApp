@@ -23,3 +23,16 @@ suspend inline fun <T> Flow<T>.collectOnce(crossinline collector: (T) -> Unit) {
         }
     }
 }
+
+suspend inline fun <T> Flow<T>.collectIgnoringInitialValue(crossinline action: suspend (value: T) -> Unit) {
+    var firstValueReceived = false
+
+    collect { value ->
+        if (!firstValueReceived) {
+            firstValueReceived = true
+            return@collect
+        }
+
+        action(value)
+    }
+}

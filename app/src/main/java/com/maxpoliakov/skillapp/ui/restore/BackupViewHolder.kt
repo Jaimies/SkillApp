@@ -5,6 +5,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.domain.model.Backup
+import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -28,7 +29,7 @@ class BackupViewHolder(
     }
 
     fun requestRestoreBackup() {
-        if (restoreBackupUseCase.isRestorationInProgress.value) return
+        if (restoreBackupUseCase.state.value == RestorationState.Active) return
 
         MaterialAlertDialogBuilder(itemView.context, R.style.ThemeOverlay_SkillApp_AlertDialog)
             .setMessage(R.string.confirm_restore_backup)

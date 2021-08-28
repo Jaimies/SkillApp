@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.databinding.RestoreBackupFragBinding
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.addDividers
@@ -33,5 +34,6 @@ class RestoreBackupFragment : Fragment() {
         binding.backupsList.setupAdapter(adapter)
         binding.backupsList.addDividers()
         observe(viewModel.backups, adapter::submitList)
+        observe(viewModel.restorationSucceeded) { findNavController().navigateUp() }
     }
 }

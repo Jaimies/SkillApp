@@ -15,6 +15,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <Preference
+            android:icon="@drawable/ic_drive_translucent"
             android:key="backups"
             android:title="@string/backups" />
     </PreferenceCategory>

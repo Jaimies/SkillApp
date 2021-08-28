@@ -26,6 +26,12 @@ class BackupViewModel @Inject constructor(
     private val _goToRestore = SingleLiveEvent<Nothing>()
     val goToRestore: LiveData<Nothing> get() = _goToRestore
 
+    private val _backupCreating = MutableLiveData(false)
+    val backupCreating: LiveData<Boolean> get() = _backupCreating
+
+    private val _showBackupCreationSucceeded = SingleLiveEvent<Nothing>()
+    val showBackupCreationSucceeded: LiveData<Nothing> = _showBackupCreationSucceeded
+
     fun notifySignedIn() {
         _currentUser.value = authRepository.currentUser
     }
@@ -40,7 +46,10 @@ class BackupViewModel @Inject constructor(
     }
 
     fun createBackup() = viewModelScope.launch {
+        _backupCreating.value = true
         createBackupUseCase.createBackup()
+        _backupCreating.value = false
+        _showBackupCreationSucceeded.call()
     }
 
     fun goToRestore() = _goToRestore.call()

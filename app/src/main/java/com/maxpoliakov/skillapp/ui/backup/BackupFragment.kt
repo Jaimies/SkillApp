@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
 import com.maxpoliakov.skillapp.util.fragment.observe
@@ -56,6 +57,9 @@ class BackupFragment : Fragment() {
         observe(viewModel.signIn) { signIn() }
         observe(viewModel.goToRestore) {
             findNavController().navigateAnimated(R.id.restore_backup_fragment_dest)
+        }
+        observe(viewModel.showBackupCreationSucceeded) {
+            Snackbar.make(binding.root, "Successfully uploaded backup to Google Drive", Snackbar.LENGTH_SHORT).show()
         }
     }
 

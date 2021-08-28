@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
+import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
+import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
+import com.maxpoliakov.skillapp.shared.util.collectIgnoringInitialValue
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,6 +19,7 @@ import javax.inject.Inject
 class BackupViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val createBackupUseCase: CreateBackupUseCase,
+    private val restoreBackupUseCase: RestoreBackupUseCase,
 ) : ViewModel() {
     private val _currentUser = MutableLiveData(authRepository.currentUser)
     val currentUser: LiveData<User?> get() = _currentUser
@@ -31,6 +35,17 @@ class BackupViewModel @Inject constructor(
 
     private val _showBackupCreationSucceeded = SingleLiveEvent<Nothing>()
     val showBackupCreationSucceeded: LiveData<Nothing> = _showBackupCreationSucceeded
+
+    private val _showBackupRestorationSucceeded = SingleLiveEvent<Nothing>()
+    val showBackupRestorationSucceeded: LiveData<Nothing> = _showBackupRestorationSucceeded
+
+    init {
+        viewModelScope.launch {
+            restoreBackupUseCase.state.collectIgnoringInitialValue { state ->
+                if (state == RestorationState.Finished) _showBackupRestorationSucceeded.call()
+            }
+        }
+    }
 
     fun notifySignedIn() {
         _currentUser.value = authRepository.currentUser

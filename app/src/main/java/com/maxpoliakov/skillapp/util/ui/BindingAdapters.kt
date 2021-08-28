@@ -2,6 +2,8 @@ package com.maxpoliakov.skillapp.util.ui
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 
@@ -18,3 +20,25 @@ fun setSideMargins(view: View, dimen: Float) {
     view.layoutParams = layoutParams
 }
 
+@BindingAdapter("layout_marginBottom")
+fun View.setBottomMargin(dimen: Float) {
+    val layoutParams = layoutParams as ViewGroup.MarginLayoutParams
+    layoutParams.bottomMargin = dimen.toInt()
+    this.layoutParams = layoutParams
+}
+
+@BindingAdapter(
+    "layout_constraint_startSide",
+    "layout_constraint_toEndId",
+    "layout_constraint_endSide",
+)
+fun View.setConditionalConstraint(
+    startSide: Int, endId: Int, endSide: Int,
+) {
+    val constraintLayout = (parent as? ConstraintLayout) ?: return
+    with(ConstraintSet()) {
+        clone(constraintLayout)
+        connect(id, startSide, endId, endSide)
+        applyTo(constraintLayout)
+    }
+}

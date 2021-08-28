@@ -20,9 +20,12 @@
         <variable
             name="label"
             type="String" />
+
+        <import type="androidx.constraintlayout.widget.ConstraintSet" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/section_root"
         android:layout_width="match_parent"
         android:layout_height="95dp"
         android:background="?android:attr/selectableItemBackground"
@@ -32,33 +35,37 @@
         android:paddingHorizontal="12dp">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginBottom="4dp"
             android:text="@{title}"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@id/subtitle"
+            app:layout_constraintBottom_toTopOf="@id/subtitle_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraint_endSide="@{subtitle == null ? ConstraintSet.BOTTOM : ConstraintSet.TOP}"
+            app:layout_constraint_startSide="@{ConstraintSet.BOTTOM}"
+            app:layout_constraint_toEndId="@{subtitle == null ? ConstraintSet.PARENT_ID : subtitleTextView.getId()}"
+            app:layout_marginBottom="@{subtitle == null ? 0f : @dimen/margin_xsmall}"
             tools:text="Account" />
 
         <TextView
-            android:id="@+id/subtitle"
+            android:id="@+id/subtitle_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:text="@{subtitle}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title_text_view"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="foo.bar@gmail.com" />
 
         <TextView
+            android:id="@+id/label_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
@@ -71,6 +78,7 @@
             tools:text="Log out" />
 
         <View
+            android:id="@+id/horizontal_line_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@drawable/separator"

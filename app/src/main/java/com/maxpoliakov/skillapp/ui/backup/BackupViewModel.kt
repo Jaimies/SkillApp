@@ -15,6 +15,7 @@ import com.maxpoliakov.skillapp.shared.util.collectIgnoringInitialValue
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.time.dateTimeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -25,6 +26,7 @@ class BackupViewModel @Inject constructor(
     private val createBackupUseCase: CreateBackupUseCase,
     private val restoreBackupUseCase: RestoreBackupUseCase,
     private val driveRepository: DriveRepository,
+    private val ioScope: CoroutineScope,
 ) : ViewModel() {
     private val _currentUser = MutableLiveData(authRepository.currentUser)
     val currentUser: LiveData<User?> get() = _currentUser
@@ -83,7 +85,7 @@ class BackupViewModel @Inject constructor(
         _signIn.call()
     }
 
-    fun createBackup() = viewModelScope.launch {
+    fun createBackup() = ioScope.launch {
         _backupCreating.value = true
         createBackupUseCase.createBackup()
         _backupCreating.value = false

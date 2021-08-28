@@ -24,8 +24,18 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/blue_light"
+                android:letterSpacing="-0.01"
                 android:onClick="@{() -> viewModel.createBackup()}"
-                android:text="Create backup" />
+                android:paddingVertical="12dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="24dp"
+                android:text="Backup to Google Drive"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                app:cornerRadius="100dp"
+                app:icon="@drawable/ic_drive" />
 
             <Button
                 android:layout_width="wrap_content"

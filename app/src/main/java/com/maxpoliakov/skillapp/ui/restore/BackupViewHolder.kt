@@ -10,9 +10,9 @@ import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
+import com.maxpoliakov.skillapp.util.time.dateTimeFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class BackupViewHolder(
@@ -24,7 +24,7 @@ class BackupViewHolder(
     private val _backup = MutableLiveData<Backup>()
     val backup: LiveData<Backup> get() = _backup
 
-    val backupCreationDate = backup.map { backup -> formatter.format(backup.creationDate) }
+    val backupCreationDate = backup.map { backup -> dateTimeFormatter.format(backup.creationDate) }
 
     init {
         binding.viewHolder = this
@@ -56,9 +56,5 @@ class BackupViewHolder(
         fun create(binding: BackupListItemBinding): BackupViewHolder {
             return BackupViewHolder(binding, restoreBackupUseCase, ioScope)
         }
-    }
-
-    companion object {
-        private val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy  hh:mm:ss")
     }
 }

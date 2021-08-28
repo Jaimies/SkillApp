@@ -28,9 +28,11 @@ class DriveRepositoryImpl @Inject constructor(
         Unit
     }
 
-    override suspend fun getBackups() = withContext(Dispatchers.IO) {
+    override suspend fun getBackups() = _getBackups(10)
+
+    private suspend fun _getBackups(limit: Int) = withContext(Dispatchers.IO) {
         val theList = drive.files().list()
-            .setPageSize(10)
+            .setPageSize(limit)
             .setOrderBy("createdTime desc")
             .setSpaces("appDataFolder")
             .setFields("files(id, createdTime)")
@@ -39,6 +41,12 @@ class DriveRepositoryImpl @Inject constructor(
             val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.createdTime.value), ZoneId.systemDefault())
             Backup(file.id, date)
         }
+    }
+
+    override suspend fun getLastBackup(): Backup? {
+        val backups = _getBackups(2)
+        if (backups.isEmpty()) return null
+        else return backups[0]
     }
 
     override suspend fun getBackupContents(backup: Backup): String = withContext(Dispatchers.IO) {

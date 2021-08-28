@@ -38,16 +38,16 @@
                 app:icon="@drawable/ic_drive"
                 app:visible="@{viewModel.currentUser != null}" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="@{() -> viewModel.goToRestore()}"
-                android:text="Restore"
+            <include
+                android:id="@+id/restore_account"
+                layout="@layout/backup_section"
+                app:onClick="@{() -> viewModel.goToRestore()}"
+                app:subtitle="@{viewModel.lastBackupDate instanceof String ? viewModel.lastBackupDate : context.getString((int)viewModel.lastBackupDate)}"
+                app:title="@{`Restore`}"
                 app:visible="@{viewModel.currentUser != null}" />
 
             <include
-                android:id="@+id/backup_section"
+                android:id="@+id/account_section"
                 layout="@layout/backup_section"
                 android:onClick="@{() -> viewModel.signInOrSignOut()}"
                 app:label="@{viewModel.currentUser != null ? @string/logout : @string/login}"

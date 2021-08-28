@@ -13,6 +13,9 @@ interface GroupDao : BaseDao<DBGroup> {
     @Query("SELECT * from groups")
     fun getGroups(): Flow<List<GroupWithSkills>>
 
+    @Query("SELECT * FROM groups")
+    suspend fun getAllGroups() : List<DBGroup>
+
     @Transaction
     @Query("SELECT * FROM groups WHERE id = :id")
     fun getGroupFlowById(id: Int): Flow<GroupWithSkills>

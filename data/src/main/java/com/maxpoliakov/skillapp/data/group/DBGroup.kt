@@ -7,7 +7,9 @@ import androidx.room.Relation
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.mapToDomain
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity(tableName = "groups")
 data class DBGroup(
     @PrimaryKey(autoGenerate = true)

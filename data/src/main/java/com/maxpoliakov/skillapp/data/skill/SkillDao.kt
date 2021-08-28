@@ -11,6 +11,9 @@ interface SkillDao : BaseDao<DBSkill> {
     @Query("SELECT * FROM skills ORDER BY `order` ASC, id DESC")
     fun getSkills(): Flow<List<DBSkill>>
 
+    @Query("SELECT * FROM skills")
+    suspend fun getAllSkills(): List<DBSkill>
+
     @Query(
         """
         SELECT skills.*, (

@@ -31,4 +31,7 @@ interface StatsDao {
 
     @Query("SELECT SUM(time) as time FROM stats WHERE date = :date")
     suspend fun getTimeAtDate(date: LocalDate): Duration
+
+    @Query("SELECT * FROM stats")
+    suspend fun getAllStats(): List<DBStatistic>
 }

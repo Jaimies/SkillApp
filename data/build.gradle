@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'io.gitlab.arturbosch.detekt' version '1.5.0'
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -84,6 +85,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
 
     implementation "androidx.preference:preference-ktx:1.1.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2'
 
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"

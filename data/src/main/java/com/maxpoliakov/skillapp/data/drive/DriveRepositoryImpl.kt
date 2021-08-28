@@ -33,9 +33,7 @@ class DriveRepositoryImpl @Inject constructor(
             .setSpaces("appDataFolder")
             .setFields("files(id, createdTime)")
 
-        val files = theList.execute().files
-        println(files.size)
-        files.map { file ->
+        theList.execute().files.map { file ->
             val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.createdTime.value), ZoneId.systemDefault())
             Backup(file.id, date)
         }

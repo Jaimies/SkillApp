@@ -14,7 +14,7 @@ interface GroupDao : BaseDao<DBGroup> {
     fun getGroups(): Flow<List<GroupWithSkills>>
 
     @Query("SELECT * FROM groups")
-    suspend fun getAllGroups() : List<DBGroup>
+    suspend fun getAllGroups(): List<DBGroup>
 
     @Transaction
     @Query("SELECT * FROM groups WHERE id = :id")
@@ -49,4 +49,7 @@ interface GroupDao : BaseDao<DBGroup> {
 
         return groupId
     }
+
+    @Query("DELETE FROM groups")
+    suspend fun deleteAll()
 }

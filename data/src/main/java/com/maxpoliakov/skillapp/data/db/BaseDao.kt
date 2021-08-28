@@ -8,6 +8,9 @@ interface BaseDao<T> {
     @Insert
     suspend fun insert(item: T): Long
 
+    @Insert
+    suspend fun insert(items: List<T>)
+
     @Delete
     suspend fun delete(item: T)
 

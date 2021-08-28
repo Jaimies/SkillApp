@@ -33,4 +33,7 @@ interface SkillDao : BaseDao<DBSkill> {
 
     @Query("UPDATE skills SET totalTime = totalTime + :by WHERE id = :id")
     suspend fun increaseTime(id: Int, by: Duration)
+
+    @Query("DELETE FROM skills")
+    suspend fun deleteAll()
 }

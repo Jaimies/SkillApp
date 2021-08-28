@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.data.backup
 
+import androidx.room.withTransaction
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.group.DBGroup
 import com.maxpoliakov.skillapp.data.records.DBRecord
@@ -35,7 +36,20 @@ class BackupUtilImpl @Inject constructor(
 
     override suspend fun restoreBackup(backupData: String) {
         val backup = Json.decodeFromString<BackupData>(backupData)
-        println(backup)
+
+        db.withTransaction {
+            db.skillGroupDao().deleteAll()
+            db.skillGroupDao().insert(backup.groups)
+
+            db.recordsDao().deleteAll()
+            db.recordsDao().insert(backup.records)
+
+            db.skillDao().deleteAll()
+            db.skillDao().insert(backup.skills)
+
+            db.statsDao().deleteAll()
+            db.statsDao().insert(backup.stats)
+        }
     }
 }
 

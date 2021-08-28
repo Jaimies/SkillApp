@@ -2,12 +2,13 @@ package com.maxpoliakov.skillapp.data.stats
 
 import androidx.room.Dao
 import androidx.room.Query
+import com.maxpoliakov.skillapp.data.db.BaseDao
 import kotlinx.coroutines.flow.Flow
 import java.time.Duration
 import java.time.LocalDate
 
 @Dao
-interface StatsDao {
+interface StatsDao : BaseDao<DBStatistic> {
     @Query(
         """INSERT OR REPLACE INTO stats (time, date, skillId) VALUES(
                 COALESCE((
@@ -34,4 +35,7 @@ interface StatsDao {
 
     @Query("SELECT * FROM stats")
     suspend fun getAllStats(): List<DBStatistic>
+
+    @Query("DELETE FROM stats")
+    suspend fun deleteAll()
 }

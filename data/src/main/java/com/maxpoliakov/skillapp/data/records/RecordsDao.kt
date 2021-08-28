@@ -21,4 +21,7 @@ interface RecordsDao : BaseDao<DBRecord> {
 
     @Query("SELECT * FROM records WHERE id = :id")
     suspend fun getRecordById(id: Int): DBRecord
+
+    @Query("DELETE FROM records")
+    suspend fun deleteAll()
 }

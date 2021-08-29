@@ -35,7 +35,7 @@ open class TheApplication : Application(), Configuration.Provider {
             .setRequiresBatteryNotLow(true)
             .build()
 
-        val backupWorkRequest = PeriodicWorkRequestBuilder<BackupWorker>(Duration.ofHours(1))
+        val backupWorkRequest = PeriodicWorkRequestBuilder<BackupWorker>(Duration.ofDays(1))
             .setConstraints(constraints)
             .build()
 

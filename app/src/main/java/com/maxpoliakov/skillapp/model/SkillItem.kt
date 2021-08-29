@@ -22,13 +22,3 @@ data class SkillItem(
 fun Skill.mapToPresentation() = SkillItem(
     id, name, totalTime, initialTime, lastWeekTime, date, order,
 )
-
-fun SkillItem.mapToDomain() = Skill(
-    name,
-    totalTime,
-    initialTime,
-    lastWeekTime,
-    id,
-    creationDate,
-    order,
-)

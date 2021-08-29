@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.domain.repository
 
-import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import kotlinx.coroutines.flow.Flow
 

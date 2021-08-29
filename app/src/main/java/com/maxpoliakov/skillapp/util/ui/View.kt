@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.math.roundToInt
 
 val ViewGroup.fragmentActivity get() = context.getBaseContext() as FragmentActivity
 

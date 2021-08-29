@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.maxpoliakov.skillapp.databinding.EditableLayoutBinding
-import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

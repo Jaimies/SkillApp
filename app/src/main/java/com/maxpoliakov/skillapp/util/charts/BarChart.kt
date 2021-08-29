@@ -4,7 +4,6 @@ import androidx.core.graphics.ColorUtils
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.Chart.PAINT_INFO
 import com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
-import com.github.mikephil.charting.utils.Utils
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekDayFormatter

@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.history
 
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maxpoliakov.skillapp.R

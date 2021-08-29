@@ -88,11 +88,11 @@ class BackupViewModel @Inject constructor(
     }
 
     fun createBackup() = ioScope.launch {
-        _backupCreating.value = true
+        _backupCreating.postValue(true)
         createBackupUseCase.createBackup()
-        _backupCreating.value = false
-        _lastBackupDate.value = dateTimeFormatter.format(LocalDateTime.now())
-        _showBackupCreationSucceeded.call()
+        _backupCreating.postValue(false)
+        _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
+        _showBackupCreationSucceeded.postCall()
     }
 
     fun goToRestore() = _goToRestore.call()

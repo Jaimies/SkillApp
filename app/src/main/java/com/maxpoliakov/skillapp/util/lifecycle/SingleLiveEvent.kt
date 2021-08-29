@@ -49,6 +49,10 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         value = null
     }
 
+    fun postCall() {
+        postValue(null)
+    }
+
     companion object {
         private const val TAG = "SingleLiveEvent"
     }

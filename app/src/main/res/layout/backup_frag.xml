@@ -22,7 +22,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginVertical="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
                 android:backgroundTint="@color/blue_light"
                 android:enabled="@{!viewModel.backupCreating}"
                 android:letterSpacing="-0.01"
@@ -37,6 +38,14 @@
                 app:cornerRadius="100dp"
                 app:icon="@drawable/ic_drive"
                 app:visible="@{viewModel.currentUser != null}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:paddingHorizontal="12dp"
+                android:text="Your data will be automatically backed up once a day"
+                android:textAlignment="center" />
 
             <include
                 android:id="@+id/restore_account"

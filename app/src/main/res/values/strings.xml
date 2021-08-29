@@ -64,4 +64,9 @@
     <string name="restore">Restore</string>
     <string name="loading_last_backup">Loading last backup…</string>
     <string name="no_backup_found">No backup found</string>
+    <string name="backup_to_google_drive">Backup to Google Drive</string>
+    <string name="auto_backup_message">Your\u00A0data will\u00A0be automatically backed\u00A0up once\u00A0a\u00A0day</string>
+    <string name="account">Account</string>
+    <string name="backup_successful">Successfully uploaded backup to Google Drive</string>
+    <string name="backup_restore_successful">Successfully restored data from backup</string>
 </resources>

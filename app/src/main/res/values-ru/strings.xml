@@ -52,8 +52,17 @@
     <string name="drag_handle_label">Перетащите, чтобы изменить порядок</string>
     <string name="rate_the_app">Оценить приложение</string>
     <string name="contact_developer">Связаться с разработчиком</string>
-    <string name="backups">Резервное копирование и восстановление</string>
+    <string name="backups">Резервное копирование</string>
     <string name="login">Войти</string>
     <string name="logout">Выйти</string>
     <string name="logged_in_as">Авторизован как %s</string>
+    <string name="backup_to_google_drive">Создать резерную копию</string>
+    <string name="auto_backup_message">Резервное копирование ваших данных будет автоматически выполняться один раз в день</string>
+    <string name="loading_last_backup">Загрузка последней резервной копии…</string>
+    <string name="no_backup_found">Резервная копия не найдена</string>
+    <string name="restore">Восстановить</string>
+    <string name="confirm_restore_backup">Восстановление резерной копии заменит ваши текущие данные. Вы хотите продолжить?</string>
+    <string name="account">Учетная запись</string>
+    <string name="backup_successful">Резервная копия успешно загружена на Google Диск</string>
+    <string name="backup_restore_successful">Данные успешно восстановлены из резервной копии</string>
 </resources>

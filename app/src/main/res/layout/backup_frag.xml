@@ -31,7 +31,7 @@
                 android:paddingVertical="12dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="24dp"
-                android:text="Backup to Google Drive"
+                android:text="@string/backup_to_google_drive"
                 android:textAllCaps="false"
                 android:textSize="15sp"
                 android:textStyle="normal"
@@ -43,8 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:paddingHorizontal="12dp"
-                android:text="Your data will be automatically backed up once a day"
+                android:paddingHorizontal="20dp"
+                android:text="@string/auto_backup_message"
                 android:textAlignment="center"
                 app:visible="@{viewModel.currentUser != null}" />
 
@@ -53,7 +53,7 @@
                 layout="@layout/backup_section"
                 app:onClick="@{() -> viewModel.goToRestore()}"
                 app:subtitle="@{viewModel.lastBackupDate instanceof String ? viewModel.lastBackupDate : context.getString((int)viewModel.lastBackupDate)}"
-                app:title="@{`Restore`}"
+                app:title="@{@string/restore}"
                 app:visible="@{viewModel.currentUser != null}" />
 
             <include
@@ -62,7 +62,7 @@
                 android:onClick="@{() -> viewModel.signInOrSignOut()}"
                 app:label="@{viewModel.currentUser != null ? @string/logout : @string/login}"
                 app:subtitle="@{viewModel.currentUser.email}"
-                app:title="@{`Account`}" />
+                app:title="@{@string/account}" />
         </LinearLayout>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator

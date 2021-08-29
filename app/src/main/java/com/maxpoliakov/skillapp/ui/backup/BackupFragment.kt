@@ -59,10 +59,10 @@ class BackupFragment : Fragment() {
             findNavController().navigateAnimated(R.id.restore_backup_fragment_dest)
         }
         observe(viewModel.showBackupCreationSucceeded) {
-            Snackbar.make(binding.root, "Successfully uploaded backup to Google Drive", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, R.string.backup_successful, Snackbar.LENGTH_SHORT).show()
         }
         observe(viewModel.showBackupRestorationSucceeded) {
-            Snackbar.make(binding.root, "Successfully restored data from backup", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, R.string.backup_restore_successful, Snackbar.LENGTH_SHORT).show()
         }
     }
 

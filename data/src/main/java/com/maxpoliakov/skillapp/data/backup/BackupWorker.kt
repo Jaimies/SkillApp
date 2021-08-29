@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
+import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -14,11 +15,13 @@ class BackupWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParameters: WorkerParameters,
     private val createBackupUseCase: CreateBackupUseCase,
+    private val authRepository: AuthRepository,
 ) : CoroutineWorker(context, workerParameters) {
 
     override suspend fun doWork(): Result {
         try {
-            createBackupUseCase.createBackup()
+            if (authRepository.currentUser != null)
+                createBackupUseCase.createBackup()
             return Result.success()
         } catch (e: Exception) {
             val dataBuilder = Data.Builder()

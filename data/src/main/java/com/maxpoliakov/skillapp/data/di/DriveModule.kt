@@ -27,8 +27,8 @@ class DriveModule {
             val name = prefs.getStringPreference("account.name", "")
             val type = prefs.getStringPreference("account.type", "")
 
-            if(name.isNotEmpty() && type.isNotEmpty())
-            selectedAccount = Account(name, type)
+            if (name.isNotEmpty() && type.isNotEmpty())
+                selectedAccount = Account(name, type)
         }
 
         return Drive.Builder(

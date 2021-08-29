@@ -60,6 +60,8 @@ class BackupViewModel @Inject constructor(
     }
 
     private fun getLastBackupDate() = viewModelScope.launch {
+        if (currentUser.value == null) return@launch
+
         val backup = driveRepository.getLastBackup()
         if (backup == null) _lastBackupDate.value = R.string.no_backup_found
         else _lastBackupDate.value = dateTimeFormatter.format(backup.creationDate)

@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.data.skill
 
-import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
@@ -14,7 +13,6 @@ import javax.inject.Singleton
 @Singleton
 class SkillRepositoryImpl @Inject constructor(
     private val skillDao: SkillDao,
-    private val db: AppDatabase,
 ) : SkillRepository {
 
     private val _skills by lazy {

@@ -36,7 +36,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         backupsPref.setOnPreferenceClickListener {
             val controller = findNavController()
-            controller.navigateAnimated(R.id.backup_fragment_dest)
+            val destination = if (billingRepository.isSubscribed) R.id.backup_fragment_dest else R.id.premium_fragment_dest
+            controller.navigateAnimated(destination)
             true
         }
 

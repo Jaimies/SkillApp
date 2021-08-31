@@ -123,4 +123,10 @@
         android:name="com.maxpoliakov.skillapp.ui.restore.RestoreBackupFragment"
         android:label="@string/restore"
         tools:layout="@layout/restore_backup_frag" />
+
+    <fragment
+        android:id="@+id/premium_fragment_dest"
+        android:name="com.maxpoliakov.skillapp.ui.premium.PremiumFragment"
+        android:label="SkillApp Premium"
+        tools:layout="@layout/premium_frag" />
 </navigation>

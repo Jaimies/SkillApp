@@ -138,6 +138,8 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
+    implementation "com.android.billingclient:billing-ktx:$Versions.billing"
+
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"

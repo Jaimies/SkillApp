@@ -15,6 +15,7 @@ object Versions {
     const val livedata = "2.2.0"
     const val fragment = "1.3.6"
     const val workManager = "2.6.0-rc01"
+    const val billing = "4.0.0"
 
     const val material = "1.4.0"
     const val MPAndroidChart = "3.1.0"

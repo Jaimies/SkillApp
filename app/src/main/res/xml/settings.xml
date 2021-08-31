@@ -18,6 +18,11 @@
             android:icon="@drawable/ic_drive_translucent"
             android:key="backups"
             android:title="@string/backups" />
+
+        <Preference
+            android:icon="@drawable/ic_star"
+            android:key="premium"
+            android:title="SkillApp Premium" />
     </PreferenceCategory>
 
     <PreferenceCategory

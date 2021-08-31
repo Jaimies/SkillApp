@@ -11,6 +11,7 @@ import com.android.billingclient.api.BillingFlowParams
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.billing.BillingRepository
 import com.maxpoliakov.skillapp.model.Theme
+import com.maxpoliakov.skillapp.util.subscriptions.showSubscriptionPrompt
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setTheme
@@ -44,7 +45,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val premiumPref = findPreference<Preference>("premium")!!
 
         premiumPref.setOnPreferenceClickListener {
-            lifecycleScope.launch { showBillingPrompt() }
+            lifecycleScope.launch {
+                billingRepository.showSubscriptionPrompt(requireActivity())
+            }
             true
         }
     }
@@ -52,17 +55,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listView.setPadding(12.dp.toPx(requireContext()), 0, 0, 0)
-    }
-
-    private suspend fun showBillingPrompt() {
-        val skuDetails = billingRepository.getSkuDetails()
-
-        if (skuDetails.isEmpty()) return
-
-        val flowParams = BillingFlowParams.newBuilder()
-            .setSkuDetails(skuDetails[0])
-            .build()
-
-        billingRepository.billingClient.launchBillingFlow(requireActivity(), flowParams)
     }
 }

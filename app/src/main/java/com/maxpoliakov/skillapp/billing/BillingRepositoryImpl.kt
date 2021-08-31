@@ -12,6 +12,8 @@ import com.android.billingclient.api.querySkuDetails
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -23,19 +25,13 @@ import kotlin.coroutines.suspendCoroutine
 class BillingRepositoryImpl @Inject constructor(
     override val billingClient: BillingClient,
     private val purchaseUpdateHelper: PurchaseUpdateHelper,
-    ioScope: CoroutineScope,
+    private val ioScope: CoroutineScope,
 ) : BillingRepository {
 
     private val listeners = mutableListOf<() -> Unit>()
-    private var subscriptionState = SubscriptionState.Loading
 
-    override val isSubscribed: Boolean
-        get() {
-            if (subscriptionState == SubscriptionState.Loading)
-                throw IllegalStateException("subscription state not loaded yet")
-
-            return subscriptionState == SubscriptionState.Subscribed
-        }
+    private val _isSubscribed = MutableStateFlow(false)
+    override val isSubscribed = _isSubscribed.asStateFlow()
 
     private var connectionState = ConnectionState.NotStarted
 
@@ -44,9 +40,7 @@ class BillingRepositoryImpl @Inject constructor(
             awaitPlayServicesReady()
             val purchasesResult = billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS)
             val purchases = purchasesResult.purchasesList
-
-            val isSubscribed = isSubscribed(purchases)
-            subscriptionState = if (isSubscribed) SubscriptionState.Subscribed else SubscriptionState.NotSubscribed
+            _isSubscribed.emit(isSubscribed(purchases))
         }
     }
 
@@ -65,12 +59,13 @@ class BillingRepositoryImpl @Inject constructor(
         connectionState = ConnectionState.Started
         connectToPlay()
         connectionState = ConnectionState.Connected
-        purchaseUpdateHelper.addListener(PurchasesUpdatedListener { result, purchases ->
+        purchaseUpdateHelper.addListener(PurchasesUpdatedListener { _, purchases ->
             val validPurchases = (purchases ?: return@PurchasesUpdatedListener)
                 .filter { it.purchaseState == Purchase.PurchaseState.PURCHASED }
 
-            val isSubscribed = isSubscribed(validPurchases.toList())
-            subscriptionState = if (isSubscribed) SubscriptionState.Subscribed else SubscriptionState.NotSubscribed
+            ioScope.launch {
+                _isSubscribed.emit(isSubscribed(validPurchases))
+            }
         })
     }
 
@@ -110,9 +105,5 @@ class BillingRepositoryImpl @Inject constructor(
 
     enum class ConnectionState {
         NotStarted, Started, Connected
-    }
-
-    enum class SubscriptionState {
-        Loading, Subscribed, NotSubscribed,
     }
 }

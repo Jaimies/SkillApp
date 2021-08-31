@@ -2,21 +2,17 @@ package com.maxpoliakov.skillapp.ui.settings
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.android.billingclient.api.BillingFlowParams
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.billing.BillingRepository
 import com.maxpoliakov.skillapp.model.Theme
-import com.maxpoliakov.skillapp.util.subscriptions.showSubscriptionPrompt
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,7 +33,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         backupsPref.setOnPreferenceClickListener {
             val controller = findNavController()
-            val destination = if (billingRepository.isSubscribed) R.id.backup_fragment_dest else R.id.premium_fragment_dest
+
+            val destination =
+                if (billingRepository.isSubscribed.value) R.id.backup_fragment_dest
+                else R.id.premium_fragment_dest
+
             controller.navigateAnimated(destination)
             true
         }

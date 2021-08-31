@@ -45,9 +45,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val premiumPref = findPreference<Preference>("premium")!!
 
         premiumPref.setOnPreferenceClickListener {
-            lifecycleScope.launch {
-                billingRepository.showSubscriptionPrompt(requireActivity())
-            }
+            findNavController().navigateAnimated(R.id.premium_fragment_dest)
             true
         }
     }

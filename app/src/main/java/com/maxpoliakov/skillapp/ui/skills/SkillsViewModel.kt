@@ -29,7 +29,7 @@ class SkillsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val skillsAndGroups = getSkills.getSkillsAndGroups()
-    val isSubscribed get() = billingRepository.isSubscribed.value
+    val isSubscribed get() = billingRepository.isSubscribed
 
     val isEmpty = skillsAndGroups.map { it.skills.isEmpty() && it.groups.isEmpty() }.asLiveData()
 

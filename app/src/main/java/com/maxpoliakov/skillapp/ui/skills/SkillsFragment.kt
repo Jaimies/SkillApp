@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
@@ -179,12 +180,7 @@ class SkillsFragment : Fragment() {
         }
     }
 
-    private val itemTouchHelper by lazy {
-        if (viewModel.isSubscribed)
-            createReorderAndGroupItemTouchHelper(itemTouchHelperCallback)
-        else
-            createReorderItemTouchHelper(itemTouchHelperCallback)
-    }
+    private var itemTouchHelper: ItemTouchHelper? = null
 
     private lateinit var binding: SkillsFragBinding
 
@@ -217,7 +213,16 @@ class SkillsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.setupAdapter(listAdapter)
         binding.recyclerView.addItemDecoration(CardViewDecoration())
-        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+
+        lifecycleScope.launch {
+            viewModel.isSubscribed.collect { isSubscribed ->
+                itemTouchHelper?.attachToRecyclerView(null)
+                itemTouchHelper = getItemTouchHelper(isSubscribed).apply {
+                    attachToRecyclerView(binding.recyclerView)
+                }
+            }
+        }
+
         lifecycleScope.launch {
             viewModel.skillsAndGroups.collect {
                 // Don't update within 0.5sec after the drag and drop has finished, as those updates cause awful transitions
@@ -245,6 +250,13 @@ class SkillsFragment : Fragment() {
         }
     }
 
+    private fun getItemTouchHelper(isSubscribed: Boolean): ItemTouchHelper {
+        return if (isSubscribed)
+            createReorderAndGroupItemTouchHelper(itemTouchHelperCallback)
+        else
+            createReorderItemTouchHelper(itemTouchHelperCallback)
+    }
+
     private fun setStopwatchActive(isActive: Boolean) {
         if (isActive) showStopwatch()
         else hideStopwatch()
@@ -258,6 +270,6 @@ class SkillsFragment : Fragment() {
     private fun hideStopwatch() = listAdapter.hideStopwatch()
 
     private fun startDrag(viewHolder: RecyclerView.ViewHolder) {
-        itemTouchHelper.startDrag(viewHolder)
+        itemTouchHelper?.startDrag(viewHolder)
     }
 }

@@ -9,12 +9,14 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.SkillsAndGroups
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +30,16 @@ class SkillsViewModel @Inject constructor(
     private val billingRepository: BillingRepository,
 ) : ViewModel() {
 
-    val skillsAndGroups = getSkills.getSkillsAndGroups()
+    val skillsAndGroups = isSubscribed.flatMapLatest { isSubscribed ->
+        if (isSubscribed)
+            getSkills.getSkillsAndGroups()
+        else
+            getSkills.getSkills()
+                .map { skills ->
+                    SkillsAndGroups(skills.map { skill -> skill.copy(groupId = -1) }, listOf())
+                }
+    }
+
     val isSubscribed get() = billingRepository.isSubscribed
 
     val isEmpty = skillsAndGroups.map { it.skills.isEmpty() && it.groups.isEmpty() }.asLiveData()

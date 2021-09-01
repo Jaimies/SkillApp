@@ -181,7 +181,7 @@ class SkillsFragment : Fragment() {
 
     private val itemTouchHelper by lazy {
         if (viewModel.isSubscribed)
-            createReorderAndGroupItemTouchHelper(requireContext(), itemTouchHelperCallback)
+            createReorderAndGroupItemTouchHelper(itemTouchHelperCallback)
         else
             createReorderItemTouchHelper(itemTouchHelperCallback)
     }

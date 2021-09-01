@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.util.ui
 
-import android.content.Context
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.DOWN
@@ -31,11 +30,7 @@ sealed class Change {
 
 private data class Coordinates(val top: Float, val bottom: Float)
 
-fun createReorderAndGroupItemTouchHelper(
-    context: Context,
-    callback: ItemTouchHelperCallback
-): ItemTouchHelper {
-
+fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): ItemTouchHelper {
     val simpleItemTouchCallback = object : SimpleCallback(UP or DOWN, 0) {
         private var currentCoordinates: Coordinates? = null
         private var dropCoordinates: Coordinates? = null
@@ -191,6 +186,8 @@ fun createReorderAndGroupItemTouchHelper(
             dropCoordinates: Coordinates,
             closestViewHolder: RecyclerView.ViewHolder
         ): Boolean {
+            val context = closestViewHolder.itemView.context
+
             return dropCoordinates.top > closestViewHolder.itemView.top - 55.dp.toPx(context)
                     && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 55.dp.toPx(context)
         }

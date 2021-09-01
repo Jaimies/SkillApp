@@ -31,7 +31,7 @@ sealed class Change {
 
 private data class Coordinates(val top: Float, val bottom: Float)
 
-fun createDraggingItemTouchHelper(
+fun createReorderAndGroupItemTouchHelper(
     context: Context,
     callback: ItemTouchHelperCallback
 ): ItemTouchHelper {
@@ -207,6 +207,34 @@ fun createDraggingItemTouchHelper(
             }
 
             return null
+        }
+    }
+
+    return ItemTouchHelper(simpleItemTouchCallback)
+}
+
+fun createReorderItemTouchHelper(callback: ItemTouchHelperCallback): ItemTouchHelper {
+    val simpleItemTouchCallback = object : SimpleCallback(UP or DOWN, 0) {
+        override fun isLongPressDragEnabled() = false
+
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+
+            val from = viewHolder.absoluteAdapterPosition
+            val to = target.absoluteAdapterPosition
+            callback.onMove(from, to)
+
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+            callback.onDropped(null)
         }
     }
 

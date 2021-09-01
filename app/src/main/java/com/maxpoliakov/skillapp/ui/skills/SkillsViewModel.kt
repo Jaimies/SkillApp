@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.skills
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.billing.BillingRepository
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
@@ -23,10 +24,12 @@ class SkillsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
     private val manageGroup: AddOrRemoveSkillToGroupUseCase,
     private val updateOrder: UpdateOrderUseCase,
-    private val stopwatchUtil: StopwatchUtil
+    private val stopwatchUtil: StopwatchUtil,
+    private val billingRepository: BillingRepository,
 ) : ViewModel() {
 
     val skillsAndGroups = getSkills.getSkillsAndGroups()
+    val isSubscribed get() = billingRepository.isSubscribed.value
 
     val isEmpty = skillsAndGroups.map { it.skills.isEmpty() && it.groups.isEmpty() }.asLiveData()
 

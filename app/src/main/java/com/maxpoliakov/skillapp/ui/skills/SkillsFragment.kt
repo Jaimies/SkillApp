@@ -20,7 +20,8 @@ import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
-import com.maxpoliakov.skillapp.util.ui.createDraggingItemTouchHelper
+import com.maxpoliakov.skillapp.util.ui.createReorderAndGroupItemTouchHelper
+import com.maxpoliakov.skillapp.util.ui.createReorderItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.findViewHolder
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
@@ -179,7 +180,10 @@ class SkillsFragment : Fragment() {
     }
 
     private val itemTouchHelper by lazy {
-        createDraggingItemTouchHelper(requireContext(), itemTouchHelperCallback)
+        if (viewModel.isSubscribed)
+            createReorderAndGroupItemTouchHelper(requireContext(), itemTouchHelperCallback)
+        else
+            createReorderItemTouchHelper(itemTouchHelperCallback)
     }
 
     private lateinit var binding: SkillsFragBinding

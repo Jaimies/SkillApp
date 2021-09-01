@@ -23,7 +23,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class BillingRepositoryImpl @Inject constructor(
-    override val billingClient: BillingClient,
+    private val billingClient: BillingClient,
     private val purchaseUpdateHelper: PurchaseUpdateHelper,
     private val ioScope: CoroutineScope,
 ) : BillingRepository {

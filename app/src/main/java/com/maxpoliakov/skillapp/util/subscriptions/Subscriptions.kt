@@ -1,11 +1,12 @@
 package com.maxpoliakov.skillapp.util.subscriptions
 
 import android.app.Activity
+import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
 import com.maxpoliakov.skillapp.billing.BillingRepository
 
-suspend fun BillingRepository.showSubscriptionPrompt(activity: Activity) {
-    val skuDetails = getSkuDetails()
+suspend fun BillingClient.showSubscriptionPrompt(billingRepository: BillingRepository, activity: Activity) {
+    val skuDetails = billingRepository.getSkuDetails()
 
     if (skuDetails.isEmpty()) return
 
@@ -13,5 +14,5 @@ suspend fun BillingRepository.showSubscriptionPrompt(activity: Activity) {
         .setSkuDetails(skuDetails[0])
         .build()
 
-    billingClient.launchBillingFlow(activity, flowParams)
+    launchBillingFlow(activity, flowParams)
 }

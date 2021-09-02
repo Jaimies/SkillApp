@@ -6,12 +6,10 @@ import com.android.billingclient.api.BillingFlowParams
 import com.maxpoliakov.skillapp.billing.BillingRepository
 
 suspend fun BillingClient.showSubscriptionPrompt(billingRepository: BillingRepository, activity: Activity) {
-    val skuDetails = billingRepository.getSkuDetails()
-
-    if (skuDetails.isEmpty()) return
+    val skuDetails = billingRepository.getSubscriptionSkuDetails() ?: return
 
     val flowParams = BillingFlowParams.newBuilder()
-        .setSkuDetails(skuDetails[0])
+        .setSkuDetails(skuDetails)
         .build()
 
     launchBillingFlow(activity, flowParams)

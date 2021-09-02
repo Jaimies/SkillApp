@@ -88,13 +88,13 @@ class BillingRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSkuDetails(): List<SkuDetails> = withContext(Dispatchers.IO) {
+    override suspend fun getSubscriptionSkuDetails(): SkuDetails? = withContext(Dispatchers.IO) {
         val skuList = listOf("premium_subscription")
         val params = SkuDetailsParams.newBuilder()
         params.setSkusList(skuList).setType(BillingClient.SkuType.SUBS)
 
         val skuDetailsResult = billingClient.querySkuDetails(params.build())
-        skuDetailsResult.skuDetailsList ?: listOf()
+        skuDetailsResult.skuDetailsList?.takeIf { it.isNotEmpty() }?.let { it[0] }
     }
 
     private suspend fun awaitPlayServicesReady() {

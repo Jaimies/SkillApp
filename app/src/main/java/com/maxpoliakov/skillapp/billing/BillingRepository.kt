@@ -7,5 +7,5 @@ interface BillingRepository {
     val isSubscribed: StateFlow<Boolean>
 
     suspend fun connect()
-    suspend fun getSkuDetails(): List<SkuDetails>
+    suspend fun getSubscriptionSkuDetails(): SkuDetails?
 }

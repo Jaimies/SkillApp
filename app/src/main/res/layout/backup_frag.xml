@@ -19,23 +19,17 @@
             android:orientation="vertical">
 
             <Button
+                style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="30dp"
-                android:backgroundTint="@color/blue_light"
                 android:enabled="@{!viewModel.backupCreating}"
-                android:letterSpacing="-0.01"
                 android:onClick="@{() -> viewModel.createBackup()}"
-                android:paddingVertical="12dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="24dp"
                 android:text="@string/backup_to_google_drive"
-                android:textAllCaps="false"
-                android:textSize="15sp"
-                android:textStyle="normal"
-                app:cornerRadius="100dp"
                 app:icon="@drawable/ic_drive"
                 app:visible="@{viewModel.currentUser != null}" />
 

@@ -69,4 +69,5 @@
     <string name="account">Account</string>
     <string name="backup_successful">Successfully uploaded backup to Google Drive</string>
     <string name="backup_restore_successful">Successfully restored data from backup</string>
+    <string name="upgrade_to_premium">Upgrade for %s / month</string>
 </resources>

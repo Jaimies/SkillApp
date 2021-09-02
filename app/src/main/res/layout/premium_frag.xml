@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -21,10 +22,13 @@
             android:text="@{viewModel.isSubscribed ? `You laready have premium` : `Buy premium pls`}" />
 
         <Button
+            style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
-            android:text="Activate premium"
-            app:visible="@{!viewModel.isSubscribed}" />
+            android:paddingHorizontal="30dp"
+            android:text="@{@string/upgrade_to_premium(viewModel.skuDetails.price)}"
+            app:visible="@{!viewModel.isSubscribed}"
+            tools:text="Upgrade for $1/month" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

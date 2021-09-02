@@ -37,6 +37,12 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="Widget.SkillApp.RoundButton.CompletelyRounded">
+        <item name="backgroundTint">@color/blue_light</item>
+        <item name="android:textSize">15sp</item>
+        <item name="cornerRadius">200dp</item>
+    </style>
+
     <style name="Widget.SkillApp.RoundButton.Secondary">
         <item name="backgroundTint">?attr/colorButtonSecondary</item>
         <item name="android:textColor">?attr/textColorButtonSecondary</item>

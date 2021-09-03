@@ -16,6 +16,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -95,6 +98,14 @@ class BillingRepositoryImpl @Inject constructor(
 
         val skuDetailsResult = billingClient.querySkuDetails(params.build())
         skuDetailsResult.skuDetailsList?.takeIf { it.isNotEmpty() }?.let { it[0] }
+    }
+
+    override suspend fun getSubscriptionExpirationTime() = withContext(Dispatchers.IO) {
+        val purchasesResult = billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS)
+        val purchases = purchasesResult.purchasesList
+        val purchase = purchases.firstOrNull { it.skus.contains("premium_subscription") } ?: return@withContext null
+        val instant = Instant.ofEpochMilli(purchase.purchaseTime)
+        instant?.let { LocalDateTime.ofInstant(instant, ZoneId.systemDefault()) }
     }
 
     private suspend fun awaitPlayServicesReady() {

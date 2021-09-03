@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.billing.BillingRepository
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,11 +24,25 @@ class PremiumViewModel @Inject constructor(
     private val _skuDetails = MutableLiveData<SkuDetails?>()
     val skuDetails: LiveData<SkuDetails?> get() = _skuDetails
 
+    private val _subscriptionExpiryTime = MutableLiveData<String>()
+    val subscriptionExpiryTime: LiveData<String> get() = _subscriptionExpiryTime
+
     init {
         viewModelScope.launch {
             _skuDetails.value = billingRepository.getSubscriptionSkuDetails()
         }
+
+        viewModelScope.launch {
+            val date = billingRepository.getSubscriptionExpirationTime()
+            _subscriptionExpiryTime.value = date
+                ?.plusMonths(1)
+                ?.format(subscriptionDateFormatter)
+        }
     }
 
     fun showSubscriptionPrompt() = _showSubscriptionPrompt.call()
+
+    companion object {
+        private val subscriptionDateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
+    }
 }

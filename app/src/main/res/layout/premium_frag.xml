@@ -10,25 +10,48 @@
             type="com.maxpoliakov.skillapp.ui.premium.PremiumViewModel" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.isSubscribed ? `You laready have premium` : `Buy premium pls`}" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:visible="@{!viewModel.isSubscribed}">
 
-        <Button
-            style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pls buy premium" />
+
+            <Button
+                style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
+                android:paddingHorizontal="30dp"
+                android:text="@{@string/upgrade_to_premium(viewModel.skuDetails.price)}"
+                tools:text="Upgrade for $1/month" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
-            android:paddingHorizontal="30dp"
-            android:text="@{@string/upgrade_to_premium(viewModel.skuDetails.price)}"
-            app:visible="@{!viewModel.isSubscribed}"
-            tools:text="Upgrade for $1/month" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:visible="@{viewModel.isSubscribed}">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{@string/subscription_expiry_date(viewModel.subscriptionExpiryTime)}" />
+        </LinearLayout>
+    </LinearLayout>
 </layout>

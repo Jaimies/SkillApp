@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.BillingClient
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.billing.BillingRepository
+import com.maxpoliakov.skillapp.billing.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import com.maxpoliakov.skillapp.databinding.PremiumFragBinding
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.subscriptions.showSubscriptionPrompt
@@ -44,7 +45,7 @@ class PremiumFragment : Fragment() {
         }
 
         observe(viewModel.goToManageSubscriptions) {
-            val uri = getString(R.string.subscriptions_uri, "premium_subscription", requireContext().packageName)
+            val uri = getString(R.string.subscriptions_uri, SUBSCRIPTION_SKU_NAME, requireContext().packageName)
                 .let { uri -> Uri.parse(uri) }
 
             startActivity(Intent(Intent.ACTION_VIEW, uri))

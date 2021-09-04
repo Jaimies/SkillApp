@@ -10,4 +10,8 @@ interface BillingRepository {
     suspend fun connect()
     suspend fun getSubscriptionSkuDetails(): SkuDetails?
     suspend fun getSubscriptionExpirationTime(): LocalDateTime?
+
+    companion object {
+        const val SUBSCRIPTION_SKU_NAME = "premium_subscription"
+    }
 }

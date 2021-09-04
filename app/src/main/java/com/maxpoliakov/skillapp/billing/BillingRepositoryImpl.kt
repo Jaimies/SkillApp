@@ -9,6 +9,7 @@ import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.queryPurchasesAsync
 import com.android.billingclient.api.querySkuDetails
+import com.maxpoliakov.skillapp.billing.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -48,7 +49,7 @@ class BillingRepositoryImpl @Inject constructor(
     }
 
     private fun isSubscribed(purchases: List<Purchase>): Boolean {
-        return purchases.any { purchase -> purchase.skus.contains("premium_subscription") }
+        return purchases.any { purchase -> purchase.skus.contains(SUBSCRIPTION_SKU_NAME) }
     }
 
     override suspend fun connect() = coroutineScope {
@@ -92,7 +93,7 @@ class BillingRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSubscriptionSkuDetails(): SkuDetails? = withContext(Dispatchers.IO) {
-        val skuList = listOf("premium_subscription")
+        val skuList = listOf(SUBSCRIPTION_SKU_NAME)
         val params = SkuDetailsParams.newBuilder()
         params.setSkusList(skuList).setType(BillingClient.SkuType.SUBS)
 
@@ -103,7 +104,10 @@ class BillingRepositoryImpl @Inject constructor(
     override suspend fun getSubscriptionExpirationTime() = withContext(Dispatchers.IO) {
         val purchasesResult = billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS)
         val purchases = purchasesResult.purchasesList
-        val purchase = purchases.firstOrNull { it.skus.contains("premium_subscription") } ?: return@withContext null
+
+        val purchase = purchases.firstOrNull { it.skus.contains(SUBSCRIPTION_SKU_NAME) }
+            ?: return@withContext null
+
         val instant = Instant.ofEpochMilli(purchase.purchaseTime)
         instant?.let { LocalDateTime.ofInstant(instant, ZoneId.systemDefault()) }
     }

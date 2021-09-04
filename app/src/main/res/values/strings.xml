@@ -71,4 +71,5 @@
     <string name="backup_restore_successful">Successfully restored data from backup</string>
     <string name="upgrade_to_premium">Upgrade for %s / month</string>
     <string name="subscription_expiry_date">Your subscription is valid until %s</string>
+    <string name="subscriptions_uri">https://play.google.com/store/account/subscriptions?sku=%1$s&amp;package=%2$s</string>
 </resources>

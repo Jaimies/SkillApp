@@ -49,9 +49,17 @@
             app:visible="@{viewModel.isSubscribed}">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{@string/subscription_expiry_date(viewModel.subscriptionExpiryTime)}" />
+
+            <Button
+                style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.goToManageSubscriptions()}"
+                android:paddingHorizontal="30dp"
+                android:text="Manage subscription" />
         </LinearLayout>
     </LinearLayout>
 </layout>

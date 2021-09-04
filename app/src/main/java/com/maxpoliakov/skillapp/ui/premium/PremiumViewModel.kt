@@ -22,8 +22,12 @@ class PremiumViewModel @Inject constructor(
     val showSubscriptionPrompt: LiveData<Nothing> get() = _showSubscriptionPrompt
 
     val isSubscribed = billingRepository.isSubscribed.asLiveData()
+
     private val _skuDetails = MutableLiveData<SkuDetails?>()
     val skuDetails: LiveData<SkuDetails?> get() = _skuDetails
+
+    private val _goToManageSubscriptions = SingleLiveEvent<Nothing>()
+    val goToManageSubscriptions: LiveData<Nothing> get() = _goToManageSubscriptions
 
     val subscriptionExpiryTime = billingRepository.isSubscribed.map { isSubscribed ->
         if (!isSubscribed) return@map ""
@@ -40,6 +44,7 @@ class PremiumViewModel @Inject constructor(
     }
 
     fun showSubscriptionPrompt() = _showSubscriptionPrompt.call()
+    fun goToManageSubscriptions() = _goToManageSubscriptions.call()
 
     companion object {
         private val subscriptionDateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")

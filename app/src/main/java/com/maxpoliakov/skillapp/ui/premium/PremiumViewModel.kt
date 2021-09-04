@@ -9,13 +9,14 @@ import com.android.billingclient.api.SkuDetails
 import com.maxpoliakov.skillapp.billing.BillingRepository
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
 class PremiumViewModel @Inject constructor(
-    billingRepository: BillingRepository
+    private val billingRepository: BillingRepository
 ) : ViewModel() {
     private val _showSubscriptionPrompt = SingleLiveEvent<Nothing>()
     val showSubscriptionPrompt: LiveData<Nothing> get() = _showSubscriptionPrompt
@@ -24,19 +25,17 @@ class PremiumViewModel @Inject constructor(
     private val _skuDetails = MutableLiveData<SkuDetails?>()
     val skuDetails: LiveData<SkuDetails?> get() = _skuDetails
 
-    private val _subscriptionExpiryTime = MutableLiveData<String>()
-    val subscriptionExpiryTime: LiveData<String> get() = _subscriptionExpiryTime
+    val subscriptionExpiryTime = billingRepository.isSubscribed.map { isSubscribed ->
+        if (!isSubscribed) return@map ""
+
+        billingRepository.getSubscriptionExpirationTime()
+            ?.plusMonths(1)
+            ?.format(subscriptionDateFormatter)
+    }.asLiveData()
 
     init {
         viewModelScope.launch {
             _skuDetails.value = billingRepository.getSubscriptionSkuDetails()
-        }
-
-        viewModelScope.launch {
-            val date = billingRepository.getSubscriptionExpirationTime()
-            _subscriptionExpiryTime.value = date
-                ?.plusMonths(1)
-                ?.format(subscriptionDateFormatter)
         }
     }
 

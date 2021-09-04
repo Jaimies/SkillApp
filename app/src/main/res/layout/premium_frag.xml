@@ -46,9 +46,10 @@
                 style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
                 android:paddingHorizontal="30dp"
-                android:paddingVertical="18dp"
+                android:paddingVertical="15dp"
                 android:text="@{@string/upgrade_to_premium(viewModel.skuDetails.price)}"
                 tools:text="Upgrade for $1/month" />
         </LinearLayout>
@@ -65,8 +66,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/subscription_expiry_date(viewModel.subscriptionExpiryTime)}"
                 android:layout_marginBottom="16dp"
+                android:text="@{@string/subscription_expiry_date(viewModel.subscriptionExpiryTime)}"
                 tools:text="Your subscription is valid until Oct. 04, 2021" />
 
             <Button

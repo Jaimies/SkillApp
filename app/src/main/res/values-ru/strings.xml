@@ -65,4 +65,15 @@
     <string name="account">Учетная запись</string>
     <string name="backup_successful">Резервная копия успешно загружена на Google Диск</string>
     <string name="backup_restore_successful">Данные успешно восстановлены из резервной копии</string>
+    <string name="upgrade_to_premium">Оформите подписку за %s в месяц</string>
+    <string name="subscription_expiry_date">Дата следующего платежа: %s</string>
+    <string name="you_are_subscribed">Ваша подписка активна</string>
+    <string name="manage_subscription">Управление подпиской</string>
+    <string name="backups_title">Резервное копирование</string>
+    <string name="backups_description">Безопасное резервное копирование ваших данных на Google Диск</string>
+    <string name="grouping_title">Групируйте навыки</string>
+    <string name="grouping_text">Огранизовывайте связанные навыки в группы и просматривайте их общую статистику</string>
+    <string name="support_developer_title">Поддержите разработчика</string>
+    <string name="support_developer_text">Ваша поддержка помогает сделать приложение лучше</string>
+    <string name="subscriptions_uri">https://play.google.com/store/account/subscriptions?sku=%1$s&amp;package=%2$s</string>
 </resources>

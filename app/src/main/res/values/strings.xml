@@ -71,5 +71,13 @@
     <string name="backup_restore_successful">Successfully restored data from backup</string>
     <string name="upgrade_to_premium">Upgrade for %s / month</string>
     <string name="subscription_expiry_date">Next payment date: %s</string>
+    <string name="you_are_subscribed">You are subscribed</string>
+    <string name="manage_subscription">Manage subscription</string>
+    <string name="backups_title">Backups</string>
+    <string name="backups_description">Stay focused as we back up your data for you</string>
+    <string name="grouping_title">Skill grouping</string>
+    <string name="grouping_text">Group related skills and view their total statistics</string>
+    <string name="support_developer_title">Support the developer</string>
+    <string name="support_developer_text">Your support helps make the app better</string>
     <string name="subscriptions_uri">https://play.google.com/store/account/subscriptions?sku=%1$s&amp;package=%2$s</string>
 </resources>

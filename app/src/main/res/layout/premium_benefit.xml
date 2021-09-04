@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:cardCornerRadius="12dp"
         app:contentPaddingBottom="30dp"
         app:contentPaddingLeft="24dp"
@@ -48,7 +48,7 @@
                     android:text="@{title}"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textSize="20sp"
-                    tools:text="Support the app" />
+                    tools:text="@string/support_developer_title" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
                     android:text="@{text}"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textSize="14sp"
-                    tools:text="Your support helps make the app better" />
+                    tools:text="@string/support_developer_text" />
             </LinearLayout>
 
             <View

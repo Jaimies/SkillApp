@@ -27,20 +27,20 @@
             <include
                 layout="@layout/premium_benefit"
                 app:backgroundColor="@{@color/yellow_1}"
-                app:text="@{`Stay focused as we back up your data for you`}"
-                app:title="@{`Backups`}" />
+                app:text="@{@string/backups_description}"
+                app:title="@{@string/backups_title}" />
 
             <include
                 layout="@layout/premium_benefit"
                 app:backgroundColor="@{@color/yellow_2}"
-                app:text="@{`Group related skills and view their total statistics`}"
-                app:title="@{`Skill grouping`}" />
+                app:text="@{@string/grouping_text}"
+                app:title="@{@string/grouping_title}" />
 
             <include
                 layout="@layout/premium_benefit"
                 app:backgroundColor="@{@color/yellow_3}"
-                app:text="@{`Your support helps make the app better`}"
-                app:title="@{`Support the developer`}" />
+                app:text="@{@string/support_developer_text}"
+                app:title="@{@string/support_developer_title}" />
 
             <Button
                 style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
@@ -68,9 +68,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="You are subscribed"
-                android:textColor="?android:attr/textColorPrimary"
+                android:text="@string/you_are_subscribed"
                 android:textAlignment="center"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="22sp" />
 
             <TextView
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> viewModel.goToManageSubscriptions()}"
                 android:paddingHorizontal="30dp"
-                android:text="Manage subscription" />
+                android:text="@string/manage_subscription" />
         </LinearLayout>
     </FrameLayout>
 </layout>

@@ -55,7 +55,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -64,10 +64,21 @@
             tools:visibility="gone">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="You are subscribed"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textAlignment="center"
+                android:textSize="22sp" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="@{@string/subscription_expiry_date(viewModel.subscriptionExpiryTime)}"
+                android:textAlignment="center"
                 tools:text="Your subscription is valid until Oct. 04, 2021" />
 
             <Button

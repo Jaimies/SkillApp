@@ -16,6 +16,7 @@ import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -42,7 +43,11 @@ class SkillsViewModel @Inject constructor(
 
     val isSubscribed get() = billingRepository.isSubscribed
 
-    val isEmpty = skillsAndGroups.map { it.skills.isEmpty() && it.groups.isEmpty() }.asLiveData()
+    val isEmpty = skillsAndGroups.map {
+        val isEmpty = it.skills.isEmpty() && it.groups.isEmpty()
+        if (isEmpty) delay(50)
+        isEmpty
+    }.asLiveData()
 
     val isActive = stopwatchUtil.state.map { it is Running }.asLiveData()
 

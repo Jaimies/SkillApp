@@ -66,6 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{@string/subscription_expiry_date(viewModel.subscriptionExpiryTime)}"
+                android:layout_marginBottom="16dp"
                 tools:text="Your subscription is valid until Oct. 04, 2021" />
 
             <Button

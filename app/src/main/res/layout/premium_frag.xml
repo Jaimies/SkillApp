@@ -10,24 +10,37 @@
             type="com.maxpoliakov.skillapp.ui.premium.PremiumViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
             app:visible="@{!viewModel.isSubscribed}">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pls buy premium" />
+            <include
+                layout="@layout/premium_benefit"
+                app:backgroundColor="@{@color/yellow_1}"
+                app:text="@{`Stay focused as we back up your data for you`}"
+                app:title="@{`Backups`}" />
+
+            <include
+                layout="@layout/premium_benefit"
+                app:backgroundColor="@{@color/yellow_2}"
+                app:text="@{`Group related skills and view their total statistics`}"
+                app:title="@{`Skill grouping`}" />
+
+            <include
+                layout="@layout/premium_benefit"
+                app:backgroundColor="@{@color/yellow_3}"
+                app:text="@{`Your support helps make the app better`}"
+                app:title="@{`Support the developer`}" />
 
             <Button
                 style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
@@ -35,9 +48,9 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
                 android:paddingHorizontal="30dp"
+                android:paddingVertical="18dp"
                 android:text="@{@string/upgrade_to_premium(viewModel.skuDetails.price)}"
                 tools:text="Upgrade for $1/month" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -46,12 +59,14 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
-            app:visible="@{viewModel.isSubscribed}">
+            app:visible="@{viewModel.isSubscribed}"
+            tools:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/subscription_expiry_date(viewModel.subscriptionExpiryTime)}" />
+                android:text="@{@string/subscription_expiry_date(viewModel.subscriptionExpiryTime)}"
+                tools:text="Your subscription is valid until Oct. 04, 2021" />
 
             <Button
                 style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
@@ -61,5 +76,5 @@
                 android:paddingHorizontal="30dp"
                 android:text="Manage subscription" />
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 </layout>

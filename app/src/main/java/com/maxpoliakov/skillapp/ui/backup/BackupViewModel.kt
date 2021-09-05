@@ -16,6 +16,7 @@ import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.time.dateTimeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -69,7 +70,10 @@ class BackupViewModel @Inject constructor(
 
     fun notifySignedIn() {
         _currentUser.value = authRepository.currentUser
-        getLastBackupDate()
+        viewModelScope.launch {
+            delay(1)
+            getLastBackupDate()
+        }
     }
 
     fun signInOrSignOut() {

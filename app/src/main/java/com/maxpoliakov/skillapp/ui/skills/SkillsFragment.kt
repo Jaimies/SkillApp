@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenResumed
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -188,11 +189,7 @@ class SkillsFragment : Fragment() {
     lateinit var listAdapterFactory: SkillListAdapter.Factory
 
     private val listAdapter by lazy {
-        listAdapterFactory.create(this::startDrag).apply {
-            setOnItemAddedListener {
-                binding.recyclerView.smoothScrollToPosition(0)
-            }
-        }
+        listAdapterFactory.create(this::startDrag)
     }
     private val viewModel: SkillsViewModel by viewModels()
 
@@ -238,6 +235,12 @@ class SkillsFragment : Fragment() {
                             else -> throw IllegalStateException("Orderables cannot be anything other than Skill or SkillGroup objects")
                         }
                     }
+
+                if (listAdapter.currentList.run { isNotEmpty() && list.size > this.size }) {
+                    whenResumed {
+                        binding.recyclerView.smoothScrollToPosition(0)
+                    }
+                }
 
                 listAdapter.submitList(list)
             }

@@ -13,10 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
+import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,11 +66,9 @@ class BackupFragment : Fragment() {
             Snackbar.make(binding.root, R.string.backup_restore_successful, Snackbar.LENGTH_SHORT).show()
         }
         observe(viewModel.showLogoutDialog) {
-            MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_SkillApp_AlertDialog)
-                .setMessage(R.string.confirm_logout)
-                .setPositiveButton(R.string.logout) { _, _ -> viewModel.signOut() }
-                .setNegativeButton(R.string.cancel, null)
-                .show()
+            requireContext().showDialog(R.string.confirm_logout, R.string.logout) {
+                viewModel.signOut()
+            }
         }
     }
 

@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
+import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.time.dateTimeFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -37,11 +37,9 @@ class BackupViewHolder(
     fun requestRestoreBackup() {
         if (restoreBackupUseCase.state.value == RestorationState.Active) return
 
-        MaterialAlertDialogBuilder(itemView.context, R.style.ThemeOverlay_SkillApp_AlertDialog)
-            .setMessage(R.string.confirm_restore_backup)
-            .setPositiveButton(R.string.restore) { _, _ -> restoreBackup() }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
+        itemView.context.showDialog(R.string.confirm_restore_backup, R.string.restore) {
+            restoreBackup()
+        }
     }
 
     private fun restoreBackup() = ioScope.launch {

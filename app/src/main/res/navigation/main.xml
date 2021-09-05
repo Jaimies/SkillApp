@@ -127,6 +127,6 @@
     <fragment
         android:id="@+id/premium_fragment_dest"
         android:name="com.maxpoliakov.skillapp.ui.premium.PremiumFragment"
-        android:label="SkillApp Premium"
+        android:label="@string/skillapp_premium"
         tools:layout="@layout/premium_frag" />
 </navigation>

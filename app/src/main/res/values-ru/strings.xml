@@ -69,6 +69,7 @@
     <string name="subscription_expiry_date">Дата следующего платежа: %s</string>
     <string name="you_are_subscribed">Ваша подписка активна</string>
     <string name="manage_subscription">Управление подпиской</string>
+    <string name="skillapp_premium">Skillapp Премиум</string>
     <string name="backups_title">Резервное копирование</string>
     <string name="backups_description">Безопасное резервное копирование ваших данных на Google Диск</string>
     <string name="grouping_title">Групируйте навыки</string>

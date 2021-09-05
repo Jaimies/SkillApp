@@ -73,6 +73,7 @@
     <string name="subscription_expiry_date">Next payment date: %s</string>
     <string name="you_are_subscribed">You are subscribed</string>
     <string name="manage_subscription">Manage subscription</string>
+    <string name="skillapp_premium">SkillApp Premium</string>
     <string name="backups_title">Backups</string>
     <string name="backups_description">Stay focused as we back up your data for you</string>
     <string name="grouping_title">Skill grouping</string>

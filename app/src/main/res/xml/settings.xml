@@ -22,7 +22,7 @@
         <Preference
             android:icon="@drawable/ic_star"
             android:key="premium"
-            android:title="SkillApp Premium" />
+            android:title="@string/skillapp_premium" />
     </PreferenceCategory>
 
     <PreferenceCategory

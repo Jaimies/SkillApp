@@ -17,7 +17,8 @@
         <Preference
             android:icon="@drawable/ic_drive_translucent"
             android:key="backups"
-            android:title="@string/backups" />
+            android:title="@string/backups"
+            android:widgetLayout="@layout/premium_widget" />
 
         <Preference
             android:icon="@drawable/ic_star"

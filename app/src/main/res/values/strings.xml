@@ -81,4 +81,5 @@
     <string name="support_developer_title">Support the developer</string>
     <string name="support_developer_text">Your support helps make the app better</string>
     <string name="subscriptions_uri">https://play.google.com/store/account/subscriptions?sku=%1$s&amp;package=%2$s</string>
+    <string name="premium">Premium</string>
 </resources>

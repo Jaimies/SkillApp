@@ -47,6 +47,9 @@ class BackupViewModel @Inject constructor(
     private val _showBackupRestorationSucceeded = SingleLiveEvent<Nothing>()
     val showBackupRestorationSucceeded: LiveData<Nothing> = _showBackupRestorationSucceeded
 
+    private val _showLogoutDialog = SingleLiveEvent<Nothing>()
+    val showLogoutDialog: LiveData<Nothing> get() = _showLogoutDialog
+
     private val _lastBackupDate = MutableLiveData<Any>(R.string.loading_last_backup)
     val lastBackupDate: LiveData<Any> get() = _lastBackupDate
 
@@ -78,10 +81,10 @@ class BackupViewModel @Inject constructor(
 
     fun signInOrSignOut() {
         if (currentUser.value == null) signIn()
-        else signOut()
+        else _showLogoutDialog.call()
     }
 
-    private fun signOut() {
+    fun signOut() {
         authRepository.signOut()
         _currentUser.value = null
         _lastBackupDate.value = R.string.loading_last_backup

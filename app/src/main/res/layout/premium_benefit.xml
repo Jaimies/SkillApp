@@ -12,10 +12,6 @@
         <variable
             name="text"
             type="String" />
-
-        <variable
-            name="backgroundColor"
-            type="int" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

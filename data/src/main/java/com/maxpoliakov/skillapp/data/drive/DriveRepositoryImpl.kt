@@ -13,9 +13,10 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
+import javax.inject.Provider
 
 class DriveRepositoryImpl @Inject constructor(
-    private val drive: Drive,
+    private val driveProvider: Provider<Drive>,
 ) : DriveRepository {
     override suspend fun uploadBackup(content: String) = withContext(Dispatchers.IO) {
         val file = File()
@@ -24,14 +25,14 @@ class DriveRepositoryImpl @Inject constructor(
 
         val byteArrayContent = ByteArrayContent.fromString("text/plain", content)
 
-        drive.files().create(file, byteArrayContent).execute()
+        driveProvider.get().files().create(file, byteArrayContent).execute()
         Unit
     }
 
     override suspend fun getBackups() = _getBackups(10)
 
     private suspend fun _getBackups(limit: Int) = withContext(Dispatchers.IO) {
-        val theList = drive.files().list()
+        val theList = driveProvider.get().files().list()
             .setPageSize(limit)
             .setOrderBy("createdTime desc")
             .setSpaces("appDataFolder")
@@ -51,7 +52,7 @@ class DriveRepositoryImpl @Inject constructor(
 
     override suspend fun getBackupContents(backup: Backup): String = withContext(Dispatchers.IO) {
         val stream = ByteArrayOutputStream()
-        drive.files().get(backup.id).executeMediaAndDownloadTo(stream)
+        driveProvider.get().files().get(backup.id).executeMediaAndDownloadTo(stream)
         stream.toByteArray().toString(StandardCharsets.UTF_8)
     }
 }

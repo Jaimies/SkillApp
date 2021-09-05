@@ -65,7 +65,7 @@
     <string name="account">Учетная запись</string>
     <string name="backup_successful">Резервная копия успешно загружена на Google Диск</string>
     <string name="backup_restore_successful">Данные успешно восстановлены из резервной копии</string>
-    <string name="upgrade_to_premium">Оформите подписку за %s в месяц</string>
+    <string name="upgrade_to_premium">Подписка на месяц за %s</string>
     <string name="subscription_expiry_date">Дата следующего платежа: %s</string>
     <string name="you_are_subscribed">Ваша подписка активна</string>
     <string name="manage_subscription">Управление подпиской</string>

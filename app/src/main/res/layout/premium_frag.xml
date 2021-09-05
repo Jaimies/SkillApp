@@ -16,40 +16,59 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
             app:visible="@{!viewModel.isSubscribed}">
 
-            <include
-                layout="@layout/premium_benefit"
-                app:text="@{@string/backups_description}"
-                app:title="@{@string/backups_title}" />
-
-            <include
-                layout="@layout/premium_benefit"
-                app:text="@{@string/grouping_text}"
-                app:title="@{@string/grouping_title}" />
-
-            <include
-                layout="@layout/premium_benefit"
-                app:text="@{@string/support_developer_text}"
-                app:title="@{@string/support_developer_title}" />
-
-            <Button
-                style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
-                android:layout_width="wrap_content"
+            <ScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
-                android:paddingHorizontal="30dp"
-                android:paddingVertical="15dp"
-                android:text="@{@string/upgrade_to_premium(viewModel.skuDetails.price)}"
-                tools:text="Upgrade for $1/month" />
-        </LinearLayout>
+                android:clipToPadding="false"
+                android:paddingBottom="110dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        layout="@layout/premium_benefit"
+                        app:text="@{@string/backups_description}"
+                        app:title="@{@string/backups_title}" />
+
+                    <include
+                        layout="@layout/premium_benefit"
+                        app:text="@{@string/grouping_text}"
+                        app:title="@{@string/grouping_title}" />
+
+                    <include
+                        layout="@layout/premium_benefit"
+                        app:text="@{@string/support_developer_text}"
+                        app:title="@{@string/support_developer_title}" />
+                </LinearLayout>
+            </ScrollView>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="bottom"
+                android:background="@color/color_surface_translucent"
+                android:paddingHorizontal="12dp">
+
+                <Button
+                    style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxWidth="4000dp"
+                    android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="15dp"
+                    android:text="@{@string/upgrade_to_premium(viewModel.skuDetails.price)}"
+                    tools:text="Upgrade for $1/month" />
+            </FrameLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

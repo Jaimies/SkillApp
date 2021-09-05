@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui.settings
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -13,6 +14,8 @@ import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,6 +33,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         val backupsPref = findPreference<Preference>("backups")!!
+
+        if (!billingRepository.isSubscribed.value)
+            backupsPref.widgetLayoutResource = R.layout.premium_widget
+
+        lifecycleScope.launch {
+            billingRepository.isSubscribed.collect { isSubscribed ->
+                backupsPref.widgetLayoutResource =
+                    if (isSubscribed) R.layout.empty_widget else R.layout.premium_widget
+            }
+        }
 
         backupsPref.setOnPreferenceClickListener {
             val controller = findNavController()

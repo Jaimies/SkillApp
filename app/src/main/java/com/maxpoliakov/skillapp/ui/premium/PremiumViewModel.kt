@@ -1,16 +1,12 @@
 package com.maxpoliakov.skillapp.ui.premium
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.android.billingclient.api.SkuDetails
 import com.maxpoliakov.skillapp.billing.BillingRepository
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -23,9 +19,6 @@ class PremiumViewModel @Inject constructor(
 
     val isSubscribed = billingRepository.isSubscribed.asLiveData()
 
-    private val _skuDetails = MutableLiveData<SkuDetails?>()
-    val skuDetails: LiveData<SkuDetails?> get() = _skuDetails
-
     private val _goToManageSubscriptions = SingleLiveEvent<Nothing>()
     val goToManageSubscriptions: LiveData<Nothing> get() = _goToManageSubscriptions
 
@@ -37,11 +30,10 @@ class PremiumViewModel @Inject constructor(
             ?.format(subscriptionDateFormatter)
     }.asLiveData()
 
-    init {
-        viewModelScope.launch {
-            _skuDetails.value = billingRepository.getSubscriptionSkuDetails()
-        }
-    }
+    val skuDetails = billingRepository.isSubscribed.map { isSubscribed ->
+        if (isSubscribed) return@map null
+        billingRepository.getSubscriptionSkuDetails()
+    }.asLiveData()
 
     fun showSubscriptionPrompt() = _showSubscriptionPrompt.call()
     fun goToManageSubscriptions() = _goToManageSubscriptions.call()

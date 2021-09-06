@@ -80,4 +80,5 @@
     <string name="subscriptions_uri">https://play.google.com/store/account/subscriptions?sku=%1$s&amp;package=%2$s</string>
     <string name="premium">Премиум</string>
     <string name="confirm_logout">Вы хотите выйти?</string>
+    <string name="price_loading">Загрузка цены…</string>
 </resources>

@@ -65,7 +65,7 @@
                     android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
                     android:paddingHorizontal="30dp"
                     android:paddingVertical="15dp"
-                    android:text="@{@string/upgrade_to_premium(viewModel.skuDetails.price)}"
+                    android:text="@{viewModel.skuDetails != null ? @string/upgrade_to_premium(viewModel.skuDetails.price) : @string/price_loading}"
                     tools:text="Upgrade for $1/month" />
             </FrameLayout>
         </FrameLayout>

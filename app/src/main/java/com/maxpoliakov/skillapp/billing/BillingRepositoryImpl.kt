@@ -4,6 +4,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.Purchase.PurchaseState.PURCHASED
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
@@ -49,7 +50,9 @@ class BillingRepositoryImpl @Inject constructor(
     }
 
     private fun isSubscribed(purchases: List<Purchase>): Boolean {
-        return purchases.any { purchase -> purchase.skus.contains(SUBSCRIPTION_SKU_NAME) }
+        return purchases.any { purchase ->
+            purchase.purchaseState == PURCHASED && purchase.skus.contains(SUBSCRIPTION_SKU_NAME)
+        }
     }
 
     override suspend fun connect() = coroutineScope {
@@ -65,7 +68,6 @@ class BillingRepositoryImpl @Inject constructor(
         connectionState = ConnectionState.Connected
         purchaseUpdateHelper.addListener(PurchasesUpdatedListener { _, purchases ->
             val validPurchases = (purchases ?: return@PurchasesUpdatedListener)
-                .filter { it.purchaseState == Purchase.PurchaseState.PURCHASED }
 
             ioScope.launch {
                 _isSubscribed.emit(isSubscribed(validPurchases))

@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="com.maxpoliakov.skillapp.util.ui.BindingUtil" />
+
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.backup.BackupViewModel" />
@@ -46,7 +48,7 @@
                 android:id="@+id/restore_account"
                 layout="@layout/backup_section"
                 app:onClick="@{() -> viewModel.goToRestore()}"
-                app:subtitle="@{viewModel.lastBackupDate instanceof String ? viewModel.lastBackupDate : context.getString((int)viewModel.lastBackupDate)}"
+                app:subtitle="@{BindingUtil.getOrReturnString(context, viewModel.lastBackupDate)}"
                 app:title="@{@string/restore}"
                 app:visible="@{viewModel.currentUser != null}" />
 

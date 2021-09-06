@@ -71,6 +71,7 @@
     <string name="backup_restore_successful">Successfully restored data from backup</string>
     <string name="upgrade_to_premium">Upgrade for %s / month</string>
     <string name="subscription_expiry_date">Next payment date: %s</string>
+    <string name="subscription_expiry_date_loading">Loading next payment date…</string>
     <string name="you_are_subscribed">You are subscribed</string>
     <string name="manage_subscription">Manage subscription</string>
     <string name="skillapp_premium">SkillApp Premium</string>

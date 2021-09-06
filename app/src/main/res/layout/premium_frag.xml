@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="@{@string/subscription_expiry_date(viewModel.subscriptionExpiryTime)}"
+                android:text="@{viewModel.subscriptionExpiryTime != null ? @string/subscription_expiry_date(viewModel.subscriptionExpiryTime) : @string/subscription_expiry_date_loading}"
                 android:textAlignment="center"
                 tools:text="Your subscription is valid until Oct. 04, 2021" />
 

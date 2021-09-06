@@ -30,7 +30,7 @@ class PremiumViewModel @Inject constructor(
     val goToManageSubscriptions: LiveData<Nothing> get() = _goToManageSubscriptions
 
     val subscriptionExpiryTime = billingRepository.isSubscribed.map { isSubscribed ->
-        if (!isSubscribed) return@map ""
+        if (!isSubscribed) return@map null
 
         billingRepository.getSubscriptionExpirationTime()
             ?.plusMonths(1)

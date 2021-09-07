@@ -10,6 +10,8 @@ import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.util.dialog.showDialog
+import com.maxpoliakov.skillapp.util.dialog.showToast
+import com.maxpoliakov.skillapp.util.network.NetworkUtil
 import com.maxpoliakov.skillapp.util.time.dateTimeFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -19,6 +21,7 @@ class BackupViewHolder(
     binding: BackupListItemBinding,
     private val restoreBackupUseCase: RestoreBackupUseCase,
     private val ioScope: CoroutineScope,
+    private val networkUtil: NetworkUtil,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val _backup = MutableLiveData<Backup>()
@@ -38,7 +41,10 @@ class BackupViewHolder(
         if (restoreBackupUseCase.state.value == RestorationState.Active) return
 
         itemView.context.showDialog(R.string.confirm_restore_backup, R.string.restore) {
-            restoreBackup()
+            if (!networkUtil.isConnected)
+                itemView.context.showToast(R.string.no_internet)
+            else
+                restoreBackup()
         }
     }
 
@@ -50,9 +56,10 @@ class BackupViewHolder(
     class Factory @Inject constructor(
         private val restoreBackupUseCase: RestoreBackupUseCase,
         private val ioScope: CoroutineScope,
+        private val networkUtil: NetworkUtil,
     ) {
         fun create(binding: BackupListItemBinding): BackupViewHolder {
-            return BackupViewHolder(binding, restoreBackupUseCase, ioScope)
+            return BackupViewHolder(binding, restoreBackupUseCase, ioScope, networkUtil)
         }
     }
 }

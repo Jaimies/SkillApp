@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
 import com.maxpoliakov.skillapp.util.dialog.showDialog
+import com.maxpoliakov.skillapp.util.dialog.showToast
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,6 +60,9 @@ class BackupFragment : Fragment() {
         observe(viewModel.goToRestore) {
             findNavController().navigateAnimated(R.id.restore_backup_fragment_dest)
         }
+
+        observe(viewModel.showNoNetwork) { showToast(R.string.no_internet) }
+
         observe(viewModel.showBackupCreationSucceeded) {
             Snackbar.make(binding.root, R.string.backup_successful, Snackbar.LENGTH_SHORT).show()
         }

@@ -81,4 +81,5 @@
     <string name="premium">Премиум</string>
     <string name="confirm_logout">Вы хотите выйти?</string>
     <string name="price_loading">Загрузка цены…</string>
+    <string name="no_internet">Нет подключения к Интернету</string>
 </resources>

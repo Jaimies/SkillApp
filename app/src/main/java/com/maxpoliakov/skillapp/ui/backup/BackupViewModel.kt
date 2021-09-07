@@ -13,6 +13,7 @@ import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.shared.util.collectIgnoringInitialValue
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.util.network.NetworkUtil
 import com.maxpoliakov.skillapp.util.time.dateTimeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +28,7 @@ class BackupViewModel @Inject constructor(
     private val createBackupUseCase: CreateBackupUseCase,
     private val restoreBackupUseCase: RestoreBackupUseCase,
     private val driveRepository: DriveRepository,
+    private val networkUtil: NetworkUtil,
     private val ioScope: CoroutineScope,
 ) : ViewModel() {
     private val _currentUser = MutableLiveData(authRepository.currentUser)
@@ -50,8 +52,11 @@ class BackupViewModel @Inject constructor(
     private val _showLogoutDialog = SingleLiveEvent<Nothing>()
     val showLogoutDialog: LiveData<Nothing> get() = _showLogoutDialog
 
-    private val _lastBackupDate = MutableLiveData<Any>(R.string.loading_last_backup)
-    val lastBackupDate: LiveData<Any> get() = _lastBackupDate
+    private val _showNoNetwork = SingleLiveEvent<Nothing>()
+    val showNoNetwork: LiveData<Nothing> get() = _showNoNetwork
+
+    private val _lastBackupDate = MutableLiveData<Any?>(R.string.loading_last_backup)
+    val lastBackupDate: LiveData<Any?> get() = _lastBackupDate
 
     init {
         viewModelScope.launch {
@@ -61,10 +66,15 @@ class BackupViewModel @Inject constructor(
         }
 
         getLastBackupDate()
+
+        if (!networkUtil.isConnected) _showNoNetwork.call()
     }
 
     private fun getLastBackupDate() = viewModelScope.launch {
-        if (currentUser.value == null) return@launch
+        if (!networkUtil.isConnected || currentUser.value == null) {
+            _lastBackupDate.value = null
+            return@launch
+        }
 
         val backup = driveRepository.getLastBackup()
         if (backup == null) _lastBackupDate.value = R.string.no_backup_found
@@ -95,6 +105,11 @@ class BackupViewModel @Inject constructor(
     }
 
     fun createBackup() = ioScope.launch {
+        if (!networkUtil.isConnected) {
+            _showNoNetwork.postCall()
+            return@launch
+        }
+
         _backupCreating.postValue(true)
         createBackupUseCase.createBackup()
         _backupCreating.postValue(false)
@@ -102,5 +117,10 @@ class BackupViewModel @Inject constructor(
         _showBackupCreationSucceeded.postCall()
     }
 
-    fun goToRestore() = _goToRestore.call()
+    fun goToRestore() {
+        if (networkUtil.isConnected)
+            _goToRestore.call()
+        else
+            _showNoNetwork.call()
+    }
 }

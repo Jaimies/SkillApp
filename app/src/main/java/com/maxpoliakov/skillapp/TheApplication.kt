@@ -10,7 +10,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest.MIN_BACKOFF_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.maxpoliakov.skillapp.billing.BillingRepository
+import com.maxpoliakov.skillapp.data.billing.BillingRepository
 import com.maxpoliakov.skillapp.data.backup.BackupWorker
 import com.maxpoliakov.skillapp.util.ui.setupTheme
 import dagger.hilt.android.HiltAndroidApp

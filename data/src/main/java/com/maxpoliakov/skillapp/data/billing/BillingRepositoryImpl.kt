@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.billing
+package com.maxpoliakov.skillapp.data.billing
 
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -10,7 +10,7 @@ import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.queryPurchasesAsync
 import com.android.billingclient.api.querySkuDetails
-import com.maxpoliakov.skillapp.billing.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
+import com.maxpoliakov.skillapp.data.billing.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope

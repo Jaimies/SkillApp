@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.billing
+package com.maxpoliakov.skillapp.data.billing
 
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.Purchase

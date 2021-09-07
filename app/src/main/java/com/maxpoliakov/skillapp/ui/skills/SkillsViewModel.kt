@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.ui.skills
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.billing.BillingRepository
+import com.maxpoliakov.skillapp.data.billing.BillingRepository
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup

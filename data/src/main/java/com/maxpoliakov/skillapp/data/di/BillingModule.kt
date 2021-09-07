@@ -1,8 +1,8 @@
-package com.maxpoliakov.skillapp.di
+package com.maxpoliakov.skillapp.data.di
 
 import android.content.Context
 import com.android.billingclient.api.BillingClient
-import com.maxpoliakov.skillapp.billing.PurchaseUpdateHelper
+import com.maxpoliakov.skillapp.data.billing.PurchaseUpdateHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

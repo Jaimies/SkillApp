@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.RestoreBackupFragBinding
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.addDividers
@@ -35,5 +37,8 @@ class RestoreBackupFragment : Fragment() {
         binding.backupsList.addDividers()
         observe(viewModel.backups, adapter::submitList)
         observe(viewModel.restorationSucceeded) { findNavController().navigateUp() }
+        observe(viewModel.showError) {
+            Snackbar.make(view, R.string.something_went_wrong, Snackbar.LENGTH_LONG).show()
+        }
     }
 }

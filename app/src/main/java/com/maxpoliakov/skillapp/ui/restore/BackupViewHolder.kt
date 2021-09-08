@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.domain.model.Backup
@@ -50,7 +51,12 @@ class BackupViewHolder(
 
     private fun restoreBackup() = ioScope.launch {
         val backup = backup.value ?: return@launch
-        restoreBackupUseCase.restoreBackup(backup)
+        try {
+            restoreBackupUseCase.restoreBackup(backup)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Snackbar.make(itemView, R.string.something_went_wrong, Snackbar.LENGTH_LONG).show()
+        }
     }
 
     class Factory @Inject constructor(

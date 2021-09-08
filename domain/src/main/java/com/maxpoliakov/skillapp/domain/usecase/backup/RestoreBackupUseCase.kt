@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 enum class RestorationState {
-    NotStarted, Active, Finished
+    NotStarted, Active, Finished, Failed
 }
 
 @Singleton
@@ -25,9 +25,13 @@ class RestoreBackupUseCase @Inject constructor(
 
         _state.emit(RestorationState.Active)
 
-        val backupContents = driveRepository.getBackupContents(backup)
-        backupUtil.restoreBackup(backupContents)
-
-        _state.emit(RestorationState.Finished)
+        try {
+            val backupContents = driveRepository.getBackupContents(backup)
+            backupUtil.restoreBackup(backupContents)
+            _state.emit(RestorationState.Finished)
+        } catch (e: Exception) {
+            _state.emit(RestorationState.Failed)
+            throw e
+        }
     }
 }

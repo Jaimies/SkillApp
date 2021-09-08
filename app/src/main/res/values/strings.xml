@@ -86,4 +86,5 @@
     <string name="confirm_logout">Do you want to log out?</string>
     <string name="price_loading">Price loading…</string>
     <string name="no_internet">No Internet connection</string>
+    <string name="something_went_wrong">Something went wrong, please try again</string>
 </resources>

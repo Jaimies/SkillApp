@@ -34,6 +34,9 @@ class RestoreBackupViewModel @Inject constructor(
     private val _restorationSucceeded = SingleLiveEvent<Nothing>()
     val restorationSucceeded: LiveData<Nothing> get() = _restorationSucceeded
 
+    private val _showError = SingleLiveEvent<Nothing>()
+    val showError: LiveData<Nothing> get() = _showError
+
     init {
         if (authRepository.currentUser != null)
             getBackups()
@@ -47,8 +50,12 @@ class RestoreBackupViewModel @Inject constructor(
 
     private fun getBackups() {
         viewModelScope.launch {
-            val backups = driveRepository.getBackups()
-            _backups.value = backups
+            try {
+                val backups = driveRepository.getBackups()
+                _backups.value = backups
+            } catch (e: Exception) {
+                _showError.call()
+            }
         }
     }
 }

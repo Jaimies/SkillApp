@@ -46,6 +46,9 @@ class BackupViewModel @Inject constructor(
     private val _showBackupCreationSucceeded = SingleLiveEvent<Nothing>()
     val showBackupCreationSucceeded: LiveData<Nothing> = _showBackupCreationSucceeded
 
+    private val _showError = SingleLiveEvent<Nothing>()
+    val showError: LiveData<Nothing> get() = _showError
+
     private val _showBackupRestorationSucceeded = SingleLiveEvent<Nothing>()
     val showBackupRestorationSucceeded: LiveData<Nothing> = _showBackupRestorationSucceeded
 
@@ -76,9 +79,15 @@ class BackupViewModel @Inject constructor(
             return@launch
         }
 
-        val backup = driveRepository.getLastBackup()
-        if (backup == null) _lastBackupDate.value = R.string.no_backup_found
-        else _lastBackupDate.value = dateTimeFormatter.format(backup.creationDate)
+        try {
+            val backup = driveRepository.getLastBackup()
+            if (backup == null) _lastBackupDate.value = R.string.no_backup_found
+            else _lastBackupDate.value = dateTimeFormatter.format(backup.creationDate)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            _lastBackupDate.value = null
+            _showError.call()
+        }
     }
 
     fun notifySignedIn() {
@@ -111,10 +120,18 @@ class BackupViewModel @Inject constructor(
         }
 
         _backupCreating.postValue(true)
-        createBackupUseCase.createBackup()
+
+        try {
+            createBackupUseCase.createBackup()
+            _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
+            _showBackupCreationSucceeded.postCall()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            _showError.postCall()
+        }
+
         _backupCreating.postValue(false)
-        _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
-        _showBackupCreationSucceeded.postCall()
     }
 
     fun goToRestore() {

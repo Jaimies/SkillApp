@@ -69,6 +69,9 @@ class BackupFragment : Fragment() {
         observe(viewModel.showBackupRestorationSucceeded) {
             Snackbar.make(binding.root, R.string.backup_restore_successful, Snackbar.LENGTH_SHORT).show()
         }
+        observe(viewModel.showError) {
+            Snackbar.make(binding.root, R.string.something_went_wrong, Snackbar.LENGTH_SHORT).show()
+        }
         observe(viewModel.showLogoutDialog) {
             requireContext().showDialog(R.string.confirm_logout, R.string.logout) {
                 viewModel.signOut()

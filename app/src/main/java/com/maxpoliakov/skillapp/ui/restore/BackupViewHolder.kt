@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.util.dialog.showDialog
+import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.dialog.showToast
 import com.maxpoliakov.skillapp.util.network.NetworkUtil
 import com.maxpoliakov.skillapp.util.time.dateTimeFormatter
@@ -55,7 +55,7 @@ class BackupViewHolder(
             restoreBackupUseCase.restoreBackup(backup)
         } catch (e: Exception) {
             e.printStackTrace()
-            Snackbar.make(itemView, R.string.something_went_wrong, Snackbar.LENGTH_LONG).show()
+            itemView.showSnackbar(R.string.something_went_wrong)
         }
     }
 

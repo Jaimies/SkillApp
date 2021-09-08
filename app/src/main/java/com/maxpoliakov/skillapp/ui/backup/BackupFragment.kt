@@ -13,10 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
 import com.maxpoliakov.skillapp.util.dialog.showDialog
+import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.dialog.showToast
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
@@ -64,13 +64,13 @@ class BackupFragment : Fragment() {
         observe(viewModel.showNoNetwork) { showToast(R.string.no_internet) }
 
         observe(viewModel.showBackupCreationSucceeded) {
-            Snackbar.make(binding.root, R.string.backup_successful, Snackbar.LENGTH_SHORT).show()
+            showSnackbar(R.string.backup_successful)
         }
         observe(viewModel.showBackupRestorationSucceeded) {
-            Snackbar.make(binding.root, R.string.backup_restore_successful, Snackbar.LENGTH_SHORT).show()
+            showSnackbar(R.string.backup_restore_successful)
         }
         observe(viewModel.showError) {
-            Snackbar.make(binding.root, R.string.something_went_wrong, Snackbar.LENGTH_SHORT).show()
+            showSnackbar(R.string.something_went_wrong)
         }
         observe(viewModel.showLogoutDialog) {
             requireContext().showDialog(R.string.confirm_logout, R.string.logout) {

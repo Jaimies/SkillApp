@@ -40,15 +40,6 @@ class BillingRepositoryImpl @Inject constructor(
 
     private var connectionState = ConnectionState.NotStarted
 
-    init {
-        ioScope.launch {
-            awaitPlayServicesReady()
-            val purchasesResult = billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS)
-            val purchases = purchasesResult.purchasesList
-            _isSubscribed.emit(isSubscribed(purchases))
-        }
-    }
-
     private fun isSubscribed(purchases: List<Purchase>): Boolean {
         return purchases.any { purchase ->
             purchase.purchaseState == PURCHASED && purchase.skus.contains(SUBSCRIPTION_SKU_NAME)
@@ -66,6 +57,7 @@ class BillingRepositoryImpl @Inject constructor(
         connectionState = ConnectionState.Started
         connectToPlay()
         connectionState = ConnectionState.Connected
+
         purchaseUpdateHelper.addListener(PurchasesUpdatedListener { _, purchases ->
             val validPurchases = (purchases ?: return@PurchasesUpdatedListener)
 
@@ -73,6 +65,10 @@ class BillingRepositoryImpl @Inject constructor(
                 _isSubscribed.emit(isSubscribed(validPurchases))
             }
         })
+
+        val purchasesResult = billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS)
+        val purchases = purchasesResult.purchasesList
+        _isSubscribed.emit(isSubscribed(purchases))
     }
 
     private suspend fun connectToPlay() {

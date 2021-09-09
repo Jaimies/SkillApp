@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.shared.util.collectIgnoringInitialValue
+import com.maxpoliakov.skillapp.util.error.logToCrashlytics
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.network.NetworkUtil
 import com.maxpoliakov.skillapp.util.time.dateTimeFormatter
@@ -84,6 +85,7 @@ class BackupViewModel @Inject constructor(
             if (backup == null) _lastBackupDate.value = R.string.no_backup_found
             else _lastBackupDate.value = dateTimeFormatter.format(backup.creationDate)
         } catch (e: Exception) {
+            e.logToCrashlytics()
             e.printStackTrace()
             _lastBackupDate.value = null
             _showError.call()
@@ -127,6 +129,7 @@ class BackupViewModel @Inject constructor(
             _showBackupCreationSucceeded.postCall()
 
         } catch (e: Exception) {
+            e.logToCrashlytics()
             e.printStackTrace()
             _showError.postCall()
         }

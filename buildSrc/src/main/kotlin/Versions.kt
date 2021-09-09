@@ -20,7 +20,7 @@ object Versions {
     const val material = "1.4.0"
     const val MPAndroidChart = "3.1.0"
 
-    const val hilt = "2.37"
+    const val hilt = "2.38.1"
 
     const val firebase = "28.2.0"
 

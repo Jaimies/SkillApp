@@ -22,17 +22,30 @@ class PremiumViewModel @Inject constructor(
     private val _goToManageSubscriptions = SingleLiveEvent<Nothing>()
     val goToManageSubscriptions: LiveData<Nothing> get() = _goToManageSubscriptions
 
+    private val _showError = SingleLiveEvent<Nothing>()
+    val showError: LiveData<Nothing> get() = _showError
+
     val subscriptionExpiryTime = billingRepository.isSubscribed.map { isSubscribed ->
         if (!isSubscribed) return@map null
 
-        billingRepository.getSubscriptionExpirationTime()
-            ?.plusMonths(1)
-            ?.format(subscriptionDateFormatter)
+        return@map try {
+            billingRepository.getSubscriptionExpirationTime()
+                ?.plusMonths(1)
+                ?.format(subscriptionDateFormatter)
+        } catch (e: Exception) {
+            _showError.call()
+            null
+        }
     }.asLiveData()
 
     val skuDetails = billingRepository.isSubscribed.map { isSubscribed ->
         if (isSubscribed) return@map null
-        billingRepository.getSubscriptionSkuDetails()
+        return@map try {
+            billingRepository.getSubscriptionSkuDetails()
+        } catch (e: Exception) {
+            _showError.call()
+            null
+        }
     }.asLiveData()
 
     fun showSubscriptionPrompt() = _showSubscriptionPrompt.call()

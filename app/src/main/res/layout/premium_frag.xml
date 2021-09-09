@@ -10,72 +10,77 @@
             type="com.maxpoliakov.skillapp.ui.premium.PremiumViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
 
-        <FrameLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="110dp"
             app:visible="@{!viewModel.isSubscribed}">
 
-            <ScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:paddingBottom="110dp">
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                <include
+                    layout="@layout/premium_benefit"
+                    app:text="@{@string/backups_description}"
+                    app:title="@{@string/backups_title}" />
 
-                    <include
-                        layout="@layout/premium_benefit"
-                        app:text="@{@string/backups_description}"
-                        app:title="@{@string/backups_title}" />
+                <include
+                    layout="@layout/premium_benefit"
+                    app:text="@{@string/grouping_text}"
+                    app:title="@{@string/grouping_title}" />
 
-                    <include
-                        layout="@layout/premium_benefit"
-                        app:text="@{@string/grouping_text}"
-                        app:title="@{@string/grouping_title}" />
+                <include
+                    layout="@layout/premium_benefit"
+                    app:text="@{@string/support_developer_text}"
+                    app:title="@{@string/support_developer_title}" />
+            </LinearLayout>
+        </ScrollView>
 
-                    <include
-                        layout="@layout/premium_benefit"
-                        app:text="@{@string/support_developer_text}"
-                        app:title="@{@string/support_developer_title}" />
-                </LinearLayout>
-            </ScrollView>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/snackbar_root"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/upgrade_btn_layout"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_gravity="bottom"
-                android:background="@color/color_surface_translucent"
-                android:paddingHorizontal="12dp">
+        <FrameLayout
+            android:id="@+id/upgrade_btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/color_surface_translucent"
+            android:paddingHorizontal="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:visible="@{!viewModel.isSubscribed}">
 
-                <Button
-                    style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxWidth="4000dp"
-                    android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
-                    android:paddingHorizontal="30dp"
-                    android:paddingVertical="15dp"
-                    android:text="@{viewModel.skuDetails != null ? @string/upgrade_to_premium(viewModel.skuDetails.price) : @string/price_loading}"
-                    tools:text="Upgrade for $1/month" />
-            </FrameLayout>
+            <Button
+                style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxWidth="4000dp"
+                android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="15dp"
+                android:text="@{viewModel.skuDetails != null ? @string/upgrade_to_premium(viewModel.skuDetails.price) : @string/price_loading}"
+                tools:text="Upgrade for $1/month" />
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:visible="@{viewModel.isSubscribed}"
             tools:visibility="gone">
 
@@ -105,5 +110,5 @@
                 android:paddingHorizontal="30dp"
                 android:text="@string/manage_subscription" />
         </LinearLayout>
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

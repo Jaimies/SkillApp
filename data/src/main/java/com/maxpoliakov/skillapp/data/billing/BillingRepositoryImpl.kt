@@ -10,6 +10,7 @@ import com.android.billingclient.api.SkuDetails
 import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.queryPurchasesAsync
 import com.android.billingclient.api.querySkuDetails
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.maxpoliakov.skillapp.data.billing.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -82,15 +83,14 @@ class BillingRepositoryImpl @Inject constructor(
                     }
                 }
 
-                override fun onBillingServiceDisconnected() {
-                    // Try to restart the connection on the next request to
-                    // Google Play by calling the startConnection() method.
-                }
+                override fun onBillingServiceDisconnected() {}
             })
         }
     }
 
     override suspend fun getSubscriptionSkuDetails(): SkuDetails? = withContext(Dispatchers.IO) {
+        if (!billingClient.isReady) throwClientNotReadyException()
+
         val skuList = listOf(SUBSCRIPTION_SKU_NAME)
         val params = SkuDetailsParams.newBuilder()
         params.setSkusList(skuList).setType(BillingClient.SkuType.SUBS)
@@ -100,6 +100,8 @@ class BillingRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSubscriptionExpirationTime() = withContext(Dispatchers.IO) {
+        if (!billingClient.isReady) throwClientNotReadyException()
+
         val purchasesResult = billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS)
         val purchases = purchasesResult.purchasesList
 
@@ -108,6 +110,13 @@ class BillingRepositoryImpl @Inject constructor(
 
         val instant = Instant.ofEpochMilli(purchase.purchaseTime)
         instant?.let { LocalDateTime.ofInstant(instant, ZoneId.systemDefault()) }
+    }
+
+    private fun throwClientNotReadyException(): Nothing {
+        val e = IllegalStateException("Billing client not ready")
+        FirebaseCrashlytics.getInstance().recordException(e)
+        e.printStackTrace()
+        throw e
     }
 
     private suspend fun awaitPlayServicesReady() {

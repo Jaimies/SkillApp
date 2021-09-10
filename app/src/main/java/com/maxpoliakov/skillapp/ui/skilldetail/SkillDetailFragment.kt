@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.CollapsingToolbarBinding
@@ -15,6 +14,7 @@ import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
 import com.maxpoliakov.skillapp.model.mapToPresentation
 import com.maxpoliakov.skillapp.ui.common.FragmentWithCollapsingToolbar
 import com.maxpoliakov.skillapp.util.charts.setup
+import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
@@ -74,12 +74,9 @@ class SkillDetailFragment : FragmentWithCollapsingToolbar(R.menu.skilldetail_fra
     }
 
     private fun showDeleteDialog() {
-        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_SkillApp_AlertDialog)
-            .setTitle(R.string.delete_skill_title)
-            .setMessage(R.string.delete_skill_message)
-            .setPositiveButton(R.string.delete) { _, _ -> deleteSkill() }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
+        requireContext().showDialog(R.string.delete_skill_title, R.string.delete_skill_message, R.string.delete) {
+            deleteSkill()
+        }
     }
 
     private fun deleteSkill() {

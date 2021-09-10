@@ -2,13 +2,13 @@ package com.maxpoliakov.skillapp.ui.history
 
 import android.view.MenuItem
 import android.view.ViewGroup
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.RecordsItemBinding
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.history.RecordDelegateAdapter.ViewHolder
+import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.showDatePicker
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.ui.dp
@@ -58,12 +58,9 @@ class RecordDelegateAdapter @Inject constructor(
         }
 
         private fun showDeleteDialog() {
-            MaterialAlertDialogBuilder(context)
-                .setTitle(R.string.delete_record_title)
-                .setMessage(R.string.delete_record_message)
-                .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteRecord() }
-                .setNegativeButton(R.string.cancel, null)
-                .show()
+            context.showDialog(R.string.delete_record_title, R.string.delete_record_message, R.string.delete) {
+                viewModel.deleteRecord()
+            }
         }
 
         private fun showChangeDateDialog() {

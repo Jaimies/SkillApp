@@ -29,7 +29,7 @@ class DriveRepositoryImpl @Inject constructor(
         Unit
     }
 
-    override suspend fun getBackups() = _getBackups(10)
+    override suspend fun getBackups() = _getBackups(30)
 
     private suspend fun _getBackups(limit: Int) = withContext(Dispatchers.IO) {
         val theList = driveProvider.get().files().list()

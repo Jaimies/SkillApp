@@ -56,16 +56,21 @@
             android:id="@+id/upgrade_btn_layout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@color/color_surface_translucent"
-            android:paddingHorizontal="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:visible="@{!viewModel.isSubscribed}">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.85"
+                android:background="?attr/colorSurface" />
 
             <Button
                 style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="12dp"
                 android:maxWidth="4000dp"
                 android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
                 android:paddingHorizontal="30dp"

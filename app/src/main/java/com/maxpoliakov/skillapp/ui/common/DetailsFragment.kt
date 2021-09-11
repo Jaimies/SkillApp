@@ -35,6 +35,12 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         super.onResume()
         (requireActivity() as MainActivity).setToolbar(collapsingToolbar)
         appBar.setMarginTop(0)
+
+        appBar.post {
+            appBar.setMarginTop(0)
+        }
+
+        Unit
     }
 
 

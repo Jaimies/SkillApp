@@ -1,8 +1,11 @@
 package com.maxpoliakov.skillapp.ui.skills.stopwatch
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
+import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.navigation.NavigationUtil
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
@@ -14,8 +17,10 @@ import javax.inject.Inject
 class StopwatchViewModel @Inject constructor(
     private val stopwatchUtil: StopwatchUtil,
     private val getSkill: GetSkillByIdUseCase,
-    private val navigationUtil: NavigationUtil,
 ) {
+    private val _navigateToSkill = SingleLiveEvent<Skill>()
+    val navigateToSkill: LiveData<Skill> get() = _navigateToSkill
+
     val trackingSkill = stopwatchUtil.state.flatMapLatest { state ->
         if (state is StopwatchState.Running) getSkill.run(state.skillId)
         else flowOf(null)
@@ -30,6 +35,8 @@ class StopwatchViewModel @Inject constructor(
     fun stopTimer() = stopwatchUtil.stop()
 
     fun navigateToCurrentlyTrackedSkill() {
-        navigationUtil.navigateToSkillDetail(trackingSkill.value!!.id)
+        trackingSkill.value?.let { skill ->
+            _navigateToSkill.value = skill
+        }
     }
 }

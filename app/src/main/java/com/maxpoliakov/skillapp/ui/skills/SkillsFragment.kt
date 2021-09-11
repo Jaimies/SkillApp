@@ -205,6 +205,11 @@ class SkillsFragment : Fragment(), SkillsFragmentCallback {
 
     private val viewModel: SkillsViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupTransitions()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -293,8 +298,6 @@ class SkillsFragment : Fragment(), SkillsFragmentCallback {
     }
 
     override fun navigateToSkillDetail(view: View, skill: Skill) {
-        setupTransitions()
-
         val directions = MainDirections.actionToSkillDetailFragment(skill.id)
         val transitionName = getString(R.string.skill_transition_name)
         val extras = FragmentNavigatorExtras(view to transitionName)
@@ -302,8 +305,6 @@ class SkillsFragment : Fragment(), SkillsFragmentCallback {
     }
 
     override fun navigateToGroupDetail(view: View, group: SkillGroup) {
-        setupTransitions()
-
         val directions = MainDirections.actionToSkillGroupFragment(group.id)
         val transitionName = getString(R.string.group_transition_name)
         val extras = FragmentNavigatorExtras(view to transitionName)

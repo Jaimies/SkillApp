@@ -24,17 +24,27 @@ fun PieChart.setup() {
         orientation = Legend.LegendOrientation.VERTICAL
     }
 
-    setExtraOffsets(0f, 0f, 0f, 20f)
+    extraBottomOffset = 5f
 }
 
 fun PieChart.setData(entries: List<PieEntry>) {
-    val validEntries = entries.filter { it.y > 0 }
+    val validEntries = entries
+        .filter { it.y > 0 }
+        .sortedBy { -it.y }
+        .take(5)
 
     this.isVisible = validEntries.isNotEmpty()
 
     val dataSet = PieDataSet(validEntries, "").apply {
-        setColors(ColorTemplate.COLORFUL_COLORS + ColorTemplate.MATERIAL_COLORS, 255)
-        sliceSpace = 15f
+        val colors = intArrayOf(
+            ColorTemplate.rgb("#2ecc71"),
+            ColorTemplate.rgb("#ffc41e"),
+            ColorTemplate.rgb("#e74c3c"),
+            ColorTemplate.rgb("#3498db"),
+            ColorTemplate.rgb("#9b49b6"),
+        )
+
+        setColors(colors, 255)
         setDrawEntryLabels(false)
         setDrawValues(false)
     }

@@ -42,7 +42,7 @@ class SkillGroupFragment : FragmentWithCollapsingToolbar(R.menu.skillgroup_detai
             it.viewModel = viewModel
         }
 
-       return binding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +52,7 @@ class SkillGroupFragment : FragmentWithCollapsingToolbar(R.menu.skillgroup_detai
         observe(viewModel.group) { group ->
             val data = group.skills.map { skill ->
                 PieEntry(skill.totalTime.toMillis().toFloat(), skill.name)
-            }.sortedBy { -it.y }
+            }
 
             binding.splitChart.chart.setData(data)
         }

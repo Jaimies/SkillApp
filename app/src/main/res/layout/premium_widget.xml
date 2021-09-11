@@ -10,12 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autoLink="all"
-        android:background="#feb94b"
+        android:background="?attr/colorPrimary"
+        android:fontFamily="sans-serif-medium"
         android:paddingHorizontal="10dp"
         android:paddingVertical="2dp"
-        android:textSize="12sp"
-        android:fontFamily="sans-serif-medium"
         android:text="@string/premium"
         android:textAllCaps="true"
-        android:textColor="@android:color/white" />
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="12sp" />
 </com.google.android.material.card.MaterialCardView>

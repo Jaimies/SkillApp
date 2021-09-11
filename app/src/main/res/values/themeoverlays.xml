@@ -3,5 +3,6 @@
 
     <style name="ThemeOverlay.SkillApp.AlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="colorPrimary">@color/blue</item>
+        <item name="colorSecondary">@color/blue</item>
     </style>
 </resources>

@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import com.google.android.material.button.MaterialButton
 
 @BindingAdapter("visible")
 fun View.isVisible(value: Boolean) {
@@ -25,6 +26,16 @@ fun View.setBottomMargin(dimen: Float) {
     val layoutParams = layoutParams as ViewGroup.MarginLayoutParams
     layoutParams.bottomMargin = dimen.toInt()
     this.layoutParams = layoutParams
+}
+
+@BindingAdapter("backgroundTintAttr")
+fun View.setBackgroundTintAttr(attrValue: Int) {
+    setBackgroundColor(context.getColorAttributeValue(attrValue))
+}
+
+@BindingAdapter("textColorAttr")
+fun MaterialButton.setTextColorAttr(attrValue: Int) {
+    setTextColor(context.getColorAttributeValue(attrValue))
 }
 
 @BindingAdapter(

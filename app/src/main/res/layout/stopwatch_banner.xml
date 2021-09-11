@@ -61,7 +61,7 @@
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
                 android:text="@string/stop"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?attr/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stopwatch" />
         </androidx.constraintlayout.widget.ConstraintLayout>

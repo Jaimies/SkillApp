@@ -2,14 +2,17 @@
 <resources>
 
     <style name="Theme.SkillApp" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="colorAccent">@color/blue_light</item>
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="colorSecondary">@color/yellow</item>
+        <item name="colorOnPrimary">@android:color/black</item>
+        <item name="colorOnSecondary">@android:color/black</item>
+
+        <item name="colorError">@color/red</item>
+        <item name="colorOnError">@android:color/white</item>
+
         <item name="colorButtonSecondary">@color/gray_dark</item>
         <item name="textColorButtonSecondary">?android:attr/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/gray_light</item>
-        <item name="colorSecondary">@color/blue</item>
-        <item name="colorOnSecondary">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:scrollViewStyle">@style/Widget.SkillApp.ScrollableView</item>
         <item name="android:windowBackground">@color/black</item>
@@ -22,8 +25,7 @@
         <item name="dividerColor">@color/black_light</item>
         <item name="cardViewBackground">@color/black_lighter</item>
         <item name="buttonBarNegativeButtonStyle">@style/Widget.SkillApp.NegativeButton.Dark</item>
-        <item name="materialTimePickerTheme">@style/ThemeOverlay.SkillApp.TimePicker</item>
-        <item name="materialCalendarTheme">@style/ThemeOverlay.SkillApp.DatePicker</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.SkillApp.AlertDialog</item>
         <item name="cardHighlightColor">#a0ffffff</item>
     </style>
 

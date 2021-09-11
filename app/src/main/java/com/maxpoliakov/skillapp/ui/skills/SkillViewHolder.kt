@@ -1,14 +1,13 @@
 package com.maxpoliakov.skillapp.ui.skills
 
 import android.view.MotionEvent
-import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 
 class SkillViewHolder(
-    binding: SkillsItemBinding,
-    startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
+    private val binding: SkillsItemBinding,
+    callback: SkillsFragmentCallback,
 ) : BaseViewHolder(binding.root) {
     val viewModel = binding.viewModel!!
 
@@ -16,14 +15,18 @@ class SkillViewHolder(
         binding.dragHandle.setOnTouchListener { view, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 view.performClick()
-                startDrag(this)
+                callback.startDrag(this)
             }
 
             false
         }
 
         viewModel.startDrag.observe {
-            startDrag(this)
+            callback.startDrag(this)
+        }
+
+        viewModel.navigateToDetails.observe { skill ->
+            callback.navigateToSkillDetail(binding.card, skill)
         }
     }
 

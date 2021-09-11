@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.skills
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -14,7 +13,7 @@ import javax.inject.Provider
 
 class SkillDelegateAdapter(
     private val viewModelProvider: Provider<SkillViewModel>,
-    private val startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
+    private val callback: SkillsFragmentCallback,
 ) : DelegateAdapter<Skill, SkillViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup): SkillViewHolder {
@@ -22,7 +21,7 @@ class SkillDelegateAdapter(
             val viewModel = viewModelProvider.get()
             this.viewModel = viewModel
             this.startTimer.increaseTouchAreaBy(5.dp)
-            return SkillViewHolder(this, startDrag)
+            return SkillViewHolder(this, callback)
         }
     }
 
@@ -34,9 +33,9 @@ class SkillDelegateAdapter(
         private val viewModelProvider: Provider<SkillViewModel>,
     ) {
         fun create(
-            startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit,
+            callback: SkillsFragmentCallback,
         ): SkillDelegateAdapter {
-            return SkillDelegateAdapter(viewModelProvider, startDrag)
+            return SkillDelegateAdapter(viewModelProvider, callback)
         }
     }
 }

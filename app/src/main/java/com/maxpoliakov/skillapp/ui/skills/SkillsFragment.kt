@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.Hold
+import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
@@ -32,8 +36,15 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+interface SkillsFragmentCallback {
+    fun navigateToSkillDetail(view: View, skill: Skill)
+    fun navigateToGroupDetail(view: View, group: SkillGroup)
+
+    fun startDrag(viewHolder: RecyclerView.ViewHolder)
+}
+
 @AndroidEntryPoint
-class SkillsFragment : Fragment() {
+class SkillsFragment : Fragment(), SkillsFragmentCallback {
     private var lastItemDropTime = 0L
 
     private val itemTouchHelperCallback = object : ItemTouchHelperCallback {
@@ -189,8 +200,9 @@ class SkillsFragment : Fragment() {
     lateinit var listAdapterFactory: SkillListAdapter.Factory
 
     private val listAdapter by lazy {
-        listAdapterFactory.create(this::startDrag)
+        listAdapterFactory.create(this)
     }
+
     private val viewModel: SkillsViewModel by viewModels()
 
     override fun onCreateView(
@@ -208,6 +220,10 @@ class SkillsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
+
         binding.recyclerView.setupAdapter(listAdapter)
         binding.recyclerView.addItemDecoration(CardViewDecoration())
 
@@ -272,7 +288,34 @@ class SkillsFragment : Fragment() {
 
     private fun hideStopwatch() = listAdapter.hideStopwatch()
 
-    private fun startDrag(viewHolder: RecyclerView.ViewHolder) {
+    override fun startDrag(viewHolder: RecyclerView.ViewHolder) {
         itemTouchHelper?.startDrag(viewHolder)
+    }
+
+    override fun navigateToSkillDetail(view: View, skill: Skill) {
+        setupTransitions()
+
+        val directions = MainDirections.actionToSkillDetailFragment(skill.id)
+        val transitionName = getString(R.string.skill_transition_name)
+        val extras = FragmentNavigatorExtras(view to transitionName)
+        findNavController().navigate(directions, extras)
+    }
+
+    override fun navigateToGroupDetail(view: View, group: SkillGroup) {
+        setupTransitions()
+
+        val directions = MainDirections.actionToSkillGroupFragment(group.id)
+        val transitionName = getString(R.string.group_transition_name)
+        val extras = FragmentNavigatorExtras(view to transitionName)
+        findNavController().navigate(directions, extras)
+    }
+
+    private fun setupTransitions() {
+        val transition = Hold().apply {
+            duration = resources.getInteger(R.integer.animation_duration).toLong()
+        }
+
+        exitTransition = transition
+        reenterTransition = transition
     }
 }

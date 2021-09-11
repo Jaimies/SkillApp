@@ -87,4 +87,6 @@
     <string name="price_loading">Price loading…</string>
     <string name="no_internet">No Internet connection</string>
     <string name="something_went_wrong">Something went wrong, please try again</string>
+    <string name="skill_transition_name" translatable="false">skill_to_skill_detail_%d</string>
+    <string name="group_transition_name" translatable="false">group_to_group_detail_%d</string>
 </resources>

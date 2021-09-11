@@ -13,7 +13,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.CollapsingToolbarBinding
 import com.maxpoliakov.skillapp.databinding.SkillGroupFragBinding
 import com.maxpoliakov.skillapp.model.toMinimal
-import com.maxpoliakov.skillapp.ui.common.FragmentWithCollapsingToolbar
+import com.maxpoliakov.skillapp.ui.common.DetailsFragment
 import com.maxpoliakov.skillapp.util.charts.setData
 import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SkillGroupFragment : FragmentWithCollapsingToolbar(R.menu.skillgroup_detail_frag_menu) {
+class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
     private lateinit var binding: SkillGroupFragBinding
     private val args: SkillGroupFragmentArgs by navArgs()
 

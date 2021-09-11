@@ -16,6 +16,7 @@
         app:layout_sideMargin="@{viewModel.isSmall ? 0f: -@dimen/padding_default}">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_card_height"
             android:layout_marginHorizontal="16dp"
@@ -25,6 +26,7 @@
             android:focusable="true"
             android:onClick="@{() -> viewModel.navigateToDetails()}"
             android:onLongClick="@{(view) -> viewModel.startDrag()}"
+            android:transitionName="@{@string/skill_transition_name(viewModel.skill.id)}"
             app:strokeColor="?attr/cardHighlightColor"
             app:strokeWidth="@{viewModel.isHighlighted ? Math.round(@dimen/highlighted_card_stroke_width) : 0}">
 

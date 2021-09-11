@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.util.navigation.NavigationUtil
-import javax.inject.Inject
+import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 
-class SkillGroupViewModel @Inject constructor(
-    private val navigationUtil: NavigationUtil,
-) {
+class SkillGroupViewModel {
     private val _skillGroup = MutableLiveData<SkillGroup>()
     val skillGroup: LiveData<SkillGroup> get() = _skillGroup
+
+    private val _navigateToDetail = SingleLiveEvent<SkillGroup>()
+    val navigateToDetail: LiveData<SkillGroup> get() = _navigateToDetail
 
     val state = skillGroup.map(SkillGroup::toSkillGroupState)
 
@@ -21,7 +21,7 @@ class SkillGroupViewModel @Inject constructor(
 
     fun navigateToDetail() {
         skillGroup.value?.let { group ->
-            navigationUtil.navigateToSkillGroupDetail(group.id)
+            _navigateToDetail.value = group
         }
     }
 }

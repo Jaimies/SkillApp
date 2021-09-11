@@ -22,6 +22,7 @@
             android:clipToPadding="false"
             android:paddingTop="5dp"
             android:paddingBottom="80dp"
+            android:transitionGroup="true"
             app:visible="@{!viewModel.isEmpty}"
             tools:itemCount="7"
             tools:listitem="@layout/skills_item" />

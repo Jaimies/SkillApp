@@ -42,7 +42,6 @@
 
     <style name="Widget.SkillApp.RoundButton.CompletelyRounded">
         <item name="backgroundTint">?attr/colorPrimary</item>
-        <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textSize">15sp</item>
         <item name="cornerRadius">200dp</item>
     </style>

@@ -17,6 +17,7 @@
         android:orientation="vertical"
         android:paddingStart="@dimen/padding_default"
         android:paddingEnd="@dimen/padding_default"
+        android:transitionName="@string/add_skill_transition_name"
         tools:context=".ui.addskill.AddSkillFragment">
 
         <com.google.android.material.textfield.TextInputLayout

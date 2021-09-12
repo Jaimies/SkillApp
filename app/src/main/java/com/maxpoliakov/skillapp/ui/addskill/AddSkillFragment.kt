@@ -7,13 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.AddskillFragBinding
 import com.maxpoliakov.skillapp.util.fragment.observe
+import com.maxpoliakov.skillapp.util.transition.createMaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddSkillFragment : Fragment() {
     private val viewModel: AddSkillViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = createMaterialContainerTransform(R.integer.animation_duration)
+        sharedElementReturnTransition = createMaterialContainerTransform(R.integer.animation_duration_short)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,8 +38,7 @@ class AddSkillFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observe(viewModel.goToSkillDetail) { skillId ->
-            val directions = AddSkillFragmentDirections.actionAddSkillToSkillDetail(skillId)
-            findNavController().navigate(directions)
+            findNavController().navigateUp()
         }
     }
 }

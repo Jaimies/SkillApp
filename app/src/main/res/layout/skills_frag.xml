@@ -34,12 +34,14 @@
             app:visible="@{viewModel.isEmpty()}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_skill_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
             android:contentDescription="@string/add_skill"
             android:onClick="@{() -> viewModel.navigateToAddSkill()}"
-            android:src="@drawable/ic_plus_24dp" />
+            android:src="@drawable/ic_plus_24dp"
+            android:transitionName="@string/add_skill_transition_name" />
     </FrameLayout>
 </layout>

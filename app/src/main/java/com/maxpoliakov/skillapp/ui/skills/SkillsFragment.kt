@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.Hold
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.R.id.addskill_fragment_dest
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -29,7 +28,6 @@ import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createReorderAndGroupItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.createReorderItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.findViewHolder
-import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -270,7 +268,10 @@ class SkillsFragment : Fragment(), SkillsFragmentCallback {
         observe(viewModel.isActive, this::setStopwatchActive)
 
         observe(viewModel.navigateToAddEdit) {
-            findNavController().navigateAnimated(addskill_fragment_dest)
+            val transitionName = getString(R.string.add_skill_transition_name)
+            val extras = FragmentNavigatorExtras(binding.addSkillFab to transitionName)
+            val directions = MainDirections.actionToAddSkillFragment()
+            findNavController().navigate(directions, extras)
         }
     }
 

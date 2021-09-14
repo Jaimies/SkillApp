@@ -38,14 +38,14 @@ class BackupUtilImpl @Inject constructor(
         val backup = Json.decodeFromString<BackupData>(backupData)
 
         db.withTransaction {
-            db.skillGroupDao().deleteAll()
-            db.skillGroupDao().insert(backup.groups)
+            db.skillDao().deleteAll()
+            db.skillDao().insert(backup.skills)
 
             db.recordsDao().deleteAll()
             db.recordsDao().insert(backup.records)
 
-            db.skillDao().deleteAll()
-            db.skillDao().insert(backup.skills)
+            db.skillGroupDao().deleteAll()
+            db.skillGroupDao().insert(backup.groups)
 
             db.statsDao().deleteAll()
             db.statsDao().insert(backup.stats)

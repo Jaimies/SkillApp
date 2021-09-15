@@ -33,9 +33,6 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
 
     private val viewModel by viewModels { viewModelFactory.create(args.groupId) }
 
-    override val collapsingToolbarBinding: CollapsingToolbarBinding
-        get() = binding.collapsingToolbarLayout
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = SkillGroupFragBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner

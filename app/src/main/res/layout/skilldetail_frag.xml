@@ -18,11 +18,6 @@
         android:layout_height="match_parent"
         android:transitionName="@string/skill_transition_name">
 
-        <include
-            android:id="@+id/collapsing_toolbar_layout"
-            layout="@layout/collapsing_toolbar"
-            app:title="@{viewModel.skillLiveData.name}" />
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,30 +30,66 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include
-                    android:id="@+id/summary"
-                    layout="@layout/productivity_summary_without_title"
-                    app:summary="@{viewModel.summary}" />
-
-                <include
-                    layout="@layout/skilldetail_action_buttons"
-                    app:viewModel="@{viewModel}" />
-
-                <include
-                    android:id="@+id/stopwatch_banner"
-                    layout="@layout/skilldetail_stopwatch_banner"
-                    app:isActive="@{viewModel.stopwatchIsRunning}"
-                    app:startTime="@{viewModel.stopwatchStartTime}" />
-
-                <include
-                    android:id="@+id/productivity_chart"
-                    layout="@layout/bar_chart"
+                <EditText
+                    android:id="@+id/title_input"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/chart_height"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="70dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="25dp"
+                    android:background="@android:color/transparent"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/name"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/productivity_summary_spacing_start"
+                    android:text="@={viewModel.skillName}"
+                    android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
+                    tools:text="Programming" />
 
+                <LinearLayout
+                    android:id="@+id/data_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/summary"
+                        layout="@layout/productivity_summary_without_title"
+                        app:summary="@{viewModel.summary}" />
+
+                    <include
+                        layout="@layout/skilldetail_action_buttons"
+                        app:viewModel="@{viewModel}" />
+
+                    <include
+                        android:id="@+id/stopwatch_banner"
+                        layout="@layout/skilldetail_stopwatch_banner"
+                        app:isActive="@{viewModel.stopwatchIsRunning}"
+                        app:startTime="@{viewModel.stopwatchStartTime}" />
+
+                    <include
+                        android:id="@+id/productivity_chart"
+                        layout="@layout/bar_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/chart_height"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="70dp" />
+                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/save_fab"
+            style="@style/Widget.SkillApp.ExtendedFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:enabled="@{viewModel.nameIsInput}"
+            android:onClick="@{() -> viewModel.save()}"
+            android:paddingStart="20dp"
+            android:text="@string/save"
+            app:elevation="16dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

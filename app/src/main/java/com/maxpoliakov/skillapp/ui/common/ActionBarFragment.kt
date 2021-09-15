@@ -7,6 +7,7 @@ import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
 
 abstract class ActionBarFragment(@MenuRes private val menuId: Int) : Fragment() {
+    protected lateinit var menu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,6 +15,7 @@ abstract class ActionBarFragment(@MenuRes private val menuId: Int) : Fragment() 
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        this.menu = menu
         inflater.inflate(menuId, menu)
     }
 }

@@ -21,28 +21,11 @@
         android:id="@+id/action_to_addSkillFragment"
         app:destination="@id/addskill_fragment_dest" />
 
-    <action
-        android:id="@+id/action_to_editSkillFragment"
-        app:destination="@id/editskill_fragment_dest" />
-
     <fragment
         android:id="@+id/addskill_fragment_dest"
         android:name="com.maxpoliakov.skillapp.ui.addskill.AddSkillFragment"
         android:label="@string/add_skill"
         tools:layout="@layout/addskill_frag" />
-
-    <fragment
-        android:id="@+id/editskill_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.editskill.EditSkillFragment"
-        android:label="@string/edit_skill"
-        tools:layout="@layout/editable_layout">
-
-        <argument
-            android:name="skill"
-            android:defaultValue="@null"
-            app:argType="com.maxpoliakov.skillapp.model.SkillItem"
-            app:nullable="true" />
-    </fragment>
 
     <action
         android:id="@+id/action_to_skillDetailFragment"

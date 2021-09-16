@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="editableText"
+            type="String" />
+
+        <variable
+            name="readonlyText"
+            type="String" />
+
+        <variable
+            name="isEditing"
+            type="Boolean" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="25dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/name"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="@dimen/productivity_summary_spacing_start"
+            android:text="@={editableText}"
+            android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
+            app:visible="@{isEditing}"
+            tools:text="Programming" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="25dp"
+            android:paddingStart="@dimen/productivity_summary_spacing_start"
+            android:text="@{readonlyText}"
+            android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
+            app:visible="@{!isEditing}"
+            tools:text="Programming" />
+    </FrameLayout>
+</layout>

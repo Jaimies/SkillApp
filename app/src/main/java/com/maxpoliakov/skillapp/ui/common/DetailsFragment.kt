@@ -41,8 +41,6 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         observe(viewModel.onSave) { stopEditing() }
 
         saveBtn.isGone = true
-        input.isFocusable = false
-        input.isFocusableInTouchMode = false
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             isEnabled = !onBackPressed()
@@ -78,12 +76,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         return false
     }
 
-    protected fun startEditing() = input.run {
-        isFocusable = true
-        isFocusableInTouchMode = true
-        requestFocus()
-        setSelection(text.length)
-
+    private fun startEditing() = input.run {
         viewModel.enterEditingMode()
 
         menu.getItem(0).setTitle(R.string.save)
@@ -98,6 +91,8 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         lifecycleScope.launch {
             delay(duration)
             content.isGone = true
+            requestFocus()
+            setSelection(text.length)
             showKeyboard()
         }
 
@@ -110,9 +105,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
             .start()
     }
 
-    protected fun stopEditing() = input.run {
-        isFocusable = false
-        isFocusableInTouchMode = false
+    private fun stopEditing() = input.run {
         clearFocus()
 
         viewModel.exitEditingMode()

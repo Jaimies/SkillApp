@@ -22,7 +22,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     override val content get() = binding.dataLayout
-    override val input get() = binding.titleInput
+    override val input get() = binding.title.input
     override val saveBtn get() = binding.saveFab
 
     override val viewModel by viewModels { viewModelFactory.create(args.skillId) }

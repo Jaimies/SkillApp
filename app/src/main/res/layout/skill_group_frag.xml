@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -27,20 +26,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/title_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="25dp"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/name"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:paddingStart="@dimen/productivity_summary_spacing_start"
-                    android:text="@={viewModel.name}"
-                    android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
-                    tools:text="Programming" />
+                <include
+                    android:id="@+id/title"
+                    layout="@layout/editable_textview"
+                    app:editableText="@={viewModel.name}"
+                    app:isEditing="@{viewModel.isEditing}"
+                    app:readonlyText="@{viewModel.readonlyName}" />
 
                 <LinearLayout
                     android:id="@+id/data_layout"

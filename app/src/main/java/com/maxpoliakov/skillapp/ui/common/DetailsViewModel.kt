@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.common
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.shared.util.collectOnce
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 
 abstract class DetailsViewModel : ViewModel() {
     protected abstract val nameFlow: Flow<String>
+    val readonlyName by lazy { nameFlow.asLiveData() }
 
     private val _isEditing = MutableLiveData(false)
     val isEditing: LiveData<Boolean> get() = _isEditing
@@ -36,6 +38,7 @@ abstract class DetailsViewModel : ViewModel() {
 
     fun exitEditingMode() {
         _isEditing.value = false
+        name.value = readonlyName.value
     }
 
     abstract suspend fun update(name: String)

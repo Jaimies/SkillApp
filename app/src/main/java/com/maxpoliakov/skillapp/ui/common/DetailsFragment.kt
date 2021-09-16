@@ -83,7 +83,6 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         isFocusableInTouchMode = true
         requestFocus()
         setSelection(text.length)
-        showKeyboard()
 
         viewModel.enterEditingMode()
 
@@ -99,6 +98,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         lifecycleScope.launch {
             delay(duration)
             content.isGone = true
+            showKeyboard()
         }
 
         saveBtn.isGone = false
@@ -114,7 +114,6 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         isFocusable = false
         isFocusableInTouchMode = false
         clearFocus()
-        hideKeyboard()
 
         viewModel.exitEditingMode()
         menu.getItem(0).setTitle(R.string.edit)
@@ -136,6 +135,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         lifecycleScope.launch {
             delay(duration)
             saveBtn.isGone = true
+            hideKeyboard()
         }
     }
 }

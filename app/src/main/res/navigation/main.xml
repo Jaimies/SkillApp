@@ -70,21 +70,6 @@
         app:destination="@id/skill_group_fragment_dest" />
 
     <fragment
-        android:id="@+id/edit_skill_group_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.editgroup.EditSkillGroupFragment"
-        android:label="Edit group"
-        tools:layout="@layout/editable_layout">
-
-        <argument
-            android:name="group"
-            app:argType="com.maxpoliakov.skillapp.model.SkillGroupMinimal" />
-    </fragment>
-
-    <action
-        android:id="@+id/action_to_editSkillGroupFragment"
-        app:destination="@id/edit_skill_group_fragment_dest" />
-
-    <fragment
         android:id="@+id/backup_fragment_dest"
         android:name="com.maxpoliakov.skillapp.ui.backup.BackupFragment"
         android:label="@string/backups"

@@ -37,13 +37,11 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="25dp"
                     android:background="@android:color/transparent"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
                     android:hint="@string/name"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:paddingStart="@dimen/productivity_summary_spacing_start"
-                    android:text="@={viewModel.skillName}"
+                    android:text="@={viewModel.name}"
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
                     tools:text="Programming" />
 
@@ -86,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="24dp"
-            android:enabled="@{viewModel.nameIsInput}"
+            android:enabled="@{viewModel.inputIsValid}"
             android:onClick="@{() -> viewModel.save()}"
             android:paddingStart="20dp"
             android:text="@string/save"

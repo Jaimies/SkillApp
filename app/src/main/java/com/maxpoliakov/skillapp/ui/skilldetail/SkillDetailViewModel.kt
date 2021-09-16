@@ -1,9 +1,6 @@
 package com.maxpoliakov.skillapp.ui.skilldetail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
@@ -12,9 +9,10 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
-import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
-import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
+import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
+import com.maxpoliakov.skillapp.util.charts.toEntries
+import com.maxpoliakov.skillapp.util.charts.withMissingStats
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
 import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
@@ -36,7 +34,7 @@ class SkillDetailViewModel(
     private val skillId: Int,
     getSkillById: GetSkillByIdUseCase,
     getStats: GetStatsUseCase
-) : StatsViewModel(getStats, skillId) {
+) : DetailsViewModel() {
 
     val showRecordDialog = SingleLiveEvent<Any>()
 
@@ -51,25 +49,17 @@ class SkillDetailViewModel(
 
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
 
-    val skillName = MutableLiveData("")
+    val stats = getStats.run(skillId)
 
-    val nameIsInput = skillName.map { it?.isBlank() == false }
-
-    private val _isEditing = MutableLiveData(false)
-    val isEditing: LiveData<Boolean> get() = _isEditing
-
-    private val _onSave = SingleLiveEvent<Nothing>()
-    val onSave: LiveData<Nothing> get() = _onSave
+    val statsChartData = stats.map { stats ->
+        stats.withMissingStats().toEntries()
+    }.asLiveData()
 
     val summary = skill.map { skill ->
         ProductivitySummary(skill.totalTime, skill.lastWeekTime)
     }.asLiveData()
 
-    init {
-        viewModelScope.launch {
-            skill.collectOnce { skill -> skillName.value = skill.name }
-        }
-    }
+    override val nameFlow = skill.map { it.name }
 
     fun addRecord(time: Duration) {
         val record = Record("", skillId, time)
@@ -83,23 +73,8 @@ class SkillDetailViewModel(
     fun toggleTimer() = stopwatchUtil.toggle(skillId)
     fun showRecordDialog() = showRecordDialog.call()
 
-    fun enterEditingMode() {
-        _isEditing.value = true
-    }
-
-    fun exitEditingMode() {
-        _isEditing.value = false
-    }
-
-    fun save() {
-        viewModelScope.launch {
-            val name = skillName.value?.trim().orEmpty()
-            updateSkillUseCase.updateName(skillId, name)
-        }
-
-
-        _isEditing.value = false
-        _onSave.call()
+    override suspend fun update(name: String) {
+        updateSkillUseCase.updateName(skillId, name)
     }
 
     class Factory @Inject constructor(

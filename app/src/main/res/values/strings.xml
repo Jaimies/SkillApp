@@ -17,7 +17,6 @@
     <string name="no_records_text">Start tracking your time and the records will appear here</string>
     <string name="add_skill">Add a skill</string>
     <string name="new_group">New group</string>
-    <string name="edit_skill">Edit skill</string>
     <string name="history">History</string>
     <string name="skills">Skills</string>
     <string name="total">Total time</string>

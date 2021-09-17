@@ -58,7 +58,6 @@
     <string name="backups">Backup &amp; Restore</string>
     <string name="logout">Log out</string>
     <string name="login">Log in</string>
-    <string name="logged_in_as">Logged in as %s</string>
     <string name="confirm_restore_backup">Restoring a backup will replace your current tracked data. Do you want to continue?</string>
     <string name="restore">Restore</string>
     <string name="loading_last_backup">Loading last backup…</string>

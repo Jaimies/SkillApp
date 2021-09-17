@@ -54,7 +54,6 @@
     <string name="backups">Резервное копирование</string>
     <string name="login">Войти</string>
     <string name="logout">Выйти</string>
-    <string name="logged_in_as">Авторизован как %s</string>
     <string name="backup_to_google_drive">Создать резерную копию</string>
     <string name="auto_backup_message">Резервное копирование ваших данных будет автоматически выполняться один раз в день</string>
     <string name="loading_last_backup">Загрузка последней резервной копии…</string>

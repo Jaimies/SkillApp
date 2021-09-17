@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -30,6 +32,7 @@ import com.maxpoliakov.skillapp.util.ui.createReorderItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.findViewHolder
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -203,11 +206,6 @@ class SkillsFragment : Fragment(), SkillsFragmentCallback {
 
     private val viewModel: SkillsViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setupTransitions()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -271,7 +269,7 @@ class SkillsFragment : Fragment(), SkillsFragmentCallback {
             val transitionName = getString(R.string.add_skill_transition_name)
             val extras = FragmentNavigatorExtras(binding.addSkillFab to transitionName)
             val directions = MainDirections.actionToAddSkillFragment()
-            findNavController().navigate(directions, extras)
+            navigateWithTransition(directions, extras)
         }
     }
 
@@ -302,14 +300,25 @@ class SkillsFragment : Fragment(), SkillsFragmentCallback {
         val directions = MainDirections.actionToSkillDetailFragment(skill.id)
         val transitionName = getString(R.string.skill_transition_name)
         val extras = FragmentNavigatorExtras(view to transitionName)
-        findNavController().navigate(directions, extras)
+        navigateWithTransition(directions, extras)
     }
 
     override fun navigateToGroupDetail(view: View, group: SkillGroup) {
         val directions = MainDirections.actionToSkillGroupFragment(group.id)
         val transitionName = getString(R.string.group_transition_name)
         val extras = FragmentNavigatorExtras(view to transitionName)
+        navigateWithTransition(directions, extras)
+    }
+
+    private fun navigateWithTransition(directions: NavDirections, extras: FragmentNavigator.Extras) {
+        setupTransitions()
+
         findNavController().navigate(directions, extras)
+
+        lifecycleScope.launch {
+            delay(resources.getInteger(R.integer.animation_duration).toLong())
+            resetTransitions()
+        }
     }
 
     private fun setupTransitions() {
@@ -319,5 +328,10 @@ class SkillsFragment : Fragment(), SkillsFragmentCallback {
 
         exitTransition = transition
         reenterTransition = transition
+    }
+
+    private fun resetTransitions() {
+        exitTransition = null
+        reenterTransition = null
     }
 }

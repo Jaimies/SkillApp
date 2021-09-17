@@ -30,12 +30,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include
-                    android:id="@+id/title"
-                    layout="@layout/editable_textview"
-                    app:editableText="@={viewModel.name}"
-                    app:isEditing="@{viewModel.isEditing}"
-                    app:readonlyText="@{viewModel.readonlyName}" />
+                <EditText
+                    android:id="@+id/title_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="25dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/name"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/productivity_summary_spacing_start"
+                    android:text="@={viewModel.name}"
+                    android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
+                    tools:text="Programming" />
 
                 <LinearLayout
                     android:id="@+id/data_layout"

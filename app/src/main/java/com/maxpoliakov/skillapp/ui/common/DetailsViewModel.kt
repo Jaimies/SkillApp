@@ -23,10 +23,15 @@ abstract class DetailsViewModel : ViewModel() {
     val name = MutableLiveData("")
     val inputIsValid = name.map { it?.isBlank() == false }
 
+    private var lastName = ""
+
     init {
         viewModelScope.launch {
             delay(1)
-            nameFlow.collectOnce { newName -> name.value = newName }
+            nameFlow.collectOnce { newName ->
+                name.value = newName
+                lastName = newName
+            }
         }
     }
 
@@ -35,6 +40,7 @@ abstract class DetailsViewModel : ViewModel() {
     }
 
     fun exitEditingMode() {
+        name.value = lastName
         _isEditing.value = false
     }
 
@@ -43,6 +49,7 @@ abstract class DetailsViewModel : ViewModel() {
     fun save() {
         name.value?.trim()?.takeIf(String::isNotEmpty)?.let { name ->
             viewModelScope.launch { update(name) }
+            lastName = name
         }
 
         _isEditing.value = false

@@ -51,6 +51,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
 
     private fun onBackPressed(): Boolean {
         if (viewModel.isEditing.value!!) {
+            viewModel.exitEditingMode()
             stopEditing()
             return false
         } else {
@@ -68,7 +69,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
 
         if (item.itemId == R.id.edit) {
             if (viewModel.isEditing.value!!)
-                stopEditing()
+                viewModel.save()
             else
                 startEditing()
 
@@ -78,7 +79,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         return false
     }
 
-    protected fun startEditing() = input.run {
+    private fun startEditing() = input.run {
         isFocusable = true
         isFocusableInTouchMode = true
         requestFocus()
@@ -110,12 +111,11 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
             .start()
     }
 
-    protected fun stopEditing() = input.run {
+    private fun stopEditing() = input.run {
         isFocusable = false
         isFocusableInTouchMode = false
         clearFocus()
 
-        viewModel.exitEditingMode()
         menu.getItem(0).setTitle(R.string.edit)
         val duration = resources.getInteger(R.integer.animation_duration).toLong()
 

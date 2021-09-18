@@ -29,6 +29,7 @@ dependencies {
     implementation "com.google.dagger:hilt-core:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
 
+    testImplementation project(":sharedTest")
     testImplementation "io.mockk:mockk:$Versions.mockk"
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
 }

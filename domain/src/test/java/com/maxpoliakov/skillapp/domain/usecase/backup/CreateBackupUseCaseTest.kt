@@ -35,7 +35,7 @@ class CreateBackupUseCaseTest : StringSpec({
     }
 })
 
-fun createUseCase(isSubscribed: Boolean, isAuthenticated: Boolean): Pair<CreateBackupUseCase, DriveRepository> {
+private fun createUseCase(isSubscribed: Boolean, isAuthenticated: Boolean): Pair<CreateBackupUseCase, DriveRepository> {
     val driveRepository = mockk<DriveRepository>(relaxed = true)
     val authRepository = mockk<AuthRepository>(relaxed = true)
     val billingRepository = mockk<BillingRepository>(relaxed = true)

@@ -73,7 +73,7 @@ class RestoreBackupUseCaseTest : StringSpec({
     }
 })
 
-fun createUseCase(driveRepository: DriveRepository = StubDriveRepository()): Pair<RestoreBackupUseCase, BackupUtil> {
+private fun createUseCase(driveRepository: DriveRepository = StubDriveRepository()): Pair<RestoreBackupUseCase, BackupUtil> {
     val backupUtil = mockk<BackupUtil>(relaxed = true)
     return RestoreBackupUseCase(driveRepository, backupUtil) to backupUtil
 }

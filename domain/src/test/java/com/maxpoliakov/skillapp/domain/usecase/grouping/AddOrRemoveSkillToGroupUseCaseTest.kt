@@ -27,7 +27,7 @@ class AddOrRemoveSkillToGroupUseCaseTest : StringSpec({
     }
 })
 
-fun createUseCase(): Pair<AddOrRemoveSkillToGroupUseCase, SkillGroupRepository> {
+private fun createUseCase(): Pair<AddOrRemoveSkillToGroupUseCase, SkillGroupRepository> {
     val skillGroupRepository = mockk<SkillGroupRepository>(relaxed = true)
 
     coEvery { skillGroupRepository.getSkillGroupById(any()) } returns SkillGroup(1, "name", listOf(), -1)

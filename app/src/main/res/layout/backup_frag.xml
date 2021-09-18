@@ -15,51 +15,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:clipToPadding="false"
+            android:paddingBottom="20dp">
 
-            <Button
-                style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
-                android:enabled="@{!viewModel.backupCreating}"
-                android:onClick="@{() -> viewModel.createBackup()}"
-                android:paddingStart="20dp"
-                android:paddingEnd="24dp"
-                android:text="@string/backup_to_google_drive"
-                app:icon="@drawable/ic_drive"
-                app:visible="@{viewModel.currentUser != null}" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:paddingHorizontal="20dp"
-                android:text="@string/auto_backup_message"
-                android:textAlignment="center"
-                app:visible="@{viewModel.currentUser != null}" />
+                android:orientation="vertical">
 
-            <include
-                android:id="@+id/restore_account"
-                layout="@layout/backup_section"
-                app:onClick="@{() -> viewModel.goToRestore()}"
-                app:subtitle="@{BindingUtil.getOrReturnString(context, viewModel.lastBackupDate)}"
-                app:title="@{@string/restore}"
-                app:visible="@{viewModel.currentUser != null}" />
+                <Button
+                    style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:enabled="@{!viewModel.backupCreating}"
+                    android:onClick="@{() -> viewModel.createBackup()}"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/backup_to_google_drive"
+                    app:icon="@drawable/ic_drive"
+                    app:visible="@{viewModel.currentUser != null}" />
 
-            <include
-                android:id="@+id/account_section"
-                layout="@layout/backup_section"
-                android:onClick="@{() -> viewModel.signInOrSignOut()}"
-                app:label="@{viewModel.currentUser != null ? @string/logout : @string/login}"
-                app:subtitle="@{viewModel.currentUser.email}"
-                app:title="@{@string/account}" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/auto_backup_message"
+                    android:textAlignment="center"
+                    app:visible="@{viewModel.currentUser != null}" />
+
+                <include
+                    android:id="@+id/restore_account"
+                    layout="@layout/backup_section"
+                    app:onClick="@{() -> viewModel.goToRestore()}"
+                    app:subtitle="@{BindingUtil.getOrReturnString(context, viewModel.lastBackupDate)}"
+                    app:title="@{@string/restore}"
+                    app:visible="@{viewModel.currentUser != null}" />
+
+                <include
+                    android:id="@+id/account_section"
+                    layout="@layout/backup_section"
+                    android:onClick="@{() -> viewModel.signInOrSignOut()}"
+                    app:label="@{viewModel.currentUser != null ? @string/logout : @string/login}"
+                    app:subtitle="@{viewModel.currentUser.email}"
+                    app:title="@{@string/account}" />
+            </LinearLayout>
+        </ScrollView>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:layout_width="match_parent"

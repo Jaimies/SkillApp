@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.ui.premium
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.maxpoliakov.skillapp.data.billing.BillingRepository
+import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PremiumViewModel @Inject constructor(
-    private val billingRepository: BillingRepository
+    private val billingRepository: ExtendedBillingRepository,
 ) : ViewModel() {
     private val _showSubscriptionPrompt = SingleLiveEvent<Nothing>()
     val showSubscriptionPrompt: LiveData<Nothing> get() = _showSubscriptionPrompt

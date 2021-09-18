@@ -8,7 +8,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.data.billing.BillingRepository
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated

@@ -11,9 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.BillingClient
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.data.billing.BillingRepository
-import com.maxpoliakov.skillapp.data.billing.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
+import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
 import com.maxpoliakov.skillapp.databinding.PremiumFragBinding
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.subscriptions.showSubscriptionPrompt
@@ -26,7 +26,7 @@ class PremiumFragment : Fragment() {
     private val viewModel: PremiumViewModel by viewModels()
 
     @Inject
-    lateinit var billingRepository: BillingRepository
+    lateinit var billingRepository: ExtendedBillingRepository
 
     @Inject
     lateinit var billingClient: BillingClient

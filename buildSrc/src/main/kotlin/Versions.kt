@@ -32,6 +32,7 @@ object Versions {
     const val gradle = "7.0.2"
 
     const val mockito = "3.12.1"
+    const val mockk = "1.12.0"
     const val kotestJUnit5 = "4.6.1"
     const val androidxTestRunner = "1.4.0"
     const val androidJUnit = "1.1.3"

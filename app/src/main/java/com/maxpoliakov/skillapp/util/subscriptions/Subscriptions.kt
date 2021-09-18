@@ -5,10 +5,14 @@ import android.view.View
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.data.billing.BillingRepository
+import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 
-suspend fun BillingClient.showSubscriptionPrompt(billingRepository: BillingRepository, activity: Activity, view: View) {
+suspend fun BillingClient.showSubscriptionPrompt(
+    billingRepository: ExtendedBillingRepository,
+    activity: Activity,
+    view: View,
+) {
     val skuDetails = try {
         billingRepository.getSubscriptionSkuDetails() ?: return
     } catch (e: Exception) {

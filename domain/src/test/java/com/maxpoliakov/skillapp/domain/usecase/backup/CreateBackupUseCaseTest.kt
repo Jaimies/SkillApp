@@ -1,11 +1,10 @@
-package com.maxpoliakov.skillapp.domain.usecase
+package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.domain.repository.DriveRepository
-import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import io.mockk.coVerify

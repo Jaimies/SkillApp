@@ -1,10 +1,8 @@
-package com.maxpoliakov.skillapp.domain.usecase
+package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
 import com.maxpoliakov.skillapp.domain.repository.DriveRepository
-import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
-import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

@@ -17,6 +17,10 @@ object Versions {
     const val workManager = "2.6.0"
     const val billing = "4.0.0"
 
+    const val googleHttpClient = "1.40.0"
+    const val googleApiClient = "1.32.1"
+    const val googleApiServices = "v3-rev197-1.25.0"
+
     const val material = "1.4.0"
     const val MPAndroidChart = "3.1.0"
 

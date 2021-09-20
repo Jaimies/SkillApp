@@ -2,10 +2,12 @@ package com.maxpoliakov.skillapp.ui.skills
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
@@ -22,6 +24,7 @@ import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.util.fragment.observe
@@ -30,6 +33,7 @@ import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createReorderAndGroupItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.createReorderItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.findViewHolder
+import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -45,7 +49,7 @@ interface SkillsFragmentCallback {
 }
 
 @AndroidEntryPoint
-class SkillsFragment : Fragment(), SkillsFragmentCallback {
+class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmentCallback {
     private var lastItemDropTime = 0L
 
     private val itemTouchHelperCallback = object : ItemTouchHelperCallback {
@@ -291,6 +295,25 @@ class SkillsFragment : Fragment(), SkillsFragmentCallback {
     }
 
     private fun hideStopwatch() = listAdapter.hideStopwatch()
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.go_to_premium) {
+            findNavController().navigateAnimated(R.id.premium_fragment_dest)
+            return true
+        }
+
+        return false
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(!viewModel.isSubscribed.value)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        if (!viewModel.isSubscribed.value)
+            inflater.inflate(R.menu.skills_frag_menu, menu)
+    }
 
     override fun startDrag(viewHolder: RecyclerView.ViewHolder) {
         itemTouchHelper?.startDrag(viewHolder)

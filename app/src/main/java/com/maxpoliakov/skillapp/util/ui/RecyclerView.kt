@@ -10,3 +10,9 @@ inline fun <reified T : RecyclerView.ViewHolder> RecyclerView.findViewHolder(pre
 
     return null
 }
+
+fun RecyclerView.smoothScrollToTop() {
+    post {
+        smoothScrollToPosition(0)
+    }
+}

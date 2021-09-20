@@ -35,6 +35,7 @@ import com.maxpoliakov.skillapp.util.ui.createReorderItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.findViewHolder
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
+import com.maxpoliakov.skillapp.util.ui.smoothScrollToTop
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -259,7 +260,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
                 if (listAdapter.currentList.run { isNotEmpty() && list.size > this.size }) {
                     whenResumed {
-                        binding.recyclerView.smoothScrollToPosition(0)
+                        binding.recyclerView.smoothScrollToTop()
                     }
                 }
 
@@ -291,7 +292,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
     private fun showStopwatch() {
         listAdapter.showStopwatch()
-        binding.recyclerView.smoothScrollToPosition(0)
+        binding.recyclerView.smoothScrollToTop()
     }
 
     private fun hideStopwatch() = listAdapter.hideStopwatch()

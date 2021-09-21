@@ -1,16 +1,27 @@
 html {
-    font-family: sans-serif;
+    font-family: Poppins, sans-serif;
     line-height: 1.5;
 }
 
 body {
+    margin: 0;
+    background-color: #F9FBFC;
+}
+
+.container {
     width: 95%;
-    max-width: 800px;
-    margin: 8px auto;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 h1, h2 {
     line-height: 1.2;
+}
+
+h1 {
+    font-size: 60px;
+    color: #242F51;
 }
 
 a {
@@ -20,4 +31,117 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+footer, .footer-nav {
+    text-align: center;
+}
+
+.topnav {
+    display: flex;
+    align-items: center;
+    margin-top: 75px;
+}
+
+footer {
+    padding: 130px 0;
+    background-color: #09142E;
+    color: white;
+}
+
+footer a {
+    color: white;
+}
+
+.footer-nav {
+    margin-top: 50px;
+}
+
+.footer-nav-link {
+    margin: 0 12px;
+}
+
+.copyright {
+    margin-top: 45px;
+    font-size: 14px;
+    opacity: .68;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+}
+
+.screenshot {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 100px;
+    margin-left: auto;
+    height: 83%;
+}
+
+.first-screen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.first-screen-content {
+    position: relative;
+    flex-grow: 25;
+    display: flex;
+    align-items: center;
+}
+
+.first-screen-wrapper {
+    background: bottom center/100% no-repeat url("/header-background.png");
+}
+
+.first-screen-text {
+    margin-left: 70px;
+    max-width: 550px;
+    margin-bottom: 50px;
+}
+
+.first-screen-title {
+    font-weight: 600;
+    margin: 0 0 40px;
+}
+
+.first-screen-p {
+    font-size: 18px;
+    color: #616368;
+    margin: 0;
+}
+
+.first-screen-btn {
+    margin-top: 40px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #0039fb;
+    color: white;
+    padding: 17px 41px;
+    border-radius: 600px;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.nav-link {
+    margin: 0 20px;
+    color: #242F51;
+}
+
+.mla {
+    margin-left: auto;
+}
+
+.nav-btn {
+    margin-left: 40px;
 }

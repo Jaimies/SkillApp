@@ -1,0 +1,23 @@
+html {
+    font-family: sans-serif;
+    line-height: 1.5;
+}
+
+body {
+    width: 95%;
+    max-width: 800px;
+    margin: 8px auto;
+}
+
+h1, h2 {
+    line-height: 1.2;
+}
+
+a {
+    color: #20399D;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

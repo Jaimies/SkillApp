@@ -14,6 +14,13 @@ Install _fastlane_ using
 ```
 or alternatively using `brew install fastlane`
 
-This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.
+# Available Actions
+This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
 More information about fastlane can be found on [fastlane.tools](https://fastlane.tools).
 The documentation of fastlane can be found on [docs.fastlane.tools](https://docs.fastlane.tools).
+
+#Screenshots
+To get screenshots, run 
+```
+bundle exec fastlane run screengrab 
+```

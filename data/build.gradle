@@ -61,6 +61,13 @@ android {
     kotlinOptions.jvmTarget = '1.8'
 }
 
+configurations {
+    all {
+        exclude module: 'httpclient'
+        exclude module: 'commons-logging'
+    }
+}
+
 detekt {
     ignoreFailures = true
     autoCorrect = true
@@ -103,12 +110,8 @@ dependencies {
     implementation "com.android.billingclient:billing-ktx:$Versions.billing"
 
     implementation "com.google.http-client:google-http-client-gson:$Versions.googleHttpClient"
-    implementation("com.google.api-client:google-api-client-android:$Versions.googleApiClient") {
-        exclude group: 'org.apache.httpcomponents'
-    }
-    implementation("com.google.apis:google-api-services-drive:$Versions.googleApiServices") {
-        exclude group: 'org.apache.httpcomponents'
-    }
+    implementation("com.google.api-client:google-api-client-android:$Versions.googleApiClient")
+    implementation("com.google.apis:google-api-services-drive:$Versions.googleApiServices")
 
     testImplementation project(":sharedTest")
     testImplementation "org.mockito:mockito-core:$Versions.mockito"

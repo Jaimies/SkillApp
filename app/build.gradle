@@ -91,6 +91,13 @@ detekt {
     }
 }
 
+configurations {
+    all {
+        exclude module: 'httpclient'
+        exclude module: 'commons-logging'
+    }
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$Versions.kotlin"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$Versions.coroutines"
@@ -131,12 +138,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     implementation "com.google.http-client:google-http-client-gson:$Versions.googleHttpClient"
-    implementation("com.google.api-client:google-api-client-android:$Versions.googleApiClient") {
-        exclude group: 'org.apache.httpcomponents'
-    }
-    implementation("com.google.apis:google-api-services-drive:$Versions.googleApiServices") {
-        exclude group: 'org.apache.httpcomponents'
-    }
+    implementation("com.google.api-client:google-api-client-android:$Versions.googleApiClient")
+    implementation("com.google.apis:google-api-services-drive:$Versions.googleApiServices")
 
     implementation "com.android.billingclient:billing-ktx:$Versions.billing"
 

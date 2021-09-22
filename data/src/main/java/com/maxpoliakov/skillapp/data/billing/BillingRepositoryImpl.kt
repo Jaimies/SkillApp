@@ -11,7 +11,7 @@ import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.queryPurchasesAsync
 import com.android.billingclient.api.querySkuDetails
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.maxpoliakov.skillapp.data.billing.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -32,7 +32,7 @@ class BillingRepositoryImpl @Inject constructor(
     private val billingClient: BillingClient,
     private val purchaseUpdateHelper: PurchaseUpdateHelper,
     private val ioScope: CoroutineScope,
-) : BillingRepository {
+) : ExtendedBillingRepository {
 
     private val listeners = mutableListOf<() -> Unit>()
 

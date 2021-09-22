@@ -243,6 +243,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         }
 
         lifecycleScope.launch {
+            delay(1)
             viewModel.skillsAndGroups.collect {
                 // Don't update within 0.5sec after the drag and drop has finished, as those updates cause awful transitions
                 if (System.nanoTime() - lastItemDropTime < 500_000_000)

@@ -34,4 +34,8 @@ class TestDbModule {
     @Provides
     @Singleton
     fun provideRecordsDao(db: AppDatabase) = db.recordsDao()
+
+    @Provides
+    @Singleton
+    fun provideGroupDao(db: AppDatabase) = db.skillGroupDao()
 }

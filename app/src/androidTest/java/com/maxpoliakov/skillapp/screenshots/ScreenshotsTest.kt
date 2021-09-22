@@ -17,14 +17,18 @@ import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import tools.fastlane.screengrab.DecorViewScreenshotStrategy
 import tools.fastlane.screengrab.Screengrab
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
 import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import java.time.Duration
@@ -61,7 +65,10 @@ class ScreenshotsTest {
         hiltRule.inject()
         setupNavController()
         CleanStatusBar.enableWithDefaults()
-        com.maxpoliakov.skillapp.util.ui.setTheme(Theme.Light)
+
+        GlobalScope.launch {
+            setTheme(Theme.Light)
+        }
     }
 
     private fun setupNavController() {

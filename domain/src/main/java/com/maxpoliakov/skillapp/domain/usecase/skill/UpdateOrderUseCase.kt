@@ -12,18 +12,21 @@ class UpdateOrderUseCase @Inject constructor(
     private val skillGroupRepository: SkillGroupRepository,
 ) {
     suspend fun run(items: List<Orderable>) {
-        items.forEachIndexed { index, item ->
-            if (item is Skill && item.groupId == -1) skillRepository.updateOrder(item.id, index)
-            if (item is SkillGroup) {
-                skillGroupRepository.updateOrder(item.id, index)
+        items
+            .filter { it !is Skill || it.groupId == -1 }
+            .forEachIndexed { index, item ->
+                if (item is Skill) skillRepository.updateOrder(item.id, index)
+                if (item is SkillGroup) {
+                    skillGroupRepository.updateOrder(item.id, index)
 
-                val skills = items.filterIsInstance<Skill>()
-                    .filter { it.groupId == item.id }
+                    val skills = items.filterIsInstance<Skill>()
+                        .filter { it.groupId == item.id }
 
-                skills.forEachIndexed { index, skill ->
-                    skillRepository.updateOrder(skill.id, index)
+                    skills.forEachIndexed { index, skill ->
+                        skillRepository.updateOrder(skill.id, index)
+                    }
                 }
             }
-        }
     }
+
 }

@@ -34,7 +34,6 @@ class BackupFragment : Fragment() {
 
     private val signInLauncher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            viewModel.notifySignedIn()
             GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 .addOnSuccessListener { googleAccount ->
                     val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -43,6 +42,8 @@ class BackupFragment : Fragment() {
                         putString("account.name", account.name)
                         putString("account.type", account.type)
                     }
+
+                    viewModel.notifySignedIn()
                 }
         }
     }

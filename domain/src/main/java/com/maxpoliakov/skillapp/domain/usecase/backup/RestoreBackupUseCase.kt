@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
+import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
 import com.maxpoliakov.skillapp.domain.repository.DriveRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,12 +17,21 @@ enum class RestorationState {
 class RestoreBackupUseCase @Inject constructor(
     private val driveRepository: DriveRepository,
     private val backupUtil: BackupUtil,
+    private val authRepository: AuthRepository,
 ) {
     private val _state = MutableStateFlow(RestorationState.NotStarted)
     val state: StateFlow<RestorationState> get() = _state
 
     suspend fun restoreBackup(backup: Backup) {
-        if (state.value == RestorationState.Active) return
+        if (!authRepository.hasAppDataPermission) {
+            println("Not restoring a backup because the AppData permission is not granted")
+            return
+        }
+
+        if (state.value == RestorationState.Active) {
+            println("Not starting a backup restoration because another restoration is already running")
+            return
+        }
 
         _state.emit(RestorationState.Active)
 

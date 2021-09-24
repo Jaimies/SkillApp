@@ -34,7 +34,7 @@ class DriveModule {
         return Drive.Builder(
             NetHttpTransport(),
             GsonFactory(),
-            credential
+            credential,
         )
             .setApplicationName("SkillApp")
             .build()

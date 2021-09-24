@@ -15,13 +15,18 @@ class CreateBackupUseCase @Inject constructor(
     suspend fun createBackup() {
         billingRepository.connect()
 
+        if (!billingRepository.isSubscribed.value) {
+            println("Not creating a backup because the user is not subscribed")
+            return
+        }
+
         if (authRepository.currentUser == null) {
             println("Not creating a backup because the user is not signed in")
             return
         }
 
-        if (!billingRepository.isSubscribed.value) {
-            println("Not creating a backup because the user is not subscribed")
+        if (!authRepository.hasAppDataPermission) {
+            println("Not creating a backup because the AppData permission is not granted")
             return
         }
 

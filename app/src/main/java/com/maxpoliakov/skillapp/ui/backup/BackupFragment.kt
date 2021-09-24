@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.backup
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.api.Scope
+import com.google.api.services.drive.DriveScopes
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
 import com.maxpoliakov.skillapp.util.dialog.showDialog
@@ -78,9 +81,25 @@ class BackupFragment : Fragment() {
                 viewModel.signOut()
             }
         }
+        observe(viewModel.requestAppDataPermission) {
+            GoogleSignIn.requestPermissions(
+                this,
+                REQUEST_APPDATA_CODE,
+                GoogleSignIn.getLastSignedInAccount(requireContext()),
+                Scope(DriveScopes.DRIVE_APPDATA),
+            )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_APPDATA_CODE) viewModel.updateLastBackupDate()
     }
 
     private fun signIn() {
         signInLauncher.launch(googleSignInClient.signInIntent)
+    }
+
+    companion object {
+        private const val REQUEST_APPDATA_CODE = 0
     }
 }

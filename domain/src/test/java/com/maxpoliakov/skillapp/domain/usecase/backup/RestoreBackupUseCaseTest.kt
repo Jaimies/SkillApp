@@ -1,12 +1,14 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
+import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
 import com.maxpoliakov.skillapp.domain.repository.DriveRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -71,11 +73,24 @@ class RestoreBackupUseCaseTest : StringSpec({
         shouldThrow<Exception> { useCase.restoreBackup(backup) }
         useCase.state.value shouldBe RestorationState.Failed
     }
+
+    "does not restore backup if the AppData permission was not granted" {
+        val (useCase, backupUtil) = createUseCase(hasAppDataPermission = false)
+        useCase.restoreBackup(backup)
+        coVerify(exactly = 0) { backupUtil.restoreBackup(backupContents) }
+    }
 })
 
-private fun createUseCase(driveRepository: DriveRepository = StubDriveRepository()): Pair<RestoreBackupUseCase, BackupUtil> {
+private fun createUseCase(
+    driveRepository: DriveRepository = StubDriveRepository(),
+    hasAppDataPermission: Boolean = true
+): Pair<RestoreBackupUseCase, BackupUtil> {
     val backupUtil = mockk<BackupUtil>(relaxed = true)
-    return RestoreBackupUseCase(driveRepository, backupUtil) to backupUtil
+    val authRepository = mockk<AuthRepository>(relaxed = true)
+
+    every { authRepository.hasAppDataPermission } returns hasAppDataPermission
+
+    return RestoreBackupUseCase(driveRepository, backupUtil, authRepository) to backupUtil
 }
 
 private const val backupContents = "some backup contents"

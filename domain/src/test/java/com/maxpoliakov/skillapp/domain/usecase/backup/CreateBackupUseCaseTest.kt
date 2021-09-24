@@ -14,28 +14,37 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class CreateBackupUseCaseTest : StringSpec({
     "creates backup if both authenticated and subscribed" {
-        val (useCase, driveRepository) = createUseCase(isSubscribed = true, isAuthenticated = true)
+        val (useCase, driveRepository) = createUseCase(isSubscribed = true, isAuthenticated = true, hasPermissions = true)
         useCase.createBackup()
         coVerify { driveRepository.uploadBackup(backupData) }
     }
     "doesn't create backup if not authenticated" {
-        val (useCase, driveRepository) = createUseCase(isSubscribed = true, isAuthenticated = false)
+        val (useCase, driveRepository) = createUseCase(isSubscribed = true, isAuthenticated = false, hasPermissions = true)
         useCase.createBackup()
         coVerify(exactly = 0) { driveRepository.uploadBackup(any()) }
     }
     "doesn't create backup if not subscribed" {
-        val (useCase, driveRepository) = createUseCase(isSubscribed = false, isAuthenticated = true)
+        val (useCase, driveRepository) = createUseCase(isSubscribed = false, isAuthenticated = true, hasPermissions = true)
+        useCase.createBackup()
+        coVerify(exactly = 0) { driveRepository.uploadBackup(backupData) }
+    }
+    "doesn't create backup if AppData permission is not granted" {
+        val (useCase, driveRepository) = createUseCase(isSubscribed = true, isAuthenticated = true, hasPermissions = false)
         useCase.createBackup()
         coVerify(exactly = 0) { driveRepository.uploadBackup(backupData) }
     }
     "doesn't create backup if neither subscribed nor authenticated" {
-        val (useCase, driveRepository) = createUseCase(isSubscribed = false, isAuthenticated = false)
+        val (useCase, driveRepository) = createUseCase(isSubscribed = false, isAuthenticated = false, hasPermissions = false)
         useCase.createBackup()
         coVerify(exactly = 0) { driveRepository.uploadBackup(backupData) }
     }
 })
 
-private fun createUseCase(isSubscribed: Boolean, isAuthenticated: Boolean): Pair<CreateBackupUseCase, DriveRepository> {
+private fun createUseCase(
+    isSubscribed: Boolean,
+    isAuthenticated: Boolean,
+    hasPermissions: Boolean,
+): Pair<CreateBackupUseCase, DriveRepository> {
     val driveRepository = mockk<DriveRepository>(relaxed = true)
     val authRepository = mockk<AuthRepository>(relaxed = true)
     val billingRepository = mockk<BillingRepository>(relaxed = true)
@@ -44,6 +53,7 @@ private fun createUseCase(isSubscribed: Boolean, isAuthenticated: Boolean): Pair
     coEvery { backupUtil.getDatabaseBackup() } returns backupData
     every { billingRepository.isSubscribed } returns MutableStateFlow(isSubscribed)
     every { authRepository.currentUser } returns if (isAuthenticated) User("user@gmail.com") else null
+    every { authRepository.hasAppDataPermission } returns hasPermissions
 
     return CreateBackupUseCase(driveRepository, authRepository, billingRepository, backupUtil) to driveRepository
 }

@@ -61,6 +61,9 @@ class BackupViewModel @Inject constructor(
     private val _lastBackupDate = MutableLiveData<Any?>(R.string.loading_last_backup)
     val lastBackupDate: LiveData<Any?> get() = _lastBackupDate
 
+    private val _requestAppDataPermission = SingleLiveEvent<Nothing>()
+    val requestAppDataPermission: LiveData<Nothing> get() = _requestAppDataPermission
+
     init {
         viewModelScope.launch {
             restoreBackupUseCase.state.collectIgnoringInitialValue { state ->
@@ -68,14 +71,21 @@ class BackupViewModel @Inject constructor(
             }
         }
 
-        getLastBackupDate()
+        updateLastBackupDate()
 
         if (!networkUtil.isConnected) _showNoNetwork.call()
+        else if (authRepository.currentUser != null && !authRepository.hasAppDataPermission)
+            _requestAppDataPermission.call()
     }
 
-    private fun getLastBackupDate() = viewModelScope.launch {
+    fun updateLastBackupDate() = viewModelScope.launch {
         if (!networkUtil.isConnected || currentUser.value == null) {
             _lastBackupDate.value = null
+            return@launch
+        }
+
+        if (!authRepository.hasAppDataPermission) {
+            println("Not getting last backup date because the AppData permission is not granted")
             return@launch
         }
 
@@ -94,7 +104,10 @@ class BackupViewModel @Inject constructor(
     fun notifySignedIn() {
         _currentUser.value = authRepository.currentUser
         _lastBackupDate.value = R.string.loading_last_backup
-        getLastBackupDate()
+        updateLastBackupDate()
+
+        if (!authRepository.hasAppDataPermission)
+            _requestAppDataPermission.call()
     }
 
     fun signInOrSignOut() {
@@ -118,6 +131,11 @@ class BackupViewModel @Inject constructor(
             return@launch
         }
 
+        if (!authRepository.hasAppDataPermission) {
+            _requestAppDataPermission.postCall()
+            return@launch
+        }
+
         _backupCreating.postValue(true)
 
         try {
@@ -135,9 +153,8 @@ class BackupViewModel @Inject constructor(
     }
 
     fun goToRestore() {
-        if (networkUtil.isConnected)
-            _goToRestore.call()
-        else
-            _showNoNetwork.call()
+        if (!authRepository.hasAppDataPermission) _requestAppDataPermission.call()
+        else if (!networkUtil.isConnected) _showNoNetwork.call()
+        else _goToRestore.call()
     }
 }

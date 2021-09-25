@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-    width: 95%;
+    width: 90%;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -144,4 +144,90 @@ footer a {
 
 .nav-btn {
     margin-left: 40px;
+}
+
+@media (max-width: 900px) {
+    .screenshot {
+        right: 70px;
+    }
+}
+
+@media (max-width: 860px) {
+    .screenshot {
+        right: 50px;
+    }
+}
+
+@media (max-width: 835px) {
+    .first-screen-content {
+        flex-direction: column;
+        margin-top: 100px;
+    }
+
+    .first-screen-text {
+        margin-left: 0;
+        max-width: 420px;
+        padding: 0 32px;
+        word-wrap: break-word;
+    }
+
+    .screenshot {
+        position: static;
+        width: 400px;
+        max-width: 90%;
+        height: auto;
+        margin-left: 0;
+        transform: none;
+        margin-bottom: 50px;
+    }
+
+    .first-screen {
+        height: auto;
+    }
+}
+
+@media (max-width: 670px) {
+    .nav-btn {
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 630px) {
+    .nav-link {
+        display: none;
+    }
+
+    .nav-btn {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 590px) {
+    .topnav {
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 370px) {
+    .first-screen-text {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 350px) {
+    .container {
+        width: 95%;
+    }
+}
+
+@media (max-width: 340px) {
+    .first-screen-text {
+        padding: 0 8px;
+    }
+}
+
+@media (max-width: 330px) {
+    .container {
+        width: 98%;
+    }
 }

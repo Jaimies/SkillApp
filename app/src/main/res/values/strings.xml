@@ -36,7 +36,7 @@
     <string name="change_time">Change time</string>
     <string name="settings">Settings</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="privacy_policy_url" translatable="false">https://skillapp-e0f01.web.app/privacy.html</string>
+    <string name="privacy_policy_url" translatable="false">https://the-skillapp.web.app/privacy.html</string>
     <string name="about">About</string>
     <string name="open_source_licences">Open Source licences</string>
     <string name="theme">Theme</string>

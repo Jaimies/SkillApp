@@ -57,15 +57,20 @@
                 android:text="@={viewModel.totalTime}" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/save_fab"
+            style="@style/Widget.SkillApp.ExtendedFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/save"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="24dp"
             android:enabled="@{viewModel.inputIsValid}"
             android:onClick="@{() -> viewModel.update()}"
-            android:src="@drawable/ic_check"
+            android:paddingStart="20dp"
+            android:text="@string/save"
+            app:elevation="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

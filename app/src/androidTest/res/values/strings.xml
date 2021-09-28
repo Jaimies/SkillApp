@@ -2,6 +2,7 @@
 <resources>
     <string name="software_engineering">Software engineering</string>
     <string name="ux_design">UX Design</string>
-    <string name="cycling">Cycling</string>
-    <string name="playing_guitar">Playing the guitar</string>
+    <string name="web_design">Web design</string>
+    <string name="app_design">App design</string>
+    <string name="animation_design">Animation design</string>
 </resources>

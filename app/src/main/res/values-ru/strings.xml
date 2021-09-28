@@ -54,12 +54,12 @@
     <string name="backups">Резервное копирование</string>
     <string name="login">Войти</string>
     <string name="logout">Выйти</string>
-    <string name="backup_to_google_drive">Создать резерную копию</string>
+    <string name="backup_to_google_drive">Создать резервную копию</string>
     <string name="auto_backup_message">Резервное копирование ваших данных будет автоматически выполняться один раз в день</string>
     <string name="loading_last_backup">Загрузка последней резервной копии…</string>
     <string name="no_backup_found">Резервная копия не найдена</string>
     <string name="restore">Восстановить</string>
-    <string name="confirm_restore_backup">Восстановление резерной копии заменит ваши текущие данные. Вы хотите продолжить?</string>
+    <string name="confirm_restore_backup">Восстановление резервной копии заменит ваши текущие данные. Вы хотите продолжить?</string>
     <string name="account">Учетная запись</string>
     <string name="backup_successful">Резервная копия успешно загружена на Google Диск</string>
     <string name="backup_restore_successful">Данные успешно восстановлены из резервной копии</string>
@@ -71,8 +71,8 @@
     <string name="skillapp_premium">Skillapp Премиум</string>
     <string name="backups_title">Резервное копирование</string>
     <string name="backups_description">Безопасное резервное копирование ваших данных на Google Диск</string>
-    <string name="grouping_title">Групируйте навыки</string>
-    <string name="grouping_text">Огранизовывайте связанные навыки в группы и просматривайте их общую статистику</string>
+    <string name="grouping_title">Группируйте навыки</string>
+    <string name="grouping_text">Организовывайте связанные навыки в группы и просматривайте их общую статистику</string>
     <string name="support_developer_title">Поддержите разработчика</string>
     <string name="support_developer_text">Ваша поддержка помогает сделать приложение лучше</string>
     <string name="subscriptions_uri">https://play.google.com/store/account/subscriptions?sku=%1$s&amp;package=%2$s</string>

@@ -76,10 +76,10 @@ class CardViewDecoration : ItemDecoration() {
         }
 
         val shadowRect = RectF(rect).apply {
-            top -= 2.dp.toPx(context)
+            top -= 1.dp.toPx(context)
             left -= 1.dp.toPx(context)
             right += 1.dp.toPx(context)
-            bottom += 3.dp.toPx(context)
+            bottom += 1.5f.dp.toPx(context)
         }
 
         drawRoundRect(shadowRect, 16.dp.toPx(context).toFloat(), 16.dp.toPx(context).toFloat(), shadowPaint)

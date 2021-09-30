@@ -1,9 +1,11 @@
 package com.maxpoliakov.skillapp.ui.common
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.os.Build
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -57,8 +59,30 @@ class CardViewDecoration : ItemDecoration() {
                 lastViewHolder.itemView.bottom.toFloat() + bottomOffset,
             )
 
+            if (Build.VERSION.SDK_INT < 28)
+                c.drawFakeShadow(shadowColor, rect, parent.context)
+
             c.drawRoundRect(rect, size16dp, size16dp, fillPaint)
         }
+    }
+
+    private fun Canvas.drawFakeShadow(
+        shadowColor: Int,
+        rect: RectF,
+        context: Context,
+    ) {
+        val shadowPaint = Paint().apply {
+            color = shadowColor
+        }
+
+        val shadowRect = RectF(rect).apply {
+            top -= 2.dp.toPx(context)
+            left -= 1.dp.toPx(context)
+            right += 1.dp.toPx(context)
+            bottom += 3.dp.toPx(context)
+        }
+
+        drawRoundRect(shadowRect, 16.dp.toPx(context).toFloat(), 16.dp.toPx(context).toFloat(), shadowPaint)
     }
 
     private fun RecyclerView.findLastViewHolderInGroup(groupId: Int): RecyclerView.ViewHolder? {

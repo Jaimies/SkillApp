@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "redirects": [
+      {
+        "source": "/:path*",
+        "destination": "https://the-skillapp.web.app/:path",
+        "type": 301
+      }
+    ]
+  }
+}

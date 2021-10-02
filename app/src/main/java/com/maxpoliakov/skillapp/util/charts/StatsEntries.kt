@@ -1,13 +1,12 @@
 package com.maxpoliakov.skillapp.util.charts
 
 import com.github.mikephil.charting.data.BarEntry
-import com.maxpoliakov.skillapp.data.stats.STATS_ENTRIES
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.shared.util.daysSinceEpoch
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import java.time.Duration
 
-fun List<Statistic>.withMissingStats(count: Int = STATS_ENTRIES): List<Statistic> {
+fun List<Statistic>.withMissingStats(count: Int = STATS_ENTRIES_COUNT): List<Statistic> {
     return List(count) { index ->
         val neededDate = getCurrentDate().minusDays(index.toLong())
         val item = find { chartItem -> chartItem.date == neededDate }
@@ -33,3 +32,5 @@ private fun List<Statistic>.convertToEntries(): List<BarEntry> {
         BarEntry(statistic.date.daysSinceEpoch.toFloat(), statistic.time.seconds.toFloat())
     }
 }
+
+private const val STATS_ENTRIES_COUNT = 56

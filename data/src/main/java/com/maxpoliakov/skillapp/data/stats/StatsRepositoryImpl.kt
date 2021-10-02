@@ -11,7 +11,6 @@ import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val STATS_ENTRIES = 7
 
 @Singleton
 class StatsRepositoryImpl @Inject constructor(

@@ -1,9 +1,17 @@
 package com.maxpoliakov.skillapp.util.charts
 
+import android.graphics.Canvas
 import androidx.core.graphics.ColorUtils
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.Chart.PAINT_INFO
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.renderer.XAxisRenderer
+import com.github.mikephil.charting.utils.MPPointF
+import com.github.mikephil.charting.utils.Transformer
+import com.github.mikephil.charting.utils.Utils
+import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekDayFormatter
@@ -27,7 +35,21 @@ fun BarChart.setup() {
     setupOffsets()
     setupFonts()
     setupAxes()
+    setupZoom()
     setupNoDataText()
+}
+
+fun BarChart.setupZoom() {
+    viewPortHandler.setMaximumScaleX(8f)
+    viewPortHandler.setMinimumScaleX(4f)
+    viewPortHandler.setMaximumScaleY(1f)
+    setXAxisRenderer(
+        CustomXAxisRenderer(
+            viewPortHandler,
+            xAxis,
+            getTransformer(YAxis.AxisDependency.LEFT)
+        )
+    )
 }
 
 private fun BarChart.setupOffsets() {
@@ -87,6 +109,16 @@ private fun BarChart.disableUnneededFeatures() {
     axisRight.isEnabled = false
     axisLeft.isEnabled = false
     description.isEnabled = false
-    setScaleEnabled(false)
-    isDragEnabled = false
+}
+
+class CustomXAxisRenderer(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, trans: Transformer?) :
+    XAxisRenderer(viewPortHandler, xAxis, trans) {
+    override fun drawLabel(c: Canvas?, formattedLabel: String, x: Float, y: Float, anchor: MPPointF?, angleDegrees: Float) {
+        val line = formattedLabel.split("\n").toTypedArray()
+        Utils.drawXAxisValue(c, line[0], x, y, mAxisLabelPaint, anchor, angleDegrees)
+        Utils.drawXAxisValue(
+            c,
+            line[1], x, y + mAxisLabelPaint.textSize, mAxisLabelPaint, anchor, angleDegrees
+        )
+    }
 }

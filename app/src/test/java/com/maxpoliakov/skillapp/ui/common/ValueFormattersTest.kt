@@ -17,9 +17,8 @@ class ValueFormattersTest : StringSpec({
 
     "WeekDayFormatter" {
         val formatter = WeekDayFormatter()
-        // Epoch is a Thursday
-        formatter.getFormattedValue(0f) shouldBe "Thu"
-        formatter.getFormattedValue(1f) shouldBe "Fri"
-        formatter.getFormattedValue(4f) shouldBe "Mon"
+        formatter.getFormattedValue(0f) shouldBe "1\nJan"
+        formatter.getFormattedValue(1f) shouldBe "2\nJan"
+        formatter.getFormattedValue(4f) shouldBe "5\nJan"
     }
 })

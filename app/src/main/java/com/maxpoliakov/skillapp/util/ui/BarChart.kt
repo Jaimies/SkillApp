@@ -19,6 +19,7 @@ fun BarChart.setState(entries: List<BarEntry>?) {
 private fun BarChart.updateUI(entries: List<BarEntry>) {
     this.data = BarData(createDataSets(entries))
     this.data.barWidth = 0.3f
+    zoom(8f, 1f, entries.last().x, 0f)
     notifyDataSetChanged()
     invalidate()
 }

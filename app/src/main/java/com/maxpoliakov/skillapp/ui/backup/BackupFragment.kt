@@ -92,7 +92,8 @@ class BackupFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_APPDATA_CODE) viewModel.updateLastBackupDate()
+        if (requestCode == REQUEST_APPDATA_CODE && resultCode == Activity.RESULT_OK)
+            viewModel.updateLastBackupDate()
     }
 
     private fun signIn() {

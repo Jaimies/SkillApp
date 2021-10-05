@@ -14,7 +14,7 @@
     <string name="no_skills_text">Добавьте пару навыков и поехали</string>
     <string name="no_records_title">Пока что нет\u00A0данных</string>
     <string name="no_records_text">Начните отслеживать свое время, и ваши записи появятся здесь</string>
-    <string name="no_stats">Нет данных за последние 7 дней</string>
+    <string name="no_stats">Нет свежих данных</string>
     <string name="add_skill">Добавить навык</string>
     <string name="new_group">Новая группа</string>
     <string name="history">История</string>

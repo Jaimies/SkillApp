@@ -49,7 +49,7 @@ class CardViewDecoration : ItemDecoration() {
 
             val fillPaint = Paint().apply {
                 color = parent.context.getColorAttributeValue(R.attr.cardViewBackground)
-                setShadowLayer(2.dp.toPx(parent.context).toFloat(), 0f, 1.dp.toPx(parent.context).toFloat(), shadowColor)
+                setShadowLayer(4.dp.toPx(parent.context).toFloat(), 0f, 1.dp.toPx(parent.context).toFloat(), shadowColor)
             }
 
             val rect = RectF(

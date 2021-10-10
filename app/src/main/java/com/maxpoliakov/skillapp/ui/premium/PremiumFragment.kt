@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.BillingClient
@@ -14,6 +13,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
 import com.maxpoliakov.skillapp.databinding.PremiumFragBinding
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
+import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.subscriptions.showSubscriptionPrompt
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class PremiumFragment : Fragment() {
+class PremiumFragment : BaseFragment() {
     private val viewModel: PremiumViewModel by viewModels()
 
     @Inject

@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.edit
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
@@ -18,6 +17,7 @@ import com.google.android.gms.common.api.Scope
 import com.google.api.services.drive.DriveScopes
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
+import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.dialog.showToast
@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BackupFragment : Fragment() {
+class BackupFragment : BaseFragment() {
     private val viewModel: BackupViewModel by viewModels()
 
     private lateinit var binding: BackupFragBinding

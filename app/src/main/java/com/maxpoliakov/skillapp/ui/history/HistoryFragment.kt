@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.maxpoliakov.skillapp.databinding.HistoryFragBinding
+import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.util.ui.addDividers
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HistoryFragment : Fragment() {
+class HistoryFragment : BaseFragment() {
     val viewModel: HistoryViewModel by viewModels()
 
     @Inject

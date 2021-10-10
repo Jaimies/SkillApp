@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.RestoreBackupFragBinding
+import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.addDividers
@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RestoreBackupFragment : Fragment() {
+class RestoreBackupFragment : BaseFragment() {
     private lateinit var binding: RestoreBackupFragBinding
 
     private val viewModel: RestoreBackupViewModel by viewModels()

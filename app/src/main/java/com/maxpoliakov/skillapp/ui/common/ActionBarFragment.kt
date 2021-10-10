@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.annotation.MenuRes
-import androidx.fragment.app.Fragment
 
-abstract class ActionBarFragment(@MenuRes private val menuId: Int) : Fragment() {
+abstract class ActionBarFragment(@MenuRes private val menuId: Int) : BaseFragment() {
     protected lateinit var menu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {

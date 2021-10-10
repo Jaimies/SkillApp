@@ -2,14 +2,12 @@ package com.maxpoliakov.skillapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.R.id.history_fragment_dest
 import com.maxpoliakov.skillapp.R.id.settings_fragment_dest
 import com.maxpoliakov.skillapp.R.id.skills_fragment_dest
@@ -63,20 +61,5 @@ class MainActivity : AppCompatActivity(),
     ) {
         hideKeyboard()
         binding.toolbar.isGone = destination.id == statistics_fragment_dest
-    }
-
-    fun setToolbar(newToolbar: Toolbar) {
-        binding.toolbar.isGone = !shouldDisplayDefaultToolbar(newToolbar)
-        setSupportActionBar(newToolbar)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-    }
-
-    private fun shouldDisplayDefaultToolbar(newToolbar: Toolbar): Boolean {
-        return newToolbar.id == R.id.toolbar
-                && navController.currentDestination!!.id != statistics_fragment_dest
-    }
-
-    fun resetToolbar() {
-        setToolbar(binding.toolbar)
     }
 }

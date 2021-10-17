@@ -2,12 +2,12 @@ package com.maxpoliakov.skillapp.data.stopwatch
 
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
-import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
-import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
+import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -45,6 +45,10 @@ class StopwatchUtilImpl @Inject constructor(
         setState(Paused)
     }
 
+    override fun cancel() {
+        setState(Paused, addRecord = false)
+    }
+
     override fun start(skillId: Int) {
         if (!shouldStartTimer(skillId)) return
         val state = Running(getZonedDateTime(), skillId)
@@ -56,8 +60,10 @@ class StopwatchUtilImpl @Inject constructor(
         return state !is Running || state.skillId != skillId
     }
 
-    private fun setState(state: StopwatchState) {
-        addRecordIfNeeded()
+    private fun setState(state: StopwatchState, addRecord: Boolean = true) {
+        if (addRecord)
+            addRecordIfNeeded()
+
         _state.value = state
         persistence.saveState(state)
         updateNotification()

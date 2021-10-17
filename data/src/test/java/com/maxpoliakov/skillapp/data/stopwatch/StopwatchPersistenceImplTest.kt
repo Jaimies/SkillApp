@@ -1,10 +1,10 @@
-package com.maxpoliakov.skillapp.util.stopwatch
+package com.maxpoliakov.skillapp.data.stopwatch
 
-import com.maxpoliakov.skillapp.StubSharedPreferences
 import com.maxpoliakov.skillapp.clockOfEpochSecond
+import com.maxpoliakov.skillapp.data.StubSharedPreferences
 import com.maxpoliakov.skillapp.shared.util.setClock
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Paused
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.Clock

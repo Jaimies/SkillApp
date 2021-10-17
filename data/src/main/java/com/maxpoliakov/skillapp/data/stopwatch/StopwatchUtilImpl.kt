@@ -1,11 +1,13 @@
-package com.maxpoliakov.skillapp.util.stopwatch
+package com.maxpoliakov.skillapp.data.stopwatch
 
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.StopwatchState
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
-import com.maxpoliakov.skillapp.util.notifications.NotificationUtil
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Paused
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

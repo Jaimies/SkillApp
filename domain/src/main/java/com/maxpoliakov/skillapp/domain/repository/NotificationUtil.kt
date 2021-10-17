@@ -1,6 +1,6 @@
-package com.maxpoliakov.skillapp.util.notifications
+package com.maxpoliakov.skillapp.domain.repository
 
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState
+import com.maxpoliakov.skillapp.domain.model.StopwatchState
 
 interface NotificationUtil {
     fun showStopwatchNotification(state: StopwatchState.Running)

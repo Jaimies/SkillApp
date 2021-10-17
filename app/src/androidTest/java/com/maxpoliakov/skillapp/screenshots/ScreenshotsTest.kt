@@ -14,7 +14,7 @@ import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.test.R
 import com.maxpoliakov.skillapp.ui.MainActivity
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers

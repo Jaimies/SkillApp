@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp
+package com.maxpoliakov.skillapp.data
 
 import android.content.SharedPreferences
 

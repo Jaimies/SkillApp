@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.screenshots
 
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.model.StopwatchState
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.time.ZonedDateTime

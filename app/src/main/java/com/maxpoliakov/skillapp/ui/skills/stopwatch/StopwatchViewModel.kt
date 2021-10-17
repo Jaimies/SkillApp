@@ -6,8 +6,8 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.model.StopwatchState
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map

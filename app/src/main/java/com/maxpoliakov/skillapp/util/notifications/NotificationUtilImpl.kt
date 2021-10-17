@@ -18,7 +18,8 @@ import com.maxpoliakov.skillapp.StopTimerBroadcastReceiver
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.util.collectOnce
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState
+import com.maxpoliakov.skillapp.domain.model.StopwatchState
+import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.util.ui.chronometerBase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope

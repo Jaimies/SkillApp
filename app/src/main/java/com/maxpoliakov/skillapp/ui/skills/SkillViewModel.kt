@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import javax.inject.Inject
 
 class SkillViewModel @Inject constructor(

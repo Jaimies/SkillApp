@@ -15,8 +15,8 @@ import com.maxpoliakov.skillapp.util.charts.toEntries
 import com.maxpoliakov.skillapp.util.charts.withMissingStats
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.map

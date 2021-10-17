@@ -1,15 +1,16 @@
-package com.maxpoliakov.skillapp.util.stopwatch
+package com.maxpoliakov.skillapp.data.stopwatch
 
-import com.maxpoliakov.skillapp.StubStopwatchPersistence
 import com.maxpoliakov.skillapp.clockOfEpochSecond
+import com.maxpoliakov.skillapp.data.StubStopwatchPersistence
 import com.maxpoliakov.skillapp.dateOfEpochSecond
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.shared.util.setClock
-import com.maxpoliakov.skillapp.util.notifications.NotificationUtil
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Paused
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +21,6 @@ import org.mockito.Mockito.verify
 import java.time.Clock
 import java.time.Duration
 import java.time.ZonedDateTime
-
 
 class StopwatchUtilImplTest : StringSpec({
     val coroutineScope = CoroutineScope(Unconfined)

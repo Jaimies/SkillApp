@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_BOOT_COMPLETED
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import io.kotest.core.spec.style.StringSpec
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock

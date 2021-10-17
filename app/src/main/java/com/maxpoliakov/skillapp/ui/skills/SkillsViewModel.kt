@@ -12,8 +12,8 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseC
 import com.maxpoliakov.skillapp.domain.usecase.skill.SkillsAndGroups
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchState.Running
-import com.maxpoliakov.skillapp.util.stopwatch.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay

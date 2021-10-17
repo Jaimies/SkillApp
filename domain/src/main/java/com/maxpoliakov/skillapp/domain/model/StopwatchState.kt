@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.util.stopwatch
+package com.maxpoliakov.skillapp.domain.model
 
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.shared.util.until

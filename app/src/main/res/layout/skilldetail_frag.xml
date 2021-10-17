@@ -10,7 +10,7 @@
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.skilldetail.SkillDetailViewModel" />
 
-        <import type="com.maxpoliakov.skillapp.util.stopwatch.StopwatchState" />
+        <import type="com.maxpoliakov.skillapp.domain.model.StopwatchState" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

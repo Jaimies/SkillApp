@@ -1,5 +1,6 @@
-package com.maxpoliakov.skillapp.util.stopwatch
+package com.maxpoliakov.skillapp.domain.repository
 
+import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import kotlinx.coroutines.flow.StateFlow
 
 interface StopwatchUtil {

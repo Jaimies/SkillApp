@@ -9,6 +9,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillGroupFragBinding
 import com.maxpoliakov.skillapp.ui.common.DetailsFragment
+import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.charts.setData
 import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
@@ -55,4 +56,6 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
         }
         observe(viewModel.stats, binding.productivityChart.chart::setState)
     }
+
+    override fun onStartEditing() = logEvent("edit_skill_group")
 }

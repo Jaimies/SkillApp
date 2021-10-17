@@ -3,6 +3,8 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.DeleteSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
@@ -11,12 +13,11 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
+import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.charts.toEntries
 import com.maxpoliakov.skillapp.util.charts.withMissingStats
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.map
@@ -68,10 +69,18 @@ class SkillDetailViewModel(
 
     fun deleteSkill() = this.skill.replayCache.lastOrNull()?.let { skill ->
         ioScope.launch { deleteSkill.run(skill) }
+        logEvent("delete_skill")
     }
 
-    fun toggleTimer() = stopwatchUtil.toggle(skillId)
-    fun showRecordDialog() = showRecordDialog.call()
+    fun toggleTimer() {
+        stopwatchUtil.toggle(skillId)
+        logEvent("toggle_timer")
+    }
+
+    fun showRecordDialog() {
+        showRecordDialog.call()
+        logEvent("add_time_manually")
+    }
 
     override suspend fun update(name: String) {
         updateSkillUseCase.updateName(skillId, name)

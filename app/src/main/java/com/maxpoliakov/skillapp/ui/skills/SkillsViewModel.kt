@@ -3,17 +3,18 @@ package com.maxpoliakov.skillapp.ui.skills
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.SkillsAndGroups
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
+import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -58,6 +59,7 @@ class SkillsViewModel @Inject constructor(
     }
 
     fun createGroupAsync(originalSkill: Skill, group: SkillGroup) = viewModelScope.async {
+        logEvent("create_group")
         manageGroup.createGroup(originalSkill, group)
     }
 

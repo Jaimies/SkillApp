@@ -79,7 +79,11 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
         return false
     }
 
+    open fun onStartEditing() {}
+
     private fun startEditing() = input.run {
+        onStartEditing()
+
         isFocusable = true
         isFocusableInTouchMode = true
         requestFocus()

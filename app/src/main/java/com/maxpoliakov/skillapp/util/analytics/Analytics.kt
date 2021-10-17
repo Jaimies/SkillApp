@@ -13,3 +13,7 @@ fun Fragment.setAsCurrentScreen() {
         param(FirebaseAnalytics.Param.SCREEN_CLASS, className)
     }
 }
+
+fun logEvent(message: String) {
+    Firebase.analytics.logEvent(message) {}
+}

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
 import com.maxpoliakov.skillapp.ui.common.DetailsFragment
+import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.observe
@@ -63,6 +64,8 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
 
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onStartEditing() = logEvent("edit_skill")
 
     private fun showDeleteDialog() {
         requireContext().showDialog(R.string.delete_skill_title, R.string.delete_skill_message, R.string.delete) {

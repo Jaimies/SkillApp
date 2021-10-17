@@ -9,6 +9,7 @@ import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
+import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.dialog.showToast
@@ -51,6 +52,7 @@ class BackupViewHolder(
     }
 
     private fun restoreBackup() = ioScope.launch {
+        logEvent("restore_backup")
         val backup = backup.value ?: return@launch
         try {
             restoreBackupUseCase.restoreBackup(backup)

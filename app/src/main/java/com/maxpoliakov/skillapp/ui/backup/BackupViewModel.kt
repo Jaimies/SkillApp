@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.shared.util.collectIgnoringInitialValue
+import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.error.logToCrashlytics
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.network.NetworkUtil
@@ -108,6 +109,8 @@ class BackupViewModel @Inject constructor(
 
         if (!authRepository.hasAppDataPermission)
             _requestAppDataPermission.call()
+
+        logEvent("sign_in")
     }
 
     fun signInOrSignOut() {
@@ -119,6 +122,7 @@ class BackupViewModel @Inject constructor(
         authRepository.signOut()
         _currentUser.value = null
         _lastBackupDate.value = R.string.loading_last_backup
+        logEvent("sign_out")
     }
 
     private fun signIn() {
@@ -137,6 +141,7 @@ class BackupViewModel @Inject constructor(
         }
 
         _backupCreating.postValue(true)
+        logEvent("create_backup")
 
         try {
             createBackupUseCase.createBackup()

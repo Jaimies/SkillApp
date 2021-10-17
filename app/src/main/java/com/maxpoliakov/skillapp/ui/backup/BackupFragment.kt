@@ -18,6 +18,7 @@ import com.google.api.services.drive.DriveScopes
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
 import com.maxpoliakov.skillapp.ui.common.BaseFragment
+import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.dialog.showToast
@@ -92,8 +93,10 @@ class BackupFragment : BaseFragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_APPDATA_CODE && resultCode == Activity.RESULT_OK)
+        if (requestCode == REQUEST_APPDATA_CODE && resultCode == Activity.RESULT_OK) {
             viewModel.updateLastBackupDate()
+            logEvent("grant_appdata_permission")
+        }
     }
 
     private fun signIn() {

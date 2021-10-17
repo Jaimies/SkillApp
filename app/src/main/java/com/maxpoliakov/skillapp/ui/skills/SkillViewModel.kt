@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.util.analytics.logEvent
+import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import javax.inject.Inject
 
 class SkillViewModel @Inject constructor(
@@ -31,6 +32,7 @@ class SkillViewModel @Inject constructor(
 
     fun startTimer() {
         stopwatchUtil.start(this.skill.value!!.id)
+        logEvent("start_timer_from_home_screen")
     }
 
     fun setIsSmall(isSmall: Boolean) = _isSmall.setValue(isSmall)

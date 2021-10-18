@@ -11,6 +11,7 @@ import com.android.billingclient.api.SkuDetailsParams
 import com.android.billingclient.api.queryPurchasesAsync
 import com.android.billingclient.api.querySkuDetails
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -80,6 +81,11 @@ class BillingRepositoryImpl @Inject constructor(
                         continuation.resume(Unit)
                         listeners.forEach { it.invoke() }
                         listeners.clear()
+                    } else {
+                        Exception(
+                            """Failed to connect to Google Play Billing, 
+                                |response code ${billingResult.responseCode}""".trimMargin()
+                        ).logToCrashlytics()
                     }
                 }
 

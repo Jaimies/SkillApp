@@ -16,6 +16,7 @@ class StubStopwatchUtil @Inject constructor() : StopwatchUtil {
 
     override fun start(skillId: Int) {}
     override fun stop() {}
+    override fun cancel() {}
     override fun toggle(skillId: Int) {}
 
     override fun updateNotification() {}

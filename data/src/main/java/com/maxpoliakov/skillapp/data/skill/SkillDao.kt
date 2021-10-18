@@ -23,7 +23,10 @@ interface SkillDao : BaseDao<DBSkill> {
         ) as lastWeekTime FROM skills
         WHERE skills.id = :id"""
     )
-    fun getSkill(id: Int): Flow<DBSkill?>
+    fun getSkillFlow(id: Int): Flow<DBSkill?>
+
+    @Query("SELECT * FROM skills WHERE id = :id")
+    fun getSkill(id: Int): DBSkill?
 
     @Query("UPDATE skills SET name = :name WHERE id = :id")
     suspend fun updateName(id: Int, name: String)

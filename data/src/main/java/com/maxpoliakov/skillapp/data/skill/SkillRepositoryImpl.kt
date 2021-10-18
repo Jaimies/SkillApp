@@ -21,9 +21,13 @@ class SkillRepositoryImpl @Inject constructor(
 
     override fun getSkills() = _skills
 
-    override fun getSkillById(id: Int) = skillDao.getSkill(id)
+    override fun getSkillFlowById(id: Int) = skillDao.getSkillFlow(id)
         .filterNotNull()
         .map { it.mapToDomain() }
+
+    override suspend fun getSkillById(id: Id): Skill? {
+        return skillDao.getSkill(id)?.mapToDomain()
+    }
 
     override suspend fun addSkill(skill: Skill) =
         skillDao.insert(skill.mapToDB())

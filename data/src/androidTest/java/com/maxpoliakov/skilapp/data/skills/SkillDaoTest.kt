@@ -65,7 +65,7 @@ class SkillDaoTest {
             )
         }
 
-        skillDao.getSkill(1).await() shouldBe DBSkill(
+        skillDao.getSkillFlow(1).await() shouldBe DBSkill(
             id = 1,
             lastWeekTime = Duration.ofHours(6)
         )
@@ -73,13 +73,13 @@ class SkillDaoTest {
 
     @Test
     fun getSkill_skillDoesNotExist_returnsNull() = runBlocking {
-        skillDao.getSkill(1).await() shouldBe null
+        skillDao.getSkill(1) shouldBe null
     }
 
     @Test
     fun increaseTime() = runBlocking {
         skillDao.insert(DBSkill(totalTime = Duration.ofMinutes(10)))
         skillDao.increaseTime(1, Duration.ofMinutes(20))
-        skillDao.getSkill(1).await()!!.totalTime shouldBe Duration.ofMinutes(30)
+        skillDao.getSkill(1)!!.totalTime shouldBe Duration.ofMinutes(30)
     }
 }

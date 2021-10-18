@@ -8,7 +8,8 @@ import java.time.Duration
 interface SkillRepository {
     fun getSkills(): Flow<List<Skill>>
 
-    fun getSkillById(id: Id): Flow<Skill>
+    fun getSkillFlowById(id: Id): Flow<Skill>
+    suspend fun getSkillById(id: Id): Skill?
 
     suspend fun addSkill(skill: Skill): Long
     suspend fun updateName(skillId: Int, newName: String)

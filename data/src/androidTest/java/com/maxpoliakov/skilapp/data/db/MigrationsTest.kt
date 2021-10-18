@@ -56,7 +56,7 @@ class MigrationsTest {
 
         val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
 
-        roomDb.skillDao().getSkill(1).await() shouldBe skill
+        roomDb.skillDao().getSkill(1) shouldBe skill
         roomDb.statsDao().getTimeAtDate(statistic.date) shouldBe statistic.time
         roomDb.recordsDao().getRecordById(1) shouldBe record
     }
@@ -72,7 +72,7 @@ class MigrationsTest {
         helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 3, true, MIGRATION_2_3)
 
         val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
-        val skill = roomDb.skillDao().getSkill(1).await()!!
+        val skill = roomDb.skillDao().getSkill(1)!!
         skill.order shouldBe -1
         skill.name shouldBe "name"
         skill.totalTime shouldBe Duration.ofMillis(100000)
@@ -89,7 +89,7 @@ class MigrationsTest {
         helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 4, true, MIGRATION_3_4)
 
         val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
-        val skill = roomDb.skillDao().getSkill(1).await()!!
+        val skill = roomDb.skillDao().getSkill(1)!!
 
         skill.groupId shouldBe -1
     }

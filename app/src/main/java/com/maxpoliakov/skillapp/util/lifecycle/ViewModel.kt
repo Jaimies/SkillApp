@@ -8,10 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-inline fun ViewModel.launchCoroutine(crossinline block: suspend () -> Unit) {
-    viewModelScope.launch { block() }
-}
-
 @MainThread
 inline fun <reified VM : ViewModel> Fragment.viewModels(
     noinline viewModelProducer: () -> VM

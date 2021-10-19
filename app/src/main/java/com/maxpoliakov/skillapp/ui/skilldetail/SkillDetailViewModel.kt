@@ -17,7 +17,6 @@ import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.charts.toEntries
 import com.maxpoliakov.skillapp.util.charts.withMissingStats
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
-import com.maxpoliakov.skillapp.util.lifecycle.launchCoroutine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.map
@@ -64,7 +63,7 @@ class SkillDetailViewModel(
 
     fun addRecord(time: Duration) {
         val record = Record("", skillId, time)
-        launchCoroutine { addRecord.run(record) }
+        ioScope.launch { addRecord.run(record) }
     }
 
     fun deleteSkill() = this.skill.replayCache.lastOrNull()?.let { skill ->

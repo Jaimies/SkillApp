@@ -10,6 +10,7 @@ import androidx.preference.PreferenceFragmentCompat
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.model.Theme
+import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.analytics.setAsCurrentScreen
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
@@ -30,6 +31,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         themePref.setOnPreferenceChangeListener { _, newValue ->
             setTheme(Theme.valueOf(newValue as String))
+            logEvent("change_theme")
             true
         }
 

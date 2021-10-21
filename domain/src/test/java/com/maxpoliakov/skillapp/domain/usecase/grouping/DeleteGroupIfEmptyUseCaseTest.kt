@@ -9,28 +9,29 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import java.time.Duration
 
-class AddOrRemoveSkillToGroupUseCaseTest : StringSpec({
+class DeleteGroupIfEmptyUseCaseTest : StringSpec({
     "deletes group if it becomes empty" {
-        val (useCase, skillGroupRepository) = createUseCase()
-        val skill = Skill("skill", Duration.ZERO, Duration.ZERO, groupId = 1)
+        val (useCase, skillGroupRepository) = createUseCase(hasSkills = false)
 
-        useCase.addToGroup(skill, 1)
+        useCase.run(1)
         coVerify { skillGroupRepository.deleteGroup(1) }
     }
 
     "doesn't delete group if it still has skills" {
-        val (useCase, skillGroupRepository) = createUseCase()
-        val skill = Skill("skill", Duration.ZERO, Duration.ZERO, groupId = -1)
+        val (useCase, skillGroupRepository) = createUseCase(hasSkills = true)
 
-        useCase.addToGroup(skill, 1)
+        useCase.run(1)
         coVerify(exactly = 0) { skillGroupRepository.deleteGroup(1) }
     }
 })
 
-private fun createUseCase(): Pair<AddOrRemoveSkillToGroupUseCase, SkillGroupRepository> {
+private val skill = Skill("name", Duration.ofHours(2), Duration.ofHours(1))
+
+private fun createUseCase(hasSkills: Boolean): Pair<DeleteGroupIfEmptyUseCase, SkillGroupRepository> {
     val skillGroupRepository = mockk<SkillGroupRepository>(relaxed = true)
 
-    coEvery { skillGroupRepository.getSkillGroupById(any()) } returns SkillGroup(1, "name", listOf(), -1)
+    val skillGroup = SkillGroup(1, "name", if (hasSkills) listOf(skill) else listOf(), -1)
+    coEvery { skillGroupRepository.getSkillGroupById(any()) } returns skillGroup
 
-    return AddOrRemoveSkillToGroupUseCase(skillGroupRepository) to skillGroupRepository
+    return DeleteGroupIfEmptyUseCase(skillGroupRepository) to skillGroupRepository
 }

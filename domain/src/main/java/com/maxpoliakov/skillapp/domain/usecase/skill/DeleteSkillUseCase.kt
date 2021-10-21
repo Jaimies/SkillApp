@@ -4,10 +4,12 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.usecase.grouping.DeleteGroupIfEmptyUseCase
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class DeleteSkillUseCase @Inject constructor(
+    private val deleteGroupIfEmpty: DeleteGroupIfEmptyUseCase,
     private val skillRepository: SkillRepository,
     private val stopwatchUtil: StopwatchUtil,
 ) {
@@ -20,5 +22,7 @@ class DeleteSkillUseCase @Inject constructor(
             delay(100)
             stopwatchUtil.cancel()
         }
+
+        deleteGroupIfEmpty.run(skill.groupId)
     }
 }

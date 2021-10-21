@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.navigation.fragment.navArgs
 import com.github.mikephil.charting.data.PieEntry
 import com.maxpoliakov.skillapp.R
@@ -53,6 +54,7 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
             }
 
             binding.splitChart.chart.setData(data)
+            binding.splitChart.root.isGone = binding.splitChart.chart.data == null
         }
         observe(viewModel.stats, binding.productivityChart.chart::setState)
     }

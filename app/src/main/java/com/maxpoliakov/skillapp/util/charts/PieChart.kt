@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.util.charts
 
 import android.graphics.Color
-import androidx.core.view.isVisible
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
@@ -33,7 +32,10 @@ fun PieChart.setData(entries: List<PieEntry>) {
         .sortedBy { -it.y }
         .take(5)
 
-    this.isVisible = validEntries.isNotEmpty()
+    if (validEntries.isEmpty()) {
+        this.data = null
+        return
+    }
 
     val dataSet = PieDataSet(validEntries, "").apply {
         val colors = intArrayOf(

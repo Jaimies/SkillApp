@@ -21,7 +21,7 @@ import com.maxpoliakov.skillapp.util.ui.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId) {
+abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) {
     protected abstract val saveBtn: Button
     protected abstract val input: EditText
     protected abstract val content: ViewGroup
@@ -38,6 +38,8 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId)
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         observe(viewModel.onSave) { stopEditing() }
 
         saveBtn.isGone = true

@@ -29,6 +29,8 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
 
     override val viewModel by viewModels { viewModelFactory.create(args.groupId) }
 
+    override val chart get() = binding.productivityChart.chart
+
     override val content get() = binding.dataLayout
     override val saveBtn get() = binding.saveFab
     override val input get() = binding.titleInput

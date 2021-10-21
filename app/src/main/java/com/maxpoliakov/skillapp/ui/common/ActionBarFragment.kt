@@ -10,11 +10,11 @@ abstract class ActionBarFragment(@MenuRes private val menuId: Int) : BaseFragmen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+        setHasOptionsMenu(menuId != -1)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         this.menu = menu
-        inflater.inflate(menuId, menu)
+        if (menuId != -1) inflater.inflate(menuId, menu)
     }
 }

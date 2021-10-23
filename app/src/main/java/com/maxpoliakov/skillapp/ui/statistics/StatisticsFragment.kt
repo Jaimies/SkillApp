@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.databinding.StatisticsFragBinding
 import com.maxpoliakov.skillapp.ui.common.BarChartFragment
-import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.ui.setState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,7 +34,6 @@ class StatisticsFragment : BarChartFragment(-1) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.productivityChart.chart.setup()
         observe(viewModel.statsChartData, binding.productivityChart.chart::setState)
     }
 }

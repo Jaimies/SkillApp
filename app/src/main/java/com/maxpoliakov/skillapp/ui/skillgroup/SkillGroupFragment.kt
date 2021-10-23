@@ -15,7 +15,6 @@ import com.maxpoliakov.skillapp.util.charts.setData
 import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
-import com.maxpoliakov.skillapp.util.ui.setState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -46,9 +45,6 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.productivityChart.chart.setup()
-        binding.splitChart.chart.setup()
 
         observe(viewModel.group) { group ->
             val data = group.skills.map { skill ->

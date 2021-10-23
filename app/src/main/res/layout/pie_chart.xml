@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.github.mikephil.charting.charts.PieChart
+        <com.maxpoliakov.skillapp.util.charts.ThePieChart
             android:id="@+id/chart"
             android:layout_width="0dp"
             android:layout_height="0dp"

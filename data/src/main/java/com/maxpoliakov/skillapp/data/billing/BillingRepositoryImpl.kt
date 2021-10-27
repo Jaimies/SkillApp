@@ -84,7 +84,8 @@ class BillingRepositoryImpl @Inject constructor(
                     } else {
                         Exception(
                             """Failed to connect to Google Play Billing, 
-                                |response code ${billingResult.responseCode}""".trimMargin()
+                                |response code: ${billingResult.responseCode},
+                                |message: ${billingResult.debugMessage}""".trimMargin()
                         ).logToCrashlytics()
                     }
                 }

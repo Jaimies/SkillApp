@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenResumed
@@ -24,6 +25,7 @@ import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
@@ -224,6 +226,15 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        viewModel.subscriptionState.observe(viewLifecycleOwner) { state ->
+            if (state == SubscriptionState.Loading) return@observe
+            menu[0].isVisible = state == SubscriptionState.NotSubscribed
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -305,16 +316,6 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         }
 
         return false
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(!viewModel.isSubscribed.value)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        if (!viewModel.isSubscribed.value)
-            inflater.inflate(R.menu.skills_frag_menu, menu)
     }
 
     override fun startDrag(viewHolder: RecyclerView.ViewHolder) {

@@ -13,6 +13,7 @@ import com.android.billingclient.api.querySkuDetails
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -40,6 +41,9 @@ class BillingRepositoryImpl @Inject constructor(
     private val _isSubscribed = MutableStateFlow(false)
     override val isSubscribed = _isSubscribed.asStateFlow()
 
+    private val _subscriptionState = MutableStateFlow(SubscriptionState.Loading)
+    override val subscriptionState get() = _subscriptionState.asStateFlow()
+
     private var connectionState = ConnectionState.NotStarted
 
     private fun isSubscribed(purchases: List<Purchase>): Boolean {
@@ -64,13 +68,25 @@ class BillingRepositoryImpl @Inject constructor(
             val validPurchases = (purchases ?: return@PurchasesUpdatedListener)
 
             ioScope.launch {
-                _isSubscribed.emit(isSubscribed(validPurchases))
+                updateSubscriptionState(validPurchases)
             }
         })
 
         val purchasesResult = billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS)
         val purchases = purchasesResult.purchasesList
-        _isSubscribed.emit(isSubscribed(purchases))
+
+        updateSubscriptionState(purchases)
+    }
+
+    private suspend fun updateSubscriptionState(purchases: List<Purchase>) {
+        val isSubscribed = isSubscribed(purchases)
+        _isSubscribed.emit(isSubscribed)
+        _subscriptionState.emit(getSubscriptionState(isSubscribed))
+    }
+
+    private fun getSubscriptionState(isSubscribed: Boolean): SubscriptionState {
+        return if (isSubscribed) SubscriptionState.Subscribed
+        else SubscriptionState.NotSubscribed
     }
 
     private suspend fun connectToPlay() {

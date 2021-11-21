@@ -6,5 +6,6 @@
         android:id="@+id/go_to_premium"
         android:icon="@drawable/ic_crown"
         android:title="@string/skillapp_premium"
+        android:visible="false"
         app:showAsAction="always" />
 </menu>

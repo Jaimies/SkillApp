@@ -43,6 +43,7 @@ class SkillsViewModel @Inject constructor(
     }
 
     val isSubscribed get() = billingRepository.isSubscribed
+    val subscriptionState get() = billingRepository.subscriptionState.asLiveData()
 
     val isEmpty = skillsAndGroups.map {
         val isEmpty = it.skills.isEmpty() && it.groups.isEmpty()

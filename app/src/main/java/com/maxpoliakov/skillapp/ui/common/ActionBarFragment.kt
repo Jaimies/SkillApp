@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.common
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.annotation.CallSuper
 import androidx.annotation.MenuRes
 
 abstract class ActionBarFragment(@MenuRes private val menuId: Int) : BaseFragment() {
@@ -13,6 +14,7 @@ abstract class ActionBarFragment(@MenuRes private val menuId: Int) : BaseFragmen
         setHasOptionsMenu(menuId != -1)
     }
 
+    @CallSuper
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         this.menu = menu
         if (menuId != -1) inflater.inflate(menuId, menu)

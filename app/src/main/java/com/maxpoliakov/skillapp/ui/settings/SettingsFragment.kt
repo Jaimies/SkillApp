@@ -9,6 +9,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.analytics.setAsCurrentScreen
@@ -63,6 +64,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         premiumPref.setOnPreferenceClickListener {
             findNavController().navigateAnimated(R.id.premium_fragment_dest)
             true
+        }
+
+        lifecycleScope.launch {
+            billingRepository.subscriptionState.collect { state ->
+                backupsPref.isVisible = state != SubscriptionState.Loading
+                premiumPref.isVisible = state != SubscriptionState.Loading
+            }
         }
     }
 

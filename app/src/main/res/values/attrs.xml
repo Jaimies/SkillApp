@@ -5,4 +5,5 @@
     <attr name="dividerColor" format="color|reference" />
     <attr name="cardViewBackground" format="color|reference" />
     <attr name="cardHighlightColor" format="color|reference" />
+    <attr name="snackbarActionTextColor" format="color|reference" />
 </resources>

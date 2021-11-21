@@ -15,6 +15,7 @@ import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
+import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,6 +31,9 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
 
     @Inject
     lateinit var viewModelFactory: SkillDetailViewModel.Factory
+
+    @Inject
+    lateinit var recordUtil: RecordUtil
 
     private lateinit var binding: SkilldetailFragBinding
 
@@ -53,6 +57,9 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
 
         observe(viewModel.statsChartData, binding.productivityChart.chart::setState)
         observe(viewModel.showRecordDialog) { showRecordDialog() }
+        observe(viewModel.showRecordAdded) { record ->
+            if (record != null) recordUtil.notifyRecordAdded(requireView(), record)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

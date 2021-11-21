@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.ui.skilldetail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Record
@@ -37,6 +38,8 @@ class SkillDetailViewModel(
 ) : DetailsViewModel() {
 
     val showRecordDialog = SingleLiveEvent<Any>()
+    private val _showRecordAdded = SingleLiveEvent<Record>()
+    val showRecordAdded: LiveData<Record?> get() = _showRecordAdded
 
     val stopwatchIsRunning = stopwatchUtil.state.map {
         it is Running && it.skillId == skillId
@@ -71,8 +74,9 @@ class SkillDetailViewModel(
         logEvent("delete_skill")
     }
 
-    fun toggleTimer() {
-        stopwatchUtil.toggle(skillId)
+    fun toggleTimer() = viewModelScope.launch {
+        val record = stopwatchUtil.toggle(skillId).await()
+        record.let { record -> _showRecordAdded.value = record }
         logEvent("toggle_timer")
     }
 

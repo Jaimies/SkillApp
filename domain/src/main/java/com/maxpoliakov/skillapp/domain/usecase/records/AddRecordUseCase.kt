@@ -5,6 +5,7 @@ import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -14,13 +15,14 @@ class AddRecordUseCase @Inject constructor(
     private val skillRepository: SkillRepository,
     private val statsRepository: StatsRepository
 ) {
-    suspend fun run(record: Record) {
-        if (skillRepository.getSkillById(record.skillId) == null) return
+    suspend fun run(record: Record): Long {
+        if (skillRepository.getSkillById(record.skillId) == null) return -1
 
-        withContext(IO) {
-            launch { recordsRepository.addRecord(record) }
+        return withContext(IO) {
+            val recordIdAsync = async { recordsRepository.addRecord(record) }
             launch { skillRepository.increaseTime(record.skillId, record.time) }
             launch { statsRepository.addRecord(record) }
+            recordIdAsync.await()
         }
     }
 }

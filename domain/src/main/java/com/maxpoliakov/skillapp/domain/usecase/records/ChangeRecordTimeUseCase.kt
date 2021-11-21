@@ -12,7 +12,8 @@ class ChangeRecordTimeUseCase @Inject constructor(
     private val recordsRepository: RecordsRepository
 ) {
     suspend fun run(id: Int, time: Duration) = withContext(Dispatchers.IO) {
-        val oldRecord = recordsRepository.getRecord(id)
+        val oldRecord = recordsRepository.getRecord(id) ?: return@withContext
+
         deleteRecord.run(id)
         addRecord.run(oldRecord.copy(time = time))
     }

@@ -32,12 +32,12 @@ class RecordsRepositoryImpl @Inject constructor(
 
     override fun getRecords() = _records
 
-    override suspend fun getRecord(id: Int): Record {
-        return recordsDao.getRecordById(id).mapToDomain()
+    override suspend fun getRecord(id: Int): Record? {
+        return recordsDao.getRecordById(id)?.mapToDomain()
     }
 
-    override suspend fun addRecord(record: Record) {
-        recordsDao.insert(record.mapToDB())
+    override suspend fun addRecord(record: Record) : Long{
+        return recordsDao.insert(record.mapToDB())
     }
 
     override suspend fun deleteRecord(record: Record) {

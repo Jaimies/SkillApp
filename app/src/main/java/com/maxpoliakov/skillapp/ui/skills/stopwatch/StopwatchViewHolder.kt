@@ -8,16 +8,23 @@ import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
+import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import com.maxpoliakov.skillapp.util.ui.getBaseContext
 
 
 class StopwatchViewHolder(
     private val view: View,
+    private val recordUtil: RecordUtil,
     viewModel: StopwatchViewModel,
 ) : BaseViewHolder(view) {
     init {
         viewModel.navigateToSkill.observe { skill ->
             navigateToSkillDetail(view, skill)
+        }
+
+        viewModel.showRecordAdded.observe {record ->
+            if(record == null) return@observe
+            recordUtil.notifyRecordAdded(view, record)
         }
     }
 

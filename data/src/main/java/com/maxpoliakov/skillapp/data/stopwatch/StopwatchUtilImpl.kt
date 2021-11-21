@@ -9,9 +9,10 @@ import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,18 +36,24 @@ class StopwatchUtilImpl @Inject constructor(
         else notificationUtil.removeStopwatchNotification()
     }
 
-    override fun toggle(skillId: Int) {
+    override fun toggle(skillId: Int): Deferred<Record?> = scope.async {
         val state = _state.value
-        if (state is Running && state.skillId == skillId) stop()
-        else start(skillId)
+        if (state is Running && state.skillId == skillId) return@async stop().await()
+
+        start(skillId)
+        return@async null
     }
 
-    override fun stop() {
+    override fun stop(): Deferred<Record?> = scope.async {
+        val state = _state.value
+
+        if (state !is Running) return@async null
         setState(Paused)
+        return@async addRecord(state)
     }
 
     override fun cancel() {
-        setState(Paused, addRecord = false)
+        setState(Paused)
     }
 
     override fun start(skillId: Int) {
@@ -60,21 +67,15 @@ class StopwatchUtilImpl @Inject constructor(
         return state !is Running || state.skillId != skillId
     }
 
-    private fun setState(state: StopwatchState, addRecord: Boolean = true) {
-        if (addRecord)
-            addRecordIfNeeded()
-
+    private fun setState(state: StopwatchState) {
         _state.value = state
         persistence.saveState(state)
         updateNotification()
     }
 
-    private fun addRecordIfNeeded() {
-        val state = _state.value
-        if (state is Running) addRecord(state)
-    }
-
-    private fun addRecord(state: Running) = scope.launch {
-        addRecord.run(Record("", state.skillId, state.time))
+    private suspend fun addRecord(state: Running): Record {
+        val record = Record("", state.skillId, state.time)
+        val recordId = addRecord.run(record)
+        return record.copy(id = recordId.toInt())
     }
 }

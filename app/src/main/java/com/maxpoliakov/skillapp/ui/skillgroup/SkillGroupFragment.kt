@@ -11,8 +11,6 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillGroupFragBinding
 import com.maxpoliakov.skillapp.ui.common.DetailsFragment
 import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.charts.setData
-import com.maxpoliakov.skillapp.util.charts.setup
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import dagger.hilt.android.AndroidEntryPoint

@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.util.notifications
 import android.app.NotificationChannel
 import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
@@ -16,10 +17,10 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.StopTimerBroadcastReceiver
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
-import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
+import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
+import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.util.ui.chronometerBase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -81,7 +82,7 @@ class NotificationUtilImpl @Inject constructor(
 
     private fun getStopTimerIntent(): PendingIntent {
         val intent = Intent(context, StopTimerBroadcastReceiver::class.java)
-        return PendingIntent.getBroadcast(context, STOP_INTENT_REQUEST_CODE, intent, FLAG_UPDATE_CURRENT)
+        return PendingIntent.getBroadcast(context, STOP_INTENT_REQUEST_CODE, intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

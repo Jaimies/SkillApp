@@ -21,6 +21,7 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
             android:name=".ui.MainActivity"
+            android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +32,9 @@
 
         <receiver android:name=".StopTimerBroadcastReceiver" />
 
-        <receiver android:name=".ShowStopwatchNotificationBroadcastReceiver">
+        <receiver
+            android:name=".ShowStopwatchNotificationBroadcastReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

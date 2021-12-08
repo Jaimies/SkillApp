@@ -81,5 +81,7 @@
     <string name="price_loading">Загрузка цены…</string>
     <string name="no_internet">Нет подключения к Интернету</string>
     <string name="something_went_wrong">Что-то пошло не так, попробуйте снова</string>
-    <string name="record_added">Запись добавлена</string>
+    <string name="record_added">Добавлено %ds</string>
+    <string name="record_added_with_minutes">Добавлено %dm</string>
+    <string name="record_added_with_hours">Добавлено %1$dh %2$dm</string>
 </resources>

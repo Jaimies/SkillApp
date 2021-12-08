@@ -88,5 +88,7 @@
     <string name="skill_transition_name" translatable="false">skill_to_skill_detail_%d</string>
     <string name="group_transition_name" translatable="false">group_to_group_detail_%d</string>
     <string name="add_skill_transition_name" translatable="false">skills_fab_to_add_skill</string>
-    <string name="record_added">Record added</string>
+    <string name="record_added">Added %1$ds</string>
+    <string name="record_added_with_minutes">Added %1$dm</string>
+    <string name="record_added_with_hours">Added %1$dh %2$dm</string>
 </resources>

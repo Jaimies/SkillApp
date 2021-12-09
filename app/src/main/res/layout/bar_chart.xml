@@ -4,7 +4,7 @@
 
     <data>
 
-       <variable
+        <variable
             name="data"
             type="com.maxpoliakov.skillapp.ui.common.ChartData" />
 
@@ -28,35 +28,34 @@
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/chart_height"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="40dp"
                 app:statsType="@{data.statisticType == ChronoUnit.MONTHS ? FormatterType.Monthly : data.statisticType == ChronoUnit.WEEKS ? FormatterType.Weekly: FormatterType.Daily}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="12dp">
 
-                <Button
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> data.setStatisticType(ChronoUnit.DAYS)}"
-                    android:text="@string/one_day" />
+                <include
+                    layout="@layout/bar_chart_interval_selection_btn"
+                    app:activeIntervalType="@{ChronoUnit.DAYS}"
+                    app:data="@{data}"
+                    app:label="@{@string/one_day}" />
 
-                <Button
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> data.setStatisticType(ChronoUnit.WEEKS)}"
-                    android:text="@string/one_week" />
+                <include
+                    layout="@layout/bar_chart_interval_selection_btn"
+                    app:activeIntervalType="@{ChronoUnit.WEEKS}"
+                    app:data="@{data}"
+                    app:label="@{@string/one_week}" />
 
-                <Button
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> data.setStatisticType(ChronoUnit.MONTHS)}"
-                    android:text="@string/one_month" />
+                <include
+                    layout="@layout/bar_chart_interval_selection_btn"
+                    app:activeIntervalType="@{ChronoUnit.MONTHS}"
+                    app:data="@{data}"
+                    app:label="@{@string/one_month}" />
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
     </FrameLayout>
 </layout>

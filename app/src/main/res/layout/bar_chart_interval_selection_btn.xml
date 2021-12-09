@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.maxpoliakov.skillapp.ui.common.ChartData" />
+
+        <variable
+            name="activeIntervalType"
+            type="ChronoUnit" />
+
+        <variable
+            name="label"
+            type="String" />
+
+        <import type="java.time.temporal.ChronoUnit" />
+        <import type="com.maxpoliakov.skillapp.util.charts.TheBarChart.FormatterType" />
+    </data>
+
+    <Button
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        android:letterSpacing="-0.04"
+        android:alpha="@{data.statisticType == activeIntervalType ? 1f : 0.4f}"
+        android:minWidth="50dp"
+        android:minHeight="0dp"
+        android:onClick="@{() -> data.setStatisticType(activeIntervalType)}"
+        android:text="@{label}"
+        android:textAllCaps="false"
+        android:textColor="?android:attr/textColorPrimary"
+        app:rippleColor="@android:color/transparent" />
+</layout>

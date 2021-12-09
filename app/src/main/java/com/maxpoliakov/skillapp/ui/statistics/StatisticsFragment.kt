@@ -34,6 +34,8 @@ class StatisticsFragment : BarChartFragment(-1) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.statsChartData, binding.productivityChart.chart::setState)
+        observe(viewModel.chartData.statisticType) { type ->
+            binding.productivityChart.chart.update(type, viewModel.chartData, viewLifecycleOwner)
+        }
     }
 }

@@ -8,8 +8,7 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.shared.util.sumByDuration
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
-import com.maxpoliakov.skillapp.util.charts.toEntries
-import com.maxpoliakov.skillapp.util.charts.withMissingStats
+import com.maxpoliakov.skillapp.ui.common.GroupChartData
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -25,16 +24,14 @@ class SkillGroupViewModel(
     private val _group = getGroup.getById(groupId)
     override val nameFlow = _group.map { it.name }
 
-    private val _stats = _group
+    private val dailyStats = _group
         .flatMapLatest { group -> getStats.getDailyStats(group.skills.map(Skill::id)) }
 
-    val stats = _stats.map { stats ->
-        stats.withMissingStats().toEntries()
-    }.asLiveData()
+    val chartData = GroupChartData(getStats, getGroup, groupId)
 
     val group = _group.asLiveData()
 
-    val summary = _group.combine(_stats) { group, stats ->
+    val summary = _group.combine(dailyStats) { group, stats ->
         ProductivitySummary(group.totalTime, stats.sumByDuration { it.time })
     }.asLiveData()
 

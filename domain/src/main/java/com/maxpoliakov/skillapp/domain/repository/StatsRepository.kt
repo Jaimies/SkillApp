@@ -8,7 +8,6 @@ import java.time.Duration
 import java.time.LocalDate
 
 interface StatsRepository {
-    fun getStats(skillId: Id): Flow<List<Statistic>>
     fun getStats(skillId: Id, startDate: LocalDate): Flow<List<Statistic>>
     suspend fun addRecord(record: Record)
     suspend fun getTimeAtDate(date: LocalDate): Duration

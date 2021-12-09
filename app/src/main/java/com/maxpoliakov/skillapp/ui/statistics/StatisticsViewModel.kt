@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.ui.statistics
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Statistic
@@ -7,7 +8,7 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseC
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.shared.util.sumByDuration
-import com.maxpoliakov.skillapp.ui.stats.StatsViewModel
+import com.maxpoliakov.skillapp.ui.common.SkillChartData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
@@ -16,7 +17,9 @@ import javax.inject.Inject
 class StatisticsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
     getStats: GetStatsUseCase
-) : StatsViewModel(getStats, -1) {
+) : ViewModel() {
+    val chartData = SkillChartData(getStats, -1)
+    val stats = getStats.getDailyStats(-1)
 
     val summary = getSkills.getSkills().zip(stats) { skills, stats ->
         if (skills.isEmpty())

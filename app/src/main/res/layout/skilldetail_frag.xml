@@ -73,7 +73,7 @@
                         android:layout_height="@dimen/chart_height"
                         android:layout_marginTop="6dp"
                         android:layout_marginBottom="70dp"
-                        app:data="@{viewModel}" />
+                        app:data="@{viewModel.chartData}" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

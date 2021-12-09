@@ -44,6 +44,10 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observe(viewModel.chartData.statisticType) { type ->
+            binding.productivityChart.chart.update(type, viewModel.chartData, viewLifecycleOwner)
+        }
+
         observe(viewModel.group) { group ->
             val data = group.skills.map { skill ->
                 PieEntry(skill.totalTime.toMillis().toFloat(), skill.name)
@@ -52,7 +56,6 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
             binding.splitChart.chart.setData(data)
             binding.splitChart.root.isGone = binding.splitChart.chart.data == null
         }
-        observe(viewModel.stats, binding.productivityChart.chart::setState)
     }
 
     override fun onStartEditing() = logEvent("edit_skill_group")

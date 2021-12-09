@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import androidx.core.graphics.ColorUtils
+import androidx.lifecycle.LifecycleOwner
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -16,6 +17,7 @@ import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.ui.common.ChartData
 import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.ui.common.MonthFormatter
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
@@ -23,6 +25,7 @@ import com.maxpoliakov.skillapp.ui.common.WeekFormatter
 import com.maxpoliakov.skillapp.util.ui.getPrimaryColor
 import com.maxpoliakov.skillapp.util.ui.getTextColor
 import com.maxpoliakov.skillapp.util.ui.sp
+import java.time.temporal.ChronoUnit
 
 class TheBarChart : BarChart {
     constructor(context: Context?) : super(context)
@@ -171,6 +174,21 @@ class TheBarChart : BarChart {
         }
 
         invalidate()
+    }
+
+    fun update(type: ChronoUnit, chartData: ChartData, viewLifecycleOwner: LifecycleOwner) {
+        val stats = when (type) {
+            ChronoUnit.DAYS -> chartData.dailyStats
+            ChronoUnit.WEEKS -> chartData.weeklyStats
+            ChronoUnit.MONTHS -> chartData.monthlyStats
+            else -> return
+        }
+
+        chartData.dailyStats.removeObservers(viewLifecycleOwner)
+        chartData.weeklyStats.removeObservers(viewLifecycleOwner)
+        chartData.monthlyStats.removeObservers(viewLifecycleOwner)
+
+        stats.observe(viewLifecycleOwner, this::setState)
     }
 
     enum class FormatterType { Daily, Weekly, Monthly }

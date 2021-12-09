@@ -16,14 +16,21 @@ import javax.inject.Inject
 class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
     fun getDailyStats(skillId: Id) = statsRepository.getStats(skillId, LocalDate.now().minusDays(7))
 
-    fun getDailyStats(skillIds: List<Int>, startDate: LocalDate = LocalDate.now().minusDays(56)): Flow<List<Statistic>> {
+    fun getDailyStats(skillIds: List<Int>, startDate: LocalDate = LocalDate.now().minusDays(7)): Flow<List<Statistic>> {
         return combine(skillIds.map { statsRepository.getStats(it, startDate) }) { statsLists ->
-            statsLists
-                .flatMap { it }
-                .groupBy { it.date }
-                .map { entry ->
-                    Statistic(entry.value[0].date, entry.value.sumByDuration(Statistic::time))
-                }
+            groupByDate(statsLists)
+        }
+    }
+
+    fun getWeeklyStats(skillIds: List<Int>): Flow<List<Statistic>> {
+        return combine(skillIds.map { id -> getWeeklyStats(id) }) { statsLists ->
+            groupByDate(statsLists)
+        }
+    }
+
+    fun getMonthlyStats(skillIds: List<Int>): Flow<List<Statistic>> {
+        return combine(skillIds.map { id -> getMonthlyStats(id) }) { statsLists ->
+            groupByDate(statsLists)
         }
     }
 
@@ -50,4 +57,11 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
                 }
         }
     }
+
+    private fun groupByDate(statsLists: Array<List<Statistic>>) = statsLists
+        .flatMap { it }
+        .groupBy { it.date }
+        .map { entry ->
+            Statistic(entry.value[0].date, entry.value.sumByDuration(Statistic::time))
+        }
 }

@@ -30,6 +30,18 @@ interface StatsDao : BaseDao<DBStatistic> {
     )
     fun getStats(skillId: Int): Flow<List<DBStatistic>>
 
+    @Query(
+        """
+        SELECT date, :skillId as skillId, SUM(time) as time FROM stats
+        WHERE (:skillId = -1 OR skillId = :skillId)
+        AND date(date) > date('now','localtime', '-' || :daysAgoStart || ' days') 
+        AND date(date) <= date('now', 'localtime')
+        AND time > 0
+        GROUP BY date
+        """
+    )
+    fun getStats(skillId: Int, daysAgoStart: Long): Flow<List<DBStatistic>>
+
     @Query("SELECT SUM(time) as time FROM stats WHERE date = :date")
     suspend fun getTimeAtDate(date: LocalDate): Duration
 

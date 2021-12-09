@@ -12,7 +12,7 @@ open class StatsViewModel(
     skillId: Int
 ) : ViewModel() {
 
-    protected val stats = getStats.run(skillId)
+    protected val stats = getStats.getDailyStats(skillId)
 
     val statsChartData = stats.map { stats ->
         stats.withMissingStats().toEntries()

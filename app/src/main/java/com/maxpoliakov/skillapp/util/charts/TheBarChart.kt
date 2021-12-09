@@ -16,8 +16,10 @@ import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.ui.common.DayFormatter
+import com.maxpoliakov.skillapp.ui.common.MonthFormatter
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
-import com.maxpoliakov.skillapp.ui.common.WeekDayFormatter
+import com.maxpoliakov.skillapp.ui.common.WeekFormatter
 import com.maxpoliakov.skillapp.util.ui.getPrimaryColor
 import com.maxpoliakov.skillapp.util.ui.getTextColor
 import com.maxpoliakov.skillapp.util.ui.sp
@@ -42,7 +44,6 @@ class TheBarChart : BarChart {
     private fun updateUI(entries: List<BarEntry>) {
         this.data = BarData(createDataSets(entries))
         this.data.barWidth = 0.3f
-        zoom(8f, 1f, entries.last().x, 0f)
         notifyDataSetChanged()
         invalidate()
     }
@@ -71,13 +72,9 @@ class TheBarChart : BarChart {
         setupAxes()
         setupZoom()
         setupNoDataText()
-
     }
 
     private fun setupZoom() {
-        viewPortHandler.setMaximumScaleX(8f)
-        viewPortHandler.setMinimumScaleX(4f)
-        viewPortHandler.setMaximumScaleY(1f)
         setXAxisRenderer(
             CustomXAxisRenderer(
                 viewPortHandler,
@@ -85,6 +82,7 @@ class TheBarChart : BarChart {
                 getTransformer(YAxis.AxisDependency.LEFT)
             )
         )
+        setScaleEnabled(false)
     }
 
     private fun setupOffsets() {
@@ -112,7 +110,7 @@ class TheBarChart : BarChart {
 
     private fun setupXAxis() {
         xAxis.run {
-            valueFormatter = WeekDayFormatter()
+            valueFormatter = DayFormatter()
             spaceMin = X_AXIS_SPACE_MIN
             spaceMax = X_AXIS_SPACE_MAX
             yOffset = X_AXIS_Y_OFFSET
@@ -164,6 +162,18 @@ class TheBarChart : BarChart {
             )
         }
     }
+
+    fun setFormatterType(type: FormatterType) {
+        xAxis.valueFormatter = when (type) {
+            FormatterType.Daily -> DayFormatter()
+            FormatterType.Weekly -> WeekFormatter()
+            FormatterType.Monthly -> MonthFormatter()
+        }
+
+        invalidate()
+    }
+
+    enum class FormatterType { Daily, Weekly, Monthly }
 
     companion object {
         private const val VALUE_TEXT_SIZE = 12f

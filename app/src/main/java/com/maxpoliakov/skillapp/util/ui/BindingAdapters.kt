@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.google.android.material.button.MaterialButton
+import com.maxpoliakov.skillapp.util.charts.TheBarChart
 
 @BindingAdapter("visible")
 fun View.isVisible(value: Boolean) {
@@ -36,6 +37,11 @@ fun View.setBackgroundTintAttr(attrValue: Int) {
 @BindingAdapter("textColorAttr")
 fun MaterialButton.setTextColorAttr(attrValue: Int) {
     setTextColor(context.getColorAttributeValue(attrValue))
+}
+
+@BindingAdapter("statsType")
+fun TheBarChart.setStatsType(formatterType: TheBarChart.FormatterType) {
+    setFormatterType(formatterType)
 }
 
 @BindingAdapter(

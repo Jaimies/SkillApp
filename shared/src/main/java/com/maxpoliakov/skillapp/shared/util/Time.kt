@@ -11,6 +11,8 @@ import java.time.ZonedDateTime
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit.DAYS
 import java.time.temporal.ChronoUnit.MILLIS
+import java.time.temporal.ChronoUnit.MONTHS
+import java.time.temporal.ChronoUnit.WEEKS
 import java.time.temporal.Temporal
 import java.util.Locale
 
@@ -24,6 +26,10 @@ val Month.shortName: String
 
 val LocalDate.daysAgo get() = DAYS.between(this, getCurrentDate())
 val LocalDate.daysSinceEpoch get() = DAYS.between(EPOCH, this)
+val LocalDate.weeksSinceEpoch get() = WEEKS.between(EPOCH.with(DayOfWeek.MONDAY), this)
+val LocalDate.monthsSinceEpoch get() = MONTHS.between(EPOCH, this)
+
+fun LocalDate.atStartOfWeek(): LocalDate = with(DayOfWeek.MONDAY)
 
 val LocalDate.millisSinceEpoch
     get() = Duration.ofDays(this.toEpochDay()).toMillis()

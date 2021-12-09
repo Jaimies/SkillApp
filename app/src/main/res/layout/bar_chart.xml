@@ -1,20 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.card.MaterialCardView
+    <data>
+
+       <variable
+            name="data"
+            type="com.maxpoliakov.skillapp.ui.skilldetail.ChartData" />
+
+        <import type="java.time.temporal.ChronoUnit" />
+        <import type="com.maxpoliakov.skillapp.util.charts.TheBarChart.FormatterType" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="4dp">
+        android:layout_height="wrap_content">
 
-        <com.maxpoliakov.skillapp.util.charts.TheBarChart
-            android:id="@+id/chart"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/chart_height"
-            android:layout_marginBottom="40dp" />
-    </com.google.android.material.card.MaterialCardView>
-</FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="4dp">
+
+            <com.maxpoliakov.skillapp.util.charts.TheBarChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/chart_height"
+                android:layout_marginBottom="40dp"
+                app:statsType="@{data.statisticType == ChronoUnit.MONTHS ? FormatterType.Monthly : data.statisticType == ChronoUnit.WEEKS ? FormatterType.Weekly: FormatterType.Daily}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> data.setStatisticType(ChronoUnit.DAYS)}"
+                    android:text="@string/one_day" />
+
+                <Button
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> data.setStatisticType(ChronoUnit.WEEKS)}"
+                    android:text="@string/one_week" />
+
+                <Button
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> data.setStatisticType(ChronoUnit.MONTHS)}"
+                    android:text="@string/one_month" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+</layout>

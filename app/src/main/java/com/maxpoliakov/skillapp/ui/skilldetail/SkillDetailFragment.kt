@@ -17,6 +17,7 @@ import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,7 +56,20 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.statsChartData, binding.productivityChart.chart::setState)
+        observe(viewModel.statisticType) { type ->
+            val stats = when (type) {
+                ChronoUnit.DAYS -> viewModel.dailyStats
+                ChronoUnit.WEEKS -> viewModel.weeklyStats
+                ChronoUnit.MONTHS -> viewModel.monthlyStats
+                else -> return@observe
+            }
+
+            viewModel.dailyStats.removeObservers(viewLifecycleOwner)
+            viewModel.weeklyStats.removeObservers(viewLifecycleOwner)
+            viewModel.monthlyStats.removeObservers(viewLifecycleOwner)
+
+            observe(stats, binding.productivityChart.chart::setState)
+        }
         observe(viewModel.showRecordDialog) { showRecordDialog() }
         observe(viewModel.showRecordAdded) { record ->
             if (record != null) recordUtil.notifyRecordAdded(requireView(), record)

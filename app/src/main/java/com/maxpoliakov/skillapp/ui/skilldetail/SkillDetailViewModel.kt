@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skilldetail
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Record
@@ -12,6 +13,7 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
+import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.util.analytics.logEvent
@@ -24,6 +26,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import java.time.Duration
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class SkillDetailViewModel(
@@ -35,7 +39,7 @@ class SkillDetailViewModel(
     private val skillId: Int,
     getSkillById: GetSkillByIdUseCase,
     getStats: GetStatsUseCase
-) : DetailsViewModel() {
+) : DetailsViewModel(), ChartData {
 
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()
@@ -52,17 +56,30 @@ class SkillDetailViewModel(
 
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
 
-    val stats = getStats.run(skillId)
+    val dailyStats = getStats.getDailyStats(skillId).map { stats ->
+        stats.withMissingStats(ChronoUnit.DAYS, LocalDate.now()).toEntries(ChronoUnit.DAYS)
+    }.asLiveData()
 
-    val statsChartData = stats.map { stats ->
-        stats.withMissingStats().toEntries()
+    val weeklyStats = getStats.getWeeklyStats(skillId).map { stats ->
+        stats.withMissingStats(ChronoUnit.WEEKS, LocalDate.now().atStartOfWeek()).toEntries(ChronoUnit.WEEKS)
+    }.asLiveData()
+
+    val monthlyStats = getStats.getMonthlyStats(skillId).map { stats ->
+        stats.withMissingStats(ChronoUnit.MONTHS, LocalDate.now().withDayOfMonth(1)).toEntries(ChronoUnit.MONTHS)
     }.asLiveData()
 
     val summary = skill.map { skill ->
         ProductivitySummary(skill.totalTime, skill.lastWeekTime)
     }.asLiveData()
 
+    private val _statisticType = MutableLiveData(ChronoUnit.DAYS)
+    override val statisticType: LiveData<ChronoUnit> get() = _statisticType
+
     override val nameFlow = skill.map { it.name }
+
+    override fun setStatisticType(type: ChronoUnit) {
+        _statisticType.value = type
+    }
 
     fun addRecord(time: Duration) {
         val record = Record("", skillId, time)
@@ -111,4 +128,10 @@ class SkillDetailViewModel(
             )
         }
     }
+}
+
+interface ChartData {
+    val statisticType: LiveData<ChronoUnit>
+
+    fun setStatisticType(type: ChronoUnit)
 }

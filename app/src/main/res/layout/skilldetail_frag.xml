@@ -72,7 +72,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/chart_height"
                         android:layout_marginTop="6dp"
-                        android:layout_marginBottom="70dp" />
+                        android:layout_marginBottom="70dp"
+                        app:data="@{viewModel}" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

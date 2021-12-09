@@ -26,7 +26,7 @@ class SkillGroupViewModel(
     override val nameFlow = _group.map { it.name }
 
     private val _stats = _group
-        .flatMapLatest { group -> getStats.run(group.skills.map(Skill::id)) }
+        .flatMapLatest { group -> getStats.getDailyStats(group.skills.map(Skill::id)) }
 
     val stats = _stats.map { stats ->
         stats.withMissingStats().toEntries()

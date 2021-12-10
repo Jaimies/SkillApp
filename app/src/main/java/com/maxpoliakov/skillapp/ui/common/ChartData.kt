@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.github.mikephil.charting.data.BarEntry
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
+import com.maxpoliakov.skillapp.shared.util.weeksSinceEpoch
 import com.maxpoliakov.skillapp.util.charts.toEntries
 import com.maxpoliakov.skillapp.util.charts.withMissingStats
 import kotlinx.coroutines.flow.flatMapLatest
@@ -29,17 +31,14 @@ abstract class ChartData {
 }
 
 class SkillChartData(getStats: GetStatsUseCase, skillId: Int) : ChartData() {
-    override val dailyStats = getStats.getDailyStats(skillId).map { stats ->
-        stats.withMissingStats(ChronoUnit.DAYS, LocalDate.now()).toEntries(ChronoUnit.DAYS)
-    }.asLiveData()
+    override val dailyStats = getStats.getDailyStats(skillId)
+        .map { stats -> stats.withMissingDailyStats() }.asLiveData()
 
-    override val weeklyStats = getStats.getWeeklyStats(skillId).map { stats ->
-        stats.withMissingStats(ChronoUnit.WEEKS, LocalDate.now().atStartOfWeek()).toEntries(ChronoUnit.WEEKS)
-    }.asLiveData()
+    override val weeklyStats = getStats.getWeeklyStats(skillId)
+        .map { stats -> stats.withMissingWeeklyStats() }.asLiveData()
 
-    override val monthlyStats = getStats.getMonthlyStats(skillId).map { stats ->
-        stats.withMissingStats(ChronoUnit.MONTHS, LocalDate.now().withDayOfMonth(1)).toEntries(ChronoUnit.MONTHS)
-    }.asLiveData()
+    override val monthlyStats = getStats.getMonthlyStats(skillId)
+        .map { stats -> stats.withMissingMonthlyStats() }.asLiveData()
 }
 
 class GroupChartData(getStats: GetStatsUseCase, getGroup: GetGroupUseCase, groupId: Int) : ChartData() {
@@ -47,20 +46,24 @@ class GroupChartData(getStats: GetStatsUseCase, getGroup: GetGroupUseCase, group
 
     override val dailyStats = _group
         .flatMapLatest { group -> getStats.getDailyStats(group.skills.map(Skill::id)) }
-        .map { stats ->
-            stats.withMissingStats(ChronoUnit.DAYS, LocalDate.now()).toEntries(ChronoUnit.DAYS)
-        }.asLiveData()
+        .map { stats -> stats.withMissingDailyStats() }.asLiveData()
 
 
     override val weeklyStats = _group
         .flatMapLatest { group -> getStats.getWeeklyStats(group.skills.map(Skill::id)) }
-        .map { stats ->
-            stats.withMissingStats(ChronoUnit.WEEKS, LocalDate.now().atStartOfWeek()).toEntries(ChronoUnit.WEEKS)
-        }.asLiveData()
+        .map { stats -> stats.withMissingWeeklyStats() }.asLiveData()
 
     override val monthlyStats = _group
         .flatMapLatest { group -> getStats.getMonthlyStats(group.skills.map(Skill::id)) }
-        .map { stats ->
-            stats.withMissingStats(ChronoUnit.MONTHS, LocalDate.now().withDayOfMonth(1)).toEntries(ChronoUnit.MONTHS)
-        }.asLiveData()
+        .map { stats -> stats.withMissingMonthlyStats() }.asLiveData()
 }
+
+private fun List<Statistic>.withMissingDailyStats() =
+    withMissingStats(ChronoUnit.DAYS, LocalDate.now()).toEntries(ChronoUnit.DAYS)
+
+private fun List<Statistic>.withMissingWeeklyStats() =
+    withMissingStats(ChronoUnit.WEEKS, LocalDate.now().atStartOfWeek())
+        .toEntries(ChronoUnit.WEEKS, LocalDate::weeksSinceEpoch)
+
+private fun List<Statistic>.withMissingMonthlyStats() =
+    withMissingStats(ChronoUnit.MONTHS, LocalDate.now().withDayOfMonth(1)).toEntries(ChronoUnit.MONTHS)

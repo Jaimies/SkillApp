@@ -19,7 +19,7 @@ class DayFormatter : ValueFormatter() {
 
 class WeekFormatter : ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
-        val date = EPOCH.atStartOfWeek().plusWeeks(value.toLong() + 1)
+        val date = EPOCH.atStartOfWeek().plusWeeks(value.toLong())
         return "${date.dayOfMonth}\n${date.month.shortName}"
     }
 }

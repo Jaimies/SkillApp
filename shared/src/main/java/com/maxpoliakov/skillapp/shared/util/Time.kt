@@ -14,6 +14,7 @@ import java.time.temporal.ChronoUnit.MILLIS
 import java.time.temporal.ChronoUnit.MONTHS
 import java.time.temporal.ChronoUnit.WEEKS
 import java.time.temporal.Temporal
+import java.time.temporal.WeekFields
 import java.util.Locale
 
 val EPOCH: LocalDate get() = LocalDate.ofEpochDay(0)
@@ -26,10 +27,14 @@ val Month.shortName: String
 
 val LocalDate.daysAgo get() = DAYS.between(this, getCurrentDate())
 val LocalDate.daysSinceEpoch get() = DAYS.between(EPOCH, this)
-val LocalDate.weeksSinceEpoch get() = WEEKS.between(EPOCH.with(DayOfWeek.MONDAY), this)
+val LocalDate.weeksSinceEpoch get() = WEEKS.between(EPOCH.atStartOfWeek(), this.atStartOfWeek())
 val LocalDate.monthsSinceEpoch get() = MONTHS.between(EPOCH, this)
 
-fun LocalDate.atStartOfWeek(): LocalDate = with(DayOfWeek.MONDAY)
+fun LocalDate.atStartOfWeek(): LocalDate {
+    val date = with(WeekFields.of(Locale.getDefault()).firstDayOfWeek)
+    if (date > this) return date.minusWeeks(1)
+    return date
+}
 
 val LocalDate.millisSinceEpoch
     get() = Duration.ofDays(this.toEpochDay()).toMillis()

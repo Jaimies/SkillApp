@@ -19,19 +19,24 @@ fun List<Statistic>.withMissingStats(unit: ChronoUnit = ChronoUnit.DAYS, startDa
     }.sortedBy { it.date }
 }
 
-fun List<Statistic>.toEntries(unit: ChronoUnit = ChronoUnit.DAYS): List<BarEntry>? {
+fun List<Statistic>.toEntries(
+    unit: ChronoUnit = ChronoUnit.DAYS,
+    convertDateToNumber: (date: LocalDate) -> Long = { date -> unit.between(EPOCH, date) }
+): List<BarEntry>? {
     if (!this.hasPositiveValues())
         return null
 
-    return this.convertToEntries(unit)
+    return this.convertToEntries(convertDateToNumber)
 }
 
 private fun List<Statistic>.hasPositiveValues(): Boolean {
     return this.any { it.time > Duration.ZERO }
 }
 
-private fun List<Statistic>.convertToEntries(unit: ChronoUnit): List<BarEntry> {
+private fun List<Statistic>.convertToEntries(
+    convertDateToNumber: (date: LocalDate) -> Long,
+): List<BarEntry> {
     return map { statistic ->
-        BarEntry(unit.between(EPOCH, statistic.date).toFloat(), statistic.time.seconds.toFloat())
+        BarEntry(convertDateToNumber(statistic.date).toFloat(), statistic.time.seconds.toFloat())
     }
 }

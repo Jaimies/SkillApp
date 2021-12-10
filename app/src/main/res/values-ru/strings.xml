@@ -84,4 +84,7 @@
     <string name="record_added">Добавлено %ds</string>
     <string name="record_added_with_minutes">Добавлено %dm</string>
     <string name="record_added_with_hours">Добавлено %1$dh %2$dm</string>
+    <string name="one_day">дни</string>
+    <string name="one_week">недели</string>
+    <string name="one_month">месяцы</string>
 </resources>

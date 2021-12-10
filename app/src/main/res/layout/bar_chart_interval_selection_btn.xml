@@ -20,19 +20,26 @@
         <import type="com.maxpoliakov.skillapp.util.charts.TheBarChart.FormatterType" />
     </data>
 
-    <Button
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="0dp"
         android:layout_weight="1"
-        android:alpha="@{data.statisticType == activeIntervalType ? 1f : 0.4f}"
-        android:minHeight="0dp"
-        android:onClick="@{() -> data.setStatisticType(activeIntervalType)}"
-        android:paddingVertical="10dp"
-        android:text="@{label}"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="12sp"
-        android:textStyle="normal"
-        app:rippleColor="@android:color/transparent" />
+        android:paddingHorizontal="2dp">
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:alpha="@{data.statisticType == activeIntervalType ? 1f : 0.4f}"
+            android:minHeight="0dp"
+            android:onClick="@{() -> data.setStatisticType(activeIntervalType)}"
+            android:paddingVertical="10dp"
+            android:text="@{label}"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            app:rippleColor="@android:color/transparent" />
+    </FrameLayout>
 </layout>

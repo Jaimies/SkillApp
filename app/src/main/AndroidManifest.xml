@@ -30,6 +30,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".PremiumIntro"
+            android:exported="true"
+            android:label="SkillApp intro" />
+
         <receiver android:name=".StopTimerBroadcastReceiver" />
 
         <receiver

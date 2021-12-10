@@ -28,15 +28,15 @@
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/chart_height"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="40dp"
                 app:statsType="@{data.statisticType == ChronoUnit.MONTHS ? FormatterType.Monthly : data.statisticType == ChronoUnit.WEEKS ? FormatterType.Weekly: FormatterType.Daily}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="12dp">
+                android:paddingHorizontal="20dp"
+                android:gravity="center_horizontal">
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"

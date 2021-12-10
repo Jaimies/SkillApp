@@ -199,7 +199,7 @@ class TheBarChart : BarChart {
         private const val LEFT_OFFSET = 15f
         private const val TOP_OFFSET = 27f
         private const val RIGHT_OFFSET = 20f
-        private const val BOTTOM_OFFSET = 50f
+        private const val BOTTOM_OFFSET = 60f
 
         private const val X_AXIS_SPACE_MIN = 0.4f
         private const val X_AXIS_SPACE_MAX = 0.4f

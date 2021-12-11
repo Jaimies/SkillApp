@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp
 import android.graphics.Color
 import android.os.Bundle
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro
 import com.github.appintro.AppIntroFragment
@@ -15,23 +16,20 @@ class PremiumIntro : AppIntro() {
         setColorSkipButton(Color.WHITE)
         setIndicatorColor(addAlpha(Color.WHITE, 180), addAlpha(Color.WHITE, 100))
 
+        addSlide("Thank you for choosing SkillApp Premium", "Hope you enjoy it")
+        addSlide("Drag skills to group them", "Drag one skill over another to group them")
+        addSlide("Backup your data", "Go to Settings > Backup & Restore")
+        addSlide("Manage your subscription", "Go to Settings > SkillApp Premium")
+    }
+
+    private fun addSlide(title: String, description: String) {
         addSlide(
             AppIntroFragment.newInstance(
-                title = "Drag skills to group them",
-                backgroundColor = Color.parseColor("#0000c9"),
+                title = title,
+                backgroundColor = ContextCompat.getColor(this, R.color.black),
                 titleColor = Color.WHITE,
                 descriptionColor = Color.WHITE,
-                description = "Drag a skill over another one to group them",
-                imageDrawable = R.drawable.ic_check,
-            )
-        )
-        addSlide(
-            AppIntroFragment.newInstance(
-                title = "Backup your data",
-                backgroundColor = Color.parseColor("#fc6f00"),
-                titleColor = Color.WHITE,
-                descriptionColor = Color.WHITE,
-                description = "Go to Settings > Backup & Restore",
+                description = description,
                 imageDrawable = R.drawable.ic_lock,
             )
         )

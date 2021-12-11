@@ -1,10 +1,15 @@
 package com.maxpoliakov.skillapp.util.subscriptions
 
 import android.app.Activity
+import android.content.Intent
 import android.view.View
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.maxpoliakov.skillapp.PremiumIntro
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.data.billing.BillingRepositoryImpl
 import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 
@@ -23,6 +28,13 @@ suspend fun BillingClient.showSubscriptionPrompt(
     val flowParams = BillingFlowParams.newBuilder()
         .setSkuDetails(skuDetails)
         .build()
+
+    billingRepository.addOneTimePurchaseUpdateListener(PurchasesUpdatedListener { billingResult, purchases ->
+        if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) return@PurchasesUpdatedListener
+        if (BillingRepositoryImpl.isSubscribed(purchases as List<Purchase>)) {
+            activity.startActivity(Intent(activity, PremiumIntro::class.java))
+        }
+    })
 
     launchBillingFlow(activity, flowParams)
 }

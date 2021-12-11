@@ -46,12 +46,6 @@ class BillingRepositoryImpl @Inject constructor(
 
     private var connectionState = ConnectionState.NotStarted
 
-    private fun isSubscribed(purchases: List<Purchase>): Boolean {
-        return purchases.any { purchase ->
-            purchase.purchaseState == PURCHASED && purchase.skus.contains(SUBSCRIPTION_SKU_NAME)
-        }
-    }
-
     override suspend fun connect() = coroutineScope {
         if (connectionState == ConnectionState.Connected) return@coroutineScope
 
@@ -111,6 +105,10 @@ class BillingRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun addOneTimePurchaseUpdateListener(listener: PurchasesUpdatedListener) {
+        purchaseUpdateHelper.addOneTimeListener(listener)
+    }
+
     override suspend fun getSubscriptionSkuDetails(): SkuDetails? = withContext(Dispatchers.IO) {
         if (!billingClient.isReady) throwClientNotReadyException()
 
@@ -145,6 +143,14 @@ class BillingRepositoryImpl @Inject constructor(
     private suspend fun awaitPlayServicesReady() {
         return suspendCoroutine { continuation ->
             listeners.add { continuation.resume(Unit) }
+        }
+    }
+
+    companion object {
+        fun isSubscribed(purchases: List<Purchase>): Boolean {
+            return purchases.any { purchase ->
+                purchase.purchaseState == PURCHASED && purchase.skus.contains(SUBSCRIPTION_SKU_NAME)
+            }
         }
     }
 

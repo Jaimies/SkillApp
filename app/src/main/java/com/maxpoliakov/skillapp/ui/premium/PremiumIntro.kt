@@ -1,12 +1,11 @@
-package com.maxpoliakov.skillapp
+package com.maxpoliakov.skillapp.ui.premium
 
 import android.graphics.Color
 import android.os.Bundle
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro
-import com.github.appintro.AppIntroFragment
+import com.github.appintro.AppIntroPageTransformerType
 
 class PremiumIntro : AppIntro() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,19 +19,12 @@ class PremiumIntro : AppIntro() {
         addSlide("Drag skills to group them", "Drag one skill over another to group them")
         addSlide("Backup your data", "Go to Settings > Backup & Restore")
         addSlide("Manage your subscription", "Go to Settings > SkillApp Premium")
+        setTransformer(AppIntroPageTransformerType.Depth)
+        isWizardMode = true
     }
 
     private fun addSlide(title: String, description: String) {
-        addSlide(
-            AppIntroFragment.newInstance(
-                title = title,
-                backgroundColor = ContextCompat.getColor(this, R.color.black),
-                titleColor = Color.WHITE,
-                descriptionColor = Color.WHITE,
-                description = description,
-                imageDrawable = R.drawable.ic_lock,
-            )
-        )
+        addSlide(PremiumIntroSlide(title, description))
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {

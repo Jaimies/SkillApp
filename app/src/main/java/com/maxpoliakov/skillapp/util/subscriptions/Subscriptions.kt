@@ -7,10 +7,10 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
-import com.maxpoliakov.skillapp.PremiumIntro
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.billing.BillingRepositoryImpl
 import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
+import com.maxpoliakov.skillapp.ui.premium.PremiumIntro
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 
 suspend fun BillingClient.showSubscriptionPrompt(

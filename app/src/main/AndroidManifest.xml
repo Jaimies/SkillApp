@@ -31,7 +31,7 @@
         </activity>
 
         <activity
-            android:name=".PremiumIntro"
+            android:name=".ui.premium.PremiumIntro"
             android:exported="true"
             android:label="SkillApp intro" />
 

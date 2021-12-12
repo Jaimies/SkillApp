@@ -38,4 +38,10 @@ class PremiumIntroSlide(
         requestFocus()
         start()
     }
+
+    override fun onResume() = binding.videoView.run {
+        super.onResume()
+        requestFocus()
+        start()
+    }
 }

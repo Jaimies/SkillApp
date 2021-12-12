@@ -87,4 +87,10 @@
     <string name="one_day">дні</string>
     <string name="one_week">тижні</string>
     <string name="one_month">місяці</string>
+    <string name="premium_intro_slide1_title">Дякуємо що обрали SkillApp Преміум</string>
+    <string name="premium_intro_slide1_description">Керуйте підпискою через Налаштування\u00A0>\u00A0«SkillApp Премiум»</string>
+    <string name="premium_intro_slide2_title">Організовуйте навички у групи</string>
+    <string name="premium_intro_slide2_description">Перетягніть одну навичку над іншою щоб згрупувати їх</string>
+    <string name="premium_intro_slide3_title">Резервне копіювання даних</string>
+    <string name="premium_intro_slide3_description">Зайдіть у Налаштування\u00A0>\u00A0«Резервне копіювання» та увійдіть у свій Google\u00A0Акаунт</string>
 </resources>

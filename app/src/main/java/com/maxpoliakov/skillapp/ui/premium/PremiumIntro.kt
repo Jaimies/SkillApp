@@ -17,7 +17,7 @@ class PremiumIntro : AppIntro() {
         setIndicatorColor(addAlpha(Color.WHITE, 180), addAlpha(Color.WHITE, 100))
 
         addSlide(R.string.premium_intro_slide1_title, R.string.premium_intro_slide1_description)
-        addSlide(R.string.premium_intro_slide2_title, R.string.premium_intro_slide2_description, "premium_intro_group_skills")
+        addSlide(R.string.premium_intro_slide2_title, R.string.premium_intro_slide2_description, "premium_intro_grouping")
         addSlide(R.string.premium_intro_slide3_title, R.string.premium_intro_slide3_description, "premium_intro_backups")
         isWizardMode = true
     }

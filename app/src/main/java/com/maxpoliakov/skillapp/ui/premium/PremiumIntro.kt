@@ -3,8 +3,10 @@ package com.maxpoliakov.skillapp.ui.premium
 import android.graphics.Color
 import android.os.Bundle
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro
+import com.maxpoliakov.skillapp.R
 
 class PremiumIntro : AppIntro() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,14 +16,14 @@ class PremiumIntro : AppIntro() {
         setColorSkipButton(Color.WHITE)
         setIndicatorColor(addAlpha(Color.WHITE, 180), addAlpha(Color.WHITE, 100))
 
-        addSlide("Thank you for choosing SkillApp Premium", "Manager your subscription under Settings\u00A0>\u00A0SkillApp Premium")
-        addSlide("Drag skills to group them", "Drag one skill on top of another to group them", "premium_intro_group_skills")
-        addSlide("Backup your data", "Go to Settings\u00A0>\u00A0Backup & Restore and sign in to your Google Account", "premium_intro_backups")
+        addSlide(R.string.premium_intro_slide1_title, R.string.premium_intro_slide1_description)
+        addSlide(R.string.premium_intro_slide2_title, R.string.premium_intro_slide2_description, "premium_intro_group_skills")
+        addSlide(R.string.premium_intro_slide3_title, R.string.premium_intro_slide3_description, "premium_intro_backups")
         isWizardMode = true
     }
 
-    private fun addSlide(title: String, description: String, videoFileName: String = "") {
-        addSlide(PremiumIntroSlide(title, description, videoFileName))
+    private fun addSlide(@StringRes titleResId: Int, @StringRes descriptionResId: Int, videoFileName: String = "") {
+        addSlide(PremiumIntroSlide(titleResId, descriptionResId, videoFileName))
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {

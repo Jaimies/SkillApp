@@ -81,9 +81,9 @@
     <string name="price_loading">Завантаження ціни…</string>
     <string name="no_internet">Немає підключення до Інтернету</string>
     <string name="something_went_wrong">Щось пішло не так, спробуйте знову</string>
-    <string name="record_added">Додано %ds</string>
-    <string name="record_added_with_minutes">Додано %dm</string>
-    <string name="record_added_with_hours">Додано %1$dh %2$dm</string>
+    <string name="record_added">Додано %d сек</string>
+    <string name="record_added_with_minutes">Додано %d хв</string>
+    <string name="record_added_with_hours">Додано %1$d год %2$d хв</string>
     <string name="one_day">дні</string>
     <string name="one_week">тижні</string>
     <string name="one_month">місяці</string>

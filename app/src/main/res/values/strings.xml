@@ -100,4 +100,6 @@
     <string name="premium_intro_slide2_description">Drag one skill on top of another to group them</string>
     <string name="premium_intro_slide3_title">Backup your data</string>
     <string name="premium_intro_slide3_description">Go to Settings\u00A0>\u00A0Backup &amp; Restore and sign in to your Google Account</string>
+    <string name="backup_sign_in_title">Sign\u00A0in to back\u00A0up your\u00A0data</string>
+    <string name="google_sign_in_btn_text">Continue with Google</string>
 </resources>

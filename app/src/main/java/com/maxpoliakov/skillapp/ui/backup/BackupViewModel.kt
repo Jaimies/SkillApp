@@ -113,10 +113,7 @@ class BackupViewModel @Inject constructor(
         logEvent("sign_in")
     }
 
-    fun signInOrSignOut() {
-        if (currentUser.value == null) signIn()
-        else _showLogoutDialog.call()
-    }
+    fun showLogoutDialog() = _showLogoutDialog.call()
 
     fun signOut() {
         authRepository.signOut()
@@ -125,7 +122,7 @@ class BackupViewModel @Inject constructor(
         logEvent("sign_out")
     }
 
-    private fun signIn() {
+    fun signIn() {
         _signIn.call()
     }
 

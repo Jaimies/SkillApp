@@ -4,9 +4,11 @@ import android.view.MotionEvent
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
+import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 
 class SkillViewHolder(
     private val binding: SkillsItemBinding,
+    private val recordUtil: RecordUtil,
     callback: SkillsFragmentCallback,
 ) : BaseViewHolder(binding.root) {
     val viewModel = binding.viewModel!!
@@ -27,6 +29,10 @@ class SkillViewHolder(
 
         viewModel.navigateToDetails.observe { skill ->
             callback.navigateToSkillDetail(binding.card, skill)
+        }
+
+        viewModel.notifyRecordAdded.observe { record ->
+            recordUtil.notifyRecordAdded(binding.root, record)
         }
     }
 

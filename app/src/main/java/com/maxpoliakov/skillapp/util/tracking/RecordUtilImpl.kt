@@ -14,8 +14,8 @@ import java.time.Duration
 import javax.inject.Inject
 
 class RecordUtilImpl @Inject constructor(
-    private val changeRecordTime: ChangeRecordTimeUseCase,
-    private val ioScope: CoroutineScope
+        private val changeRecordTime: ChangeRecordTimeUseCase,
+        private val ioScope: CoroutineScope
 ) : RecordUtil {
 
     override fun notifyRecordAdded(view: View, record: Record) {
@@ -35,9 +35,9 @@ class RecordUtilImpl @Inject constructor(
         }
 
         return context.getString(
-            R.string.record_added_with_hours,
-            record.time.toHours(),
-            record.time.toMinutesPartCompat()
+                R.string.record_added_with_hours,
+                record.time.toHours(),
+                record.time.toMinutesPartCompat()
         )
     }
 

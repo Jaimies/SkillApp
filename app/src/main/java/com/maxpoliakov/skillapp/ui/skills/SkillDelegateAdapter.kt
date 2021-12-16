@@ -5,6 +5,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaBy
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
@@ -13,6 +14,7 @@ import javax.inject.Provider
 
 class SkillDelegateAdapter(
     private val viewModelProvider: Provider<SkillViewModel>,
+    private val recordUtil: RecordUtil,
     private val callback: SkillsFragmentCallback,
 ) : DelegateAdapter<Skill, SkillViewHolder> {
 
@@ -21,7 +23,7 @@ class SkillDelegateAdapter(
             val viewModel = viewModelProvider.get()
             this.viewModel = viewModel
             this.startTimer.increaseTouchAreaBy(15.dp)
-            return SkillViewHolder(this, callback)
+            return SkillViewHolder(this, recordUtil, callback)
         }
     }
 
@@ -31,11 +33,12 @@ class SkillDelegateAdapter(
 
     class Factory @Inject constructor(
         private val viewModelProvider: Provider<SkillViewModel>,
+        private val recordUtil: RecordUtil,
     ) {
         fun create(
             callback: SkillsFragmentCallback,
         ): SkillDelegateAdapter {
-            return SkillDelegateAdapter(viewModelProvider, callback)
+            return SkillDelegateAdapter(viewModelProvider, recordUtil, callback)
         }
     }
 }

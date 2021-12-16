@@ -34,7 +34,7 @@ class StatsDaoTest {
     @Test
     fun addRecord() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime)
-        statsDao.getStats(skillId).await() shouldBe listOf(
+        statsDao.getStats(skillId, 7).await() shouldBe listOf(
             DBStatistic(date, skillId, Duration.ofMinutes(100))
         )
     }
@@ -43,7 +43,7 @@ class StatsDaoTest {
     fun addRecord_recordAtGivenDayExists_sumsTime() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime)
         statsDao.addRecord(skillId, date, recordTime)
-        statsDao.getStats(skillId).await() shouldBe listOf(
+        statsDao.getStats(skillId, 7).await() shouldBe listOf(
             DBStatistic(date, skillId, Duration.ofMinutes(200))
         )
     }
@@ -53,7 +53,7 @@ class StatsDaoTest {
         skillDao.insert(DBSkill())
         statsDao.addRecord(skillId, date, recordTime)
         statsDao.addRecord(otherSkillId, date, recordTime)
-        statsDao.getStats(skillId).await() shouldBe listOf(
+        statsDao.getStats(skillId, 7).await() shouldBe listOf(
             DBStatistic(date, skillId, Duration.ofMinutes(100))
         )
     }
@@ -61,19 +61,19 @@ class StatsDaoTest {
     @Test
     fun getStats_selectsOnlyFromSpecifiedSkill() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime)
-        statsDao.getStats(otherSkillId).await() shouldBe listOf()
+        statsDao.getStats(otherSkillId, 7).await() shouldBe listOf()
     }
 
     @Test
     fun getStats_selectsOnlyWithPositiveTime() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime.negated())
-        statsDao.getStats(skillId).await() shouldBe listOf()
+        statsDao.getStats(skillId, 7).await() shouldBe listOf()
     }
 
     @Test
     fun getStats_includes6DaysAgo() = runBlocking {
         statsDao.addRecord(skillId, date.minusDays(6), recordTime)
-        statsDao.getStats(skillId).await() shouldBe listOf(
+        statsDao.getStats(skillId, 7).await() shouldBe listOf(
             DBStatistic(date.minusDays(6), skillId, recordTime)
         )
     }
@@ -81,13 +81,13 @@ class StatsDaoTest {
     @Test
     fun getStats_ignoresOlderThan55DaysAgo() = runBlocking {
         statsDao.addRecord(skillId, date.minusDays(56), recordTime)
-        statsDao.getStats(skillId).await() shouldBe listOf()
+        statsDao.getStats(skillId, 7).await() shouldBe listOf()
     }
 
     @Test
     fun getStats_ignoresMoreRecentThanToday() = runBlocking {
         statsDao.addRecord(skillId, date.plusDays(1), recordTime)
-        statsDao.getStats(skillId).await() shouldBe listOf()
+        statsDao.getStats(skillId, 7).await() shouldBe listOf()
     }
 
     @Test
@@ -104,7 +104,7 @@ class StatsDaoTest {
         statsDao.addRecord(skillId, date.minusDays(56), recordTime)
         statsDao.addRecord(skillId, date, recordTime)
         statsDao.addRecord(otherSkillId, date, recordTime)
-        statsDao.getStats(-1).await() shouldBe listOf(
+        statsDao.getStats(-1, 7).await() shouldBe listOf(
             DBStatistic(date, -1, Duration.ofMinutes(200))
         )
     }

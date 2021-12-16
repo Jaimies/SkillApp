@@ -21,7 +21,7 @@ class StatsEntriesTest : StringSpec({
             Statistic(LocalDate.ofEpochDay(2), Duration.ofMinutes(32))
         )
 
-        stats.withMissingStats(6) shouldBe listOf(
+        stats.withMissingStats(count = 6) shouldBe listOf(
             Statistic(LocalDate.ofEpochDay(2), Duration.ofMinutes(32)),
             Statistic(LocalDate.ofEpochDay(3), Duration.ZERO),
             Statistic(LocalDate.ofEpochDay(4), Duration.ZERO),

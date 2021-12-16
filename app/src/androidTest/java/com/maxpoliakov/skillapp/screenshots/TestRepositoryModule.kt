@@ -1,9 +1,7 @@
 package com.maxpoliakov.skillapp.screenshots
 
-import com.maxpoliakov.skillapp.data.auth.AuthRepositoryImpl
 import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
 import com.maxpoliakov.skillapp.data.di.RepositoryModule
-import com.maxpoliakov.skillapp.data.drive.DriveRepositoryImpl
 import com.maxpoliakov.skillapp.data.group.SkillGroupRepositoryImpl
 import com.maxpoliakov.skillapp.data.records.RecordsRepositoryImpl
 import com.maxpoliakov.skillapp.data.skill.SkillRepositoryImpl

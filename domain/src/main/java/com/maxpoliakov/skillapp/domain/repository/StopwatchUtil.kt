@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 interface StopwatchUtil {
     val state: StateFlow<StopwatchState>
 
-    fun start(skillId: Int)
+    fun start(skillId: Int) : Deferred<Record?>
     fun stop(): Deferred<Record?>
     fun cancel()
     fun toggle(skillId: Int): Deferred<Record?>

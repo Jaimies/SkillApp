@@ -40,12 +40,7 @@ class StopwatchUtilImpl @Inject constructor(
         val state = _state.value
         if (state is Running && state.skillId == skillId) return@async stop().await()
 
-        start(skillId)
-
-        if (state is Running)
-            return@async addRecord(state)
-
-        return@async null
+        return@async start(skillId).await()
     }
 
     override fun stop(): Deferred<Record?> = scope.async {
@@ -60,10 +55,20 @@ class StopwatchUtilImpl @Inject constructor(
         setState(Paused)
     }
 
-    override fun start(skillId: Int) {
-        if (!shouldStartTimer(skillId)) return
+    override fun start(skillId: Int): Deferred<Record?> = scope.async {
+        if (!shouldStartTimer(skillId)) return@async null
+        val record = addRecordIfNeeded(_state.value)
         val state = Running(getZonedDateTime(), skillId)
         setState(state)
+
+        return@async record
+    }
+
+    private suspend fun addRecordIfNeeded(state: StopwatchState): Record? {
+        if (state is Running)
+            return addRecord(state)
+
+        return null
     }
 
     private fun shouldStartTimer(skillId: Int): Boolean {

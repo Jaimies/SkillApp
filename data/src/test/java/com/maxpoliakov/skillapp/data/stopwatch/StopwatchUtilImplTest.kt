@@ -75,10 +75,20 @@ class StopwatchUtilImplTest : StringSpec({
 
     "start() does nothing if the timer is already running with the same id" {
         val stopwatch = createStopwatch()
-        stopwatch.start(skillId)
+        stopwatch.start(skillId).await()
         setClock(clockOfEpochSecond(1))
-        stopwatch.start(skillId)
+        stopwatch.start(skillId).await()
         stopwatch.state.value shouldBe Running(dateOfEpochSecond(0), skillId)
+    }
+
+    "start() stops the existing timer and starts a new one" {
+        val stopwatch = createStopwatch()
+        stopwatch.start(skillId).await()
+        setClock(clockOfEpochSecond(1))
+        stopwatch.start(otherSkillId).await()
+        setClock(clockOfEpochSecond(2))
+        stopwatch.state.value shouldBe Running(dateOfEpochSecond(1), otherSkillId)
+        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1))) }
     }
 
     "stop() does nothing if the timer is not running" {

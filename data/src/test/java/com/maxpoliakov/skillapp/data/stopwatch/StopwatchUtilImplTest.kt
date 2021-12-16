@@ -5,31 +5,31 @@ import com.maxpoliakov.skillapp.data.StubStopwatchPersistence
 import com.maxpoliakov.skillapp.dateOfEpochSecond
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
+import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.shared.util.setClock
-import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Unconfined
-import org.mockito.Mockito.clearInvocations
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 import java.time.Clock
 import java.time.Duration
 import java.time.ZonedDateTime
 
 class StopwatchUtilImplTest : StringSpec({
     val coroutineScope = CoroutineScope(Unconfined)
-    val addRecord = mock(AddRecordUseCase::class.java)
-    val notificationUtil = mock(NotificationUtil::class.java)
+    val addRecord = mockk<AddRecordUseCase>(relaxed = true)
+    val notificationUtil = mockk<NotificationUtil>(relaxed = true)
 
     beforeEach { setClock(clockOfEpochSecond(0)) }
-    afterEach { clearInvocations(addRecord, notificationUtil) }
+    afterEach { clearAllMocks() }
     afterSpec { setClock(Clock.systemDefaultZone()) }
+
+    coEvery { addRecord.run(any()) }.returns(1)
 
     fun getRunningState() = Running(getZonedDateTime(), skillId)
 
@@ -41,19 +41,20 @@ class StopwatchUtilImplTest : StringSpec({
     "add the record properly" {
         val stopwatch = createStopwatch()
         stopwatch.state.value shouldBe Paused
-        stopwatch.toggle(skillId)
+        stopwatch.toggle(skillId).await()
         stopwatch.state.value shouldBe getRunningState()
         setClock(clockOfEpochSecond(1))
-        stopwatch.toggle(skillId)
-        verify(addRecord).run(Record("", skillId, Duration.ofSeconds(1)))
+        stopwatch.toggle(skillId).await()
+
+        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1))) }
     }
 
     "records the time of the current timer when trying to start a new one" {
         val stopwatch = createStopwatch()
-        stopwatch.toggle(skillId)
+        stopwatch.toggle(skillId).await()
         setClock(clockOfEpochSecond(1))
-        stopwatch.toggle(otherSkillId)
-        verify(addRecord).run(Record("", skillId, Duration.ofSeconds(1)))
+        stopwatch.toggle(otherSkillId).await()
+        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1))) }
         stopwatch.state.value shouldBe Running(getZonedDateTime(), otherSkillId)
     }
 
@@ -64,11 +65,12 @@ class StopwatchUtilImplTest : StringSpec({
     }
 
     "persists the state and shows the notification" {
-        val persistence = mock(StopwatchPersistence::class.java)
+        val persistence = mockk<StopwatchPersistence>(relaxed = true)
         val stopwatch = StopwatchUtilImpl(persistence, addRecord, notificationUtil, coroutineScope)
-        stopwatch.toggle(skillId)
-        verify(persistence).saveState(getRunningState())
-        verify(notificationUtil).showStopwatchNotification(getRunningState())
+        stopwatch.toggle(skillId).await()
+
+        verify { persistence.saveState(getRunningState()) }
+        verify { notificationUtil.showStopwatchNotification(getRunningState()) }
     }
 
     "start() does nothing if the timer is already running with the same id" {
@@ -81,27 +83,27 @@ class StopwatchUtilImplTest : StringSpec({
 
     "stop() does nothing if the timer is not running" {
         val stopwatch = createStopwatch()
-        stopwatch.stop()
+        stopwatch.stop().await()
         stopwatch.state.value shouldBe Paused
     }
 
     "stop() stops the timer and removes the notification" {
         val stopwatch = createStopwatch(getRunningState())
         setClock(clockOfEpochSecond(1))
-        stopwatch.stop()
+        stopwatch.stop().await()
         stopwatch.state.value shouldBe Paused
-        verify(addRecord).run(Record("", skillId, Duration.ofSeconds(1)))
-        verify(notificationUtil).removeStopwatchNotification()
+        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1))) }
+        verify { notificationUtil.removeStopwatchNotification() }
     }
 
     "shows the notification if the state is Running on startup" {
         createStopwatch(getRunningState())
-        verify(notificationUtil).showStopwatchNotification(getRunningState())
+        verify { notificationUtil.showStopwatchNotification(getRunningState()) }
     }
 
     "removes the notification if the state isd Paused on startup" {
         createStopwatch(Paused)
-        verify(notificationUtil).removeStopwatchNotification()
+        verify { notificationUtil.removeStopwatchNotification() }
     }
 }) {
     companion object {

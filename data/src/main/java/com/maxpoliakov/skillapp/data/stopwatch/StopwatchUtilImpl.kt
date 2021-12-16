@@ -41,6 +41,10 @@ class StopwatchUtilImpl @Inject constructor(
         if (state is Running && state.skillId == skillId) return@async stop().await()
 
         start(skillId)
+
+        if (state is Running)
+            return@async addRecord(state)
+
         return@async null
     }
 

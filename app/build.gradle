@@ -148,8 +148,8 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
-    testImplementation "org.mockito:mockito-core:$Versions.mockito"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "io.mockk:mockk:$Versions.mockk"
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$Versions.coroutines"
     testImplementation project(":sharedTest")

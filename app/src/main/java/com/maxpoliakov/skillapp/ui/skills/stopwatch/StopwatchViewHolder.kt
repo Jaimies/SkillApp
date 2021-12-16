@@ -22,8 +22,8 @@ class StopwatchViewHolder(
             navigateToSkillDetail(view, skill)
         }
 
-        viewModel.showRecordAdded.observe {record ->
-            if(record == null) return@observe
+        viewModel.showRecordAdded.observe { record ->
+            if (record == null) return@observe
             recordUtil.notifyRecordAdded(view, record)
         }
     }

@@ -69,9 +69,9 @@ class SkillDetailViewModel(
         logEvent("delete_skill")
     }
 
-    fun toggleTimer() = viewModelScope.launch {
-        val record = stopwatchUtil.toggle(skillId).await()
-        record.let { record -> _showRecordAdded.value = record }
+    fun toggleTimer() = ioScope.launch {
+        val record = stopwatchUtil.toggle(skillId)
+        record.let(_showRecordAdded::postValue)
         logEvent("toggle_timer")
     }
 

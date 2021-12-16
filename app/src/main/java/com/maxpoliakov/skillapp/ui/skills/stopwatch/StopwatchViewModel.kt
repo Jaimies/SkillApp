@@ -10,12 +10,10 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class StopwatchViewModel @Inject constructor(
@@ -40,10 +38,8 @@ class StopwatchViewModel @Inject constructor(
     val isActive = stopwatchUtil.state.map { it is StopwatchState.Running }.asLiveData()
 
     fun stopTimer() = ioScope.launch {
-        withContext(Dispatchers.Main) {
-            val record = stopwatchUtil.stop().await()
-            record?.let { record -> _showRecordAdded.value = record }
-        }
+        val record = stopwatchUtil.stop()
+        record?.let(_showRecordAdded::postValue)
     }
 
     fun navigateToCurrentlyTrackedSkill() {

@@ -8,9 +8,6 @@ import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -21,7 +18,6 @@ class StopwatchUtilImpl @Inject constructor(
     private val persistence: StopwatchPersistence,
     private val addRecord: AddRecordUseCase,
     private val notificationUtil: NotificationUtil,
-    private val scope: CoroutineScope
 ) : StopwatchUtil {
     override val state: StateFlow<StopwatchState> get() = _state
     private val _state = MutableStateFlow(persistence.getState())
@@ -36,32 +32,32 @@ class StopwatchUtilImpl @Inject constructor(
         else notificationUtil.removeStopwatchNotification()
     }
 
-    override fun toggle(skillId: Int): Deferred<Record?> = scope.async {
+    override suspend fun toggle(skillId: Int): Record? {
         val state = _state.value
-        if (state is Running && state.skillId == skillId) return@async stop().await()
+        if (state is Running && state.skillId == skillId) return stop()
 
-        return@async start(skillId).await()
+        return start(skillId)
     }
 
-    override fun stop(): Deferred<Record?> = scope.async {
+    override suspend fun stop(): Record? {
         val state = _state.value
 
-        if (state !is Running) return@async null
+        if (state !is Running) return null
         setState(Paused)
-        return@async addRecord(state)
+        return addRecord(state)
     }
 
     override fun cancel() {
         setState(Paused)
     }
 
-    override fun start(skillId: Int): Deferred<Record?> = scope.async {
-        if (!shouldStartTimer(skillId)) return@async null
+    override suspend fun start(skillId: Int): Record? {
+        if (!shouldStartTimer(skillId)) return null
         val record = addRecordIfNeeded(_state.value)
         val state = Running(getZonedDateTime(), skillId)
         setState(state)
 
-        return@async record
+        return record
     }
 
     private suspend fun addRecordIfNeeded(state: StopwatchState): Record? {

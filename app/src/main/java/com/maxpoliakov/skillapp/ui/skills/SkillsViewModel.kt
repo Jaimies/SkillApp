@@ -16,6 +16,7 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flatMapLatest
@@ -30,6 +31,7 @@ class SkillsViewModel @Inject constructor(
     private val updateOrder: UpdateOrderUseCase,
     private val stopwatchUtil: StopwatchUtil,
     private val billingRepository: BillingRepository,
+    private val ioScope: CoroutineScope,
 ) : ViewModel() {
 
     val skillsAndGroups = isSubscribed.flatMapLatest { isSubscribed ->
@@ -72,6 +74,6 @@ class SkillsViewModel @Inject constructor(
         manageGroup.removeFromGroup(skill)
     }
 
-    fun stopTimer() = stopwatchUtil.stop()
+    fun stopTimer() = ioScope.launch { stopwatchUtil.stop() }
     fun navigateToAddSkill() = navigateToAddEdit.call()
 }

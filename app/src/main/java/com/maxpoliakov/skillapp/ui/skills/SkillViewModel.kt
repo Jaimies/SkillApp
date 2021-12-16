@@ -41,7 +41,7 @@ class SkillViewModel @Inject constructor(
 
     fun startTimer() {
         ioScope.launch {
-            val record = stopwatchUtil.start(skill.value!!.id).await()
+            val record = stopwatchUtil.start(skill.value!!.id)
             if (record != null)
                 withContext(Dispatchers.Main) { _notifyRecordAdded.value = record }
         }

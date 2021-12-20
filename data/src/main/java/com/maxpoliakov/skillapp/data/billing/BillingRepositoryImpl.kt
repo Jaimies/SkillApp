@@ -1,26 +1,14 @@
 package com.maxpoliakov.skillapp.data.billing
 
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.*
 import com.android.billingclient.api.Purchase.PurchaseState.PURCHASED
-import com.android.billingclient.api.PurchasesUpdatedListener
-import com.android.billingclient.api.SkuDetails
-import com.android.billingclient.api.SkuDetailsParams
-import com.android.billingclient.api.queryPurchasesAsync
-import com.android.billingclient.api.querySkuDetails
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -63,13 +51,29 @@ class BillingRepositoryImpl @Inject constructor(
 
             ioScope.launch {
                 updateSubscriptionState(validPurchases)
+                acknowledgePurchaseIfNeeded(purchases)
             }
         })
 
         val purchasesResult = billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS)
         val purchases = purchasesResult.purchasesList
 
+        acknowledgePurchaseIfNeeded(purchases)
         updateSubscriptionState(purchases)
+    }
+
+    private suspend fun acknowledgePurchaseIfNeeded(purchases: List<Purchase>) {
+        val subscriptionPurchase = purchases.find { purchase ->
+            purchase.purchaseState == PURCHASED
+                    && !purchase.isAcknowledged
+                    && purchase.skus.contains("premium_subscription")
+        } ?: return
+
+        val params = AcknowledgePurchaseParams.newBuilder()
+            .setPurchaseToken(subscriptionPurchase.purchaseToken)
+            .build()
+
+        billingClient.acknowledgePurchase(params)
     }
 
     private suspend fun updateSubscriptionState(purchases: List<Purchase>) {

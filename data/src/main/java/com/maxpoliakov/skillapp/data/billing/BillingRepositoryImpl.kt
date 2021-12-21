@@ -7,7 +7,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
-import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
+import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +23,7 @@ import kotlin.coroutines.suspendCoroutine
 class BillingRepositoryImpl @Inject constructor(
     private val billingClient: BillingClient,
     private val purchaseUpdateHelper: PurchaseUpdateHelper,
-    private val sharedPreferences: SharedPreferences,
+    private val premiumUtil: PremiumUtil,
     private val ioScope: CoroutineScope,
 ) : ExtendedBillingRepository {
 
@@ -51,7 +51,7 @@ class BillingRepositoryImpl @Inject constructor(
         }
 
         connectionState = ConnectionState.Started
-        if (hasFreePremium()) {
+        if (premiumUtil.isFreePremiumAvailable()) {
             _subscriptionState.emit(SubscriptionState.Subscribed)
             _isSubscribed.value = true
             return@coroutineScope
@@ -91,16 +91,9 @@ class BillingRepositoryImpl @Inject constructor(
     }
 
     private suspend fun updateSubscriptionState(purchases: List<Purchase>) {
-        val isSubscribed = isSubscribed(purchases) || hasFreePremium()
+        val isSubscribed = isSubscribed(purchases) || premiumUtil.isFreePremiumAvailable()
         _isSubscribed.emit(isSubscribed)
         _subscriptionState.emit(getSubscriptionState(isSubscribed))
-    }
-
-    private fun hasFreePremium(): Boolean {
-        val freePremiumDateStartString = sharedPreferences.getString("free_premium_period_start", "")
-        if (freePremiumDateStartString.isNullOrBlank()) return false
-        val startDate = LocalDateTime.parse(freePremiumDateStartString, dateTimeFormatter)
-        return startDate.plusDays(1) > LocalDateTime.now()
     }
 
     private fun getSubscriptionState(isSubscribed: Boolean): SubscriptionState {

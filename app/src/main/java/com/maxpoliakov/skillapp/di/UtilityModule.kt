@@ -1,6 +1,8 @@
 package com.maxpoliakov.skillapp.di
 
+import com.maxpoliakov.skillapp.data.PremiumUtilImpl
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
+import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import com.maxpoliakov.skillapp.util.network.NetworkUtil
 import com.maxpoliakov.skillapp.util.network.NetworkUtilImpl
 import com.maxpoliakov.skillapp.util.notifications.NotificationUtilImpl
@@ -22,4 +24,7 @@ interface UtilityModule {
 
     @Binds
     fun provideRecordUtil(recordUtil: RecordUtilImpl): RecordUtil
+
+    @Binds
+    fun providePremiumUtil(premiumUtil: PremiumUtilImpl): PremiumUtil
 }

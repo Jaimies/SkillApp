@@ -85,18 +85,23 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         adPref.setOnPreferenceClickListener {
             if (adManager.loadingState == RewardedAdManager.LoadingState.FailedToLoad) {
-                Snackbar
-                    .make(requireView(), "Ad failed to load, please try again later", Snackbar.LENGTH_LONG)
-                    .show()
+                showAdFailedToLoadSnackBar()
 
                 return@setOnPreferenceClickListener true
             }
 
-            adManager.showAdIfAvailable(requireActivity()) {
-                billingRepository.notifyPremiumGranted()
-                premiumUtil.enableFreePremium()
-                PremiumIntro.showIfNeeded(requireActivity())
+            if (adManager.loadingState == RewardedAdManager.LoadingState.Loading) {
+                showAdIsLoadingSnackbar()
+
+                adManager.setOnAdLoadedListener { state ->
+                    if (state == RewardedAdManager.LoadingState.Loaded) showTheAd()
+                    else showAdFailedToLoadSnackBar()
+                }
+
+                return@setOnPreferenceClickListener true
             }
+
+            showTheAd()
             true
         }
 
@@ -106,6 +111,26 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 premiumPref.isVisible = state != SubscriptionState.Loading
                 adPref.isVisible = state != SubscriptionState.Subscribed
             }
+        }
+    }
+
+    private fun showAdIsLoadingSnackbar() {
+        Snackbar
+            .make(requireView(), "The ad is loading, it will show as soon as it finishes loading", Snackbar.LENGTH_LONG)
+            .show()
+    }
+
+    private fun showAdFailedToLoadSnackBar() {
+        Snackbar
+            .make(requireView(), "Ad failed to load, please try again later", Snackbar.LENGTH_LONG)
+            .show()
+    }
+
+    private fun showTheAd() {
+        adManager.showAdIfAvailable(requireActivity()) {
+            billingRepository.notifyPremiumGranted()
+            premiumUtil.enableFreePremium()
+            PremiumIntro.showIfNeeded(requireActivity())
         }
     }
 

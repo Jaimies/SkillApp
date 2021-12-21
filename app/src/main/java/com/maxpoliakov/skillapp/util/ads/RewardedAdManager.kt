@@ -10,8 +10,9 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
 class RewardedAdManager {
     private var mRewardedAd: RewardedAd? = null
+    var loadingState = LoadingState.Loading
 
-    fun load(context: Context) {
+    fun loadAd(context: Context) {
         val adRequest = AdRequest.Builder().build()
 
         RewardedAd.load(
@@ -19,17 +20,26 @@ class RewardedAdManager {
             admobRewardedUnitId,
             adRequest,
             object : RewardedAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {}
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    loadingState = LoadingState.FailedToLoad
+                }
 
                 override fun onAdLoaded(rewardedAd: RewardedAd) {
                     mRewardedAd = rewardedAd
+                    loadingState = LoadingState.Loaded
                 }
             })
     }
 
-    fun show(activity: Activity, onUserEarnedRewardListener: (RewardItem) -> Unit) {
-        mRewardedAd?.show(activity, onUserEarnedRewardListener)
-        mRewardedAd = null
+    fun showAdIfAvailable(activity: Activity, onUserEarnedRewardListener: (RewardItem) -> Unit) {
+        mRewardedAd?.run  {
+            show(activity, onUserEarnedRewardListener)
+            mRewardedAd = null
+        }
+    }
+
+    enum class LoadingState {
+        Loading, Loaded, FailedToLoad
     }
 
     companion object {

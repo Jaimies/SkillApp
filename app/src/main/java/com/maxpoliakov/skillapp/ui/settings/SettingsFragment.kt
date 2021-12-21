@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
@@ -36,7 +37,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adManager.load(requireContext())
+        adManager.loadAd(requireContext())
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -83,7 +84,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 
         adPref.setOnPreferenceClickListener {
-            adManager.show(requireActivity()) {
+            if (adManager.loadingState == RewardedAdManager.LoadingState.FailedToLoad) {
+                Snackbar
+                    .make(requireView(), "Ad failed to load, please try again later", Snackbar.LENGTH_LONG)
+                    .show()
+
+                return@setOnPreferenceClickListener true
+            }
+
+            adManager.showAdIfAvailable(requireActivity()) {
                 billingRepository.notifyPremiumGranted()
                 premiumUtil.enableFreePremium()
                 PremiumIntro.showIfNeeded(requireActivity())

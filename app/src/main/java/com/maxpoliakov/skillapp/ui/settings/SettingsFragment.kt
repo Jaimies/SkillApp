@@ -8,16 +8,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.ui.premium.PremiumIntro
+import com.maxpoliakov.skillapp.util.ads.RewardedAdManager
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.analytics.setAsCurrentScreen
 import com.maxpoliakov.skillapp.util.ui.dp
@@ -36,7 +33,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
     @Inject
     lateinit var premiumUtil: PremiumUtil
 
-    private var mRewardedAd: RewardedAd? = null
+    private val adManager = RewardedAdManager()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        adManager.load(requireContext())
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
@@ -80,27 +82,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val adPref = findPreference<Preference>("premium_ad")!!
 
-        val adRequest = AdRequest.Builder()
-            .build()
-
-        RewardedAd.load(
-            requireContext(),
-            "ca-app-pub-3940256099942544/5224354917",
-            adRequest,
-            object : RewardedAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {}
-
-                override fun onAdLoaded(rewardedAd: RewardedAd) {
-                    mRewardedAd = rewardedAd
-                }
-            })
-
 
         adPref.setOnPreferenceClickListener {
-
-            if (mRewardedAd == null) return@setOnPreferenceClickListener true
-
-            mRewardedAd!!.show(requireActivity()) { rewardItem ->
+            adManager.show(requireActivity()) {
                 billingRepository.notifyPremiumGranted()
                 requireActivity().startActivity(Intent(requireActivity(), PremiumIntro::class.java))
                 premiumUtil.enableFreePremium()

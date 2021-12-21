@@ -9,6 +9,7 @@ interface BillingRepository {
 
     suspend fun connect()
     suspend fun getSubscriptionExpirationTime(): LocalDateTime?
+    fun notifyPremiumGranted()
 
     enum class SubscriptionState {
         Loading, Subscribed, NotSubscribed,

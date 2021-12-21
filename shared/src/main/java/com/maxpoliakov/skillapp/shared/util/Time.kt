@@ -1,21 +1,13 @@
 package com.maxpoliakov.skillapp.shared.util
 
 import androidx.annotation.VisibleForTesting
-import java.time.Clock
-import java.time.DateTimeException
-import java.time.DayOfWeek
-import java.time.Duration
-import java.time.LocalDate
-import java.time.Month
-import java.time.ZonedDateTime
+import java.time.*
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
-import java.time.temporal.ChronoUnit.DAYS
-import java.time.temporal.ChronoUnit.MILLIS
-import java.time.temporal.ChronoUnit.MONTHS
-import java.time.temporal.ChronoUnit.WEEKS
+import java.time.temporal.ChronoUnit.*
 import java.time.temporal.Temporal
 import java.time.temporal.WeekFields
-import java.util.Locale
+import java.util.*
 
 val EPOCH: LocalDate get() = LocalDate.ofEpochDay(0)
 
@@ -29,6 +21,8 @@ val LocalDate.daysAgo get() = DAYS.between(this, getCurrentDate())
 val LocalDate.daysSinceEpoch get() = DAYS.between(EPOCH, this)
 val LocalDate.weeksSinceEpoch get() = WEEKS.between(EPOCH.atStartOfWeek(), this.atStartOfWeek())
 val LocalDate.monthsSinceEpoch get() = MONTHS.between(EPOCH, this)
+
+val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy  HH:mm:ss")
 
 fun LocalDate.atStartOfWeek(): LocalDate {
     val date = with(WeekFields.of(Locale.getDefault()).firstDayOfWeek)

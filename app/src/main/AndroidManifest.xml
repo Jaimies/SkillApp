@@ -19,6 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillApp.Splash"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3620260144623649~1471533618"/>
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"

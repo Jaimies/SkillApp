@@ -23,6 +23,12 @@
             android:icon="@drawable/ic_star"
             android:key="premium"
             android:title="@string/skillapp_premium" />
+
+        <Preference
+            android:key="premium_ad"
+            android:summary="Watch an ad to get free access to SkillApp Premium for a day"
+            android:title="Get Premium free for a for a day"
+            app:icon="@drawable/ic_ad" />
     </PreferenceCategory>
 
     <PreferenceCategory

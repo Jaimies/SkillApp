@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.ui.settings
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
@@ -86,8 +85,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         adPref.setOnPreferenceClickListener {
             adManager.show(requireActivity()) {
                 billingRepository.notifyPremiumGranted()
-                requireActivity().startActivity(Intent(requireActivity(), PremiumIntro::class.java))
                 premiumUtil.enableFreePremium()
+                PremiumIntro.showIfNeeded(requireActivity())
             }
             true
         }

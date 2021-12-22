@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 interface BillingRepository {
     val isSubscribed: StateFlow<Boolean>
     val subscriptionState: StateFlow<SubscriptionState>
+    val connectionState: ConnectionState
 
     suspend fun connect()
     suspend fun getSubscriptionExpirationTime(): LocalDateTime?
@@ -13,6 +14,10 @@ interface BillingRepository {
 
     enum class SubscriptionState {
         Loading, Subscribed, NotSubscribed,
+    }
+
+    enum class ConnectionState {
+        NotStarted, Started, Connected, BillingUnavailable, FailedToConnect
     }
 
     companion object {

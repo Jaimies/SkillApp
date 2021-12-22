@@ -63,7 +63,7 @@
     <string name="account">Обліковий запис</string>
     <string name="backup_successful">Резервна копія успішно завантажена на Google Диск</string>
     <string name="backup_restore_successful">Дані успішно відновлені з резервної копії</string>
-    <string name="upgrade_to_premium">Підписка на місяць за %s</string>
+    <string name="upgrade_to_premium">Оформити Преміум підиску</string>
     <string name="subscription_expiry_date">Дата наступного платежу: %s</string>
     <string name="subscription_expiry_date_loading">Завантаження дати наступного платежу…</string>
     <string name="you_are_subscribed">Ваша підписка активна</string>
@@ -95,4 +95,5 @@
     <string name="premium_intro_slide3_description">Зайдіть у Налаштування\u00A0>\u00A0«Резервне копіювання» та увійдіть у свій Google\u00A0Акаунт</string>
     <string name="backup_sign_in_title">Резерне копіювання Ваших даних</string>
     <string name="google_sign_in_btn_text">Увійти через Google</string>
+    <string name="billing_unavailable">Покупки недоступні для вашого регіону чи версії Google Play. Оновіть його до останньої версії та повторіть спробу. Код помилки: 3</string>
 </resources>

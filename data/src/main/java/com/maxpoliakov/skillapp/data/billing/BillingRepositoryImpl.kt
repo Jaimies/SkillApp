@@ -1,11 +1,12 @@
 package com.maxpoliakov.skillapp.data.billing
 
-import android.content.SharedPreferences
 import com.android.billingclient.api.*
+import com.android.billingclient.api.BillingClient.BillingResponseCode
 import com.android.billingclient.api.Purchase.PurchaseState.PURCHASED
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.ConnectionState
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import kotlinx.coroutines.*
@@ -35,7 +36,8 @@ class BillingRepositoryImpl @Inject constructor(
     private val _subscriptionState = MutableStateFlow(SubscriptionState.Loading)
     override val subscriptionState get() = _subscriptionState.asStateFlow()
 
-    private var connectionState = ConnectionState.NotStarted
+    override var connectionState = ConnectionState.NotStarted
+        private set
 
     override fun notifyPremiumGranted() {
         _subscriptionState.value = SubscriptionState.Subscribed
@@ -58,7 +60,6 @@ class BillingRepositoryImpl @Inject constructor(
         }
 
         connectToPlay()
-        connectionState = ConnectionState.Connected
 
         purchaseUpdateHelper.addListener(PurchasesUpdatedListener { _, purchases ->
             val validPurchases = (purchases ?: return@PurchasesUpdatedListener)
@@ -105,22 +106,31 @@ class BillingRepositoryImpl @Inject constructor(
         return suspendCoroutine { continuation ->
             billingClient.startConnection(object : BillingClientStateListener {
                 override fun onBillingSetupFinished(billingResult: BillingResult) {
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    if (billingResult.responseCode == BillingResponseCode.OK) {
                         continuation.resume(Unit)
                         listeners.forEach { it.invoke() }
                         listeners.clear()
+                        connectionState = ConnectionState.Connected
                     } else {
-                        Exception(
-                            """Failed to connect to Google Play Billing, 
-                                |response code: ${billingResult.responseCode},
-                                |message: ${billingResult.debugMessage}""".trimMargin()
-                        ).logToCrashlytics()
+                        handleFailedConnection(billingResult)
                     }
                 }
 
                 override fun onBillingServiceDisconnected() {}
             })
         }
+    }
+
+    private fun handleFailedConnection(billingResult: BillingResult) {
+        connectionState = if (billingResult.responseCode == BillingResponseCode.BILLING_UNAVAILABLE)
+            ConnectionState.BillingUnavailable else
+            ConnectionState.FailedToConnect
+
+        Exception(
+            """Failed to connect to Google Play Billing, 
+                                    |response code: ${billingResult.responseCode},
+                                    |message: ${billingResult.debugMessage}""".trimMargin()
+        ).logToCrashlytics()
     }
 
     override fun addOneTimePurchaseUpdateListener(listener: PurchasesUpdatedListener) {
@@ -170,9 +180,5 @@ class BillingRepositoryImpl @Inject constructor(
                 purchase.purchaseState == PURCHASED && purchase.skus.contains(SUBSCRIPTION_SKU_NAME)
             }
         }
-    }
-
-    enum class ConnectionState {
-        NotStarted, Started, Connected
     }
 }

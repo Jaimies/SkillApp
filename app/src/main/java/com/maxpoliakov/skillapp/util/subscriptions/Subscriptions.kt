@@ -7,9 +7,11 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
+import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.billing.BillingRepositoryImpl
 import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.ConnectionState
 import com.maxpoliakov.skillapp.ui.premium.PremiumIntro
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 
@@ -18,6 +20,11 @@ suspend fun BillingClient.showSubscriptionPrompt(
     activity: Activity,
     view: View,
 ) {
+    if (billingRepository.connectionState == ConnectionState.BillingUnavailable) {
+        view.showSnackbar(R.string.billing_unavailable, Snackbar.LENGTH_INDEFINITE)
+        return
+    }
+
     val skuDetails = try {
         billingRepository.getSubscriptionSkuDetails() ?: return
     } catch (e: Exception) {

@@ -63,9 +63,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             backupsPref.widgetLayoutResource = R.layout.premium_widget
 
         lifecycleScope.launch {
-            billingRepository.isSubscribed.collect { isSubscribed ->
+            billingRepository.subscriptionState.collect { state ->
                 backupsPref.widgetLayoutResource =
-                    if (isSubscribed) R.layout.empty_widget else R.layout.premium_widget
+                    if (state == SubscriptionState.Subscribed) R.layout.empty_widget
+                    else R.layout.premium_widget
             }
         }
 
@@ -103,14 +104,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             tryToShowAd(adManager.loadingState)
 
             true
-        }
-
-        lifecycleScope.launch {
-            billingRepository.subscriptionState.collect { state ->
-                backupsPref.isVisible = state != SubscriptionState.Loading
-                premiumPref.isVisible = state != SubscriptionState.Loading
-                adPref.isVisible = state != SubscriptionState.Subscribed
-            }
         }
     }
 

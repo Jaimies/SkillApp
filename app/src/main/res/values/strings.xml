@@ -67,7 +67,7 @@
     <string name="account">Account</string>
     <string name="backup_successful">Successfully uploaded backup to Google Drive</string>
     <string name="backup_restore_successful">Successfully restored data from backup</string>
-    <string name="upgrade_to_premium">Upgrade for %s / month</string>
+    <string name="upgrade_to_premium">Subscribe to Premium</string>
     <string name="subscription_expiry_date">Next payment date: %s</string>
     <string name="subscription_expiry_date_loading">Loading the next payment date…</string>
     <string name="you_are_subscribed">Your subscription is active</string>
@@ -102,4 +102,5 @@
     <string name="premium_intro_slide3_description">Go to Settings\u00A0>\u00A0Backup &amp; Restore and sign in to your Google Account</string>
     <string name="backup_sign_in_title">Sign\u00A0in to back\u00A0up your\u00A0data</string>
     <string name="google_sign_in_btn_text">Continue with Google</string>
+    <string name="billing_unavailable">Purchases are unavailable for your region or Google Play version. Please update it to the latest version and try again. Error code: 3</string>
 </resources>

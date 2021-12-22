@@ -38,16 +38,6 @@ class PremiumViewModel @Inject constructor(
         }
     }.asLiveData()
 
-    val skuDetails = billingRepository.isSubscribed.map { isSubscribed ->
-        if (isSubscribed) return@map null
-        return@map try {
-            billingRepository.getSubscriptionSkuDetails()
-        } catch (e: Exception) {
-            _showError.call()
-            null
-        }
-    }.asLiveData()
-
     fun showSubscriptionPrompt() = _showSubscriptionPrompt.call()
     fun goToManageSubscriptions() = _goToManageSubscriptions.call()
 

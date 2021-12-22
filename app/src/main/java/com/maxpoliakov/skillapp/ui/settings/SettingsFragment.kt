@@ -9,12 +9,15 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl
+import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl.ConsentState
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.ui.premium.PremiumIntro
 import com.maxpoliakov.skillapp.util.ads.RewardedAdManager
+import com.maxpoliakov.skillapp.util.ads.RewardedAdManager.LoadingState
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.analytics.setAsCurrentScreen
 import com.maxpoliakov.skillapp.util.ui.dp
@@ -33,11 +36,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
     @Inject
     lateinit var premiumUtil: PremiumUtil
 
+    @Inject
+    lateinit var adConsentUtil: AdConsentUtilImpl
+
     private val adManager = RewardedAdManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adManager.loadAd(requireContext())
+        if (adConsentUtil.consentState == ConsentState.CanShowAds)
+            adManager.loadAd(requireContext())
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -84,24 +91,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 
         adPref.setOnPreferenceClickListener {
-            if (adManager.loadingState == RewardedAdManager.LoadingState.FailedToLoad) {
-                showAdFailedToLoadSnackBar()
+            adConsentUtil.showConsentFormIfNecessary(requireActivity()) { formError ->
+                adManager.loadAd(requireContext())
+                adManager.setOnAdLoadedListener(this::tryToShowAd)
+            }
 
+            if (adConsentUtil.consentState == ConsentState.MustRequestConsent) {
                 return@setOnPreferenceClickListener true
             }
 
-            if (adManager.loadingState == RewardedAdManager.LoadingState.Loading) {
-                showAdIsLoadingSnackbar()
+            tryToShowAd(adManager.loadingState)
 
-                adManager.setOnAdLoadedListener { state ->
-                    if (state == RewardedAdManager.LoadingState.Loaded) showTheAd()
-                    else showAdFailedToLoadSnackBar()
-                }
-
-                return@setOnPreferenceClickListener true
-            }
-
-            showTheAd()
             true
         }
 
@@ -112,6 +112,26 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 adPref.isVisible = state != SubscriptionState.Subscribed
             }
         }
+    }
+
+    private fun tryToShowAd(loadingState: LoadingState) {
+        if (loadingState == LoadingState.FailedToLoad) {
+            showAdFailedToLoadSnackBar()
+            return
+        }
+
+        if (loadingState == LoadingState.Loading) {
+            showAdIsLoadingSnackbar()
+
+            adManager.setOnAdLoadedListener { state ->
+                if (state == LoadingState.Loaded) showTheAd()
+                else showAdFailedToLoadSnackBar()
+            }
+
+            return
+        }
+
+        showTheAd()
     }
 
     private fun showAdIsLoadingSnackbar() {

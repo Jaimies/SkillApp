@@ -65,6 +65,7 @@
     <string name="backup_restore_successful">Дані успішно відновлені з резервної копії</string>
     <string name="upgrade_to_premium">Оформити Преміум підиску</string>
     <string name="subscription_expiry_date">Дата наступного платежу: %s</string>
+    <string name="free_subscription_expiry_date">Термін дії вашої безкоштовної підписки закінчується через %s</string>
     <string name="subscription_expiry_date_loading">Завантаження дати наступного платежу…</string>
     <string name="you_are_subscribed">Ваша підписка активна</string>
     <string name="manage_subscription">Керування підпискою</string>

@@ -77,4 +77,10 @@ class TimeTest : StringSpec({
         Instant.ofEpochSecond(0).until(Instant.ofEpochSecond(2)) shouldBe Duration.ofSeconds(2)
         Instant.ofEpochMilli(0).until(Instant.ofEpochMilli(5)) shouldBe Duration.ofMillis(5)
     }
+
+    "toMinutesPartCompat()" {
+        Duration.ofMinutes(5).toMinutesPartCompat() shouldBe 5
+        Duration.ofMinutes(95).toMinutesPartCompat() shouldBe 35
+        Duration.ofMinutes(120).toMinutesPartCompat() shouldBe 0
+    }
 })

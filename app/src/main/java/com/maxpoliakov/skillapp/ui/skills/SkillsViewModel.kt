@@ -34,6 +34,9 @@ class SkillsViewModel @Inject constructor(
     private val ioScope: CoroutineScope,
 ) : ViewModel() {
 
+    val isSubscribed = billingRepository.subscriptionState.map { it.hasAccessToPremium }
+    val subscriptionState = billingRepository.subscriptionState.asLiveData()
+
     val skillsAndGroups = isSubscribed.flatMapLatest { isSubscribed ->
         if (isSubscribed)
             getSkills.getSkillsAndGroups()
@@ -43,9 +46,6 @@ class SkillsViewModel @Inject constructor(
                     SkillsAndGroups(skills.map { skill -> skill.copy(groupId = -1) }, listOf())
                 }
     }
-
-    val isSubscribed get() = billingRepository.isSubscribed
-    val subscriptionState get() = billingRepository.subscriptionState.asLiveData()
 
     val isEmpty = skillsAndGroups.map {
         val isEmpty = it.skills.isEmpty() && it.groups.isEmpty()

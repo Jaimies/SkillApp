@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:paddingBottom="110dp"
-            app:visible="@{!viewModel.isSubscribed}">
+            app:visible="@{!viewModel.isSubscribed &amp;&amp; !viewModel.hasFreeSubscription}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:visible="@{!viewModel.isSubscribed}">
+            app:visible="@{!viewModel.isSubscribed &amp;&amp; !viewModel.hasFreeSubscription}">
 
             <View
                 android:layout_width="match_parent"
@@ -113,6 +113,35 @@
                 android:onClick="@{() -> viewModel.goToManageSubscriptions()}"
                 android:paddingHorizontal="30dp"
                 android:text="@string/manage_subscription" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:visible="@{viewModel.hasFreeSubscription}"
+            tools:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="You have a free subscription"
+                android:textAlignment="center"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@{viewModel.freeSubscriptionExpiryDate != null ? @string/free_subscription_expiry_date(viewModel.freeSubscriptionExpiryDate) : ``}"
+                android:textAlignment="center"
+                tools:text="Your free Premium expires sometime soon" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

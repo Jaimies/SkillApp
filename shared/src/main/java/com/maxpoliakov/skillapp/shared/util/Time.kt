@@ -60,6 +60,10 @@ fun String.toZonedDateTimeOrNull(): ZonedDateTime? {
 fun getCurrentDate(): LocalDate = LocalDate.now(clock)
 fun getZonedDateTime(): ZonedDateTime = ZonedDateTime.now(clock)
 
+fun Duration.toMinutesPartCompat(): Long {
+    return toMinutes() - toHours() * 60
+}
+
 private var clock: Clock = Clock.systemDefaultZone()
 
 @VisibleForTesting

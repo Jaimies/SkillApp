@@ -69,6 +69,9 @@
     <string name="backup_restore_successful">Successfully restored data from backup</string>
     <string name="upgrade_to_premium">Subscribe to Premium</string>
     <string name="subscription_expiry_date">Next payment date: %s</string>
+    <string name="free_subscription_expiry_date">Your free subscription expires in %s</string>
+    <string name="mins">%d mins</string>
+    <string name="hours_and_minutes">%1$d hrs %2$d min</string>
     <string name="subscription_expiry_date_loading">Loading the next payment date…</string>
     <string name="you_are_subscribed">Your subscription is active</string>
     <string name="manage_subscription">Manage subscription</string>

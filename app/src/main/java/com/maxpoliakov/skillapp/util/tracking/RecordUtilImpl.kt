@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.usecase.records.ChangeRecordTimeUseCase
+import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 import kotlinx.coroutines.CoroutineScope
@@ -48,8 +49,4 @@ class RecordUtilImpl @Inject constructor(
             }
         }
     }
-}
-
-private fun Duration.toMinutesPartCompat(): Long {
-    return toMinutes() - toHours() * 60
 }

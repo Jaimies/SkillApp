@@ -12,7 +12,6 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl.ConsentState
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
-import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.ui.premium.PremiumIntro
@@ -59,13 +58,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val backupsPref = findPreference<Preference>("backups")!!
 
-        if (!billingRepository.isSubscribed.value)
+        if (!billingRepository.subscriptionState.value.hasAccessToPremium)
             backupsPref.widgetLayoutResource = R.layout.premium_widget
 
         lifecycleScope.launch {
             billingRepository.subscriptionState.collect { state ->
                 backupsPref.widgetLayoutResource =
-                    if (state == SubscriptionState.Subscribed) R.layout.empty_widget
+                    if (state.hasAccessToPremium) R.layout.empty_widget
                     else R.layout.premium_widget
             }
         }
@@ -73,9 +72,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         backupsPref.setOnPreferenceClickListener {
             val controller = findNavController()
 
-            val destination =
-                if (billingRepository.isSubscribed.value) R.id.backup_fragment_dest
-                else R.id.premium_fragment_dest
+            val destination = if (billingRepository.subscriptionState.value.hasAccessToPremium)
+                R.id.backup_fragment_dest else
+                R.id.premium_fragment_dest
 
             controller.navigateAnimated(destination)
             true

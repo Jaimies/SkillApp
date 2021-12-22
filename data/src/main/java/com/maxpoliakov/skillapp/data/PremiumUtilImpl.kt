@@ -20,14 +20,25 @@ class PremiumUtilImpl @Inject constructor(
         }
     }
 
-    override fun isFreePremiumAvailable(): Boolean {
+    override fun getFreePremiumExpiryDate(): LocalDateTime? {
         val freePremiumDateStartString = sharedPreferences.getString(FREE_PREMIUM_PERIOD_START, "")
-        if (freePremiumDateStartString.isNullOrBlank()) return false
-        val startDate = LocalDateTime.parse(freePremiumDateStartString, dateTimeFormatter)
-        return startDate.plusDays(1) > LocalDateTime.now()
+        if (freePremiumDateStartString.isNullOrBlank()) return null
+
+        return try {
+            LocalDateTime
+                .parse(freePremiumDateStartString, dateTimeFormatter)
+                .plusDays(1)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    override fun isFreePremiumAvailable(): Boolean {
+        val expiryDate = getFreePremiumExpiryDate() ?: return false
+        return expiryDate > LocalDateTime.now()
     }
 
     companion object {
-        private const val FREE_PREMIUM_PERIOD_START = "com.maxpoliakov.skillapp.FREE_PREMIUM_PERIOD_START"
+        const val FREE_PREMIUM_PERIOD_START = "com.maxpoliakov.skillapp.FREE_PREMIUM_PERIOD_START"
     }
 }

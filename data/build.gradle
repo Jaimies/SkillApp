@@ -106,6 +106,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     implementation 'com.google.android.gms:play-services-auth:20.0.0'
+    implementation 'com.google.android.ump:user-messaging-platform:2.0.0'
 
     implementation "com.android.billingclient:billing-ktx:$Versions.billing"
 

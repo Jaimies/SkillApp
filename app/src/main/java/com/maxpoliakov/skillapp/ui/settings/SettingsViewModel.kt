@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl.ConsentState
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import com.maxpoliakov.skillapp.ui.premium.PremiumIntro
 import com.maxpoliakov.skillapp.util.ads.RewardedAdManager
@@ -33,6 +34,8 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onWatchAdClicked(activity: Activity) {
+        if (billingRepository.subscriptionState.value.hasAccessToPremium) return
+
         adConsentUtil.showConsentFormIfNecessary(activity) { formError ->
             adManager.loadAd(activity)
             adManager.setOnAdLoadedListener { loadingState ->

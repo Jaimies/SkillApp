@@ -41,8 +41,9 @@ class SubscriptionUIUtil @Inject constructor(
 
     val freeSubscriptionExpiryDate = billingRepository.subscriptionState.map { state ->
         if (state != BillingRepository.SubscriptionState.HasFreeSubscription) return@map null
+        val freePremiumExpiryDate = premiumUtil.getFreePremiumExpiryDate() ?: return@map null
 
-        val durationTillExpiry = Duration.between(LocalDateTime.now(), premiumUtil.getFreePremiumExpiryDate())
+        val durationTillExpiry = Duration.between(LocalDateTime.now(), freePremiumExpiryDate)
 
         val hours = durationTillExpiry.toHours()
         val minutes = durationTillExpiry.toMinutesPartCompat()

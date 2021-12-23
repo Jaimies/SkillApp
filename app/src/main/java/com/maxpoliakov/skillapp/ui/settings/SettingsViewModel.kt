@@ -72,8 +72,8 @@ class SettingsViewModel @Inject constructor(
 
     private fun showTheAd(activity: Activity) {
         adManager.showAdIfAvailable(activity) {
-            billingRepository.notifyPremiumGranted()
             premiumUtil.enableFreePremium()
+            billingRepository.notifyPremiumGranted()
             PremiumIntro.showIfNeeded(activity)
         }
     }

@@ -10,6 +10,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState.Subscribed
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.analytics.setAsCurrentScreen
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
     private val viewModel: SettingsViewModel by viewModels()
+    private lateinit var adPref: Preference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +73,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val adPref = findPreference<Preference>("premium_ad")!!
+        adPref = findPreference("premium_ad")!!
 
         adPref.setOnPreferenceClickListener {
             viewModel.onWatchAdClicked(requireActivity())
             true
+        }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.subscriptionState.collect { state ->
+                adPref.isVisible = state != Subscribed
+            }
         }
     }
 
@@ -86,6 +94,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
             Snackbar
                 .make(requireView(), message, Snackbar.LENGTH_LONG)
                 .show()
+        }
+        observe(viewModel.timeTillFreeSubscriptionExpires) {}
+        observe(viewModel.timeTillFreeSubscriptionExpires) { timeTillExpiry ->
+            adPref.summary = if (timeTillExpiry != null)
+                "Your free subscription expires in $timeTillExpiry" else
+                "Watch an ad to get free access to SkillApp Premium for a day"
+
+            adPref.title = if (timeTillExpiry != null)
+                "You have Free Premium enabled" else
+                "Get Premium free for a day"
         }
     }
 

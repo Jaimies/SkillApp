@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl.ConsentState
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
-import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import com.maxpoliakov.skillapp.ui.premium.PremiumIntro
 import com.maxpoliakov.skillapp.util.ads.RewardedAdManager
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.util.subscriptions.SubscriptionUIUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -20,8 +20,11 @@ class SettingsViewModel @Inject constructor(
     private val billingRepository: BillingRepository,
     private val premiumUtil: PremiumUtil,
     private val adConsentUtil: AdConsentUtilImpl,
+    private val subscriptionUIUtil: SubscriptionUIUtil,
 ) : ViewModel() {
     private val adManager = RewardedAdManager()
+
+    val timeTillFreeSubscriptionExpires get() = subscriptionUIUtil.freeSubscriptionExpiryDate
 
     private val _showSnackbar = SingleLiveEvent<String>()
     val showSnackbar: LiveData<String> get() = _showSnackbar

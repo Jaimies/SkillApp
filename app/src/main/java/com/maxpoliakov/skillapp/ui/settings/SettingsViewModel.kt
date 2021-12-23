@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl.ConsentState
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
@@ -26,8 +27,8 @@ class SettingsViewModel @Inject constructor(
 
     val timeTillFreeSubscriptionExpires get() = subscriptionUIUtil.freeSubscriptionExpiryDate
 
-    private val _showSnackbar = SingleLiveEvent<String>()
-    val showSnackbar: LiveData<String> get() = _showSnackbar
+    private val _showSnackbar = SingleLiveEvent<Int>()
+    val showSnackbar: LiveData<Int> get() = _showSnackbar
 
     val subscriptionState get() = billingRepository.subscriptionState
 
@@ -79,10 +80,10 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun showAdIsLoadingSnackbar() {
-        _showSnackbar.value = "The ad is loading, it will show as soon as it finishes loading"
+        _showSnackbar.value = R.string.ad_loading
     }
 
     private fun showAdFailedToLoadSnackBar() {
-        _showSnackbar.value = "Ad failed to load, please try again later"
+        _showSnackbar.value = R.string.ad_failed_to_load
     }
 }

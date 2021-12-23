@@ -26,8 +26,8 @@
 
         <Preference
             android:key="premium_ad"
-            android:summary="Watch an ad to get free access to SkillApp Premium for a day"
-            android:title="Get Premium free for a for a day"
+            android:summary="@string/premium_ad_summary"
+            android:title="@string/premium_ad_title"
             app:icon="@drawable/ic_ad" />
     </PreferenceCategory>
 

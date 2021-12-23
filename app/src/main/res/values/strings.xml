@@ -106,4 +106,10 @@
     <string name="backup_sign_in_title">Sign\u00A0in to back\u00A0up your\u00A0data</string>
     <string name="google_sign_in_btn_text">Continue with Google</string>
     <string name="billing_unavailable">Purchases are unavailable for your region or Google Play version. Please update it to the latest version and try again. Error code: 3</string>
+    <string name="ad_loading">The ad is loading, it will show as soon as it finishes loading</string>
+    <string name="ad_failed_to_load">Ad failed to load, please try again later</string>
+    <string name="premium_ad_title">Get Premium free for a day</string>
+    <string name="premium_ad_summary">Watch an ad to get free access to SkillApp Premium for a day</string>
+    <string name="premium_ad_with_free_subscription_title">You have Free Premium enabled</string>
+    <string name="premium_ad_with_free_subscription_summary">Your free subscription expires in %s</string>
 </resources>

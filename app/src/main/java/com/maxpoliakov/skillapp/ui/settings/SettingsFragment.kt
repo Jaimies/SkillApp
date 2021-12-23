@@ -8,12 +8,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState.Subscribed
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.analytics.setAsCurrentScreen
+import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
@@ -90,20 +90,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listView.setPadding(12.dp.toPx(requireContext()), 0, 0, 0)
-        observe(viewModel.showSnackbar) { message ->
-            Snackbar
-                .make(requireView(), message, Snackbar.LENGTH_LONG)
-                .show()
-        }
+        observe(viewModel.showSnackbar) { message -> showSnackbar(message) }
         observe(viewModel.timeTillFreeSubscriptionExpires) {}
         observe(viewModel.timeTillFreeSubscriptionExpires) { timeTillExpiry ->
             adPref.summary = if (timeTillExpiry != null)
-                "Your free subscription expires in $timeTillExpiry" else
-                "Watch an ad to get free access to SkillApp Premium for a day"
+                getString(R.string.premium_ad_with_free_subscription_summary, timeTillExpiry) else
+                getString(R.string.premium_ad_summary)
 
-            adPref.title = if (timeTillExpiry != null)
-                "You have Free Premium enabled" else
-                "Get Premium free for a day"
+            val titleResId = if (timeTillExpiry != null)
+                R.string.premium_ad_with_free_subscription_title else
+                R.string.premium_ad_title
+
+            adPref.title = getString(titleResId)
         }
     }
 

@@ -97,4 +97,10 @@
     <string name="backup_sign_in_title">Резерное копирование Ваших данных</string>
     <string name="google_sign_in_btn_text">Войти через Google</string>
     <string name="billing_unavailable">Покупки недоступны для вашего региона или версии Google Play. Пожалуйста, обновите его до последней версии и попробуйте еще раз. Код ошибки: 3</string>
+    <string name="ad_loading">Реклама загружается, она будет показана как только она загрузится</string>
+    <string name="ad_failed_to_load">Не удалось загрузить рекламу. Повторите попытку позже</string>
+    <string name="premium_ad_title">Получите Премиум бесплатно на день</string>
+    <string name="premium_ad_summary">Посмотрите рекламу, чтобы получить бесплатный доступ к Премиум на день</string>
+    <string name="premium_ad_with_free_subscription_title">У вас бесплатная премиум-версия</string>
+    <string name="premium_ad_with_free_subscription_summary">Срок действия вашей бесплатной премиум версии истекает через %s</string>
 </resources>

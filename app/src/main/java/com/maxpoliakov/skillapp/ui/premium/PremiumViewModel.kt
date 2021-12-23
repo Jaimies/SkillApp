@@ -11,19 +11,18 @@ import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.map
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import javax.inject.Provider
 
 @HiltViewModel
 class PremiumViewModel @Inject constructor(
     private val billingRepository: ExtendedBillingRepository,
     private val premiumUtil: PremiumUtil,
-    @ApplicationContext
-    private val context: Context,
+    private val contextProvider: Provider<Context>,
 ) : ViewModel() {
     private val _showSubscriptionPrompt = SingleLiveEvent<Nothing>()
     val showSubscriptionPrompt: LiveData<Nothing> get() = _showSubscriptionPrompt
@@ -63,8 +62,8 @@ class PremiumViewModel @Inject constructor(
         val hours = durationTillExpiry.toHours()
         val minutes = durationTillExpiry.toMinutesPartCompat()
 
-        if (hours == 0L) return@map context.getString(R.string.mins, minutes);
-        return@map context.getString(R.string.hours_and_minutes, hours, minutes)
+        if (hours == 0L) return@map contextProvider.get().getString(R.string.mins, minutes);
+        return@map contextProvider.get().getString(R.string.hours_and_minutes, hours, minutes)
     }.asLiveData()
 
     fun showSubscriptionPrompt() = _showSubscriptionPrompt.call()

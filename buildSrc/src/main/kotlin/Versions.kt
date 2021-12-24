@@ -10,7 +10,7 @@ object Versions {
 
     const val room = "2.3.0"
     const val paging = "3.1.0"
-    const val navigation = "2.3.5"
+    const val navigation = "2.4.0-rc01"
     const val lifecycle = "2.4.0"
     const val livedata = "2.2.0"
     const val fragment = "1.4.0"

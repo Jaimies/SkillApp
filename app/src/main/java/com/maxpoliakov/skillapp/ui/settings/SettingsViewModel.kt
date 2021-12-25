@@ -9,11 +9,14 @@ import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl.ConsentState
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
+import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
 import com.maxpoliakov.skillapp.ui.premium.PremiumIntro
 import com.maxpoliakov.skillapp.util.ads.RewardedAdManager
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.subscriptions.SubscriptionUIUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +25,8 @@ class SettingsViewModel @Inject constructor(
     private val premiumUtil: PremiumUtil,
     private val adConsentUtil: AdConsentUtilImpl,
     private val subscriptionUIUtil: SubscriptionUIUtil,
+    private val createBackupUseCase: CreateBackupUseCase,
+    private val ioScope: CoroutineScope,
 ) : ViewModel() {
     private val adManager = RewardedAdManager()
 
@@ -77,6 +82,9 @@ class SettingsViewModel @Inject constructor(
             premiumUtil.enableFreePremium()
             billingRepository.notifyPremiumGranted()
             PremiumIntro.showIfNeeded(activity)
+            ioScope.launch {
+                createBackupUseCase.createBackup()
+            }
         }
     }
 

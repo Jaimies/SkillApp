@@ -109,6 +109,11 @@ class BackupViewModel @Inject constructor(
 
         if (!authRepository.hasAppDataPermission)
             _requestAppDataPermission.call()
+        else
+            ioScope.launch {
+                createBackupUseCase.createBackup()
+                _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
+            }
 
         logEvent("sign_in")
     }

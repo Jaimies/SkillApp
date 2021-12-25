@@ -66,6 +66,8 @@
     <string name="upgrade_to_premium">Оформити Преміум підиску</string>
     <string name="subscription_expiry_date">Дата наступного платежу: %s</string>
     <string name="free_subscription_expiry_date">Термін дії вашої безкоштовної підписки закінчується через %s</string>
+    <string name="mins">%d хв</string>
+    <string name="hours_and_minutes">%1$d год %2$d хв</string>
     <string name="subscription_expiry_date_loading">Завантаження дати наступного платежу…</string>
     <string name="you_are_subscribed">Ваша підписка активна</string>
     <string name="manage_subscription">Керування підпискою</string>

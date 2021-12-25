@@ -96,12 +96,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             adPref.summary = if (timeTillExpiry != null)
                 getString(R.string.premium_ad_with_free_subscription_summary, timeTillExpiry) else
                 getString(R.string.premium_ad_summary)
-
-            val titleResId = if (timeTillExpiry != null)
-                R.string.premium_ad_with_free_subscription_title else
-                R.string.premium_ad_title
-
-            adPref.title = getString(titleResId)
         }
     }
 

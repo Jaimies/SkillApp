@@ -42,6 +42,7 @@ class SettingsViewModel @Inject constructor(
 
         adConsentUtil.showConsentFormIfNecessary(activity) { formError ->
             adManager.loadAd(activity)
+            showAdIsLoadingSnackbar()
             adManager.setOnAdLoadedListener { loadingState ->
                 tryToShowAd(loadingState, activity)
             }

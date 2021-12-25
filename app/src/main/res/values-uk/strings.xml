@@ -103,6 +103,6 @@
     <string name="ad_failed_to_load">Не вдалось завантажити рекламу, повторіть спробу пізніше</string>
     <string name="premium_ad_title">Отримайте Преміум безкоштовна на день</string>
     <string name="premium_ad_summary">Подивіться рекламу, щоб отримати безкоштовний доступ до Преміум на день</string>
-    <string name="premium_ad_with_free_subscription_title">У вас безкоштовна преміум версія</string>
-    <string name="premium_ad_with_free_subscription_summary">Термін дії вашої безкоштовної преміум версії вичерпується через %s</string>
+    <string name="premium_ad_with_free_subscription_title">У вас безкоштовна преміум-версія</string>
+    <string name="premium_ad_with_free_subscription_summary">Термін дії вашої безкоштовної преміум-версії вичерпується через %s</string>
 </resources>

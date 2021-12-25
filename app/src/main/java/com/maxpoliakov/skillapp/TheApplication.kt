@@ -1,12 +1,15 @@
 package com.maxpoliakov.skillapp
 
 import android.app.Application
-import android.content.SharedPreferences
-import androidx.core.content.edit
 import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.*
+import androidx.work.BackoffPolicy
+import androidx.work.Configuration
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest.MIN_BACKOFF_MILLIS
-import com.google.android.gms.ads.MobileAds
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.maxpoliakov.skillapp.data.backup.BackupWorker
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.util.ui.setupTheme
@@ -28,15 +31,11 @@ open class TheApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var ioScope: CoroutineScope
 
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
-
     override fun onCreate() {
         super.onCreate()
         setupTheme()
         setupBackupWorker()
         ioScope.launch { billingRepository.connect() }
-        MobileAds.initialize(this)
     }
 
     override fun getWorkManagerConfiguration() = Configuration.Builder()

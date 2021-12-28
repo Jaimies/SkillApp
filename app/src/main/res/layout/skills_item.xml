@@ -80,8 +80,8 @@
                     android:layout_height="wrap_content"
                     android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@string/start_the_timer"
-                    android:onClick="@{() -> viewModel.startTimer()}"
-                    android:src="@drawable/ic_play_18dp"
+                    android:onClick="@{() -> viewModel.toggleTimer()}"
+                    android:src="@{viewModel.isStopwatchActive ? @drawable/ic_stop : @drawable/ic_start}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

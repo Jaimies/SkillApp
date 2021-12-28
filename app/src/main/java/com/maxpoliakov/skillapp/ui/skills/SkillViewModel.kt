@@ -3,7 +3,6 @@ package com.maxpoliakov.skillapp.ui.skills
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
@@ -12,6 +11,9 @@ import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,9 +23,9 @@ class SkillViewModel @Inject constructor(
     private val stopwatchUtil: StopwatchUtil,
     private val ioScope: CoroutineScope,
 ) {
-    val skill: LiveData<Skill> get() = _skill
-    private val _skill = MutableLiveData<Skill>()
-    val state = skill.map { it.toSkillState() }
+    private val _skill = MutableStateFlow<Skill?>(null)
+    val skill = _skill.asStateFlow()
+    val state = _skill.map { it?.toSkillState() }.asLiveData()
 
     private val _isSmall = MutableLiveData(false)
     val isSmall: LiveData<Boolean> get() = _isSmall
@@ -37,8 +39,8 @@ class SkillViewModel @Inject constructor(
     private val _notifyRecordAdded = SingleLiveEvent<Record>()
     val notifyRecordAdded: LiveData<Record> get() = _notifyRecordAdded
 
-    val isStopwatchActive = stopwatchUtil.state.map { state ->
-        state is StopwatchState.Running && state.skillId == skill.value?.id
+    val isStopwatchActive = stopwatchUtil.state.combine(_skill) { state, skill ->
+        state is StopwatchState.Running && state.skillId == skill?.id
     }.asLiveData()
 
     fun setSkill(value: Skill) {

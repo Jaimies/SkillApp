@@ -12,7 +12,7 @@ interface BillingRepository {
     fun notifyPremiumGranted()
 
     enum class SubscriptionState(val hasAccessToPremium: Boolean) {
-        Loading(false), Subscribed(true), HasFreeSubscription(true), NotSubscribed(false)
+        Loading(false), FailedToLoad(false), Subscribed(true), HasFreeSubscription(true), NotSubscribed(false)
     }
 
     enum class ConnectionState {

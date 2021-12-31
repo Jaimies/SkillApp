@@ -104,4 +104,6 @@
     <string name="premium_ad_title">Бесплатный Премиум</string>
     <string name="premium_ad_summary">Посмотрите рекламу, чтобы получить бесплатный доступ к премиум-версии на день</string>
     <string name="premium_ad_with_free_subscription_summary">Срок действия вашей бесплатной премиум-версии истекает через %s</string>
+    <string name="premium_price_loading">Загрузка цены подписки…</string>
+    <string name="premium_price">Оформить подписку за %s</string>
 </resources>

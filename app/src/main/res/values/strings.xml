@@ -111,4 +111,6 @@
     <string name="premium_ad_title">Free Premium</string>
     <string name="premium_ad_summary">Watch an ad to get free access to SkillApp Premium for a day</string>
     <string name="premium_ad_with_free_subscription_summary">Your free subscription expires in %s</string>
+    <string name="premium_price_loading">Loading subscription price…</string>
+    <string name="premium_price">Subscribe for %s</string>
 </resources>

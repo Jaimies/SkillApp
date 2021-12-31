@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.premium
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
@@ -16,6 +17,9 @@ class PremiumViewModel @Inject constructor(
     billingRepository: ExtendedBillingRepository,
     private val subscriptionUIUtil: SubscriptionUIUtil,
 ) : ViewModel() {
+    private val _priceFailedToLoad = MutableLiveData(false)
+    val priceFailedToLoad: LiveData<Boolean> get() = _priceFailedToLoad
+
     private val _showSubscriptionPrompt = SingleLiveEvent<Nothing>()
     val showSubscriptionPrompt: LiveData<Nothing> get() = _showSubscriptionPrompt
 
@@ -29,6 +33,20 @@ class PremiumViewModel @Inject constructor(
 
     private val _goToManageSubscriptions = SingleLiveEvent<Nothing>()
     val goToManageSubscriptions: LiveData<Nothing> get() = _goToManageSubscriptions
+
+    val skuDetails = billingRepository.subscriptionState.map { state ->
+        _priceFailedToLoad.value = false
+
+        if (state.hasAccessToPremium) return@map null
+
+        return@map try {
+            val skuDetails = billingRepository.getSubscriptionSkuDetails() ?: return@map null
+            skuDetails.price
+        } catch (e: Exception) {
+            _priceFailedToLoad.postValue(true)
+            null
+        }
+    }.asLiveData()
 
     val showError get() = subscriptionUIUtil.onError
     val subscriptionExpiryTime get() = subscriptionUIUtil.subscriptionExpiryTime

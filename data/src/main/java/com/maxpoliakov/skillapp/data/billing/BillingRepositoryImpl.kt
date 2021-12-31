@@ -124,6 +124,8 @@ class BillingRepositoryImpl @Inject constructor(
             ConnectionState.BillingUnavailable else
             ConnectionState.FailedToConnect
 
+        _subscriptionState.value = SubscriptionState.FailedToLoad
+
         Exception(
             """Failed to connect to Google Play Billing, 
                                     |response code: ${billingResult.responseCode},

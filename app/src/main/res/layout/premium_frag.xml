@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="You have a free subscription"
+                android:text="@string/free_subcription_active"
                 android:textAlignment="center"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="22sp" />

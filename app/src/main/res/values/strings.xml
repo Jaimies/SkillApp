@@ -113,4 +113,5 @@
     <string name="premium_ad_with_free_subscription_summary">Your free subscription expires in %s</string>
     <string name="premium_price_loading">Loading subscription price…</string>
     <string name="premium_price">Subscribe for %s</string>
+    <string name="free_subcription_active">You have a free subscription</string>
 </resources>

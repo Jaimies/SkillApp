@@ -106,4 +106,5 @@
     <string name="premium_ad_with_free_subscription_summary">Срок действия вашей бесплатной премиум-версии истекает через %s</string>
     <string name="premium_price_loading">Загрузка цены подписки…</string>
     <string name="premium_price">Оформить подписку за %s</string>
+    <string name="free_subcription_active">У вас бесплатная подписка</string>
 </resources>

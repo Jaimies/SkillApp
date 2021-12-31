@@ -107,4 +107,5 @@
     <string name="premium_price_loading">Завантаження ціни підписки…</string>
     <string name="premium_price">Оформити підписку за %s</string>
     <string name="free_subcription_active">У вас безкоштовна підписка</string>
+    <string name="premium_intro">Вступ до SkillApp Premium</string>
 </resources>

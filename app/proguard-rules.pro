@@ -6,6 +6,8 @@
      private *;
 }
 
+-keep class com.google.android.gms.internal.consent_sdk.** { <fields>; }
+
 -keepattributes *Annotation*, InnerClasses
 -dontnote kotlinx.serialization.AnnotationsKt # core serialization annotations
 

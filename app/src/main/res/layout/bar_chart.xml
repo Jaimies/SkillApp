@@ -29,8 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/chart_height"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="40dp"
-                app:statsType="@{data.statisticType == ChronoUnit.MONTHS ? FormatterType.Monthly : data.statisticType == ChronoUnit.WEEKS ? FormatterType.Weekly: FormatterType.Daily}" />
+                android:layout_marginBottom="40dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

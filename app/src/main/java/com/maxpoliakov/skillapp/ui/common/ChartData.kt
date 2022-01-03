@@ -59,7 +59,7 @@ class GroupChartData(getStats: GetStatsUseCase, getGroup: GetGroupUseCase, group
 }
 
 private fun List<Statistic>.withMissingDailyStats() =
-    withMissingStats(ChronoUnit.DAYS, LocalDate.now()).toEntries(ChronoUnit.DAYS)
+    withMissingStats(ChronoUnit.DAYS, LocalDate.now(), 56).toEntries(ChronoUnit.DAYS)
 
 private fun List<Statistic>.withMissingWeeklyStats() =
     withMissingStats(ChronoUnit.WEEKS, LocalDate.now().atStartOfWeek())

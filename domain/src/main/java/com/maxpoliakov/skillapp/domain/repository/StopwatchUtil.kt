@@ -13,4 +13,5 @@ interface StopwatchUtil {
     fun cancel()
     suspend fun toggle(skillId: Int): Record?
     fun updateNotification()
+    fun updateState()
 }

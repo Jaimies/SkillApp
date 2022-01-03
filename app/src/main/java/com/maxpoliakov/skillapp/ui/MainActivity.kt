@@ -15,6 +15,7 @@ import com.maxpoliakov.skillapp.R.id.statistics_fragment_dest
 import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
 import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl
 import com.maxpoliakov.skillapp.databinding.MainActBinding
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.ui.findNavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity(),
 
     @Inject
     lateinit var adConsentUtil: AdConsentUtilImpl
+
+    @Inject
+    lateinit var stopwatchUtil: StopwatchUtil
 
     private val appBarConfiguration = AppBarConfiguration(
         setOf(
@@ -47,6 +51,12 @@ class MainActivity : AppCompatActivity(),
         setSupportActionBar(binding.toolbar)
         setupNavController()
         adConsentUtil.updateConsentInformation(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        stopwatchUtil.updateState()
+        stopwatchUtil.updateNotification()
     }
 
     private fun setupNavController() {

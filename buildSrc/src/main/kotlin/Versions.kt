@@ -1,11 +1,11 @@
 @Suppress("unused")
 object Versions {
-    const val kotlin = "1.6.0"
-    const val coroutines = "1.5.0"
+    const val kotlin = "1.6.10"
+    const val coroutines = "1.6.0"
 
     const val androidxCore = "1.7.0"
-    const val appcompat = "1.3.1"
-    const val constraintLayout = "2.1.0"
+    const val appcompat = "1.4.0"
+    const val constraintLayout = "2.1.2"
     const val legacy = "1.0.0"
 
     const val room = "2.3.0"
@@ -24,7 +24,7 @@ object Versions {
     const val material = "1.4.0"
     const val MPAndroidChart = "3.1.0"
 
-    const val hilt = "2.40.3"
+    const val hilt = "2.40.5"
 
     const val firebase = "28.2.0"
 

@@ -13,7 +13,6 @@ import com.maxpoliakov.skillapp.R.id.settings_fragment_dest
 import com.maxpoliakov.skillapp.R.id.skills_fragment_dest
 import com.maxpoliakov.skillapp.R.id.statistics_fragment_dest
 import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
-import com.maxpoliakov.skillapp.data.ads.AdConsentUtilImpl
 import com.maxpoliakov.skillapp.databinding.MainActBinding
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
@@ -27,9 +26,6 @@ class MainActivity : AppCompatActivity(),
 
     lateinit var navController: NavController
     private lateinit var binding: MainActBinding
-
-    @Inject
-    lateinit var adConsentUtil: AdConsentUtilImpl
 
     @Inject
     lateinit var stopwatchUtil: StopwatchUtil
@@ -50,7 +46,6 @@ class MainActivity : AppCompatActivity(),
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         setupNavController()
-        adConsentUtil.updateConsentInformation(this)
     }
 
     override fun onResume() {

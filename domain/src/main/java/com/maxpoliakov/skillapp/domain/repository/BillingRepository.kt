@@ -9,10 +9,9 @@ interface BillingRepository {
 
     suspend fun connect()
     suspend fun getSubscriptionExpirationTime(): LocalDateTime?
-    fun notifyPremiumGranted()
 
     enum class SubscriptionState(val hasAccessToPremium: Boolean) {
-        Loading(false), FailedToLoad(false), Subscribed(true), HasFreeSubscription(true), NotSubscribed(false)
+        Loading(false), FailedToLoad(false), Subscribed(true), NotSubscribed(false)
     }
 
     enum class ConnectionState {

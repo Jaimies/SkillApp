@@ -57,7 +57,6 @@
     <string name="market_uri" translatable="false">market://details?id=com.maxpoliakov.skillapp</string>
     <string name="backups">Backup &amp; Restore</string>
     <string name="logout">Log out</string>
-    <string name="login">Log in</string>
     <string name="confirm_restore_backup">Restoring a backup will replace your current tracked data. Do you want to continue?</string>
     <string name="restore">Restore</string>
     <string name="loading_last_backup">Loading the last backup…</string>
@@ -69,9 +68,6 @@
     <string name="backup_restore_successful">Successfully restored data from backup</string>
     <string name="upgrade_to_premium">Subscribe to Premium</string>
     <string name="subscription_expiry_date">Next payment date: %s</string>
-    <string name="free_subscription_expiry_date">Your free subscription expires in %s</string>
-    <string name="mins">%d mins</string>
-    <string name="hours_and_minutes">%1$d hrs %2$d min</string>
     <string name="subscription_expiry_date_loading">Loading the next payment date…</string>
     <string name="you_are_subscribed">Your subscription is active</string>
     <string name="manage_subscription">Manage subscription</string>
@@ -85,7 +81,6 @@
     <string name="subscriptions_uri">https://play.google.com/store/account/subscriptions?sku=%1$s&amp;package=%2$s</string>
     <string name="premium">Premium</string>
     <string name="confirm_logout">Do you want to log out?</string>
-    <string name="price_loading">Price loading…</string>
     <string name="no_internet">No Internet connection</string>
     <string name="something_went_wrong">Something went wrong, please try again</string>
     <string name="skill_transition_name" translatable="false">skill_to_skill_detail_%d</string>
@@ -106,13 +101,7 @@
     <string name="backup_sign_in_title">Sign\u00A0in to back\u00A0up your\u00A0data</string>
     <string name="google_sign_in_btn_text">Continue with Google</string>
     <string name="billing_unavailable">Purchases are unavailable for your region or Google Play version. Please update it to the latest version and try again. Error code: 3</string>
-    <string name="ad_loading">The ad is loading, it will show as soon as it finishes loading</string>
-    <string name="ad_failed_to_load">Ad failed to load, please try again later</string>
-    <string name="premium_ad_title">Free Premium</string>
-    <string name="premium_ad_summary">Watch an ad to get free access to SkillApp Premium for a day</string>
     <string name="premium_intro">SkillApp Premium Intro</string>
-    <string name="premium_ad_with_free_subscription_summary">Your free subscription expires in %s</string>
     <string name="premium_price_loading">Loading subscription price…</string>
     <string name="premium_price">Subscribe for %s</string>
-    <string name="free_subcription_active">You have a free subscription</string>
 </resources>

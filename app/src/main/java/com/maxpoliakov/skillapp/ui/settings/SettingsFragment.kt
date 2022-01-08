@@ -25,12 +25,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
     private val viewModel: SettingsViewModel by viewModels()
-    private lateinit var adPref: Preference
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.loadAdIfPossible(requireContext())
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
@@ -72,31 +66,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findNavController().navigateAnimated(R.id.premium_fragment_dest)
             true
         }
-
-        adPref = findPreference("premium_ad")!!
-
-        adPref.setOnPreferenceClickListener {
-            viewModel.onWatchAdClicked(requireActivity())
-            true
-        }
-
-        lifecycleScope.launchWhenCreated {
-            viewModel.subscriptionState.collect { state ->
-                adPref.isVisible = state != Subscribed
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listView.setPadding(12.dp.toPx(requireContext()), 0, 0, 0)
-        observe(viewModel.showSnackbar) { message -> showSnackbar(message) }
-        observe(viewModel.timeTillFreeSubscriptionExpires) {}
-        observe(viewModel.timeTillFreeSubscriptionExpires) { timeTillExpiry ->
-            adPref.summary = if (timeTillExpiry != null)
-                getString(R.string.premium_ad_with_free_subscription_summary, timeTillExpiry) else
-                getString(R.string.premium_ad_summary)
-        }
     }
 
     override fun onResume() {

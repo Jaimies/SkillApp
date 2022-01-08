@@ -8,7 +8,6 @@ import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.ConnectionState
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
-import com.maxpoliakov.skillapp.domain.repository.PremiumUtil
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +23,6 @@ import kotlin.coroutines.suspendCoroutine
 class BillingRepositoryImpl @Inject constructor(
     private val billingClient: BillingClient,
     private val purchaseUpdateHelper: PurchaseUpdateHelper,
-    private val premiumUtil: PremiumUtil,
     private val ioScope: CoroutineScope,
 ) : ExtendedBillingRepository {
 
@@ -36,9 +34,6 @@ class BillingRepositoryImpl @Inject constructor(
     override var connectionState = ConnectionState.NotStarted
         private set
 
-    override fun notifyPremiumGranted() {
-        _subscriptionState.value = SubscriptionState.HasFreeSubscription
-    }
 
     override suspend fun connect() = coroutineScope {
         if (connectionState == ConnectionState.Connected) return@coroutineScope
@@ -49,10 +44,6 @@ class BillingRepositoryImpl @Inject constructor(
         }
 
         connectionState = ConnectionState.Started
-        if (premiumUtil.isFreePremiumAvailable()) {
-            _subscriptionState.value = SubscriptionState.HasFreeSubscription
-            return@coroutineScope
-        }
 
         connectToPlay()
 
@@ -87,17 +78,13 @@ class BillingRepositoryImpl @Inject constructor(
     }
 
     private suspend fun updateSubscriptionState(purchases: List<Purchase>) {
-        val freePremiumAvailable = premiumUtil.isFreePremiumAvailable()
         val isSubscribed = isSubscribed(purchases)
-        _subscriptionState.emit(getSubscriptionState(isSubscribed, freePremiumAvailable))
+        _subscriptionState.emit(getSubscriptionState(isSubscribed))
     }
 
-    private fun getSubscriptionState(isSubscribed: Boolean, hasFreePremium: Boolean): SubscriptionState {
-        return when {
-            isSubscribed -> SubscriptionState.Subscribed
-            hasFreePremium -> SubscriptionState.HasFreeSubscription
-            else -> SubscriptionState.NotSubscribed
-        }
+    private fun getSubscriptionState(isSubscribed: Boolean): SubscriptionState {
+        return if (isSubscribed) SubscriptionState.Subscribed
+        else SubscriptionState.NotSubscribed
     }
 
     private suspend fun connectToPlay() {

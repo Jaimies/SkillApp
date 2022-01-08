@@ -23,12 +23,6 @@
             android:icon="@drawable/ic_star"
             android:key="premium"
             android:title="@string/skillapp_premium" />
-
-        <Preference
-            android:key="premium_ad"
-            android:summary="@string/premium_ad_summary"
-            android:title="@string/premium_ad_title"
-            app:icon="@drawable/ic_ad" />
     </PreferenceCategory>
 
     <PreferenceCategory

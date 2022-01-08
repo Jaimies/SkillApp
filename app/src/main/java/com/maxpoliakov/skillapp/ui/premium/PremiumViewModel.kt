@@ -27,10 +27,6 @@ class PremiumViewModel @Inject constructor(
         state == SubscriptionState.Subscribed
     }.asLiveData()
 
-    val hasFreeSubscription = billingRepository.subscriptionState.map { state ->
-        state == SubscriptionState.HasFreeSubscription
-    }.asLiveData()
-
     private val _goToManageSubscriptions = SingleLiveEvent<Nothing>()
     val goToManageSubscriptions: LiveData<Nothing> get() = _goToManageSubscriptions
 
@@ -50,7 +46,6 @@ class PremiumViewModel @Inject constructor(
 
     val showError get() = subscriptionUIUtil.onError
     val subscriptionExpiryTime get() = subscriptionUIUtil.subscriptionExpiryTime
-    val freeSubscriptionExpiryDate get() = subscriptionUIUtil.freeSubscriptionExpiryDate
 
     fun showSubscriptionPrompt() = _showSubscriptionPrompt.call()
     fun goToManageSubscriptions() = _goToManageSubscriptions.call()

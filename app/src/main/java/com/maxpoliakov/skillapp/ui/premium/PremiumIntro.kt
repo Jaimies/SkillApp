@@ -1,14 +1,10 @@
 package com.maxpoliakov.skillapp.ui.premium
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import com.github.appintro.AppIntro
 import com.maxpoliakov.skillapp.R
 
@@ -38,21 +34,6 @@ class PremiumIntro : AppIntro() {
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
         finish()
-    }
-
-    companion object {
-        fun showIfNeeded(activity: Activity) {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-
-            val hasSeenTutorial = prefs.getBoolean(PREMIUM_INTRO_ALREADY_SEEN, false)
-
-            if (hasSeenTutorial) return
-
-            activity.startActivity(Intent(activity, PremiumIntro::class.java))
-            prefs.edit { putBoolean(PREMIUM_INTRO_ALREADY_SEEN, true) }
-        }
-
-        private const val PREMIUM_INTRO_ALREADY_SEEN = "com.maxpoliakov.skillapp.PREMIUM_INTRO_ALREADY_SEEN"
     }
 }
 

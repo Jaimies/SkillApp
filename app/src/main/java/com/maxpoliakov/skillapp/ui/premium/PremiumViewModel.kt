@@ -1,57 +1,52 @@
 package com.maxpoliakov.skillapp.ui.premium
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.util.subscriptions.SubscriptionUIUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
 class PremiumViewModel @Inject constructor(
-    private val billingRepository: ExtendedBillingRepository,
+    billingRepository: ExtendedBillingRepository,
+    private val subscriptionUIUtil: SubscriptionUIUtil,
 ) : ViewModel() {
+    private val _priceFailedToLoad = MutableLiveData(false)
+    val priceFailedToLoad: LiveData<Boolean> get() = _priceFailedToLoad
+
     private val _showSubscriptionPrompt = SingleLiveEvent<Nothing>()
     val showSubscriptionPrompt: LiveData<Nothing> get() = _showSubscriptionPrompt
 
-    val isSubscribed = billingRepository.isSubscribed.asLiveData()
+    val isSubscribed = billingRepository.subscriptionState.map { state ->
+        state == SubscriptionState.Subscribed
+    }.asLiveData()
 
     private val _goToManageSubscriptions = SingleLiveEvent<Nothing>()
     val goToManageSubscriptions: LiveData<Nothing> get() = _goToManageSubscriptions
 
-    private val _showError = SingleLiveEvent<Nothing>()
-    val showError: LiveData<Nothing> get() = _showError
+    val skuDetails = billingRepository.subscriptionState.map { state ->
+        _priceFailedToLoad.value = false
 
-    val subscriptionExpiryTime = billingRepository.isSubscribed.map { isSubscribed ->
-        if (!isSubscribed) return@map null
+        if (state.hasAccessToPremium) return@map null
 
         return@map try {
-            billingRepository.getSubscriptionExpirationTime()
-                ?.plusMonths(1)
-                ?.format(subscriptionDateFormatter)
+            val skuDetails = billingRepository.getSubscriptionSkuDetails() ?: return@map null
+            skuDetails.price
         } catch (e: Exception) {
-            _showError.call()
+            _priceFailedToLoad.postValue(true)
             null
         }
     }.asLiveData()
 
-    val skuDetails = billingRepository.isSubscribed.map { isSubscribed ->
-        if (isSubscribed) return@map null
-        return@map try {
-            billingRepository.getSubscriptionSkuDetails()
-        } catch (e: Exception) {
-            _showError.call()
-            null
-        }
-    }.asLiveData()
+    val showError get() = subscriptionUIUtil.onError
+    val subscriptionExpiryTime get() = subscriptionUIUtil.subscriptionExpiryTime
 
     fun showSubscriptionPrompt() = _showSubscriptionPrompt.call()
     fun goToManageSubscriptions() = _goToManageSubscriptions.call()
-
-    companion object {
-        private val subscriptionDateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
-    }
 }

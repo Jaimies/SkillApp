@@ -8,15 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.android.billingclient.api.BillingClient
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
 import com.maxpoliakov.skillapp.databinding.PremiumFragBinding
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
 import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.subscriptions.showSubscriptionPrompt
+import com.maxpoliakov.skillapp.util.subscriptions.SubscriptionUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,10 +24,7 @@ class PremiumFragment : BaseFragment() {
     private val viewModel: PremiumViewModel by viewModels()
 
     @Inject
-    lateinit var billingRepository: ExtendedBillingRepository
-
-    @Inject
-    lateinit var billingClient: BillingClient
+    lateinit var subscriptionUI: SubscriptionUI
 
     private lateinit var binding: PremiumFragBinding
 
@@ -43,7 +38,7 @@ class PremiumFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observe(viewModel.showSubscriptionPrompt) {
             lifecycleScope.launch {
-                billingClient.showSubscriptionPrompt(billingRepository, requireActivity(), binding.snackbarRoot)
+                subscriptionUI.showSubscriptionPrompt(requireActivity(), binding.snackbarRoot)
             }
         }
 

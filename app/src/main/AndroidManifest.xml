@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillApp.Splash"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
@@ -33,7 +34,7 @@
         <activity
             android:name=".ui.premium.PremiumIntro"
             android:exported="true"
-            android:label="SkillApp intro" />
+            android:label="@string/premium_intro" />
 
         <receiver android:name=".StopTimerBroadcastReceiver" />
 

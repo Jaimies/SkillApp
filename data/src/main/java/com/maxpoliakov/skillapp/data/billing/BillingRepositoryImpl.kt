@@ -1,10 +1,12 @@
 package com.maxpoliakov.skillapp.data.billing
 
 import com.android.billingclient.api.*
+import com.android.billingclient.api.BillingClient.BillingResponseCode
 import com.android.billingclient.api.Purchase.PurchaseState.PURCHASED
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.Companion.SUBSCRIPTION_SKU_NAME
+import com.maxpoliakov.skillapp.domain.repository.BillingRepository.ConnectionState
 import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,13 +28,12 @@ class BillingRepositoryImpl @Inject constructor(
 
     private val listeners = mutableListOf<() -> Unit>()
 
-    private val _isSubscribed = MutableStateFlow(false)
-    override val isSubscribed = _isSubscribed.asStateFlow()
-
     private val _subscriptionState = MutableStateFlow(SubscriptionState.Loading)
     override val subscriptionState get() = _subscriptionState.asStateFlow()
 
-    private var connectionState = ConnectionState.NotStarted
+    override var connectionState = ConnectionState.NotStarted
+        private set
+
 
     override suspend fun connect() = coroutineScope {
         if (connectionState == ConnectionState.Connected) return@coroutineScope
@@ -43,8 +44,8 @@ class BillingRepositoryImpl @Inject constructor(
         }
 
         connectionState = ConnectionState.Started
+
         connectToPlay()
-        connectionState = ConnectionState.Connected
 
         purchaseUpdateHelper.addListener(PurchasesUpdatedListener { _, purchases ->
             val validPurchases = (purchases ?: return@PurchasesUpdatedListener)
@@ -78,7 +79,6 @@ class BillingRepositoryImpl @Inject constructor(
 
     private suspend fun updateSubscriptionState(purchases: List<Purchase>) {
         val isSubscribed = isSubscribed(purchases)
-        _isSubscribed.emit(isSubscribed)
         _subscriptionState.emit(getSubscriptionState(isSubscribed))
     }
 
@@ -91,22 +91,33 @@ class BillingRepositoryImpl @Inject constructor(
         return suspendCoroutine { continuation ->
             billingClient.startConnection(object : BillingClientStateListener {
                 override fun onBillingSetupFinished(billingResult: BillingResult) {
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    if (billingResult.responseCode == BillingResponseCode.OK) {
                         continuation.resume(Unit)
                         listeners.forEach { it.invoke() }
                         listeners.clear()
+                        connectionState = ConnectionState.Connected
                     } else {
-                        Exception(
-                            """Failed to connect to Google Play Billing, 
-                                |response code: ${billingResult.responseCode},
-                                |message: ${billingResult.debugMessage}""".trimMargin()
-                        ).logToCrashlytics()
+                        handleFailedConnection(billingResult)
                     }
                 }
 
                 override fun onBillingServiceDisconnected() {}
             })
         }
+    }
+
+    private fun handleFailedConnection(billingResult: BillingResult) {
+        connectionState = if (billingResult.responseCode == BillingResponseCode.BILLING_UNAVAILABLE)
+            ConnectionState.BillingUnavailable else
+            ConnectionState.FailedToConnect
+
+        _subscriptionState.value = SubscriptionState.FailedToLoad
+
+        Exception(
+            """Failed to connect to Google Play Billing, 
+                                    |response code: ${billingResult.responseCode},
+                                    |message: ${billingResult.debugMessage}""".trimMargin()
+        ).logToCrashlytics()
     }
 
     override fun addOneTimePurchaseUpdateListener(listener: PurchasesUpdatedListener) {
@@ -156,9 +167,5 @@ class BillingRepositoryImpl @Inject constructor(
                 purchase.purchaseState == PURCHASED && purchase.skus.contains(SUBSCRIPTION_SKU_NAME)
             }
         }
-    }
-
-    enum class ConnectionState {
-        NotStarted, Started, Connected
     }
 }

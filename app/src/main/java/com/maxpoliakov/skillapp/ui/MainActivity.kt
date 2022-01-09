@@ -14,9 +14,11 @@ import com.maxpoliakov.skillapp.R.id.skills_fragment_dest
 import com.maxpoliakov.skillapp.R.id.statistics_fragment_dest
 import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
 import com.maxpoliakov.skillapp.databinding.MainActBinding
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.ui.findNavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
@@ -24,6 +26,9 @@ class MainActivity : AppCompatActivity(),
 
     lateinit var navController: NavController
     private lateinit var binding: MainActBinding
+
+    @Inject
+    lateinit var stopwatchUtil: StopwatchUtil
 
     private val appBarConfiguration = AppBarConfiguration(
         setOf(
@@ -41,6 +46,12 @@ class MainActivity : AppCompatActivity(),
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         setupNavController()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        stopwatchUtil.updateState()
+        stopwatchUtil.updateNotification()
     }
 
     private fun setupNavController() {

@@ -17,7 +17,6 @@
             type="String" />
 
         <import type="java.time.temporal.ChronoUnit" />
-        <import type="com.maxpoliakov.skillapp.util.charts.TheBarChart.FormatterType" />
     </data>
 
     <FrameLayout

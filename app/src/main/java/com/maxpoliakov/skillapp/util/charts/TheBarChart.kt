@@ -32,14 +32,19 @@ class TheBarChart : BarChart {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
+    private var entries: List<BarEntry>? = null
+    private var formatterType: ChronoUnit? = null
+
     init {
         setup()
     }
 
     fun setState(entries: List<BarEntry>?) {
         if (entries != null) {
+            this.entries = entries
             updateUI(entries)
         } else {
+            this.entries = null
             this.data = null
         }
     }
@@ -47,6 +52,7 @@ class TheBarChart : BarChart {
     private fun updateUI(entries: List<BarEntry>) {
         this.data = BarData(createDataSets(entries))
         this.data.barWidth = 0.3f
+        zoom(8f, 1f, entries.last().x, 0f)
         notifyDataSetChanged()
         invalidate()
     }
@@ -78,6 +84,7 @@ class TheBarChart : BarChart {
     }
 
     private fun setupZoom() {
+        viewPortHandler.setMaximumScaleY(1f)
         setXAxisRenderer(
             CustomXAxisRenderer(
                 viewPortHandler,
@@ -85,7 +92,6 @@ class TheBarChart : BarChart {
                 getTransformer(YAxis.AxisDependency.LEFT)
             )
         )
-        setScaleEnabled(false)
     }
 
     private fun setupOffsets() {
@@ -166,11 +172,27 @@ class TheBarChart : BarChart {
         }
     }
 
-    fun setFormatterType(type: FormatterType) {
+    private fun setFormatterType(type: ChronoUnit) {
+        if(type == this.formatterType) return
+
+        formatterType = type
+
         xAxis.valueFormatter = when (type) {
-            FormatterType.Daily -> DayFormatter()
-            FormatterType.Weekly -> WeekFormatter()
-            FormatterType.Monthly -> MonthFormatter()
+            ChronoUnit.DAYS -> DayFormatter()
+            ChronoUnit.WEEKS -> WeekFormatter()
+            ChronoUnit.MONTHS -> MonthFormatter()
+            else -> return
+        }
+
+        if (type == ChronoUnit.DAYS) {
+            viewPortHandler.setMaximumScaleX(8f)
+            viewPortHandler.setMinimumScaleX(4f)
+            setScaleEnabled(true)
+            entries?.let { entries -> zoom(8f, 1f, entries.last().x, 0f) }
+        } else {
+            viewPortHandler.setMaximumScaleX(1f)
+            viewPortHandler.setMinimumScaleX(1f)
+            setScaleEnabled(false)
         }
 
         invalidate()
@@ -188,10 +210,11 @@ class TheBarChart : BarChart {
         chartData.weeklyStats.removeObservers(viewLifecycleOwner)
         chartData.monthlyStats.removeObservers(viewLifecycleOwner)
 
-        stats.observe(viewLifecycleOwner, this::setState)
+        stats.observe(viewLifecycleOwner) { state ->
+            setState(state)
+            setFormatterType(type)
+        }
     }
-
-    enum class FormatterType { Daily, Weekly, Monthly }
 
     companion object {
         private const val VALUE_TEXT_SIZE = 12f

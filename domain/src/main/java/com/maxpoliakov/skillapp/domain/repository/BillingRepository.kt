@@ -4,14 +4,18 @@ import kotlinx.coroutines.flow.StateFlow
 import java.time.LocalDateTime
 
 interface BillingRepository {
-    val isSubscribed: StateFlow<Boolean>
     val subscriptionState: StateFlow<SubscriptionState>
+    val connectionState: ConnectionState
 
     suspend fun connect()
     suspend fun getSubscriptionExpirationTime(): LocalDateTime?
 
-    enum class SubscriptionState {
-        Loading, Subscribed, NotSubscribed,
+    enum class SubscriptionState(val hasAccessToPremium: Boolean) {
+        Loading(false), FailedToLoad(false), Subscribed(true), NotSubscribed(false)
+    }
+
+    enum class ConnectionState {
+        NotStarted, Started, Connected, BillingUnavailable, FailedToConnect
     }
 
     companion object {

@@ -27,9 +27,16 @@ class StopwatchUtilImpl @Inject constructor(
     }
 
     override fun updateNotification() {
-        val state = _state.value
+        updateNotification(_state.value)
+    }
+
+    private fun updateNotification(state: StopwatchState) {
         if (state is Running) notificationUtil.showStopwatchNotification(state)
         else notificationUtil.removeStopwatchNotification()
+    }
+
+    override fun updateState() {
+        _state.value = persistence.getState()
     }
 
     override suspend fun toggle(skillId: Int): Record? {
@@ -75,7 +82,7 @@ class StopwatchUtilImpl @Inject constructor(
     private fun setState(state: StopwatchState) {
         _state.value = state
         persistence.saveState(state)
-        updateNotification()
+        updateNotification(state)
     }
 
     private suspend fun addRecord(state: Running): Record {

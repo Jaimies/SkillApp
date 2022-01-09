@@ -39,10 +39,6 @@ fun MaterialButton.setTextColorAttr(attrValue: Int) {
     setTextColor(context.getColorAttributeValue(attrValue))
 }
 
-@BindingAdapter("statsType")
-fun TheBarChart.setStatsType(formatterType: TheBarChart.FormatterType) {
-    setFormatterType(formatterType)
-}
 
 @BindingAdapter(
     "layout_constraint_startSide",

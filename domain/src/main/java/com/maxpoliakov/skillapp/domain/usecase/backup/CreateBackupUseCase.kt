@@ -15,8 +15,8 @@ class CreateBackupUseCase @Inject constructor(
     suspend fun createBackup() {
         billingRepository.connect()
 
-        if (!billingRepository.isSubscribed.value) {
-            println("Not creating a backup because the user is not subscribed")
+        if (!billingRepository.subscriptionState.value.hasAccessToPremium) {
+            println("Not creating a backup because the user does not have access to Premium")
             return
         }
 

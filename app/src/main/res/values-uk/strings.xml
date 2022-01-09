@@ -52,7 +52,6 @@
     <string name="rate_the_app">Оцінити додаток</string>
     <string name="contact_developer">Зв\'язатися з розробником</string>
     <string name="backups">Резервне копіювання</string>
-    <string name="login">Увійти</string>
     <string name="logout">Вийти</string>
     <string name="backup_to_google_drive">Створити резервну копію</string>
     <string name="auto_backup_message">Резервне копіювання ваших даних буде автоматично виконуватись раз на день</string>
@@ -63,7 +62,7 @@
     <string name="account">Обліковий запис</string>
     <string name="backup_successful">Резервна копія успішно завантажена на Google Диск</string>
     <string name="backup_restore_successful">Дані успішно відновлені з резервної копії</string>
-    <string name="upgrade_to_premium">Підписка на місяць за %s</string>
+    <string name="upgrade_to_premium">Оформити Преміум підиску</string>
     <string name="subscription_expiry_date">Дата наступного платежу: %s</string>
     <string name="subscription_expiry_date_loading">Завантаження дати наступного платежу…</string>
     <string name="you_are_subscribed">Ваша підписка активна</string>
@@ -78,7 +77,6 @@
     <string name="subscriptions_uri">https://play.google.com/store/account/subscriptions?sku=%1$s&amp;package=%2$s</string>
     <string name="premium">Преміум</string>
     <string name="confirm_logout">Ви хочете вийти?</string>
-    <string name="price_loading">Завантаження ціни…</string>
     <string name="no_internet">Немає підключення до Інтернету</string>
     <string name="something_went_wrong">Щось пішло не так, спробуйте знову</string>
     <string name="record_added">Додано %d сек</string>
@@ -95,4 +93,8 @@
     <string name="premium_intro_slide3_description">Зайдіть у Налаштування\u00A0>\u00A0«Резервне копіювання» та увійдіть у свій Google\u00A0Акаунт</string>
     <string name="backup_sign_in_title">Резерне копіювання Ваших даних</string>
     <string name="google_sign_in_btn_text">Увійти через Google</string>
+    <string name="billing_unavailable">Покупки недоступні для вашого регіону чи версії Google Play. Оновіть його до останньої версії та повторіть спробу. Код помилки: 3</string>
+    <string name="premium_price_loading">Завантаження ціни підписки…</string>
+    <string name="premium_price">Оформити підписку за %s</string>
+    <string name="premium_intro">Вступ до SkillApp Premium</string>
 </resources>

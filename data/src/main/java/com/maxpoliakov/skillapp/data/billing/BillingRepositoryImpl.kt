@@ -107,17 +107,19 @@ class BillingRepositoryImpl @Inject constructor(
     }
 
     private fun handleFailedConnection(billingResult: BillingResult) {
-        connectionState = if (billingResult.responseCode == BillingResponseCode.BILLING_UNAVAILABLE)
-            ConnectionState.BillingUnavailable else
-            ConnectionState.FailedToConnect
+        if (billingResult.responseCode != BillingResponseCode.BILLING_UNAVAILABLE) {
+            connectionState = ConnectionState.FailedToConnect
 
-        _subscriptionState.value = SubscriptionState.FailedToLoad
-
-        Exception(
-            """Failed to connect to Google Play Billing, 
+            Exception(
+                """Failed to connect to Google Play Billing, 
                                     |response code: ${billingResult.responseCode},
                                     |message: ${billingResult.debugMessage}""".trimMargin()
-        ).logToCrashlytics()
+            ).logToCrashlytics()
+        } else {
+            connectionState = ConnectionState.BillingUnavailable
+        }
+
+        _subscriptionState.value = SubscriptionState.FailedToLoad
     }
 
     override fun addOneTimePurchaseUpdateListener(listener: PurchasesUpdatedListener) {

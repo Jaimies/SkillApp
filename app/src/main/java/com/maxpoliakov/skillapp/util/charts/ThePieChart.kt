@@ -41,7 +41,6 @@ class ThePieChart : PieChart {
         val validEntries = entries
             .filter { it.y > 0 }
             .sortedBy { -it.y }
-            .take(5)
 
         if (validEntries.isEmpty()) {
             this.data = null

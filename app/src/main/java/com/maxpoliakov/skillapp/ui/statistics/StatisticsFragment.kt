@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.databinding.StatisticsFragBinding
 import com.maxpoliakov.skillapp.ui.common.BarChartFragment
@@ -36,6 +37,11 @@ class StatisticsFragment : BarChartFragment(-1) {
 
         observe(viewModel.chartData.statisticType) { type ->
             binding.productivityChart.chart.update(type, viewModel.chartData, viewLifecycleOwner)
+        }
+
+        observe(viewModel.pieData) { pieData ->
+            binding.splitChart.chart.setData(pieData)
+            binding.splitChart.root.isGone = binding.splitChart.chart.data == null
         }
     }
 }

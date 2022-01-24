@@ -9,6 +9,7 @@ interface SkillRepository {
     fun getSkills(): Flow<List<Skill>>
 
     fun getSkillFlowById(id: Id): Flow<Skill>
+    fun getTopSkills(count: Int): Flow<List<Skill>>
     suspend fun getSkillById(id: Id): Skill?
 
     suspend fun addSkill(skill: Skill): Long

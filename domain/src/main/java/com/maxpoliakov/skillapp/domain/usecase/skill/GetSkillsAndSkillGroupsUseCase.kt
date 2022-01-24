@@ -17,6 +17,10 @@ class GetSkillsAndSkillGroupsUseCase @Inject constructor(
         return skillRepository.getSkills()
     }
 
+    fun getTopSkills(count: Int): Flow<List<Skill>> {
+        return skillRepository.getTopSkills(count)
+    }
+
     fun getSkillsAndGroups(): Flow<SkillsAndGroups> {
         val groups = skillGroupRepository.getSkillGroups()
         val skills = skillRepository.getSkills().map {

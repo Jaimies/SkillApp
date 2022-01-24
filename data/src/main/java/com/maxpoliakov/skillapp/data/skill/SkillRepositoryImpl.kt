@@ -4,6 +4,7 @@ import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.time.Duration
@@ -24,6 +25,10 @@ class SkillRepositoryImpl @Inject constructor(
     override fun getSkillFlowById(id: Int) = skillDao.getSkillFlow(id)
         .filterNotNull()
         .map { it.mapToDomain() }
+
+    override fun getTopSkills(count: Int): Flow<List<Skill>> {
+        return skillDao.getTopSkills(count).mapList { it.mapToDomain() }
+    }
 
     override suspend fun getSkillById(id: Id): Skill? {
         return skillDao.getSkill(id)?.mapToDomain()

@@ -16,18 +16,14 @@ class Converters {
     fun fromLocalDate(date: LocalDate): String = date.format(formatter)
 
     @TypeConverter
-    fun toDuration(value: Long?): Duration? {
-        return value?.let { Duration.ofMillis(value) }
-    }
+    fun toDuration(value: Long): Duration = value.let { Duration.ofMillis(value) }
 
     @TypeConverter
-    fun fromDuration(duration: Duration?): Long? = duration?.toMillis()
+    fun fromDuration(duration: Duration): Long = duration.toMillis()
 
     @TypeConverter
-    fun toTimeTargetInterval(value: String?): TimeTarget.Interval? {
-        return value?.let { TimeTarget.Interval.valueOf(value) }
-    }
+    fun toTimeTargetInterval(value: String): TimeTarget.Interval = TimeTarget.Interval.valueOf(value)
 
     @TypeConverter
-    fun fromTimeTargetInterval(interval: TimeTarget.Interval?): String? = interval?.name
+    fun fromTimeTargetInterval(interval: TimeTarget.Interval): String = interval.name
 }

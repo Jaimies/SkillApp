@@ -27,8 +27,8 @@ data class DBSkill(
     val lastWeekTime: Duration = Duration.ZERO,
     val creationDate: LocalDate = getCurrentDate(),
     val groupId: Int = -1,
-    val targetInterval: TimeTarget.Interval? = null,
-    val timeTarget: Duration? = null,
+    val targetInterval: TimeTarget.Interval = TimeTarget.Interval.Daily,
+    val timeTarget: Duration = Duration.ZERO,
     val order: Int = -1,
 )
 
@@ -41,7 +41,7 @@ fun DBSkill.mapToDomain(): Skill {
         id,
         creationDate,
         groupId,
-        if (timeTarget == null || targetInterval == null) null
+        if (timeTarget == Duration.ZERO) null
         else TimeTarget(timeTarget, targetInterval),
         order,
     )
@@ -57,7 +57,7 @@ fun Skill.mapToDB(): DBSkill {
         date,
         groupId,
         target?.interval ?: TimeTarget.Interval.Daily,
-        target?.duration,
+        target?.duration ?: Duration.ZERO,
         order,
     )
 }

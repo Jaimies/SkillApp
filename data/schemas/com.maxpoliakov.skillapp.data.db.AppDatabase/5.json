@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "51afe686a25ce37d1051f87e61150071",
+    "identityHash": "393bdc685da734cf89b8761629edb5a9",
     "entities": [
       {
         "tableName": "skills",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `totalTime` INTEGER NOT NULL, `initialTime` INTEGER NOT NULL, `lastWeekTime` INTEGER NOT NULL, `creationDate` TEXT NOT NULL, `groupId` INTEGER NOT NULL, `targetInterval` TEXT, `timeTarget` INTEGER, `order` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `totalTime` INTEGER NOT NULL, `initialTime` INTEGER NOT NULL, `lastWeekTime` INTEGER NOT NULL, `creationDate` TEXT NOT NULL, `groupId` INTEGER NOT NULL, `targetInterval` TEXT NOT NULL, `timeTarget` INTEGER NOT NULL, `order` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -54,13 +54,13 @@
             "fieldPath": "targetInterval",
             "columnName": "targetInterval",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "timeTarget",
             "columnName": "timeTarget",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "order",
@@ -233,7 +233,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '51afe686a25ce37d1051f87e61150071')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '393bdc685da734cf89b8761629edb5a9')"
     ]
   }
 }

@@ -11,7 +11,7 @@ import com.maxpoliakov.skillapp.data.db.MIGRATION_4_5
 import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
-import com.maxpoliakov.skillapp.test.await
+import com.maxpoliakov.skillapp.domain.model.TimeTarget
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -108,7 +108,7 @@ class MigrationsTest {
         val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
         val skill = roomDb.skillDao().getSkill(1)!!
 
-        skill.timeTarget shouldBe null
-        skill.targetInterval shouldBe null
+        skill.timeTarget shouldBe Duration.ZERO
+        skill.targetInterval shouldBe TimeTarget.Interval.Daily
     }
 }

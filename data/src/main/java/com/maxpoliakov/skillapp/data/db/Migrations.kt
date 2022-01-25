@@ -48,18 +48,18 @@ val MIGRATION_3_4 = object : Migration(3, 4) {
     }
 }
 
-val MIGRATION_4_5 = object: Migration(4, 5) {
+val MIGRATION_4_5 = object : Migration(4, 5) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL("""
             ALTER TABLE skills 
-            ADD timeTarget INTEGER
-            DEFAULT(NULL)
+            ADD timeTarget INTEGER NOT NULL
+            DEFAULT(0)
         """)
 
         database.execSQL("""
             ALTER TABLE skills 
-            ADD targetInterval TEXT 
-            DEFAULT(NULL)
+            ADD targetInterval TEXT NOT NULL
+            DEFAULT('Daily')
         """)
     }
 }

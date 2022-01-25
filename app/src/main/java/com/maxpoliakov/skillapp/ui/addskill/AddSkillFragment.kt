@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.AddskillFragBinding
 import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.util.fragment.observe
+import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.transition.createMaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +40,10 @@ class AddSkillFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         observe(viewModel.goToSkillDetail) { skillId ->
             findNavController().navigateUp()
+        }
+
+        observe(viewModel.chooseGoal) {
+            requireContext().showTimePicker(onTimeSet = viewModel::setGoal)
         }
     }
 }

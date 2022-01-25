@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.maxpoliakov.skillapp.data.serialization.DurationAsLongSerializer
 import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.TimeTarget
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -26,6 +27,8 @@ data class DBSkill(
     val lastWeekTime: Duration = Duration.ZERO,
     val creationDate: LocalDate = getCurrentDate(),
     val groupId: Int = -1,
+    val targetInterval: TimeTarget.Interval? = null,
+    val timeTarget: Duration? = null,
     val order: Int = -1,
 )
 
@@ -38,6 +41,8 @@ fun DBSkill.mapToDomain(): Skill {
         id,
         creationDate,
         groupId,
+        if (timeTarget == null || targetInterval == null) null
+        else TimeTarget(timeTarget, targetInterval),
         order,
     )
 }
@@ -51,6 +56,8 @@ fun Skill.mapToDB(): DBSkill {
         lastWeekTime,
         date,
         groupId,
+        target?.interval ?: TimeTarget.Interval.Daily,
+        target?.duration,
         order,
     )
 }

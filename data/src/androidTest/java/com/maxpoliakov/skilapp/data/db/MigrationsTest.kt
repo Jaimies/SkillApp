@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.db.MIGRATION_1_2
 import com.maxpoliakov.skillapp.data.db.MIGRATION_2_3
 import com.maxpoliakov.skillapp.data.db.MIGRATION_3_4
+import com.maxpoliakov.skillapp.data.db.MIGRATION_4_5
 import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
@@ -92,5 +93,22 @@ class MigrationsTest {
         val skill = roomDb.skillDao().getSkill(1)!!
 
         skill.groupId shouldBe -1
+    }
+
+    @Test
+    fun migration_from_4_to_5() = runBlocking {
+        helper.createDatabase(AppDatabase.DATABASE_NAME, 4).apply {
+            execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate, `order`, groupId)
+                VALUES ("name", 100000, 1000, 100, "1970-01-01", 0, 2)
+          """)
+        }
+
+        helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 5, true, MIGRATION_4_5)
+
+        val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
+        val skill = roomDb.skillDao().getSkill(1)!!
+
+        skill.timeTarget shouldBe null
+        skill.targetInterval shouldBe null
     }
 }

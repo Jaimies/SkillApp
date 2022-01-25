@@ -26,7 +26,7 @@ class AddSkillViewModel @Inject constructor(
             val time = Duration.ofHours(totalTime.value?.toLongOrNull() ?: 0)
 
             val skillId = addSkill.run(
-                Skill(name = name, totalTime = time, initialTime = time)
+                Skill(name = name, totalTime = time, initialTime = time, target = null)
             )
 
             _goToSkillDetail.value = skillId.toInt()

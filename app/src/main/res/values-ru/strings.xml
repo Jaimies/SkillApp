@@ -97,4 +97,6 @@
     <string name="premium_price_loading">Загрузка цены подписки…</string>
     <string name="premium_price">Оформить подписку за %s</string>
     <string name="premium_intro">Введение в SkillApp Premium</string>
+    <string name="daily_goal">Цель на день: %1$s / %2$s</string>
+    <string name="hours_and_minutes">%1$dч %2$dм</string>
 </resources>

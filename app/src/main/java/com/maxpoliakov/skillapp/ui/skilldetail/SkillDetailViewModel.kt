@@ -50,6 +50,7 @@ class SkillDetailViewModel(
     }.asLiveData()
 
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
+    val skillLiveData = skill.asLiveData()
 
     val summary = skill.map { skill ->
         ProductivitySummary(skill.totalTime, skill.lastWeekTime)
@@ -91,7 +92,7 @@ class SkillDetailViewModel(
         private val getStats: GetStatsUseCase,
         private val deleteSkill: DeleteSkillUseCase,
         private val ioScope: CoroutineScope,
-        private val stopwatchUtil: StopwatchUtil
+        private val stopwatchUtil: StopwatchUtil,
     ) {
         fun create(skillId: Int): SkillDetailViewModel {
             return SkillDetailViewModel(
@@ -102,7 +103,7 @@ class SkillDetailViewModel(
                 stopwatchUtil,
                 skillId,
                 getSkillById,
-                getStats
+                getStats,
             )
         }
     }

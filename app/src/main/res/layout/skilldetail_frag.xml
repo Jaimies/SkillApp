@@ -11,6 +11,8 @@
             type="com.maxpoliakov.skillapp.ui.skilldetail.SkillDetailViewModel" />
 
         <import type="com.maxpoliakov.skillapp.domain.model.StopwatchState" />
+
+        <import type="com.maxpoliakov.skillapp.ui.skilldetail.FormattingKt" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -73,7 +75,8 @@
                         app:contentPaddingBottom="30dp"
                         app:contentPaddingLeft="24dp"
                         app:contentPaddingRight="24dp"
-                        app:contentPaddingTop="30dp">
+                        app:contentPaddingTop="30dp"
+                        app:visible="@{viewModel.skillLiveData.target != null}">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -83,7 +86,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Daily goal: 1h 48min / 3h"
+                                android:text="@{FormattingKt.formatGoal(context, viewModel.skillLiveData.target)}"
                                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                                 android:textSize="19sp" />
 

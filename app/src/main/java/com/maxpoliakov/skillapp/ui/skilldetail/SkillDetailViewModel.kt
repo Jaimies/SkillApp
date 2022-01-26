@@ -19,11 +19,13 @@ import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import java.time.Duration
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class SkillDetailViewModel(
     private val addRecord: AddRecordUseCase,
@@ -57,7 +59,13 @@ class SkillDetailViewModel(
     }.asLiveData()
 
     val chartData = SkillChartData(getStats, skillId)
-    val timeToday = getStats.getTimeToday(skillId).asLiveData()
+    private val _timeToday = getStats.getTimeToday(skillId)
+    val timeToday = _timeToday.asLiveData()
+
+    val goalPercentage = combine(skill, _timeToday) { skill, timeToday ->
+        val targetDuration = skill.target?.duration ?: return@combine 0
+        (timeToday.seconds.toDouble() / targetDuration.seconds * 100).roundToInt()
+    }.asLiveData()
 
     override val nameFlow = skill.map { it.name }
 

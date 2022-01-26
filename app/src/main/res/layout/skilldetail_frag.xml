@@ -94,7 +94,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
-                                android:progress="60" />
+                                android:progress="@{viewModel.goalPercentage}" />
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>

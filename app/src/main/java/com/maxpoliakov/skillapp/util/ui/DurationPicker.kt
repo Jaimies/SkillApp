@@ -111,12 +111,14 @@ class DurationPicker : DialogFragment() {
             minValue = 0
             maxValue = 23
             setFormatter { value -> "${value}h" }
+            forceFirstValueToFormat()
         }
 
         minutesPicker = root.findViewById<NumberPicker>(R.id.minutes_picker).apply {
             minValue = 0
             maxValue = 59
             setFormatter { value -> "${value}m" }
+            forceFirstValueToFormat()
         }
 
         val headerTitle = root.findViewById<TextView>(R.id.header_title)

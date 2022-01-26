@@ -42,7 +42,7 @@ class DurationPicker : DialogFragment() {
     val duration: Duration
         get() = Duration.ZERO
             .plusHours(hoursPicker.value.toLong())
-            .plusMinutes(minutesPicker.value.toLong())
+            .plusMinutes(minutesPicker.value.toLong() * 5)
 
     override fun onCreateDialog(bundle: Bundle?): Dialog {
         val dialog = Dialog(requireContext(), themeResId)
@@ -96,7 +96,7 @@ class DurationPicker : DialogFragment() {
         lifecycleScope.launchWhenStarted {
             val duration = Duration.ofSeconds(bundle.getLong(DURATION_SECONDS, 0))
             hoursPicker.value = duration.toHours().toInt()
-            minutesPicker.value = duration.toMinutesPartCompat().toInt()
+            minutesPicker.value = duration.toMinutesPartCompat().toInt() / 5
         }
     }
 
@@ -116,8 +116,8 @@ class DurationPicker : DialogFragment() {
 
         minutesPicker = root.findViewById<NumberPicker>(R.id.minutes_picker).apply {
             minValue = 0
-            maxValue = 59
-            setFormatter { value -> "${value}m" }
+            maxValue = 11
+            setFormatter { value -> "${value * 5}m" }
             forceFirstValueToFormat()
         }
 

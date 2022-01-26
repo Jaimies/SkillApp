@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.addskill.AddSkillViewModel" />
+
+        <import type="com.maxpoliakov.skillapp.ui.addskill.FormattingKt" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,7 +76,7 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:onClick="@{() -> viewModel.chooseGoal()}"
-                android:text="@{viewModel.goal}" />
+                android:text="@{FormattingKt.formatDailyGoal(context, viewModel.goal)}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

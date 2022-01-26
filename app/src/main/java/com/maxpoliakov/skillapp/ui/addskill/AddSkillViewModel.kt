@@ -30,10 +30,7 @@ class AddSkillViewModel @Inject constructor(
     private val _goToSkillDetail = SingleLiveEvent<Int>()
 
     private val _goal = MutableStateFlow<Duration?>(null)
-
-    val goal = _goal
-        .map { goal -> goal?.toString() ?: "Goal not set" }
-        .asLiveData()
+    val goal = _goal.asLiveData()
 
     override fun save(name: String) {
         viewModelScope.launch {

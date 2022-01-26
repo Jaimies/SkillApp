@@ -6,9 +6,9 @@ import com.maxpoliakov.skillapp.domain.model.TimeTarget
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
 
-fun Context.formatGoal(goal: TimeTarget?): String {
-    if (goal == null) return ""
-    return getString(R.string.daily_goal, Duration.ofHours(3).format(this), goal.duration.format(this))
+fun Context.formatGoal(goal: TimeTarget?, completedTime: Duration?): String {
+    if (goal == null || completedTime == null) return ""
+    return getString(R.string.daily_goal, completedTime.format(this), goal.duration.format(this))
 }
 
 private fun Duration.format(context: Context): String {

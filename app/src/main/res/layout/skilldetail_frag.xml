@@ -86,7 +86,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@{FormattingKt.formatGoal(context, viewModel.skillLiveData.target)}"
+                                android:text="@{FormattingKt.formatGoal(context, viewModel.skillLiveData.target, viewModel.timeToday)}"
                                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                                 android:textSize="19sp" />
 

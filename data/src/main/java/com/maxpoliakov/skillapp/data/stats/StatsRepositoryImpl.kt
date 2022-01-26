@@ -1,13 +1,12 @@
 package com.maxpoliakov.skillapp.data.stats
 
-import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.repository.StatsRepository
-import com.maxpoliakov.skillapp.shared.util.daysAgo
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.Duration
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -31,5 +30,10 @@ class StatsRepositoryImpl @Inject constructor(
 
     override suspend fun getTimeAtDate(date: LocalDate): Duration {
         return statsDao.getTimeAtDate(date)
+    }
+
+    override fun getTimeToday(skillId: Id): Flow<Duration> {
+        return statsDao.getTimeAtDate(skillId, LocalDate.now())
+            .map { time -> time ?: Duration.ZERO }
     }
 }

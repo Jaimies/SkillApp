@@ -57,6 +57,7 @@ class SkillDetailViewModel(
     }.asLiveData()
 
     val chartData = SkillChartData(getStats, skillId)
+    val timeToday = getStats.getTimeToday(skillId).asLiveData()
 
     override val nameFlow = skill.map { it.name }
 

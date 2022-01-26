@@ -14,9 +14,14 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
+    fun getTimeToday(skillId: Id) = statsRepository.getTimeToday(skillId)
+
     fun getDailyStats(skillId: Id) = statsRepository.getStats(skillId, LocalDate.now().minusDays(56))
 
-    fun getDailyStats(skillIds: List<Int>, startDate: LocalDate = LocalDate.now().minusDays(56)): Flow<List<Statistic>> {
+    fun getDailyStats(
+        skillIds: List<Int>,
+        startDate: LocalDate = LocalDate.now().minusDays(56)
+    ): Flow<List<Statistic>> {
         return combine(skillIds.map { statsRepository.getStats(it, startDate) }) { statsLists ->
             groupByDate(statsLists)
         }

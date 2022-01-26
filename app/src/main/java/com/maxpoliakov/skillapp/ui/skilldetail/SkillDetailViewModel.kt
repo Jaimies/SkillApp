@@ -13,19 +13,22 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
+import com.maxpoliakov.skillapp.shared.util.until
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.SkillChartData
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import java.time.Duration
+import java.time.ZonedDateTime
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 class SkillDetailViewModel(
     private val addRecord: AddRecordUseCase,
@@ -58,13 +61,29 @@ class SkillDetailViewModel(
         ProductivitySummary(skill.totalTime, skill.lastWeekTime)
     }.asLiveData()
 
+    private val tick = flow {
+        while (true) {
+            emit(Unit)
+            delay(GOAL_PROGRESS_REFRESH_INTERVAL)
+        }
+    }
+
+    private val timeOnStopwatch = stopwatchUtil.state.combine(tick) { state, _ ->
+        if (state !is Running) return@combine Duration.ZERO
+        state.startTime.until(ZonedDateTime.now())
+    }
+
     val chartData = SkillChartData(getStats, skillId)
     private val _timeToday = getStats.getTimeToday(skillId)
+        .combine(timeOnStopwatch) { recordedTime, timeOnStopwatch ->
+            recordedTime + timeOnStopwatch
+        }
+
     val timeToday = _timeToday.asLiveData()
 
     val goalPercentage = combine(skill, _timeToday) { skill, timeToday ->
         val targetDuration = skill.target?.duration ?: return@combine 0
-        (timeToday.seconds.toDouble() / targetDuration.seconds * 100).roundToInt()
+        (timeToday.toMillis() * 100_000 / targetDuration.toMillis()).toInt()
     }.asLiveData()
 
     override val nameFlow = skill.map { it.name }
@@ -115,5 +134,9 @@ class SkillDetailViewModel(
                 getStats,
             )
         }
+    }
+
+    companion object {
+        private const val GOAL_PROGRESS_REFRESH_INTERVAL = 2_000L
     }
 }

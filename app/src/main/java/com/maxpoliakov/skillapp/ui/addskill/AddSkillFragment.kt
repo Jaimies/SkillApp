@@ -13,6 +13,7 @@ import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.transition.createMaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.Duration
 
 @AndroidEntryPoint
 class AddSkillFragment : BaseFragment() {
@@ -43,7 +44,8 @@ class AddSkillFragment : BaseFragment() {
         }
 
         observe(viewModel.chooseGoal) {
-            requireContext().showTimePicker(onTimeSet = viewModel::setGoal)
+            val initialTime = viewModel.goal.value ?: Duration.ZERO
+            requireContext().showTimePicker(initialTime = initialTime, onTimeSet = viewModel::setGoal)
         }
     }
 }

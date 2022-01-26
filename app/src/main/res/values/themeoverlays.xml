@@ -5,4 +5,10 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/blue</item>
     </style>
+
+    <style name="ThemeOverlay.SkillApp.NumberPicker" parent="">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="colorControlNormal">@android:color/transparent</item>
+    </style>
 </resources>

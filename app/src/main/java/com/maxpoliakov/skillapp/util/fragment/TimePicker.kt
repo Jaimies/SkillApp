@@ -1,15 +1,10 @@
 package com.maxpoliakov.skillapp.util.fragment
 
 import android.content.Context
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import com.maxpoliakov.skillapp.data.persistence.getIntPreference
-import com.maxpoliakov.skillapp.data.persistence.saveIntPreference
-import com.maxpoliakov.skillapp.data.persistence.sharedPrefs
-import com.maxpoliakov.skillapp.shared.util.durationOfHoursAndMinutes
+import com.maxpoliakov.skillapp.util.ui.DurationPicker
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
 
@@ -19,19 +14,15 @@ inline fun Context.showTimePicker(
     allowZeroTime: Boolean = false,
     crossinline onTimeSet: (Duration) -> Unit
 ) {
-    val dialog = MaterialTimePicker.Builder()
-        .setTimeFormat(TimeFormat.CLOCK_24H)
-        .setHour(initialTime.toHours().toInt())
-        .setMinute(initialTime.toMinutes().toInt())
-        .setInputMode(sharedPrefs.getIntPreference(INPUT_MODE, INPUT_MODE_CLOCK))
+    val dialog = DurationPicker.Builder()
+        .setDuration(initialTime)
         .build()
 
-    dialog.addOnPositiveButtonClickListener {
-        sharedPrefs.saveIntPreference(INPUT_MODE, dialog.inputMode)
-        val time = durationOfHoursAndMinutes(dialog.hour, dialog.minute)
+    dialog.addOnPositiveButtonClickListener(View.OnClickListener {
+        val time = dialog.duration
         if (time > Duration.ZERO || allowZeroTime)
             onTimeSet(time)
-    }
+    })
 
     dialog.show(fragmentManager, null)
 }
@@ -42,5 +33,3 @@ inline fun Fragment.showTimePicker(crossinline onTimeSet: (Duration) -> Unit) {
         onTimeSet = onTimeSet
     )
 }
-
-const val INPUT_MODE = "input_mode"

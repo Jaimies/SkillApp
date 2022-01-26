@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:accessibilityPaneTitle="@string/material_timepicker_select_time"
+    android:paddingBottom="2dp">
+
+    <TextView
+        android:id="@+id/header_title"
+        style="?attr/textAppearanceOverline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:importantForAccessibility="no"
+        android:text="@string/material_timepicker_select_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <NumberPicker
+        android:id="@+id/hours_picker"
+        android:layout_width="100sp"
+        android:layout_height="250sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <NumberPicker
+        android:id="@+id/minutes_picker"
+        android:layout_width="100sp"
+        android:layout_height="250sp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/hours_picker"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/material_timepicker_cancel_button"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
+        android:minWidth="72dp"
+        android:text="@android:string/cancel"
+        app:layout_constraintEnd_toStartOf="@id/material_timepicker_ok_button"
+        app:layout_constraintTop_toBottomOf="@id/hours_picker" />
+
+    <Button
+        android:id="@+id/material_timepicker_ok_button"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
+        android:minWidth="64dp"
+        android:text="@android:string/ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hours_picker" />
+</androidx.constraintlayout.widget.ConstraintLayout>

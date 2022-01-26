@@ -16,6 +16,7 @@ import java.time.Duration
 inline fun Context.showTimePicker(
     initialTime: Duration = Duration.ZERO,
     fragmentManager: FragmentManager = getFragmentManager(),
+    allowZeroTime: Boolean = false,
     crossinline onTimeSet: (Duration) -> Unit
 ) {
     val dialog = MaterialTimePicker.Builder()
@@ -28,7 +29,7 @@ inline fun Context.showTimePicker(
     dialog.addOnPositiveButtonClickListener {
         sharedPrefs.saveIntPreference(INPUT_MODE, dialog.inputMode)
         val time = durationOfHoursAndMinutes(dialog.hour, dialog.minute)
-        if (time > Duration.ZERO)
+        if (time > Duration.ZERO || allowZeroTime)
             onTimeSet(time)
     }
 

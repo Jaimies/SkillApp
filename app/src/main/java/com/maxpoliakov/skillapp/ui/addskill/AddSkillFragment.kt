@@ -44,8 +44,11 @@ class AddSkillFragment : BaseFragment() {
         }
 
         observe(viewModel.chooseGoal) {
-            val initialTime = viewModel.goal.value ?: Duration.ZERO
-            requireContext().showTimePicker(initialTime = initialTime, onTimeSet = viewModel::setGoal)
+            requireContext().showTimePicker(
+                initialTime = viewModel.goal.value ?: Duration.ZERO,
+                allowZeroTime = true,
+                onTimeSet = viewModel::setGoal
+            )
         }
     }
 }

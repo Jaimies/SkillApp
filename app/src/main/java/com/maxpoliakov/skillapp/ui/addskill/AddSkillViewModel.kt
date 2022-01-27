@@ -5,13 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.model.TimeTarget
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
 import com.maxpoliakov.skillapp.ui.common.EditableViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.Duration
 import javax.inject.Inject
@@ -36,10 +35,10 @@ class AddSkillViewModel @Inject constructor(
         viewModelScope.launch {
             val time = Duration.ofHours(totalTime.value?.toLongOrNull() ?: 0)
 
-            val goal = _goal.value?.let { goal -> TimeTarget(goal, TimeTarget.Interval.Daily) }
+            val goal = _goal.value?.let { goal -> Goal(goal, Goal.Type.Daily) }
 
             val skillId = addSkill.run(
-                Skill(name = name, totalTime = time, initialTime = time, target = goal)
+                Skill(name = name, totalTime = time, initialTime = time, goal = goal)
             )
 
             _goToSkillDetail.value = skillId.toInt()

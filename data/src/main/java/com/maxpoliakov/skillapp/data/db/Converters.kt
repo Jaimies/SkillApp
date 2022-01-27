@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.data.db
 
 import androidx.room.TypeConverter
-import com.maxpoliakov.skillapp.domain.model.TimeTarget
+import com.maxpoliakov.skillapp.domain.model.Goal
 import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -22,8 +22,8 @@ class Converters {
     fun fromDuration(duration: Duration): Long = duration.toMillis()
 
     @TypeConverter
-    fun toTimeTargetInterval(value: String): TimeTarget.Interval = TimeTarget.Interval.valueOf(value)
+    fun toGoalType(value: String): Goal.Type = Goal.Type.valueOf(value)
 
     @TypeConverter
-    fun fromTimeTargetInterval(interval: TimeTarget.Interval): String = interval.name
+    fun fromGoalType(type: Goal.Type): String = type.name
 }

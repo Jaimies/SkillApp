@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.google.android.material.button.MaterialButton
-import com.maxpoliakov.skillapp.domain.model.TimeTarget
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.util.charts.TheBarChart
 
 @BindingAdapter("visible")
@@ -58,7 +58,7 @@ fun View.setConditionalConstraint(
 }
 
 @BindingAdapter("goal")
-fun TheBarChart.setGoal(goal: TimeTarget?) {
+fun TheBarChart.setGoal(goal: Goal?) {
     if (goal == null) return
     setGoal(goal)
 }

@@ -52,13 +52,13 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL("""
             ALTER TABLE skills 
-            ADD timeTarget INTEGER NOT NULL
+            ADD goalTime INTEGER NOT NULL
             DEFAULT(0)
         """)
 
         database.execSQL("""
             ALTER TABLE skills 
-            ADD targetInterval TEXT NOT NULL
+            ADD goalType TEXT NOT NULL
             DEFAULT('Daily')
         """)
     }

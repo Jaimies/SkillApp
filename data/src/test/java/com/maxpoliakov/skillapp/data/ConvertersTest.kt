@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.data
 
 import com.maxpoliakov.skillapp.data.db.Converters
-import com.maxpoliakov.skillapp.domain.model.TimeTarget
+import com.maxpoliakov.skillapp.domain.model.Goal
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.Duration
@@ -25,9 +25,9 @@ class ConvertersTest : StringSpec({
         }
     }
 
-    "toTimeTargetInterval() and fromTimeTargetInterval()" {
-        listOf(TimeTarget.Interval.Daily, TimeTarget.Interval.Weekly).forEach { interval ->
-            converters.toTimeTargetInterval(converters.fromTimeTargetInterval(interval)) shouldBe interval
+    "toGoalType() and fromGoalType()" {
+        listOf(Goal.Type.Daily, Goal.Type.Weekly).forEach { interval ->
+            converters.toGoalType(converters.fromGoalType(interval)) shouldBe interval
         }
     }
 })

@@ -10,7 +10,7 @@
 
         <variable
             name="goal"
-            type="com.maxpoliakov.skillapp.domain.model.TimeTarget" />
+            type="com.maxpoliakov.skillapp.domain.model.Goal" />
 
         <import type="java.time.temporal.ChronoUnit" />
     </data>

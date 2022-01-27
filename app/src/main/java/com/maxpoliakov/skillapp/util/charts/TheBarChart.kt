@@ -20,7 +20,7 @@ import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.domain.model.TimeTarget
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.ui.common.ChartData
 import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.ui.common.MonthFormatter
@@ -149,11 +149,11 @@ class TheBarChart : BarChart {
         description.isEnabled = false
     }
 
-    fun setGoal(goal: TimeTarget) {
+    fun setGoal(goal: Goal) {
         if (!shouldDisplayGoal(goal)) return
 
         axisLeft.run {
-            val limitLine = LimitLine(goal.duration.seconds.toFloat(), "Daily goal").apply {
+            val limitLine = LimitLine(goal.time.seconds.toFloat(), "Daily goal").apply {
                 lineWidth = 1f
                 lineColor = Color.WHITE
                 textColor = Color.WHITE
@@ -164,13 +164,13 @@ class TheBarChart : BarChart {
             removeAllLimitLines()
             addLimitLine(limitLine)
 
-            axisMaximum = (entries?.maxByOrNull { it.y }?.y ?: 0f).coerceAtLeast(goal.duration.seconds.toFloat())
+            axisMaximum = (entries?.maxByOrNull { it.y }?.y ?: 0f).coerceAtLeast(goal.time.seconds.toFloat())
         }
     }
 
-    private fun shouldDisplayGoal(goal: TimeTarget): Boolean {
-        return goal.interval == TimeTarget.Interval.Daily && formatterType == ChronoUnit.DAYS
-                || goal.interval == TimeTarget.Interval.Weekly && formatterType == ChronoUnit.WEEKS
+    private fun shouldDisplayGoal(goal: Goal): Boolean {
+        return goal.type == Goal.Type.Daily && formatterType == ChronoUnit.DAYS
+                || goal.type == Goal.Type.Weekly && formatterType == ChronoUnit.WEEKS
     }
 
     class CustomXAxisRenderer(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, trans: Transformer?) :

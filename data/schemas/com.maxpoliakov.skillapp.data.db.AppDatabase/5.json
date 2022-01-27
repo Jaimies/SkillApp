@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "393bdc685da734cf89b8761629edb5a9",
+    "identityHash": "5cbff606e6c19a992e01b65f4191bb37",
     "entities": [
       {
         "tableName": "skills",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `totalTime` INTEGER NOT NULL, `initialTime` INTEGER NOT NULL, `lastWeekTime` INTEGER NOT NULL, `creationDate` TEXT NOT NULL, `groupId` INTEGER NOT NULL, `targetInterval` TEXT NOT NULL, `timeTarget` INTEGER NOT NULL, `order` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `totalTime` INTEGER NOT NULL, `initialTime` INTEGER NOT NULL, `lastWeekTime` INTEGER NOT NULL, `creationDate` TEXT NOT NULL, `groupId` INTEGER NOT NULL, `goalType` TEXT NOT NULL, `goalTime` INTEGER NOT NULL, `order` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -51,14 +51,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "targetInterval",
-            "columnName": "targetInterval",
+            "fieldPath": "goalType",
+            "columnName": "goalType",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "timeTarget",
-            "columnName": "timeTarget",
+            "fieldPath": "goalTime",
+            "columnName": "goalTime",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -233,7 +233,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '393bdc685da734cf89b8761629edb5a9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5cbff606e6c19a992e01b65f4191bb37')"
     ]
   }
 }

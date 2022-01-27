@@ -82,8 +82,8 @@ class SkillDetailViewModel(
     val timeToday = _timeToday.asLiveData()
 
     val goalPercentage = combine(skill, _timeToday) { skill, timeToday ->
-        val targetDuration = skill.target?.duration ?: return@combine 0
-        (timeToday.toMillis() * 100_000 / targetDuration.toMillis()).toInt()
+        val goalTime = skill.goal?.time ?: return@combine 0
+        (timeToday.toMillis() * 100_000 / goalTime.toMillis()).toInt()
     }.asLiveData()
 
     override val nameFlow = skill.map { it.name }

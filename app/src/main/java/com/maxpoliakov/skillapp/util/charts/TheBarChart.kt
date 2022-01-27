@@ -2,10 +2,13 @@ package com.maxpoliakov.skillapp.util.charts
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Typeface
 import android.util.AttributeSet
-import androidx.core.graphics.ColorUtils
 import androidx.lifecycle.LifecycleOwner
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.LimitLine
+import com.github.mikephil.charting.components.LimitLine.LimitLabelPosition
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
@@ -17,6 +20,7 @@ import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.domain.model.TimeTarget
 import com.maxpoliakov.skillapp.ui.common.ChartData
 import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.ui.common.MonthFormatter
@@ -131,26 +135,42 @@ class TheBarChart : BarChart {
     }
 
     private fun setupLeftAxis() {
-        val textColor = context.getTextColor()
-
         axisLeft.run {
-            setLabelCount(Y_AXIS_LABEL_COUNT, true)
-            valueFormatter = TimeFormatter(context)
-            isGranularityEnabled = true
-            granularity = Y_AXIS_GRANULARITY
-            this.textColor = textColor
             axisMinimum = 0f
-            gridColor = ColorUtils.setAlphaComponent(textColor, 0x30)
-            gridLineWidth = 1.5f
             setDrawAxisLine(false)
+            setDrawGridLines(false)
+            setDrawLabels(false)
         }
     }
 
     private fun disableUnneededFeatures() {
         legend.isEnabled = false
         axisRight.isEnabled = false
-        axisLeft.isEnabled = false
         description.isEnabled = false
+    }
+
+    fun setGoal(goal: TimeTarget) {
+        if (!shouldDisplayGoal(goal)) return
+
+        axisLeft.run {
+            val limitLine = LimitLine(goal.duration.seconds.toFloat(), "Daily goal").apply {
+                lineWidth = 1f
+                lineColor = Color.WHITE
+                textColor = Color.WHITE
+                labelPosition = LimitLabelPosition.LEFT_BOTTOM
+                textSize = 12.sp.toDp(context)
+                typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            }
+            removeAllLimitLines()
+            addLimitLine(limitLine)
+
+            axisMaximum = (entries?.maxByOrNull { it.y }?.y ?: 0f).coerceAtLeast(goal.duration.seconds.toFloat())
+        }
+    }
+
+    private fun shouldDisplayGoal(goal: TimeTarget): Boolean {
+        return goal.interval == TimeTarget.Interval.Daily && formatterType == ChronoUnit.DAYS
+                || goal.interval == TimeTarget.Interval.Weekly && formatterType == ChronoUnit.WEEKS
     }
 
     class CustomXAxisRenderer(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, trans: Transformer?) :
@@ -173,7 +193,7 @@ class TheBarChart : BarChart {
     }
 
     private fun setFormatterType(type: ChronoUnit) {
-        if(type == this.formatterType) return
+        if (type == this.formatterType) return
 
         formatterType = type
 

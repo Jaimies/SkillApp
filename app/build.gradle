@@ -122,6 +122,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$Versions.navigation"
 
     implementation "com.google.android.material:material:$Versions.material"
+    implementation 'cn.carbswang.android:NumberPickerView:1.2.0'
 
     implementation "com.github.PhilJay:MPAndroidChart:v$Versions.MPAndroidChart"
     implementation 'com.github.AppIntro:AppIntro:6.1.0'

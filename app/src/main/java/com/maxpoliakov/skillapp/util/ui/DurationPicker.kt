@@ -12,13 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
-import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
+import cn.carbswang.android.numberpickerview.library.NumberPickerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
@@ -34,8 +34,8 @@ class DurationPicker : DialogFragment() {
     private var titleResId = 0
     private var titleText: String? = null
 
-    private lateinit var hoursPicker: NumberPicker
-    private lateinit var minutesPicker: NumberPicker
+    private lateinit var hoursPicker: NumberPickerView
+    private lateinit var minutesPicker: NumberPickerView
 
     private var overrideThemeResId = 0
 
@@ -107,18 +107,12 @@ class DurationPicker : DialogFragment() {
     ): View {
         val root = layoutInflater.inflate(R.layout.duration_picker_dialog, viewGroup) as ViewGroup
 
-        hoursPicker = root.findViewById<NumberPicker>(R.id.hours_picker).apply {
-            minValue = 0
-            maxValue = 23
-            setFormatter { value -> "${value}h" }
-            forceFirstValueToFormat()
+        hoursPicker = root.findViewById<NumberPickerView>(R.id.hours_picker).apply {
+            setup(Array(24) { index -> "${index}h" })
         }
 
-        minutesPicker = root.findViewById<NumberPicker>(R.id.minutes_picker).apply {
-            minValue = 0
-            maxValue = 11
-            setFormatter { value -> "${value * 5}m" }
-            forceFirstValueToFormat()
+        minutesPicker = root.findViewById<NumberPickerView>(R.id.minutes_picker).apply {
+            setup(Array(12) { index -> "${index * 5}m" })
         }
 
         val headerTitle = root.findViewById<TextView>(R.id.header_title)

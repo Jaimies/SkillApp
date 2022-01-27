@@ -25,7 +25,7 @@ class DeleteGroupIfEmptyUseCaseTest : StringSpec({
     }
 })
 
-private val skill = Skill("name", Duration.ofHours(2), Duration.ofHours(1))
+private val skill = Skill("name", Duration.ofHours(2), Duration.ofHours(1), goal = null)
 
 private fun createUseCase(hasSkills: Boolean): Pair<DeleteGroupIfEmptyUseCase, SkillGroupRepository> {
     val skillGroupRepository = mockk<SkillGroupRepository>(relaxed = true)

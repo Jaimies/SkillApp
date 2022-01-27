@@ -21,6 +21,7 @@ class StubStatsRepository(
         return flowOf(stats[skillId]!!)
     }
 
+    override fun getTimeToday(skillId: Id) = flowOf(Duration.ZERO)
     override suspend fun addRecord(record: Record) {}
     override suspend fun getTimeAtDate(date: LocalDate): Duration = Duration.ZERO
 }

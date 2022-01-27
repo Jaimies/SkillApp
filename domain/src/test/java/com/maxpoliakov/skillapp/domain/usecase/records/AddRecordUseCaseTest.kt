@@ -15,7 +15,7 @@ import java.time.Duration
 
 class AddRecordUseCaseTest : StringSpec({
     val record = Record("name", 1, Duration.ofMinutes(5))
-    val skill = Skill("name", Duration.ofMinutes(10), Duration.ofMinutes(5))
+    val skill = Skill("name", Duration.ofMinutes(10), Duration.ofMinutes(5), goal = null)
 
     "adds record if skill exists" {
         val skillRepository = mockk<SkillRepository>(relaxed = true)

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
 import com.maxpoliakov.skillapp.ui.common.EditableViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
@@ -28,25 +28,23 @@ class AddSkillViewModel @Inject constructor(
     val goToSkillDetail: LiveData<Int> get() = _goToSkillDetail
     private val _goToSkillDetail = SingleLiveEvent<Int>()
 
-    private val _goal = MutableStateFlow<Duration?>(null)
+    private val _goal = MutableStateFlow<Goal?>(null)
     val goal = _goal.asLiveData()
 
     override fun save(name: String) {
         viewModelScope.launch {
             val time = Duration.ofHours(totalTime.value?.toLongOrNull() ?: 0)
 
-            val goal = _goal.value?.let { goal -> Goal(goal, Goal.Type.Daily) }
-
             val skillId = addSkill.run(
-                Skill(name = name, totalTime = time, initialTime = time, goal = goal)
+                Skill(name = name, totalTime = time, initialTime = time, goal = goal.value)
             )
 
             _goToSkillDetail.value = skillId.toInt()
         }
     }
 
-    fun setGoal(duration: Duration) {
-        _goal.value = duration
+    fun setGoal(goal: Goal?) {
+        _goal.value = goal
     }
 
     fun chooseGoal() = _chooseGoal.call()

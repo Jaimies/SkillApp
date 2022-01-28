@@ -17,7 +17,6 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.lifecycleScope
 import cn.carbswang.android.numberpickerview.library.NumberPickerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
@@ -32,8 +31,8 @@ abstract class PickerDialog : DialogFragment() {
     private var titleResId = 0
     private var titleText: String? = null
 
-    protected lateinit var firstPicker: NumberPickerView
-    protected lateinit var secondPicker: NumberPickerView
+    lateinit var firstPicker: NumberPickerView
+    lateinit var secondPicker: NumberPickerView
 
     abstract val firstPickerValues: Array<String>
     abstract val secondPickerValues: Array<String>
@@ -82,7 +81,6 @@ abstract class PickerDialog : DialogFragment() {
         bundle.putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
         bundle.putInt(FIRST_PICKER_VALUE, firstPicker.value)
         bundle.putInt(SECOND_PICKER_VALUE, secondPicker.value)
-
     }
 
     private fun restoreState(bundle: Bundle?) {
@@ -90,11 +88,6 @@ abstract class PickerDialog : DialogFragment() {
         titleResId = bundle.getInt(TITLE_RES_EXTRA, 0)
         titleText = bundle.getString(TITLE_TEXT_EXTRA)
         overrideThemeResId = bundle.getInt(OVERRIDE_THEME_RES_ID, 0)
-
-        lifecycleScope.launchWhenStarted {
-            firstPicker.value = bundle.getInt(FIRST_PICKER_VALUE, 0)
-            secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
-        }
     }
 
     override fun onCreateView(
@@ -132,6 +125,11 @@ abstract class PickerDialog : DialogFragment() {
             dismiss()
         }
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     override fun onCancel(dialogInterface: DialogInterface) {

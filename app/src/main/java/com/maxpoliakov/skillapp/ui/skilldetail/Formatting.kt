@@ -8,5 +8,6 @@ import java.time.Duration
 
 fun Context.formatGoal(goal: Goal?, completedTime: Duration?): String {
     if (goal == null || completedTime == null) return ""
-    return getString(R.string.daily_goal, completedTime.format(this), goal.time.format(this))
+    val stringResId = if (goal.type == Goal.Type.Daily) R.string.daily_goal else R.string.weekly_goal
+    return getString(stringResId, completedTime.format(this), goal.time.format(this))
 }

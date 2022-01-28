@@ -8,9 +8,7 @@ fun NumberPickerView.setFontFamily(fontFamily: String) {
 }
 
 fun NumberPickerView.setup(displayedValues: Array<String>) {
-    this.displayedValues = displayedValues
-    minValue = 0
-    maxValue = displayedValues.lastIndex
+    refreshByNewDisplayedValues(displayedValues)
     setFriction(0.03f)
     setFontFamily("sans-serif-medium")
 }

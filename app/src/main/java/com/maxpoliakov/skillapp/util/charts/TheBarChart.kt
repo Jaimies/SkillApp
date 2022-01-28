@@ -38,6 +38,7 @@ class TheBarChart : BarChart {
 
     private var entries: List<BarEntry>? = null
     private var formatterType: ChronoUnit? = null
+    private var goal: Goal? = null
 
     init {
         setup()
@@ -150,8 +151,15 @@ class TheBarChart : BarChart {
     }
 
     fun setGoal(goal: Goal) {
-        if (!shouldDisplayGoal(goal)) return
+        this.goal = goal
+        displayGoal(goal)
+    }
 
+    private fun displayGoal(goal: Goal) {
+        if (!shouldDisplayGoal(goal)) {
+            axisLeft.removeAllLimitLines()
+            return
+        }
         axisLeft.run {
             val limitLine = LimitLine(goal.time.seconds.toFloat(), "Daily goal").apply {
                 lineWidth = 1f
@@ -215,6 +223,7 @@ class TheBarChart : BarChart {
             setScaleEnabled(false)
         }
 
+        goal?.let(this::displayGoal)
         invalidate()
     }
 

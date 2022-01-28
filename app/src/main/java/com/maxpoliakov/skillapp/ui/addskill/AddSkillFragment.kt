@@ -10,10 +10,10 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.AddskillFragBinding
 import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.transition.createMaterialContainerTransform
+import com.maxpoliakov.skillapp.util.ui.GoalPicker
+import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.Duration
 
 @AndroidEntryPoint
 class AddSkillFragment : BaseFragment() {
@@ -44,11 +44,12 @@ class AddSkillFragment : BaseFragment() {
         }
 
         observe(viewModel.chooseGoal) {
-            requireContext().showTimePicker(
-                initialTime = viewModel.goal.value ?: Duration.ZERO,
-                allowZeroTime = true,
-                onTimeSet = viewModel::setGoal
-            )
+            val picker = GoalPicker.Builder().build()
+
+            picker.show(requireContext().getFragmentManager(), null)
+            picker.addOnPositiveButtonClickListener(View.OnClickListener {
+                viewModel.setGoal(picker.goal)
+            })
         }
     }
 }

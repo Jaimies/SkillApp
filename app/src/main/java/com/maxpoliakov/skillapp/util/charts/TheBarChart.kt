@@ -150,17 +150,23 @@ class TheBarChart : BarChart {
         description.isEnabled = false
     }
 
-    fun setGoal(goal: Goal) {
+    fun setGoal(goal: Goal?) {
+        if (goal == this.goal) return
         this.goal = goal
         displayGoal(goal)
     }
 
-    private fun displayGoal(goal: Goal) {
-        if (!shouldDisplayGoal(goal)) {
+    private fun displayGoal(goal: Goal?) {
+        if (goal == null || !shouldDisplayGoal(goal)) {
             axisLeft.removeAllLimitLines()
+            axisLeft.resetAxisMaximum()
+            notifyDataSetChanged()
+            invalidate()
             return
         }
+
         axisLeft.run {
+            removeAllLimitLines()
             val limitLine = LimitLine(goal.time.seconds.toFloat(), "Daily goal").apply {
                 lineWidth = 1f
                 lineColor = Color.WHITE
@@ -169,10 +175,11 @@ class TheBarChart : BarChart {
                 textSize = 12.sp.toDp(context)
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             }
-            removeAllLimitLines()
             addLimitLine(limitLine)
 
-            axisMaximum = (entries?.maxByOrNull { it.y }?.y ?: 0f).coerceAtLeast(goal.time.seconds.toFloat())
+            axisMaximum = goal.time.seconds.toFloat().coerceAtLeast((entries?.maxByOrNull { it.y }?.y ?: 0f) * 1.1f)
+            notifyDataSetChanged()
+            invalidate()
         }
     }
 
@@ -223,7 +230,7 @@ class TheBarChart : BarChart {
             setScaleEnabled(false)
         }
 
-        goal?.let(this::displayGoal)
+        displayGoal(goal)
         invalidate()
     }
 

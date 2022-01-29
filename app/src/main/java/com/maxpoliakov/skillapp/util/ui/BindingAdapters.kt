@@ -58,7 +58,6 @@ fun View.setConditionalConstraint(
 }
 
 @BindingAdapter("goal")
-fun TheBarChart.setGoal(goal: Goal?) {
-    if (goal == null) return
+fun TheBarChart.setChartGoal(goal: Goal?) {
     setGoal(goal)
 }

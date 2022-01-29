@@ -44,7 +44,9 @@ class AddSkillFragment : BaseFragment() {
         }
 
         observe(viewModel.chooseGoal) {
-            val picker = GoalPicker.Builder().build()
+            val picker = GoalPicker.Builder()
+                .setGoal(viewModel.goal.value)
+                .build()
 
             picker.show(requireContext().getFragmentManager(), null)
             picker.addOnPositiveButtonClickListener(View.OnClickListener {

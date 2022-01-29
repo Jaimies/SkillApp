@@ -17,6 +17,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import cn.carbswang.android.numberpickerview.library.NumberPickerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
@@ -83,11 +84,20 @@ abstract class PickerDialog : DialogFragment() {
         bundle.putInt(SECOND_PICKER_VALUE, secondPicker.value)
     }
 
-    private fun restoreState(bundle: Bundle?) {
+    fun restoreState(bundle: Bundle?) {
         if (bundle == null) return
         titleResId = bundle.getInt(TITLE_RES_EXTRA, 0)
         titleText = bundle.getString(TITLE_TEXT_EXTRA)
         overrideThemeResId = bundle.getInt(OVERRIDE_THEME_RES_ID, 0)
+
+        lifecycleScope.launchWhenStarted {
+            restoreStateOfPickers(bundle)
+        }
+    }
+
+    protected open fun restoreStateOfPickers(bundle: Bundle) {
+        firstPicker.value = bundle.getInt(FIRST_PICKER_VALUE, 0)
+        secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
     }
 
     override fun onCreateView(

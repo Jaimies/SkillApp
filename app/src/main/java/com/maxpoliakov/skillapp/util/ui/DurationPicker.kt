@@ -17,7 +17,7 @@ class DurationPicker : PickerDialog() {
 
         fun setDuration(duration: Duration): Builder {
             setFirstPickerValue(duration.toHours().toInt())
-            setSecondPickerValue(duration.toMinutesPartCompat().toInt())
+            setSecondPickerValue(duration.toMinutesPartCompat().toInt() / 5)
             return this
         }
 

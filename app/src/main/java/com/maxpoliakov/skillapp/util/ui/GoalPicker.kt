@@ -29,12 +29,26 @@ class GoalPicker : PickerDialog() {
         }
     }
 
+    override fun restoreStateOfPickers(bundle: Bundle) {
+        val firstPickerValue = bundle.getInt(FIRST_PICKER_VALUE, 0)
+        firstPicker.value = firstPickerValue
+        secondPicker.refreshByNewDisplayedValues(goalStringValues[firstPickerValue])
+        secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
+    }
+
 
     class Builder : PickerDialog.Builder() {
         var goal: Goal? = null
 
         override fun createDialog() = GoalPicker()
         override fun build() = super.build() as GoalPicker
+
+        fun setGoal(goal: Goal?): Builder {
+            if (goal == null) return this
+            setFirstPickerValue(goalTypes.indexOf(goal.type))
+            setSecondPickerValue(goalValues[goalTypes.indexOf(goal.type)].indexOf(goal.time))
+            return this
+        }
     }
 
     companion object {

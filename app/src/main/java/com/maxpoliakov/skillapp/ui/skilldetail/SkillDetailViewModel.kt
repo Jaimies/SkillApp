@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
@@ -12,6 +13,7 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
+import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.shared.util.until
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
@@ -20,6 +22,7 @@ import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
@@ -44,6 +47,12 @@ class SkillDetailViewModel(
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()
     val showRecordAdded: LiveData<Record?> get() = _showRecordAdded
+
+    private val _goal = MutableStateFlow<Goal?>(null)
+    val goal = _goal.asLiveData()
+
+    private val _chooseGoal = SingleLiveEvent<Any>()
+    val chooseGoal: LiveData<Any> get() = _chooseGoal
 
     val stopwatchIsRunning = stopwatchUtil.state.map {
         it is Running && it.skillId == skillId
@@ -88,6 +97,12 @@ class SkillDetailViewModel(
 
     override val nameFlow = skill.map { it.name }
 
+    init {
+        viewModelScope.launch {
+            skill.collectOnce { skill -> _goal.value = skill.goal }
+        }
+    }
+
     fun addRecord(time: Duration) {
         val record = Record("", skillId, time)
         ioScope.launch { addRecord.run(record) }
@@ -110,8 +125,14 @@ class SkillDetailViewModel(
     }
 
     override suspend fun update(name: String) {
-        updateSkillUseCase.updateName(skillId, name)
+        updateSkillUseCase.updateSkill(skillId, name, goal.value)
     }
+
+    fun setGoal(goal: Goal?) {
+        _goal.value = goal
+    }
+
+    fun chooseGoal() = _chooseGoal.call()
 
     class Factory @Inject constructor(
         private val addRecord: AddRecordUseCase,

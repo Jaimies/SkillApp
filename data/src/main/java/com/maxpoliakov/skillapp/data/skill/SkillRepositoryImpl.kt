@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.data.skill
 
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
@@ -39,6 +40,13 @@ class SkillRepositoryImpl @Inject constructor(
 
     override suspend fun updateName(skillId: Int, newName: String) {
         skillDao.updateName(skillId, newName)
+    }
+
+    override suspend fun updateGoal(skillId: Int, newGoal: Goal?) {
+        if (newGoal == null)
+            skillDao.updateGoal(skillId, Duration.ZERO, Goal.Type.Daily)
+        else
+            skillDao.updateGoal(skillId, newGoal.time, newGoal.type)
     }
 
     override suspend fun deleteSkill(skill: Skill) =

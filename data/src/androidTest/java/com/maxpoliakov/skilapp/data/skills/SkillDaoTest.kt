@@ -6,6 +6,10 @@ import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.records.RecordsDao
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.SkillDao
+import com.maxpoliakov.skillapp.data.skill.mapToDB
+import com.maxpoliakov.skillapp.data.skill.mapToDomain
+import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.shared.util.setClock
 import com.maxpoliakov.skillapp.test.await
 import io.kotest.matchers.shouldBe
@@ -81,5 +85,17 @@ class SkillDaoTest {
         skillDao.insert(DBSkill(totalTime = Duration.ofMinutes(10)))
         skillDao.increaseTime(1, Duration.ofMinutes(20))
         skillDao.getSkill(1)!!.totalTime shouldBe Duration.ofMinutes(30)
+    }
+
+    @Test
+    fun updateGoal() = runBlocking {
+        val goal = Goal(Duration.ofHours(5), Goal.Type.Daily)
+        val skill = Skill("", Duration.ZERO, Duration.ZERO, id = 1)
+        val dbSkill = skill.mapToDB()
+        skillDao.insert(dbSkill)
+        skillDao.updateGoal(skill.id, goal.time, goal.type)
+        skillDao.getSkill(1)!!.mapToDomain() shouldBe skill.copy(goal = goal)
+        skillDao.updateGoal(skill.id, Duration.ZERO, Goal.Type.Daily)
+        skillDao.getSkill(1)!!.mapToDomain() shouldBe skill
     }
 }

@@ -83,7 +83,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
 
     open fun onStartEditing() {}
 
-    private fun startEditing() = input.run {
+    protected open fun startEditing() = input.run {
         onStartEditing()
 
         isFocusable = true
@@ -95,7 +95,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
 
         menu.getItem(0).setTitle(R.string.save)
 
-        val duration = resources.getInteger(R.integer.animation_duration).toLong()
+        val duration = getTransitionDuration()
         content.animate()
             .alpha(0f)
             .translationYBy(30.dp.toPx(requireContext()).toFloat())
@@ -117,13 +117,13 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
             .start()
     }
 
-    private fun stopEditing() = input.run {
+    protected open fun stopEditing() = input.run {
         isFocusable = false
         isFocusableInTouchMode = false
         clearFocus()
 
         menu.getItem(0).setTitle(R.string.edit)
-        val duration = resources.getInteger(R.integer.animation_duration).toLong()
+        val duration = getTransitionDuration()
 
         content.isGone = false
 
@@ -143,5 +143,11 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
             saveBtn.isGone = true
             hideKeyboard()
         }
+
+        Unit
+    }
+
+    protected fun getTransitionDuration(): Long {
+        return resources.getInteger(R.integer.animation_duration).toLong()
     }
 }

@@ -12,7 +12,7 @@
 
         <import type="com.maxpoliakov.skillapp.domain.model.StopwatchState" />
 
-        <import type="com.maxpoliakov.skillapp.ui.skilldetail.FormattingKt" />
+        <import type="com.maxpoliakov.skillapp.util.ui.FormattingKt" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -46,6 +46,26 @@
                     android:text="@={viewModel.name}"
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
                     tools:text="Programming" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/goal_text_input"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="46dp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/initial_time_edit_text">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:onClick="@{() -> viewModel.chooseGoal()}"
+                        android:text="@{FormattingKt.formatGoal(context, viewModel.goal)}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:id="@+id/data_layout"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.maxpoliakov.skillapp.R
@@ -16,6 +17,9 @@ import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
+import com.maxpoliakov.skillapp.util.ui.GoalPicker
+import com.maxpoliakov.skillapp.util.ui.dp
+import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -62,6 +66,34 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
         observe(viewModel.showRecordAdded) { record ->
             if (record != null) recordUtil.notifyRecordAdded(requireView(), record)
         }
+
+        observe(viewModel.chooseGoal) {
+            val picker = GoalPicker.Builder()
+                .setGoal(viewModel.goal.value)
+                .build()
+
+            picker.show(requireContext().getFragmentManager(), null)
+            picker.addOnPositiveButtonClickListener(View.OnClickListener {
+                viewModel.setGoal(picker.goal)
+            })
+        }
+    }
+
+    override fun startEditing() {
+        super.startEditing()
+        binding.goalTextInput.isVisible = true
+        binding.goalTextInput.alpha = 0f
+        binding.goalTextInput.animate()
+            .setDuration(getTransitionDuration())
+            .translationYBy(-30.dp.toPx(requireContext()).toFloat())
+            .alpha(1f)
+            .start()
+    }
+
+    override fun stopEditing() {
+        super.stopEditing()
+        binding.goalTextInput.isVisible = false
+        binding.goalTextInput.translationY = 0f
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

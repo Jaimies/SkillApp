@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.util.ui
 
 import android.content.Context
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
 
@@ -16,4 +17,16 @@ fun Duration?.format(context: Context): String {
         minutesPart == 0L -> context.getString(R.string.hours, hours.toString())
         else -> context.getString(R.string.hours_and_minutes, hours, minutesPart)
     }
+}
+
+fun Context.formatGoal(goal: Goal?): String {
+    if (goal == null) return "Goal not set"
+    val goalType = if (goal.type == Goal.Type.Daily) "Daily" else "Weekly"
+    return goalType + " goal: " + goal.time.format(this)
+}
+
+fun Context.formatGoal(goal: Goal?, completedTime: Duration?): String {
+    if (goal == null || completedTime == null) return ""
+    val stringResId = if (goal.type == Goal.Type.Daily) R.string.daily_goal else R.string.weekly_goal
+    return getString(stringResId, completedTime.format(this), goal.time.format(this))
 }

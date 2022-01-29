@@ -40,6 +40,9 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState != null && savedInstanceState.getBoolean(IS_IN_EDITING_MODE, false))
+            startEditing()
+
         observe(viewModel.onSave) { stopEditing() }
 
         saveBtn.isGone = true
@@ -49,6 +52,11 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             isEnabled = !onBackPressed()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(IS_IN_EDITING_MODE, viewModel.isEditing.value ?: false)
     }
 
     private fun onBackPressed(): Boolean {
@@ -93,12 +101,15 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
 
         viewModel.enterEditingMode()
 
-        menu.getItem(0).setTitle(R.string.save)
+        lifecycleScope.launchWhenResumed {
+            delay(100)
+            runCatching { menu.getItem(0).setTitle(R.string.save) }
+        }
 
         val duration = getTransitionDuration()
         content.animate()
             .alpha(0f)
-            .translationYBy(30.dp.toPx(requireContext()).toFloat())
+            .translationY(30.dp.toPx(requireContext()).toFloat())
             .setDuration(duration)
             .start()
 
@@ -129,7 +140,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
 
         content.animate()
             .alpha(1f)
-            .translationYBy(-30.dp.toPx(context).toFloat())
+            .translationY(0f)
             .setDuration(duration)
             .start()
 
@@ -149,5 +160,9 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
 
     protected fun getTransitionDuration(): Long {
         return resources.getInteger(R.integer.animation_duration).toLong()
+    }
+
+    companion object {
+        private const val IS_IN_EDITING_MODE = "IS_IN_EDITING_MODE"
     }
 }

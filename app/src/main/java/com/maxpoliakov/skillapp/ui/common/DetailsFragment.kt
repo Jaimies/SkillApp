@@ -106,7 +106,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
             runCatching { menu.getItem(0).setTitle(R.string.save) }
         }
 
-        val duration = getTransitionDuration()
+        val duration = transitionDuration
         content.animate()
             .alpha(0f)
             .translationY(30.dp.toPx(requireContext()).toFloat())
@@ -134,7 +134,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
         clearFocus()
 
         menu.getItem(0).setTitle(R.string.edit)
-        val duration = getTransitionDuration()
+        val duration = shortTransitionDuration
 
         content.isGone = false
 
@@ -158,9 +158,11 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
         Unit
     }
 
-    protected fun getTransitionDuration(): Long {
-        return resources.getInteger(R.integer.animation_duration).toLong()
-    }
+    protected val transitionDuration
+        get() = resources.getInteger(R.integer.animation_duration).toLong()
+
+    protected val shortTransitionDuration
+        get() = resources.getInteger(R.integer.animation_duration_short).toLong()
 
     companion object {
         private const val IS_IN_EDITING_MODE = "IS_IN_EDITING_MODE"

@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.maxpoliakov.skillapp.R
@@ -21,6 +22,8 @@ import com.maxpoliakov.skillapp.util.ui.GoalPicker
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -81,19 +84,22 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
 
     override fun startEditing() {
         super.startEditing()
-        binding.goalTextInput.isVisible = true
-        binding.goalTextInput.alpha = 0f
-        binding.goalTextInput.animate()
-            .setDuration(getTransitionDuration())
-            .translationYBy(-30.dp.toPx(requireContext()).toFloat())
-            .alpha(1f)
-            .start()
+        lifecycleScope.launch {
+            delay(transitionDuration)
+            binding.goalTextInput.isVisible = true
+            binding.goalTextInput.alpha = 0f
+            binding.goalTextInput.translationY = 0f
+            binding.goalTextInput.animate()
+                .setDuration(transitionDuration)
+                .translationY(-30.dp.toPx(requireContext()).toFloat())
+                .alpha(1f)
+                .start()
+        }
     }
 
     override fun stopEditing() {
         super.stopEditing()
         binding.goalTextInput.isVisible = false
-        binding.goalTextInput.translationY = 0f
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

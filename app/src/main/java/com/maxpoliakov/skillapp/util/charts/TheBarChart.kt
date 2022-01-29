@@ -263,8 +263,5 @@ class TheBarChart : BarChart {
         private const val X_AXIS_SPACE_MIN = 0.4f
         private const val X_AXIS_SPACE_MAX = 0.4f
         private const val X_AXIS_Y_OFFSET = 10f
-
-        private const val Y_AXIS_LABEL_COUNT = 5
-        private const val Y_AXIS_GRANULARITY = 3f
     }
 }

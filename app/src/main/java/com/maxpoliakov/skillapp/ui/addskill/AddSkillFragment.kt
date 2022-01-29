@@ -39,7 +39,7 @@ class AddSkillFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        observe(viewModel.goToSkillDetail) { skillId ->
+        observe(viewModel.goToSkillDetail) {
             findNavController().navigateUp()
         }
 

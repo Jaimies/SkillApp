@@ -243,7 +243,7 @@ abstract class PickerDialog : DialogFragment() {
     }
 
     private val themeResId: Int
-        private get() {
+        get() {
             if (overrideThemeResId != 0) {
                 return overrideThemeResId
             }

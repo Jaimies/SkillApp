@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
@@ -17,9 +18,14 @@ import javax.inject.Inject
 class SkillGroupViewModel(
     private val groupId: Int,
     getGroup: GetGroupUseCase,
-    getStats: GetStatsUseCase,
+    private val getStats: GetStatsUseCase,
+    stopwatchUtil: StopwatchUtil,
     private val updateGroup: UpdateGroupUseCase,
-) : DetailsViewModel() {
+) : DetailsViewModel(
+    stopwatchUtil,
+    getGroup.getById(groupId).map { group -> group.goal },
+    getStats.getGroupTimeToday(groupId),
+) {
 
     private val _group = getGroup.getById(groupId)
     override val nameFlow = _group.map { it.name }
@@ -36,14 +42,15 @@ class SkillGroupViewModel(
     }.asLiveData()
 
     override suspend fun update(name: String) {
-        updateGroup.updateName(groupId, name)
+        updateGroup.update(groupId, name, goal.value)
     }
 
     class Factory @Inject constructor(
         private val getStats: GetStatsUseCase,
         private val getGroup: GetGroupUseCase,
         private val updateGroup: UpdateGroupUseCase,
+        private val stopwatchUtil: StopwatchUtil,
     ) {
-        fun create(groupId: Int) = SkillGroupViewModel(groupId, getGroup, getStats, updateGroup)
+        fun create(groupId: Int) = SkillGroupViewModel(groupId, getGroup, getStats, stopwatchUtil, updateGroup)
     }
 }

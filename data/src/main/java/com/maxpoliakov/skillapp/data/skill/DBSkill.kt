@@ -4,6 +4,7 @@ package com.maxpoliakov.skillapp.data.skill
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.maxpoliakov.skillapp.data.parseGoal
 import com.maxpoliakov.skillapp.data.serialization.DurationAsLongSerializer
 import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -41,8 +42,7 @@ fun DBSkill.mapToDomain(): Skill {
         id,
         creationDate,
         groupId,
-        if (goalTime == Duration.ZERO) null
-        else Goal(goalTime, goalType),
+        parseGoal(goalTime, goalType),
         order,
     )
 }

@@ -31,6 +31,7 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
     override val content get() = binding.dataLayout
     override val saveBtn get() = binding.saveFab
     override val input get() = binding.titleInput
+    override val goalInput get() = binding.goalPicker.root
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = SkillGroupFragBinding.inflate(inflater, container, false).also {

@@ -47,25 +47,11 @@
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
                     tools:text="Programming" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/goal_text_input"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="30dp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/initial_time_edit_text">
-
-                    <AutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:onClick="@{() -> viewModel.chooseGoal()}"
-                        android:text="@{FormattingKt.formatGoal(context, viewModel.goal)}" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <include
+                    android:id="@+id/goal_picker"
+                    layout="@layout/goal_picker"
+                    app:chooseGoal="@{() -> viewModel.chooseGoal()}"
+                    app:goal="@{viewModel.goal}"/>
 
                 <LinearLayout
                     android:id="@+id/data_layout"
@@ -88,38 +74,12 @@
                         app:isActive="@{viewModel.stopwatchIsRunning}"
                         app:startTime="@{viewModel.stopwatchStartTime}" />
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="16dp"
-                        app:contentPaddingBottom="30dp"
-                        app:contentPaddingLeft="24dp"
-                        app:contentPaddingRight="24dp"
-                        app:contentPaddingTop="30dp"
-                        app:visible="@{viewModel.skillLiveData.goal != null}">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@{FormattingKt.formatGoal(context, viewModel.skillLiveData.goal, viewModel.timeToday)}"
-                                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                                android:textSize="19sp" />
-
-                            <com.google.android.material.progressindicator.LinearProgressIndicator
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="20dp"
-                                android:max="100000"
-                                android:progress="@{viewModel.goalPercentage}" />
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
+                    <include
+                        android:id="@+id/progress_goal_indicator"
+                        layout="@layout/progress_goal_indicator"
+                        app:goal="@{viewModel.skillLiveData.goal}"
+                        app:goalPercentage="@{viewModel.goalPercentage}"
+                        app:timeToday="@{viewModel.timeToday}" />
 
                     <include
                         android:id="@+id/productivity_chart"

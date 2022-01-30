@@ -31,6 +31,7 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     override val content get() = binding.dataLayout
     override val input get() = binding.titleInput
     override val saveBtn get() = binding.saveFab
+    override val goalInput get() = binding.goalPicker.root
 
     override val viewModel by viewModels { viewModelFactory.create(args.skillId) }
 
@@ -69,37 +70,6 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
         observe(viewModel.showRecordAdded) { record ->
             if (record != null) recordUtil.notifyRecordAdded(requireView(), record)
         }
-
-        observe(viewModel.chooseGoal) {
-            val picker = GoalPicker.Builder()
-                .setGoal(viewModel.goal.value)
-                .build()
-
-            picker.show(requireContext().getFragmentManager(), null)
-            picker.addOnPositiveButtonClickListener(View.OnClickListener {
-                viewModel.setGoal(picker.goal)
-            })
-        }
-    }
-
-    override fun startEditing() {
-        super.startEditing()
-        lifecycleScope.launch {
-            delay(transitionDuration)
-            binding.goalTextInput.isVisible = true
-            binding.goalTextInput.alpha = 0f
-            binding.goalTextInput.translationY = 0f
-            binding.goalTextInput.animate()
-                .setDuration(transitionDuration)
-                .translationY(-30.dp.toPx(requireContext()).toFloat())
-                .alpha(1f)
-                .start()
-        }
-    }
-
-    override fun stopEditing() {
-        super.stopEditing()
-        binding.goalTextInput.isVisible = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

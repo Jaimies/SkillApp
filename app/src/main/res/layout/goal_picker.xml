@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="chooseGoal"
+            type="com.maxpoliakov.skillapp.util.Callback" />
+
+        <variable
+            name="goal"
+            type="com.maxpoliakov.skillapp.domain.model.Goal" />
+
+        <import type="com.maxpoliakov.skillapp.util.ui.FormattingKt" />
+    </data>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/goal_text_input"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/initial_time_edit_text">
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:onClick="@{() -> chooseGoal.invoke()}"
+            android:text="@{FormattingKt.formatGoal(context, goal)}" />
+    </com.google.android.material.textfield.TextInputLayout>
+</layout>

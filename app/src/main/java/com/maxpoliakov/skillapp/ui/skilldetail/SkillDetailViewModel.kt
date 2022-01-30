@@ -15,22 +15,17 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
-import com.maxpoliakov.skillapp.shared.util.until
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.SkillChartData
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import java.time.Duration
-import java.time.ZonedDateTime
 import javax.inject.Inject
 
 class SkillDetailViewModel(
@@ -42,17 +37,15 @@ class SkillDetailViewModel(
     private val skillId: Int,
     getSkillById: GetSkillByIdUseCase,
     getStats: GetStatsUseCase
-) : DetailsViewModel() {
+) : DetailsViewModel(
+    stopwatchUtil,
+    getSkillById.run(skillId).map { skill -> skill.goal },
+    getStats.getTimeToday(skillId),
+) {
 
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()
     val showRecordAdded: LiveData<Record?> get() = _showRecordAdded
-
-    private val _goal = MutableStateFlow<Goal?>(null)
-    val goal = _goal.asLiveData()
-
-    private val _chooseGoal = SingleLiveEvent<Any>()
-    val chooseGoal: LiveData<Any> get() = _chooseGoal
 
     val stopwatchIsRunning = stopwatchUtil.state.map {
         it is Running && it.skillId == skillId
@@ -70,38 +63,9 @@ class SkillDetailViewModel(
         ProductivitySummary(skill.totalTime, skill.lastWeekTime)
     }.asLiveData()
 
-    private val tick = flow {
-        while (true) {
-            emit(Unit)
-            delay(GOAL_PROGRESS_REFRESH_INTERVAL)
-        }
-    }
-
-    private val timeOnStopwatch = stopwatchUtil.state.combine(tick) { state, _ ->
-        if (state !is Running) return@combine Duration.ZERO
-        state.startTime.until(ZonedDateTime.now())
-    }
-
     val chartData = SkillChartData(getStats, skillId)
-    private val _timeToday = getStats.getTimeToday(skillId)
-        .combine(timeOnStopwatch) { recordedTime, timeOnStopwatch ->
-            recordedTime + timeOnStopwatch
-        }
-
-    val timeToday = _timeToday.asLiveData()
-
-    val goalPercentage = combine(skill, _timeToday) { skill, timeToday ->
-        val goalTime = skill.goal?.time ?: return@combine 0
-        (timeToday.toMillis() * 100_000 / goalTime.toMillis()).toInt()
-    }.asLiveData()
 
     override val nameFlow = skill.map { it.name }
-
-    init {
-        viewModelScope.launch {
-            skill.collectOnce { skill -> _goal.value = skill.goal }
-        }
-    }
 
     fun addRecord(time: Duration) {
         val record = Record("", skillId, time)
@@ -128,12 +92,6 @@ class SkillDetailViewModel(
         updateSkillUseCase.updateSkill(skillId, name, goal.value)
     }
 
-    fun setGoal(goal: Goal?) {
-        _goal.value = goal
-    }
-
-    fun chooseGoal() = _chooseGoal.call()
-
     class Factory @Inject constructor(
         private val addRecord: AddRecordUseCase,
         private val updateSkillUseCase: UpdateSkillUseCase,
@@ -155,9 +113,5 @@ class SkillDetailViewModel(
                 getStats,
             )
         }
-    }
-
-    companion object {
-        private const val GOAL_PROGRESS_REFRESH_INTERVAL = 2_000L
     }
 }

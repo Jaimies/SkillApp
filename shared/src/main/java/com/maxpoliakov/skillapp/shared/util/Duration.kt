@@ -9,3 +9,11 @@ fun <T> Iterable<T>.sumByDuration(selector: (T) -> Duration): Duration {
     }
     return sum
 }
+
+fun Array<Duration>.sum(): Duration {
+    var sum = Duration.ZERO
+    for (element in this) {
+        sum += element
+    }
+    return sum
+}

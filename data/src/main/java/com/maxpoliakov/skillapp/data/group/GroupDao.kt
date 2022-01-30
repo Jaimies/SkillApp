@@ -4,8 +4,10 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.maxpoliakov.skillapp.data.db.BaseDao
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import kotlinx.coroutines.flow.Flow
+import java.time.Duration
 
 @Dao
 interface GroupDao : BaseDao<DBGroup> {
@@ -32,6 +34,9 @@ interface GroupDao : BaseDao<DBGroup> {
 
     @Query("UPDATE groups SET name = :newName WHERE id = :groupId")
     suspend fun updateGroupName(groupId: Int, newName: String)
+
+    @Query("UPDATE groups SET goalTime = :goalTime, goalType = :goalType WHERE id = :groupId")
+    suspend fun updateGoal(groupId: Int, goalTime: Duration, goalType: Goal.Type)
 
     @Query("UPDATE groups SET `order` = :newOrder WHERE id = :groupId")
     suspend fun updateOrder(groupId: Int, newOrder: Int)

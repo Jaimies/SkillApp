@@ -101,6 +101,8 @@ class MigrationsTest {
             execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate, `order`, groupId)
                 VALUES ("name", 100000, 1000, 100, "1970-01-01", 0, 2)
           """)
+
+            execSQL("""INSERT INTO groups(id, name, `order`) VALUES(1, "name", 0)""")
         }
 
         helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 5, true, MIGRATION_4_5)
@@ -110,5 +112,9 @@ class MigrationsTest {
 
         skill.goalTime shouldBe Duration.ZERO
         skill.goalType shouldBe Goal.Type.Daily
+
+        val group = roomDb.skillGroupDao().getGroupById(1)!!
+        group.group.goalTime shouldBe Duration.ZERO
+        group.group.goalType shouldBe Goal.Type.Daily
     }
 }

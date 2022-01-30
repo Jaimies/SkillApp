@@ -61,5 +61,17 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
             ADD goalType TEXT NOT NULL
             DEFAULT('Daily')
         """)
+
+        database.execSQL("""
+            ALTER TABLE groups 
+            ADD goalTime INTEGER NOT NULL
+            DEFAULT(0)
+        """)
+
+        database.execSQL("""
+            ALTER TABLE groups 
+            ADD goalType TEXT NOT NULL
+            DEFAULT('Daily')
+        """)
     }
 }

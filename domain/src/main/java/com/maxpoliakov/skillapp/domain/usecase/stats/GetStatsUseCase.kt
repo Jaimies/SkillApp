@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
     fun getTimeToday(skillId: Id) = statsRepository.getTimeToday(skillId)
+    fun getGroupTimeToday(groupId: Id) = statsRepository.getGroupTimeToday(groupId)
 
     fun getDailyStats(skillId: Id) = statsRepository.getStats(skillId, LocalDate.now().minusDays(56))
 

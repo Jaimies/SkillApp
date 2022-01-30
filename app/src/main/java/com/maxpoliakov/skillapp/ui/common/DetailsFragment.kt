@@ -10,6 +10,7 @@ import androidx.activity.addCallback
 import androidx.annotation.CallSuper
 import androidx.annotation.MenuRes
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
@@ -17,7 +18,9 @@ import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.hardware.showKeyboard
 import com.maxpoliakov.skillapp.util.transition.createMaterialContainerTransform
+import com.maxpoliakov.skillapp.util.ui.GoalPicker
 import com.maxpoliakov.skillapp.util.ui.dp
+import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -25,6 +28,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
     protected abstract val saveBtn: Button
     protected abstract val input: EditText
     protected abstract val content: ViewGroup
+    protected abstract val goalInput: View
 
     protected abstract val viewModel: DetailsViewModel
 
@@ -44,6 +48,17 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
             startEditing()
 
         observe(viewModel.onSave) { stopEditing() }
+
+        observe(viewModel.chooseGoal) {
+            val picker = GoalPicker.Builder()
+                .setGoal(viewModel.goal.value)
+                .build()
+
+            picker.show(requireContext().getFragmentManager(), null)
+            picker.addOnPositiveButtonClickListener(View.OnClickListener {
+                viewModel.setGoal(picker.goal)
+            })
+        }
 
         saveBtn.isGone = true
         input.isFocusable = false
@@ -117,6 +132,14 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
             delay(duration)
             content.isGone = true
             showKeyboard()
+            goalInput.isVisible = true
+            goalInput.alpha = 0f
+            goalInput.translationY = 0f
+            goalInput.animate()
+                .setDuration(transitionDuration)
+                .translationY(-30.dp.toPx(requireContext()).toFloat())
+                .alpha(1f)
+                .start()
         }
 
         saveBtn.isGone = false
@@ -155,7 +178,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
             hideKeyboard()
         }
 
-        Unit
+        goalInput.isVisible = false
     }
 
     protected val transitionDuration

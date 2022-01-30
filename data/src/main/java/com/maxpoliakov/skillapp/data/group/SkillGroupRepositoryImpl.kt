@@ -1,10 +1,12 @@
 package com.maxpoliakov.skillapp.data.group
 
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,6 +39,13 @@ class SkillGroupRepositoryImpl @Inject constructor(
 
     override suspend fun updateGroupName(groupId: Int, newName: String) {
         groupDao.updateGroupName(groupId, newName)
+    }
+
+    override suspend fun updateGoal(groupId: Int, newGoal: Goal?) {
+        if (newGoal == null)
+            groupDao.updateGoal(groupId, Duration.ZERO, Goal.Type.Daily)
+        else
+            groupDao.updateGoal(groupId, newGoal.time, newGoal.type)
     }
 
     override suspend fun updateOrder(groupId: Int, newOrder: Int) {

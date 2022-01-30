@@ -6,6 +6,7 @@ data class SkillGroup(
     val id: Int,
     val name: String,
     val skills: List<Skill>,
+    val goal: Goal?,
     override val order: Int,
 ) : Orderable {
     val totalTime get() = skills.sumByDuration(Skill::totalTime)

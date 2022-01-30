@@ -42,6 +42,12 @@
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
                     tools:text="Programming" />
 
+                <include
+                    android:id="@+id/goal_picker"
+                    layout="@layout/goal_picker"
+                    app:chooseGoal="@{() -> viewModel.chooseGoal()}"
+                    app:goal="@{viewModel.goal}"/>
+
                 <LinearLayout
                     android:id="@+id/data_layout"
                     android:layout_width="match_parent"
@@ -52,6 +58,13 @@
                         android:id="@+id/summary"
                         layout="@layout/productivity_summary_without_title"
                         app:summary="@{viewModel.summary}" />
+
+                    <include
+                        android:id="@+id/progress_goal_indicator"
+                        layout="@layout/progress_goal_indicator"
+                        app:goal="@{viewModel.group.goal}"
+                        app:goalPercentage="@{viewModel.goalPercentage}"
+                        app:timeToday="@{viewModel.timeToday}" />
 
                     <include
                         android:id="@+id/productivity_chart"

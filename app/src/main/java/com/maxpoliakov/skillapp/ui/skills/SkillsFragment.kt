@@ -40,7 +40,6 @@ import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import com.maxpoliakov.skillapp.util.ui.smoothScrollToTop
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -77,6 +76,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
                         id = 0,
                         name = getString(R.string.new_group),
                         skills = listOf(change.skill, change.otherSkill),
+                        goal = null,
                         order = change.position,
                     )
 

@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
@@ -40,6 +41,11 @@ class SkillGroupViewModel(
     val summary = _group.combine(dailyStats) { group, stats ->
         ProductivitySummary(group.totalTime, stats.sumByDuration { it.time })
     }.asLiveData()
+
+    override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
+        val skills = group.value?.skills ?: return false
+        return skills.any { skill -> state.skillId == skill.id }
+    }
 
     override suspend fun update(name: String) {
         updateGroup.update(groupId, name, goal.value)

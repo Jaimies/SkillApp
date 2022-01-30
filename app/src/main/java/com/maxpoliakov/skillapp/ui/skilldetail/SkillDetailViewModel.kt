@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
@@ -66,6 +67,10 @@ class SkillDetailViewModel(
     val chartData = SkillChartData(getStats, skillId)
 
     override val nameFlow = skill.map { it.name }
+
+    override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
+        return state.skillId == skillId
+    }
 
     fun addRecord(time: Duration) {
         val record = Record("", skillId, time)

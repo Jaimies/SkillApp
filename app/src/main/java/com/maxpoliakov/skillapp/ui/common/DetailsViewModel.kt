@@ -53,7 +53,9 @@ abstract class DetailsViewModel(
     }
 
     private val timeOnStopwatch = stopwatchUtil.state.combine(tick) { state, _ ->
-        if (state !is StopwatchState.Running) return@combine Duration.ZERO
+        if (state !is StopwatchState.Running || !isStopwatchTracking(state))
+            return@combine Duration.ZERO
+
         state.startTime.until(ZonedDateTime.now())
     }
 
@@ -79,6 +81,8 @@ abstract class DetailsViewModel(
             goalFlow.collectOnce { goal -> _goal.value = goal }
         }
     }
+
+    protected abstract fun isStopwatchTracking(state: StopwatchState.Running): Boolean
 
     fun enterEditingMode() {
         _isEditing.value = true

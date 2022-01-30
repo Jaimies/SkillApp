@@ -5,6 +5,7 @@ import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
+import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
@@ -17,6 +18,7 @@ import javax.inject.Singleton
 class StopwatchUtilImpl @Inject constructor(
     private val persistence: StopwatchPersistence,
     private val addRecord: AddRecordUseCase,
+    private val skillRepository: SkillRepository,
     private val notificationUtil: NotificationUtil,
 ) : StopwatchUtil {
     override val state: StateFlow<StopwatchState> get() = _state
@@ -61,7 +63,8 @@ class StopwatchUtilImpl @Inject constructor(
     override suspend fun start(skillId: Int): Record? {
         if (!shouldStartTimer(skillId)) return null
         val record = addRecordIfNeeded(_state.value)
-        val state = Running(getZonedDateTime(), skillId)
+        val skill = skillRepository.getSkillById(skillId) ?: return null
+        val state = Running(getZonedDateTime(), skillId, skill.groupId)
         setState(state)
 
         return record

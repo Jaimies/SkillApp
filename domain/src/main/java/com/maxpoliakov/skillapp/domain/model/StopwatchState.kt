@@ -7,7 +7,8 @@ import java.time.ZonedDateTime
 sealed class StopwatchState {
     data class Running(
         val startTime: ZonedDateTime,
-        val skillId: Int
+        val skillId: Int,
+        val groupId: Int,
     ) : StopwatchState() {
         val time get() = startTime.until(getZonedDateTime())
     }

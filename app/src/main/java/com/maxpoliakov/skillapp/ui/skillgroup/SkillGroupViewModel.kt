@@ -43,8 +43,7 @@ class SkillGroupViewModel(
     }.asLiveData()
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
-        val skills = group.value?.skills ?: return false
-        return skills.any { skill -> state.skillId == skill.id }
+        return state.groupId == groupId
     }
 
     override suspend fun update(name: String) {

@@ -9,5 +9,5 @@ fun createSkill(id: Int = -1, groupId: Int): Skill {
 }
 
 fun createGroup(id: Int = -1, skills: List<Skill> = listOf()): SkillGroup {
-    return SkillGroup(id, "group", skills, -1)
+    return SkillGroup(id, "group", skills, null, -1)
 }

@@ -49,5 +49,5 @@ private fun createSkill(id: Int, name: String, order: Int = 0): Skill {
 }
 
 private fun createGroup(id: Int, name: String, order: Int = 0): SkillGroup {
-    return SkillGroup(id, name, listOf(), order)
+    return SkillGroup(id, name, listOf(), null, order)
 }

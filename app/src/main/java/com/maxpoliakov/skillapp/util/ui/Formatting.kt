@@ -20,9 +20,10 @@ fun Duration?.format(context: Context): String {
 }
 
 fun Context.formatGoal(goal: Goal?): String {
-    if (goal == null) return "Goal not set"
-    val goalType = if (goal.type == Goal.Type.Daily) "Daily" else "Weekly"
-    return goalType + " goal: " + goal.time.format(this)
+    if (goal == null) return getString(R.string.goal_not_set)
+    val resId = if (goal.type == Goal.Type.Daily) R.string.daily_goal_without_progress
+    else R.string.weekly_goal_without_progress
+    return getString(resId, goal.time.format(this))
 }
 
 fun Context.formatGoal(goal: Goal?, completedTime: Duration?): String {

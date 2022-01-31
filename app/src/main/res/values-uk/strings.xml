@@ -99,4 +99,11 @@
     <string name="premium_intro">Вступ до SkillApp Premium</string>
     <string name="hours_and_minutes">%1$dгод %2$dхв</string>
     <string name="daily_goal">Ціль на день: %1$s / %2$s</string>
+    <string name="weekly_goal">Ціль на тиждень: %1$s / %2$s</string>
+    <string name="plan_daily">На день</string>
+    <string name="plan_weekly">На тиждень</string>
+    <string name="no_plan">Без плану</string>
+    <string name="goal_not_set">Ціль не встановлена</string>
+    <string name="daily_goal_without_progress">Ціль на день: %s</string>
+    <string name="weekly_goal_without_progress">Ціль на тиждень: %s</string>
 </resources>

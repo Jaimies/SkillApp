@@ -1,13 +1,16 @@
 package com.maxpoliakov.skillapp.util.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import java.time.Duration
 
 class GoalPicker : PickerDialog() {
-    override val firstPickerValues: Array<String>
-        get() = arrayOf("No plan", "Daily", "Weekly")
+    override lateinit var firstPickerValues: Array<String>
+    private lateinit var goalStringValues: Array<Array<String>>
+
     override val secondPickerValues: Array<String>
         get() = goalStringValues[firstPicker.value]
 
@@ -18,6 +21,15 @@ class GoalPicker : PickerDialog() {
 
             return Goal(values[secondPicker.value], type)
         }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        firstPickerValues = firstPickerValueResIds.map(context::getString).toTypedArray()
+        val dailyGoalStringValues = dailyGoalValues.map { it.format(context) }.toTypedArray()
+        val weeklyGoalStringValues = weeklyGoalValues.map { it.format(context) }.toTypedArray()
+        val noPlanGoalValues = arrayOf(context.getString(R.string.plan_no_time))
+        goalStringValues = arrayOf(noPlanGoalValues, dailyGoalStringValues, weeklyGoalStringValues)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +48,6 @@ class GoalPicker : PickerDialog() {
         secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
     }
 
-
     class Builder : PickerDialog.Builder() {
         var goal: Goal? = null
 
@@ -45,6 +56,7 @@ class GoalPicker : PickerDialog() {
 
         fun setGoal(goal: Goal?): Builder {
             if (goal == null) return this
+
             setFirstPickerValue(goalTypes.indexOf(goal.type))
             setSecondPickerValue(goalValues[goalTypes.indexOf(goal.type)].indexOf(goal.time))
             return this
@@ -57,9 +69,6 @@ class GoalPicker : PickerDialog() {
             Array(4) { index -> Duration.ofMinutes(index * 15L) } + Array(24) { index -> Duration.ofHours(index + 1L) }
         private val weeklyGoalValues = Array(169) { index -> Duration.ofHours(index.toLong()) }
         private val goalValues = arrayOf(arrayOf(Duration.ZERO), dailyGoalValues, weeklyGoalValues)
-        private val dailyGoalStringValues =
-            Array(4) { index -> "${index * 15}m" } + Array(24) { index -> "${index + 1}h" }
-        private val weeklyGoalStringValues = Array(169) { index -> "${index}h" }
-        private val goalStringValues = arrayOf(arrayOf("--"), dailyGoalStringValues, weeklyGoalStringValues)
+        private val firstPickerValueResIds = arrayOf(R.string.no_plan, R.string.plan_daily, R.string.plan_weekly)
     }
 }

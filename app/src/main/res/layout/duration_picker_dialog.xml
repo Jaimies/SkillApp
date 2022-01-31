@@ -21,25 +21,30 @@
 
     <cn.carbswang.android.numberpickerview.library.NumberPickerView
         android:id="@+id/hours_picker"
-        android:layout_width="100sp"
-        android:layout_height="250sp"
-        android:layout_marginStart="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="16dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="16dp"
         android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_min="100dp"
+        app:npv_ItemPaddingVertical="24dp" />
 
     <cn.carbswang.android.numberpickerview.library.NumberPickerView
         android:id="@+id/minutes_picker"
-        android:layout_width="100sp"
-        android:layout_height="250sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="24dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="32dp"
         android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/hours_picker"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_min="100dp"
+        app:npv_ItemPaddingVertical="24dp" />
 
     <Button
         android:id="@+id/material_timepicker_cancel_button"

@@ -5,8 +5,8 @@ import android.util.TypedValue
 import androidx.annotation.AttrRes
 import com.maxpoliakov.skillapp.R
 
-fun Context.getTextColor() = getColorAttributeValue(android.R.attr.textColorPrimary)
-fun Context.getPrimaryColor() = getColorAttributeValue(R.attr.colorPrimary)
+val Context.textColor get() = getColorAttributeValue(android.R.attr.textColorPrimary)
+val Context.primaryColor get() = getColorAttributeValue(R.attr.colorPrimary)
 
 fun Context.getColorAttributeValue(@AttrRes id: Int): Int {
     val typedValue = TypedValue()

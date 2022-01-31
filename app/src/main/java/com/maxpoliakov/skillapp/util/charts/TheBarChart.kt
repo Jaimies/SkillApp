@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.util.charts
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
 import androidx.lifecycle.LifecycleOwner
@@ -26,9 +25,9 @@ import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.ui.common.MonthFormatter
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekFormatter
-import com.maxpoliakov.skillapp.util.ui.getPrimaryColor
-import com.maxpoliakov.skillapp.util.ui.getTextColor
+import com.maxpoliakov.skillapp.util.ui.primaryColor
 import com.maxpoliakov.skillapp.util.ui.sp
+import com.maxpoliakov.skillapp.util.ui.textColor
 import java.time.temporal.ChronoUnit
 
 class TheBarChart : BarChart {
@@ -67,14 +66,14 @@ class TheBarChart : BarChart {
     }
 
     private fun createDataSet(entries: List<BarEntry>): BarDataSet {
-        val textColor = context.getTextColor()
+        val textColor = context.textColor
 
         return BarDataSet(entries, "").apply {
             valueTextSize = VALUE_TEXT_SIZE
             valueFormatter = TimeFormatter(context)
             valueTextColor = textColor
             this.color = textColor
-            color = context.getPrimaryColor()
+            color = context.primaryColor
             isHighlightEnabled = false
         }
     }
@@ -106,7 +105,7 @@ class TheBarChart : BarChart {
     private fun setupNoDataText() {
         val textSize = 14f.sp.toPx(context)
         getPaint(PAINT_INFO).textSize = textSize.toFloat()
-        setNoDataTextColor(context.getTextColor())
+        setNoDataTextColor(context.textColor)
         setNoDataText(context.getString(R.string.no_stats))
     }
 
@@ -128,7 +127,7 @@ class TheBarChart : BarChart {
             spaceMin = X_AXIS_SPACE_MIN
             spaceMax = X_AXIS_SPACE_MAX
             yOffset = X_AXIS_Y_OFFSET
-            textColor = context.getTextColor()
+            textColor = context.textColor
             position = XAxis.XAxisPosition.BOTTOM
             setDrawGridLines(false)
             setDrawAxisLine(false)
@@ -168,9 +167,10 @@ class TheBarChart : BarChart {
         axisLeft.run {
             removeAllLimitLines()
             val limitLine = LimitLine(goal.time.seconds.toFloat(), "Daily goal").apply {
+                val color = context.textColor
                 lineWidth = 1f
-                lineColor = Color.WHITE
-                textColor = Color.WHITE
+                lineColor = color
+                textColor = color
                 labelPosition = LimitLabelPosition.LEFT_BOTTOM
                 textSize = 12.sp.toDp(context)
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)

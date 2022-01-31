@@ -21,7 +21,8 @@ object Versions {
     const val googleApiClient = "1.32.1"
     const val googleApiServices = "v3-rev197-1.25.0"
 
-    const val material = "1.4.0"
+    const val material = "1.5.0"
+    const val preference = "1.2.0"
     const val MPAndroidChart = "3.1.0"
 
     const val hilt = "2.40.5"

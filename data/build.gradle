@@ -91,7 +91,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
 
-    implementation "androidx.preference:preference-ktx:1.1.1"
+    implementation "androidx.preference:preference-ktx:$Versions.preference"
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2'
 
     implementation "com.google.dagger:hilt-android:$Versions.hilt"

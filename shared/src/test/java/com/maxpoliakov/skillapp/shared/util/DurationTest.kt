@@ -13,4 +13,13 @@ class DurationTest : StringSpec({
             Duration.ofHours(2)
         ).sumByDuration { it } shouldBe Duration.ofHours(3)
     }
+
+    "sum" {
+        arrayOf<Duration>().sum() shouldBe Duration.ZERO
+        arrayOf(Duration.ofHours(1)).sum() shouldBe Duration.ofHours(1)
+        arrayOf(
+            Duration.ofHours(1),
+            Duration.ofHours(2)
+        ).sum() shouldBe Duration.ofHours(3)
+    }
 })

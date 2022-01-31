@@ -4,16 +4,16 @@ object Versions {
     const val coroutines = "1.6.0"
 
     const val androidxCore = "1.7.0"
-    const val appcompat = "1.4.0"
-    const val constraintLayout = "2.1.2"
+    const val appcompat = "1.4.1"
+    const val constraintLayout = "2.1.3"
     const val legacy = "1.0.0"
 
     const val room = "2.3.0"
     const val paging = "3.1.0"
-    const val navigation = "2.4.0-rc01"
+    const val navigation = "2.4.0"
     const val lifecycle = "2.4.0"
     const val livedata = "2.2.0"
-    const val fragment = "1.4.0"
+    const val fragment = "1.4.1"
     const val workManager = "2.7.1"
     const val billing = "4.0.0"
 

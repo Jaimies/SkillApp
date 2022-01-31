@@ -25,6 +25,7 @@ import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.ui.common.MonthFormatter
 import com.maxpoliakov.skillapp.ui.common.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekFormatter
+import com.maxpoliakov.skillapp.util.ui.format
 import com.maxpoliakov.skillapp.util.ui.primaryColor
 import com.maxpoliakov.skillapp.util.ui.sp
 import com.maxpoliakov.skillapp.util.ui.textColor
@@ -166,7 +167,8 @@ class TheBarChart : BarChart {
 
         axisLeft.run {
             removeAllLimitLines()
-            val limitLine = LimitLine(goal.time.seconds.toFloat(), "Daily goal").apply {
+            val label = goal.time.format(context)
+            val limitLine = LimitLine(goal.time.seconds.toFloat(), label).apply {
                 val color = context.textColor
                 lineWidth = 1f
                 lineColor = color

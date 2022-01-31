@@ -37,7 +37,7 @@ abstract class DetailsViewModel(
     val name = MutableLiveData("")
     val inputIsValid = name.map { it?.isBlank() == false }
 
-    protected val _goal = MutableStateFlow<Goal?>(null)
+    private val _goal = MutableStateFlow<Goal?>(null)
     val goal = _goal.asLiveData()
 
     private val _chooseGoal = SingleLiveEvent<Any>()

@@ -28,6 +28,10 @@ class DurationPicker : PickerDialog() {
     class Builder : PickerDialog.Builder() {
         override fun createDialog() = DurationPicker()
 
+        init {
+            setTitleText(R.string.add_time)
+        }
+
         fun setDuration(duration: Duration): Builder {
             setFirstPickerValue(duration.toHours().toInt())
             setSecondPickerValue(duration.toMinutesPartCompat().toInt() / 5)

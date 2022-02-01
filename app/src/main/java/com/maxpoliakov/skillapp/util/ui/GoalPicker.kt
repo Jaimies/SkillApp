@@ -51,6 +51,10 @@ class GoalPicker : PickerDialog() {
     class Builder : PickerDialog.Builder() {
         var goal: Goal? = null
 
+        init {
+            setTitleText(R.string.select_goal)
+        }
+
         override fun createDialog() = GoalPicker()
         override fun build() = super.build() as GoalPicker
 

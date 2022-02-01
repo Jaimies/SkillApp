@@ -64,8 +64,11 @@ class GoalPicker : PickerDialog() {
                 return this
             }
 
-            setFirstPickerValue(goalTypes.indexOf(goal.type))
-            setSecondPickerValue(goalValues[goalTypes.indexOf(goal.type)].indexOf(goal.time))
+            runCatching {
+                setFirstPickerValue(goalTypes.indexOf(goal.type))
+                setSecondPickerValue(goalValues[goalTypes.indexOf(goal.type)].indexOf(goal.time))
+            }
+
             return this
         }
     }

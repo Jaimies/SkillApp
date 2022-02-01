@@ -55,7 +55,10 @@ class GoalPicker : PickerDialog() {
         override fun build() = super.build() as GoalPicker
 
         fun setGoal(goal: Goal?): Builder {
-            if (goal == null) return this
+            if (goal == null) {
+                setFirstPickerValue(1)
+                return this
+            }
 
             setFirstPickerValue(goalTypes.indexOf(goal.type))
             setSecondPickerValue(goalValues[goalTypes.indexOf(goal.type)].indexOf(goal.time))

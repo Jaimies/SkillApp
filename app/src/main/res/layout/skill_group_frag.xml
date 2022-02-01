@@ -46,7 +46,7 @@
                     android:id="@+id/goal_picker"
                     layout="@layout/goal_picker"
                     app:chooseGoal="@{() -> viewModel.chooseGoal()}"
-                    app:goal="@{viewModel.goal}"/>
+                    app:goal="@{viewModel.goal}" />
 
                 <LinearLayout
                     android:id="@+id/data_layout"
@@ -73,7 +73,8 @@
                         android:layout_height="@dimen/chart_height"
                         android:layout_marginTop="6dp"
                         android:layout_marginBottom="8dp"
-                        app:data="@{viewModel.chartData}" />
+                        app:data="@{viewModel.chartData}"
+                        app:goal="@{viewModel.group.goal}" />
 
                     <include
                         android:id="@+id/split_chart"

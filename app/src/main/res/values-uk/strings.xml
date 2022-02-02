@@ -21,7 +21,7 @@
     <string name="skills">Навички</string>
     <string name="total">Загальний час</string>
     <string name="last_week">Останні 7\u00A0днів</string>
-    <string name="hours">%sг</string>
+    <string name="hours">%s год</string>
     <string name="initial_time">Наявна кількість годин практики</string>
     <string name="save">Зберегти</string>
     <string name="add_a_record">Додати час вручну</string>
@@ -42,7 +42,7 @@
     <string name="dark">Темна</string>
     <string name="automatic">Автоматична</string>
     <string name="more">Ще</string>
-    <string name="minutes">%sм</string>
+    <string name="minutes">%s хв</string>
     <string name="timers">Таймери</string>
     <string name="start_the_timer">Запустити таймер</string>
     <string name="stop_the_timer">Зупинити таймер</string>
@@ -97,7 +97,7 @@
     <string name="premium_price_loading">Завантаження ціни підписки…</string>
     <string name="premium_price">Оформити підписку за %s</string>
     <string name="premium_intro">Вступ до SkillApp Premium</string>
-    <string name="hours_and_minutes">%1$dгод %2$dхв</string>
+    <string name="hours_and_minutes">%1$d год %2$d хв</string>
     <string name="daily_goal">Ціль на день: %1$s / %2$s</string>
     <string name="weekly_goal">Ціль на тиждень: %1$s / %2$s</string>
     <string name="plan_daily">На день</string>

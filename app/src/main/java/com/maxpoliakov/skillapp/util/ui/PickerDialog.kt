@@ -105,7 +105,7 @@ abstract class PickerDialog : DialogFragment() {
         viewGroup: ViewGroup?,
         bundle: Bundle?
     ): View {
-        val root = layoutInflater.inflate(R.layout.duration_picker_dialog, viewGroup) as ViewGroup
+        val root = layoutInflater.inflate(R.layout.picker_dialog, viewGroup) as ViewGroup
 
         firstPicker = root.findViewById(R.id.hours_picker)
         firstPicker.setup(firstPickerValues)

@@ -58,6 +58,7 @@ class TheBarChart : BarChart {
         this.data = BarData(createDataSets(entries))
         this.data.barWidth = 0.3f
         zoom(8f, 1f, entries.last().x, 0f)
+        updateAxisMaximum()
         notifyDataSetChanged()
         invalidate()
     }
@@ -179,9 +180,26 @@ class TheBarChart : BarChart {
             }
             addLimitLine(limitLine)
 
-            axisMaximum = goal.time.seconds.toFloat().coerceAtLeast((entries?.maxByOrNull { it.y }?.y ?: 0f) * 1.1f)
+            updateAxisMaximum()
             notifyDataSetChanged()
             invalidate()
+        }
+    }
+
+    private fun updateAxisMaximum() {
+        val goal = this.goal
+
+        if (goal == null) {
+            axisLeft.resetAxisMaximum()
+        } else {
+            val axisMaximum = (entries?.maxByOrNull { it.y }?.y ?: 0f) * 1.1f
+            val goalTime = goal.time.seconds.toFloat()
+
+            if (goalTime < axisMaximum) {
+                axisLeft.resetAxisMaximum()
+            } else {
+                axisLeft.axisMaximum = goal.time.seconds.toFloat().coerceAtLeast(axisMaximum)
+            }
         }
     }
 

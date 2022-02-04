@@ -16,10 +16,11 @@ class StubBillingRepository @Inject constructor() : ExtendedBillingRepository {
         return null
     }
 
-    override val isSubscribed: StateFlow<Boolean>
-        get() = MutableStateFlow(true)
     override val subscriptionState: StateFlow<BillingRepository.SubscriptionState>
         get() = MutableStateFlow(BillingRepository.SubscriptionState.Subscribed)
+
+    override val connectionState: BillingRepository.ConnectionState
+        get() = BillingRepository.ConnectionState.Connected
 
     override suspend fun connect() {}
 

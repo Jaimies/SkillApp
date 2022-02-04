@@ -4,22 +4,30 @@ import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.time.ZonedDateTime
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class StubStopwatchUtil @Inject constructor() : StopwatchUtil {
-    override val state: StateFlow<StopwatchState>
-        get() {
-            val startTime = ZonedDateTime.now().minusHours(1).minusMinutes(2)
-            return MutableStateFlow(StopwatchState.Running(startTime, 3))
-        }
+    private val _state = MutableStateFlow<StopwatchState>(getRunningState())
+
+    override val state = _state.asStateFlow()
 
     override suspend fun start(skillId: Int): Record? = null
-    override suspend fun stop(): Record? = null
+
+    override suspend fun stop(): Record? {
+        _state.value = StopwatchState.Paused
+        return null
+    }
 
     override fun cancel() {}
     override suspend fun toggle(skillId: Int): Record? = null
 
+    private fun getStartTime() = ZonedDateTime.now().minusHours(1).minusMinutes(2)
+    private fun getRunningState() = StopwatchState.Running(getStartTime(), 3, -1)
+
     override fun updateNotification() {}
+    override fun updateState() {}
 }

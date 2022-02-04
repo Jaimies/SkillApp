@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.screenshots
 
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -9,12 +10,13 @@ import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.group.DBGroup
 import com.maxpoliakov.skillapp.data.skill.DBSkill
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.test.R
 import com.maxpoliakov.skillapp.ui.MainActivity
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers
@@ -83,11 +85,12 @@ class ScreenshotsTest {
 
     @Test
     fun makeScreenshots() = runBlocking {
+
         val skillData = listOf(
-            Triple(R.string.web_design, 1400, 1),
-            Triple(R.string.app_design, 700, 1),
-            Triple(R.string.animation_design, 1000, 1),
-            Triple(R.string.software_engineering, 2500, -1),
+            SkillData(R.string.web_design, 1400, 1),
+            SkillData(R.string.app_design, 700, 1),
+            SkillData(R.string.animation_design, 1000, 1, 180),
+            SkillData(R.string.software_engineering, 2500, -1),
         )
 
         val skills = skillData.map {
@@ -143,27 +146,36 @@ class ScreenshotsTest {
 
         makeScreenshot("skilllist")
 
+        navigate(com.maxpoliakov.skillapp.R.id.backup_fragment_dest)
+        makeScreenshot("backup")
+
         navigate(com.maxpoliakov.skillapp.R.id.statistics_fragment_dest)
         makeScreenshot("stats")
-        setTheme(Theme.Dark)
 
+        setTheme(Theme.Dark)
         setupNavController()
         val directions = MainDirections.actionToSkillDetailFragment(3)
         navigate(directions)
+        stopwatchUtil.stop()
         makeScreenshot("skilldetail")
 
         val groupDirections = MainDirections.actionToSkillGroupFragment(1)
         navigate(groupDirections)
         makeScreenshot("skillgroup")
-
-        navigate(com.maxpoliakov.skillapp.R.id.backup_fragment_dest)
-        makeScreenshot("backup")
     }
 
-    private fun createSkill(data: Triple<Int, Int, Int>): DBSkill {
-        val name: String = context.getString(data.first)
-        val totalTime: Duration = Duration.ofHours(data.second.toLong())
-        return DBSkill(name = name, totalTime = totalTime, groupId = data.third)
+    private fun createSkill(data: SkillData): DBSkill {
+        val name: String = context.getString(data.nameResId)
+        val totalTime: Duration = Duration.ofHours(data.totalTimeHours)
+        val goalTime = Duration.ofMinutes(data.goalTimeMinutes)
+
+        return DBSkill(
+            name = name,
+            totalTime = totalTime,
+            groupId = data.groupId,
+            goalType = Goal.Type.Daily,
+            goalTime = goalTime,
+        )
     }
 
     private suspend fun navigate(@IdRes destinationId: Int) {
@@ -189,4 +201,11 @@ class ScreenshotsTest {
         delay(500)
         Screengrab.screenshot(name)
     }
+
+    data class SkillData(
+        @StringRes val nameResId: Int,
+        val totalTimeHours: Long,
+        val groupId: Int,
+        val goalTimeMinutes: Long = 0,
+    )
 }

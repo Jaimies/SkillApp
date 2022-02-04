@@ -21,7 +21,7 @@
     <string name="skills">Навички</string>
     <string name="total">Загальний час</string>
     <string name="last_week">Останні 7\u00A0днів</string>
-    <string name="hours">%s год</string>
+    <string name="hours">%s\u00A0год</string>
     <string name="initial_time">Наявна кількість годин практики</string>
     <string name="save">Зберегти</string>
     <string name="add_a_record">Додати час вручну</string>
@@ -42,7 +42,7 @@
     <string name="dark">Темна</string>
     <string name="automatic">Автоматична</string>
     <string name="more">Ще</string>
-    <string name="minutes">%s хв</string>
+    <string name="minutes">%s\u00A0хв</string>
     <string name="timers">Таймери</string>
     <string name="start_the_timer">Запустити таймер</string>
     <string name="stop_the_timer">Зупинити таймер</string>
@@ -80,8 +80,8 @@
     <string name="no_internet">Немає підключення до Інтернету</string>
     <string name="something_went_wrong">Щось пішло не так, спробуйте знову</string>
     <string name="record_added">Додано %d сек</string>
-    <string name="record_added_with_minutes">Додано %d хв</string>
-    <string name="record_added_with_hours">Додано %1$d год %2$d хв</string>
+    <string name="record_added_with_minutes">Додано %d\u00A0хв</string>
+    <string name="record_added_with_hours">Додано %1$d\u00A0год\u00A0%2$d\u00A0хв</string>
     <string name="one_day">дні</string>
     <string name="one_week">тижні</string>
     <string name="one_month">місяці</string>
@@ -97,7 +97,7 @@
     <string name="premium_price_loading">Завантаження ціни підписки…</string>
     <string name="premium_price">Оформити підписку за %s</string>
     <string name="premium_intro">Вступ до SkillApp Premium</string>
-    <string name="hours_and_minutes">%1$d год %2$d хв</string>
+    <string name="hours_and_minutes">%1$d\u00A0год\u00A0%2$d\u00A0хв</string>
     <string name="daily_goal">Ціль на день: %1$s / %2$s</string>
     <string name="weekly_goal">Ціль на тиждень: %1$s / %2$s</string>
     <string name="plan_daily">На день</string>

@@ -14,15 +14,15 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
-import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.SkillChartData
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
@@ -37,11 +37,16 @@ class SkillDetailViewModel(
     private val stopwatchUtil: StopwatchUtil,
     private val skillId: Int,
     getSkillById: GetSkillByIdUseCase,
-    getStats: GetStatsUseCase
+    private val getStats: GetStatsUseCase
 ) : DetailsViewModel(
     stopwatchUtil,
     getSkillById.run(skillId).map { skill -> skill.goal },
-    getStats.getTimeToday(skillId),
+    getSkillById.run(skillId).flatMapLatest { skill ->
+        val goal = skill.goal ?: return@flatMapLatest flowOf(Duration.ZERO)
+
+        if (goal.type == Goal.Type.Daily) getStats.getTimeToday(skillId)
+        else getStats.getTimeThisWeek(skillId)
+    }
 ) {
 
     val showRecordDialog = SingleLiveEvent<Any>()

@@ -24,7 +24,7 @@ import java.time.ZonedDateTime
 abstract class DetailsViewModel(
     stopwatchUtil: StopwatchUtil,
     goalFlow: Flow<Goal?>,
-    recordedTimeTodayFlow: Flow<Duration>,
+    recordedTimeFlow: Flow<Duration>,
 ) : ViewModel() {
     protected abstract val nameFlow: Flow<String>
 
@@ -59,7 +59,7 @@ abstract class DetailsViewModel(
         state.startTime.until(ZonedDateTime.now())
     }
 
-    private val _timeToday = recordedTimeTodayFlow.combine(timeOnStopwatch) { recordedTime, timeOnStopwatch ->
+    private val _timeToday = recordedTimeFlow.combine(timeOnStopwatch) { recordedTime, timeOnStopwatch ->
         recordedTime + timeOnStopwatch
     }
 

@@ -37,15 +37,20 @@ class StatsRepositoryImpl @Inject constructor(
         return statsDao.getTimeAtDate(date)
     }
 
+    override fun getTimeAtDate(skillId: Id, date: LocalDate): Flow<Duration> {
+        return statsDao.getTimeAtDate(skillId, date)
+            .map { time -> time ?: Duration.ZERO }
+    }
+
     override fun getTimeToday(skillId: Id): Flow<Duration> {
         return statsDao.getTimeAtDate(skillId, LocalDate.now())
             .map { time -> time ?: Duration.ZERO }
     }
 
-    override fun getGroupTimeToday(groupId: Id): Flow<Duration> {
+    override fun getGroupTimeAtDate(groupId: Id, date: LocalDate): Flow<Duration> {
         return groupRepository.getSkillGroupFlowById(groupId).flatMapLatest { group ->
             val timeTodayFlows = group.skills.map { skill ->
-                getTimeToday(skill.id)
+                getTimeAtDate(skill.id, date)
             }
 
             combine(timeTodayFlows) { todayTimes -> todayTimes.sum() }

@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
@@ -13,7 +14,9 @@ import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.GroupChartData
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import java.time.Duration
 import javax.inject.Inject
 
 class SkillGroupViewModel(
@@ -25,7 +28,12 @@ class SkillGroupViewModel(
 ) : DetailsViewModel(
     stopwatchUtil,
     getGroup.getById(groupId).map { group -> group.goal },
-    getStats.getGroupTimeToday(groupId),
+    getGroup.getById(groupId).flatMapLatest { group ->
+        val goal = group.goal ?: return@flatMapLatest flowOf(Duration.ZERO)
+
+        if (goal.type == Goal.Type.Daily) getStats.getGroupTimeToday(groupId)
+        else getStats.getGroupTimeThisWeek(groupId)
+    },
 ) {
 
     private val _group = getGroup.getById(groupId)

@@ -4,18 +4,43 @@ import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
+import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import com.maxpoliakov.skillapp.shared.util.monthsSinceEpoch
+import com.maxpoliakov.skillapp.shared.util.sum
 import com.maxpoliakov.skillapp.shared.util.sumByDuration
 import com.maxpoliakov.skillapp.shared.util.weeksSinceEpoch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import java.time.Duration
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
-    fun getTimeToday(skillId: Id) = statsRepository.getTimeToday(skillId)
-    fun getGroupTimeToday(groupId: Id) = statsRepository.getGroupTimeToday(groupId)
+    fun getTimeToday(skillId: Id) = statsRepository.getTimeAtDate(skillId, LocalDate.now())
+
+    fun getTimeThisWeek(skillId: Id): Flow<Duration> {
+        val firstDayOfWeek = getCurrentDate().atStartOfWeek()
+        val daysCount = firstDayOfWeek.until(getCurrentDate(), ChronoUnit.DAYS) + 1
+        val dailyTimes = List(daysCount.toInt()) { index ->
+            statsRepository.getTimeAtDate(skillId, firstDayOfWeek.plusDays(index.toLong()))
+        }
+
+        return combine(dailyTimes) { times -> times.sum() }
+    }
+
+    fun getGroupTimeToday(groupId: Id) = statsRepository.getGroupTimeAtDate(groupId, LocalDate.now())
+
+    fun getGroupTimeThisWeek(skillId: Id): Flow<Duration> {
+        val firstDayOfWeek = getCurrentDate().atStartOfWeek()
+        val daysCount = firstDayOfWeek.until(getCurrentDate(), ChronoUnit.DAYS) + 1
+        val dailyTimes = List(daysCount.toInt()) { index ->
+            statsRepository.getGroupTimeAtDate(skillId, firstDayOfWeek.plusDays(index.toLong()))
+        }
+
+        return combine(dailyTimes) { times -> times.sum() }
+    }
 
     fun getDailyStats(skillId: Id) = statsRepository.getStats(skillId, LocalDate.now().minusDays(56))
 

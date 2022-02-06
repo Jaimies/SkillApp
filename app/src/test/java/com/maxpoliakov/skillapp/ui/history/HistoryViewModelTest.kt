@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.ui.history
 
 import androidx.paging.PagingData
-import com.maxpoliakov.skillapp.clockOfEpochDay
+import com.maxpoliakov.skillapp.test.clockOfEpochDay
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetTotalTimeAtDayUseCase

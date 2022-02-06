@@ -1,8 +1,8 @@
 package com.maxpoliakov.skillapp.data.stopwatch
 
-import com.maxpoliakov.skillapp.clockOfEpochSecond
+import com.maxpoliakov.skillapp.test.clockOfEpochSecond
 import com.maxpoliakov.skillapp.data.StubStopwatchPersistence
-import com.maxpoliakov.skillapp.dateOfEpochSecond
+import com.maxpoliakov.skillapp.test.dateOfEpochSecond
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Record

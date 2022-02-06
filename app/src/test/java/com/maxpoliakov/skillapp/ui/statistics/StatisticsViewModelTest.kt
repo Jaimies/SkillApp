@@ -1,6 +1,6 @@
 package com.maxpoliakov.skillapp.ui.statistics
 
-import com.maxpoliakov.skillapp.clockOfEpochDay
+import com.maxpoliakov.skillapp.test.clockOfEpochDay
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.model.ProductivitySummary

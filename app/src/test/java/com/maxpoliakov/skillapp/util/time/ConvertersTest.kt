@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.util.time
 
 import android.content.Context
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.clockOfEpochDay
+import com.maxpoliakov.skillapp.test.clockOfEpochDay
 import com.maxpoliakov.skillapp.shared.util.setClock
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

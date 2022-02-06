@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp
+package com.maxpoliakov.skillapp.test
 
 import java.time.Clock
 import java.time.Instant

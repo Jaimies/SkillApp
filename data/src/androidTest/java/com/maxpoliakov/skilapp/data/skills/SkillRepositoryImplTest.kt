@@ -19,6 +19,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.time.Duration
+import java.time.LocalDate
 
 class SkillRepositoryImplTest {
     private lateinit var db: AppDatabase
@@ -53,6 +54,6 @@ class SkillRepositoryImplTest {
         statsRepository.addRecord(Record("", 1, Duration.ofHours(2)))
         statsRepository.addRecord(Record("", 2, Duration.ofHours(3)))
 
-        statsRepository.getGroupTimeToday(1).await() shouldBe Duration.ofHours(5)
+        statsRepository.getGroupTimeAtDate(1, LocalDate.now()).await() shouldBe Duration.ofHours(5)
     }
 }

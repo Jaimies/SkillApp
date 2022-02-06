@@ -1,6 +1,6 @@
 package com.maxpoliakov.skillapp.data.stopwatch
 
-import com.maxpoliakov.skillapp.clockOfEpochSecond
+import com.maxpoliakov.skillapp.test.clockOfEpochSecond
 import com.maxpoliakov.skillapp.data.StubSharedPreferences
 import com.maxpoliakov.skillapp.shared.util.setClock
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused

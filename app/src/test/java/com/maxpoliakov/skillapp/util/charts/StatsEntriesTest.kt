@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.util.charts
 
 import com.github.mikephil.charting.data.Entry
-import com.maxpoliakov.skillapp.clockOfEpochDay
+import com.maxpoliakov.skillapp.test.clockOfEpochDay
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.shared.util.setClock
 import io.kotest.core.spec.style.StringSpec

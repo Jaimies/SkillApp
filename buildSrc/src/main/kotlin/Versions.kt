@@ -10,7 +10,7 @@ object Versions {
 
     const val room = "2.3.0"
     const val paging = "3.1.0"
-    const val navigation = "2.4.0"
+    const val navigation = "2.4.1"
     const val lifecycle = "2.4.0"
     const val livedata = "2.2.0"
     const val fragment = "1.4.1"
@@ -30,7 +30,7 @@ object Versions {
     const val firebase = "28.2.0"
 
     const val lint = "26.5.3"
-    const val gradle = "7.0.2"
+    const val gradle = "7.1.1"
 
     const val mockito = "3.12.1"
     const val mockk = "1.12.0"

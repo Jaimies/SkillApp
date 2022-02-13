@@ -65,8 +65,11 @@ class GoalPicker : PickerDialog() {
             }
 
             runCatching {
-                setFirstPickerValue(goalTypes.indexOf(goal.type))
-                setSecondPickerValue(goalValues[goalTypes.indexOf(goal.type)].indexOf(goal.time))
+                val goalValue = goalTypes.indexOf(goal.type).coerceAtLeast(0)
+                setFirstPickerValue(goalValue)
+
+                val durationValue = goalValues[goalValue].indexOf(goal.time).coerceAtLeast(0)
+                setSecondPickerValue(durationValue)
             }
 
             return this

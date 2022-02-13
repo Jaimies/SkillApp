@@ -33,11 +33,20 @@ class DurationPicker : PickerDialog() {
         }
 
         fun setDuration(duration: Duration): Builder {
-            setFirstPickerValue(duration.toHours().toInt())
-            setSecondPickerValue(duration.toMinutesPartCompat().toInt() / 5)
+            if (duration > maxDuration) _setDuration(maxDuration)
+            else _setDuration(duration)
             return this
         }
 
+        private fun _setDuration(duration: Duration) {
+            setFirstPickerValue(duration.toHours().toInt())
+            setSecondPickerValue(duration.toMinutesPartCompat().toInt() / 5)
+        }
+
         override fun build() = super.build() as DurationPicker
+    }
+
+    companion object {
+        private val maxDuration = Duration.ofHours(23).plusMinutes(55)
     }
 }

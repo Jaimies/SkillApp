@@ -20,6 +20,7 @@ object Versions {
     const val googleHttpClient = "1.40.0"
     const val googleApiClient = "1.32.1"
     const val googleApiServices = "v3-rev197-1.25.0"
+    const val playServicesAuth = "20.1.0"
 
     const val material = "1.5.0"
     const val preference = "1.2.0"

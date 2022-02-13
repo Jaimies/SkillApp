@@ -89,7 +89,7 @@ class StopwatchUtilImpl @Inject constructor(
     }
 
     private suspend fun addRecord(state: Running): Record {
-        val record = Record("", state.skillId, state.time)
+        val record = Record("", state.skillId, state.time, date = state.startTime.toLocalDate())
         val recordId = addRecord.run(record)
         return record.copy(id = recordId.toInt())
     }

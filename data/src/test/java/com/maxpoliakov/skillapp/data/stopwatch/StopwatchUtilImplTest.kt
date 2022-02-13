@@ -1,8 +1,6 @@
 package com.maxpoliakov.skillapp.data.stopwatch
 
-import com.maxpoliakov.skillapp.test.clockOfEpochSecond
 import com.maxpoliakov.skillapp.data.StubStopwatchPersistence
-import com.maxpoliakov.skillapp.test.dateOfEpochSecond
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Record
@@ -15,6 +13,9 @@ import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.shared.util.setClock
+import com.maxpoliakov.skillapp.test.clockOfEpochDay
+import com.maxpoliakov.skillapp.test.clockOfEpochSecond
+import com.maxpoliakov.skillapp.test.dateOfEpochSecond
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
@@ -25,6 +26,7 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import java.time.Clock
 import java.time.Duration
+import java.time.LocalDate
 import java.time.ZonedDateTime
 
 class StubSkillRepository : SkillRepository {
@@ -149,6 +151,13 @@ class StopwatchUtilImplTest : StringSpec({
     "removes the notification if the state isd Paused on startup" {
         createStopwatch(Paused)
         verify { notificationUtil.removeStopwatchNotification() }
+    }
+
+    "adds the record with the date of stopwatch start" {
+        val stopwatchUtil = createStopwatch(getRunningState())
+        setClock(clockOfEpochDay(2))
+        stopwatchUtil.stop()
+        coVerify { addRecord.run(Record("", skillId, Duration.ofDays(2), date = LocalDate.ofEpochDay(0))) }
     }
 }) {
     companion object {

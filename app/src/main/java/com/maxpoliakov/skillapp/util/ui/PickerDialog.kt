@@ -21,7 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import cn.carbswang.android.numberpickerview.library.NumberPickerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
-import java.util.LinkedHashSet
+import com.maxpoliakov.skillapp.util.error.logToCrashlytics
 
 abstract class PickerDialog : DialogFragment() {
     private val positiveButtonListeners: MutableSet<View.OnClickListener> = LinkedHashSet()
@@ -96,8 +96,13 @@ abstract class PickerDialog : DialogFragment() {
     }
 
     protected open fun restoreStateOfPickers(bundle: Bundle) {
-        firstPicker.value = bundle.getInt(FIRST_PICKER_VALUE, 0)
-        secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
+        try {
+            firstPicker.value = bundle.getInt(FIRST_PICKER_VALUE, 0)
+            secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
+        } catch (e: Throwable) {
+            e.logToCrashlytics()
+            e.printStackTrace()
+        }
     }
 
     override fun onCreateView(

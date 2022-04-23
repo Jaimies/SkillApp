@@ -28,7 +28,7 @@ class AddRecordUseCaseTest : StringSpec({
         addRecordUseCase.run(record)
 
         coVerify { recordRepository.addRecord(record) }
-        coVerify { skillRepository.increaseTime(record.skillId, record.time) }
+        coVerify { skillRepository.increaseCount(record.skillId, record.count) }
         coVerify { statsRepository.addRecord(record) }
     }
 
@@ -43,6 +43,6 @@ class AddRecordUseCaseTest : StringSpec({
         addRecordUseCase.run(record)
 
         verify { listOf(recordRepository, statsRepository) wasNot Called }
-        coVerify(exactly = 0) { skillRepository.increaseTime(any(), any()) }
+        coVerify(exactly = 0) { skillRepository.increaseCount(any(), any()) }
     }
 })

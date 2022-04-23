@@ -64,7 +64,7 @@
                         layout="@layout/progress_goal_indicator"
                         app:goal="@{viewModel.group.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
-                        app:timeToday="@{viewModel.timeToday}" />
+                        app:countToday="@{viewModel.timeToday}" />
 
                     <include
                         android:id="@+id/productivity_chart"
@@ -74,7 +74,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="8dp"
                         app:data="@{viewModel.chartData}"
-                        app:goal="@{viewModel.group.goal}" />
+                        app:goal="@{viewModel.uiGoal}" />
 
                     <include
                         android:id="@+id/split_chart"

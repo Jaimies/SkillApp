@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "055fb93c56f096269381fe2458cc482d",
+    "identityHash": "8e05f9ca08ef8800146735527dd48724",
     "entities": [
       {
         "tableName": "skills",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `totalTime` INTEGER NOT NULL, `initialTime` INTEGER NOT NULL, `lastWeekTime` INTEGER NOT NULL, `creationDate` TEXT NOT NULL, `groupId` INTEGER NOT NULL, `goalType` TEXT NOT NULL, `goalTime` INTEGER NOT NULL, `order` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `measurementUnit` TEXT NOT NULL, `totalCount` INTEGER NOT NULL, `initialCount` INTEGER NOT NULL, `lastWeekCount` INTEGER NOT NULL, `creationDate` TEXT NOT NULL, `groupId` INTEGER NOT NULL, `goalType` TEXT NOT NULL, `goalCount` INTEGER NOT NULL, `order` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -21,20 +21,26 @@
             "notNull": true
           },
           {
-            "fieldPath": "totalTime",
-            "columnName": "totalTime",
+            "fieldPath": "measurementUnit",
+            "columnName": "measurementUnit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalCount",
+            "columnName": "totalCount",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "initialTime",
-            "columnName": "initialTime",
+            "fieldPath": "initialCount",
+            "columnName": "initialCount",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "lastWeekTime",
-            "columnName": "lastWeekTime",
+            "fieldPath": "lastWeekCount",
+            "columnName": "lastWeekCount",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -57,8 +63,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "goalTime",
-            "columnName": "goalTime",
+            "fieldPath": "goalCount",
+            "columnName": "goalCount",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -80,7 +86,7 @@
       },
       {
         "tableName": "records",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `time` INTEGER NOT NULL, `skillId` INTEGER NOT NULL, `recordName` TEXT NOT NULL, `date` TEXT NOT NULL, FOREIGN KEY(`skillId`) REFERENCES `skills`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `count` INTEGER NOT NULL, `skillId` INTEGER NOT NULL, `recordName` TEXT NOT NULL, `date` TEXT NOT NULL, FOREIGN KEY(`skillId`) REFERENCES `skills`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -89,8 +95,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "time",
-            "columnName": "time",
+            "fieldPath": "count",
+            "columnName": "count",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -145,7 +151,7 @@
       },
       {
         "tableName": "stats",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `skillId` INTEGER NOT NULL, `time` INTEGER NOT NULL, PRIMARY KEY(`date`, `skillId`), FOREIGN KEY(`skillId`) REFERENCES `skills`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`date` TEXT NOT NULL, `skillId` INTEGER NOT NULL, `count` INTEGER NOT NULL, PRIMARY KEY(`date`, `skillId`), FOREIGN KEY(`skillId`) REFERENCES `skills`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "date",
@@ -160,8 +166,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "time",
-            "columnName": "time",
+            "fieldPath": "count",
+            "columnName": "count",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -199,7 +205,7 @@
       },
       {
         "tableName": "groups",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `goalType` TEXT NOT NULL, `goalTime` INTEGER NOT NULL, `order` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `goalType` TEXT NOT NULL, `goalCount` INTEGER NOT NULL, `order` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -220,8 +226,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "goalTime",
-            "columnName": "goalTime",
+            "fieldPath": "goalCount",
+            "columnName": "goalCount",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -245,7 +251,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '055fb93c56f096269381fe2458cc482d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8e05f9ca08ef8800146735527dd48724')"
     ]
   }
 }

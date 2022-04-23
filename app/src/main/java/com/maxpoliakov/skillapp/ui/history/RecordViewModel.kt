@@ -10,7 +10,6 @@ import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.Duration
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -42,9 +41,9 @@ class RecordViewModel @Inject constructor(
         logEvent("change_record_date")
     }
 
-    fun changeRecordTime(newTime: Duration) {
+    fun changeRecordTime(newCount: Long) {
         ioScope.launch {
-            changeRecordTime.run(record.value!!.id, newTime)
+            changeRecordTime.run(record.value!!.id, newCount)
         }
         logEvent("change_record_time")
     }

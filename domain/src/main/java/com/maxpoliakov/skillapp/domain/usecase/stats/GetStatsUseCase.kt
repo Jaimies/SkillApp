@@ -6,8 +6,7 @@ import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import com.maxpoliakov.skillapp.shared.util.monthsSinceEpoch
-import com.maxpoliakov.skillapp.shared.util.sum
-import com.maxpoliakov.skillapp.shared.util.sumByDuration
+import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.shared.util.weeksSinceEpoch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -18,13 +17,13 @@ import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
-    fun getTimeToday(skillId: Id) = statsRepository.getTimeAtDate(skillId, LocalDate.now())
+    fun getTimeToday(skillId: Id) = statsRepository.getCountAtDate(skillId, LocalDate.now())
 
-    fun getTimeThisWeek(skillId: Id): Flow<Duration> {
+    fun getTimeThisWeek(skillId: Id): Flow<Long> {
         val firstDayOfWeek = getCurrentDate().atStartOfWeek()
         val daysCount = firstDayOfWeek.until(getCurrentDate(), ChronoUnit.DAYS) + 1
         val dailyTimes = List(daysCount.toInt()) { index ->
-            statsRepository.getTimeAtDate(skillId, firstDayOfWeek.plusDays(index.toLong()))
+            statsRepository.getCountAtDate(skillId, firstDayOfWeek.plusDays(index.toLong()))
         }
 
         return combine(dailyTimes) { times -> times.sum() }
@@ -32,7 +31,7 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
 
     fun getGroupTimeToday(groupId: Id) = statsRepository.getGroupTimeAtDate(groupId, LocalDate.now())
 
-    fun getGroupTimeThisWeek(skillId: Id): Flow<Duration> {
+    fun getGroupTimeThisWeek(skillId: Id): Flow<Long> {
         val firstDayOfWeek = getCurrentDate().atStartOfWeek()
         val daysCount = firstDayOfWeek.until(getCurrentDate(), ChronoUnit.DAYS) + 1
         val dailyTimes = List(daysCount.toInt()) { index ->
@@ -72,7 +71,7 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
             stats
                 .groupBy { it.date.weeksSinceEpoch }
                 .map { entry ->
-                    Statistic(entry.value[0].date.atStartOfWeek(), entry.value.sumByDuration(Statistic::time))
+                    Statistic(entry.value[0].date.atStartOfWeek(), entry.value.sumByLong(Statistic::count))
                 }
         }
     }
@@ -84,7 +83,7 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
             stats
                 .groupBy { it.date.monthsSinceEpoch }
                 .map { entry ->
-                    Statistic(entry.value[0].date.withDayOfMonth(1), entry.value.sumByDuration(Statistic::time))
+                    Statistic(entry.value[0].date.withDayOfMonth(1), entry.value.sumByLong(Statistic::count))
                 }
         }
     }
@@ -93,6 +92,6 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
         .flatMap { it }
         .groupBy { it.date }
         .map { entry ->
-            Statistic(entry.value[0].date, entry.value.sumByDuration(Statistic::time))
+            Statistic(entry.value[0].date, entry.value.sumByLong(Statistic::count))
         }
 }

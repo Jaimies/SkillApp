@@ -24,7 +24,7 @@ import java.time.ZonedDateTime
 abstract class DetailsViewModel(
     stopwatchUtil: StopwatchUtil,
     goalFlow: Flow<Goal?>,
-    recordedTimeFlow: Flow<Duration>,
+    recordedCountFlow: Flow<Long>,
 ) : ViewModel() {
     protected abstract val nameFlow: Flow<String>
 
@@ -59,15 +59,15 @@ abstract class DetailsViewModel(
         state.startTime.until(ZonedDateTime.now())
     }
 
-    private val _timeToday = recordedTimeFlow.combine(timeOnStopwatch) { recordedTime, timeOnStopwatch ->
+    private val _timeToday = recordedCountFlow/*.combine(timeOnStopwatch) { recordedTime, timeOnStopwatch ->
         recordedTime + timeOnStopwatch
-    }
+    }*/
 
     val timeToday = _timeToday.asLiveData()
 
     val goalPercentage = combine(goalFlow, _timeToday) { goal, timeToday ->
-        val goalTime = goal?.time ?: return@combine 0
-        (timeToday.toMillis() * 100_000 / goalTime.toMillis()).toInt()
+        val goalCount = goal?.count ?: return@combine 0
+        (timeToday/*.toMillis()*/ * 100_000 / goalCount).toInt()
     }.asLiveData()
 
     init {

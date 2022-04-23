@@ -30,27 +30,27 @@ class StatsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addRecord(record: Record) {
-        statsDao.addRecord(record.skillId, record.date, record.time)
+        statsDao.addRecord(record.skillId, record.date, record.count)
     }
 
-    override suspend fun getTimeAtDate(date: LocalDate): Duration {
-        return statsDao.getTimeAtDate(date)
+    override suspend fun getCountAtDate(date: LocalDate): Long {
+        return statsDao.getCountAtDate(date)
     }
 
-    override fun getTimeAtDate(skillId: Id, date: LocalDate): Flow<Duration> {
-        return statsDao.getTimeAtDate(skillId, date)
-            .map { time -> time ?: Duration.ZERO }
+    override fun getCountAtDate(skillId: Id, date: LocalDate): Flow<Long> {
+        return statsDao.getCountAtDate(skillId, date)
+            .map { time -> time ?: 0 }
     }
 
-    override fun getTimeToday(skillId: Id): Flow<Duration> {
-        return statsDao.getTimeAtDate(skillId, LocalDate.now())
-            .map { time -> time ?: Duration.ZERO }
+    override fun getTimeToday(skillId: Id): Flow<Long> {
+        return statsDao.getCountAtDate(skillId, LocalDate.now())
+            .map { time -> time ?: 0 }
     }
 
-    override fun getGroupTimeAtDate(groupId: Id, date: LocalDate): Flow<Duration> {
+    override fun getGroupTimeAtDate(groupId: Id, date: LocalDate): Flow<Long> {
         return groupRepository.getSkillGroupFlowById(groupId).flatMapLatest { group ->
             val timeTodayFlows = group.skills.map { skill ->
-                getTimeAtDate(skill.id, date)
+                getCountAtDate(skill.id, date)
             }
 
             combine(timeTodayFlows) { todayTimes -> todayTimes.sum() }

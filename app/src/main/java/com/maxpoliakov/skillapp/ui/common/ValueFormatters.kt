@@ -7,7 +7,6 @@ import com.maxpoliakov.skillapp.shared.util.EPOCH
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
 import com.maxpoliakov.skillapp.shared.util.shortName
 import com.maxpoliakov.skillapp.util.time.toReadableFloat
-import java.time.DayOfWeek
 import kotlin.math.roundToInt
 
 class DayFormatter : ValueFormatter() {
@@ -34,16 +33,16 @@ class MonthFormatter : ValueFormatter() {
 class TimeFormatter(private val context: Context) : ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
         if (value == 0f) return ""
-        if (value < 60) return context.getString(R.string.minutes, "1")
+        if (value < 60) return context.getString(R.string.time_minutes, "1")
         if (value >= 3600) return toHours(value)
         return toMinutes(value)
     }
 
     private fun toMinutes(value: Float): String {
-        return context.getString(R.string.minutes, (value / 60).roundToInt().toString())
+        return context.getString(R.string.time_minutes, (value / 60).roundToInt().toString())
     }
 
     private fun toHours(value: Float): String {
-        return context.getString(R.string.hours, (value / 3600).toReadableFloat())
+        return context.getString(R.string.time_hours, (value / 3600).toReadableFloat())
     }
 }

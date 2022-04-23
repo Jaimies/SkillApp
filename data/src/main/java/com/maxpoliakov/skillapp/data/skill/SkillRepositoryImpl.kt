@@ -44,23 +44,23 @@ class SkillRepositoryImpl @Inject constructor(
 
     override suspend fun updateGoal(skillId: Int, newGoal: Goal?) {
         if (newGoal == null)
-            skillDao.updateGoal(skillId, Duration.ZERO, Goal.Type.Daily)
+            skillDao.updateGoal(skillId, 0, Goal.Type.Daily)
         else
-            skillDao.updateGoal(skillId, newGoal.time, newGoal.type)
+            skillDao.updateGoal(skillId, newGoal.count, newGoal.type)
     }
 
     override suspend fun deleteSkill(skill: Skill) =
         skillDao.delete(skill.mapToDB())
 
-    override suspend fun increaseTime(id: Id, time: Duration) {
-        skillDao.increaseTime(id, time)
+    override suspend fun increaseCount(id: Id, count: Long) {
+        skillDao.increaseCount(id, count)
     }
 
     override suspend fun updateOrder(skillId: Int, newOrder: Int) {
         skillDao.setOrder(skillId, newOrder)
     }
 
-    override suspend fun decreaseTime(id: Id, time: Duration) {
-        skillDao.increaseTime(id, time.negated())
+    override suspend fun decreaseCount(id: Id, count: Long) {
+        skillDao.increaseCount(id, -count)
     }
 }

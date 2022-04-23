@@ -19,7 +19,7 @@ class GoalPicker : PickerDialog() {
             val type = goalTypes[firstPicker.value] ?: return null
             val values = goalValues[firstPicker.value]
 
-            return Goal(values[secondPicker.value], type)
+            return Goal(values[secondPicker.value].toMillis(), type)
         }
 
     override fun onAttach(context: Context) {
@@ -68,7 +68,7 @@ class GoalPicker : PickerDialog() {
                 val goalValue = goalTypes.indexOf(goal.type).coerceAtLeast(0)
                 setFirstPickerValue(goalValue)
 
-                val durationValue = goalValues[goalValue].indexOf(goal.time).coerceAtLeast(0)
+                val durationValue = goalValues[goalValue].indexOf(Duration.ofMillis(goal.count)).coerceAtLeast(0)
                 setSecondPickerValue(durationValue)
             }
 

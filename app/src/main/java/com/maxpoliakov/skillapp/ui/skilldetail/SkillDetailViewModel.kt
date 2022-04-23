@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Record
@@ -14,6 +15,8 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
+import com.maxpoliakov.skillapp.model.UiGoal
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.SkillChartData
@@ -42,13 +45,12 @@ class SkillDetailViewModel(
     stopwatchUtil,
     getSkillById.run(skillId).map { skill -> skill.goal },
     getSkillById.run(skillId).flatMapLatest { skill ->
-        val goal = skill.goal ?: return@flatMapLatest flowOf(Duration.ZERO)
+        val goal = skill.goal ?: return@flatMapLatest flowOf(0L)
 
         if (goal.type == Goal.Type.Daily) getStats.getTimeToday(skillId)
         else getStats.getTimeThisWeek(skillId)
     }
 ) {
-
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()
     val showRecordAdded: LiveData<Record?> get() = _showRecordAdded
@@ -65,8 +67,17 @@ class SkillDetailViewModel(
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
     val skillLiveData = skill.asLiveData()
 
+    val uiGoal = skillLiveData.map { skill ->
+        if (skill.goal == null) null
+        else UiGoal(skill.goal!!, UiMeasurementUnit.from(skill.unit))
+    }
+
+    val uiUnit = skillLiveData.map { skill ->
+        UiMeasurementUnit.from(skill.unit)
+    }
+
     val summary = skill.map { skill ->
-        ProductivitySummary(skill.totalTime, skill.lastWeekTime)
+        ProductivitySummary.from(skill)
     }.asLiveData()
 
     val chartData = SkillChartData(getStats, skillId)
@@ -78,7 +89,8 @@ class SkillDetailViewModel(
     }
 
     fun addRecord(time: Duration) {
-        val record = Record("", skillId, time)
+        val count = time.toMillis()
+        val record = Record("", skillId, count)
         ioScope.launch { addRecord.run(record) }
     }
 

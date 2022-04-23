@@ -20,7 +20,7 @@ class AddRecordUseCase @Inject constructor(
 
         return withContext(IO) {
             val recordIdAsync = async { recordsRepository.addRecord(record) }
-            launch { skillRepository.increaseTime(record.skillId, record.time) }
+            launch { skillRepository.increaseCount(record.skillId, record.count) }
             launch { statsRepository.addRecord(record) }
             recordIdAsync.await()
         }

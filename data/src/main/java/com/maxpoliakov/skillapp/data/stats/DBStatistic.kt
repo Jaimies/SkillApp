@@ -29,7 +29,7 @@ import java.time.LocalDate
 data class DBStatistic(
     val date: LocalDate,
     val skillId: Int,
-    val time: Duration,
+    val count: Long,
 )
 
-fun DBStatistic.mapToDomain() = Statistic(date, time)
+fun DBStatistic.mapToDomain() = Statistic(date, count)

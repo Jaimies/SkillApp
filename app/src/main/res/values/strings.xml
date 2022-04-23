@@ -19,14 +19,21 @@
     <string name="new_group">New group</string>
     <string name="history">History</string>
     <string name="skills">Skills</string>
-    <string name="total">Total time</string>
+    <string name="total_hours">Total time</string>
+    <string name="total_kilometers">Total distance</string>
+    <string name="total_times">Total times</string>
     <string name="last_week">Last 7\u00A0days</string>
-    <string name="hours">%sh</string>
-    <string name="minutes">%sm</string>
-    <string name="hours_and_minutes">%1$dh %2$dm</string>
+    <string name="hours">Hours</string>
+    <string name="kilometers">Kilometers</string>
+    <string name="times">Times</string>
+    <string name="time_hours">%sh</string>
+    <string name="time_minutes">%sm</string>
+    <string name="time_hours_and_minutes">%1$dh %2$dm</string>
     <string name="initial_time">Total number of hours of practice</string>
     <string name="save">Save</string>
-    <string name="add_a_record">Add time manually</string>
+    <string name="add_hours_record">Add time manually</string>
+    <string name="add_kilometers_record">Add distance</string>
+    <string name="add_times_record">Add a record</string>
     <string name="edit">Edit</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
@@ -116,4 +123,5 @@
     <string name="weekly_goal_without_progress">Weekly goal: %s</string>
     <string name="select_goal">Select goal</string>
     <string name="add_time">Add time</string>
+    <string name="measurement_unit">Measurement unit</string>
 </resources>

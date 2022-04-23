@@ -43,9 +43,9 @@ class SkillGroupRepositoryImpl @Inject constructor(
 
     override suspend fun updateGoal(groupId: Int, newGoal: Goal?) {
         if (newGoal == null)
-            groupDao.updateGoal(groupId, Duration.ZERO, Goal.Type.Daily)
+            groupDao.updateGoal(groupId, 0, Goal.Type.Daily)
         else
-            groupDao.updateGoal(groupId, newGoal.time, newGoal.type)
+            groupDao.updateGoal(groupId, newGoal.count, newGoal.type)
     }
 
     override suspend fun updateOrder(groupId: Int, newOrder: Int) {

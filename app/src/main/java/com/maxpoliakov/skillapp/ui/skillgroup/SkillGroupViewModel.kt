@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
@@ -9,14 +10,15 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
-import com.maxpoliakov.skillapp.shared.util.sumByDuration
+import com.maxpoliakov.skillapp.model.UiGoal
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.GroupChartData
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import java.time.Duration
 import javax.inject.Inject
 
 class SkillGroupViewModel(
@@ -29,7 +31,7 @@ class SkillGroupViewModel(
     stopwatchUtil,
     getGroup.getById(groupId).map { group -> group.goal },
     getGroup.getById(groupId).flatMapLatest { group ->
-        val goal = group.goal ?: return@flatMapLatest flowOf(Duration.ZERO)
+        val goal = group.goal ?: return@flatMapLatest flowOf(0L)
 
         if (goal.type == Goal.Type.Daily) getStats.getGroupTimeToday(groupId)
         else getStats.getGroupTimeThisWeek(groupId)
@@ -46,8 +48,14 @@ class SkillGroupViewModel(
 
     val group = _group.asLiveData()
 
+    val uiGoal = group.map { group ->
+        if(group.goal == null) null
+        //todo change me pls no exclaim
+        else UiGoal(group.goal!!, UiMeasurementUnit.from(group.unit))
+    }
+
     val summary = _group.combine(dailyStats) { group, stats ->
-        ProductivitySummary(group.totalTime, stats.sumByDuration { it.time })
+        ProductivitySummary(group.totalCount, stats.sumByLong { it.count }, UiMeasurementUnit.from(group.unit))
     }.asLiveData()
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {

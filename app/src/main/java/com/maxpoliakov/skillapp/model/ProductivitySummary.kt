@@ -1,12 +1,17 @@
 package com.maxpoliakov.skillapp.model
 
-import java.time.Duration
+import com.maxpoliakov.skillapp.domain.model.Skill
 
 data class ProductivitySummary(
-    val totalTime: Duration,
-    val lastWeekTime: Duration
+    val totalCount: Long,
+    val lastWeekCount: Long,
+    val unit: UiMeasurementUnit,
 ) {
     companion object {
-        val ZERO = ProductivitySummary(Duration.ZERO, Duration.ZERO)
+        val ZERO = ProductivitySummary(0L, 0L, UiMeasurementUnit.Millis)
+
+        fun from(skill: Skill) : ProductivitySummary {
+            return ProductivitySummary(skill.totalCount, skill.lastWeekCount, UiMeasurementUnit.from(skill.unit))
+        }
     }
 }

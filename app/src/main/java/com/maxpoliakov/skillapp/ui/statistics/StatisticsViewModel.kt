@@ -8,8 +8,10 @@ import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.mapList
 import com.maxpoliakov.skillapp.shared.util.sumByDuration
+import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.SkillChartData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.zip
@@ -31,13 +33,14 @@ class StatisticsViewModel @Inject constructor(
     }.asLiveData()
 
     val pieData = getSkills.getTopSkills(5).mapList { skill ->
-        PieEntry(skill.totalTime.toMillis().toFloat(), skill.name)
+        PieEntry(skill.totalCount.toFloat(), skill.name)
     }.asLiveData()
 }
 
 fun calculateSummary(skills: List<Skill>, stats: List<Statistic>): ProductivitySummary {
     return ProductivitySummary(
-        totalTime = skills.sumByDuration { it.totalTime },
-        lastWeekTime = stats.sumByDuration { it.time },
+        totalCount = skills.sumByLong { it.totalCount },
+        lastWeekCount = stats.sumByLong { it.count },
+        unit = UiMeasurementUnit.Millis
     )
 }

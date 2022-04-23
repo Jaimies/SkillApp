@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
             android:gravity="center_vertical"
-            app:time="@{viewModel.record.time}"
+            app:count="@{viewModel.record.count}"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
@@ -25,7 +26,11 @@ class SkillViewModel @Inject constructor(
 ) {
     private val _skill = MutableStateFlow<Skill?>(null)
     val skill = _skill.asStateFlow()
-    val state = _skill.map { it?.toSkillState() }.asLiveData()
+
+    val uiUnit = _skill.map { skill ->
+        if (skill == null) null
+        else UiMeasurementUnit.from(skill.unit)
+    }.asLiveData()
 
     private val _isSmall = MutableLiveData(false)
     val isSmall: LiveData<Boolean> get() = _isSmall

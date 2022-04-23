@@ -15,6 +15,7 @@ import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaBy
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 import com.maxpoliakov.skillapp.util.ui.showPopupMenu
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -70,8 +71,8 @@ class RecordDelegateAdapter @Inject constructor(
         }
 
         private fun showTimePickerDialog() {
-            context.showTimePicker(viewModel.record.value!!.time) { time ->
-                viewModel.changeRecordTime(time)
+            context.showTimePicker(Duration.ofMillis(viewModel.record.value!!.count)) { time ->
+                viewModel.changeRecordTime(time.toMillis())
             }
         }
 

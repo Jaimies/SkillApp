@@ -5,5 +5,5 @@ import java.time.LocalDate
 
 data class Statistic(
     val date: LocalDate,
-    val time: Duration
+    val count: Long,
 )

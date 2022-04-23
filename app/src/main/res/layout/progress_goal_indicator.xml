@@ -9,8 +9,12 @@
             type="com.maxpoliakov.skillapp.domain.model.Goal" />
 
         <variable
-            name="timeToday"
-            type="java.time.Duration" />
+            name="countToday"
+            type="long" />
+
+        <variable
+            name="unit"
+            type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
 
         <variable
             name="goalPercentage"
@@ -38,7 +42,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{FormattingKt.formatGoal(context, goal, timeToday)}"
+                android:text="@{unit.formatGoal(context, goal, countToday)}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textSize="19sp" />
 

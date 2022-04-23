@@ -54,7 +54,7 @@
                     android:layout_marginStart="1dp"
                     android:layout_marginEnd="@dimen/margin_small"
                     android:singleLine="true"
-                    android:text="@{viewModel.state.name}"
+                    android:text="@{viewModel.skill.name}"
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/total_time"
@@ -69,7 +69,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:gravity="center_vertical"
-                    android:text="@{@string/hours(viewModel.state.time)}"
+                    android:text="@{viewModel.uiUnit.toShortString(viewModel.skill.totalCount, context)}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:layout_constraintEnd_toStartOf="@id/start_timer"
                     tools:text="820h" />

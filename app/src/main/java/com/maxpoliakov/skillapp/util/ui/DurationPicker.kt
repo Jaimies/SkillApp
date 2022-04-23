@@ -17,11 +17,11 @@ class DurationPicker : PickerDialog() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         firstPickerValues = Array(24) { index ->
-            context.getString(R.string.hours, index.toString())
+            context.getString(R.string.time_hours, index.toString())
         }
 
         secondPickerValues = Array(12) { index ->
-            context.getString(R.string.minutes, (index * 5).toString())
+            context.getString(R.string.time_minutes, (index * 5).toString())
         }
     }
 

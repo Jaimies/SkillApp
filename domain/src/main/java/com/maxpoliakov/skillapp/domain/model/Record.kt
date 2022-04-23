@@ -7,7 +7,7 @@ import java.time.LocalDate
 data class Record(
     val name: String,
     val skillId: Id,
-    val time: Duration,
+    val count: Long,
     val id: Id = 0,
     val date: LocalDate = getCurrentDate()
 )

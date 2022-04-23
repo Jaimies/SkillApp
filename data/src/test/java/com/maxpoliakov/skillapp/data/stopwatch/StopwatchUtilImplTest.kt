@@ -47,8 +47,8 @@ class StubSkillRepository : SkillRepository {
     override suspend fun updateGoal(skillId: Int, newGoal: Goal?) {}
     override suspend fun deleteSkill(skill: Skill) {}
     override suspend fun updateOrder(skillId: Int, newOrder: Int) {}
-    override suspend fun increaseTime(id: Id, time: Duration) {}
-    override suspend fun decreaseTime(id: Id, time: Duration) {}
+    override suspend fun increaseCount(id: Id, count: Long) {}
+    override suspend fun decreaseCount(id: Id, count: Long) {}
 }
 
 class StopwatchUtilImplTest : StringSpec({

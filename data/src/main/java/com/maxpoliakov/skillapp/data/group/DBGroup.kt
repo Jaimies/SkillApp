@@ -14,7 +14,6 @@ import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import java.time.Duration
 
 @Serializable
 @Entity(tableName = "groups")
@@ -23,7 +22,7 @@ data class DBGroup(
     val id: Int = 0,
     val name: String = "",
     val goalType: Goal.Type = Goal.Type.Daily,
-    val goalTime: Duration = Duration.ZERO,
+    val goalCount: Long = 0,
     val order: Int = -1,
 )
 
@@ -40,6 +39,7 @@ fun GroupWithSkills.mapToDomain() = SkillGroup(
     group.id,
     group.name,
     skills.map(DBSkill::mapToDomain),
-    parseGoal(group.goalTime, group.goalType),
+    skills[0].unit,
+    parseGoal(group.goalCount, group.goalType),
     group.order,
 )

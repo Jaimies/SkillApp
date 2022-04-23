@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.skilldetail.SkillDetailViewModel" />
+        
+        <variable
+            name="isStopwatchButtonEnabled"
+            type="boolean" />
 
         <import type="com.maxpoliakov.skillapp.R" />
     </data>
@@ -25,20 +29,23 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
+            app:visible="@{viewModel.uiUnit.stopwatchEnabled}"
             android:onClick="@{() -> viewModel.toggleTimer()}"
             android:text="@{!viewModel.stopwatchIsRunning ? @string/start_the_timer: @string/stop_the_timer}"
             app:backgroundTintAttr="@{!viewModel.stopwatchIsRunning ? R.attr.colorPrimary : R.attr.colorError}"
             app:textColorAttr="@{!viewModel.stopwatchIsRunning ? R.attr.colorOnPrimary : R.attr.colorOnError}"
             tools:text="@string/start_the_timer" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             style="@style/Widget.SkillApp.RoundButton.Secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
+            app:backgroundTintAttr="@{viewModel.uiUnit.stopwatchEnabled ? R.attr.colorButtonSecondary : R.attr.colorPrimary}"
+            app:textColorAttr="@{viewModel.uiUnit.stopwatchEnabled ? R.attr.textColorButtonSecondary : R.attr.colorOnPrimary}"
             android:onClick="@{() -> viewModel.showRecordDialog()}"
-            android:text="@string/add_a_record" />
+            android:text="@{viewModel.uiUnit.addRecordBtnResId > 0 ? context.getString(viewModel.uiUnit.addRecordBtnResId) : ``}" />
     </LinearLayout>
 </layout>

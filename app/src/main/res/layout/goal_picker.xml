@@ -12,6 +12,10 @@
             name="goal"
             type="com.maxpoliakov.skillapp.domain.model.Goal" />
 
+        <variable
+            name="unit"
+            type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
+
         <import type="com.maxpoliakov.skillapp.util.ui.FormattingKt" />
     </data>
 
@@ -32,6 +36,6 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:onClick="@{() -> chooseGoal.invoke()}"
-            android:text="@{FormattingKt.formatGoal(context, goal)}" />
+            android:text="@{unit.formatGoal(context, goal)}" />
     </com.google.android.material.textfield.TextInputLayout>
 </layout>

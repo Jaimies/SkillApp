@@ -51,7 +51,7 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
 
         observe(viewModel.group) { group ->
             val data = group.skills.map { skill ->
-                PieEntry(skill.totalTime.toMillis().toFloat(), skill.name)
+                PieEntry(skill.totalCount.toFloat(), skill.name)
             }
 
             binding.splitChart.chart.setData(data)

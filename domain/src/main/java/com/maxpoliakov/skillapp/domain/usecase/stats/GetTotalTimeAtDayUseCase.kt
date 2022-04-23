@@ -7,5 +7,5 @@ import javax.inject.Inject
 class GetTotalTimeAtDayUseCase @Inject constructor(
     private val statsRepository: StatsRepository
 ) {
-    suspend fun run(date: LocalDate) = statsRepository.getTimeAtDate(date)
+    suspend fun run(date: LocalDate) = statsRepository.getCountAtDate(date)
 }

@@ -18,6 +18,6 @@ interface SkillRepository {
     suspend fun updateGoal(skillId: Int, newGoal: Goal?)
     suspend fun deleteSkill(skill: Skill)
     suspend fun updateOrder(skillId: Int, newOrder: Int)
-    suspend fun increaseTime(id: Id, time: Duration)
-    suspend fun decreaseTime(id: Id, time: Duration)
+    suspend fun increaseCount(id: Id, count: Long)
+    suspend fun decreaseCount(id: Id, count: Long)
 }

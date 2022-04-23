@@ -20,12 +20,14 @@
             android:id="@+id/last_week"
             layout="@layout/time_with_label"
             app:label="@{@string/last_week}"
-            app:time="@{summary.lastWeekTime}" />
+            app:measurementUnit="@{summary.unit}"
+            app:count="@{summary.lastWeekCount}" />
 
         <include
             android:id="@+id/total"
             layout="@layout/time_with_label"
-            app:label="@{@string/total}"
-            app:time="@{summary.totalTime}" />
+            app:label="@{summary.unit.totalCountStringResId > 0 ? context.getString(summary.unit.totalCountStringResId) : ``}"
+            app:measurementUnit="@{summary.unit}"
+            app:count="@{summary.totalCount}" />
     </LinearLayout>
 </layout>

@@ -11,10 +11,10 @@ class ChangeRecordTimeUseCase @Inject constructor(
     private val deleteRecord: DeleteRecordUseCase,
     private val recordsRepository: RecordsRepository
 ) {
-    suspend fun run(id: Int, time: Duration) = withContext(Dispatchers.IO) {
+    suspend fun run(id: Int, count: Long) = withContext(Dispatchers.IO) {
         val oldRecord = recordsRepository.getRecord(id) ?: return@withContext
 
         deleteRecord.run(id)
-        addRecord.run(oldRecord.copy(time = time))
+        addRecord.run(oldRecord.copy(count = count))
     }
 }

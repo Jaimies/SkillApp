@@ -1,9 +1,8 @@
 package com.maxpoliakov.skillapp.data
 
 import com.maxpoliakov.skillapp.domain.model.Goal
-import java.time.Duration
 
-fun parseGoal(time: Duration, type: Goal.Type): Goal? {
-    return if (time == Duration.ZERO) null
-    else Goal(time, type)
+fun parseGoal(count: Long, type: Goal.Type): Goal? {
+    return if (count == 0L) null
+    else Goal(count, type)
 }

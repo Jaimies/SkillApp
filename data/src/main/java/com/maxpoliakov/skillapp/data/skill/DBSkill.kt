@@ -9,11 +9,11 @@ import com.maxpoliakov.skillapp.data.serialization.DurationAsLongSerializer
 import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
-import java.time.Duration
 import java.time.LocalDate
 
 @Serializable
@@ -22,27 +22,29 @@ data class DBSkill(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String = "",
-    val totalTime: Duration = Duration.ZERO,
-    val initialTime: Duration = Duration.ZERO,
+    val unit: MeasurementUnit,
+    val totalCount: Long = 0,
+    val initialCount: Long = 0,
     @Transient
-    val lastWeekTime: Duration = Duration.ZERO,
+    val lastWeekCount: Long = 0,
     val creationDate: LocalDate = getCurrentDate(),
     val groupId: Int = -1,
     val goalType: Goal.Type = Goal.Type.Daily,
-    val goalTime: Duration = Duration.ZERO,
+    val goalCount: Long = 0,
     val order: Int = -1,
 )
 
 fun DBSkill.mapToDomain(): Skill {
     return Skill(
         name,
-        totalTime,
-        initialTime,
-        lastWeekTime,
+        unit,
+        totalCount,
+        initialCount,
+        lastWeekCount,
         id,
         creationDate,
         groupId,
-        parseGoal(goalTime, goalType),
+        parseGoal(goalCount, goalType),
         order,
     )
 }
@@ -51,13 +53,14 @@ fun Skill.mapToDB(): DBSkill {
     return DBSkill(
         id,
         name,
-        totalTime,
-        initialTime,
-        lastWeekTime,
+        unit,
+        totalCount,
+        initialCount,
+        lastWeekCount,
         date,
         groupId,
         goal?.type ?: Goal.Type.Daily,
-        goal?.time ?: Duration.ZERO,
+        goal?.count ?: 0,
         order,
     )
 }

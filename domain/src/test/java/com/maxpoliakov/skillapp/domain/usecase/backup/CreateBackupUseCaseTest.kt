@@ -51,7 +51,7 @@ private fun createUseCase(
     val backupUtil = mockk<BackupUtil>(relaxed = true)
 
     coEvery { backupUtil.getDatabaseBackup() } returns backupData
-    every { billingRepository.isSubscribed } returns MutableStateFlow(isSubscribed)
+    every { billingRepository.subscriptionState } returns MutableStateFlow(if(isSubscribed) BillingRepository.SubscriptionState.Subscribed else BillingRepository.SubscriptionState.NotSubscribed)
     every { authRepository.currentUser } returns if (isAuthenticated) User("user@gmail.com") else null
     every { authRepository.hasAppDataPermission } returns hasPermissions
 

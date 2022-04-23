@@ -20,6 +20,7 @@ import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.ui.common.ChartData
 import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.ui.common.MonthFormatter
@@ -29,6 +30,7 @@ import com.maxpoliakov.skillapp.util.ui.format
 import com.maxpoliakov.skillapp.util.ui.primaryColor
 import com.maxpoliakov.skillapp.util.ui.sp
 import com.maxpoliakov.skillapp.util.ui.textColor
+import java.time.Duration
 import java.time.temporal.ChronoUnit
 
 class TheBarChart : BarChart {
@@ -38,7 +40,7 @@ class TheBarChart : BarChart {
 
     private var entries: List<BarEntry>? = null
     private var formatterType: ChronoUnit? = null
-    private var goal: Goal? = null
+    private var goal: UiGoal? = null
 
     init {
         setup()
@@ -151,13 +153,13 @@ class TheBarChart : BarChart {
         description.isEnabled = false
     }
 
-    fun setGoal(goal: Goal?) {
+    fun setGoal(goal: UiGoal?) {
         if (goal == this.goal) return
         this.goal = goal
         displayGoal(goal)
     }
 
-    private fun displayGoal(goal: Goal?) {
+    private fun displayGoal(goal: UiGoal?) {
         if (goal == null || !shouldDisplayGoal(goal)) {
             axisLeft.removeAllLimitLines()
             axisLeft.resetAxisMaximum()
@@ -168,8 +170,8 @@ class TheBarChart : BarChart {
 
         axisLeft.run {
             removeAllLimitLines()
-            val label = goal.time.format(context)
-            val limitLine = LimitLine(goal.time.seconds.toFloat(), label).apply {
+            val label = goal.unit.toLongString(goal.goal.count, context)
+            val limitLine = LimitLine((goal.goal.count / 1000).toFloat(), label).apply {
                 val color = context.textColor
                 lineWidth = 1f
                 lineColor = color
@@ -193,19 +195,19 @@ class TheBarChart : BarChart {
             axisLeft.resetAxisMaximum()
         } else {
             val axisMaximum = (entries?.maxByOrNull { it.y }?.y ?: 0f) * 1.1f
-            val goalTime = goal.time.seconds.toFloat()
+            val goalTime = (goal.goal.count / 1000).toFloat()
 
             if (goalTime < axisMaximum) {
                 axisLeft.resetAxisMaximum()
             } else {
-                axisLeft.axisMaximum = goal.time.seconds.toFloat().coerceAtLeast(axisMaximum)
+                axisLeft.axisMaximum = (goal.goal.count / 1000).toFloat().coerceAtLeast(axisMaximum)
             }
         }
     }
 
-    private fun shouldDisplayGoal(goal: Goal): Boolean {
-        return goal.type == Goal.Type.Daily && formatterType == ChronoUnit.DAYS
-                || goal.type == Goal.Type.Weekly && formatterType == ChronoUnit.WEEKS
+    private fun shouldDisplayGoal(goal: UiGoal): Boolean {
+        return goal.goal.type == Goal.Type.Daily && formatterType == ChronoUnit.DAYS
+                || goal.goal.type == Goal.Type.Weekly && formatterType == ChronoUnit.WEEKS
     }
 
     class CustomXAxisRenderer(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, trans: Transformer?) :

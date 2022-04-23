@@ -27,8 +27,8 @@ class StatisticsViewModelTest : StringSpec({
         )
 
         calculateSummary(skills, stats) shouldBe ProductivitySummary(
-            totalTime = Duration.ofHours(22),
-            lastWeekTime = Duration.ofHours(16),
+            totalCount = Duration.ofHours(22),
+            lastWeekCount = Duration.ofHours(16),
         )
     }
 })

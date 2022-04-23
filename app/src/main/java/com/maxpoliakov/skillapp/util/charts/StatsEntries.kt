@@ -14,8 +14,8 @@ fun List<Statistic>.withMissingStats(unit: ChronoUnit = ChronoUnit.DAYS, startDa
 
         val item = find { chartItem -> chartItem.date == neededDate }
 
-        if (item != null && item.time > Duration.ZERO) item
-        else Statistic(neededDate, Duration.ZERO)
+        if (item != null && item.count > 0) item
+        else Statistic(neededDate, 0)
     }.sortedBy { it.date }
 }
 
@@ -30,13 +30,13 @@ fun List<Statistic>.toEntries(
 }
 
 private fun List<Statistic>.hasPositiveValues(): Boolean {
-    return this.any { it.time > Duration.ZERO }
+    return this.any { it.count > 0 }
 }
 
 private fun List<Statistic>.convertToEntries(
     convertDateToNumber: (date: LocalDate) -> Long,
 ): List<BarEntry> {
     return map { statistic ->
-        BarEntry(convertDateToNumber(statistic.date).toFloat(), statistic.time.seconds.toFloat())
+        BarEntry(convertDateToNumber(statistic.date).toFloat(), (statistic.count / 1000).toFloat())
     }
 }

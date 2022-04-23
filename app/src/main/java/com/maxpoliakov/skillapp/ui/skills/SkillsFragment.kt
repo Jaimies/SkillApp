@@ -22,6 +22,7 @@ import com.google.android.material.transition.Hold
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
@@ -78,6 +79,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
                         skills = listOf(change.skill, change.otherSkill),
                         goal = null,
                         order = change.position,
+                        unit = MeasurementUnit.Millis,
                     )
 
                     val createGroupAsync = viewModel.createGroupAsync(change.skill, group)

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
 import com.maxpoliakov.skillapp.ui.common.EditableViewModel
@@ -31,12 +32,24 @@ class AddSkillViewModel @Inject constructor(
     private val _goal = MutableStateFlow<Goal?>(null)
     val goal = _goal.asLiveData()
 
+    private var measurementUnitIndex = 0
+
+    fun setMeasurementUnitIndex(index: Int) {
+        measurementUnitIndex = index
+    }
+
     override fun save(name: String) {
         viewModelScope.launch {
-            val time = Duration.ofHours(totalTime.value?.toLongOrNull() ?: 0)
+            val millis = Duration.ofHours(totalTime.value?.toLongOrNull() ?: 0).toMillis()
 
             val skillId = addSkill.run(
-                Skill(name = name, totalTime = time, initialTime = time, goal = goal.value)
+                Skill(
+                    name = name,
+                    totalCount = millis,
+                    initialCount = millis,
+                    goal = goal.value,
+                    unit = MeasurementUnit.values()[measurementUnitIndex]
+                )
             )
 
             _goToSkillDetail.value = skillId.toInt()

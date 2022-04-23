@@ -79,7 +79,7 @@
                         layout="@layout/progress_goal_indicator"
                         app:goal="@{viewModel.skillLiveData.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
-                        app:timeToday="@{viewModel.timeToday}" />
+                        app:countToday="@{viewModel.timeToday}" />
 
                     <include
                         android:id="@+id/productivity_chart"
@@ -89,7 +89,7 @@
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="70dp"
                         app:data="@{viewModel.chartData}"
-                        app:goal="@{viewModel.skillLiveData.goal}" />
+                        app:goal="@{viewModel.uiGoal}" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

@@ -19,12 +19,12 @@
     <string name="new_group">Новая группа</string>
     <string name="history">История</string>
     <string name="skills">Навыки</string>
-    <string name="total">Общее время</string>
+    <string name="total_hours">Общее время</string>
     <string name="last_week">Последние 7\u00A0дней</string>
-    <string name="hours">%s\u00A0ч</string>
+    <string name="time_hours">%s\u00A0ч</string>
     <string name="initial_time">Имеющееся количество часов практики</string>
     <string name="save">Сохранить</string>
-    <string name="add_a_record">Добавить время вручную</string>
+    <string name="add_hours_record">Добавить время вручную</string>
     <string name="edit">Изменить</string>
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>
@@ -42,7 +42,7 @@
     <string name="dark">Темная</string>
     <string name="automatic">Автоматическая</string>
     <string name="more">Ещё</string>
-    <string name="minutes">%s\u00A0мин</string>
+    <string name="time_minutes">%s\u00A0мин</string>
     <string name="timers">Таймеры</string>
     <string name="start_the_timer">Запустить таймер</string>
     <string name="stop_the_timer">Остановить таймер</string>
@@ -98,7 +98,7 @@
     <string name="premium_price">Оформить подписку за %s</string>
     <string name="premium_intro">Введение в SkillApp Premium</string>
     <string name="daily_goal">Цель на день: %1$s / %2$s</string>
-    <string name="hours_and_minutes">%1$d\u00A0ч\u00A0%2$d\u00A0мин</string>
+    <string name="time_hours_and_minutes">%1$d\u00A0ч\u00A0%2$d\u00A0мин</string>
     <string name="weekly_goal">Цель на неделю: %1$s / %2$s</string>
     <string name="plan_daily">В день</string>
     <string name="plan_weekly">В неделю</string>

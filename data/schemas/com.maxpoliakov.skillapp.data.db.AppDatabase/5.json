@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "8e05f9ca08ef8800146735527dd48724",
+    "identityHash": "7355e883d07dc2f5043afa48098724be",
     "entities": [
       {
         "tableName": "skills",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `measurementUnit` TEXT NOT NULL, `totalCount` INTEGER NOT NULL, `initialCount` INTEGER NOT NULL, `lastWeekCount` INTEGER NOT NULL, `creationDate` TEXT NOT NULL, `groupId` INTEGER NOT NULL, `goalType` TEXT NOT NULL, `goalCount` INTEGER NOT NULL, `order` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `unit` TEXT NOT NULL, `totalCount` INTEGER NOT NULL, `initialCount` INTEGER NOT NULL, `lastWeekCount` INTEGER NOT NULL, `creationDate` TEXT NOT NULL, `groupId` INTEGER NOT NULL, `goalType` TEXT NOT NULL, `goalCount` INTEGER NOT NULL, `order` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -21,8 +21,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "measurementUnit",
-            "columnName": "measurementUnit",
+            "fieldPath": "unit",
+            "columnName": "unit",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -251,7 +251,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8e05f9ca08ef8800146735527dd48724')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7355e883d07dc2f5043afa48098724be')"
     ]
   }
 }

@@ -171,7 +171,7 @@ class TheBarChart : BarChart {
         axisLeft.run {
             removeAllLimitLines()
             val label = goal.unit.toLongString(goal.goal.count, context)
-            val limitLine = LimitLine((goal.goal.count / 1000).toFloat(), label).apply {
+            val limitLine = LimitLine(goal.goal.count.toFloat(), label).apply {
                 val color = context.textColor
                 lineWidth = 1f
                 lineColor = color
@@ -195,12 +195,12 @@ class TheBarChart : BarChart {
             axisLeft.resetAxisMaximum()
         } else {
             val axisMaximum = (entries?.maxByOrNull { it.y }?.y ?: 0f) * 1.1f
-            val goalTime = (goal.goal.count / 1000).toFloat()
+            val goalTime = goal.goal.count.toFloat()
 
             if (goalTime < axisMaximum) {
                 axisLeft.resetAxisMaximum()
             } else {
-                axisLeft.axisMaximum = (goal.goal.count / 1000).toFloat().coerceAtLeast(axisMaximum)
+                axisLeft.axisMaximum = goal.goal.count.toFloat().coerceAtLeast(axisMaximum)
             }
         }
     }

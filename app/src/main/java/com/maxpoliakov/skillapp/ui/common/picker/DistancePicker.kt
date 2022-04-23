@@ -1,25 +1,17 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
-import android.content.Context
 import com.maxpoliakov.skillapp.R
 import kotlin.math.roundToInt
 
 class DistancePicker : PickerDialog() {
     val distance get() = firstPicker.value * 1000 + secondPicker.value * 100
 
-    override lateinit var firstPickerValues: Array<String>
-    override lateinit var secondPickerValues: Array<String>
+    override fun getFirstPickerValues() = Array(1000) { index ->
+        requireContext().getString(R.string.distance_kilometers, index)
+    }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        firstPickerValues = Array(1000) {index ->
-            context.getString(R.string.distance_kilometers, index)
-        }
-
-        secondPickerValues = Array(10) {index ->
-            context.getString(R.string.distance_meters, index * 100)
-        }
+    override fun getSecondPickerValues() = Array(10) { index ->
+        requireContext().getString(R.string.distance_meters, index * 100)
     }
 
     class Builder : PickerDialog.Builder() {

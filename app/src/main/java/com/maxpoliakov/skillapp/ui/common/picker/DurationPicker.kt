@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
-import android.content.Context
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
@@ -11,18 +10,12 @@ class DurationPicker : PickerDialog() {
             .plusHours(firstPicker.value.toLong())
             .plusMinutes(secondPicker.value.toLong() * 5)
 
-    override lateinit var firstPickerValues: Array<String>
-    override lateinit var secondPickerValues: Array<String>
+    override fun getFirstPickerValues() = Array(24) { index ->
+        requireContext().getString(R.string.time_hours, index.toString())
+    }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        firstPickerValues = Array(24) { index ->
-            context.getString(R.string.time_hours, index.toString())
-        }
-
-        secondPickerValues = Array(12) { index ->
-            context.getString(R.string.time_minutes, (index * 5).toString())
-        }
+    override fun getSecondPickerValues() = Array(12) { index ->
+        requireContext().getString(R.string.time_minutes, (index * 5).toString())
     }
 
     class Builder : PickerDialog.Builder() {

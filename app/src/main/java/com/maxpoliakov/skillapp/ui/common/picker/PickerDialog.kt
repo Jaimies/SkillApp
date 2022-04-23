@@ -36,10 +36,10 @@ abstract class PickerDialog : DialogFragment() {
     lateinit var firstPicker: NumberPickerView
     lateinit var secondPicker: NumberPickerView
 
-    abstract val firstPickerValues: Array<String>
-    abstract val secondPickerValues: Array<String>
-
     private var overrideThemeResId = 0
+
+    abstract fun getFirstPickerValues(): Array<String>
+    abstract fun getSecondPickerValues(): Array<String>
 
     override fun onCreateDialog(bundle: Bundle?): Dialog {
         val dialog = Dialog(requireContext(), themeResId)
@@ -114,10 +114,10 @@ abstract class PickerDialog : DialogFragment() {
         val root = layoutInflater.inflate(R.layout.picker_dialog, viewGroup) as ViewGroup
 
         firstPicker = root.findViewById(R.id.hours_picker)
-        firstPicker.setup(firstPickerValues)
+        firstPicker.setup(getFirstPickerValues())
 
         secondPicker = root.findViewById(R.id.minutes_picker)
-        secondPicker.setup(secondPickerValues)
+        secondPicker.setup(getSecondPickerValues())
 
         val headerTitle = root.findViewById<TextView>(R.id.header_title)
         if (!TextUtils.isEmpty(titleText)) {

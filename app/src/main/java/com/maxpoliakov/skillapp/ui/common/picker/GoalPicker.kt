@@ -9,11 +9,15 @@ import com.maxpoliakov.skillapp.util.ui.format
 import java.time.Duration
 
 class GoalPicker : PickerDialog() {
-    override lateinit var firstPickerValues: Array<String>
     private lateinit var goalStringValues: Array<Array<String>>
 
-    override val secondPickerValues: Array<String>
-        get() = goalStringValues[firstPicker.value]
+    override fun getFirstPickerValues() = firstPickerValueResIds.map { resId ->
+        requireContext().getString(resId)
+    }.toTypedArray()
+
+    override fun getSecondPickerValues(): Array<String> {
+        return goalStringValues[firstPicker.value]
+    }
 
     val goal: Goal?
         get() {
@@ -25,7 +29,6 @@ class GoalPicker : PickerDialog() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        firstPickerValues = firstPickerValueResIds.map(context::getString).toTypedArray()
         val dailyGoalStringValues = dailyGoalValues.map { it.format(context) }.toTypedArray()
         val weeklyGoalStringValues = weeklyGoalValues.map { it.format(context) }.toTypedArray()
         val noPlanGoalValues = arrayOf(context.getString(R.string.plan_no_time))

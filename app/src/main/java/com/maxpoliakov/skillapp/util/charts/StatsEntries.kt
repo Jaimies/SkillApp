@@ -37,6 +37,6 @@ private fun List<Statistic>.convertToEntries(
     convertDateToNumber: (date: LocalDate) -> Long,
 ): List<BarEntry> {
     return map { statistic ->
-        BarEntry(convertDateToNumber(statistic.date).toFloat(), (statistic.count / 1000).toFloat())
+        BarEntry(convertDateToNumber(statistic.date).toFloat(), statistic.count.toFloat())
     }
 }

@@ -7,7 +7,7 @@ import com.maxpoliakov.skillapp.shared.util.EPOCH
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
 import com.maxpoliakov.skillapp.shared.util.shortName
 import com.maxpoliakov.skillapp.util.time.toReadableFloat
-import kotlin.math.roundToInt
+import java.time.Duration
 
 class DayFormatter : ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
@@ -32,17 +32,19 @@ class MonthFormatter : ValueFormatter() {
 
 class TimeFormatter(private val context: Context) : ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
+        val duration = Duration.ofMillis(value.toLong())
+
         if (value == 0f) return ""
-        if (value < 60) return context.getString(R.string.time_minutes, "1")
-        if (value >= 3600) return toHours(value)
-        return toMinutes(value)
+        if (duration < Duration.ofMinutes(1)) return context.getString(R.string.time_minutes, "1")
+        if (duration >= Duration.ofHours(1)) return toHours(duration)
+        return toMinutes(duration)
     }
 
-    private fun toMinutes(value: Float): String {
-        return context.getString(R.string.time_minutes, (value / 60).roundToInt().toString())
+    private fun toMinutes(duration: Duration): String {
+        return context.getString(R.string.time_minutes, duration.toMinutes().toString())
     }
 
-    private fun toHours(value: Float): String {
-        return context.getString(R.string.time_hours, (value / 3600).toReadableFloat())
+    private fun toHours(duration: Duration): String {
+        return context.getString(R.string.time_hours, (duration.toMinutes() / 60f).toReadableFloat())
     }
 }

@@ -50,6 +50,7 @@
                 <include
                     android:id="@+id/goal_picker"
                     layout="@layout/goal_picker"
+                    app:unit="@{viewModel.uiUnit}"
                     app:chooseGoal="@{() -> viewModel.chooseGoal()}"
                     app:goal="@{viewModel.goal}"/>
 
@@ -77,6 +78,7 @@
                     <include
                         android:id="@+id/progress_goal_indicator"
                         layout="@layout/progress_goal_indicator"
+                        app:unit="@{viewModel.uiUnit}"
                         app:goal="@{viewModel.skillLiveData.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
                         app:countToday="@{viewModel.timeToday}" />

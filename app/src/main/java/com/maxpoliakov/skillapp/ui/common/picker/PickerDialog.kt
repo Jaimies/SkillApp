@@ -259,7 +259,7 @@ abstract class PickerDialog : DialogFragment() {
 
     /** Used to create [DurationPicker] instances.  */
     abstract class Builder {
-        var titleTextResId = 0
+        open var titleTextResId = 0
         var titleText: CharSequence? = null
         var overrideThemeResId = 0
         var firstPickerValue = 0

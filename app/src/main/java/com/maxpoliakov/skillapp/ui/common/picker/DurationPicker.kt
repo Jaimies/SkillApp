@@ -19,11 +19,10 @@ class DurationPicker : PickerDialog() {
     }
 
     class Builder : PickerDialog.Builder() {
-        override fun createDialog() = DurationPicker()
+        override var titleTextResId = R.string.add_time
 
-        init {
-            setTitleText(R.string.add_time)
-        }
+        override fun createDialog() = DurationPicker()
+        override fun build() = super.build() as DurationPicker
 
         fun setDuration(duration: Duration): Builder {
             if (duration > maxDuration) _setDuration(maxDuration)
@@ -35,8 +34,6 @@ class DurationPicker : PickerDialog() {
             setFirstPickerValue(duration.toHours().toInt())
             setSecondPickerValue(duration.toMinutesPartCompat().toInt() / 5)
         }
-
-        override fun build() = super.build() as DurationPicker
     }
 
     companion object {

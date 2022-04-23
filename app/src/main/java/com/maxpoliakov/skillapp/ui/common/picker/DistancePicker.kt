@@ -15,12 +15,10 @@ class DistancePicker : PickerDialog() {
     }
 
     class Builder : PickerDialog.Builder() {
+        override var titleTextResId = R.string.add_a_record
+
         override fun createDialog() = DistancePicker()
         override fun build() = super.build() as DistancePicker
-
-        init {
-            setTitleText(R.string.add_a_record)
-        }
 
         fun setDistance(count: Long): Builder {
             _setDistance(count.coerceAtMost(999_900))

@@ -21,6 +21,7 @@
     <string name="skills">Skills</string>
     <string name="distance_kilometers">%d km</string>
     <string name="distance_meters">%d m</string>
+    <string name="count_times">%d times</string>
     <string name="total_hours">Total time</string>
     <string name="total_kilometers">Total distance</string>
     <string name="total_times">Total times</string>

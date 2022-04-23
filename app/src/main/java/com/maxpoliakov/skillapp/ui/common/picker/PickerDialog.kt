@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
+import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import cn.carbswang.android.numberpickerview.library.NumberPickerView
@@ -32,6 +33,8 @@ abstract class PickerDialog : DialogFragment() {
 
     private var titleResId = 0
     private var titleText: String? = null
+
+    private var secondPickerEnabled = true
 
     lateinit var firstPicker: NumberPickerView
     lateinit var secondPicker: NumberPickerView
@@ -83,6 +86,7 @@ abstract class PickerDialog : DialogFragment() {
         bundle.putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
         bundle.putInt(FIRST_PICKER_VALUE, firstPicker.value)
         bundle.putInt(SECOND_PICKER_VALUE, secondPicker.value)
+        bundle.putBoolean(SECOND_PICKER_ENABLED, secondPickerEnabled)
     }
 
     fun restoreState(bundle: Bundle?) {
@@ -90,6 +94,7 @@ abstract class PickerDialog : DialogFragment() {
         titleResId = bundle.getInt(TITLE_RES_EXTRA, 0)
         titleText = bundle.getString(TITLE_TEXT_EXTRA)
         overrideThemeResId = bundle.getInt(OVERRIDE_THEME_RES_ID, 0)
+        secondPickerEnabled = bundle.getBoolean(SECOND_PICKER_ENABLED, true)
 
         lifecycleScope.launchWhenStarted {
             restoreStateOfPickers(bundle)
@@ -117,7 +122,12 @@ abstract class PickerDialog : DialogFragment() {
         firstPicker.setup(getFirstPickerValues())
 
         secondPicker = root.findViewById(R.id.minutes_picker)
-        secondPicker.setup(getSecondPickerValues())
+
+        if (secondPickerEnabled) {
+            secondPicker.setup(getSecondPickerValues())
+        } else {
+            secondPicker.isGone = true
+        }
 
         val headerTitle = root.findViewById<TextView>(R.id.header_title)
         if (!TextUtils.isEmpty(titleText)) {
@@ -255,6 +265,7 @@ abstract class PickerDialog : DialogFragment() {
     /** Used to create [DurationPicker] instances.  */
     abstract class Builder {
         open var titleTextResId = 0
+        open var secondPickerEnabled = true
         var titleText: CharSequence? = null
         var overrideThemeResId = 0
         var firstPickerValue = 0
@@ -306,6 +317,7 @@ abstract class PickerDialog : DialogFragment() {
                 putInt(SECOND_PICKER_VALUE, secondPickerValue)
                 putInt(TITLE_RES_EXTRA, titleTextResId)
                 putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
+                putBoolean(SECOND_PICKER_ENABLED, secondPickerEnabled)
                 if (titleText != null)
                     putString(TITLE_TEXT_EXTRA, titleText.toString())
             }
@@ -319,6 +331,7 @@ abstract class PickerDialog : DialogFragment() {
         const val OVERRIDE_THEME_RES_ID = "TIME_PICKER_OVERRIDE_THEME_RES_ID"
         const val FIRST_PICKER_VALUE = "FIRST_PICKER_VALUE"
         const val SECOND_PICKER_VALUE = "SECOND_PICKER_VALUE"
+        const val SECOND_PICKER_ENABLED = "SECOND_PICKER_ENABLED"
 
         fun resolveOrThrow(
             context: Context,

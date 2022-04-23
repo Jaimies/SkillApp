@@ -143,11 +143,6 @@ abstract class PickerDialog : DialogFragment() {
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
     override fun onCancel(dialogInterface: DialogInterface) {
         for (listener in cancelListeners) {
             listener.onCancel(dialogInterface)

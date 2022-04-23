@@ -7,8 +7,9 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
+import com.maxpoliakov.skillapp.ui.common.picker.DistancePicker
+import com.maxpoliakov.skillapp.ui.common.picker.DurationPicker
 import com.maxpoliakov.skillapp.util.time.toReadableHours
-import com.maxpoliakov.skillapp.util.ui.DurationPicker
 import com.maxpoliakov.skillapp.util.ui.format
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
@@ -67,7 +68,6 @@ enum class UiMeasurementUnit {
                     onTimeSet(time.toMillis())
             })
 
-            println("showing the picker rn")
             dialog.show(fragmentManager, null)
         }
     },
@@ -96,7 +96,16 @@ enum class UiMeasurementUnit {
             fragmentManager: FragmentManager,
             onTimeSet: (count: Long) -> Unit
         ) {
-            // TODO actually show the picker
+            val dialog = DistancePicker.Builder()
+                .setDistance(initialCount)
+                .build()
+
+            dialog.addOnPositiveButtonClickListener(View.OnClickListener {
+                val count = dialog.distance
+                if (count > 0) onTimeSet(count.toLong())
+            })
+
+            dialog.show(fragmentManager, null)
         }
     },
 

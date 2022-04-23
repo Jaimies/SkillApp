@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.maxpoliakov.skillapp.R
@@ -17,12 +15,7 @@ import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
-import com.maxpoliakov.skillapp.util.ui.GoalPicker
-import com.maxpoliakov.skillapp.util.ui.dp
-import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint

@@ -14,11 +14,11 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.ui.common.picker.GoalPicker
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.hardware.showKeyboard
 import com.maxpoliakov.skillapp.util.transition.createMaterialContainerTransform
-import com.maxpoliakov.skillapp.util.ui.GoalPicker
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import kotlinx.coroutines.delay

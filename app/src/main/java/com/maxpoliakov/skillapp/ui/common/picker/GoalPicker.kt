@@ -1,10 +1,11 @@
-package com.maxpoliakov.skillapp.util.ui
+package com.maxpoliakov.skillapp.ui.common.picker
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.util.ui.format
 import java.time.Duration
 
 class GoalPicker : PickerDialog() {

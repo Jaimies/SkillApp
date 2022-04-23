@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.util.ui
+package com.maxpoliakov.skillapp.ui.common.picker
 
 import android.content.Context
 import com.maxpoliakov.skillapp.R

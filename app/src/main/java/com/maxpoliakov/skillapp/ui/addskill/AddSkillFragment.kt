@@ -13,7 +13,7 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.transition.createMaterialContainerTransform
-import com.maxpoliakov.skillapp.util.ui.GoalPicker
+import com.maxpoliakov.skillapp.ui.common.picker.GoalPicker
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import com.maxpoliakov.skillapp.util.ui.setup
 import dagger.hilt.android.AndroidEntryPoint

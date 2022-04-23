@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.util.ui
+package com.maxpoliakov.skillapp.ui.common.picker
 
 import android.app.Dialog
 import android.content.Context
@@ -22,6 +22,7 @@ import cn.carbswang.android.numberpickerview.library.NumberPickerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.util.error.logToCrashlytics
+import com.maxpoliakov.skillapp.util.ui.setup
 
 abstract class PickerDialog : DialogFragment() {
     private val positiveButtonListeners: MutableSet<View.OnClickListener> = LinkedHashSet()

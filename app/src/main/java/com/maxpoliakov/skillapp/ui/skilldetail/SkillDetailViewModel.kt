@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
-import java.time.Duration
 import javax.inject.Inject
 
 class SkillDetailViewModel(
@@ -88,8 +87,7 @@ class SkillDetailViewModel(
         return state.skillId == skillId
     }
 
-    fun addRecord(time: Duration) {
-        val count = time.toMillis()
+    fun addRecord(count: Long) {
         val record = Record("", skillId, count)
         ioScope.launch { addRecord.run(record) }
     }

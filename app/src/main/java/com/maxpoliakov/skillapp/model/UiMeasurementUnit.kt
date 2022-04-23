@@ -1,12 +1,16 @@
 package com.maxpoliakov.skillapp.model
 
 import android.content.Context
+import android.view.View
+import androidx.fragment.app.FragmentManager
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.util.time.toReadableHours
+import com.maxpoliakov.skillapp.util.ui.DurationPicker
 import com.maxpoliakov.skillapp.util.ui.format
+import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
 
 enum class UiMeasurementUnit {
@@ -44,6 +48,28 @@ enum class UiMeasurementUnit {
                 time.toMinutesPartCompat()
             )
         }
+
+        override fun showPicker(
+            context: Context,
+            initialCount: Long,
+            fragmentManager: FragmentManager,
+            onTimeSet: (count: Long) -> Unit
+        ) {
+            val initialTime = Duration.ofMillis(initialCount)
+
+            val dialog = DurationPicker.Builder()
+                .setDuration(initialTime)
+                .build()
+
+            dialog.addOnPositiveButtonClickListener(View.OnClickListener {
+                val time = dialog.duration
+                if (time > Duration.ZERO)
+                    onTimeSet(time.toMillis())
+            })
+
+            println("showing the picker rn")
+            dialog.show(fragmentManager, null)
+        }
     },
 
     Meters {
@@ -62,6 +88,15 @@ enum class UiMeasurementUnit {
 
         override fun getRecordAddedString(count: Long, context: Context): String {
             return toShortString(count, context)
+        }
+
+        override fun showPicker(
+            context: Context,
+            initialCount: Long,
+            fragmentManager: FragmentManager,
+            onTimeSet: (count: Long) -> Unit
+        ) {
+            // TODO actually show the picker
         }
     },
 
@@ -82,6 +117,15 @@ enum class UiMeasurementUnit {
         override fun getRecordAddedString(count: Long, context: Context): String {
             return toShortString(count, context)
         }
+
+        override fun showPicker(
+            context: Context,
+            initialCount: Long,
+            fragmentManager: FragmentManager,
+            onTimeSet: (count: Long) -> Unit
+        ) {
+            // TODO actually show the picker
+        }
     };
 
     abstract val totalCountStringResId: Int
@@ -92,6 +136,12 @@ enum class UiMeasurementUnit {
     abstract fun toShortString(count: Long, context: Context): String
     abstract fun toLongString(count: Long, context: Context): String
     abstract fun getRecordAddedString(count: Long, context: Context): String
+    abstract fun showPicker(
+        context: Context,
+        initialCount: Long = 0,
+        fragmentManager: FragmentManager = context.getFragmentManager(),
+        onTimeSet: (count: Long) -> Unit
+    )
 
     fun formatGoal(context: Context, goal: Goal?): String {
         if (goal == null) return context.getString(R.string.goal_not_set)

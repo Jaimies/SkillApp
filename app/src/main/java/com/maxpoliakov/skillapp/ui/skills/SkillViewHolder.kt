@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.skills
 import android.view.MotionEvent
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 
@@ -32,7 +33,7 @@ class SkillViewHolder(
         }
 
         viewModel.notifyRecordAdded.observe { record ->
-            recordUtil.notifyRecordAdded(binding.root, record)
+            recordUtil.notifyRecordAdded(binding.root, record, UiMeasurementUnit.from(viewModel.skill.value!!.unit))
         }
     }
 

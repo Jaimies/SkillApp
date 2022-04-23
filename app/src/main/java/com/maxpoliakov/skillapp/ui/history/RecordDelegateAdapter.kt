@@ -10,7 +10,6 @@ import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.history.RecordDelegateAdapter.ViewHolder
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.showDatePicker
-import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaBy
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
@@ -71,8 +70,8 @@ class RecordDelegateAdapter @Inject constructor(
         }
 
         private fun showTimePickerDialog() {
-            context.showTimePicker(Duration.ofMillis(viewModel.record.value!!.count)) { time ->
-                viewModel.changeRecordTime(time.toMillis())
+            viewModel.record.value!!.unit.showPicker(context, viewModel.record.value!!.count) { time ->
+                viewModel.changeRecordTime(time)
             }
         }
 

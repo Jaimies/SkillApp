@@ -15,7 +15,6 @@ import com.maxpoliakov.skillapp.ui.common.DetailsFragment
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import com.maxpoliakov.skillapp.util.ui.GoalPicker
@@ -68,7 +67,7 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
         }
         observe(viewModel.showRecordDialog) { showRecordDialog() }
         observe(viewModel.showRecordAdded) { record ->
-            if (record != null) recordUtil.notifyRecordAdded(requireView(), record)
+            if (record != null) recordUtil.notifyRecordAdded(requireView(), record, viewModel.uiUnit.value!!)
         }
     }
 
@@ -95,6 +94,6 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     }
 
     private fun showRecordDialog() {
-        showTimePicker(viewModel::addRecord)
+        viewModel.uiUnit.value!!.showPicker(requireContext(), onTimeSet = viewModel::addRecord)
     }
 }

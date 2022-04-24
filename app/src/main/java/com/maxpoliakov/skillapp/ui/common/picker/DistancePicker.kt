@@ -7,7 +7,7 @@ class DistancePicker : PickerDialog() {
     val distance get() = firstPicker.value * 1000 + secondPicker.value * 100
 
     override fun getFirstPickerValues() = Array(1000) { index ->
-        requireContext().getString(R.string.distance_kilometers, index)
+        requireContext().getString(R.string.distance_kilometers, index.toString())
     }
 
     override fun getSecondPickerValues() = Array(10) { index ->

@@ -19,7 +19,7 @@
     <string name="new_group">New group</string>
     <string name="history">History</string>
     <string name="skills">Skills</string>
-    <string name="distance_kilometers">%d km</string>
+    <string name="distance_kilometers">%s km</string>
     <string name="distance_meters">%d m</string>
     <string name="count_times">%d times</string>
     <string name="total_hours">Total time</string>

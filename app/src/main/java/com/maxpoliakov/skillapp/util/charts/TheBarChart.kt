@@ -21,16 +21,14 @@ import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.model.UiGoal
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.ui.common.ChartData
 import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.ui.common.MonthFormatter
-import com.maxpoliakov.skillapp.ui.common.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekFormatter
-import com.maxpoliakov.skillapp.util.ui.format
 import com.maxpoliakov.skillapp.util.ui.primaryColor
 import com.maxpoliakov.skillapp.util.ui.sp
 import com.maxpoliakov.skillapp.util.ui.textColor
-import java.time.Duration
 import java.time.temporal.ChronoUnit
 
 class TheBarChart : BarChart {
@@ -40,6 +38,7 @@ class TheBarChart : BarChart {
 
     private var entries: List<BarEntry>? = null
     private var formatterType: ChronoUnit? = null
+    private var unit = UiMeasurementUnit.Millis
     private var goal: UiGoal? = null
 
     init {
@@ -74,7 +73,7 @@ class TheBarChart : BarChart {
 
         return BarDataSet(entries, "").apply {
             valueTextSize = VALUE_TEXT_SIZE
-            valueFormatter = TimeFormatter(context)
+            valueFormatter = unit.getValueFormatter(context)
             valueTextColor = textColor
             this.color = textColor
             color = context.primaryColor
@@ -153,8 +152,7 @@ class TheBarChart : BarChart {
         description.isEnabled = false
     }
 
-    fun setGoal(goal: UiGoal?) {
-        if (goal == this.goal) return
+    fun setGoal(goal: UiGoal) {
         this.goal = goal
         displayGoal(goal)
     }
@@ -271,6 +269,14 @@ class TheBarChart : BarChart {
         stats.observe(viewLifecycleOwner) { state ->
             setState(state)
             setFormatterType(type)
+        }
+    }
+
+    fun setUnit(unit: UiMeasurementUnit) {
+        this.unit = unit
+        val valueFormatter = unit.getValueFormatter(context)
+        this.data.dataSets.forEach { dataset ->
+            dataset.valueFormatter = valueFormatter
         }
     }
 

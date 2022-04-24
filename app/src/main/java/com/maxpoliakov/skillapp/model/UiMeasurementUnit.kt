@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.model
 import android.content.Context
 import android.view.View
 import androidx.fragment.app.FragmentManager
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
@@ -10,6 +11,7 @@ import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.ui.common.picker.DistancePicker
 import com.maxpoliakov.skillapp.ui.common.picker.DurationPicker
 import com.maxpoliakov.skillapp.ui.common.picker.TimesPicker
+import com.maxpoliakov.skillapp.util.time.toReadableFloat
 import com.maxpoliakov.skillapp.util.time.toReadableHours
 import com.maxpoliakov.skillapp.util.ui.format
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
@@ -51,6 +53,8 @@ enum class UiMeasurementUnit {
             )
         }
 
+        override fun getValueFormatter(context: Context) = Formatter(context)
+
         override fun showPicker(
             context: Context,
             initialCount: Long,
@@ -71,6 +75,25 @@ enum class UiMeasurementUnit {
 
             dialog.show(fragmentManager, null)
         }
+
+        inner class Formatter(private val context: Context) : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                val duration = Duration.ofMillis(value.toLong())
+
+                if (value == 0f) return ""
+                if (duration < Duration.ofMinutes(1)) return context.getString(R.string.time_minutes, "1")
+                if (duration >= Duration.ofHours(1)) return toHours(duration)
+                return toMinutes(duration)
+            }
+
+            private fun toMinutes(duration: Duration): String {
+                return context.getString(R.string.time_minutes, duration.toMinutes().toString())
+            }
+
+            private fun toHours(duration: Duration): String {
+                return context.getString(R.string.time_hours, (duration.toMinutes() / 60f).toReadableFloat())
+            }
+        }
     },
 
     Meters {
@@ -80,7 +103,8 @@ enum class UiMeasurementUnit {
         override val isStopwatchEnabled = false
 
         override fun toShortString(count: Long, context: Context): String {
-            return "${count / 1000.0} km"
+            val kilometers = (count / 1000f).toReadableFloat()
+            return context.getString(R.string.distance_kilometers, kilometers)
         }
 
         override fun toLongString(count: Long, context: Context): String {
@@ -90,6 +114,8 @@ enum class UiMeasurementUnit {
         override fun getRecordAddedString(count: Long, context: Context): String {
             return toShortString(count, context)
         }
+
+        override fun getValueFormatter(context: Context) = Formatter(context)
 
         override fun showPicker(
             context: Context,
@@ -107,6 +133,13 @@ enum class UiMeasurementUnit {
             })
 
             dialog.show(fragmentManager, null)
+        }
+
+        inner class Formatter(private val context: Context) : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                if (value == 0f) return ""
+                return toShortString(value.toLong(), context)
+            }
         }
     },
 
@@ -128,6 +161,8 @@ enum class UiMeasurementUnit {
             return toShortString(count, context)
         }
 
+        override fun getValueFormatter(context: Context) = Formatter()
+
         override fun showPicker(
             context: Context,
             initialCount: Long,
@@ -145,6 +180,13 @@ enum class UiMeasurementUnit {
 
             picker.show(fragmentManager, null)
         }
+
+        inner class Formatter : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                if (value == 0f) return ""
+                return value.toInt().toString()
+            }
+        }
     };
 
     abstract val totalCountStringResId: Int
@@ -155,6 +197,7 @@ enum class UiMeasurementUnit {
     abstract fun toShortString(count: Long, context: Context): String
     abstract fun toLongString(count: Long, context: Context): String
     abstract fun getRecordAddedString(count: Long, context: Context): String
+    abstract fun getValueFormatter(context: Context): ValueFormatter
     abstract fun showPicker(
         context: Context,
         initialCount: Long = 0,

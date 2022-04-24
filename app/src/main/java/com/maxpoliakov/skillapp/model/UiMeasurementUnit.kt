@@ -15,6 +15,7 @@ import com.maxpoliakov.skillapp.ui.common.picker.DurationPicker
 import com.maxpoliakov.skillapp.ui.common.picker.GoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.TimesGoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.TimesPicker
+import com.maxpoliakov.skillapp.ui.common.picker.ValuePicker
 import com.maxpoliakov.skillapp.util.time.toReadableFloat
 import com.maxpoliakov.skillapp.util.time.toReadableHours
 import com.maxpoliakov.skillapp.util.ui.format
@@ -60,27 +61,7 @@ enum class UiMeasurementUnit {
         override fun getValueFormatter(context: Context) = Formatter(context)
         override fun toDomain() = MeasurementUnit.Millis
 
-        override fun showPicker(
-            context: Context,
-            initialCount: Long,
-            fragmentManager: FragmentManager,
-            onTimeSet: (count: Long) -> Unit
-        ) {
-            val initialTime = Duration.ofMillis(initialCount)
-
-            val dialog = DurationPicker.Builder()
-                .setDuration(initialTime)
-                .build()
-
-            dialog.addOnPositiveButtonClickListener(View.OnClickListener {
-                val time = dialog.duration
-                if (time > Duration.ZERO)
-                    onTimeSet(time.toMillis())
-            })
-
-            dialog.show(fragmentManager, null)
-        }
-
+        override fun getValuePickerBuilder() = DurationPicker.Builder()
         override fun getGoalPickerBuilder() = DurationGoalPicker.Builder()
 
         inner class Formatter(private val context: Context) : ValueFormatter() {
@@ -123,25 +104,7 @@ enum class UiMeasurementUnit {
         }
 
         override fun getValueFormatter(context: Context) = Formatter(context)
-
-        override fun showPicker(
-            context: Context,
-            initialCount: Long,
-            fragmentManager: FragmentManager,
-            onTimeSet: (count: Long) -> Unit
-        ) {
-            val dialog = DistancePicker.Builder()
-                .setDistance(initialCount)
-                .build()
-
-            dialog.addOnPositiveButtonClickListener(View.OnClickListener {
-                val count = dialog.distance
-                if (count > 0) onTimeSet(count.toLong())
-            })
-
-            dialog.show(fragmentManager, null)
-        }
-
+        override fun getValuePickerBuilder() = DistancePicker.Builder()
         override fun getGoalPickerBuilder() = DistanceGoalPicker.Builder()
         override fun toDomain() = MeasurementUnit.Meters
 
@@ -172,25 +135,7 @@ enum class UiMeasurementUnit {
         }
 
         override fun getValueFormatter(context: Context) = Formatter()
-
-        override fun showPicker(
-            context: Context,
-            initialCount: Long,
-            fragmentManager: FragmentManager,
-            onTimeSet: (count: Long) -> Unit
-        ) {
-            val picker = TimesPicker.Builder()
-                .setCount(initialCount)
-                .build()
-
-            picker.addOnPositiveButtonClickListener(View.OnClickListener {
-                val timesCount = picker.timesCount
-                if (timesCount > 0) onTimeSet(timesCount.toLong())
-            })
-
-            picker.show(fragmentManager, null)
-        }
-
+        override fun getValuePickerBuilder() = TimesPicker.Builder()
         override fun getGoalPickerBuilder() = TimesGoalPicker.Builder()
         override fun toDomain() = MeasurementUnit.Times
 
@@ -211,15 +156,29 @@ enum class UiMeasurementUnit {
     abstract fun toLongString(count: Long, context: Context): String
     abstract fun getRecordAddedString(count: Long, context: Context): String
     abstract fun getValueFormatter(context: Context): ValueFormatter
-    abstract fun showPicker(
+
+    abstract fun getValuePickerBuilder(): ValuePicker.Builder
+    abstract fun getGoalPickerBuilder(): GoalPicker.Builder
+
+    abstract fun toDomain(): MeasurementUnit
+
+    fun showPicker(
         context: Context,
         initialCount: Long = 0,
         fragmentManager: FragmentManager = context.getFragmentManager(),
         onTimeSet: (count: Long) -> Unit
-    )
+    ) {
+        val picker = getValuePickerBuilder()
+            .setCount(initialCount)
+            .build()
 
-    abstract fun getGoalPickerBuilder(): GoalPicker.Builder
-    abstract fun toDomain() : MeasurementUnit
+        picker.addOnPositiveButtonClickListener(View.OnClickListener {
+            val timesCount = picker.count
+            if (timesCount > 0) onTimeSet(timesCount)
+        })
+
+        picker.show(fragmentManager, null)
+    }
 
     fun showGoalPicker(
         context: Context,

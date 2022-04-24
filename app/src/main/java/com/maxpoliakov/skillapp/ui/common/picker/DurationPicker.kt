@@ -4,11 +4,12 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
 
-class DurationPicker : PickerDialog() {
-    val duration: Duration
+class DurationPicker : ValuePicker() {
+    override val count: Long
         get() = Duration.ZERO
             .plusHours(firstPicker.value.toLong())
             .plusMinutes(secondPicker.value.toLong() * 5)
+            .toMillis()
 
     override fun getFirstPickerValues() = Array(24) { index ->
         requireContext().getString(R.string.time_hours, index.toString())
@@ -18,13 +19,14 @@ class DurationPicker : PickerDialog() {
         requireContext().getString(R.string.time_minutes, (index * 5).toString())
     }
 
-    class Builder : PickerDialog.Builder() {
+    class Builder : ValuePicker.Builder() {
         override var titleTextResId = R.string.add_time
 
         override fun createDialog() = DurationPicker()
         override fun build() = super.build() as DurationPicker
 
-        fun setDuration(duration: Duration): Builder {
+        override fun setCount(count: Long): Builder {
+            val duration = Duration.ofMillis(count)
             if (duration > maxDuration) _setDuration(maxDuration)
             else _setDuration(duration)
             return this

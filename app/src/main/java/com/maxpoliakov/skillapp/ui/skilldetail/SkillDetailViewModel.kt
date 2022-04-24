@@ -71,7 +71,7 @@ class SkillDetailViewModel(
         else UiGoal(skill.goal!!, UiMeasurementUnit.from(skill.unit))
     }
 
-    val uiUnit = skillLiveData.map { skill ->
+    override val uiUnit = skillLiveData.map { skill ->
         UiMeasurementUnit.from(skill.unit)
     }
 

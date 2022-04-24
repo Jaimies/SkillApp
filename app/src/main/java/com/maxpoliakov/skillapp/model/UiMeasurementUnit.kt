@@ -8,8 +8,12 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
+import com.maxpoliakov.skillapp.ui.common.picker.DistanceGoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.DistancePicker
+import com.maxpoliakov.skillapp.ui.common.picker.DurationGoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.DurationPicker
+import com.maxpoliakov.skillapp.ui.common.picker.GoalPicker
+import com.maxpoliakov.skillapp.ui.common.picker.TimesGoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.TimesPicker
 import com.maxpoliakov.skillapp.util.time.toReadableFloat
 import com.maxpoliakov.skillapp.util.time.toReadableHours
@@ -54,6 +58,7 @@ enum class UiMeasurementUnit {
         }
 
         override fun getValueFormatter(context: Context) = Formatter(context)
+        override fun toDomain() = MeasurementUnit.Millis
 
         override fun showPicker(
             context: Context,
@@ -75,6 +80,8 @@ enum class UiMeasurementUnit {
 
             dialog.show(fragmentManager, null)
         }
+
+        override fun getGoalPickerBuilder() = DurationGoalPicker.Builder()
 
         inner class Formatter(private val context: Context) : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
@@ -135,6 +142,9 @@ enum class UiMeasurementUnit {
             dialog.show(fragmentManager, null)
         }
 
+        override fun getGoalPickerBuilder() = DistanceGoalPicker.Builder()
+        override fun toDomain() = MeasurementUnit.Meters
+
         inner class Formatter(private val context: Context) : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 if (value == 0f) return ""
@@ -181,6 +191,9 @@ enum class UiMeasurementUnit {
             picker.show(fragmentManager, null)
         }
 
+        override fun getGoalPickerBuilder() = TimesGoalPicker.Builder()
+        override fun toDomain() = MeasurementUnit.Times
+
         inner class Formatter : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 if (value == 0f) return ""
@@ -204,6 +217,26 @@ enum class UiMeasurementUnit {
         fragmentManager: FragmentManager = context.getFragmentManager(),
         onTimeSet: (count: Long) -> Unit
     )
+
+    abstract fun getGoalPickerBuilder(): GoalPicker.Builder
+    abstract fun toDomain() : MeasurementUnit
+
+    fun showGoalPicker(
+        context: Context,
+        goal: Goal?,
+        fragmentManager: FragmentManager = context.getFragmentManager(),
+        onGoalSet: (goal: Goal?) -> Unit
+    ) {
+        val dialog = getGoalPickerBuilder()
+            .setGoal(goal)
+            .build() as GoalPicker<*>
+
+        dialog.addOnPositiveButtonClickListener(View.OnClickListener {
+            onGoalSet(dialog.goal)
+        })
+
+        dialog.show(fragmentManager, null)
+    }
 
     fun formatGoal(context: Context, goal: Goal?): String {
         if (goal == null) return context.getString(R.string.goal_not_set)

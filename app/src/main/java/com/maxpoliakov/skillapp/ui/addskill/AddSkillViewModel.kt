@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.ui.common.EditableViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,10 +32,11 @@ class AddSkillViewModel @Inject constructor(
     private val _goal = MutableStateFlow<Goal?>(null)
     val goal = _goal.asLiveData()
 
-    private var measurementUnitIndex = 0
+    var unit = UiMeasurementUnit.Millis
+        private set
 
     fun setMeasurementUnitIndex(index: Int) {
-        measurementUnitIndex = index
+        unit = UiMeasurementUnit.values()[index]
     }
 
     override fun save(name: String) {
@@ -48,7 +49,7 @@ class AddSkillViewModel @Inject constructor(
                     totalCount = millis,
                     initialCount = millis,
                     goal = goal.value,
-                    unit = MeasurementUnit.values()[measurementUnitIndex]
+                    unit = unit.toDomain(),
                 )
             )
 

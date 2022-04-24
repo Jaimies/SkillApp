@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.until
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
@@ -26,6 +27,8 @@ abstract class DetailsViewModel(
     goalFlow: Flow<Goal?>,
     recordedCountFlow: Flow<Long>,
 ) : ViewModel() {
+    abstract val uiUnit: LiveData<UiMeasurementUnit>
+
     protected abstract val nameFlow: Flow<String>
 
     private val _isEditing = MutableLiveData(false)

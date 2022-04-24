@@ -13,8 +13,6 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.transition.createMaterialContainerTransform
-import com.maxpoliakov.skillapp.ui.common.picker.GoalPicker
-import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import com.maxpoliakov.skillapp.util.ui.setup
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,6 +45,7 @@ class AddSkillFragment : BaseFragment() {
         binding.unitSelectionSelect.setup(values)
         binding.unitSelectionSelect.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
             viewModel.setMeasurementUnitIndex(pos)
+            viewModel.setGoal(null)
         }
 
         observe(viewModel.goToSkillDetail) {
@@ -54,14 +53,7 @@ class AddSkillFragment : BaseFragment() {
         }
 
         observe(viewModel.chooseGoal) {
-            val picker = GoalPicker.Builder()
-                .setGoal(viewModel.goal.value)
-                .build()
-
-            picker.show(requireContext().getFragmentManager(), null)
-            picker.addOnPositiveButtonClickListener(View.OnClickListener {
-                viewModel.setGoal(picker.goal)
-            })
+            viewModel.unit.showGoalPicker(requireContext(), viewModel.goal.value, onGoalSet = viewModel::setGoal)
         }
     }
 }

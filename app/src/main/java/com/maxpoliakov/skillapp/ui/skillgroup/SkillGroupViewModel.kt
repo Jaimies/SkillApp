@@ -47,9 +47,10 @@ class SkillGroupViewModel(
     val chartData = GroupChartData(getStats, getGroup, groupId)
 
     val group = _group.asLiveData()
+    override val uiUnit = group.map { group -> UiMeasurementUnit.from(group.unit) }
 
     val uiGoal = group.map { group ->
-        if(group.goal == null) null
+        if (group.goal == null) null
         //todo change me pls no exclaim
         else UiGoal(group.goal!!, UiMeasurementUnit.from(group.unit))
     }

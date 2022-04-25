@@ -275,7 +275,7 @@ class TheBarChart : BarChart {
     fun setUnit(unit: UiMeasurementUnit) {
         this.unit = unit
         val valueFormatter = unit.getValueFormatter(context)
-        this.data.dataSets.forEach { dataset ->
+        data?.dataSets?.forEach { dataset ->
             dataset.valueFormatter = valueFormatter
         }
     }

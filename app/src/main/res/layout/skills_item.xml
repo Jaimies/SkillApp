@@ -82,6 +82,7 @@
                     android:contentDescription="@string/start_the_timer"
                     android:onClick="@{() -> viewModel.toggleTimer()}"
                     android:src="@{viewModel.isStopwatchActive ? @drawable/ic_stop : @drawable/ic_start}"
+                    app:visible="@{viewModel.uiUnit.stopwatchEnabled}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

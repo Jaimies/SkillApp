@@ -6,17 +6,14 @@ import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
-import com.maxpoliakov.skillapp.shared.util.sum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import java.time.Duration
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 @Singleton
 class StatsRepositoryImpl @Inject constructor(

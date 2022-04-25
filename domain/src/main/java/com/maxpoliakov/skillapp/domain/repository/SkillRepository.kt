@@ -2,12 +2,13 @@ package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import kotlinx.coroutines.flow.Flow
-import java.time.Duration
 
 interface SkillRepository {
     fun getSkills(): Flow<List<Skill>>
+    fun getSkillsWithLastWeekTime(unit: MeasurementUnit): Flow<List<Skill>>
 
     fun getSkillFlowById(id: Id): Flow<Skill>
     fun getTopSkills(count: Int): Flow<List<Skill>>

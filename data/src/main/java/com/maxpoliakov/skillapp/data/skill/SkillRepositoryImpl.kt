@@ -2,13 +2,15 @@ package com.maxpoliakov.skillapp.data.skill
 
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,6 +24,15 @@ class SkillRepositoryImpl @Inject constructor(
     }
 
     override fun getSkills() = _skills
+    override fun getSkillsWithLastWeekTime(unit: MeasurementUnit): Flow<List<Skill>> {
+        return _skills
+            .map { it.filter { skill -> skill.unit == unit } }
+            .flatMapLatest {
+                combine(it.map { skillDao.getSkillFlow(it.id) }) {
+                    it.map { it!!.mapToDomain() }
+                }
+            }
+    }
 
     override fun getSkillFlowById(id: Int) = skillDao.getSkillFlow(id)
         .filterNotNull()

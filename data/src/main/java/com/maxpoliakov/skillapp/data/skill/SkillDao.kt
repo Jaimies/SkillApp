@@ -15,7 +15,7 @@ interface SkillDao : BaseDao<DBSkill> {
     @Query("SELECT * FROM skills")
     suspend fun getAllSkills(): List<DBSkill>
 
-    @Query("SELECT * FROM skills ORDER BY totalCount DESC LIMIT :count")
+    @Query("SELECT * FROM skills WHERE unit = 'Millis' ORDER BY totalCount DESC LIMIT :count")
     fun getTopSkills(count: Int): Flow<List<DBSkill>>
 
     @Query(

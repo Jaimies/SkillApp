@@ -66,4 +66,10 @@
     <style name="Widget.SkillApp.NegativeButton.Dark" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">?attr/colorAccent</item>
     </style>
+
+    <style name="Widget.SkillApp.DropdownItem" parent="">
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 </resources>

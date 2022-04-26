@@ -28,6 +28,7 @@
         <item name="alertDialogTheme">@style/ThemeOverlay.SkillApp.AlertDialog</item>
         <item name="cardHighlightColor">#a0ffffff</item>
         <item name="snackbarActionTextColor">@color/blue</item>
+        <item name="android:dropDownItemStyle">@style/Widget.SkillApp.DropdownItem</item>
     </style>
 
     <style name="Theme.SkillApp.Splash" />

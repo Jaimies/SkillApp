@@ -25,6 +25,7 @@
         <item name="dividerColor">@color/gray_lighter</item>
         <item name="cardHighlightColor">#40000000</item>
         <item name="snackbarActionTextColor">@color/yellow</item>
+        <item name="android:dropDownItemStyle">@style/Widget.SkillApp.DropdownItem</item>
     </style>
 
     <style name="Theme.SkillApp.V23" parent="Theme.SkillApp.Base">

@@ -64,7 +64,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
             lastItemDropTime = System.nanoTime()
             viewModel.removeFromGroup(skill)
             updateOldGroupIfNeeded(skill)
-            updateSkillGroup(skill, -1)
+            updateGroupIdOfSkill(skill, -1)
         }
 
         override fun onDropped(change: Change?) {
@@ -72,39 +72,43 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
             lastItemDropTime = System.nanoTime()
 
             when (change) {
-                is Change.CreateGroup -> {
-                    val group = SkillGroup(
-                        id = 0,
-                        name = getString(R.string.new_group),
-                        skills = listOf(change.skill, change.otherSkill),
-                        goal = null,
-                        order = change.position,
-                        unit = MeasurementUnit.Millis,
-                    )
-
-                    val createGroupAsync = viewModel.createGroupAsync(change.skill, group)
-
-                    createGroupAsync.invokeOnCompletion {
-                        val groupId = createGroupAsync.getCompleted().toInt()
-                        updateSkillGroup(change.skill, groupId)
-                        updateSkillGroup(change.otherSkill, groupId)
-
-                        val newGroup = group.copy(id = groupId)
-
-                        listAdapter.addItem(change.position + 1, newGroup)
-                        listAdapter.addItem(change.position + group.skills.size + 2, SkillGroupFooter(groupId))
-                    }
-                }
-                is Change.AddToGroup -> {
-                    viewModel.addToGroup(change.skill, change.groupId)
-
-                    updateOldGroupIfNeeded(change.skill)
-                    addSkillToGroup(change)
-                    updateSkillGroup(change.skill, change.groupId)
-                }
+                is Change.CreateGroup -> createGroup(change)
+                is Change.AddToGroup -> addToGroup(change)
             }
 
             viewModel.updateOrder(getUpdatedList(list, change))
+        }
+
+        private fun addToGroup(change: Change.AddToGroup) {
+            viewModel.addToGroup(change.skill, change.groupId)
+
+            updateOldGroupIfNeeded(change.skill)
+            addSkillToGroup(change)
+            updateGroupIdOfSkill(change.skill, change.groupId)
+        }
+
+        private fun createGroup(change: Change.CreateGroup) {
+            val group = SkillGroup(
+                id = 0,
+                name = getString(R.string.new_group),
+                skills = listOf(change.skill, change.otherSkill),
+                goal = null,
+                order = change.position,
+                unit = MeasurementUnit.Millis,
+            )
+
+            val createGroupAsync = viewModel.createGroupAsync(change.skill, group)
+
+            createGroupAsync.invokeOnCompletion {
+                val groupId = createGroupAsync.getCompleted().toInt()
+                updateGroupIdOfSkill(change.skill, groupId)
+                updateGroupIdOfSkill(change.otherSkill, groupId)
+
+                val newGroup = group.copy(id = groupId)
+
+                listAdapter.addItem(change.position + 1, newGroup)
+                listAdapter.addItem(change.position + group.skills.size + 2, SkillGroupFooter(groupId))
+            }
         }
 
         private fun addSkillToGroup(change: Change.AddToGroup) {
@@ -116,7 +120,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
             }
         }
 
-        private fun updateSkillGroup(skill: Skill, newGroupId: Int) {
+        private fun updateGroupIdOfSkill(skill: Skill, newGroupId: Int) {
             val skillViewHolder = findSkillViewHolderById(skill.id)
 
             if (skillViewHolder != null) {
@@ -136,25 +140,31 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
             if (groupViewHolder != null) {
                 val group = groupViewHolder.viewModel.skillGroup.value!!
 
-                if (group.skills.size <= 1) {
-                    val position = groupViewHolder.absoluteAdapterPosition
-                    val footer = findGroupFooterViewHolderById(group.id)
-
-                    val updatedList = listAdapter.currentList.toMutableList().apply {
-                        if (footer != null) removeAt(footer.absoluteAdapterPosition)
-                        removeAt(position)
-                    }
-
-                    listAdapter.setListWithoutDiffing(updatedList)
-
-                    if (footer != null)
-                        listAdapter.notifyItemRemoved(footer.absoluteAdapterPosition)
-
-                    listAdapter.notifyItemRemoved(position)
-                } else {
+                if (group.skills.size <= 1)
+                    deleteGroup(groupViewHolder, group)
+                else
                     removeSkillFromGroup(groupViewHolder, group, skill)
-                }
             }
+        }
+
+        private fun deleteGroup(
+            groupViewHolder: SkillGroupViewHolder,
+            group: SkillGroup
+        ) {
+            val position = groupViewHolder.absoluteAdapterPosition
+            val footer = findGroupFooterViewHolderById(group.id)
+
+            val updatedList = listAdapter.currentList.toMutableList().apply {
+                if (footer != null) removeAt(footer.absoluteAdapterPosition)
+                removeAt(position)
+            }
+
+            listAdapter.setListWithoutDiffing(updatedList)
+
+            if (footer != null)
+                listAdapter.notifyItemRemoved(footer.absoluteAdapterPosition)
+
+            listAdapter.notifyItemRemoved(position)
         }
 
         private fun removeSkillFromGroup(

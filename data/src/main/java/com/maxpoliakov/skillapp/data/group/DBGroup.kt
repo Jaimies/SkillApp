@@ -11,6 +11,7 @@ import com.maxpoliakov.skillapp.data.serialization.DurationAsLongSerializer
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.mapToDomain
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
@@ -39,7 +40,7 @@ fun GroupWithSkills.mapToDomain() = SkillGroup(
     group.id,
     group.name,
     skills.map(DBSkill::mapToDomain),
-    skills[0].unit,
+    skills.firstOrNull()?.unit ?: MeasurementUnit.Millis,
     parseGoal(group.goalCount, group.goalType),
     group.order,
 )

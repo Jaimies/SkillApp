@@ -88,7 +88,7 @@ class SkillDetailViewModel(
     }
 
     fun addRecord(count: Long) {
-        val record = Record("", skillId, count)
+        val record = Record("", skillId, count, skillLiveData.value!!.unit)
         ioScope.launch { addRecord.run(record) }
     }
 

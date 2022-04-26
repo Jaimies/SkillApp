@@ -9,12 +9,12 @@ import androidx.room.PrimaryKey
 import com.maxpoliakov.skillapp.data.serialization.DurationAsLongSerializer
 import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
 import com.maxpoliakov.skillapp.data.skill.DBSkill
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
-import java.time.Duration
 import java.time.LocalDate
 
 @Serializable
@@ -35,8 +35,9 @@ data class DBRecord(
     val skillId: Int = 0,
     @Transient
     val recordName: String = "",
+    val unit: MeasurementUnit = MeasurementUnit.Millis,
     val date: LocalDate = getCurrentDate()
 )
 
-fun DBRecord.mapToDomain() = Record(recordName, skillId, count, id, date)
-fun Record.mapToDB() = DBRecord(id, count, skillId, name, date)
+fun DBRecord.mapToDomain() = Record(recordName, skillId, count, unit, id, date)
+fun Record.mapToDB() = DBRecord(id, count, skillId, name, unit, date)

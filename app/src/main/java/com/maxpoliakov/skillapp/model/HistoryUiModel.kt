@@ -19,5 +19,5 @@ sealed class HistoryUiModel {
 }
 
 fun Record.mapToPresentation(): HistoryUiModel.Record {
-    return HistoryUiModel.Record(id, name, count, UiMeasurementUnit.Millis, date)
+    return HistoryUiModel.Record(id, name, count, UiMeasurementUnit.from(unit), date)
 }

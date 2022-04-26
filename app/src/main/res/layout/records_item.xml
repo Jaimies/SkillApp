@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.history.RecordViewModel" />
+
+        <import type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,23 +32,46 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/time_text_view"
+            app:layout_constraintEnd_toStartOf="@id/barrier"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Skill name" />
 
-        <Chronometer
-            android:id="@+id/time_text_view"
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="count_text_view,chronometer" />
+
+        <TextView
+            android:id="@+id/count_text_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
             android:gravity="center_vertical"
-            app:count="@{viewModel.record.count}"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/more_btn"
             app:layout_constraintTop_toTopOf="parent"
+            app:visible="@{viewModel.record.unit != UiMeasurementUnit.Millis}"
+            android:text="@{viewModel.record.unit.toLongString(viewModel.record.count, context)}"
+            tools:text="25m" />
+
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="12sp"
+            app:count="@{viewModel.record.count}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/more_btn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:visible="@{viewModel.record.unit == UiMeasurementUnit.Millis}"
             tools:text="25m" />
 
         <ImageButton

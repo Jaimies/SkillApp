@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.data.stopwatch
 
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
@@ -89,7 +90,7 @@ class StopwatchUtilImpl @Inject constructor(
     }
 
     private suspend fun addRecord(state: Running): Record {
-        val record = Record("", state.skillId, state.time.toMillis(), date = state.startTime.toLocalDate())
+        val record = Record("", state.skillId, state.time.toMillis(), date = state.startTime.toLocalDate(), unit = MeasurementUnit.Millis)
         val recordId = addRecord.run(record)
         return record.copy(id = recordId.toInt())
     }

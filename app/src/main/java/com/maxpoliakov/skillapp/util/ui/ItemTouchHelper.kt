@@ -48,31 +48,33 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
             if (viewHolder is SkillViewHolder) {
                 val skill = viewHolder.viewModel.skill.value!!
-                val movingUp = from > to
-
-                val prevViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to - 1 else to)
-                val nextViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to else to + 1)
-
-                val insideGroup = isInsideGroup(prevViewHolder, nextViewHolder)
+                val insideGroup = isInsideGroup(from, to, recyclerView)
                 viewHolder.isSmall = insideGroup
 
                 if (skill.groupId != -1 && !insideGroup)
                     callback.onLeaveGroup(skill)
-                else callback.onMove(from, to)
+                else if (viewHolder.canBeGrouped || !insideGroup)
+                    callback.onMove(from, to)
             } else callback.onMove(from, to)
 
             return true
         }
 
         private fun isInsideGroup(
-            prevViewHolder: RecyclerView.ViewHolder?,
-            nextViewHolder: RecyclerView.ViewHolder?
+            from: Int,
+            to: Int,
+            recyclerView: RecyclerView,
         ): Boolean {
+            val movingUp = from > to
+
+            val prevViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to - 1 else to)
+            val nextViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to else to + 1)
+
             if (prevViewHolder == null || nextViewHolder == null) return false
 
-            return (prevViewHolder is SkillViewHolder && prevViewHolder.viewModel.skill.value!!.groupId != -1
+            return (prevViewHolder is SkillViewHolder && prevViewHolder.isInAGroup
                     || prevViewHolder is SkillGroupViewHolder)
-                    && (nextViewHolder is SkillViewHolder && nextViewHolder.viewModel.skill.value!!.groupId != -1
+                    && (nextViewHolder is SkillViewHolder && nextViewHolder.isInAGroup
                     || nextViewHolder is SkillGroupFooterViewHolder)
         }
 
@@ -88,13 +90,12 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             currentCoordinates = viewHolder.itemView.run { Coordinates(y, y + height) }
 
-            if (viewHolder !is SkillViewHolder) return
+            if (viewHolder !is SkillViewHolder || !viewHolder.viewModel.canBeGrouped) return
 
             for (i in 0 until recyclerView.childCount) {
                 val holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i))
 
-                if (holder == viewHolder || holder !is SkillViewHolder
-                    || holder.viewModel.skill.value!!.groupId != -1) continue
+                if (holder == viewHolder || holder !is SkillViewHolder || holder.isInAGroup) continue
 
                 holder.isHighlighted = closeEnough(currentCoordinates!!, holder)
             }
@@ -171,7 +172,9 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
             if (closestViewHolder is SkillViewHolder) {
                 val secondSkill = closestViewHolder.viewModel.skill.value!!
 
-                if (secondSkill.groupId == -1 && closeEnough(dropCoordinates, closestViewHolder)) {
+                if (secondSkill.groupId == -1 && closeEnough(dropCoordinates, closestViewHolder)
+                    && skill.unit.canBeGrouped && secondSkill.unit.canBeGrouped
+                ) {
                     val position = min(viewHolder.absoluteAdapterPosition, closestViewHolder.absoluteAdapterPosition) - 1
                     return Change.CreateGroup(skill, secondSkill, position)
                 }
@@ -193,7 +196,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
         }
 
         private fun groupIfNecessary(skill: Skill, position: Int, adapter: SkillListAdapter): Change? {
-            if (position == 0) return null
+            if (position == 0 || !skill.unit.canBeGrouped) return null
 
             val prevItem = adapter.getItem(position - 1)
 

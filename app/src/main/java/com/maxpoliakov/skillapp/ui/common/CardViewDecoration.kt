@@ -29,9 +29,9 @@ class CardViewDecoration : ItemDecoration() {
             val viewHolder = parent.getChildViewHolder(parent.getChildAt(i))
 
             val groupId = if (viewHolder is SkillGroupViewHolder)
-                viewHolder.viewModel.skillGroup.value!!.id
-            else if (viewHolder is SkillViewHolder && viewHolder.viewModel.skill.value!!.groupId != -1)
-                viewHolder.viewModel.skill.value!!.groupId
+                viewHolder.groupId
+            else if (viewHolder is SkillViewHolder && viewHolder.isInAGroup)
+                viewHolder.groupId
             else continue
 
             if (drawnGroupIds.contains(groupId)) continue
@@ -89,8 +89,8 @@ class CardViewDecoration : ItemDecoration() {
         for (i in childCount - 1 downTo 0) {
             val holder = getChildViewHolder(getChildAt(i))
 
-            if (holder is SkillGroupViewHolder && holder.viewModel.skillGroup.value!!.id == groupId
-                || holder is SkillViewHolder && holder.viewModel.skill.value!!.groupId == groupId
+            if (holder is SkillGroupViewHolder && holder.groupId == groupId
+                || holder is SkillViewHolder && holder.groupId == groupId
                 || holder is SkillGroupFooterViewHolder && holder.groupId == groupId
             ) return holder
         }

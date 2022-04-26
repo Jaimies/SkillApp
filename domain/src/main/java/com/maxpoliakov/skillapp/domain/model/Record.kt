@@ -8,6 +8,7 @@ data class Record(
     val name: String,
     val skillId: Id,
     val count: Long,
+    val unit: MeasurementUnit,
     val id: Id = 0,
     val date: LocalDate = getCurrentDate()
 )

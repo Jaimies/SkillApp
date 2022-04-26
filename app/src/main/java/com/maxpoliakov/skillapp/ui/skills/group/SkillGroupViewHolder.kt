@@ -11,6 +11,8 @@ class SkillGroupViewHolder(
     val viewModel: SkillGroupViewModel,
 ) : BaseViewHolder(binding.root) {
 
+    val groupId get() = viewModel.skillGroup.value!!.id
+
     init {
         binding.viewModel = viewModel
 

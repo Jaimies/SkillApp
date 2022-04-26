@@ -46,4 +46,8 @@ class SkillViewHolder(
     var isHighlighted: Boolean
         get() = viewModel.isHighlighted.value!!
         set(value) = viewModel.setIsHighlighted(value)
+
+    val canBeGrouped get() = viewModel.canBeGrouped
+    val groupId get() = viewModel.groupId
+    val isInAGroup get() = viewModel.isInAGroup
 }

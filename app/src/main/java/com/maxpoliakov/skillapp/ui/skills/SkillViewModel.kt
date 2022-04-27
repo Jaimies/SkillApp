@@ -27,7 +27,7 @@ class SkillViewModel @Inject constructor(
     private val _skill = MutableStateFlow<Skill?>(null)
     val skill = _skill.asStateFlow()
 
-    val uiUnit = _skill.map { skill -> skill?.unit?.mapToUI() }.asLiveData()
+    val unit = _skill.map { skill -> skill?.unit?.mapToUI() }.asLiveData()
 
     private val _isSmall = MutableLiveData(false)
     val isSmall: LiveData<Boolean> get() = _isSmall

@@ -47,7 +47,7 @@
                     layout="@layout/goal_picker"
                     app:chooseGoal="@{() -> viewModel.chooseGoal()}"
                     app:goal="@{viewModel.goal}"
-                    app:unit="@{viewModel.uiUnit}" />
+                    app:unit="@{viewModel.unit}" />
 
                 <LinearLayout
                     android:id="@+id/data_layout"
@@ -66,7 +66,7 @@
                         app:countToday="@{viewModel.timeToday}"
                         app:goal="@{viewModel.group.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
-                        app:unit="@{viewModel.uiUnit}" />
+                        app:unit="@{viewModel.unit}" />
 
                     <include
                         android:id="@+id/productivity_chart"

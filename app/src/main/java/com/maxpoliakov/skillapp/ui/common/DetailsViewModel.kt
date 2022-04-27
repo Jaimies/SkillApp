@@ -27,7 +27,7 @@ abstract class DetailsViewModel(
     goalFlow: Flow<Goal?>,
     recordedCountFlow: Flow<Long>,
 ) : ViewModel() {
-    abstract val uiUnit: LiveData<UiMeasurementUnit>
+    abstract val unit: LiveData<UiMeasurementUnit>
 
     protected abstract val nameFlow: Flow<String>
 

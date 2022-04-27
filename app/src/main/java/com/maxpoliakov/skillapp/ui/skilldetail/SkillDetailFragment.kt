@@ -60,7 +60,7 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
         }
         observe(viewModel.showRecordDialog) { showRecordDialog() }
         observe(viewModel.showRecordAdded) { record ->
-            if (record != null) recordUtil.notifyRecordAdded(requireView(), record, viewModel.uiUnit.value!!)
+            if (record != null) recordUtil.notifyRecordAdded(requireView(), record, viewModel.unit.value!!)
         }
     }
 
@@ -87,6 +87,6 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     }
 
     private fun showRecordDialog() {
-        viewModel.uiUnit.value!!.showPicker(requireContext(), onTimeSet = viewModel::addRecord)
+        viewModel.unit.value!!.showPicker(requireContext(), onTimeSet = viewModel::addRecord)
     }
 }

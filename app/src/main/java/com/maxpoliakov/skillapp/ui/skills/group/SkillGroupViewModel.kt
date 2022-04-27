@@ -14,7 +14,7 @@ class SkillGroupViewModel {
     private val _navigateToDetail = SingleLiveEvent<SkillGroup>()
     val navigateToDetail: LiveData<SkillGroup> get() = _navigateToDetail
 
-    val uiUnit = skillGroup.map { group -> group.unit.mapToUI() }
+    val unit = skillGroup.map { group -> group.unit.mapToUI() }
 
     fun setSkillGroup(skillGroup: SkillGroup) {
         _skillGroup.value = skillGroup

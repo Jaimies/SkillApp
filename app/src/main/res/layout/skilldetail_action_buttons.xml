@@ -29,7 +29,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            app:visible="@{viewModel.uiUnit.stopwatchEnabled}"
+            app:visible="@{viewModel.unit.stopwatchEnabled}"
             android:onClick="@{() -> viewModel.toggleTimer()}"
             android:text="@{!viewModel.stopwatchIsRunning ? @string/start_the_timer: @string/stop_the_timer}"
             app:backgroundTintAttr="@{!viewModel.stopwatchIsRunning ? R.attr.colorPrimary : R.attr.colorError}"
@@ -43,9 +43,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            app:backgroundTintAttr="@{viewModel.uiUnit.stopwatchEnabled ? R.attr.colorButtonSecondary : R.attr.colorPrimary}"
-            app:textColorAttr="@{viewModel.uiUnit.stopwatchEnabled ? R.attr.textColorButtonSecondary : R.attr.colorOnPrimary}"
+            app:backgroundTintAttr="@{viewModel.unit.stopwatchEnabled ? R.attr.colorButtonSecondary : R.attr.colorPrimary}"
+            app:textColorAttr="@{viewModel.unit.stopwatchEnabled ? R.attr.textColorButtonSecondary : R.attr.colorOnPrimary}"
             android:onClick="@{() -> viewModel.showRecordDialog()}"
-            android:text="@{viewModel.uiUnit.addRecordBtnResId > 0 ? context.getString(viewModel.uiUnit.addRecordBtnResId) : ``}" />
+            android:text="@{viewModel.unit.addRecordBtnResId > 0 ? context.getString(viewModel.unit.addRecordBtnResId) : ``}" />
     </LinearLayout>
 </layout>

@@ -67,7 +67,7 @@ class SkillDetailViewModel(
     val skillLiveData = skill.asLiveData()
 
     val uiGoal = skillLiveData.map { skill -> skill.goal?.mapToUI(skill.unit) }
-    override val uiUnit = skillLiveData.map { skill -> skill.unit.mapToUI() }
+    override val unit = skillLiveData.map { skill -> skill.unit.mapToUI() }
 
     val summary = skill.map { skill ->
         ProductivitySummary.from(skill)

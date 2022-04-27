@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="36dp"
-                android:text="@{viewModel.uiUnit.toShortString(viewModel.skillGroup.totalCount, context)}"
+                android:text="@{viewModel.unit.toShortString(viewModel.skillGroup.totalCount, context)}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:layout_constraintBottom_toBottomOf="@id/name_text_view"
                 app:layout_constraintEnd_toEndOf="parent"

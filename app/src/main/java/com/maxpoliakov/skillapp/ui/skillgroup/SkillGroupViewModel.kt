@@ -47,7 +47,7 @@ class SkillGroupViewModel(
     val chartData = GroupChartData(getStats, getGroup, groupId)
 
     val group = _group.asLiveData()
-    override val uiUnit = group.map { group -> group.unit.mapToUI() }
+    override val unit = group.map { group -> group.unit.mapToUI() }
 
     val uiGoal = group.map { group -> group.goal?.mapToUI(group.unit) }
 

@@ -48,7 +48,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) 
         observe(viewModel.onSave) { stopEditing() }
 
         observe(viewModel.chooseGoal) {
-            viewModel.uiUnit.value!!.showGoalPicker(
+            viewModel.unit.value!!.showGoalPicker(
                 requireContext(),
                 viewModel.goal.value,
                 onGoalSet = viewModel::setGoal

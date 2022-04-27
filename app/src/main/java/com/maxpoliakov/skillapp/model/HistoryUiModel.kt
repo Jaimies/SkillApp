@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.model
 
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import java.time.LocalDate
 
 sealed class HistoryUiModel {
@@ -19,5 +20,5 @@ sealed class HistoryUiModel {
 }
 
 fun Record.mapToPresentation(): HistoryUiModel.Record {
-    return HistoryUiModel.Record(id, name, count, UiMeasurementUnit.from(unit), date)
+    return HistoryUiModel.Record(id, name, count, unit.mapToUI(), date)
 }

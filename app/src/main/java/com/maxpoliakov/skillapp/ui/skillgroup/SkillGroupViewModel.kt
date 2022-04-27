@@ -57,7 +57,7 @@ class SkillGroupViewModel(
     }
 
     val summary = _group.combine(dailyStats) { group, stats ->
-        ProductivitySummary(group.totalCount, stats.sumByLong { it.count }, UiMeasurementUnit.from(group.unit))
+        ProductivitySummary(group.totalCount, stats.sumByLong { it.count }, group.unit.mapToUI())
     }.asLiveData()
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {

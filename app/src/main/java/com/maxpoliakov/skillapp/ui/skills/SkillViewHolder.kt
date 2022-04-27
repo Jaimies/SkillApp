@@ -11,7 +11,7 @@ class SkillViewHolder(
     private val binding: SkillsItemBinding,
     private val recordUtil: RecordUtil,
     callback: SkillsFragmentCallback,
-) : BaseViewHolder(binding.root) {
+) : SkillListViewHolder(binding.root) {
     val viewModel = binding.viewModel!!
 
     init {
@@ -48,6 +48,6 @@ class SkillViewHolder(
         set(value) = viewModel.setIsHighlighted(value)
 
     val canBeGrouped get() = viewModel.canBeGrouped
-    val groupId get() = viewModel.groupId
+    override val groupId get() = viewModel.groupId
     val isInAGroup get() = viewModel.isInAGroup
 }

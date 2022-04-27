@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.ui.skills.ITEM_TYPE_SKILL_GROUP_FOOTER
 import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooterViewHolder
+import com.maxpoliakov.skillapp.ui.skills.SkillListViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.util.ui.dp
@@ -87,12 +88,8 @@ class CardViewDecoration : ItemDecoration() {
 
     private fun RecyclerView.findLastViewHolderInGroup(groupId: Int): RecyclerView.ViewHolder? {
         for (i in childCount - 1 downTo 0) {
-            val holder = getChildViewHolder(getChildAt(i))
-
-            if (holder is SkillGroupViewHolder && holder.groupId == groupId
-                || holder is SkillViewHolder && holder.groupId == groupId
-                || holder is SkillGroupFooterViewHolder && holder.groupId == groupId
-            ) return holder
+            val holder = getChildViewHolder(getChildAt(i)) as SkillListViewHolder
+            if (holder.groupId == groupId) return holder
         }
 
         return null

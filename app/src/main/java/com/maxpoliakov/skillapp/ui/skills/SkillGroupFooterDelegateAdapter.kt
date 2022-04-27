@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.ui.skills
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 
 class SkillGroupFooterDelegateAdapter : DelegateAdapter<SkillGroupFooter, SkillGroupFooterViewHolder> {
@@ -19,6 +18,6 @@ class SkillGroupFooterDelegateAdapter : DelegateAdapter<SkillGroupFooter, SkillG
 
 }
 
-class SkillGroupFooterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    var groupId = -1
+class SkillGroupFooterViewHolder(view: View) : SkillListViewHolder(view) {
+    override var groupId = -1
 }

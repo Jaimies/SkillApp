@@ -15,8 +15,7 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
-import com.maxpoliakov.skillapp.model.UiGoal
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
@@ -67,11 +66,7 @@ class SkillDetailViewModel(
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
     val skillLiveData = skill.asLiveData()
 
-    val uiGoal = skillLiveData.map { skill ->
-        if (skill.goal == null) null
-        else UiGoal(skill.goal!!, UiMeasurementUnit.from(skill.unit))
-    }
-
+    val uiGoal = skillLiveData.map { skill -> skill.goal?.mapToUI(skill.unit) }
     override val uiUnit = skillLiveData.map { skill -> skill.unit.mapToUI() }
 
     val summary = skill.map { skill ->

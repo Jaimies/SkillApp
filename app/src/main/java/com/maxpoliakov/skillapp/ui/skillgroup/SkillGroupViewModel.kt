@@ -10,8 +10,7 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
-import com.maxpoliakov.skillapp.model.UiGoal
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
@@ -50,11 +49,7 @@ class SkillGroupViewModel(
     val group = _group.asLiveData()
     override val uiUnit = group.map { group -> group.unit.mapToUI() }
 
-    val uiGoal = group.map { group ->
-        if (group.goal == null) null
-        //todo change me pls no exclaim
-        else UiGoal(group.goal!!, UiMeasurementUnit.from(group.unit))
-    }
+    val uiGoal = group.map { group -> group.goal?.mapToUI(group.unit) }
 
     val summary = _group.combine(dailyStats) { group, stats ->
         ProductivitySummary(group.totalCount, stats.sumByLong { it.count }, group.unit.mapToUI())

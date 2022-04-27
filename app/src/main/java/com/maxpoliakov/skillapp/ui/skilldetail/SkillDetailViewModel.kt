@@ -17,6 +17,7 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.SkillChartData
@@ -71,9 +72,7 @@ class SkillDetailViewModel(
         else UiGoal(skill.goal!!, UiMeasurementUnit.from(skill.unit))
     }
 
-    override val uiUnit = skillLiveData.map { skill ->
-        UiMeasurementUnit.from(skill.unit)
-    }
+    override val uiUnit = skillLiveData.map { skill -> skill.unit.mapToUI() }
 
     val summary = skill.map { skill ->
         ProductivitySummary.from(skill)

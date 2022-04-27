@@ -226,5 +226,7 @@ enum class UiMeasurementUnit {
                 MeasurementUnit.Times -> Times
             }
         }
+
+        fun MeasurementUnit.mapToUI() = from(this)
     }
 }

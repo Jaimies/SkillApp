@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.GroupChartData
@@ -47,7 +48,7 @@ class SkillGroupViewModel(
     val chartData = GroupChartData(getStats, getGroup, groupId)
 
     val group = _group.asLiveData()
-    override val uiUnit = group.map { group -> UiMeasurementUnit.from(group.unit) }
+    override val uiUnit = group.map { group -> group.unit.mapToUI() }
 
     val uiGoal = group.map { group ->
         if (group.goal == null) null

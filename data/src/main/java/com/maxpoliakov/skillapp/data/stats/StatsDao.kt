@@ -10,9 +10,9 @@ import java.time.LocalDate
 @Dao
 interface StatsDao : BaseDao<DBStatistic> {
     @Query(
-        """INSERT OR REPLACE INTO stats (count, date, skillId) VALUES(
+        """INSERT OR REPLACE INTO stats (time, date, skillId) VALUES(
                 COALESCE((
-                    (SELECT count FROM stats WHERE date = :date AND skillId = :skillId) + :count), 
+                    (SELECT time FROM stats WHERE date = :date AND skillId = :skillId) + :count), 
                 :count), :date, :skillId)
             """
     )
@@ -20,20 +20,20 @@ interface StatsDao : BaseDao<DBStatistic> {
 
     @Query(
         """
-        SELECT date, :skillId as skillId, SUM(count) as count FROM stats
+        SELECT date, :skillId as skillId, SUM(time) as time FROM stats
         WHERE (:skillId = -1 OR skillId = :skillId)
         AND date(date) > date('now','localtime', '-' || :daysAgoStart || ' days') 
         AND date(date) <= date('now', 'localtime')
-        AND count > 0
+        AND time > 0
         GROUP BY date
         """
     )
     fun getStats(skillId: Int, daysAgoStart: Long): Flow<List<DBStatistic>>
 
-    @Query("SELECT count from stats WHERE skillId = :skillId AND date = :date")
+    @Query("SELECT time from stats WHERE skillId = :skillId AND date = :date")
     fun getCountAtDate(skillId: Int, date: LocalDate): Flow<Long?>
 
-    @Query("SELECT SUM(count) as time FROM stats WHERE date = :date")
+    @Query("SELECT SUM(time) as time FROM stats WHERE date = :date")
     suspend fun getCountAtDate(date: LocalDate): Long
 
     @Query("SELECT * FROM stats")

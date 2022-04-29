@@ -2,6 +2,7 @@
 
 package com.maxpoliakov.skillapp.data.records
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -31,6 +32,7 @@ import java.time.LocalDate
 data class DBRecord(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    @ColumnInfo(name = "time")
     val count: Long = 0,
     val skillId: Int = 0,
     @Transient

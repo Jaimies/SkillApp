@@ -75,3 +75,19 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
         """)
     }
 }
+
+val MIGRATION_5_6 = object: Migration(5, 6) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("""
+            ALTER TABLE skills
+            ADD unit TEXT NOT NULL
+            DEFAULT('Millis')
+        """)
+
+        database.execSQL("""
+            ALTER TABLE records
+            ADD unit TEXT NOT NULL
+            DEFAULT('Millis')
+        """)
+    }
+}

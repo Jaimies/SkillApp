@@ -8,6 +8,7 @@ import com.maxpoliakov.skillapp.data.db.MIGRATION_1_2
 import com.maxpoliakov.skillapp.data.db.MIGRATION_2_3
 import com.maxpoliakov.skillapp.data.db.MIGRATION_3_4
 import com.maxpoliakov.skillapp.data.db.MIGRATION_4_5
+import com.maxpoliakov.skillapp.data.db.MIGRATION_5_6
 import com.maxpoliakov.skillapp.data.getIntValue
 import com.maxpoliakov.skillapp.data.getLongValue
 import com.maxpoliakov.skillapp.data.getStringValue
@@ -108,5 +109,28 @@ class MigrationsTest {
             cursor.getLongValue("goalTime") shouldBe 0
             cursor.getStringValue("goalType") shouldBe "Daily"
         }
+    }
+
+    @Test
+    fun migration_5_to_6() = runBlocking<Unit> {
+        val db = helper.createDatabase(AppDatabase.DATABASE_NAME, 5)
+
+        db.execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate, `order`, groupId, goalType, goalTime)
+                VALUES ("name", 100000, 1000, 100, "1970-01-01", 0, 2, "Daily", 100000)
+            """)
+
+        db.execSQL("""INSERT INTO stats (date, skillId, time) 
+                VALUES("1970-01-01", 1, 15)
+            """)
+
+        db.execSQL("""INSERT INTO records (time, skillId, recordName, date)
+                VALUES (10, 1, "", "1970-01-01")
+            """)
+
+        db.execSQL("""INSERT INTO groups(id, name, `order`, goalType, goalTime) 
+            VALUES(1, "name", 0, "Daily", 200000)
+            """)
+
+        helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 6, true, MIGRATION_5_6)
     }
 }

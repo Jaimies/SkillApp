@@ -31,15 +31,15 @@ class BackupUtilImplTest {
             DBSkill(
                 id = index + 1,
                 name = "Skill $index",
-                totalTime = Duration.ofHours(index.toLong()),
-                initialTime = Duration.ofMinutes(index.toLong()),
+                totalCount = index.toLong(),
+                initialCount = index.toLong() / 10,
             )
         }
 
         val records = List(5) { index ->
             DBRecord(
                 id = index + 1,
-                time = Duration.ofHours(index.toLong()),
+                count = index.toLong(),
                 skillId = index + 1,
             )
         }
@@ -47,7 +47,7 @@ class BackupUtilImplTest {
         val statistics = List(5) { index ->
             DBStatistic(
                 skillId = index + 1,
-                time = Duration.ofHours(index.toLong()),
+                count = index.toLong(),
                 date = getCurrentDate(),
             )
         }

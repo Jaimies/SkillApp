@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.data.group.mapToDomain
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.data.skill.mapToDomain
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
@@ -34,7 +35,7 @@ class GroupDaoTest {
 
         skills.forEach { skill -> skillDao.insert(skill) }
 
-        val group = SkillGroup(1, "Group name", skills.map { it.mapToDomain() }, null, -1)
+        val group = SkillGroup(1, "Group name", skills.map { it.mapToDomain() }, MeasurementUnit.Millis, null, -1)
         groupDao.createGroup(group)
         val groupFromDB = groupDao.getGroupById(1)!!
 

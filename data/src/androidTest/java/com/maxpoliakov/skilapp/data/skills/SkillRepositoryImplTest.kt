@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.data.records.RecordsDao
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.data.skill.mapToDB
 import com.maxpoliakov.skillapp.data.stats.StatsRepositoryImpl
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
@@ -45,14 +46,14 @@ class SkillRepositoryImplTest {
     @Test
     fun getGroupTimeToday() = runBlocking {
         val skills = listOf(
-            Skill("name", Duration.ofHours(2), Duration.ofHours(1), id = 1),
-            Skill("other name", Duration.ofHours(20), Duration.ofHours(10), id = 2),
+            Skill("name", MeasurementUnit.Millis, Duration.ofHours(2).toMillis(), Duration.ofHours(1).toMillis(), id = 1),
+            Skill("other name",MeasurementUnit.Millis,  Duration.ofHours(20).toMillis(), Duration.ofHours(10).toMillis(), id = 2),
         ).onEach { skill -> skillDao.insert(skill.mapToDB()) }
 
-        groupRepository.createGroup(SkillGroup(1, "new group", skills, null, 0))
+        groupRepository.createGroup(SkillGroup(1, "new group", skills, MeasurementUnit.Millis, null, 0))
 
-        statsRepository.addRecord(Record("", 1, Duration.ofHours(2)))
-        statsRepository.addRecord(Record("", 2, Duration.ofHours(3)))
+        statsRepository.addRecord(Record("", 1, Duration.ofHours(2).toMillis(), MeasurementUnit.Millis))
+        statsRepository.addRecord(Record("", 2, Duration.ofHours(3).toMillis(), MeasurementUnit.Millis))
 
         statsRepository.getGroupTimeAtDate(1, LocalDate.now()).await() shouldBe Duration.ofHours(5)
     }

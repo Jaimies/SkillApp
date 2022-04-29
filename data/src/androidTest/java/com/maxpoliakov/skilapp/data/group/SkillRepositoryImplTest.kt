@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.data.records.RecordsDao
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.data.skill.SkillRepositoryImpl
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
@@ -40,19 +41,19 @@ class SkillRepositoryImplTest {
 
     @Test
     fun skillGroupRepository_updateGoal() = runBlocking {
-        groupRepository.createGroup(SkillGroup(1, "new group", listOf(), null, 0))
+        groupRepository.createGroup(SkillGroup(1, "new group", listOf(), MeasurementUnit.Millis, null, 0))
         groupRepository.updateGoal(1, goal)
         groupRepository.getSkillGroupById(1)?.goal shouldBe goal
     }
 
     @Test
     fun skillRepository_updateGoal() = runBlocking {
-        skillRepository.addSkill(Skill("", Duration.ZERO, Duration.ZERO, goal = null))
+        skillRepository.addSkill(Skill("", MeasurementUnit.Millis, 0, 0, goal = null))
         skillRepository.updateGoal(1, goal)
         skillRepository.getSkillById(1)?.goal shouldBe goal
     }
 
     companion object {
-        private val goal = Goal(Duration.ofHours(3), Goal.Type.Weekly)
+        private val goal = Goal(4_000_000, Goal.Type.Weekly)
     }
 }

@@ -8,15 +8,14 @@ import com.maxpoliakov.skillapp.data.db.MIGRATION_1_2
 import com.maxpoliakov.skillapp.data.db.MIGRATION_2_3
 import com.maxpoliakov.skillapp.data.db.MIGRATION_3_4
 import com.maxpoliakov.skillapp.data.db.MIGRATION_4_5
-import com.maxpoliakov.skillapp.data.records.DBRecord
-import com.maxpoliakov.skillapp.data.skill.DBSkill
-import com.maxpoliakov.skillapp.data.stats.DBStatistic
-import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.data.getIntValue
+import com.maxpoliakov.skillapp.data.getLongValue
+import com.maxpoliakov.skillapp.data.getStringValue
+import com.maxpoliakov.skillapp.data.queryASingleItem
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import java.time.Duration
-import java.time.LocalDate
 
 class MigrationsTest {
     private val helper = MigrationTestHelper(
@@ -25,96 +24,89 @@ class MigrationsTest {
         FrameworkSQLiteOpenHelperFactory()
     )
 
-    private val date = LocalDate.ofEpochDay(0)
-    private val skill = DBSkill(
-        1, "Name", totalTime = Duration.ofMinutes(40), initialTime = Duration.ofMinutes(10), creationDate = date
-    )
-    private val record = DBRecord(id = 1, skillId = 1, time = Duration.ofMinutes(10), date = date)
-    private val statistic = DBStatistic(date, 1, Duration.ofMinutes(15))
-
     @Test
     fun migration_from_1_to_2() = runBlocking {
-        helper.createDatabase(AppDatabase.DATABASE_NAME, 1).apply {
-            execSQL(
-                """INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate)
-                VALUES("${skill.name}", ${skill.totalTime.toMinutes()}, ${skill.initialTime.toMinutes()}, 0, "1970-01-01")
-            """
-            )
-            execSQL(
-                """INSERT INTO records (time, skillId, recordName, date)
-                VALUES (${record.time.toMinutes()}, ${record.skillId}, "${record.recordName}", "1970-01-01")
-            """
-            )
+        val db = helper.createDatabase(AppDatabase.DATABASE_NAME, 1)
 
-            execSQL(
-                """INSERT INTO stats (date, skillId, time) 
-                VALUES("1970-01-01", 1, ${statistic.time.toMinutes()})
-            """
-            )
-        }
+        db.execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate)
+                VALUES("Name", 40, 10, 0, "1970-01-01")
+            """)
+
+        db.execSQL("""INSERT INTO records (time, skillId, recordName, date)
+                VALUES (10, 1, "", "1970-01-01")
+            """)
+
+        db.execSQL("""INSERT INTO stats (date, skillId, time) 
+                VALUES("1970-01-01", 1, 15)
+            """)
 
         helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 2, true, MIGRATION_1_2)
 
-        val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
+        db.queryASingleItem("SELECT totalTime, initialTime FROM skills WHERE id = 1") { cursor ->
+            cursor.getLongValue("totalTime") shouldBe Duration.ofMinutes(40).toMillis()
+            cursor.getLongValue("initialTime") shouldBe Duration.ofMinutes(10).toMillis()
+        }
 
-        roomDb.skillDao().getSkill(1) shouldBe skill
-        roomDb.statsDao().getCountAtDate(statistic.date) shouldBe statistic.time
-        roomDb.recordsDao().getRecordById(1) shouldBe record
+        db.queryASingleItem("SELECT time FROM records WHERE id = 1") { cursor ->
+            cursor.getLongValue("time") shouldBe Duration.ofMinutes(10).toMillis()
+        }
+
+        db.queryASingleItem("SELECT time FROM stats WHERE skillId = 1") { cursor ->
+            cursor.getLongValue("time") shouldBe Duration.ofMinutes(15).toMillis()
+        }
     }
 
     @Test
     fun migration_from_2_to_3() = runBlocking {
-        helper.createDatabase(AppDatabase.DATABASE_NAME, 2).apply {
-            execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate)
+        val db = helper.createDatabase(AppDatabase.DATABASE_NAME, 2)
+
+        db.execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate)
                 VALUES ("name", 100000, 1000, 100, "1970-01-01")
             """)
-        }
 
         helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 3, true, MIGRATION_2_3)
 
-        val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
-        val skill = roomDb.skillDao().getSkill(1)!!
-        skill.order shouldBe -1
-        skill.name shouldBe "name"
-        skill.totalTime shouldBe Duration.ofMillis(100000)
+        db.queryASingleItem("SELECT `order`, name, totalTime FROM skills") { cursor ->
+            cursor.getIntValue("order") shouldBe -1
+            cursor.getStringValue("name") shouldBe "name"
+            cursor.getLongValue("totalTime") shouldBe 100_000
+        }
     }
 
     @Test
     fun migration_from_3_to_4() = runBlocking {
-        helper.createDatabase(AppDatabase.DATABASE_NAME, 3).apply {
-            execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate, `order`)
+        val db = helper.createDatabase(AppDatabase.DATABASE_NAME, 3)
+
+        db.execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate, `order`)
                 VALUES ("name", 100000, 1000, 100, "1970-01-01", 0)
-          """)
-        }
+            """)
 
         helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 4, true, MIGRATION_3_4)
 
-        val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
-        val skill = roomDb.skillDao().getSkill(1)!!
-
-        skill.groupId shouldBe -1
+        db.queryASingleItem("SELECT groupId FROM skills WHERE id = 1") { cursor ->
+            cursor.getIntValue("groupId") shouldBe -1
+        }
     }
 
     @Test
     fun migration_from_4_to_5() = runBlocking {
-        helper.createDatabase(AppDatabase.DATABASE_NAME, 4).apply {
-            execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate, `order`, groupId)
+        val db = helper.createDatabase(AppDatabase.DATABASE_NAME, 4)
+        db.execSQL("""INSERT INTO skills (name, totalTime, initialTime, lastWeekTime, creationDate, `order`, groupId)
                 VALUES ("name", 100000, 1000, 100, "1970-01-01", 0, 2)
-          """)
+            """)
 
-            execSQL("""INSERT INTO groups(id, name, `order`) VALUES(1, "name", 0)""")
-        }
+        db.execSQL("""INSERT INTO groups(id, name, `order`) VALUES(1, "name", 0)""")
 
         helper.runMigrationsAndValidate(AppDatabase.DATABASE_NAME, 5, true, MIGRATION_4_5)
 
-        val roomDb = AppDatabase.create(InstrumentationRegistry.getInstrumentation().targetContext)
-        val skill = roomDb.skillDao().getSkill(1)!!
+        db.queryASingleItem("SELECT goalTime, goalType FROM skills WHERE id = 1") { cursor ->
+            cursor.getLongValue("goalTime") shouldBe 0
+            cursor.getStringValue("goalType") shouldBe "Daily"
+        }
 
-        skill.goalTime shouldBe Duration.ZERO
-        skill.goalType shouldBe Goal.Type.Daily
-
-        val group = roomDb.skillGroupDao().getGroupById(1)!!
-        group.group.goalTime shouldBe Duration.ZERO
-        group.group.goalType shouldBe Goal.Type.Daily
+        db.queryASingleItem("SELECT goalTime, goalType FROM groups WHERE id = 1") { cursor ->
+            cursor.getLongValue("goalTime") shouldBe 0
+            cursor.getStringValue("goalType") shouldBe "Daily"
+        }
     }
 }

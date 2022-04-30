@@ -108,4 +108,16 @@
     <string name="weekly_goal_without_progress">Ціль на тиждень: %s</string>
     <string name="select_goal">Вибір цілі</string>
     <string name="add_time">Додавання часу</string>
+    <string name="distance_kilometers">%s км</string>
+    <string name="distance_meters">%d хв</string>
+    <string name="total_kilometers">Загальна відстань</string>
+    <string name="hours">Години</string>
+    <string name="kilometers">Кілометри</string>
+    <string name="measurement_unit">Одиниця вимірювання</string>
+    <string name="add_kilometers_record">Додати відстань</string>
+    <string name="add_times_record">Додати запис</string>
+    <string name="initial_distance">Наявна кількість кілометрів</string>
+    <string name="initial_count">Наявна кількість</string>
+    <string name="times">Рази</string>
+    <string name="total_times">Загальна кількість</string>
 </resources>

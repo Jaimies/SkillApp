@@ -13,7 +13,6 @@ import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.time.Duration
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,13 +40,13 @@ class AddSkillViewModel @Inject constructor(
 
     override fun save(name: String) {
         viewModelScope.launch {
-            val millis = Duration.ofHours(totalTime.value?.toLongOrNull() ?: 0).toMillis()
+            val count = unit.value!!.getInitialCount(totalTime.value?.toLongOrNull() ?: 0L)
 
             val skillId = addSkill.run(
                 Skill(
                     name = name,
-                    totalCount = millis,
-                    initialCount = millis,
+                    totalCount = count,
+                    initialCount = count,
                     goal = goal.value,
                     unit = unit.value!!.toDomain(),
                 )

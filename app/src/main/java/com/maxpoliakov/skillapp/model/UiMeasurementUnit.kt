@@ -63,6 +63,9 @@ enum class UiMeasurementUnit {
         override fun toDomain() = MeasurementUnit.Millis
         override fun getValuePickerBuilder() = DurationPicker.Builder()
         override fun getGoalPickerBuilder() = DurationGoalPicker.Builder()
+        override fun getInitialCount(countEnteredByUser: Long): Long {
+            return Duration.ofHours(countEnteredByUser).toMillis()
+        }
 
         inner class Formatter(private val context: Context) : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
@@ -108,6 +111,7 @@ enum class UiMeasurementUnit {
         override fun getValuePickerBuilder() = DistancePicker.Builder()
         override fun getGoalPickerBuilder() = DistanceGoalPicker.Builder()
         override fun toDomain() = MeasurementUnit.Meters
+        override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser * 1000
 
         inner class Formatter(private val context: Context) : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
@@ -140,6 +144,7 @@ enum class UiMeasurementUnit {
         override fun getValuePickerBuilder() = TimesPicker.Builder()
         override fun getGoalPickerBuilder() = TimesGoalPicker.Builder()
         override fun toDomain() = MeasurementUnit.Times
+        override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser
 
         inner class Formatter : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
@@ -159,6 +164,7 @@ enum class UiMeasurementUnit {
     abstract fun toLongString(count: Long, context: Context): String
     abstract fun getRecordAddedString(count: Long, context: Context): String
     abstract fun getValueFormatter(context: Context): ValueFormatter
+    abstract fun getInitialCount(countEnteredByUser: Long): Long
 
     abstract fun getValuePickerBuilder(): ValuePicker.Builder
     abstract fun getGoalPickerBuilder(): GoalPicker.Builder

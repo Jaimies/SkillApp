@@ -24,7 +24,7 @@ interface SkillDao : BaseDao<DBSkill> {
             SELECT SUM(time) FROM records WHERE skillId = :id
             AND date(records.date) >= date('now','localtime', '-6 day')
             AND date(records.date) <= date('now', 'localtime')
-        ) as lastWeekCount FROM skills
+        ) as lastWeekTime FROM skills
         WHERE skills.id = :id"""
     )
     fun getSkillFlow(id: Int): Flow<DBSkill?>

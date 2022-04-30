@@ -19,12 +19,6 @@ class ConvertersTest : StringSpec({
         converters.toLocalDate("1970-01-01") shouldBe epoch
     }
 
-    "toDuration() and fromDuration()" {
-        listOf(Duration.ofMillis(3), Duration.ofMillis(5)).forEach { time ->
-            converters.toDuration(converters.fromDuration(time)) shouldBe time
-        }
-    }
-
     "toGoalType() and fromGoalType()" {
         listOf(Goal.Type.Daily, Goal.Type.Weekly).forEach { interval ->
             converters.toGoalType(converters.fromGoalType(interval)) shouldBe interval

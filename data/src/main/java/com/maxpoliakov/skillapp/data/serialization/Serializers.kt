@@ -24,15 +24,3 @@ object LocalDateAsStringSerializer : KSerializer<LocalDate> {
 
     override val descriptor = PrimitiveSerialDescriptor("LocalDateAsStringDescriptor", PrimitiveKind.STRING)
 }
-
-object DurationAsLongSerializer : KSerializer<Duration> {
-    override fun serialize(encoder: Encoder, value: Duration) {
-        encoder.encodeLong(value.toMillis())
-    }
-
-    override fun deserialize(decoder: Decoder): Duration {
-        return Duration.ofMillis(decoder.decodeLong())
-    }
-
-    override val descriptor = PrimitiveSerialDescriptor("DurationAsLongSerializer", PrimitiveKind.LONG)
-}

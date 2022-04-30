@@ -1,5 +1,3 @@
-@file:UseSerializers(DurationAsLongSerializer::class)
-
 package com.maxpoliakov.skillapp.data.group
 
 import androidx.room.Embedded
@@ -7,14 +5,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.maxpoliakov.skillapp.data.parseGoal
-import com.maxpoliakov.skillapp.data.serialization.DurationAsLongSerializer
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.mapToDomain
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseSerializers
 
 @Serializable
 @Entity(tableName = "groups")

@@ -16,12 +16,6 @@ class Converters {
     fun fromLocalDate(date: LocalDate): String = date.format(formatter)
 
     @TypeConverter
-    fun toDuration(value: Long): Duration = value.let { Duration.ofMillis(value) }
-
-    @TypeConverter
-    fun fromDuration(duration: Duration): Long = duration.toMillis()
-
-    @TypeConverter
     fun toGoalType(value: String): Goal.Type = Goal.Type.valueOf(value)
 
     @TypeConverter

@@ -1,12 +1,10 @@
-@file:UseSerializers(DurationAsLongSerializer::class, LocalDateAsStringSerializer::class)
+@file:UseSerializers(LocalDateAsStringSerializer::class)
 
 package com.maxpoliakov.skillapp.data.skill
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.maxpoliakov.skillapp.data.parseGoal
-import com.maxpoliakov.skillapp.data.serialization.DurationAsLongSerializer
 import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit

@@ -45,11 +45,11 @@ class SkillDaoTest {
 
     @Test
     fun getSkills_sortsProperly() = runBlocking {
-        skillDao.insert(DBSkill(totalCount = Duration.ofHours(2).toMillis()))
-        skillDao.insert(DBSkill(totalCount = Duration.ofHours(3).toMillis()))
+        skillDao.insert(DBSkill(totalTime = Duration.ofHours(1).toMillis()))
+        skillDao.insert(DBSkill(totalTime = Duration.ofHours(2).toMillis()))
         skillDao.getSkills().await() shouldBe listOf(
-            DBSkill(id = 2, totalCount = Duration.ofHours(2).toMillis()),
-            DBSkill(id = 1, totalCount = Duration.ofHours(1).toMillis())
+            DBSkill(id = 2, totalTime = Duration.ofHours(2).toMillis()),
+            DBSkill(id = 1, totalTime = Duration.ofHours(1).toMillis())
         )
     }
 
@@ -66,13 +66,13 @@ class SkillDaoTest {
 
         recordDates.forEach { timestamp ->
             recordsDao.insert(
-                DBRecord(skillId = 1, count = Duration.ofHours(3).toMillis(), date = timestamp)
+                DBRecord(skillId = 1, time = Duration.ofHours(3).toMillis(), date = timestamp)
             )
         }
 
         skillDao.getSkillFlow(1).await() shouldBe DBSkill(
             id = 1,
-            lastWeekCount = Duration.ofHours(6).toMillis(),
+            lastWeekTime = Duration.ofHours(6).toMillis(),
         )
     }
 
@@ -83,9 +83,9 @@ class SkillDaoTest {
 
     @Test
     fun increaseTime() = runBlocking {
-        skillDao.insert(DBSkill(totalCount = Duration.ofMinutes(10).toMillis()))
+        skillDao.insert(DBSkill(totalTime = Duration.ofMinutes(10).toMillis()))
         skillDao.increaseCount(1, Duration.ofMinutes(20).toMillis())
-        skillDao.getSkill(1)!!.totalCount shouldBe Duration.ofMinutes(30).toMillis()
+        skillDao.getSkill(1)!!.totalTime shouldBe Duration.ofMinutes(30).toMillis()
     }
 
     @Test

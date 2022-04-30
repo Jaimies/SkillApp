@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.domain.usecase.skill
 
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
@@ -15,6 +16,10 @@ class GetSkillsAndSkillGroupsUseCase @Inject constructor(
 ) {
     fun getSkills(): Flow<List<Skill>> {
         return skillRepository.getSkills()
+    }
+
+    fun getSkillsWithLastWeekTime(unit: MeasurementUnit) : Flow<List<Skill>> {
+        return skillRepository.getSkillsWithLastWeekCount(unit)
     }
 
     fun getTopSkills(count: Int): Flow<List<Skill>> {

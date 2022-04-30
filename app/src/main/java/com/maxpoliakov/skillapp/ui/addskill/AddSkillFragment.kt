@@ -53,7 +53,7 @@ class AddSkillFragment : BaseFragment() {
         }
 
         observe(viewModel.chooseGoal) {
-            viewModel.unit.showGoalPicker(requireContext(), viewModel.goal.value, onGoalSet = viewModel::setGoal)
+            viewModel.unit.value!!.showGoalPicker(requireContext(), viewModel.goal.value, onGoalSet = viewModel::setGoal)
         }
     }
 }

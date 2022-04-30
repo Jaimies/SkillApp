@@ -32,11 +32,11 @@ class AddSkillViewModel @Inject constructor(
     private val _goal = MutableStateFlow<Goal?>(null)
     val goal = _goal.asLiveData()
 
-    var unit = UiMeasurementUnit.Millis
-        private set
+    private val _unit = MutableLiveData(UiMeasurementUnit.Millis)
+    val unit : LiveData<UiMeasurementUnit> get() = _unit
 
     fun setMeasurementUnitIndex(index: Int) {
-        unit = UiMeasurementUnit.values()[index]
+        _unit.value = UiMeasurementUnit.values()[index]
     }
 
     override fun save(name: String) {
@@ -49,7 +49,7 @@ class AddSkillViewModel @Inject constructor(
                     totalCount = millis,
                     initialCount = millis,
                     goal = goal.value,
-                    unit = unit.toDomain(),
+                    unit = unit.value!!.toDomain(),
                 )
             )
 

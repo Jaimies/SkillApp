@@ -33,6 +33,8 @@
     <string name="time_minutes">%sm</string>
     <string name="time_hours_and_minutes">%1$dh %2$dm</string>
     <string name="initial_time">Total number of hours of practice</string>
+    <string name="initial_distance">Total number of kilometers</string>
+    <string name="initial_count">Total number of times</string>
     <string name="save">Save</string>
     <string name="add_hours_record">Add time manually</string>
     <string name="add_kilometers_record">Add distance</string>

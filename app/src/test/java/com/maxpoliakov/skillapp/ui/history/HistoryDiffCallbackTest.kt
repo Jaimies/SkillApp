@@ -2,9 +2,9 @@ package com.maxpoliakov.skillapp.ui.history
 
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import java.time.Duration
 import java.time.LocalDate
 
 class HistoryDiffCallbackTest : StringSpec({
@@ -17,19 +17,19 @@ class HistoryDiffCallbackTest : StringSpec({
 
     "areItemsTheSame() compares Separators by date" {
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1), Duration.ZERO),
-            Separator(LocalDate.ofEpochDay(1), Duration.ZERO)
+            Separator(LocalDate.ofEpochDay(1), 0),
+            Separator(LocalDate.ofEpochDay(1), 0)
         ) shouldBe true
 
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1), Duration.ZERO),
-            Separator(LocalDate.ofEpochDay(2), Duration.ZERO)
+            Separator(LocalDate.ofEpochDay(1), 0),
+            Separator(LocalDate.ofEpochDay(2), 0)
         ) shouldBe false
     }
 
     "areItemsTheSame() returns false if the items are of different types" {
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1), Duration.ZERO),
+            Separator(LocalDate.ofEpochDay(1), 0),
             createRecord(1)
         ) shouldBe false
     }
@@ -43,5 +43,5 @@ class HistoryDiffCallbackTest : StringSpec({
 })
 
 fun createRecord(id: Int, name: String = ""): Record {
-    return Record(id, name, Duration.ZERO, LocalDate.ofEpochDay(0))
+    return Record(id, name, 0, UiMeasurementUnit.Millis, LocalDate.ofEpochDay(0))
 }

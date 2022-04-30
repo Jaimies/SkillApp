@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.ui.skills
 
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
@@ -45,9 +46,9 @@ class DiffCallbackTest : StringSpec({
 })
 
 private fun createSkill(id: Int, name: String, order: Int = 0): Skill {
-    return Skill(name, ZERO, ZERO, ZERO, id, LocalDate.ofEpochDay(0), order)
+    return Skill(name, MeasurementUnit.Millis, 0, 0, 0, id, LocalDate.ofEpochDay(0), order)
 }
 
 private fun createGroup(id: Int, name: String, order: Int = 0): SkillGroup {
-    return SkillGroup(id, name, listOf(), null, order)
+    return SkillGroup(id, name, listOf(), MeasurementUnit.Millis, null, order)
 }

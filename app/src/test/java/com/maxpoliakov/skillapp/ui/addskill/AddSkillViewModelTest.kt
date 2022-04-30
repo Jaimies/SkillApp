@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.ui.addskill
 
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
 import com.maxpoliakov.skillapp.setupThreads
@@ -27,20 +28,20 @@ class AddSkillViewModelTest : StringSpec({
         viewModel.totalTime.value = "100"
         viewModel.name.value = "Skill name "
         viewModel.update()
-        verify(useCase).run(Skill("Skill name", Duration.ofHours(100), Duration.ofHours(100)))
+        verify(useCase).run(Skill("Skill name", MeasurementUnit.Millis, Duration.ofHours(100).toMillis(), Duration.ofHours(100).toMillis()))
     }
 
     "addSkill() uses ZERO as the time if the totalTime field is null" {
         viewModel.totalTime.value = null
         viewModel.name.value = "Name"
         viewModel.update()
-        verify(useCase).run(Skill("Name", ZERO, ZERO))
+        verify(useCase).run(Skill("Name", MeasurementUnit.Millis, 0, 0))
     }
 
     "addSkill() uses ZERO as the time if the totalTime field is empty" {
         viewModel.totalTime.value = ""
         viewModel.name.value = "Name"
         viewModel.update()
-        verify(useCase).run(Skill("Name", ZERO, ZERO))
+        verify(useCase).run(Skill("Name", MeasurementUnit.Millis, 0, 0))
     }
 })

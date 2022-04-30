@@ -17,17 +17,17 @@ class StatsEntriesTest : StringSpec({
 
     "withMissingStats()" {
         val stats = listOf(
-            Statistic(LocalDate.ofEpochDay(5), Duration.ofHours(2)),
-            Statistic(LocalDate.ofEpochDay(2), Duration.ofMinutes(32))
+            Statistic(LocalDate.ofEpochDay(5), Duration.ofHours(2).toMillis()),
+            Statistic(LocalDate.ofEpochDay(2), Duration.ofMinutes(32).toMillis())
         )
 
         stats.withMissingStats(count = 6) shouldBe listOf(
-            Statistic(LocalDate.ofEpochDay(2), Duration.ofMinutes(32)),
-            Statistic(LocalDate.ofEpochDay(3), Duration.ZERO),
-            Statistic(LocalDate.ofEpochDay(4), Duration.ZERO),
-            Statistic(LocalDate.ofEpochDay(5), Duration.ofHours(2)),
-            Statistic(LocalDate.ofEpochDay(6), Duration.ZERO),
-            Statistic(LocalDate.ofEpochDay(7), Duration.ZERO)
+            Statistic(LocalDate.ofEpochDay(2), Duration.ofMinutes(32).toMillis()),
+            Statistic(LocalDate.ofEpochDay(3), 0),
+            Statistic(LocalDate.ofEpochDay(4), 0),
+            Statistic(LocalDate.ofEpochDay(5), Duration.ofHours(2).toMillis()),
+            Statistic(LocalDate.ofEpochDay(6), 0),
+            Statistic(LocalDate.ofEpochDay(7), 0)
         )
     }
 
@@ -37,7 +37,7 @@ class StatsEntriesTest : StringSpec({
     }
 
     "toStatsEntries() returns null for list with no positive time" {
-        val stats = listOf(Statistic(LocalDate.ofEpochDay(0), Duration.ZERO))
+        val stats = listOf(Statistic(LocalDate.ofEpochDay(0), 0))
         stats.toEntries() shouldBe null
     }
 
@@ -45,8 +45,8 @@ class StatsEntriesTest : StringSpec({
 
     "toStatsEntries() maps the original list to Entry" {
         val stats = listOf(
-            Statistic(LocalDate.ofEpochDay(1), Duration.ofMinutes(20)),
-            Statistic(LocalDate.ofEpochDay(2), Duration.ofHours(2))
+            Statistic(LocalDate.ofEpochDay(1), Duration.ofMinutes(20).toMillis()),
+            Statistic(LocalDate.ofEpochDay(2), Duration.ofHours(2).toMillis())
         )
 
         val statsEntries = stats.toEntries()!!

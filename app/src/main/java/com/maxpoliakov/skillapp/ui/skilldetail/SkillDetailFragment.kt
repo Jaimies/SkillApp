@@ -26,7 +26,6 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     override val goalInput get() = binding.goalPicker.root
 
     override val viewModel by viewModels { viewModelFactory.create(args.skillId) }
-
     override val chart get() = binding.productivityChart.chart
 
     @Inject

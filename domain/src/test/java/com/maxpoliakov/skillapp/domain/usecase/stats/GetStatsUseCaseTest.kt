@@ -26,12 +26,12 @@ class StubStatsRepository(
         return flowOf(stats[skillId]!!)
     }
 
-    override fun getTimeToday(skillId: Id) = flowOf(Duration.ofHours(2))
-    override fun getTimeAtDate(skillId: Id, date: LocalDate) = flowOf(Duration.ofHours(2))
-    override fun getGroupTimeAtDate(groupId: Id, date: LocalDate) = flowOf(Duration.ofHours(2))
+    override fun getTimeToday(skillId: Id) = flowOf(Duration.ofHours(2).toMillis())
+    override fun getCountAtDate(skillId: Id, date: LocalDate) = flowOf(Duration.ofHours(2).toMillis())
+    override fun getGroupTimeAtDate(groupId: Id, date: LocalDate) = flowOf(Duration.ofHours(2).toMillis())
 
     override suspend fun addRecord(record: Record) {}
-    override suspend fun getTimeAtDate(date: LocalDate): Duration = Duration.ofHours(2)
+    override suspend fun getCountAtDate(date: LocalDate) = Duration.ofHours(2).toMillis()
 }
 
 class GetStatsUseCaseTest : StringSpec({
@@ -39,12 +39,12 @@ class GetStatsUseCaseTest : StringSpec({
         val referenceDate = LocalDate.now().atStartOfWeek()
 
         val skillStats = listOf(
-            Statistic(referenceDate.plusDays(1), Duration.ofHours(2)),
-            Statistic(referenceDate.plusDays(3), Duration.ofHours(2)),
-            Statistic(referenceDate.plusDays(4), Duration.ofHours(2)),
-            Statistic(referenceDate.minusDays(4), Duration.ofHours(2)),
-            Statistic(referenceDate.minusDays(5), Duration.ofHours(2)),
-            Statistic(referenceDate.minusDays(15), Duration.ofHours(2)),
+            Statistic(referenceDate.plusDays(1), Duration.ofHours(2).toMillis()),
+            Statistic(referenceDate.plusDays(3), Duration.ofHours(2).toMillis()),
+            Statistic(referenceDate.plusDays(4), Duration.ofHours(2).toMillis()),
+            Statistic(referenceDate.minusDays(4), Duration.ofHours(2).toMillis()),
+            Statistic(referenceDate.minusDays(5), Duration.ofHours(2).toMillis()),
+            Statistic(referenceDate.minusDays(15), Duration.ofHours(2).toMillis()),
         )
         val statsRepository = StubStatsRepository(
             mapOf(
@@ -56,9 +56,9 @@ class GetStatsUseCaseTest : StringSpec({
         val useCase = GetStatsUseCase(statsRepository)
 
         useCase.getWeeklyStats(listOf(1, 2)).await() shouldBe listOf(
-            Statistic(referenceDate, Duration.ofHours(12)),
-            Statistic(referenceDate.minusWeeks(1), Duration.ofHours(8)),
-            Statistic(referenceDate.minusWeeks(3), Duration.ofHours(4)),
+            Statistic(referenceDate, Duration.ofHours(12).toMillis()),
+            Statistic(referenceDate.minusWeeks(1), Duration.ofHours(8).toMillis()),
+            Statistic(referenceDate.minusWeeks(3), Duration.ofHours(4).toMillis()),
         )
     }
 
@@ -69,35 +69,35 @@ class GetStatsUseCaseTest : StringSpec({
         Locale.setDefault(Locale.UK)
 
         setClock(Clock.fixed(Instant.parse("2020-01-06T12:15:30.00Z"), ZoneId.systemDefault()))
-        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(2)
-        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(2)
+        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(2).toMillis()
+        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(2).toMillis()
 
         setClock(Clock.fixed(Instant.parse("2020-01-07T12:15:30.00Z"), ZoneId.systemDefault()))
-        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(4)
-        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(4)
+        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(4).toMillis()
+        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(4).toMillis()
 
         setClock(Clock.fixed(Instant.parse("2020-01-08T12:15:30.00Z"), ZoneId.systemDefault()))
-        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(6)
-        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(6)
+        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(6).toMillis()
+        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(6).toMillis()
 
         setClock(Clock.fixed(Instant.parse("2020-01-09T12:15:30.00Z"), ZoneId.systemDefault()))
-        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(8)
-        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(8)
+        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(8).toMillis()
+        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(8).toMillis()
 
         setClock(Clock.fixed(Instant.parse("2020-01-10T12:15:30.00Z"), ZoneId.systemDefault()))
-        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(10)
-        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(10)
+        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(10).toMillis()
+        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(10).toMillis()
 
         setClock(Clock.fixed(Instant.parse("2020-01-11T12:15:30.00Z"), ZoneId.systemDefault()))
-        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(12)
-        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(12)
+        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(12).toMillis()
+        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(12).toMillis()
 
         setClock(Clock.fixed(Instant.parse("2020-01-12T12:15:30.00Z"), ZoneId.systemDefault()))
-        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(14)
-        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(14)
+        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(14).toMillis()
+        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(14).toMillis()
 
         setClock(Clock.fixed(Instant.parse("2020-01-13T12:15:30.00Z"), ZoneId.systemDefault()))
-        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(2)
-        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(2)
+        useCase.getTimeThisWeek(1).await() shouldBe Duration.ofHours(2).toMillis()
+        useCase.getGroupTimeThisWeek(1).await() shouldBe Duration.ofHours(2).toMillis()
     }
 })

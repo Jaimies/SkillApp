@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.domain.usecase.grouping
 
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
@@ -25,12 +26,12 @@ class DeleteGroupIfEmptyUseCaseTest : StringSpec({
     }
 })
 
-private val skill = Skill("name", Duration.ofHours(2), Duration.ofHours(1), goal = null)
+private val skill = Skill("name", MeasurementUnit.Millis, Duration.ofHours(2).toMillis(), Duration.ofHours(1).toMillis(), goal = null)
 
 private fun createUseCase(hasSkills: Boolean): Pair<DeleteGroupIfEmptyUseCase, SkillGroupRepository> {
     val skillGroupRepository = mockk<SkillGroupRepository>(relaxed = true)
 
-    val skillGroup = SkillGroup(1, "name", if (hasSkills) listOf(skill) else listOf(), null, -1)
+    val skillGroup = SkillGroup(1, "name", if (hasSkills) listOf(skill) else listOf(), MeasurementUnit.Millis, null, -1)
     coEvery { skillGroupRepository.getSkillGroupById(any()) } returns skillGroup
 
     return DeleteGroupIfEmptyUseCase(skillGroupRepository) to skillGroupRepository

@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.domain.usecase.records
 
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
@@ -14,8 +15,8 @@ import io.mockk.verify
 import java.time.Duration
 
 class AddRecordUseCaseTest : StringSpec({
-    val record = Record("name", 1, Duration.ofMinutes(5))
-    val skill = Skill("name", Duration.ofMinutes(10), Duration.ofMinutes(5), goal = null)
+    val record = Record("name", 1, Duration.ofMinutes(5).toMillis(), MeasurementUnit.Millis)
+    val skill = Skill("name", MeasurementUnit.Millis, Duration.ofMinutes(10).toMillis(), Duration.ofMinutes(5).toMillis(), goal = null)
 
     "adds record if skill exists" {
         val skillRepository = mockk<SkillRepository>(relaxed = true)

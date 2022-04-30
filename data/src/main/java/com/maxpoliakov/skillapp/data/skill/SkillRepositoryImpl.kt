@@ -24,7 +24,7 @@ class SkillRepositoryImpl @Inject constructor(
     }
 
     override fun getSkills() = _skills
-    override fun getSkillsWithLastWeekTime(unit: MeasurementUnit): Flow<List<Skill>> {
+    override fun getSkillsWithLastWeekCount(unit: MeasurementUnit): Flow<List<Skill>> {
         return _skills
             .map { it.filter { skill -> skill.unit == unit } }
             .flatMapLatest {

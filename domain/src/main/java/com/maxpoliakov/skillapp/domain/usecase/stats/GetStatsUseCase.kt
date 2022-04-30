@@ -11,7 +11,6 @@ import com.maxpoliakov.skillapp.shared.util.weeksSinceEpoch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import java.time.Duration
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
@@ -29,13 +28,13 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
         return combine(dailyTimes) { times -> times.sum() }
     }
 
-    fun getGroupTimeToday(groupId: Id) = statsRepository.getGroupTimeAtDate(groupId, LocalDate.now())
+    fun getGroupTimeToday(groupId: Id) = statsRepository.getGroupCountAtDate(groupId, LocalDate.now())
 
     fun getGroupTimeThisWeek(skillId: Id): Flow<Long> {
         val firstDayOfWeek = getCurrentDate().atStartOfWeek()
         val daysCount = firstDayOfWeek.until(getCurrentDate(), ChronoUnit.DAYS) + 1
         val dailyTimes = List(daysCount.toInt()) { index ->
-            statsRepository.getGroupTimeAtDate(skillId, firstDayOfWeek.plusDays(index.toLong()))
+            statsRepository.getGroupCountAtDate(skillId, firstDayOfWeek.plusDays(index.toLong()))
         }
 
         return combine(dailyTimes) { times -> times.sum() }

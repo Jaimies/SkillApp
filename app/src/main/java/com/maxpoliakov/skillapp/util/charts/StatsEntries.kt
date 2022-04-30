@@ -4,7 +4,6 @@ import com.github.mikephil.charting.data.BarEntry
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.shared.util.EPOCH
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
-import java.time.Duration
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 

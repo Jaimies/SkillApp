@@ -44,7 +44,7 @@ class SkillRepositoryImplTest {
     }
 
     @Test
-    fun getGroupTimeToday() = runBlocking {
+    fun getGroupCountToday() = runBlocking {
         val skills = listOf(
             Skill("name", MeasurementUnit.Millis, Duration.ofHours(2).toMillis(), Duration.ofHours(1).toMillis(), id = 1),
             Skill("other name",MeasurementUnit.Millis,  Duration.ofHours(20).toMillis(), Duration.ofHours(10).toMillis(), id = 2),
@@ -55,6 +55,6 @@ class SkillRepositoryImplTest {
         statsRepository.addRecord(Record("", 1, Duration.ofHours(2).toMillis(), MeasurementUnit.Millis))
         statsRepository.addRecord(Record("", 2, Duration.ofHours(3).toMillis(), MeasurementUnit.Millis))
 
-        statsRepository.getGroupTimeAtDate(1, LocalDate.now()).await() shouldBe Duration.ofHours(5)
+        statsRepository.getGroupCountAtDate(1, LocalDate.now()).await() shouldBe Duration.ofHours(5).toMillis()
     }
 }

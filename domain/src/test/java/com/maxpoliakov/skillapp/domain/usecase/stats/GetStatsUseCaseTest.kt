@@ -26,9 +26,9 @@ class StubStatsRepository(
         return flowOf(stats[skillId]!!)
     }
 
-    override fun getTimeToday(skillId: Id) = flowOf(Duration.ofHours(2).toMillis())
+    override fun getCountToday(skillId: Id) = flowOf(Duration.ofHours(2).toMillis())
     override fun getCountAtDate(skillId: Id, date: LocalDate) = flowOf(Duration.ofHours(2).toMillis())
-    override fun getGroupTimeAtDate(groupId: Id, date: LocalDate) = flowOf(Duration.ofHours(2).toMillis())
+    override fun getGroupCountAtDate(groupId: Id, date: LocalDate) = flowOf(Duration.ofHours(2).toMillis())
 
     override suspend fun addRecord(record: Record) {}
     override suspend fun getCountAtDate(date: LocalDate) = Duration.ofHours(2).toMillis()

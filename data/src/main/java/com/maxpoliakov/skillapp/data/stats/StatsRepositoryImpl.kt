@@ -39,12 +39,12 @@ class StatsRepositoryImpl @Inject constructor(
             .map { time -> time ?: 0 }
     }
 
-    override fun getTimeToday(skillId: Id): Flow<Long> {
+    override fun getCountToday(skillId: Id): Flow<Long> {
         return statsDao.getCountAtDate(skillId, LocalDate.now())
             .map { time -> time ?: 0 }
     }
 
-    override fun getGroupTimeAtDate(groupId: Id, date: LocalDate): Flow<Long> {
+    override fun getGroupCountAtDate(groupId: Id, date: LocalDate): Flow<Long> {
         return groupRepository.getSkillGroupFlowById(groupId).flatMapLatest { group ->
             val timeTodayFlows = group.skills.map { skill ->
                 getCountAtDate(skill.id, date)

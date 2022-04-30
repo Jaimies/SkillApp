@@ -9,8 +9,8 @@ import java.time.LocalDate
 
 interface StatsRepository {
     fun getStats(skillId: Id, startDate: LocalDate): Flow<List<Statistic>>
-    fun getTimeToday(skillId: Id): Flow<Long>
-    fun getGroupTimeAtDate(groupId: Id, date: LocalDate): Flow<Long>
+    fun getCountToday(skillId: Id): Flow<Long>
+    fun getGroupCountAtDate(groupId: Id, date: LocalDate): Flow<Long>
     fun getCountAtDate(skillId: Id, date: LocalDate): Flow<Long>
 
     suspend fun addRecord(record: Record)

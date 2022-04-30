@@ -32,7 +32,7 @@ import java.time.ZonedDateTime
 
 class StubSkillRepository : SkillRepository {
     override fun getSkills() = flowOf<List<Skill>>()
-    override fun getSkillsWithLastWeekTime(unit: MeasurementUnit) = getSkills()
+    override fun getSkillsWithLastWeekCount(unit: MeasurementUnit) = getSkills()
     override fun getSkillFlowById(id: Id) = flowOf<Skill>()
     override fun getTopSkills(count: Int) = flowOf<List<Skill>>()
 

@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.data.stopwatch
 import com.maxpoliakov.skillapp.data.StubStopwatchPersistence
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
@@ -31,12 +32,13 @@ import java.time.ZonedDateTime
 
 class StubSkillRepository : SkillRepository {
     override fun getSkills() = flowOf<List<Skill>>()
+    override fun getSkillsWithLastWeekTime(unit: MeasurementUnit) = getSkills()
     override fun getSkillFlowById(id: Id) = flowOf<Skill>()
     override fun getTopSkills(count: Int) = flowOf<List<Skill>>()
 
     override suspend fun getSkillById(id: Id): Skill? {
         if (id == StopwatchUtilImplTest.skillId || id == StopwatchUtilImplTest.otherSkillId)
-            return Skill("", Duration.ZERO, Duration.ZERO, groupId = StopwatchUtilImplTest.groupId)
+            return Skill("", MeasurementUnit.Millis, 0, 0, groupId = StopwatchUtilImplTest.groupId)
 
         return null
     }
@@ -77,7 +79,7 @@ class StopwatchUtilImplTest : StringSpec({
         setClock(clockOfEpochSecond(1))
         stopwatch.toggle(skillId)
 
-        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1))) }
+        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1).toMillis(), MeasurementUnit.Millis)) }
     }
 
     "records the time of the current timer when trying to start a new one" {
@@ -85,7 +87,7 @@ class StopwatchUtilImplTest : StringSpec({
         stopwatch.toggle(skillId)
         setClock(clockOfEpochSecond(1))
         stopwatch.toggle(otherSkillId)
-        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1))) }
+        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1).toMillis(), MeasurementUnit.Millis)) }
         stopwatch.state.value shouldBe Running(getZonedDateTime(), otherSkillId, groupId)
     }
 
@@ -119,7 +121,7 @@ class StopwatchUtilImplTest : StringSpec({
         stopwatch.start(otherSkillId)
         setClock(clockOfEpochSecond(2))
         stopwatch.state.value shouldBe Running(dateOfEpochSecond(1), otherSkillId, groupId)
-        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1))) }
+        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1).toMillis(), MeasurementUnit.Millis)) }
     }
 
     "stop() does nothing if the timer is not running" {
@@ -139,7 +141,7 @@ class StopwatchUtilImplTest : StringSpec({
         setClock(clockOfEpochSecond(1))
         stopwatch.stop()
         stopwatch.state.value shouldBe Paused
-        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1))) }
+        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1).toMillis(), MeasurementUnit.Millis)) }
         verify { notificationUtil.removeStopwatchNotification() }
     }
 
@@ -157,7 +159,7 @@ class StopwatchUtilImplTest : StringSpec({
         val stopwatchUtil = createStopwatch(getRunningState())
         setClock(clockOfEpochDay(2))
         stopwatchUtil.stop()
-        coVerify { addRecord.run(Record("", skillId, Duration.ofDays(2), date = LocalDate.ofEpochDay(0))) }
+        coVerify { addRecord.run(Record("", skillId, Duration.ofDays(2).toMillis(), MeasurementUnit.Millis, 0, LocalDate.ofEpochDay(0))) }
     }
 }) {
     companion object {

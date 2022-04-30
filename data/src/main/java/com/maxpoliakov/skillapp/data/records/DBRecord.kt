@@ -32,8 +32,7 @@ import java.time.LocalDate
 data class DBRecord(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    @ColumnInfo(name = "time")
-    val count: Long = 0,
+    val time: Long = 0,
     val skillId: Int = 0,
     @Transient
     val recordName: String = "",
@@ -41,5 +40,5 @@ data class DBRecord(
     val date: LocalDate = getCurrentDate()
 )
 
-fun DBRecord.mapToDomain() = Record(recordName, skillId, count, unit, id, date)
+fun DBRecord.mapToDomain() = Record(recordName, skillId, time, unit, id, date)
 fun Record.mapToDB() = DBRecord(id, count, skillId, name, unit, date)

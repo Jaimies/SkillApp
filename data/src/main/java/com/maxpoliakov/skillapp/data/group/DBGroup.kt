@@ -2,7 +2,6 @@
 
 package com.maxpoliakov.skillapp.data.group
 
-import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -24,8 +23,7 @@ data class DBGroup(
     val id: Int = 0,
     val name: String = "",
     val goalType: Goal.Type = Goal.Type.Daily,
-    @ColumnInfo(name = "goalTime")
-    val goalCount: Long = 0,
+    val goalTime: Long = 0,
     val order: Int = -1,
 )
 
@@ -43,6 +41,6 @@ fun GroupWithSkills.mapToDomain() = SkillGroup(
     group.name,
     skills.map(DBSkill::mapToDomain),
     skills.firstOrNull()?.unit ?: MeasurementUnit.Millis,
-    parseGoal(group.goalCount, group.goalType),
+    parseGoal(group.goalTime, group.goalType),
     group.order,
 )

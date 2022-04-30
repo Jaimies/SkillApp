@@ -24,19 +24,14 @@ data class DBSkill(
     val id: Int = 0,
     val name: String = "",
     val unit: MeasurementUnit = MeasurementUnit.Millis,
-    @ColumnInfo(name = "totalTime")
-    val totalCount: Long = 0,
-
-    @ColumnInfo(name = "initialTime")
-    val initialCount: Long = 0,
+    val totalTime: Long = 0,
+    val initialTime: Long = 0,
     @Transient
-    @ColumnInfo(name = "lastWeekTime")
-    val lastWeekCount: Long = 0,
+    val lastWeekTime: Long = 0,
     val creationDate: LocalDate = getCurrentDate(),
     val groupId: Int = -1,
     val goalType: Goal.Type = Goal.Type.Daily,
-    @ColumnInfo(name = "goalTime")
-    val goalCount: Long = 0,
+    val goalTime: Long = 0,
     val order: Int = -1,
 )
 
@@ -44,13 +39,13 @@ fun DBSkill.mapToDomain(): Skill {
     return Skill(
         name,
         unit,
-        totalCount,
-        initialCount,
-        lastWeekCount,
+        totalTime,
+        initialTime,
+        lastWeekTime,
         id,
         creationDate,
         groupId,
-        parseGoal(goalCount, goalType),
+        parseGoal(goalTime, goalType),
         order,
     )
 }

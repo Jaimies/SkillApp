@@ -129,7 +129,9 @@ enum class UiMeasurementUnit {
         override val isStopwatchEnabled = false
 
         override fun toShortString(count: Long, context: Context): String {
-            return "$count times"
+            return context.resources
+                .getQuantityString(R.plurals.times_count, count.toInt())
+                .format(count)
         }
 
         override fun toLongString(count: Long, context: Context): String {

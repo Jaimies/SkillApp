@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="times_count">
+        <item quantity="one">%d раз</item>
+        <item quantity="few">%d рази</item>
+        <item quantity="many">%d разів</item>
+    </plurals>
+</resources>

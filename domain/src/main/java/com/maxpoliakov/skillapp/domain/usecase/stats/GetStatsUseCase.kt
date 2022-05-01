@@ -64,7 +64,7 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
     }
 
     fun getWeeklyStats(skillId: Int): Flow<List<Statistic>> {
-        val dailyStats = statsRepository.getStats(skillId, LocalDate.now().minusWeeks(7))
+        val dailyStats = statsRepository.getStats(skillId, LocalDate.now().minusWeeks(21))
 
         return dailyStats.map { stats ->
             stats
@@ -76,7 +76,7 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
     }
 
     fun getMonthlyStats(skillId: Int): Flow<List<Statistic>> {
-        val dailyStats = statsRepository.getStats(skillId, LocalDate.now().minusMonths(7))
+        val dailyStats = statsRepository.getStats(skillId, LocalDate.now().minusMonths(21))
 
         return dailyStats.map { stats ->
             stats

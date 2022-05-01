@@ -245,8 +245,9 @@ class TheBarChart : BarChart {
             setScaleEnabled(true)
             entries?.let { entries -> zoom(8f, 1f, entries.last().x, 0f) }
         } else {
-            viewPortHandler.setMaximumScaleX(1f)
-            viewPortHandler.setMinimumScaleX(1f)
+            viewPortHandler.setMaximumScaleX(3f)
+            viewPortHandler.setMinimumScaleX(3f)
+            entries?.let { entries -> zoom(3f, 1f, entries.last().x, 0f) }
             setScaleEnabled(false)
         }
 

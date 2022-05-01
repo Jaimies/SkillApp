@@ -92,8 +92,8 @@ private fun List<Statistic>.withMissingDailyStats() =
     withMissingStats(ChronoUnit.DAYS, LocalDate.now(), 56).toEntries(ChronoUnit.DAYS)
 
 private fun List<Statistic>.withMissingWeeklyStats() =
-    withMissingStats(ChronoUnit.WEEKS, LocalDate.now().atStartOfWeek())
+    withMissingStats(ChronoUnit.WEEKS, LocalDate.now().atStartOfWeek(), 21)
         .toEntries(ChronoUnit.WEEKS, LocalDate::weeksSinceEpoch)
 
 private fun List<Statistic>.withMissingMonthlyStats() =
-    withMissingStats(ChronoUnit.MONTHS, LocalDate.now().withDayOfMonth(1)).toEntries(ChronoUnit.MONTHS)
+    withMissingStats(ChronoUnit.MONTHS, LocalDate.now().withDayOfMonth(1), 21).toEntries(ChronoUnit.MONTHS)

@@ -26,8 +26,8 @@ class DistancePicker : ValuePicker() {
         }
 
         private fun _setDistance(value: Long) {
-            setFirstPickerValue((value / 1000f).roundToInt())
-            setSecondPickerValue((value % 1000).toInt())
+            setFirstPickerValue((value / 1000f).toInt())
+            setSecondPickerValue((value % 1000 / 100).toInt())
         }
     }
 }

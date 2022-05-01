@@ -109,7 +109,7 @@
     <string name="select_goal">Вибір цілі</string>
     <string name="add_time">Додавання часу</string>
     <string name="distance_kilometers">%s км</string>
-    <string name="distance_meters">%d хв</string>
+    <string name="distance_meters">%d м</string>
     <string name="total_kilometers">Загальна відстань</string>
     <string name="hours">Години</string>
     <string name="kilometers">Кілометри</string>

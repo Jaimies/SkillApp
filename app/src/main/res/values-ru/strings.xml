@@ -109,7 +109,7 @@
     <string name="select_goal">Выбор цели</string>
     <string name="add_time">Добавление времени</string>
     <string name="distance_kilometers">%s км</string>
-    <string name="distance_meters">%d мин</string>
+    <string name="distance_meters">%d м</string>
     <string name="total_kilometers">Общее расстояние</string>
     <string name="hours">Часы</string>
     <string name="kilometers">Километры</string>

@@ -46,6 +46,8 @@
     <string name="more">More</string>
     <string name="change_date">Change date</string>
     <string name="change_time">Change time</string>
+    <string name="change_distance">Change distance</string>
+    <string name="change_count">Change count</string>
     <string name="settings">Settings</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_url" translatable="false">https://the-skillapp.web.app/privacy.html</string>

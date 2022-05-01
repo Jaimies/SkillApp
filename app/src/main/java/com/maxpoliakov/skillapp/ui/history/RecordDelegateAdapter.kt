@@ -1,10 +1,15 @@
 package com.maxpoliakov.skillapp.ui.history
 
+import android.view.Gravity
+import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.RecordsItemBinding
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.history.RecordDelegateAdapter.ViewHolder
@@ -13,8 +18,6 @@ import com.maxpoliakov.skillapp.util.fragment.showDatePicker
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaBy
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
-import com.maxpoliakov.skillapp.util.ui.showPopupMenu
-import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -42,7 +45,7 @@ class RecordDelegateAdapter @Inject constructor(
             binding.moreBtn.increaseTouchAreaBy(35.dp)
 
             viewModel.showMenu.observe {
-                val popup = showPopupMenu(context, binding.moreBtn, R.menu.record_item_menu)
+                val popup = showPopupMenu(binding.moreBtn, viewModel.record.value!!.unit)
                 popup.setOnMenuItemClickListener(this::onMenuItemClicked)
             }
         }
@@ -51,10 +54,23 @@ class RecordDelegateAdapter @Inject constructor(
             when (menuItem.itemId) {
                 R.id.delete -> showDeleteDialog()
                 R.id.change_date -> showChangeDateDialog()
-                R.id.change_time -> showTimePickerDialog()
+                R.id.change_count -> showCountPickerDialog()
             }
 
             return true
+        }
+
+        private fun showPopupMenu(view: View, unit: UiMeasurementUnit): PopupMenu {
+            val popup = PopupMenu(context, view, Gravity.END)
+
+            popup.menu.run {
+                add(Menu.NONE, R.id.change_date, 0, R.string.change_date)
+                add(Menu.NONE, R.id.change_count, 1, unit.changeCountResId)
+                add(Menu.NONE, R.id.delete, 2, R.string.delete)
+            }
+
+            popup.show()
+            return popup
         }
 
         private fun showDeleteDialog() {
@@ -69,7 +85,7 @@ class RecordDelegateAdapter @Inject constructor(
             }
         }
 
-        private fun showTimePickerDialog() {
+        private fun showCountPickerDialog() {
             viewModel.record.value!!.unit.showPicker(context, viewModel.record.value!!.count) { time ->
                 viewModel.changeRecordTime(time)
             }

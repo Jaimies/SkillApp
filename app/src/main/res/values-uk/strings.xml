@@ -120,4 +120,6 @@
     <string name="initial_count">Наявна кількість</string>
     <string name="times">Рази</string>
     <string name="total_times">Загальна кількість</string>
+    <string name="change_distance">Змінити відстань</string>
+    <string name="change_count">Змінити кількість</string>
 </resources>

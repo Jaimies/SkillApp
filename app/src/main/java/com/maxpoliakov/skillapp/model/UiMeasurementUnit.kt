@@ -26,6 +26,7 @@ enum class UiMeasurementUnit {
     Millis {
         override val totalCountStringResId = R.string.total_hours
         override val initialTimeResId = R.string.initial_time
+        override val changeCountResId = R.string.change_time
         override val addRecordBtnResId = R.string.add_hours_record
         override val nameResId = R.string.hours
         override val isStopwatchEnabled = true
@@ -90,6 +91,7 @@ enum class UiMeasurementUnit {
     Meters {
         override val totalCountStringResId = R.string.total_kilometers
         override val initialTimeResId = R.string.initial_distance
+        override val changeCountResId = R.string.change_distance
         override val addRecordBtnResId = R.string.add_kilometers_record
         override val nameResId = R.string.kilometers
         override val isStopwatchEnabled = false
@@ -124,6 +126,7 @@ enum class UiMeasurementUnit {
     Times {
         override val totalCountStringResId = R.string.total_times
         override val initialTimeResId = R.string.initial_count
+        override val changeCountResId = R.string.change_count
         override val addRecordBtnResId = R.string.add_times_record
         override val nameResId = R.string.times
         override val isStopwatchEnabled = false
@@ -158,6 +161,7 @@ enum class UiMeasurementUnit {
 
     abstract val totalCountStringResId: Int
     abstract val initialTimeResId: Int
+    abstract val changeCountResId: Int
     abstract val nameResId: Int
     abstract val addRecordBtnResId: Int
     abstract val isStopwatchEnabled: Boolean

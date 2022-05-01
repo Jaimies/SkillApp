@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="delete"/>
+    <item type="id" name="change_count"/>
+    <item type="id" name="change_date"/>
+</resources>

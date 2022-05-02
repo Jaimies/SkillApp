@@ -32,7 +32,7 @@ class SkillViewHolder(
         }
 
         viewModel.notifyRecordAdded.observe { record ->
-            recordUtil.notifyRecordAdded(binding.root, record, viewModel.skill.value!!.unit.mapToUI())
+            recordUtil.notifyRecordAdded(binding.root, record)
         }
     }
 

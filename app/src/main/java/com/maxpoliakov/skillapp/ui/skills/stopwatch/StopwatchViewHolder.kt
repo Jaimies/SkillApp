@@ -24,7 +24,7 @@ class StopwatchViewHolder(
 
         viewModel.showRecordAdded.observe { record ->
             if (record == null) return@observe
-            recordUtil.notifyRecordAdded(view, record, UiMeasurementUnit.Millis)
+            recordUtil.notifyRecordAdded(view, record)
         }
     }
 

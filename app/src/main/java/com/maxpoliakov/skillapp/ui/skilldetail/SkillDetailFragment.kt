@@ -59,7 +59,7 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
         }
         observe(viewModel.showRecordDialog) { showRecordDialog() }
         observe(viewModel.showRecordAdded) { record ->
-            if (record != null) recordUtil.notifyRecordAdded(requireView(), record, viewModel.unit.value!!)
+            if (record != null) recordUtil.notifyRecordAdded(requireView(), record)
         }
     }
 

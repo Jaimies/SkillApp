@@ -19,9 +19,9 @@ class RecordUtilImpl @Inject constructor(
     private val ioScope: CoroutineScope
 ) : RecordUtil {
 
-    override fun notifyRecordAdded(view: View, record: Record, unit: UiMeasurementUnit) {
+    override fun notifyRecordAdded(view: View, record: Record) {
         val snackbar = Snackbar.make(view, getLabel(view.context, record), Snackbar.LENGTH_LONG)
-        snackbar.setAction(R.string.change_time) { editTime(view, record, unit) }
+        snackbar.setAction(R.string.change_time) { editTime(view, record) }
         snackbar.setActionTextColor(view.context.getColorAttributeValue(R.attr.snackbarActionTextColor))
         snackbar.show()
     }
@@ -44,8 +44,8 @@ class RecordUtilImpl @Inject constructor(
         )
     }
 
-    private fun editTime(view: View, record: Record, unit: UiMeasurementUnit) {
-        unit.showPicker(view.context, record.count) { newTime ->
+    private fun editTime(view: View, record: Record) {
+        UiMeasurementUnit.Millis.showPicker(view.context, record.count, editMode = true) { newTime ->
             ioScope.launch {
                 changeRecordTime.run(record.id, newTime)
             }

@@ -116,7 +116,7 @@
     <string name="measurement_unit">Единица измерения</string>
     <string name="add_kilometers_record">Добавить расстояние</string>
     <string name="add_times_record">Добавить запись</string>
-    <string name="initial_distance">Имеющееся количество часов</string>
+    <string name="initial_distance">Имеющееся количество километров</string>
     <string name="initial_count">Имеющееся количество</string>
     <string name="times">Разы</string>
     <string name="total_times">Общее количество</string>

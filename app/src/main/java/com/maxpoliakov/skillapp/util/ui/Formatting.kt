@@ -5,7 +5,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
 
-fun Duration?.format(context: Context): String {
+fun Duration?.format(context: Context, timeHoursAndMinutesResId: Int = R.string.time_hours_and_minutes): String {
     if (this == null) return ""
 
     val hours = toHours()
@@ -14,6 +14,6 @@ fun Duration?.format(context: Context): String {
     return when {
         hours == 0L -> context.getString(R.string.time_minutes, minutesPart.toString())
         minutesPart == 0L -> context.getString(R.string.time_hours, hours.toString())
-        else -> context.getString(R.string.time_hours_and_minutes, hours, minutesPart)
+        else -> context.getString(timeHoursAndMinutesResId, hours, minutesPart)
     }
 }

@@ -43,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{unit.formatGoal(context, goal, countToday)}"
+                android:lineSpacingExtra="2sp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textSize="19sp" />
 

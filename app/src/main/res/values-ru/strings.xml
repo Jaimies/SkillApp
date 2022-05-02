@@ -97,9 +97,10 @@
     <string name="premium_price_loading">Загрузка цены подписки…</string>
     <string name="premium_price">Оформить подписку за %s</string>
     <string name="premium_intro">Введение в SkillApp Premium</string>
-    <string name="daily_goal">Цель на день: %1$s / %2$s</string>
-    <string name="time_hours_and_minutes">%1$d\u00A0ч\u00A0%2$d\u00A0мин</string>
-    <string name="weekly_goal">Цель на неделю: %1$s / %2$s</string>
+    <string name="daily_goal">Цель на день: %1$s\u00A0/\u00A0%2$s</string>
+    <string name="time_hours_and_minutes">%1$d\u00A0ч %2$d\u00A0мин</string>
+    <string name="time_hours_and_minutes_nbsp">%1$d\u00A0ч\u00A0%2$d\u00A0мин</string>
+    <string name="weekly_goal">Цель на неделю: %1$s\u00A0/\u00A0%2$s</string>
     <string name="plan_daily">В день</string>
     <string name="plan_weekly">В неделю</string>
     <string name="no_plan">Без плана</string>

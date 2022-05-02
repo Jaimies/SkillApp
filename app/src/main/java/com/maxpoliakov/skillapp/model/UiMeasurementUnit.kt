@@ -17,7 +17,6 @@ import com.maxpoliakov.skillapp.ui.common.picker.TimesGoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.TimesPicker
 import com.maxpoliakov.skillapp.ui.common.picker.ValuePicker
 import com.maxpoliakov.skillapp.util.time.toReadableFloat
-import com.maxpoliakov.skillapp.util.time.toReadableHours
 import com.maxpoliakov.skillapp.util.ui.format
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
@@ -32,14 +31,11 @@ enum class UiMeasurementUnit {
         override val isStopwatchEnabled = true
 
         override fun toShortString(count: Long, context: Context): String {
-            val duration = Duration.ofMillis(count)
-            val readableHours = duration.toReadableHours()
-            return context.getString(R.string.time_hours, readableHours)
+            return Duration.ofMillis(count).format(context, R.string.time_hours_and_minutes_nbsp)
         }
 
         override fun toLongString(count: Long, context: Context): String {
-            val time = Duration.ofMillis(count)
-            return time.format(context)
+            return Duration.ofMillis(count).format(context)
         }
 
         override fun getRecordAddedString(count: Long, context: Context): String {

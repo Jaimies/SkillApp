@@ -30,6 +30,7 @@
     <string name="times">Times</string>
     <string name="time_hours">%sh</string>
     <string name="time_minutes">%sm</string>
+    <string name="time_hours_and_minutes_nbsp">%1$dh\u00A0%2$dm</string>
     <string name="time_hours_and_minutes">%1$dh %2$dm</string>
     <string name="initial_time">Total number of hours of practice</string>
     <string name="initial_distance">Total number of kilometers</string>
@@ -118,8 +119,8 @@
     <string name="premium_intro">SkillApp Premium Intro</string>
     <string name="premium_price_loading">Loading subscription price…</string>
     <string name="premium_price">Subscribe for %s</string>
-    <string name="daily_goal">Daily goal: %1$s / %2$s</string>
-    <string name="weekly_goal">Weekly goal: %1$s / %2$s</string>
+    <string name="daily_goal">Daily goal: %1$s\u00A0/\u00A0%2$s</string>
+    <string name="weekly_goal">Weekly goal: %1$s\u00A0/\u00A0%2$s</string>
     <string name="no_plan">No plan</string>
     <string name="plan_daily">Daily</string>
     <string name="plan_weekly">Weekly</string>

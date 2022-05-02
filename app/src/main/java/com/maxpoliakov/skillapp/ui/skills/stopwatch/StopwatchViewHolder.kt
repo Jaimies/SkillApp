@@ -7,13 +7,13 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import com.maxpoliakov.skillapp.util.ui.getBaseContext
 
 class StopwatchViewHolder(
     private val view: View,
+    private val parentView: View,
     private val recordUtil: RecordUtil,
     viewModel: StopwatchViewModel,
 ) : BaseViewHolder(view) {
@@ -24,7 +24,7 @@ class StopwatchViewHolder(
 
         viewModel.showRecordAdded.observe { record ->
             if (record == null) return@observe
-            recordUtil.notifyRecordAdded(view, record)
+            recordUtil.notifyRecordAdded(parentView, record)
         }
     }
 

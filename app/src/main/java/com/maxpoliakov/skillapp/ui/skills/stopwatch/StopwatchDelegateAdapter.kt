@@ -17,7 +17,7 @@ class StopwatchDelegateAdapter @Inject constructor(
             viewModel = stopwatchViewModel
         }
 
-        return StopwatchViewHolder(binding.root, recordUtil, stopwatchViewModel)
+        return StopwatchViewHolder(binding.root, parent, recordUtil, stopwatchViewModel)
     }
 
     override fun onBindViewHolder(holder: StopwatchViewHolder, item: Unit) {}

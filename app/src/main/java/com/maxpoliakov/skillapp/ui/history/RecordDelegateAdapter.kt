@@ -86,7 +86,7 @@ class RecordDelegateAdapter @Inject constructor(
         }
 
         private fun showCountPickerDialog() {
-            viewModel.record.value!!.unit.showPicker(context, viewModel.record.value!!.count) { time ->
+            viewModel.record.value!!.unit.showPicker(context, viewModel.record.value!!.count, editMode = true) { time ->
                 viewModel.changeRecordTime(time)
             }
         }

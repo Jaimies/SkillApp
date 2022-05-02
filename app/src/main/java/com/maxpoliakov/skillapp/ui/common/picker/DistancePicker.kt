@@ -16,6 +16,7 @@ class DistancePicker : ValuePicker() {
 
     class Builder : ValuePicker.Builder() {
         override var titleTextResId = R.string.add_kilometers_record
+        override val titleTextInEditModeResId = R.string.change_distance
 
         override fun createDialog() = DistancePicker()
         override fun build() = super.build() as DistancePicker

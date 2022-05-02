@@ -21,6 +21,7 @@ class DurationPicker : ValuePicker() {
 
     class Builder : ValuePicker.Builder() {
         override var titleTextResId = R.string.add_time
+        override val titleTextInEditModeResId = R.string.change_time
 
         override fun createDialog() = DurationPicker()
         override fun build() = super.build() as DurationPicker

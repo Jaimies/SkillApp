@@ -14,6 +14,7 @@ class TimesPicker: ValuePicker() {
 
     class Builder : ValuePicker.Builder() {
         override var titleTextResId = R.string.add_times_record
+        override val titleTextInEditModeResId = R.string.change_count
         override var secondPickerEnabled = false
 
         override fun createDialog() = TimesPicker()

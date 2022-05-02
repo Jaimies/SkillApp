@@ -180,11 +180,13 @@ enum class UiMeasurementUnit {
     fun showPicker(
         context: Context,
         initialCount: Long = 0,
+        editMode: Boolean = false,
         fragmentManager: FragmentManager = context.getFragmentManager(),
         onTimeSet: (count: Long) -> Unit
     ) {
         val picker = getValuePickerBuilder()
             .setCount(initialCount)
+            .setEditModeEnabled(editMode)
             .build()
 
         picker.addOnPositiveButtonClickListener(View.OnClickListener {

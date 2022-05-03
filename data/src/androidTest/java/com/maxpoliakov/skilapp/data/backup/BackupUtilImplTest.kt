@@ -8,12 +8,12 @@ import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
-import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import java.time.Duration
+import java.time.LocalDate
 
 class BackupUtilImplTest {
     private lateinit var db: AppDatabase
@@ -81,7 +81,7 @@ class BackupUtilImplTest {
             DBStatistic(
                 skillId = index + 1,
                 time = Duration.ofHours(index.toLong()).toMillis(),
-                date = getCurrentDate(),
+                date = LocalDate.parse("2022-04-30"),
             )
         }
 

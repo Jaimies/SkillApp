@@ -3,6 +3,12 @@ package com.maxpoliakov.skillapp.ui.common.picker
 abstract class ValuePicker: PickerDialog() {
     abstract val count: Long
 
+    fun addOnConfirmedListener(listener: (count: Long) -> Unit) {
+        addOnPositiveButtonClickListener {
+            listener(this.count)
+        }
+    }
+
     abstract class Builder: PickerDialog.Builder() {
         abstract val titleTextInEditModeResId: Int
 

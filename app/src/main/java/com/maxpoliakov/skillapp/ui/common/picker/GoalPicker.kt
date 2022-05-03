@@ -57,6 +57,12 @@ abstract class GoalPicker<T> : PickerDialog() {
         secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
     }
 
+    fun addOnConfirmedListener(callback: (goal: Goal?) -> Unit) {
+        addOnPositiveButtonClickListener {
+            callback(this.goal)
+        }
+    }
+
     abstract class Builder : PickerDialog.Builder() {
         override var titleTextResId = R.string.select_goal
 

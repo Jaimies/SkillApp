@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.model
 
 import android.content.Context
-import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.maxpoliakov.skillapp.R
@@ -185,10 +184,9 @@ enum class UiMeasurementUnit {
             .setEditModeEnabled(editMode)
             .build()
 
-        picker.addOnPositiveButtonClickListener(View.OnClickListener {
-            val timesCount = picker.count
-            if (timesCount > 0) onTimeSet(timesCount)
-        })
+        picker.addOnConfirmedListener { count ->
+            if (count > 0) onTimeSet(count)
+        }
 
         picker.show(fragmentManager, null)
     }
@@ -203,10 +201,7 @@ enum class UiMeasurementUnit {
             .setGoal(goal)
             .build() as GoalPicker<*>
 
-        dialog.addOnPositiveButtonClickListener(View.OnClickListener {
-            onGoalSet(dialog.goal)
-        })
-
+        dialog.addOnConfirmedListener(onGoalSet)
         dialog.show(fragmentManager, null)
     }
 

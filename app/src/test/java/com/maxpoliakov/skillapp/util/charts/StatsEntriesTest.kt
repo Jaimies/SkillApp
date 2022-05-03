@@ -51,8 +51,8 @@ class StatsEntriesTest : StringSpec({
 
         val statsEntries = stats.toEntries()!!
         statsEntries.toPairs() shouldBe listOf(
-            1f to 1200f,
-            2f to 7200f
+            1f to Duration.ofMinutes(20).toMillis().toFloat(),
+            2f to Duration.ofHours(2).toMillis().toFloat(),
         )
     }
 

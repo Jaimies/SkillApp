@@ -30,18 +30,18 @@
 
                 <include
                     layout="@layout/premium_benefit"
-                    app:text="@{@string/backups_description}"
-                    app:title="@{@string/backups_title}" />
-
-                <include
-                    layout="@layout/premium_benefit"
                     app:text="@{@string/grouping_text}"
                     app:title="@{@string/grouping_title}" />
 
                 <include
                     layout="@layout/premium_benefit"
-                    app:text="@{@string/support_developer_text}"
-                    app:title="@{@string/support_developer_title}" />
+                    app:text="@{@string/different_units_text}"
+                    app:title="@{@string/different_units_title}" />
+
+                <include
+                    layout="@layout/premium_benefit"
+                    app:text="@{@string/backups_description}"
+                    app:title="@{@string/backups_title}" />
             </LinearLayout>
         </ScrollView>
 

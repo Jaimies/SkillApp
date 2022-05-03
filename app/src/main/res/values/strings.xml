@@ -89,10 +89,10 @@
     <string name="skillapp_premium">SkillApp Premium</string>
     <string name="backups_title">Backups</string>
     <string name="backups_description">Stay focused as we back up your data for you</string>
-    <string name="grouping_title">Skill grouping</string>
-    <string name="grouping_text">Group related skills and view their total statistics</string>
-    <string name="support_developer_title">Support the developer</string>
-    <string name="support_developer_text">Your support helps make the app better</string>
+    <string name="grouping_title">Groups</string>
+    <string name="grouping_text">Organize related skills into groups and view their total statistics</string>
+    <string name="different_units_title">Measurement units</string>
+    <string name="different_units_text">Measure your progress in hours, kilometers or times</string>
     <string name="subscriptions_uri">https://play.google.com/store/account/subscriptions?sku=%1$s&amp;package=%2$s</string>
     <string name="premium">Premium</string>
     <string name="confirm_logout">Do you want to log out?</string>

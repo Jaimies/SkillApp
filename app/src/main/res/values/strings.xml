@@ -19,8 +19,8 @@
     <string name="new_group">New group</string>
     <string name="history">History</string>
     <string name="skills">Skills</string>
-    <string name="distance_kilometers">%s km</string>
-    <string name="distance_meters">%d m</string>
+    <string name="distance_kilometers">%s\u00A0km</string>
+    <string name="distance_meters">%d\u00A0m</string>
     <string name="total_hours">Total time</string>
     <string name="total_kilometers">Total distance</string>
     <string name="total_times">Total times</string>

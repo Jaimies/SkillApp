@@ -107,8 +107,8 @@
     <string name="weekly_goal_without_progress">Цель на неделю: %s</string>
     <string name="select_goal">Выбор цели</string>
     <string name="add_time">Добавление времени</string>
-    <string name="distance_kilometers">%s км</string>
-    <string name="distance_meters">%d м</string>
+    <string name="distance_kilometers">%s\u00A0км</string>
+    <string name="distance_meters">%d\u00A0м</string>
     <string name="total_kilometers">Общее расстояние</string>
     <string name="hours">Часы</string>
     <string name="kilometers">Километры</string>

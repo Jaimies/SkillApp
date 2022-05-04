@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="times_count">
-        <item quantity="one">%d time</item>
-        <item quantity="many">%d times</item>
-        <item quantity="other">%d times</item>
+        <item quantity="one">%d\u00A0time</item>
+        <item quantity="many">%d\u00A0times</item>
+        <item quantity="other">%d\u00A0times</item>
     </plurals>
 </resources>

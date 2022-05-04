@@ -30,7 +30,7 @@ class PremiumViewModel @Inject constructor(
     private val _goToManageSubscriptions = SingleLiveEvent<Nothing>()
     val goToManageSubscriptions: LiveData<Nothing> get() = _goToManageSubscriptions
 
-    val skuDetails = billingRepository.subscriptionState.map { state ->
+    val subscriptionPrice = billingRepository.subscriptionState.map { state ->
         _priceFailedToLoad.value = false
 
         if (state.hasAccessToPremium) return@map null

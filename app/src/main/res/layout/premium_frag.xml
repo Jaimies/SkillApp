@@ -75,7 +75,7 @@
                 android:onClick="@{() -> viewModel.showSubscriptionPrompt()}"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="15dp"
-                android:text="@{viewModel.priceFailedToLoad ? @string/upgrade_to_premium: viewModel.skuDetails != null ? @string/premium_price(viewModel.skuDetails): @string/premium_price_loading}" />
+                android:text="@{viewModel.priceFailedToLoad ? @string/upgrade_to_premium: viewModel.subscriptionPrice != null ? @string/premium_price(viewModel.subscriptionPrice): @string/premium_price_loading}" />
         </FrameLayout>
 
         <LinearLayout

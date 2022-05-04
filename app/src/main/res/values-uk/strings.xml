@@ -93,7 +93,7 @@
     <string name="google_sign_in_btn_text">Увійти через Google</string>
     <string name="billing_unavailable">Покупки недоступні для вашого регіону чи версії Google Play. Оновіть його до останньої версії та повторіть спробу. Код помилки: 3</string>
     <string name="premium_price_loading">Завантаження ціни підписки…</string>
-    <string name="premium_price">Оформити підписку за %s</string>
+    <string name="premium_price">Оформити підписку за %s\u00A0на\u00A0місяць</string>
     <string name="premium_intro">Вступ до SkillApp Premium</string>
     <string name="time_hours_and_minutes">%1$d\u00A0год %2$d\u00A0хв</string>
     <string name="time_hours_and_minutes_nbsp">%1$d\u00A0год\u00A0%2$d\u00A0хв</string>

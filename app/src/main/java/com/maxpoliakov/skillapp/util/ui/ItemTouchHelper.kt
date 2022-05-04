@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.ItemTouchHelper.DOWN
 import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooterViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
+import com.maxpoliakov.skillapp.ui.skills.SkillListViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import kotlin.math.abs
@@ -39,37 +41,45 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
         override fun onMove(
             recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
+            viewHolder: ViewHolder,
+            target: ViewHolder
         ): Boolean {
 
             val from = viewHolder.absoluteAdapterPosition
             val to = target.absoluteAdapterPosition
 
             if (viewHolder is SkillViewHolder) {
+                val (prevViewHolder, nextViewHolder) = getPrevAndNextViewHolders(recyclerView, from, to)
+
                 val skill = viewHolder.viewModel.skill.value!!
-                val insideGroup = isInsideGroup(from, to, recyclerView)
-                viewHolder.isSmall = insideGroup
+
+                val insideGroup = isInsideGroup(prevViewHolder, nextViewHolder)
+                val areOfTheSameUnit = viewHolder.unit == prevViewHolder?.unit
+
+                viewHolder.isSmall = insideGroup && areOfTheSameUnit
 
                 if (skill.groupId != -1 && !insideGroup)
                     callback.onLeaveGroup(skill)
-                else if (viewHolder.canBeGrouped || !insideGroup)
+                else if (areOfTheSameUnit || !insideGroup)
                     callback.onMove(from, to)
             } else callback.onMove(from, to)
 
             return true
         }
 
-        private fun isInsideGroup(
-            from: Int,
-            to: Int,
-            recyclerView: RecyclerView,
-        ): Boolean {
+        private fun getPrevAndNextViewHolders(recyclerView: RecyclerView, from: Int, to: Int): Pair<SkillListViewHolder?, SkillListViewHolder?> {
             val movingUp = from > to
 
             val prevViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to - 1 else to)
             val nextViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to else to + 1)
 
+            return prevViewHolder as? SkillListViewHolder to nextViewHolder as? SkillListViewHolder
+        }
+
+        private fun isInsideGroup(
+            prevViewHolder: ViewHolder?,
+            nextViewHolder: ViewHolder?,
+        ): Boolean {
             if (prevViewHolder == null || nextViewHolder == null) return false
 
             return (prevViewHolder is SkillViewHolder && prevViewHolder.isInAGroup
@@ -81,7 +91,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
         override fun onChildDraw(
             c: Canvas,
             recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
+            viewHolder: ViewHolder,
             dX: Float,
             dY: Float,
             actionState: Int,
@@ -90,27 +100,27 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             currentCoordinates = viewHolder.itemView.run { Coordinates(y, y + height) }
 
-            if (viewHolder !is SkillViewHolder || !viewHolder.viewModel.canBeGrouped) return
+            if (viewHolder !is SkillViewHolder) return
 
             for (i in 0 until recyclerView.childCount) {
                 val holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i))
 
                 if (holder == viewHolder || holder !is SkillViewHolder || holder.isInAGroup) continue
 
-                holder.isHighlighted = closeEnough(currentCoordinates!!, holder)
+                holder.isHighlighted = closeEnough(currentCoordinates!!, holder) && holder.unit == viewHolder.unit
             }
         }
 
-        override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+        override fun onSelectedChanged(viewHolder: ViewHolder?, actionState: Int) {
             super.onSelectedChanged(viewHolder, actionState)
             if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
                 dropCoordinates = currentCoordinates
             }
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+        override fun onSwiped(viewHolder: ViewHolder, direction: Int) {}
 
-        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+        override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
             super.clearView(recyclerView, viewHolder)
 
             val dropCoordinates = dropCoordinates ?: return
@@ -133,10 +143,10 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
         private fun getClosestViewHolder(
             recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
+            viewHolder: ViewHolder,
             dropCoordinates: Coordinates,
-        ): RecyclerView.ViewHolder? {
-            var closestViewHolder: RecyclerView.ViewHolder? = null
+        ): ViewHolder? {
+            var closestViewHolder: ViewHolder? = null
             var distanceToViewHolder = Float.POSITIVE_INFINITY
 
             for (i in 0 until recyclerView.childCount) {
@@ -163,7 +173,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
         private fun fireGroupingCallbacks(
             dropCoordinates: Coordinates,
             viewHolder: SkillViewHolder,
-            closestViewHolder: RecyclerView.ViewHolder?,
+            closestViewHolder: ViewHolder?,
         ): Change? {
             if (closestViewHolder == null) return null
 
@@ -173,7 +183,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
                 val secondSkill = closestViewHolder.viewModel.skill.value!!
 
                 if (secondSkill.groupId == -1 && closeEnough(dropCoordinates, closestViewHolder)
-                    && skill.unit.canBeGrouped && secondSkill.unit.canBeGrouped
+                    && skill.unit == secondSkill.unit
                 ) {
                     val position = min(viewHolder.absoluteAdapterPosition, closestViewHolder.absoluteAdapterPosition) - 1
                     return Change.CreateGroup(skill, secondSkill, position)
@@ -187,7 +197,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
         private fun closeEnough(
             dropCoordinates: Coordinates,
-            closestViewHolder: RecyclerView.ViewHolder
+            closestViewHolder: ViewHolder
         ): Boolean {
             val context = closestViewHolder.itemView.context
 
@@ -196,13 +206,13 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
         }
 
         private fun groupIfNecessary(skill: Skill, position: Int, adapter: SkillListAdapter): Change? {
-            if (position == 0 || !skill.unit.canBeGrouped) return null
+            if (position == 0) return null
 
             val prevItem = adapter.getItem(position - 1)
 
-            if (prevItem is Skill && prevItem.groupId != -1) {
+            if (prevItem is Skill && prevItem.groupId != -1 && skill.unit == prevItem.unit) {
                 return Change.AddToGroup(skill, prevItem.groupId)
-            } else if (prevItem is SkillGroup) {
+            } else if (prevItem is SkillGroup && skill.unit == prevItem.unit) {
                 return Change.AddToGroup(skill, prevItem.id)
             }
 
@@ -219,8 +229,8 @@ fun createReorderItemTouchHelper(callback: ItemTouchHelperCallback): ItemTouchHe
 
         override fun onMove(
             recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
+            viewHolder: ViewHolder,
+            target: ViewHolder
         ): Boolean {
 
             val from = viewHolder.absoluteAdapterPosition
@@ -230,9 +240,9 @@ fun createReorderItemTouchHelper(callback: ItemTouchHelperCallback): ItemTouchHe
             return true
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+        override fun onSwiped(viewHolder: ViewHolder, direction: Int) {}
 
-        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+        override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             callback.onDropped(null)
         }

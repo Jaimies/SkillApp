@@ -46,7 +46,7 @@ class SkillViewHolder(
         get() = viewModel.isHighlighted.value!!
         set(value) = viewModel.setIsHighlighted(value)
 
-    val canBeGrouped get() = viewModel.canBeGrouped
     override val groupId get() = viewModel.groupId
-    val isInAGroup get() = viewModel.isInAGroup
+    override val unit get() = viewModel.skill.value!!.unit
+    val isInAGroup get() = groupId != -1
 }

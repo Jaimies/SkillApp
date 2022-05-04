@@ -107,7 +107,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
                 val newGroup = group.copy(id = groupId)
 
                 listAdapter.addItem(change.position + 1, newGroup)
-                listAdapter.addItem(change.position + group.skills.size + 2, SkillGroupFooter(groupId))
+                listAdapter.addItem(change.position + group.skills.size + 2, SkillGroupFooter(newGroup))
             }
         }
 
@@ -277,7 +277,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
                     .flatMap { item ->
                         when (item) {
                             is Skill -> listOf(item)
-                            is SkillGroup -> listOf(item) + item.skills.sortedBy { it.order } + listOf(SkillGroupFooter(item.id))
+                            is SkillGroup -> listOf(item) + item.skills.sortedBy { it.order } + listOf(SkillGroupFooter(item))
                             else -> throw IllegalStateException("Orderables cannot be anything other than Skill or SkillGroup objects")
                         }
                     }

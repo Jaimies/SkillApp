@@ -12,6 +12,7 @@ class SkillGroupViewHolder(
 ) : SkillListViewHolder(binding.root) {
 
     override val groupId get() = viewModel.skillGroup.value!!.id
+    override val unit get() = viewModel.skillGroup.value!!.unit
 
     init {
         binding.viewModel = viewModel

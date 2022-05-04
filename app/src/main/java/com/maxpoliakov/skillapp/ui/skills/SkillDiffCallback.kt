@@ -10,7 +10,7 @@ class SkillDiffCallback : DiffUtil.ItemCallback<Any>() {
         return oldItem is StopwatchUiModel && newItem is StopwatchUiModel
                 || oldItem is Skill && newItem is Skill && oldItem.id == newItem.id
                 || oldItem is SkillGroup && newItem is SkillGroup && newItem.id == oldItem.id
-                || oldItem is SkillGroupFooter && newItem is SkillGroupFooter && newItem.groupId == oldItem.groupId
+                || oldItem is SkillGroupFooter && newItem is SkillGroupFooter && newItem.group.id == oldItem.group.id
     }
 
     override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {

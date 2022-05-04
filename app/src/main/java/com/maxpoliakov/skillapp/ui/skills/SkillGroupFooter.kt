@@ -1,3 +1,5 @@
 package com.maxpoliakov.skillapp.ui.skills
 
-data class SkillGroupFooter(val groupId: Int)
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
+
+data class SkillGroupFooter(val group: SkillGroup)

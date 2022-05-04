@@ -41,9 +41,7 @@ class SkillViewModel @Inject constructor(
     private val _notifyRecordAdded = SingleLiveEvent<Record>()
     val notifyRecordAdded: LiveData<Record> get() = _notifyRecordAdded
 
-    val canBeGrouped get() = skill.value?.unit?.canBeGrouped ?: false
     val groupId get() = skill.value?.groupId ?: -1
-    val isInAGroup get() = groupId != -1
 
     val isStopwatchActive = stopwatchUtil.state.combine(_skill) { state, skill ->
         state is StopwatchState.Running && state.skillId == skill?.id
@@ -64,11 +62,11 @@ class SkillViewModel @Inject constructor(
     }
 
     fun setIsSmall(isSmall: Boolean) {
-        if (canBeGrouped) _isSmall.value = isSmall
+        _isSmall.value = isSmall
     }
 
     fun setIsHighlighted(isHighlighted: Boolean) {
-        if (canBeGrouped) _isHighlighted.value = isHighlighted
+        _isHighlighted.value = isHighlighted
     }
 
     val startDrag = SingleLiveEvent<Any>()

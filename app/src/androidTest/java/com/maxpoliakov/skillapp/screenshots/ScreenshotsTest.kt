@@ -11,6 +11,7 @@ import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.group.DBGroup
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
@@ -87,42 +88,40 @@ class ScreenshotsTest {
     fun makeScreenshots() = runBlocking {
 
         val skillData = listOf(
-            SkillData(R.string.web_design, 1400, 1),
-            SkillData(R.string.app_design, 700, 1),
-            SkillData(R.string.animation_design, 1000, 1, 180),
-            SkillData(R.string.software_engineering, 2500, -1),
+            SkillData(R.string.pull_ups, 2500, -1, MeasurementUnit.Times),
+            SkillData(R.string.jogging, 350_000, -1, MeasurementUnit.Meters),
+            SkillData(R.string.web_design, 1400, 1, MeasurementUnit.Millis),
+            SkillData(R.string.app_design, 700, 1, MeasurementUnit.Millis, Duration.ofHours(3).toMillis()),
         )
 
-        val skills = skillData.map {
-            createSkill(it)
-        }
+        val skills = skillData.map(::createSkill)
 
         val recordsData = listOf(
-            Triple(3, 0, Duration.ofHours(1)),
-            Triple(2, 0, Duration.ofMinutes(90)),
-            Triple(3, 0, Duration.ofHours(1)),
-            Triple(3, 0, Duration.ofHours(1)),
-            Triple(2, 0, Duration.ofHours(2)),
+            Triple(2, 0, Duration.ofHours(1)),
+            Triple(3, 0, Duration.ofMinutes(90)),
+            Triple(2, 0, Duration.ofHours(1)),
+            Triple(2, 0, Duration.ofHours(1)),
+            Triple(3, 0, Duration.ofHours(2)),
 
-            Triple(2, 1, Duration.ofHours(1)),
-            Triple(3, 1, Duration.ofMinutes(90)),
-            Triple(2, 1, Duration.ofHours(2)),
+            Triple(3, 1, Duration.ofHours(1)),
+            Triple(2, 1, Duration.ofMinutes(90)),
             Triple(3, 1, Duration.ofHours(2)),
+            Triple(2, 1, Duration.ofHours(2)),
 
-            Triple(3, 2, Duration.ofHours(3)),
             Triple(2, 2, Duration.ofHours(3)),
+            Triple(3, 2, Duration.ofHours(3)),
 
-            Triple(3, 3, Duration.ofHours(3)),
-            Triple(2, 3, Duration.ofHours(4)),
+            Triple(2, 3, Duration.ofHours(3)),
+            Triple(3, 3, Duration.ofHours(4)),
 
-            Triple(3, 4, Duration.ofHours(3)),
-            Triple(2, 4, Duration.ofMinutes(150)),
+            Triple(2, 4, Duration.ofHours(3)),
+            Triple(3, 4, Duration.ofMinutes(150)),
 
-            Triple(3, 5, Duration.ofHours(3)),
-            Triple(2, 5, Duration.ofHours(4)),
+            Triple(2, 5, Duration.ofHours(3)),
+            Triple(3, 5, Duration.ofHours(4)),
 
-            Triple(3, 6, Duration.ofHours(3)),
             Triple(2, 6, Duration.ofHours(3)),
+            Triple(3, 6, Duration.ofHours(3)),
         )
 
         val records = recordsData.map { triple ->
@@ -130,7 +129,8 @@ class ScreenshotsTest {
                 skillId = triple.first + 1,
                 name = skills[triple.first].name,
                 date = LocalDate.now().minusDays(triple.second.toLong()),
-                time = triple.third
+                count = triple.third.toMillis(),
+                unit = MeasurementUnit.Millis,
             )
         }
 
@@ -154,27 +154,27 @@ class ScreenshotsTest {
 
         setTheme(Theme.Dark)
         setupNavController()
-        val directions = MainDirections.actionToSkillDetailFragment(3)
+        val directions = MainDirections.actionToSkillDetailFragment(4)
         navigate(directions)
         stopwatchUtil.stop()
         makeScreenshot("skilldetail")
 
         val groupDirections = MainDirections.actionToSkillGroupFragment(1)
         navigate(groupDirections)
+        delay(5_000)
         makeScreenshot("skillgroup")
     }
 
     private fun createSkill(data: SkillData): DBSkill {
         val name: String = context.getString(data.nameResId)
-        val totalTime: Duration = Duration.ofHours(data.totalTimeHours)
-        val goalTime = Duration.ofMinutes(data.goalTimeMinutes)
 
         return DBSkill(
             name = name,
-            totalTime = totalTime,
+            totalTime = data.totalCount,
             groupId = data.groupId,
+            unit = data.unit,
             goalType = Goal.Type.Daily,
-            goalTime = goalTime,
+            goalTime = data.goalCount,
         )
     }
 
@@ -204,8 +204,9 @@ class ScreenshotsTest {
 
     data class SkillData(
         @StringRes val nameResId: Int,
-        val totalTimeHours: Long,
+        val totalCount: Long,
         val groupId: Int,
-        val goalTimeMinutes: Long = 0,
+        val unit: MeasurementUnit,
+        val goalCount: Long = 0,
     )
 }

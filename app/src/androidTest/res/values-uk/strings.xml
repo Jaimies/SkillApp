@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="software_engineering">Програмування</string>
     <string name="ux_design">UX-дизайн</string>
     <string name="web_design">Веб-дизайн</string>
     <string name="app_design">Дизайн додатків</string>
-    <string name="animation_design">Дизайн анімацій</string>
+    <string name="jogging">Біг</string>
+    <string name="pull_ups">Підтягування</string>
 </resources>

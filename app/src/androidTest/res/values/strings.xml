@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="software_engineering">Software engineering</string>
     <string name="ux_design">UX Design</string>
     <string name="web_design">Web design</string>
     <string name="app_design">App design</string>
-    <string name="animation_design">Animation design</string>
+    <string name="jogging">Jogging</string>
+    <string name="pull_ups">Pull ups</string>
 </resources>

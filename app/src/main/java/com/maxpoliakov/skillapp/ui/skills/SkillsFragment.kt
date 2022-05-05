@@ -331,6 +331,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
     }
 
     override fun startDrag(viewHolder: RecyclerView.ViewHolder) {
+        viewHolder.itemView.translationZ = 10f
         itemTouchHelper?.startDrag(viewHolder)
     }
 

@@ -58,13 +58,19 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
                 viewHolder.isSmall = insideGroup && areOfTheSameUnit
 
-                if (skill.groupId != -1 && !insideGroup)
+                if (skill.groupId != -1 && !insideGroup) {
                     callback.onLeaveGroup(skill)
-                else if (areOfTheSameUnit || !insideGroup)
+                    return true
+                } else if (!insideGroup || insideGroup && areOfTheSameUnit) {
                     callback.onMove(from, to)
-            } else callback.onMove(from, to)
+                    return true
+                }
+            } else {
+                callback.onMove(from, to)
+                return true
+           }
 
-            return true
+            return false
         }
 
         private fun getPrevAndNextViewHolders(recyclerView: RecyclerView, from: Int, to: Int): Pair<SkillListViewHolder?, SkillListViewHolder?> {
@@ -123,6 +129,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
         override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
             super.clearView(recyclerView, viewHolder)
 
+            viewHolder.itemView.translationZ = 0f
             val dropCoordinates = dropCoordinates ?: return
 
             val position = viewHolder.absoluteAdapterPosition
@@ -206,7 +213,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
         }
 
         private fun groupIfNecessary(skill: Skill, position: Int, adapter: SkillListAdapter): Change? {
-            if (position == 0) return null
+            if (position <= 0) return null
 
             val prevItem = adapter.getItem(position - 1)
 

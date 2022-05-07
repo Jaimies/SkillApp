@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooterViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillListViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
-import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -45,53 +43,31 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
             target: ViewHolder
         ): Boolean {
 
-            val from = viewHolder.absoluteAdapterPosition
-            val to = target.absoluteAdapterPosition
+            if (viewHolder !is SkillViewHolder || target !is SkillListViewHolder) {
+                return false
+            }
 
-            if (viewHolder is SkillViewHolder) {
-                val (prevViewHolder, nextViewHolder) = getPrevAndNextViewHolders(recyclerView, from, to)
+            val skill = viewHolder.viewModel.skill.value!!
 
-                val skill = viewHolder.viewModel.skill.value!!
+            val insideGroup = target.groupId != -1 && (viewHolder.groupId != target.groupId || target is SkillViewHolder)
+            val areOfTheSameUnit = viewHolder.unit == target.unit
 
-                val insideGroup = isInsideGroup(prevViewHolder, nextViewHolder)
-                val areOfTheSameUnit = viewHolder.unit == prevViewHolder?.unit
+            viewHolder.isSmall = insideGroup && areOfTheSameUnit
 
-                viewHolder.isSmall = insideGroup && areOfTheSameUnit
+            if (skill.groupId != -1 && !insideGroup) {
+                callback.onLeaveGroup(skill)
+                return true
+            }
 
-                if (skill.groupId != -1 && !insideGroup) {
-                    callback.onLeaveGroup(skill)
-                    return true
-                } else if (!insideGroup || insideGroup && areOfTheSameUnit) {
-                    callback.onMove(from, to)
-                    return true
-                }
-            } else {
+            if (!insideGroup || areOfTheSameUnit) {
+                val from = viewHolder.absoluteAdapterPosition
+                val to = target.absoluteAdapterPosition
+
                 callback.onMove(from, to)
                 return true
-           }
+            }
 
             return false
-        }
-
-        private fun getPrevAndNextViewHolders(recyclerView: RecyclerView, from: Int, to: Int): Pair<SkillListViewHolder?, SkillListViewHolder?> {
-            val movingUp = from > to
-
-            val prevViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to - 1 else to)
-            val nextViewHolder = recyclerView.findViewHolderForAdapterPosition(if (movingUp) to else to + 1)
-
-            return prevViewHolder as? SkillListViewHolder to nextViewHolder as? SkillListViewHolder
-        }
-
-        private fun isInsideGroup(
-            prevViewHolder: ViewHolder?,
-            nextViewHolder: ViewHolder?,
-        ): Boolean {
-            if (prevViewHolder == null || nextViewHolder == null) return false
-
-            return (prevViewHolder is SkillViewHolder && prevViewHolder.isInAGroup
-                    || prevViewHolder is SkillGroupViewHolder)
-                    && (nextViewHolder is SkillViewHolder && nextViewHolder.isInAGroup
-                    || nextViewHolder is SkillGroupFooterViewHolder)
         }
 
         override fun onChildDraw(

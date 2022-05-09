@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillListViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
+import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -49,7 +50,8 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
             val skill = viewHolder.viewModel.skill.value!!
 
-            val insideGroup = target.groupId != -1 && (viewHolder.groupId != target.groupId || target is SkillViewHolder)
+            val viewHolderBelow = getViewHolderBelow(recyclerView, viewHolder, target)
+            val insideGroup = isInsideGroup(viewHolderBelow)
             val areOfTheSameUnit = viewHolder.unit == target.unit
 
             viewHolder.isSmall = insideGroup && areOfTheSameUnit
@@ -68,6 +70,25 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
             }
 
             return false
+        }
+
+        private fun getViewHolderBelow(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): SkillListViewHolder? {
+            val index = getIndexOfViewHolderBelow(viewHolder, target)
+            return recyclerView.findViewHolderForAdapterPosition(index) as? SkillListViewHolder
+        }
+
+        private fun getIndexOfViewHolderBelow(viewHolder: ViewHolder, target: ViewHolder): Int {
+            return if (isMovingUpRelativeToTarget(viewHolder, target)) target.absoluteAdapterPosition
+            else target.absoluteAdapterPosition + 1
+        }
+
+        fun isMovingUpRelativeToTarget(viewHolder: ViewHolder, target: ViewHolder): Boolean {
+            return viewHolder.absoluteAdapterPosition > target.absoluteAdapterPosition
+        }
+
+        fun isInsideGroup(viewHolderBelow: SkillListViewHolder?): Boolean {
+            return viewHolderBelow != null && viewHolderBelow.groupId != -1
+                    && viewHolderBelow !is SkillGroupViewHolder
         }
 
         override fun onChildDraw(

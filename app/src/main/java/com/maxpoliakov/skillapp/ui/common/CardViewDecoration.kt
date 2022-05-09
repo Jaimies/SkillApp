@@ -14,8 +14,6 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.ui.skills.ITEM_TYPE_SKILL_GROUP_FOOTER
 import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooterViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillListViewHolder
-import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
-import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 
@@ -29,11 +27,9 @@ class CardViewDecoration : ItemDecoration() {
         for (i in 0 until parent.childCount) {
             val viewHolder = parent.getChildViewHolder(parent.getChildAt(i))
 
-            val groupId = if (viewHolder is SkillGroupViewHolder)
-                viewHolder.groupId
-            else if (viewHolder is SkillViewHolder && viewHolder.isInAGroup)
-                viewHolder.groupId
-            else continue
+            if (viewHolder !is SkillListViewHolder || viewHolder.groupId == -1) continue
+
+            val groupId = viewHolder.groupId
 
             if (drawnGroupIds.contains(groupId)) continue
 

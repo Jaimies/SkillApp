@@ -18,49 +18,72 @@ import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 
 class CardViewDecoration : ItemDecoration() {
-    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        val size16dp = 16.dp.toPx(parent.context).toFloat()
-        val shadowColor = ContextCompat.getColor(parent.context, R.color.cardview_shadow_start_color)
+    private val Context.size16dp get() = 16.dp.toPx(this).toFloat()
+    private val Context.shadowColor get() = ContextCompat.getColor(this, R.color.cardview_shadow_start_color)
 
+    private val Context.fillPaint
+        get() = Paint().also {
+            it.color = getColorAttributeValue(R.attr.cardViewBackground)
+            it.setShadowLayer(4.dp.toPx(this).toFloat(), 0f, 1.dp.toPx(this).toFloat(), shadowColor)
+        }
+
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val drawnGroupIds = mutableListOf<Int>()
 
         for (i in 0 until parent.childCount) {
             val viewHolder = parent.getChildViewHolder(parent.getChildAt(i))
 
-            if (viewHolder !is SkillListViewHolder || viewHolder.groupId == -1) continue
+            if (viewHolder !is SkillListViewHolder || viewHolder.groupId == -1
+                || drawnGroupIds.contains(viewHolder.groupId)) continue
 
-            val groupId = viewHolder.groupId
+            drawnGroupIds.add(viewHolder.groupId)
 
-            if (drawnGroupIds.contains(groupId)) continue
-
-            drawnGroupIds.add(groupId)
-
-            val lastViewHolder = parent.findLastViewHolderInGroup(groupId) ?: continue
-            val nextItemViewType = parent.adapter!!.getItemViewType(lastViewHolder.absoluteAdapterPosition + 1)
-
-            // This is necessary to prevent the rounded edges from showing when
-            // the last item visible is not the last item in the group
-            val bottomOffset =
-                if (lastViewHolder is SkillGroupFooterViewHolder || nextItemViewType == ITEM_TYPE_SKILL_GROUP_FOOTER) 0
-                else 16.dp.toPx(parent.context)
-
-            val fillPaint = Paint().apply {
-                color = parent.context.getColorAttributeValue(R.attr.cardViewBackground)
-                setShadowLayer(4.dp.toPx(parent.context).toFloat(), 0f, 1.dp.toPx(parent.context).toFloat(), shadowColor)
-            }
-
-            val rect = RectF(
-                size16dp,
-                viewHolder.itemView.top.toFloat(),
-                viewHolder.itemView.right.toFloat(),
-                lastViewHolder.itemView.bottom.toFloat() + bottomOffset,
-            )
-
-            if (Build.VERSION.SDK_INT < 28)
-                c.drawFakeShadow(shadowColor, rect, parent.context)
-
-            c.drawRoundRect(rect, size16dp, size16dp, fillPaint)
+            val lastViewHolder = parent.findLastViewHolderInGroup(viewHolder.groupId) ?: continue
+            c.drawCardView(parent, lastViewHolder, viewHolder)
         }
+    }
+
+    private fun Canvas.drawCardView(
+        parent: RecyclerView,
+        lastViewHolder: RecyclerView.ViewHolder,
+        viewHolder: RecyclerView.ViewHolder
+    ) = parent.context.run {
+        val rect = getCardViewRect(parent, viewHolder, lastViewHolder)
+
+        if (Build.VERSION.SDK_INT < 28)
+            drawFakeShadow(shadowColor, rect, parent.context)
+
+        drawRoundRect(rect, size16dp, size16dp, fillPaint)
+    }
+
+    private fun getBottomOffset(
+        lastViewHolder: RecyclerView.ViewHolder,
+        nextItemViewType: Int,
+        parent: RecyclerView
+    ): Int {
+        if (lastViewHolder is SkillGroupFooterViewHolder || nextItemViewType == ITEM_TYPE_SKILL_GROUP_FOOTER)
+            return 0
+
+        // This is necessary to prevent the rounded edges from showing when
+        // the last item visible is not the last item in the group
+        return 16.dp.toPx(parent.context)
+    }
+
+    private fun Context.getCardViewRect(
+        parent: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        lastViewHolder: RecyclerView.ViewHolder,
+    ): RectF {
+        val nextItemViewType = parent.adapter!!.getItemViewType(lastViewHolder.absoluteAdapterPosition + 1)
+
+        val bottomOffset = getBottomOffset(lastViewHolder, nextItemViewType, parent)
+
+        return RectF(
+            size16dp,
+            viewHolder.itemView.top.toFloat(),
+            viewHolder.itemView.right.toFloat(),
+            lastViewHolder.itemView.bottom.toFloat() + bottomOffset,
+        )
     }
 
     private fun Canvas.drawFakeShadow(

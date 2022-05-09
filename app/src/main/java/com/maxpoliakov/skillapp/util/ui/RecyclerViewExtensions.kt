@@ -15,11 +15,3 @@ fun RecyclerView.addDividers() {
 
     addItemDecoration(divider)
 }
-
-fun RecyclerView.Adapter<*>.setOnItemAddedListener(listener: () -> kotlin.Unit) {
-    registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-            if (itemCount == 1) listener()
-        }
-    })
-}

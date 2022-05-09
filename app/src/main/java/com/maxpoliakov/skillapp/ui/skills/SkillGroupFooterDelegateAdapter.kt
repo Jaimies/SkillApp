@@ -10,7 +10,7 @@ import com.maxpoliakov.skillapp.util.ui.dp
 class SkillGroupFooterDelegateAdapter : DelegateAdapter<SkillGroupFooter, SkillGroupFooterViewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup): SkillGroupFooterViewHolder {
         val view = View(parent.context).apply {
-            layoutParams = ViewGroup.LayoutParams(parent.width, 10.dp.toPx(parent.context))
+            layoutParams = ViewGroup.LayoutParams(parent.width, 10)
         }
         return SkillGroupFooterViewHolder(view)
     }
@@ -23,5 +23,5 @@ class SkillGroupFooterDelegateAdapter : DelegateAdapter<SkillGroupFooter, SkillG
 class SkillGroupFooterViewHolder(view: View) : SkillListViewHolder(view) {
     var group: SkillGroup? = null
     override val unit: MeasurementUnit get() = group!!.unit
-    override val groupId get() = -1
+    override val groupId get() = group?.id ?: -1
 }

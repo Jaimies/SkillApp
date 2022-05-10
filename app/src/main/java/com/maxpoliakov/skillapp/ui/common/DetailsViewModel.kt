@@ -62,15 +62,15 @@ abstract class DetailsViewModel(
         state.startTime.until(ZonedDateTime.now())
     }
 
-    private val _timeToday = recordedCountFlow/*.combine(timeOnStopwatch) { recordedTime, timeOnStopwatch ->
-        recordedTime + timeOnStopwatch
-    }*/
+    private val _timeToday = recordedCountFlow.combine(timeOnStopwatch) { recordedCount, timeOnStopwatch ->
+        recordedCount + timeOnStopwatch.toMillis()
+    }
 
     val timeToday = _timeToday.asLiveData()
 
     val goalPercentage = combine(goalFlow, _timeToday) { goal, timeToday ->
         val goalCount = goal?.count ?: return@combine 0
-        (timeToday/*.toMillis()*/ * 100_000 / goalCount).toInt()
+        (timeToday * 100_000 / goalCount).toInt()
     }.asLiveData()
 
     init {

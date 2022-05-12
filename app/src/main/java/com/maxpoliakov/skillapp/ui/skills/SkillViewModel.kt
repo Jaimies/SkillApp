@@ -55,8 +55,9 @@ class SkillViewModel @Inject constructor(
     fun toggleTimer() {
         ioScope.launch {
             val record = stopwatchUtil.toggle(skill.value!!.id)
-            if (record != null)
+            record?.let { record ->
                 withContext(Dispatchers.Main) { _notifyRecordAdded.value = record }
+            }
         }
         logEvent("start_timer_from_home_screen")
     }

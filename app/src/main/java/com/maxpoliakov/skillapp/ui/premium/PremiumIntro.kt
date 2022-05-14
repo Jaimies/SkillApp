@@ -18,7 +18,8 @@ class PremiumIntro : AppIntro() {
 
         addSlide(R.string.premium_intro_slide1_title, R.string.premium_intro_slide1_description)
         addSlide(R.string.premium_intro_slide2_title, R.string.premium_intro_slide2_description, "premium_intro_grouping")
-        addSlide(R.string.premium_intro_slide3_title, R.string.premium_intro_slide3_description, "premium_intro_backups")
+        addSlide(R.string.premium_intro_slide3_title, R.string.premium_intro_slide3_description, "premium_intro_units")
+        addSlide(R.string.premium_intro_slide4_title, R.string.premium_intro_slide4_description, "premium_intro_backups")
         isWizardMode = true
     }
 

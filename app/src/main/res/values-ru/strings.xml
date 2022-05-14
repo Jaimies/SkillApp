@@ -87,8 +87,8 @@
     <string name="premium_intro_slide1_description">Управляйте подпиской через Настройки\u00A0>\u00A0«SkillApp Премиум»</string>
     <string name="premium_intro_slide2_title">Организовывайте навыки в группы</string>
     <string name="premium_intro_slide2_description">Перетяните один навык над другим чтобы сгрупировать их</string>
-    <string name="premium_intro_slide3_title">Резервное копирование данных</string>
-    <string name="premium_intro_slide3_description">Зайдите в Настройки\u00A0>\u00A0«Резервное копирование» и войдите в свой Google\u00A0Акаунт</string>
+    <string name="premium_intro_slide4_title">Резервное копирование данных</string>
+    <string name="premium_intro_slide4_description">Зайдите в Настройки\u00A0>\u00A0«Резервное копирование» и войдите в свой Google\u00A0Акаунт</string>
     <string name="backup_sign_in_title">Резерное копирование Ваших данных</string>
     <string name="google_sign_in_btn_text">Войти через Google</string>
     <string name="billing_unavailable">Покупки недоступны для вашего региона или версии Google Play. Пожалуйста, обновите его до последней версии и попробуйте еще раз. Код ошибки: 3</string>
@@ -123,4 +123,6 @@
     <string name="change_count">Изменить колличество</string>
     <string name="different_units_title">Единицы измерения</string>
     <string name="different_units_text">Измеряйте прогресс в часах, километрах или разах</string>
+    <string name="premium_intro_slide3_title">Единицы измерения</string>
+    <string name="premium_intro_slide3_description">При создании навыка вы можете выбрать единицы, в которых будет измерятся ваш прогресс</string>
 </resources>

@@ -87,8 +87,8 @@
     <string name="premium_intro_slide1_description">Керуйте підпискою через Налаштування\u00A0>\u00A0«SkillApp Премiум»</string>
     <string name="premium_intro_slide2_title">Організовуйте навички у групи</string>
     <string name="premium_intro_slide2_description">Перетягніть одну навичку над іншою щоб згрупувати їх</string>
-    <string name="premium_intro_slide3_title">Резервне копіювання даних</string>
-    <string name="premium_intro_slide3_description">Зайдіть у Налаштування\u00A0>\u00A0«Резервне копіювання» та увійдіть у свій Google\u00A0Акаунт</string>
+    <string name="premium_intro_slide4_title">Резервне копіювання даних</string>
+    <string name="premium_intro_slide4_description">Зайдіть у Налаштування\u00A0>\u00A0«Резервне копіювання» та увійдіть у свій Google\u00A0Акаунт</string>
     <string name="backup_sign_in_title">Резерне копіювання Ваших даних</string>
     <string name="google_sign_in_btn_text">Увійти через Google</string>
     <string name="billing_unavailable">Покупки недоступні для вашого регіону чи версії Google Play. Оновіть його до останньої версії та повторіть спробу. Код помилки: 3</string>
@@ -123,4 +123,6 @@
     <string name="change_count">Змінити кількість</string>
     <string name="different_units_title">Одиниці вимірювання</string>
     <string name="different_units_text">Вимірюйте прогрес у годинах, кілометрах або разах</string>
+    <string name="premium_intro_slide3_title">Одиниці вимірювання</string>
+    <string name="premium_intro_slide3_description">При створенні навички, ви можете обрати, у яких одиницях вимірюватиметься ваш прогрес</string>
 </resources>

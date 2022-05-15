@@ -133,4 +133,6 @@
     <string name="select_goal">Select goal</string>
     <string name="add_time">Add time</string>
     <string name="measurement_unit">Measurement unit</string>
+    <string name="mail_app_not_found">Email application not found</string>
+    <string name="cant_open_google_play">Unable to open Google Play</string>
 </resources>

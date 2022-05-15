@@ -1,5 +1,7 @@
 package com.maxpoliakov.skillapp.ui.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -9,17 +11,14 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.domain.repository.BillingRepository.SubscriptionState.Subscribed
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.analytics.setAsCurrentScreen
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
-import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -65,6 +64,32 @@ class SettingsFragment : PreferenceFragmentCompat() {
         premiumPref.setOnPreferenceClickListener {
             findNavController().navigateAnimated(R.id.premium_fragment_dest)
             true
+        }
+
+        val rateTheAppPref = findPreference<Preference>("rate_the_app")!!
+
+        rateTheAppPref.setOnPreferenceClickListener {
+            openUri(Intent.ACTION_VIEW, R.string.market_uri, R.string.cant_open_google_play)
+            true
+        }
+
+        val emailPref = findPreference<Preference>("contact_developer")!!
+
+        emailPref.setOnPreferenceClickListener {
+            openUri(Intent.ACTION_SENDTO, R.string.mail_dev_uri, R.string.mail_app_not_found)
+            true
+        }
+    }
+
+    private fun openUri(action: String, uriResId: Int, errorMessageResId: Int) {
+        val intent = Intent(action).apply {
+            data = Uri.parse(getString(uriResId))
+        }
+
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            showSnackbar(errorMessageResId)
         }
     }
 

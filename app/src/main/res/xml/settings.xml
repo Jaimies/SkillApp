@@ -46,18 +46,12 @@
 
         <Preference
             android:icon="@drawable/ic_thumb_up"
-            android:title="@string/rate_the_app">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/market_uri" />
-        </Preference>
+            android:key="rate_the_app"
+            android:title="@string/rate_the_app" />
 
         <Preference
             android:icon="@drawable/ic_message"
-            android:title="@string/contact_developer">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/mail_dev_uri" />
-        </Preference>
+            android:key="contact_developer"
+            android:title="@string/contact_developer" />
     </PreferenceCategory>
 </PreferenceScreen>

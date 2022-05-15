@@ -125,4 +125,6 @@
     <string name="different_units_text">Измеряйте прогресс в часах, километрах или разах</string>
     <string name="premium_intro_slide3_title">Единицы измерения</string>
     <string name="premium_intro_slide3_description">При создании навыка вы можете выбрать единицы, в которых будет измерятся ваш прогресс</string>
+    <string name="mail_app_not_found">" Приложение Email не найдено"</string>
+    <string name="cant_open_google_play">Не удается открыть Google Play</string>
 </resources>

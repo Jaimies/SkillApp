@@ -89,10 +89,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/chart_height"
                         android:layout_marginTop="12dp"
-                        android:layout_marginBottom="70dp"
+                        android:layout_marginBottom="16dp"
                         app:data="@{viewModel.chartData}"
                         app:unit="@{viewModel.unit}"
                         app:goal="@{viewModel.uiGoal}" />
+
+                    <include
+                        android:id="@+id/history"
+                        layout="@layout/details_fragment_history_recycler_view"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

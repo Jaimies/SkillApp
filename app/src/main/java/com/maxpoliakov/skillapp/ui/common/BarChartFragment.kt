@@ -7,18 +7,18 @@ import androidx.annotation.MenuRes
 import com.github.mikephil.charting.charts.BarChart
 
 abstract class BarChartFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId) {
-    abstract val chart: BarChart
+    abstract val chart: BarChart?
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putFloat(SCROLL_POSITION, chart.lowestVisibleX)
+        outState.putFloat(SCROLL_POSITION, chart?.lowestVisibleX ?: 0f)
     }
 
     @CallSuper
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = chart.let { chart ->
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && chart != null) {
             val position = savedInstanceState.getFloat(SCROLL_POSITION)
             chart.moveViewToX(position)
         }

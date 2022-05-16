@@ -9,9 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.usecase.stats.GetTotalTimeAtDayUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.until
+import com.maxpoliakov.skillapp.ui.common.history.ViewModelWithHistory
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +28,8 @@ abstract class DetailsViewModel(
     stopwatchUtil: StopwatchUtil,
     goalFlow: Flow<Goal?>,
     recordedCountFlow: Flow<Long>,
-) : ViewModel() {
+    getTotalTimeAtDay: GetTotalTimeAtDayUseCase,
+) : ViewModelWithHistory(getTotalTimeAtDay) {
     abstract val unit: LiveData<UiMeasurementUnit>
 
     protected abstract val nameFlow: Flow<String>

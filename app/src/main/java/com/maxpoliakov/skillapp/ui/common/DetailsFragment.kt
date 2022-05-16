@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.ui.common.history.FragmentWithHistory
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.hardware.showKeyboard
@@ -22,13 +23,13 @@ import com.maxpoliakov.skillapp.util.ui.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-abstract class DetailsFragment(@MenuRes menuId: Int) : BarChartFragment(menuId) {
+abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuId) {
     protected abstract val saveBtn: Button
     protected abstract val input: EditText
     protected abstract val content: ViewGroup
     protected abstract val goalInput: View
 
-    protected abstract val viewModel: DetailsViewModel
+    abstract override val viewModel: DetailsViewModel
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

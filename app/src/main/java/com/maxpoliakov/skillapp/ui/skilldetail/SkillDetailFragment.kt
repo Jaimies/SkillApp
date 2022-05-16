@@ -24,6 +24,8 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     override val input get() = binding.titleInput
     override val saveBtn get() = binding.saveFab
     override val goalInput get() = binding.goalPicker.root
+    override val recyclerView get() = binding.history.recyclerView
+    override val emptyListLayout get() = binding.history.emptyListLayout.root
 
     override val viewModel by viewModels { viewModelFactory.create(args.skillId) }
     override val chart get() = binding.productivityChart.chart

@@ -10,10 +10,12 @@ import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
+import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.DeleteSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
+import com.maxpoliakov.skillapp.domain.usecase.stats.GetTotalTimeAtDayUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
@@ -39,6 +41,8 @@ class SkillDetailViewModel(
     private val stopwatchUtil: StopwatchUtil,
     private val skillId: Int,
     getSkillById: GetSkillByIdUseCase,
+    getRecordsUseCase: GetRecordsUseCase,
+    getTotalTimeAtDayUseCase: GetTotalTimeAtDayUseCase,
     private val getStats: GetStatsUseCase
 ) : DetailsViewModel(
     stopwatchUtil,
@@ -48,7 +52,8 @@ class SkillDetailViewModel(
 
         if (goal.type == Goal.Type.Daily) getStats.getTimeToday(skillId)
         else getStats.getTimeThisWeek(skillId)
-    }
+    },
+    getTotalTimeAtDayUseCase,
 ) {
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()
@@ -76,6 +81,8 @@ class SkillDetailViewModel(
     val chartData = SkillChartData(getStats, skillId)
 
     override val nameFlow = skill.map { it.name }
+
+    override val recordPagingData = getRecordsUseCase.run(skillId)
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
         return state.skillId == skillId
@@ -114,6 +121,8 @@ class SkillDetailViewModel(
         private val deleteSkill: DeleteSkillUseCase,
         private val ioScope: CoroutineScope,
         private val stopwatchUtil: StopwatchUtil,
+        private val getRecords: GetRecordsUseCase,
+        private val getTotalTimeAtDay: GetTotalTimeAtDayUseCase,
     ) {
         fun create(skillId: Int): SkillDetailViewModel {
             return SkillDetailViewModel(
@@ -124,6 +133,8 @@ class SkillDetailViewModel(
                 stopwatchUtil,
                 skillId,
                 getSkillById,
+                getRecords,
+                getTotalTimeAtDay,
                 getStats,
             )
         }

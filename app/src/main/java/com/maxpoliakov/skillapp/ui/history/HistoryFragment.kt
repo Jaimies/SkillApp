@@ -4,27 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
+import com.github.mikephil.charting.charts.BarChart
 import com.maxpoliakov.skillapp.databinding.HistoryFragBinding
-import com.maxpoliakov.skillapp.ui.common.BaseFragment
-import com.maxpoliakov.skillapp.util.ui.addDividers
-import com.maxpoliakov.skillapp.util.ui.setupAdapter
+import com.maxpoliakov.skillapp.ui.common.history.FragmentWithHistory
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class HistoryFragment : BaseFragment() {
-    val viewModel: HistoryViewModel by viewModels()
-
-    @Inject
-    lateinit var listAdapter: HistoryPagingAdapter
-
+class HistoryFragment : FragmentWithHistory(-1) {
     private lateinit var binding: HistoryFragBinding
+
+    override val chart: BarChart? = null
+    override val viewModel: HistoryViewModel by viewModels()
+    override val recyclerView get() = binding.recyclerView
+    override val emptyListLayout get() = binding.emptyListLayout.root
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,18 +30,5 @@ class HistoryFragment : BaseFragment() {
         }
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.recyclerView.setupAdapter(listAdapter)
-        binding.recyclerView.addDividers()
-        lifecycleScope.launch {
-            viewModel.records.collectLatest(listAdapter::submitData)
-        }
-        listAdapter.addLoadStateListener { loadStates ->
-            if (loadStates.refresh !is LoadState.Loading)
-                binding.emptyListLayout.root.isVisible = listAdapter.itemCount == 0
-        }
     }
 }

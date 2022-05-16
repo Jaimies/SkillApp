@@ -84,7 +84,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun setOnPreferenceClickedListener(preferenceName: String, onClicked: () -> Unit) {
-        findPreference<Preference>(preferenceName).setOnPreferenceClickListener {
+        findPreference<Preference>(preferenceName)?.setOnPreferenceClickListener {
             onClicked()
             true
         }

@@ -27,9 +27,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
-        val themePref = findPreference<ListPreference>("theme")!!
 
-        themePref.setOnPreferenceChangeListener { _, newValue ->
+        findPreference<ListPreference>("theme")!!.setOnPreferenceChangeListener { _, newValue ->
             setTheme(Theme.valueOf(newValue as String))
             logEvent("change_theme")
             true
@@ -59,25 +58,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val premiumPref = findPreference<Preference>("premium")!!
-
-        premiumPref.setOnPreferenceClickListener {
+        setOnPreferenceClickedListener("premium") {
             findNavController().navigateAnimated(R.id.premium_fragment_dest)
-            true
         }
 
-        val rateTheAppPref = findPreference<Preference>("rate_the_app")!!
-
-        rateTheAppPref.setOnPreferenceClickListener {
+        setOnPreferenceClickedListener("rate_the_app") {
             openUri(Intent.ACTION_VIEW, R.string.market_uri, R.string.cant_open_google_play)
-            true
         }
 
-        val emailPref = findPreference<Preference>("contact_developer")!!
-
-        emailPref.setOnPreferenceClickListener {
+        setOnPreferenceClickedListener("contact_developer") {
             openUri(Intent.ACTION_SENDTO, R.string.mail_dev_uri, R.string.mail_app_not_found)
-            true
         }
     }
 
@@ -90,6 +80,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             startActivity(intent)
         } catch (e: Exception) {
             showSnackbar(errorMessageResId)
+        }
+    }
+
+    private fun setOnPreferenceClickedListener(preferenceName: String, onClicked: () -> Unit) {
+        findPreference<Preference>(preferenceName).setOnPreferenceClickListener {
+            onClicked()
+            true
         }
     }
 

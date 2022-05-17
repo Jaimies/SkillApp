@@ -38,8 +38,8 @@ class StatisticsViewModel @Inject constructor(
 
 fun calculateSummary(skills: List<Skill>): ProductivitySummary {
     return ProductivitySummary(
-        totalCount = skills.sumByLong { it.totalCount },
-        lastWeekCount = skills.sumByLong { it.lastWeekCount },
+        totalCount = skills.sumByLong(Skill::totalCount),
+        lastWeekCount = skills.sumByLong(Skill::lastWeekCount),
         unit = UiMeasurementUnit.Millis
     )
 }

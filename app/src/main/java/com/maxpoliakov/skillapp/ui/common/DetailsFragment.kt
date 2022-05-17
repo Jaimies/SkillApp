@@ -28,6 +28,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuI
     protected abstract val input: EditText
     protected abstract val content: ViewGroup
     protected abstract val goalInput: View
+    protected abstract val history: View
 
     abstract override val viewModel: DetailsViewModel
 
@@ -79,6 +80,14 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuI
             findNavController().navigateUp()
             return true
         }
+    }
+
+    override fun onHistoryEmpty() {
+        history.isVisible = false
+    }
+
+    override fun onHistoryNotEmpty() {
+        history.isVisible = true
     }
 
     @CallSuper

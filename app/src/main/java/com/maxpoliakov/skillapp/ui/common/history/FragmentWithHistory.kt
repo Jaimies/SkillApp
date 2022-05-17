@@ -21,7 +21,6 @@ abstract class FragmentWithHistory(@MenuRes menuResId: Int) : BarChartFragment(m
 
     protected abstract val viewModel: ViewModelWithHistory
     abstract val recyclerView: RecyclerView
-    abstract val emptyListLayout: View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,8 +30,13 @@ abstract class FragmentWithHistory(@MenuRes menuResId: Int) : BarChartFragment(m
             viewModel.records.collectLatest(listAdapter::submitData)
         }
         listAdapter.addLoadStateListener { loadStates ->
-            if (loadStates.refresh !is LoadState.Loading)
-                emptyListLayout.isVisible = listAdapter.itemCount == 0
+            if (loadStates.refresh !is LoadState.Loading) {
+                if(listAdapter.itemCount == 0) onHistoryEmpty()
+                else onHistoryNotEmpty()
+            }
         }
     }
+
+    protected abstract fun onHistoryEmpty()
+    protected abstract fun onHistoryNotEmpty()
 }

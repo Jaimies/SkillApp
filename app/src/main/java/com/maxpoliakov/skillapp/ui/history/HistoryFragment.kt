@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.charts.BarChart
 import com.maxpoliakov.skillapp.databinding.HistoryFragBinding
@@ -17,7 +18,6 @@ class HistoryFragment : FragmentWithHistory(-1) {
     override val chart: BarChart? = null
     override val viewModel: HistoryViewModel by viewModels()
     override val recyclerView get() = binding.recyclerView
-    override val emptyListLayout get() = binding.emptyListLayout.root
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,5 +30,13 @@ class HistoryFragment : FragmentWithHistory(-1) {
         }
 
         return binding.root
+    }
+
+    override fun onHistoryEmpty() {
+        binding.emptyListLayout.root.isVisible = true
+    }
+
+    override fun onHistoryNotEmpty() {
+        binding.emptyListLayout.root.isVisible = false
     }
 }

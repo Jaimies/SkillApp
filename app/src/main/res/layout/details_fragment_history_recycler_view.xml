@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -15,15 +14,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-20dp" />
-
-        <include
-            android:id="@+id/empty_list_layout"
-            layout="@layout/empty_list_layout"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:text="@{@string/no_records_text}"
-            app:title="@{@string/no_records_title}"
-            tools:visibility="visible" />
     </com.google.android.material.card.MaterialCardView>
 </layout>

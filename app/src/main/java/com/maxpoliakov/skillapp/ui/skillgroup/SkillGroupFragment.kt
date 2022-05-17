@@ -34,7 +34,7 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
     override val goalInput get() = binding.goalPicker.root
 
     override val recyclerView get() = binding.history.recyclerView
-    override val emptyListLayout get() = binding.history.emptyListLayout.root
+    override val history get() = binding.history.root
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = SkillGroupFragBinding.inflate(inflater, container, false).also {

@@ -6,7 +6,6 @@ import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import java.time.Duration.ZERO
 import java.time.LocalDate
 
 class DiffCallbackTest : StringSpec({
@@ -17,8 +16,8 @@ class DiffCallbackTest : StringSpec({
         callback.areItemsTheSame(createSkill(1, "A"), createSkill(2, "A")) shouldBe false
         callback.areItemsTheSame(createGroup(1, "A"), createGroup(1, "B")) shouldBe true
         callback.areItemsTheSame(createGroup(2, "A"), createGroup(1, "A")) shouldBe false
-        callback.areItemsTheSame(SkillGroupFooter(2), SkillGroupFooter(1)) shouldBe false
-        callback.areItemsTheSame(SkillGroupFooter(2), SkillGroupFooter(2)) shouldBe true
+        callback.areItemsTheSame(SkillGroupFooter(createGroup(1, "A")), SkillGroupFooter(createGroup(2, "A"))) shouldBe false
+        callback.areItemsTheSame(SkillGroupFooter(createGroup(1, "A")), SkillGroupFooter(createGroup(1, "B"))) shouldBe true
     }
 
     "areItemsTheSame() always returns false if the types of items are different" {
@@ -37,7 +36,7 @@ class DiffCallbackTest : StringSpec({
         callback.areContentsTheSame(createGroup(1, "A"), createGroup(1, "A")) shouldBe true
         callback.areContentsTheSame(createGroup(1, "A"), createGroup(1, "B")) shouldBe false
         callback.areContentsTheSame(StopwatchUiModel, StopwatchUiModel) shouldBe true
-        callback.areContentsTheSame(SkillGroupFooter(1), SkillGroupFooter(1)) shouldBe true
+        callback.areContentsTheSame(SkillGroupFooter(createGroup(1, "A")), SkillGroupFooter(createGroup(1, "A"))) shouldBe true
     }
 
     "contents are the same if order is different" {

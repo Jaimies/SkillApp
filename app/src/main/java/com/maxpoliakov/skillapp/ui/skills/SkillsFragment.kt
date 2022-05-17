@@ -94,7 +94,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
                 skills = listOf(change.skill, change.otherSkill),
                 goal = null,
                 order = change.position,
-                unit = MeasurementUnit.Millis,
+                unit = change.skill.unit,
             )
 
             val createGroupAsync = viewModel.createGroupAsync(change.skill, group)

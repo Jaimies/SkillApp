@@ -52,7 +52,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
             val viewHolderBelow = getViewHolderBelow(recyclerView, viewHolder, target)
             val insideGroup = isInsideGroup(viewHolderBelow)
-            val areOfTheSameUnit = viewHolder.unit == target.unit
+            val areOfTheSameUnit = viewHolder.unit == viewHolderBelow?.unit
 
             viewHolder.isSmall = insideGroup && areOfTheSameUnit
 

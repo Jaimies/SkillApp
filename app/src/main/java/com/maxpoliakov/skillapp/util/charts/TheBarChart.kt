@@ -53,6 +53,9 @@ class TheBarChart : BarChart {
             this.entries = null
             this.data = null
         }
+
+        notifyDataSetChanged()
+        invalidate()
     }
 
     private fun updateUI(entries: List<BarEntry>) {
@@ -60,8 +63,6 @@ class TheBarChart : BarChart {
         this.data.barWidth = 0.3f
         zoom(8f, 1f, entries.last().x, 0f)
         updateAxisMaximum()
-        notifyDataSetChanged()
-        invalidate()
     }
 
     private fun createDataSets(entries: List<BarEntry>): List<BarDataSet> {

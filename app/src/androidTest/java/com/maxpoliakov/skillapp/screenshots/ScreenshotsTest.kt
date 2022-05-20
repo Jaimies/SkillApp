@@ -90,8 +90,8 @@ class ScreenshotsTest {
         val skillData = listOf(
             SkillData(R.string.pull_ups, 2500, -1, MeasurementUnit.Times),
             SkillData(R.string.jogging, 350_000, -1, MeasurementUnit.Meters),
-            SkillData(R.string.web_design, 1400, 1, MeasurementUnit.Millis),
-            SkillData(R.string.app_design, 700, 1, MeasurementUnit.Millis, Duration.ofHours(3).toMillis()),
+            SkillData(R.string.web_design, Duration.ofHours(479).toMillis(), 1, MeasurementUnit.Millis),
+            SkillData(R.string.app_design, Duration.ofHours(677).toMillis(), 1, MeasurementUnit.Millis, Duration.ofHours(3).toMillis()),
         )
 
         val skills = skillData.map(::createSkill)

@@ -43,6 +43,25 @@ footer, .footer-nav {
     margin-top: 75px;
 }
 
+.homepage-link {
+    font-size: 30px;
+    font-weight: bold;
+    color: #343434;
+    text-decoration: none !important;
+}
+
+.footer-homepage-link {
+    color: white;
+}
+
+.text-blue {
+    color: #0039fb;
+}
+
+.text-yellow {
+    color: #ffc41e;
+}
+
 footer {
     padding: 130px 0;
     background-color: #09142E;
@@ -67,18 +86,13 @@ footer a {
     opacity: .68;
 }
 
-.logo {
-    width: 80px;
-    height: 80px;
-}
-
 .screenshot {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 100px;
     margin-left: auto;
-    height: 83%;
+    height: 95%;
 }
 
 .first-screen {
@@ -102,6 +116,7 @@ footer a {
     margin-left: 70px;
     max-width: 550px;
     margin-bottom: 50px;
+    margin-top: -30px;
 }
 
 .first-screen-title {

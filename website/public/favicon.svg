@@ -1,2 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="800.35" height="800"><svg id="SvgjsSvg1002" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800.35 800"><defs><style>.cls-1{fill:#0039FB;}.cls-2{fill:none;}</style></defs><g id="SvgjsG1001" data-name="Layer 2"><g id="SvgjsG1000" data-name="Layer 1-2"><polygon class="cls-1" points="799.7 375.93 753 115.93 491.7 162.93 601.8 244.73 442.3 471.73 302 369.03 221.3 309.93 0 626.03 81.9 683.43 244.6 450.93 465.6 612.63 684.6 300.83 799.7 375.93"></polygon></g></g><rect class="cls-2" x="0.35" width="800" height="800"></rect></svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
-</style></svg>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800.35" height="800" viewBox="0 0 800.35 800">
+    <polygon fill="#0039FB"
+        points="799.7 375.93 753 115.93 491.7 162.93 601.8 244.73 442.3 471.73 302 369.03 221.3 309.93 0 626.03 81.9 683.43 244.6 450.93 465.6 612.63 684.6 300.83 799.7 375.93" />
+</svg>

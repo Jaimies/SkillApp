@@ -87,11 +87,11 @@
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp" />
-                </LinearLayout>
 
-                <include
-                    android:id="@+id/history"
-                    layout="@layout/details_fragment_history_recycler_view"/>
+                    <include
+                        android:id="@+id/history"
+                        layout="@layout/details_fragment_history_recycler_view"/>
+                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

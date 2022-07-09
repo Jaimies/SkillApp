@@ -91,14 +91,6 @@ class StatsDaoTest {
     }
 
     @Test
-    fun getTimeAtDate() = runBlocking {
-        statsDao.addRecord(skillId, date.minusDays(1), Duration.ofMinutes(150).toMillis())
-        statsDao.addRecord(skillId, date, Duration.ofMinutes(200).toMillis())
-        statsDao.getCountAtDate(date) shouldBe Duration.ofMinutes(200).toMillis()
-        statsDao.getCountAtDate(date.minusDays(1)) shouldBe Duration.ofMinutes(150).toMillis()
-    }
-
-    @Test
     fun getStats_getsTotal() = runBlocking {
         skillDao.insert(DBSkill())
         statsDao.addRecord(skillId, date.minusDays(56), recordTime.toMillis())

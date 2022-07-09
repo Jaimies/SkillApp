@@ -31,7 +31,6 @@ class StubStatsRepository(
     override fun getGroupCountAtDate(groupId: Id, date: LocalDate) = flowOf(Duration.ofHours(2).toMillis())
 
     override suspend fun addRecord(record: Record) {}
-    override suspend fun getCountAtDate(date: LocalDate) = Duration.ofHours(2).toMillis()
 }
 
 class GetStatsUseCaseTest : StringSpec({

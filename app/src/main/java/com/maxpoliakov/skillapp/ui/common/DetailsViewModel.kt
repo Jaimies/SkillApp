@@ -2,14 +2,12 @@ package com.maxpoliakov.skillapp.ui.common
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
-import com.maxpoliakov.skillapp.domain.usecase.stats.GetTotalTimeAtDayUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.until
@@ -28,8 +26,7 @@ abstract class DetailsViewModel(
     stopwatchUtil: StopwatchUtil,
     goalFlow: Flow<Goal?>,
     recordedCountFlow: Flow<Long>,
-    getTotalTimeAtDay: GetTotalTimeAtDayUseCase,
-) : ViewModelWithHistory(getTotalTimeAtDay) {
+) : ViewModelWithHistory() {
     abstract val unit: LiveData<UiMeasurementUnit>
 
     protected abstract val nameFlow: Flow<String>

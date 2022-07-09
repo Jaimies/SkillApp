@@ -15,7 +15,6 @@ sealed class HistoryUiModel {
 
     data class Separator(
         val date: LocalDate,
-        val count: Long,
     ) : HistoryUiModel()
 }
 

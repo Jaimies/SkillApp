@@ -10,7 +10,6 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
-import com.maxpoliakov.skillapp.domain.usecase.stats.GetTotalTimeAtDayUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
@@ -29,7 +28,6 @@ class SkillGroupViewModel(
     getGroup: GetGroupUseCase,
     private val getStats: GetStatsUseCase,
     stopwatchUtil: StopwatchUtil,
-    getTotalTimeAtDay: GetTotalTimeAtDayUseCase,
     getRecords: GetRecordsUseCase,
     private val updateGroup: UpdateGroupUseCase,
 ) : DetailsViewModel(
@@ -41,7 +39,6 @@ class SkillGroupViewModel(
         if (goal.type == Goal.Type.Daily) getStats.getGroupTimeToday(groupId)
         else getStats.getGroupTimeThisWeek(groupId)
     },
-    getTotalTimeAtDay,
 ) {
 
     private val _group = getGroup.getById(groupId)
@@ -79,9 +76,8 @@ class SkillGroupViewModel(
         private val getGroup: GetGroupUseCase,
         private val updateGroup: UpdateGroupUseCase,
         private val stopwatchUtil: StopwatchUtil,
-        private val getTotalTimeAtDay: GetTotalTimeAtDayUseCase,
         private val getRecords: GetRecordsUseCase,
     ) {
-        fun create(groupId: Int) = SkillGroupViewModel(groupId, getGroup, getStats, stopwatchUtil, getTotalTimeAtDay, getRecords, updateGroup)
+        fun create(groupId: Int) = SkillGroupViewModel(groupId, getGroup, getStats, stopwatchUtil, getRecords, updateGroup)
     }
 }

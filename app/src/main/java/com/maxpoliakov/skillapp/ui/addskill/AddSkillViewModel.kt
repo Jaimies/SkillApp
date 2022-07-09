@@ -21,7 +21,6 @@ class AddSkillViewModel @Inject constructor(
     private val addSkill: AddSkillUseCase,
     billingRepository: ExtendedBillingRepository,
 ) : EditableViewModel() {
-
     val subscriptionState = billingRepository.subscriptionState.asLiveData()
     val totalTime = MutableLiveData<String>()
 

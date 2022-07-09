@@ -33,9 +33,6 @@ interface StatsDao : BaseDao<DBStatistic> {
     @Query("SELECT time from stats WHERE skillId = :skillId AND date = :date")
     fun getCountAtDate(skillId: Int, date: LocalDate): Flow<Long?>
 
-    @Query("SELECT SUM(time) as time FROM stats WHERE date = :date")
-    suspend fun getCountAtDate(date: LocalDate): Long
-
     @Query("SELECT * FROM stats")
     suspend fun getAllStats(): List<DBStatistic>
 

@@ -14,5 +14,4 @@ interface StatsRepository {
     fun getCountAtDate(skillId: Id, date: LocalDate): Flow<Long>
 
     suspend fun addRecord(record: Record)
-    suspend fun getCountAtDate(date: LocalDate): Long
 }

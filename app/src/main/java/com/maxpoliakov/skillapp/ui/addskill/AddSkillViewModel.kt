@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.data.billing.ExtendedBillingRepository
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
@@ -19,9 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddSkillViewModel @Inject constructor(
     private val addSkill: AddSkillUseCase,
-    billingRepository: ExtendedBillingRepository,
 ) : EditableViewModel() {
-    val subscriptionState = billingRepository.subscriptionState.asLiveData()
     val totalTime = MutableLiveData<String>()
 
     private val _chooseGoal = SingleLiveEvent<Any>()

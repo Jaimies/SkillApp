@@ -15,7 +15,6 @@ object Versions {
     const val livedata = "2.2.0"
     const val fragment = "1.4.1"
     const val workManager = "2.7.1"
-    const val billing = "4.1.0"
 
     const val googleHttpClient = "1.40.0"
     const val googleApiClient = "1.32.1"

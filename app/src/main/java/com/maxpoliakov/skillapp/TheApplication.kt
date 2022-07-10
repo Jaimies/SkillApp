@@ -11,11 +11,8 @@ import androidx.work.PeriodicWorkRequest.MIN_BACKOFF_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.maxpoliakov.skillapp.data.backup.BackupWorker
-import com.maxpoliakov.skillapp.domain.repository.BillingRepository
 import com.maxpoliakov.skillapp.util.ui.setupTheme
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import java.time.Duration
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import javax.inject.Inject
@@ -25,17 +22,10 @@ open class TheApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
-    @Inject
-    lateinit var billingRepository: BillingRepository
-
-    @Inject
-    lateinit var ioScope: CoroutineScope
-
     override fun onCreate() {
         super.onCreate()
         setupTheme()
         setupBackupWorker()
-        ioScope.launch { billingRepository.connect() }
     }
 
     override fun getWorkManagerConfiguration() = Configuration.Builder()

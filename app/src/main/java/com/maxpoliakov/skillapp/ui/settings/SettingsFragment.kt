@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -19,12 +18,9 @@ import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
-    private val viewModel: SettingsViewModel by viewModels()
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
@@ -36,30 +32,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val backupsPref = findPreference<Preference>("backups")!!
 
-        if (!viewModel.subscriptionState.value.hasAccessToPremium)
-            backupsPref.widgetLayoutResource = R.layout.premium_widget
-
-        lifecycleScope.launch {
-            viewModel.subscriptionState.collect { state ->
-                backupsPref.widgetLayoutResource =
-                    if (state.hasAccessToPremium) R.layout.empty_widget
-                    else R.layout.premium_widget
-            }
-        }
-
         backupsPref.setOnPreferenceClickListener {
-            val controller = findNavController()
-
-            val destination = if (viewModel.subscriptionState.value.hasAccessToPremium)
-                R.id.backup_fragment_dest else
-                R.id.premium_fragment_dest
-
-            controller.navigateAnimated(destination)
+            findNavController().navigateAnimated(R.id.backup_fragment_dest)
             true
-        }
-
-        setOnPreferenceClickedListener("premium") {
-            findNavController().navigateAnimated(R.id.premium_fragment_dest)
         }
 
         setOnPreferenceClickedListener("rate_the_app") {

@@ -138,8 +138,6 @@ dependencies {
     implementation("com.google.api-client:google-api-client-android:$Versions.googleApiClient")
     implementation("com.google.apis:google-api-services-drive:$Versions.googleApiServices")
 
-    implementation "com.android.billingclient:billing-ktx:$Versions.billing"
-
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
     kapt "androidx.hilt:hilt-compiler:1.0.0"

@@ -226,31 +226,3 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
     return ItemTouchHelper(simpleItemTouchCallback)
 }
-
-fun createReorderItemTouchHelper(callback: ItemTouchHelperCallback): ItemTouchHelper {
-    val simpleItemTouchCallback = object : SimpleCallback(UP or DOWN, 0) {
-        override fun isLongPressDragEnabled() = false
-
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: ViewHolder,
-            target: ViewHolder
-        ): Boolean {
-
-            val from = viewHolder.absoluteAdapterPosition
-            val to = target.absoluteAdapterPosition
-            callback.onMove(from, to)
-
-            return true
-        }
-
-        override fun onSwiped(viewHolder: ViewHolder, direction: Int) {}
-
-        override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
-            super.clearView(recyclerView, viewHolder)
-            callback.onDropped(null)
-        }
-    }
-
-    return ItemTouchHelper(simpleItemTouchCallback)
-}

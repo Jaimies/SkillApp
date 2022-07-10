@@ -6,7 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.usecase.skill.AddSkillUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.ui.common.EditableViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddSkillViewModel @Inject constructor(
-    private val addSkill: AddSkillUseCase,
+    private val manageSkill: ManageSkillUseCase,
 ) : EditableViewModel() {
     val totalTime = MutableLiveData<String>()
 
@@ -41,7 +41,7 @@ class AddSkillViewModel @Inject constructor(
         viewModelScope.launch {
             val count = unit.value!!.getInitialCount(totalTime.value?.toLongOrNull() ?: 0L)
 
-            val skillId = addSkill.run(
+            val skillId = manageSkill.addSkill(
                 Skill(
                     name = name,
                     totalCount = count,

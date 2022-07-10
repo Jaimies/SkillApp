@@ -11,9 +11,8 @@ import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
-import com.maxpoliakov.skillapp.domain.usecase.skill.DeleteSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
-import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateSkillUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
@@ -34,8 +33,7 @@ import javax.inject.Inject
 
 class SkillDetailViewModel(
     private val addRecord: AddRecordUseCase,
-    private val updateSkillUseCase: UpdateSkillUseCase,
-    private val deleteSkill: DeleteSkillUseCase,
+    private val manageSkill: ManageSkillUseCase,
     private val ioScope: CoroutineScope,
     private val stopwatchUtil: StopwatchUtil,
     private val skillId: Int,
@@ -91,7 +89,7 @@ class SkillDetailViewModel(
     }
 
     fun deleteSkill() = this.skill.replayCache.lastOrNull()?.let { skill ->
-        ioScope.launch { deleteSkill.run(skill) }
+        ioScope.launch { manageSkill.deleteSkill(skill) }
         logEvent("delete_skill")
     }
 
@@ -107,15 +105,14 @@ class SkillDetailViewModel(
     }
 
     override suspend fun update(name: String) {
-        updateSkillUseCase.updateSkill(skillId, name, goal.value)
+        manageSkill.updateSkill(skillId, name, goal.value)
     }
 
     class Factory @Inject constructor(
         private val addRecord: AddRecordUseCase,
-        private val updateSkillUseCase: UpdateSkillUseCase,
+        private val manageSkill: ManageSkillUseCase,
         private val getSkillById: GetSkillByIdUseCase,
         private val getStats: GetStatsUseCase,
-        private val deleteSkill: DeleteSkillUseCase,
         private val ioScope: CoroutineScope,
         private val stopwatchUtil: StopwatchUtil,
         private val getRecords: GetRecordsUseCase,
@@ -123,8 +120,7 @@ class SkillDetailViewModel(
         fun create(skillId: Int): SkillDetailViewModel {
             return SkillDetailViewModel(
                 addRecord,
-                updateSkillUseCase,
-                deleteSkill,
+                manageSkill,
                 ioScope,
                 stopwatchUtil,
                 skillId,

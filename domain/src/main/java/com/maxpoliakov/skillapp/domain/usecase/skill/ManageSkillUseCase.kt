@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.domain.usecase.skill
 
+import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
@@ -8,12 +9,19 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.DeleteGroupIfEmptyUseCas
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class DeleteSkillUseCase @Inject constructor(
-    private val deleteGroupIfEmpty: DeleteGroupIfEmptyUseCase,
+class ManageSkillUseCase @Inject constructor(
     private val skillRepository: SkillRepository,
     private val stopwatchUtil: StopwatchUtil,
+    private val deleteGroupIfEmpty: DeleteGroupIfEmptyUseCase
 ) {
-    suspend fun run(skill: Skill) {
+    suspend fun addSkill(skill: Skill) = skillRepository.addSkill(skill)
+
+    suspend fun updateSkill(skillId: Int, newName: String, newGoal: Goal?) {
+        skillRepository.updateName(skillId, newName)
+        skillRepository.updateGoal(skillId, newGoal)
+    }
+
+    suspend fun deleteSkill(skill: Skill) {
         val state = stopwatchUtil.state.value
 
         skillRepository.deleteSkill(skill)

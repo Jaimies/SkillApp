@@ -23,22 +23,11 @@ fun Context.getFragmentManager(): FragmentManager {
 }
 
 fun RecyclerView.setupAdapter(adapter: RecyclerView.Adapter<*>) {
-
     if (layoutManager != null && this.adapter != null)
         return
 
     layoutManager = LinearLayoutManager(context)
     this.adapter = adapter
-}
-
-fun View.setMarginTop(value: Int) {
-    setMargins(0, value, 0, 0)
-}
-
-fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
-    val params = layoutParams as? ViewGroup.MarginLayoutParams ?: return
-    params.setMargins(left, top, right, bottom)
-    requestLayout()
 }
 
 fun View.increaseTouchAreaBy(size: Unit) {

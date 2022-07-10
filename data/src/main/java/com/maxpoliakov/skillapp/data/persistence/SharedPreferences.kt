@@ -8,14 +8,6 @@ import androidx.preference.PreferenceManager
 val Context.sharedPrefs: SharedPreferences
     get() = PreferenceManager.getDefaultSharedPreferences(this)
 
-fun SharedPreferences.getIntPreference(name: String, defValue: Int): Int {
-    return getInt(name, defValue)
-}
-
-fun SharedPreferences.saveIntPreference(name: String, value: Int) {
-    this.edit { putInt(name, value) }
-}
-
 fun SharedPreferences.getStringPreference(name: String, defValue: String): String {
     return getString(name, defValue) ?: defValue
 }

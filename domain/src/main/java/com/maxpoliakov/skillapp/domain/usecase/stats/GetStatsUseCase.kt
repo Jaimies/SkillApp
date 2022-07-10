@@ -40,8 +40,6 @@ class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepo
         return combine(dailyTimes) { times -> times.sum() }
     }
 
-    fun getDailyStats(skillId: Id) = statsRepository.getStats(skillId, LocalDate.now().minusDays(56))
-
     fun getDailyStats(
         skillIds: List<Int>,
         startDate: LocalDate = LocalDate.now().minusDays(56)

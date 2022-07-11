@@ -54,7 +54,6 @@ class MainActivity : AppCompatActivity(),
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         setupNavController()
-        sharedPreferences.edit { putBoolean("intro_viewed", false) }
     }
 
     private fun showIntroIfNeeded() {

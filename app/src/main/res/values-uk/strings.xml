@@ -102,11 +102,13 @@
     <string name="mail_app_not_found">Додаток Email не знайдено</string>
     <string name="cant_open_google_play">Не вдається відкрити Google Play</string>
     <string name="intro_slide1_title">Усі функції SkillApp преміум тепер безкоштовні</string>
-    <string name="intro_slide1_description">Я хотів би подякувати всім, хто підтримав SkillApp своєю підпискою</string>
+    <string name="intro_slide1_description">Я хотів би подякувати всім, хто підтримав SkillApp своєю підпискою\n\nЯкщо ви хочете підтримати проект, ви можете знайти посилання в налаштуваннях</string>
     <string name="intro_slide2_title">Організовуйте навички у групи</string>
     <string name="intro_slide2_description">Перетягніть одну навичку над іншою щоб згрупувати їх</string>
     <string name="intro_slide3_title">Одиниці вимірювання</string>
     <string name="intro_slide3_description">При створенні навички, ви можете обрати, у яких одиницях вимірюватиметься ваш прогрес</string>
     <string name="intro_slide4_title">Резервне копіювання даних</string>
     <string name="intro_slide4_description">Зайдіть у Налаштування\u00A0>\u00A0«Резервне копіювання» та увійдіть у свій Google\u00A0Акаунт</string>
+    <string name="support_app">Підтримати SkillApp</string>
+    <string name="browser_not_found">Додаток браузера не знайдено</string>
 </resources>

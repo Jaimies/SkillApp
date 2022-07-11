@@ -110,11 +110,14 @@
     <string name="mail_app_not_found">Email application not found</string>
     <string name="cant_open_google_play">Unable to open Google Play</string>
     <string name="intro_slide1_title">All premium features are now free</string>
-    <string name="intro_slide1_description">I would like to thank everyone who supported SkillApp with their subscription</string>
+    <string name="intro_slide1_description">I would like to thank everyone who supported SkillApp with their subscription\n\nIf you want to support the project, you can find a link in the settings</string>
     <string name="intro_slide2_title">Organize skills into groups</string>
     <string name="intro_slide2_description">Drag one skill on top of another to group them</string>
     <string name="intro_slide3_title">Measurement units</string>
     <string name="intro_slide3_description">When creating a skill, you can choose the unit your progress will be measured in</string>
     <string name="intro_slide4_title">Backup your data</string>
     <string name="intro_slide4_description">Go to Settings\u00A0>\u00A0Backup &amp; Restore and sign in to your Google Account</string>
+    <string name="browser_not_found">No browser app found</string>
+    <string name="support_app_uri" translatable="false">https://www.buymeacoffee.com/skillapp</string>
+    <string name="support_app">Support SkillApp</string>
 </resources>

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -35,6 +34,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         backupsPref.setOnPreferenceClickListener {
             findNavController().navigateAnimated(R.id.backup_fragment_dest)
             true
+        }
+
+        setOnPreferenceClickedListener("support_app") {
+            openUri(Intent.ACTION_VIEW, R.string.support_app_uri, R.string.browser_not_found)
         }
 
         setOnPreferenceClickedListener("rate_the_app") {

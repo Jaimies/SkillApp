@@ -18,6 +18,11 @@
             android:icon="@drawable/ic_drive_translucent"
             android:key="backups"
             android:title="@string/backups" />
+
+        <Preference
+            android:icon="@drawable/ic_heart"
+            android:key="support_app"
+            android:title="@string/support_app" />
     </PreferenceCategory>
 
     <PreferenceCategory

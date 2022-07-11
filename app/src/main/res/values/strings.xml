@@ -109,4 +109,12 @@
     <string name="measurement_unit">Measurement unit</string>
     <string name="mail_app_not_found">Email application not found</string>
     <string name="cant_open_google_play">Unable to open Google Play</string>
+    <string name="intro_slide1_title">All premium features are now free</string>
+    <string name="intro_slide1_description">I would like to thank everyone who supported SkillApp with their subscription</string>
+    <string name="intro_slide2_title">Organize skills into groups</string>
+    <string name="intro_slide2_description">Drag one skill on top of another to group them</string>
+    <string name="intro_slide3_title">Measurement units</string>
+    <string name="intro_slide3_description">When creating a skill, you can choose the unit your progress will be measured in</string>
+    <string name="intro_slide4_title">Backup your data</string>
+    <string name="intro_slide4_description">Go to Settings\u00A0>\u00A0Backup &amp; Restore and sign in to your Google Account</string>
 </resources>

@@ -31,6 +31,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.intro.TheIntro"
+            android:exported="true" />
+
         <receiver android:name=".StopTimerBroadcastReceiver" />
 
         <receiver

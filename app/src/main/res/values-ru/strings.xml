@@ -101,4 +101,12 @@
     <string name="change_count">Изменить колличество</string>
     <string name="mail_app_not_found">" Приложение Email не найдено"</string>
     <string name="cant_open_google_play">Не удается открыть Google Play</string>
+    <string name="intro_slide1_title">Все функции SkillApp Премиум теперь бесплатны</string>
+    <string name="intro_slide1_description">Я хотел бы поблагодарить всех, кто поддержал SkillApp своей подпиской.</string>
+    <string name="intro_slide2_title">Организовывайте навыки в группы</string>
+    <string name="intro_slide2_description">Перетяните один навык над другим чтобы сгрупировать их</string>
+    <string name="intro_slide3_title">Единицы измерения</string>
+    <string name="intro_slide3_description">При создании навыка вы можете выбрать единицы, в которых будет измерятся ваш прогресс</string>
+    <string name="intro_slide4_title">Резервное копирование данных</string>
+    <string name="intro_slide4_description">Зайдите в Настройки\u00A0>\u00A0«Резервное копирование» и войдите в свой Google\u00A0Акаунт</string>
 </resources>

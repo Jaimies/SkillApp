@@ -28,7 +28,7 @@ class TheIntro : AppIntro() {
     }
 
     private fun shouldShowTheIntroSlide(): Boolean {
-        return LocalDate.now() < LocalDate.of(2022, Month.SEPTEMBER, 1)
+        return LocalDate.now() < LocalDate.of(2022, Month.AUGUST, 15)
     }
 
     private fun addSlide(@StringRes titleResId: Int, @StringRes descriptionResId: Int, videoFileName: String = "") {

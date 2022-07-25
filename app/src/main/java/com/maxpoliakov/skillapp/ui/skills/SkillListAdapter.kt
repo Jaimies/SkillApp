@@ -9,14 +9,17 @@ import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupHeaderDelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchDelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
-import javax.inject.Inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
 const val ITEM_TYPE_SKILL = 0
 const val ITEM_TYPE_SKILL_GROUP_HEADER = 1
 const val ITEM_TYPE_STOPWATCH = 2
 const val ITEM_TYPE_SKILL_GROUP_FOOTER = 3
 
-class SkillListAdapter(
+class SkillListAdapter @AssistedInject constructor(
+    @Assisted
     callback: SkillsFragmentCallback,
     stopwatchDelegateAdapter: StopwatchDelegateAdapter,
     skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
@@ -108,16 +111,8 @@ class SkillListAdapter(
         return itemCount != 0 && getItemViewType(0) == ITEM_TYPE_STOPWATCH
     }
 
-    class Factory @Inject constructor(
-        private val skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
-        private val stopwatchDelegateAdapter: StopwatchDelegateAdapter,
-    ) {
-        fun create(
-            callback: SkillsFragmentCallback,
-        ) = SkillListAdapter(
-            callback,
-            stopwatchDelegateAdapter,
-            skillDelegateAdapterFactory,
-        )
+    @AssistedFactory
+    interface Factory {
+        fun create(callback: SkillsFragmentCallback): SkillListAdapter
     }
 }

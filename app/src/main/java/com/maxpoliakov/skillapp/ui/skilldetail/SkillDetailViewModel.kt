@@ -22,6 +22,9 @@ import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.SkillChartData
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.flatMapLatest
@@ -29,13 +32,13 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class SkillDetailViewModel(
+class SkillDetailViewModel @AssistedInject constructor(
     private val addRecord: AddRecordUseCase,
     private val manageSkill: ManageSkillUseCase,
     private val ioScope: CoroutineScope,
     private val stopwatchUtil: StopwatchUtil,
+    @Assisted
     private val skillId: Int,
     getSkillById: GetSkillByIdUseCase,
     getRecordsUseCase: GetRecordsUseCase,
@@ -108,26 +111,8 @@ class SkillDetailViewModel(
         manageSkill.updateSkill(skillId, name, goal.value)
     }
 
-    class Factory @Inject constructor(
-        private val addRecord: AddRecordUseCase,
-        private val manageSkill: ManageSkillUseCase,
-        private val getSkillById: GetSkillByIdUseCase,
-        private val getStats: GetStatsUseCase,
-        private val ioScope: CoroutineScope,
-        private val stopwatchUtil: StopwatchUtil,
-        private val getRecords: GetRecordsUseCase,
-    ) {
-        fun create(skillId: Int): SkillDetailViewModel {
-            return SkillDetailViewModel(
-                addRecord,
-                manageSkill,
-                ioScope,
-                stopwatchUtil,
-                skillId,
-                getSkillById,
-                getRecords,
-                getStats,
-            )
-        }
+    @AssistedFactory
+    interface Factory {
+        fun create(skillId: Int): SkillDetailViewModel
     }
 }

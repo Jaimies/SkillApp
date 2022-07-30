@@ -45,9 +45,7 @@ class DriveRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getLastBackup(): Backup? {
-        val backups = _getBackups(2)
-        if (backups.isEmpty()) return null
-        else return backups[0]
+        return _getBackups(2).firstOrNull()
     }
 
     override suspend fun getBackupContents(backup: Backup): String = withContext(Dispatchers.IO) {

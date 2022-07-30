@@ -9,23 +9,23 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import com.maxpoliakov.skillapp.databinding.IntroSlideBinding
 
-class IntroSlide(
-    private val titleResId: Int,
-    private val descriptionResId: Int,
-    private val videoFileName: String
-) : Fragment() {
+class IntroSlide : Fragment() {
     lateinit var binding: IntroSlideBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = IntroSlideBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = binding.videoView.run {
+        val titleResId = requireArguments().getInt(ARG_TITLE_RES_ID)
+        val descriptionResId = requireArguments().getInt(ARG_DESCRIPTION_RES_ID)
+        val videoFileName = requireArguments().getString(ARG_VIDEO_FILE_NAME)
+
         binding.titleTextView.setText(titleResId)
         binding.descriptionTextView.setText(descriptionResId)
 
-        if (videoFileName.isEmpty()) {
+        if (videoFileName.isNullOrEmpty()) {
             isGone = true
             return@run
         }
@@ -43,5 +43,21 @@ class IntroSlide(
         super.onResume()
         requestFocus()
         start()
+    }
+
+    companion object {
+        fun newInstance(titleResId: Int, descriptionResId: Int, videoFileName: String): IntroSlide {
+            val fragment = IntroSlide()
+            fragment.arguments = Bundle().apply {
+                putInt(ARG_TITLE_RES_ID, titleResId)
+                putInt(ARG_DESCRIPTION_RES_ID, descriptionResId)
+                putString(ARG_VIDEO_FILE_NAME, videoFileName)
+            }
+            return fragment
+        }
+
+        private const val ARG_TITLE_RES_ID = "ARG_TITLE_RES_ID"
+        private const val ARG_DESCRIPTION_RES_ID = "ARG_DESCRIPTION_RES_ID"
+        private const val ARG_VIDEO_FILE_NAME = "ARG_VIDEO_FILE_NAME"
     }
 }

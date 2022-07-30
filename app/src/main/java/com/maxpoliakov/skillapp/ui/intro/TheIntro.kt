@@ -32,7 +32,9 @@ class TheIntro : AppIntro() {
     }
 
     private fun addSlide(@StringRes titleResId: Int, @StringRes descriptionResId: Int, videoFileName: String = "") {
-        addSlide(IntroSlide(titleResId, descriptionResId, videoFileName))
+        addSlide(
+            IntroSlide.newInstance(titleResId, descriptionResId, videoFileName)
+        )
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {

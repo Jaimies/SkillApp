@@ -110,12 +110,16 @@ class BackupViewModel @Inject constructor(
         if (!authRepository.hasAppDataPermission)
             _requestAppDataPermission.call()
         else
-            ioScope.launch {
-                createBackupUseCase.createBackup()
-                _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
-            }
+            createBackupInBackground()
 
         logEvent("sign_in")
+    }
+
+    private fun createBackupInBackground() = ioScope.launch {
+        try {
+            createBackupUseCase.createBackup()
+            _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
+        } catch (e: Exception) {}
     }
 
     fun showLogoutDialog() = _showLogoutDialog.call()
@@ -149,7 +153,6 @@ class BackupViewModel @Inject constructor(
             createBackupUseCase.createBackup()
             _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
             _showBackupCreationSucceeded.postCall()
-
         } catch (e: Exception) {
             e.logToCrashlytics()
             e.printStackTrace()

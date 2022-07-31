@@ -5,8 +5,8 @@ import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
-import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +20,9 @@ class SkillGroupRepositoryImpl @Inject constructor(
     }
 
     override fun getSkillGroupFlowById(id: Int): Flow<SkillGroup> {
-        return groupDao.getGroupFlowById(id).map { it.mapToDomain() }
+        return groupDao.getGroupFlowById(id)
+            .filterNotNull()
+            .map { it.mapToDomain() }
     }
 
     override suspend fun getSkillGroupById(id: Int): SkillGroup? {

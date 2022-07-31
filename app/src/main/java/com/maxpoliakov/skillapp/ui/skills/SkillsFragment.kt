@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.ui.skills
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
@@ -22,7 +21,6 @@ import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.common.BaseFragment
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
@@ -68,6 +66,7 @@ class SkillsFragment : BaseFragment(), SkillsFragmentCallback {
             when (change) {
                 is Change.CreateGroup -> createGroup(change)
                 is Change.AddToGroup -> addToGroup(change)
+                null -> {}
             }
 
             viewModel.updateOrder(getUpdatedList(list, change))
@@ -255,7 +254,11 @@ class SkillsFragment : BaseFragment(), SkillsFragmentCallback {
                     .flatMap { item ->
                         when (item) {
                             is Skill -> listOf(item)
-                            is SkillGroup -> listOf(item) + item.skills.sortedBy { it.order } + listOf(SkillGroupFooter(item))
+                            is SkillGroup -> listOf(item) + item.skills.sortedBy { it.order } + listOf(
+                                SkillGroupFooter(
+                                    item
+                                )
+                            )
                             else -> throw IllegalStateException("Orderables cannot be anything other than Skill or SkillGroup objects")
                         }
                     }

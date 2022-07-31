@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
@@ -13,6 +12,7 @@ import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
+import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentSkillCountUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
@@ -27,8 +27,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
@@ -42,17 +40,14 @@ class SkillDetailViewModel @AssistedInject constructor(
     private val skillId: Int,
     getSkillById: GetSkillByIdUseCase,
     getRecordsUseCase: GetRecordsUseCase,
-    private val getStats: GetStatsUseCase
+    getRecentCount: GetRecentSkillCountUseCase,
+    getStats: GetStatsUseCase
 ) : DetailsViewModel(
     stopwatchUtil,
-    getSkillById.run(skillId).map { skill -> skill.goal },
-    getSkillById.run(skillId).flatMapLatest { skill ->
-        val goal = skill.goal ?: return@flatMapLatest flowOf(0L)
-
-        if (goal.type == Goal.Type.Daily) getStats.getTimeToday(skillId)
-        else getStats.getTimeThisWeek(skillId)
-    },
+    getRecentCount,
+    getSkillById.run(skillId),
 ) {
+
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()
     val showRecordAdded: LiveData<Record?> get() = _showRecordAdded

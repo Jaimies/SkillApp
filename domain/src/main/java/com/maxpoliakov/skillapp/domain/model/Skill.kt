@@ -5,13 +5,13 @@ import java.time.LocalDate
 
 data class Skill(
     val name: String,
-    val unit: MeasurementUnit,
-    val totalCount: Long,
+    override val unit: MeasurementUnit,
+    override val totalCount: Long,
     val initialCount: Long,
     val lastWeekCount: Long = 0,
-    val id: Id = 0,
+    override val id: Id = 0,
     val date: LocalDate = getCurrentDate(),
     val groupId: Int = -1,
-    val goal: Goal? = null,
+    override val goal: Goal? = null,
     override val order: Int = -1,
-) : Orderable
+) : Trackable, Orderable

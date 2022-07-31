@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.domain.usecase.records
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import com.maxpoliakov.skillapp.domain.repository.StatsRepository
+import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class AddRecordUseCase @Inject constructor(
     private val recordsRepository: RecordsRepository,
     private val skillRepository: SkillRepository,
-    private val statsRepository: StatsRepository
+    private val statsRepository: SkillStatsRepository,
 ) {
     suspend fun run(record: Record): Long {
         if (skillRepository.getSkillById(record.skillId) == null) return -1

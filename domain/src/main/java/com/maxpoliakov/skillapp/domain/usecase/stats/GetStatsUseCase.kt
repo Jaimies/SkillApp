@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.domain.usecase.stats
 
 import com.maxpoliakov.skillapp.domain.model.Statistic
-import com.maxpoliakov.skillapp.domain.repository.StatsRepository
+import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
 import com.maxpoliakov.skillapp.shared.util.monthsSinceEpoch
 import com.maxpoliakov.skillapp.shared.util.sumByLong
@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 
-class GetStatsUseCase @Inject constructor(private val statsRepository: StatsRepository) {
+class GetStatsUseCase @Inject constructor(
+    private val statsRepository: SkillStatsRepository
+) {
     fun getDailyStats(
         skillIds: List<Int>,
         startDate: LocalDate = LocalDate.now().minusDays(56)

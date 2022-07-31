@@ -7,7 +7,9 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
+import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.until
@@ -17,15 +19,18 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.ZonedDateTime
 
 abstract class DetailsViewModel(
     stopwatchUtil: StopwatchUtil,
-    goalFlow: Flow<Goal?>,
-    recordedCountFlow: Flow<Long>,
+    getRecentTime: GetRecentCountUseCase,
+    flow: Flow<Trackable>,
 ) : ViewModelWithHistory() {
     abstract val unit: LiveData<UiMeasurementUnit>
 
@@ -47,6 +52,15 @@ abstract class DetailsViewModel(
     val chooseGoal: LiveData<Any> get() = _chooseGoal
 
     private var lastName = ""
+
+    private val goalFlow = flow.map { it.goal }
+
+    private val recordedCountFlow = flow.flatMapLatest { trackable ->
+        val goal = trackable.goal ?: return@flatMapLatest flowOf(0L)
+
+        if (goal.type == Goal.Type.Daily) getRecentTime.getCountToday(trackable.id)
+        else getRecentTime.getCountThisWeek(trackable.id)
+    }
 
     private val tick = flow {
         while (true) {

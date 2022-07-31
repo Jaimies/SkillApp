@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.domain.usecase.records
 
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import com.maxpoliakov.skillapp.domain.repository.StatsRepository
+import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -10,7 +10,7 @@ import javax.inject.Inject
 class DeleteRecordUseCase @Inject constructor(
     private val recordsRepository: RecordsRepository,
     private val skillRepository: SkillRepository,
-    private val statsRepository: StatsRepository
+    private val statsRepository: SkillStatsRepository,
 ) {
     suspend fun run(id: Int) = withContext(IO) {
         val record = recordsRepository.getRecord(id) ?: return@withContext

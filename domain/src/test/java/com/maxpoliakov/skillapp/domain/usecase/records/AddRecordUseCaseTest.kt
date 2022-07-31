@@ -5,7 +5,7 @@ import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import com.maxpoliakov.skillapp.domain.repository.StatsRepository
+import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.Called
 import io.mockk.coEvery
@@ -21,7 +21,7 @@ class AddRecordUseCaseTest : StringSpec({
     "adds record if skill exists" {
         val skillRepository = mockk<SkillRepository>(relaxed = true)
         val recordRepository = mockk<RecordsRepository>(relaxed = true)
-        val statsRepository = mockk<StatsRepository>(relaxed = true)
+        val statsRepository = mockk<SkillStatsRepository>(relaxed = true)
 
         coEvery { skillRepository.getSkillById(any()) } returns skill
 
@@ -36,7 +36,7 @@ class AddRecordUseCaseTest : StringSpec({
     "does not add record if skill does not exist" {
         val skillRepository = mockk<SkillRepository>(relaxed = true)
         val recordRepository = mockk<RecordsRepository>(relaxed = true)
-        val statsRepository = mockk<StatsRepository>(relaxed = true)
+        val statsRepository = mockk<SkillStatsRepository>(relaxed = true)
 
         coEvery { skillRepository.getSkillById(any()) } returns null
 

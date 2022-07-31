@@ -6,13 +6,15 @@ import com.maxpoliakov.skillapp.data.group.SkillGroupRepositoryImpl
 import com.maxpoliakov.skillapp.data.records.RecordsDao
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.data.skill.mapToDB
-import com.maxpoliakov.skillapp.data.stats.StatsRepositoryImpl
+import com.maxpoliakov.skillapp.data.stats.GroupStatsRepositoryImpl
+import com.maxpoliakov.skillapp.data.stats.SkillStatsRepositoryImpl
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.domain.repository.GroupStatsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
-import com.maxpoliakov.skillapp.domain.repository.StatsRepository
+import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
 import com.maxpoliakov.skillapp.test.await
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
@@ -27,7 +29,8 @@ class SkillRepositoryImplTest {
     private lateinit var skillDao: SkillDao
     private lateinit var recordsDao: RecordsDao
     private lateinit var groupRepository: SkillGroupRepository
-    private lateinit var statsRepository: StatsRepository
+    private lateinit var skillStatsRepository: SkillStatsRepository
+    private lateinit var groupStatsRepository: GroupStatsRepository
 
     @Before
     fun setup() {
@@ -35,7 +38,8 @@ class SkillRepositoryImplTest {
         skillDao = db.skillDao()
         recordsDao = db.recordsDao()
         groupRepository = SkillGroupRepositoryImpl(db.skillGroupDao())
-        statsRepository = StatsRepositoryImpl(db.statsDao(), groupRepository)
+        skillStatsRepository = SkillStatsRepositoryImpl(db.statsDao())
+        groupStatsRepository = GroupStatsRepositoryImpl(db.skillGroupDao(), skillStatsRepository)
     }
 
     @After
@@ -44,17 +48,37 @@ class SkillRepositoryImplTest {
     }
 
     @Test
-    fun getGroupCountToday() = runBlocking {
+    fun getCountAtDay() = runBlocking {
         val skills = listOf(
-            Skill("name", MeasurementUnit.Millis, Duration.ofHours(2).toMillis(), Duration.ofHours(1).toMillis(), id = 1),
-            Skill("other name",MeasurementUnit.Millis,  Duration.ofHours(20).toMillis(), Duration.ofHours(10).toMillis(), id = 2),
+            createSkill("name", Duration.ofHours(2), 1),
+            createSkill("other name", Duration.ofHours(20), 2),
         ).onEach { skill -> skillDao.insert(skill.mapToDB()) }
 
-        groupRepository.createGroup(SkillGroup(1, "new group", skills, MeasurementUnit.Millis, null, 0))
+        groupRepository.createGroup(createGroup(skills))
 
-        statsRepository.addRecord(Record("", 1, Duration.ofHours(2).toMillis(), MeasurementUnit.Millis))
-        statsRepository.addRecord(Record("", 2, Duration.ofHours(3).toMillis(), MeasurementUnit.Millis))
+        skillStatsRepository.addRecord(createRecord(1, Duration.ofHours(2)))
+        skillStatsRepository.addRecord(createRecord(1, Duration.ofHours(4)))
+        skillStatsRepository.addRecord(createRecord(2, Duration.ofHours(3)))
 
-        statsRepository.getGroupCountAtDate(1, LocalDate.now()).await() shouldBe Duration.ofHours(5).toMillis()
+        skillStatsRepository.getCountAtDate(1, LocalDate.now()).await() shouldBe Duration.ofHours(6).toMillis()
+        groupStatsRepository.getCountAtDate(1, LocalDate.now()).await() shouldBe Duration.ofHours(9).toMillis()
+    }
+
+    private fun createSkill(name: String, totalTime: Duration, id: Int): Skill {
+        return Skill(
+            name,
+            MeasurementUnit.Millis,
+            totalTime.toMillis(),
+            totalTime.toMillis() / 2,
+            id = id,
+        )
+    }
+
+    private fun createRecord(skillId: Int, time: Duration): Record {
+        return Record("", skillId, time.toMillis(), MeasurementUnit.Millis)
+    }
+
+    private fun createGroup(skills: List<Skill>): SkillGroup {
+        return SkillGroup(0, "new group", skills, MeasurementUnit.Millis, null, 0)
     }
 }

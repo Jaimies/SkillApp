@@ -9,12 +9,15 @@ import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaBy
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
-import javax.inject.Inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import javax.inject.Provider
 
-class SkillDelegateAdapter(
+class SkillDelegateAdapter @AssistedInject constructor(
     private val viewModelProvider: Provider<SkillViewModel>,
     private val recordUtil: RecordUtil,
+    @Assisted
     private val callback: SkillsFragmentCallback,
 ) : DelegateAdapter<Skill, SkillViewHolder> {
 
@@ -31,14 +34,8 @@ class SkillDelegateAdapter(
         holder.setItem(item)
     }
 
-    class Factory @Inject constructor(
-        private val viewModelProvider: Provider<SkillViewModel>,
-        private val recordUtil: RecordUtil,
-    ) {
-        fun create(
-            callback: SkillsFragmentCallback,
-        ): SkillDelegateAdapter {
-            return SkillDelegateAdapter(viewModelProvider, recordUtil, callback)
-        }
+    @AssistedFactory
+    interface Factory {
+        fun create(callback: SkillsFragmentCallback): SkillDelegateAdapter
     }
 }

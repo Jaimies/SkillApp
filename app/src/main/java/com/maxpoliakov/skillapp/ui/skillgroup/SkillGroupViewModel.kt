@@ -16,17 +16,16 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.GroupChartData
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SkillGroupViewModel @AssistedInject constructor(
-    @Assisted
-    private val groupId: Int,
+@HiltViewModel
+class SkillGroupViewModel @Inject constructor(
+    args: SkillGroupFragmentArgs,
     getGroup: GetGroupUseCase,
     private val getStats: GetStatsUseCase,
     stopwatchUtil: StopwatchUtil,
@@ -36,8 +35,9 @@ class SkillGroupViewModel @AssistedInject constructor(
 ) : DetailsViewModel(
     stopwatchUtil,
     getRecentCount,
-    getGroup.getById(groupId),
+    getGroup.getById(args.groupId),
 ) {
+    private val groupId = args.groupId
 
     private val _group = getGroup.getById(groupId)
     override val nameFlow = _group.map { it.name }
@@ -67,10 +67,5 @@ class SkillGroupViewModel @AssistedInject constructor(
 
     override suspend fun update(name: String) {
         updateGroup.update(groupId, name, goal.value)
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(groupId: Int): SkillGroupViewModel
     }
 }

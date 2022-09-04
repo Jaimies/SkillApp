@@ -22,22 +22,21 @@ import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.SkillChartData
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SkillDetailViewModel @AssistedInject constructor(
+@HiltViewModel
+class SkillDetailViewModel @Inject constructor(
     private val addRecord: AddRecordUseCase,
     private val manageSkill: ManageSkillUseCase,
     private val ioScope: CoroutineScope,
     private val stopwatchUtil: StopwatchUtil,
-    @Assisted
-    private val skillId: Int,
+    args: SkillDetailFragmentArgs,
     getSkillById: GetSkillByIdUseCase,
     getRecordsUseCase: GetRecordsUseCase,
     getRecentCount: GetRecentSkillCountUseCase,
@@ -45,8 +44,9 @@ class SkillDetailViewModel @AssistedInject constructor(
 ) : DetailsViewModel(
     stopwatchUtil,
     getRecentCount,
-    getSkillById.run(skillId),
+    getSkillById.run(args.skillId),
 ) {
+    private val skillId = args.skillId
 
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()
@@ -104,10 +104,5 @@ class SkillDetailViewModel @AssistedInject constructor(
 
     override suspend fun update(name: String) {
         manageSkill.updateSkill(skillId, name, goal.value)
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(skillId: Int): SkillDetailViewModel
     }
 }

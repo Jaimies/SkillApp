@@ -5,26 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.data.PieEntry
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillGroupFragBinding
 import com.maxpoliakov.skillapp.ui.common.DetailsFragment
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
     private lateinit var binding: SkillGroupFragBinding
-    private val args: SkillGroupFragmentArgs by navArgs()
 
-    @Inject
-    lateinit var viewModelFactory: SkillGroupViewModel.Factory
-
-    override val viewModel by viewModels { viewModelFactory.create(args.groupId) }
+    override val viewModel: SkillGroupViewModel by viewModels()
 
     override val chart get() = binding.productivityChart.chart
 

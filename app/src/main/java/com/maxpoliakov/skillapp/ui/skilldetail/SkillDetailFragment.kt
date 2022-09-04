@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
 import com.maxpoliakov.skillapp.ui.common.DetailsFragment
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.lifecycle.viewModels
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -26,19 +25,14 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     override val goalInput get() = binding.goalPicker.root
     override val recyclerView get() = binding.history.recyclerView
     override val history get() = binding.history.root
-
-    override val viewModel by viewModels { viewModelFactory.create(args.skillId) }
     override val chart get() = binding.productivityChart.chart
 
-    @Inject
-    lateinit var viewModelFactory: SkillDetailViewModel.Factory
+    override val viewModel: SkillDetailViewModel by viewModels()
 
     @Inject
     lateinit var recordUtil: RecordUtil
 
     private lateinit var binding: SkilldetailFragBinding
-
-    private val args: SkillDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

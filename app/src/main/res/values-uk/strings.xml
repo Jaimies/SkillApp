@@ -111,4 +111,7 @@
     <string name="intro_slide4_description">Зайдіть у Налаштування\u00A0>\u00A0«Резервне копіювання» та увійдіть у свій Google\u00A0Акаунт</string>
     <string name="support_app">Підтримати SkillApp</string>
     <string name="browser_not_found">Додаток браузера не знайдено</string>
+    <string name="duration_picker_interval">Інтервал вибору часу</string>
+    <string name="duration_1_min">1 хв</string>
+    <string name="duration_5_min">5 хв</string>
 </resources>

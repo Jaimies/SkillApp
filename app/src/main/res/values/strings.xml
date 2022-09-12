@@ -120,4 +120,7 @@
     <string name="browser_not_found">No browser app found</string>
     <string name="support_app_uri" translatable="false">https://www.buymeacoffee.com/skillapp</string>
     <string name="support_app">Support SkillApp</string>
+    <string name="duration_picker_interval">Duration picker interval</string>
+    <string name="duration_1_min">1min</string>
+    <string name="duration_5_min">5min</string>
 </resources>

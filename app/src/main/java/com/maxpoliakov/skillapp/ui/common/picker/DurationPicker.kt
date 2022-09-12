@@ -1,22 +1,38 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
+import android.content.SharedPreferences
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.data.persistence.getStringPreference
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.Duration
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DurationPicker : ValuePicker() {
     override val count: Long
         get() = Duration.ZERO
             .plusHours(firstPicker.value.toLong())
-            .plusMinutes(secondPicker.value.toLong() * 5)
+            .plusMinutes(secondPicker.value.toLong() * minutePickerInterval)
             .toMillis()
+
+    private val minutePickerInterval by lazy {
+        if (getPickerIntervalPreference() == "1_min") 1 else 5
+    }
+
+    @Inject
+    lateinit var sharedPrefs: SharedPreferences
 
     override fun getFirstPickerValues() = Array(24) { index ->
         requireContext().getString(R.string.time_hours, index.toString())
     }
 
-    override fun getSecondPickerValues() = Array(12) { index ->
-        requireContext().getString(R.string.time_minutes, (index * 5).toString())
+    override fun getSecondPickerValues() = Array(60 / minutePickerInterval) { index ->
+        requireContext().getString(R.string.time_minutes, (index * minutePickerInterval).toString())
+    }
+
+    private fun getPickerIntervalPreference(): String {
+        return sharedPrefs.getStringPreference("duration_picker_interval", "5_min")
     }
 
     class Builder : ValuePicker.Builder() {
@@ -37,6 +53,10 @@ class DurationPicker : ValuePicker() {
             setFirstPickerValue(duration.toHours().toInt())
             setSecondPickerValue(duration.toMinutesPartCompat().toInt() / 5)
         }
+    }
+
+    enum class Interval() {
+
     }
 
     companion object {

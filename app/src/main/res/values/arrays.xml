@@ -11,4 +11,14 @@
         <item>Dark</item>
         <item>Auto</item>
     </string-array>
+
+    <string-array name="duration_picker_interval_entries">
+        <item>@string/duration_5_min</item>
+        <item>@string/duration_1_min</item>
+    </string-array>
+
+    <string-array name="duration_picker_interval_values">
+        <item>5_min</item>
+        <item>1_min</item>
+    </string-array>
 </resources>

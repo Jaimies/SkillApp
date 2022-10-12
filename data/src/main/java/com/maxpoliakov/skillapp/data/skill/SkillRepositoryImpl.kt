@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,8 +28,9 @@ class SkillRepositoryImpl @Inject constructor(
     override fun getSkillsWithLastWeekCount(unit: MeasurementUnit): Flow<List<Skill>> {
         return _skills
             .map { it.filter { skill -> skill.unit == unit } }
-            .flatMapLatest {
-                combine(it.map { skillDao.getSkillFlow(it.id) }) {
+            .flatMapLatest { skills ->
+                if (skills.isEmpty()) flowOf(listOf())
+                else combine(skills.map { skillDao.getSkillFlow(it.id) }) {
                     it.map { it!!.mapToDomain() }
                 }
             }

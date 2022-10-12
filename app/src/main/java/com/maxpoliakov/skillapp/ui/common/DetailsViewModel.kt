@@ -57,9 +57,7 @@ abstract class DetailsViewModel(
 
     private val recordedCountFlow = flow.flatMapLatest { trackable ->
         val goal = trackable.goal ?: return@flatMapLatest flowOf(0L)
-
-        if (goal.type == Goal.Type.Daily) getRecentTime.getCountToday(trackable.id)
-        else getRecentTime.getCountThisWeek(trackable.id)
+        getRecentTime.getCountSinceStartOfInterval(trackable.id, goal.type.interval)
     }
 
     private val tick = flow {

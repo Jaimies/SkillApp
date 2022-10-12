@@ -64,7 +64,7 @@
                         android:id="@+id/progress_goal_indicator"
                         layout="@layout/progress_goal_indicator"
                         app:countToday="@{viewModel.timeToday}"
-                        app:goal="@{viewModel.group.goal}"
+                        app:goal="@{viewModel.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
                         app:unit="@{viewModel.unit}" />
 

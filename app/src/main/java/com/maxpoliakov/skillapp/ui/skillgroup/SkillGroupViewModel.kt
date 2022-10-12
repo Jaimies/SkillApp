@@ -14,6 +14,7 @@ import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Daily
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
+import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.ui.common.GroupChartData
@@ -46,7 +47,7 @@ class SkillGroupViewModel @Inject constructor(
     val chartData = GroupChartData(getStats, getGroup, groupId)
 
     val group = _group.asLiveData()
-    override val unit = group.map { group -> group.unit.mapToUI() }
+    override val unitFlow = _group.map { group -> group.unit.mapToUI() }
 
     val uiGoal = group.map { group -> group.goal?.mapToUI(group.unit) }
 
@@ -64,6 +65,6 @@ class SkillGroupViewModel @Inject constructor(
     }
 
     override suspend fun update(name: String) {
-        updateGroup.update(groupId, name, goal.value)
+        updateGroup.update(groupId, name, goal.value?.mapToDomain())
     }
 }

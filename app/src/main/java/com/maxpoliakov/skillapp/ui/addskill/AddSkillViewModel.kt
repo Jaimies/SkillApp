@@ -8,6 +8,7 @@ import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.mapToUI
 import com.maxpoliakov.skillapp.ui.common.EditableViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,11 +28,11 @@ class AddSkillViewModel @Inject constructor(
     val goToSkillDetail: LiveData<Int> get() = _goToSkillDetail
     private val _goToSkillDetail = SingleLiveEvent<Int>()
 
-    private val _goal = MutableStateFlow<Goal?>(null)
-    val goal = _goal.asLiveData()
+    private val _unit = MutableStateFlow(UiMeasurementUnit.Millis)
+    val unit = _unit.asLiveData()
 
-    private val _unit = MutableLiveData(UiMeasurementUnit.Millis)
-    val unit : LiveData<UiMeasurementUnit> get() = _unit
+    private val _goal = MutableStateFlow<Goal?>(null)
+    val goal = _goal.mapToUI(_unit).asLiveData()
 
     fun setMeasurementUnitIndex(index: Int) {
         _unit.value = UiMeasurementUnit.values()[index]
@@ -46,7 +47,7 @@ class AddSkillViewModel @Inject constructor(
                     name = name,
                     totalCount = count,
                     initialCount = count,
-                    goal = goal.value,
+                    goal = _goal.value,
                     unit = unit.value!!.toDomain(),
                 )
             )

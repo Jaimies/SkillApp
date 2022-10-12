@@ -79,7 +79,7 @@
                         android:id="@+id/progress_goal_indicator"
                         layout="@layout/progress_goal_indicator"
                         app:unit="@{viewModel.unit}"
-                        app:goal="@{viewModel.skillLiveData.goal}"
+                        app:goal="@{viewModel.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
                         app:countToday="@{viewModel.timeToday}" />
 

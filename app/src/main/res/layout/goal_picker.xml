@@ -10,7 +10,7 @@
 
         <variable
             name="goal"
-            type="com.maxpoliakov.skillapp.domain.model.Goal" />
+            type="com.maxpoliakov.skillapp.model.UiGoal" />
 
         <variable
             name="unit"
@@ -36,6 +36,6 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:onClick="@{() -> chooseGoal.invoke()}"
-            android:text="@{unit.formatGoal(context, goal)}" />
+            android:text="@{goal.format(context)}" />
     </com.google.android.material.textfield.TextInputLayout>
 </layout>

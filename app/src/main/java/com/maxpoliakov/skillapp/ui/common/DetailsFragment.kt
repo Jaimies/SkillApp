@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.ui.common.history.FragmentWithHistory
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
@@ -52,7 +53,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuI
         observe(viewModel.chooseGoal) {
             viewModel.unit.value!!.showGoalPicker(
                 requireContext(),
-                viewModel.goal.value,
+                viewModel.goal.value?.mapToDomain(),
                 onGoalSet = viewModel::setGoal
             )
         }

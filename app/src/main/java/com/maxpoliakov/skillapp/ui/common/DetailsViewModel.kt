@@ -11,6 +11,7 @@ import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.mapToUI
 import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.until
 import com.maxpoliakov.skillapp.ui.common.history.ViewModelWithHistory
@@ -32,8 +33,8 @@ abstract class DetailsViewModel(
     getRecentTime: GetRecentCountUseCase,
     flow: Flow<Trackable>,
 ) : ViewModelWithHistory() {
-    abstract val unit: LiveData<UiMeasurementUnit>
-
+    abstract val unitFlow: Flow<UiMeasurementUnit>
+    val unit by lazy { unitFlow.asLiveData() }
     protected abstract val nameFlow: Flow<String>
 
     private val _isEditing = MutableLiveData(false)
@@ -46,7 +47,7 @@ abstract class DetailsViewModel(
     val inputIsValid = name.map { it?.isBlank() == false }
 
     private val _goal = MutableStateFlow<Goal?>(null)
-    val goal = _goal.asLiveData()
+    val goal by lazy { _goal.mapToUI(unitFlow).asLiveData() }
 
     private val _chooseGoal = SingleLiveEvent<Any>()
     val chooseGoal: LiveData<Any> get() = _chooseGoal

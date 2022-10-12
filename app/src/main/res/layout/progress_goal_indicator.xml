@@ -6,7 +6,7 @@
 
         <variable
             name="goal"
-            type="com.maxpoliakov.skillapp.domain.model.Goal" />
+            type="com.maxpoliakov.skillapp.model.UiGoal" />
 
         <variable
             name="countToday"
@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{unit.formatGoal(context, goal, countToday)}"
+                android:text="@{goal.format(context, countToday)}"
                 android:lineSpacingExtra="4sp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textSize="19sp" />

@@ -205,27 +205,6 @@ enum class UiMeasurementUnit {
         dialog.show(fragmentManager, null)
     }
 
-    fun formatGoal(context: Context, goal: Goal?): String {
-        if (goal == null) return context.getString(R.string.goal_not_set)
-
-        val resId = if (goal.type == Goal.Type.Daily) R.string.daily_goal_without_progress
-        else R.string.weekly_goal_without_progress
-
-        return context.getString(resId, toShortString(goal.count, context))
-    }
-
-    fun formatGoal(context: Context, goal: Goal?, completedCount: Long?): String {
-        if (goal == null || completedCount == null) return ""
-
-        val stringResId = if (goal.type == Goal.Type.Daily) R.string.daily_goal else R.string.weekly_goal
-
-        return context.getString(
-            stringResId,
-            toShortString(completedCount, context),
-            toShortString(goal.count, context)
-        )
-    }
-
     companion object {
         fun from(unit: MeasurementUnit): UiMeasurementUnit {
             return values().find { uiUnit -> uiUnit.toDomain() == unit }

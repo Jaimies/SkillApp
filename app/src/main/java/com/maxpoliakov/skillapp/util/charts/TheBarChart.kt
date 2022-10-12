@@ -166,8 +166,8 @@ class TheBarChart : BarChart {
 
         axisLeft.run {
             removeAllLimitLines()
-            val label = goal.unit.toLongString(goal.goal.count, context)
-            val limitLine = LimitLine(goal.goal.count.toFloat(), label).apply {
+            val label = goal.unit.toLongString(goal.count, context)
+            val limitLine = LimitLine(goal.count.toFloat(), label).apply {
                 val color = context.textColor
                 lineWidth = 1f
                 lineColor = color
@@ -191,18 +191,18 @@ class TheBarChart : BarChart {
             axisLeft.resetAxisMaximum()
         } else {
             val axisMaximum = (entries?.maxByOrNull { it.y }?.y ?: 0f) * 1.1f
-            val goalTime = goal.goal.count.toFloat()
+            val goalTime = goal.count.toFloat()
 
             if (goalTime < axisMaximum) {
                 axisLeft.resetAxisMaximum()
             } else {
-                axisLeft.axisMaximum = goal.goal.count.toFloat().coerceAtLeast(axisMaximum)
+                axisLeft.axisMaximum = goal.count.toFloat().coerceAtLeast(axisMaximum)
             }
         }
     }
 
     private fun shouldDisplayGoal(goal: UiGoal): Boolean {
-        return goal.goal.type.interval.mapToUI() == intervalType
+        return goal.type.toDomain().interval.mapToUI() == intervalType
     }
 
     class CustomXAxisRenderer(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, trans: Transformer?) :

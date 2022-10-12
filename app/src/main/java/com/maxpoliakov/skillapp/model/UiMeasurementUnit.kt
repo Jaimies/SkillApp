@@ -228,11 +228,8 @@ enum class UiMeasurementUnit {
 
     companion object {
         fun from(unit: MeasurementUnit): UiMeasurementUnit {
-            return when (unit) {
-                MeasurementUnit.Millis -> Millis
-                MeasurementUnit.Meters -> Meters
-                MeasurementUnit.Times -> Times
-            }
+            return values().find { uiUnit -> uiUnit.toDomain() == unit }
+                ?: throw IllegalArgumentException("Unknown measurement unit: $unit")
         }
 
         fun MeasurementUnit.mapToUI() = from(this)

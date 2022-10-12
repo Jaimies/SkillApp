@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentGroupCountUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
+import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Daily
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class SkillGroupViewModel @Inject constructor(
     args: SkillGroupFragmentArgs,
     getGroup: GetGroupUseCase,
-    private val getStats: GetStatsUseCase,
+    getStats: GetStatsUseCase,
     stopwatchUtil: StopwatchUtil,
     getRecords: GetRecordsUseCase,
     getRecentCount: GetRecentGroupCountUseCase,
@@ -42,9 +43,6 @@ class SkillGroupViewModel @Inject constructor(
     private val _group = getGroup.getById(groupId)
     override val nameFlow = _group.map { it.name }
 
-    private val dailyStats = _group
-        .flatMapLatest { group -> getStats.getDailyStats(group.skills.map(Skill::id)) }
-
     val chartData = GroupChartData(getStats, getGroup, groupId)
 
     val group = _group.asLiveData()
@@ -52,7 +50,7 @@ class SkillGroupViewModel @Inject constructor(
 
     val uiGoal = group.map { group -> group.goal?.mapToUI(group.unit) }
 
-    val summary = _group.combine(dailyStats) { group, stats ->
+    val summary = _group.combine(chartData.getChartData(Daily)) { group, stats ->
         ProductivitySummary(group.totalCount, stats.sumByLong { it.count }, group.unit.mapToUI())
     }.asLiveData()
 

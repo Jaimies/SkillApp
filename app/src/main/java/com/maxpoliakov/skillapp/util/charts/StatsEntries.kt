@@ -2,14 +2,14 @@ package com.maxpoliakov.skillapp.util.charts
 
 import com.github.mikephil.charting.data.BarEntry
 import com.maxpoliakov.skillapp.domain.model.Statistic
-import com.maxpoliakov.skillapp.shared.util.EPOCH
-import com.maxpoliakov.skillapp.shared.util.getCurrentDate
+import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
-fun List<Statistic>.withMissingStats(unit: ChronoUnit = ChronoUnit.DAYS, startDate: LocalDate = getCurrentDate(), count: Int = 7): List<Statistic> {
-    return List(count) { index ->
-        val neededDate = startDate.minus(index.toLong(), unit)
+fun List<Statistic>.withMissingStats(interval: StatisticInterval): List<Statistic> {
+    return List(interval.numberOfValues) { index ->
+        val neededDate = interval
+            .atStartOfInterval(LocalDate.now())
+            .minus(index.toLong(), interval.unit)
 
         val item = find { chartItem -> chartItem.date == neededDate }
 
@@ -18,18 +18,13 @@ fun List<Statistic>.withMissingStats(unit: ChronoUnit = ChronoUnit.DAYS, startDa
     }.sortedBy { it.date }
 }
 
-fun List<Statistic>.toEntries(
-    unit: ChronoUnit = ChronoUnit.DAYS,
-    convertDateToNumber: (date: LocalDate) -> Long = { date -> unit.between(EPOCH, date) }
-): List<BarEntry>? {
-    if (!this.hasPositiveValues())
-        return null
-
-    return this.convertToEntries(convertDateToNumber)
+fun List<Statistic>.toEntries(interval: StatisticInterval): List<BarEntry>? {
+    if (this.hasNoPositiveValues()) return null
+    return this.convertToEntries(interval::toNumber)
 }
 
-private fun List<Statistic>.hasPositiveValues(): Boolean {
-    return this.any { it.count > 0 }
+private fun List<Statistic>.hasNoPositiveValues(): Boolean {
+    return this.none { it.count > 0 }
 }
 
 private fun List<Statistic>.convertToEntries(

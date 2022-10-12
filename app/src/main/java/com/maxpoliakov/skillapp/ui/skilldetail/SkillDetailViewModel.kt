@@ -40,7 +40,7 @@ class SkillDetailViewModel @Inject constructor(
     getSkillById: GetSkillByIdUseCase,
     getRecordsUseCase: GetRecordsUseCase,
     getRecentCount: GetRecentSkillCountUseCase,
-    getStats: GetStatsUseCase
+    getStats: GetStatsUseCase,
 ) : DetailsViewModel(
     stopwatchUtil,
     getRecentCount,

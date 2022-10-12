@@ -22,12 +22,9 @@ class StatisticsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
     getStats: GetStatsUseCase
 ) : ViewModel() {
-    val chartData = SkillChartDataThatOnlyDisplaysHours(getSkills, getStats, viewModelScope)
+    val chartData = SkillChartDataThatOnlyDisplaysHours(getSkills, getStats)
 
     val summary = getSkills.getSkillsWithLastWeekTime(MeasurementUnit.Millis).map { skills ->
-        if (skills.isEmpty())
-            return@map ProductivitySummary.ZERO
-
         calculateSummary(skills)
     }.asLiveData()
 

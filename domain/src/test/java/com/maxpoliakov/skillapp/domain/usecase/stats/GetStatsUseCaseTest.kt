@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.domain.usecase.stats
 
 import com.maxpoliakov.skillapp.domain.model.Statistic
+import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.domain.usecase.stub.StubSkillStatsRepository
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
 import com.maxpoliakov.skillapp.test.await
@@ -30,7 +31,7 @@ class GetStatsUseCaseTest : StringSpec({
 
         val useCase = GetStatsUseCase(statsRepository)
 
-        useCase.getWeeklyStats(listOf(1, 2)).await() shouldBe listOf(
+        useCase.getStats(listOf(1, 2), StatisticInterval.Weekly).await() shouldBe listOf(
             Statistic(referenceDate, Duration.ofHours(12).toMillis()),
             Statistic(referenceDate.minusWeeks(1), Duration.ofHours(8).toMillis()),
             Statistic(referenceDate.minusWeeks(3), Duration.ofHours(4).toMillis()),

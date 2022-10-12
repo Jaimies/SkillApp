@@ -50,9 +50,8 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.chartData.statisticType) { type ->
-            binding.productivityChart.chart.update(type, viewModel.chartData, viewLifecycleOwner)
-        }
+        observe(viewModel.chartData.stats, binding.productivityChart.chart::update)
+
         observe(viewModel.showRecordDialog) { showRecordDialog() }
         observe(viewModel.showRecordAdded) { record ->
             if (record != null) recordUtil.notifyRecordAdded(requireView(), record)

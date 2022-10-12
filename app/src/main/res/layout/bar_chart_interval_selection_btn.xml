@@ -10,13 +10,13 @@
 
         <variable
             name="activeIntervalType"
-            type="ChronoUnit" />
+            type="StatisticInterval" />
 
         <variable
             name="label"
             type="String" />
 
-        <import type="java.time.temporal.ChronoUnit" />
+        <import type="com.maxpoliakov.skillapp.domain.model.StatisticInterval" />
     </data>
 
     <FrameLayout
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="0dp"
-            android:alpha="@{data.statisticType == activeIntervalType ? 1f : 0.4f}"
+            android:alpha="@{data.stats.interval.mapToDomain() == activeIntervalType ? 1f : 0.4f}"
             android:minHeight="0dp"
             android:onClick="@{() -> data.setStatisticType(activeIntervalType)}"
             android:paddingHorizontal="0dp"

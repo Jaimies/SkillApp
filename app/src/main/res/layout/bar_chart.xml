@@ -16,7 +16,7 @@
             name="unit"
             type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
 
-        <import type="java.time.temporal.ChronoUnit" />
+        <import type="com.maxpoliakov.skillapp.domain.model.StatisticInterval" />
     </data>
 
     <FrameLayout
@@ -48,19 +48,19 @@
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{ChronoUnit.DAYS}"
+                    app:activeIntervalType="@{StatisticInterval.Daily}"
                     app:data="@{data}"
                     app:label="@{@string/one_day}" />
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{ChronoUnit.WEEKS}"
+                    app:activeIntervalType="@{StatisticInterval.Weekly}"
                     app:data="@{data}"
                     app:label="@{@string/one_week}" />
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{ChronoUnit.MONTHS}"
+                    app:activeIntervalType="@{StatisticInterval.Monthly}"
                     app:data="@{data}"
                     app:label="@{@string/one_month}" />
             </LinearLayout>

@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Typeface
 import android.util.AttributeSet
-import androidx.lifecycle.LifecycleOwner
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.LimitLine.LimitLabelPosition
@@ -19,17 +18,15 @@ import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
-import com.maxpoliakov.skillapp.ui.common.ChartData
+import com.maxpoliakov.skillapp.model.UiStatisticInterval
+import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
 import com.maxpoliakov.skillapp.ui.common.DayFormatter
-import com.maxpoliakov.skillapp.ui.common.MonthFormatter
-import com.maxpoliakov.skillapp.ui.common.WeekFormatter
 import com.maxpoliakov.skillapp.util.ui.primaryColor
 import com.maxpoliakov.skillapp.util.ui.sp
 import com.maxpoliakov.skillapp.util.ui.textColor
-import java.time.temporal.ChronoUnit
 
 class TheBarChart : BarChart {
     constructor(context: Context?) : super(context)
@@ -37,7 +34,7 @@ class TheBarChart : BarChart {
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
     private var entries: List<BarEntry>? = null
-    private var formatterType: ChronoUnit? = null
+    private var intervalType: UiStatisticInterval? = null
     private var unit = UiMeasurementUnit.Millis
     private var goal: UiGoal? = null
 
@@ -205,8 +202,7 @@ class TheBarChart : BarChart {
     }
 
     private fun shouldDisplayGoal(goal: UiGoal): Boolean {
-        return goal.goal.type == Goal.Type.Daily && formatterType == ChronoUnit.DAYS
-                || goal.goal.type == Goal.Type.Weekly && formatterType == ChronoUnit.WEEKS
+        return goal.goal.type.interval.mapToUI() == intervalType
     }
 
     class CustomXAxisRenderer(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, trans: Transformer?) :
@@ -228,50 +224,25 @@ class TheBarChart : BarChart {
         }
     }
 
-    private fun setFormatterType(type: ChronoUnit) {
-        if (type == this.formatterType) return
+    private fun setFormatterType(interval: UiStatisticInterval) {
+        if (interval == this.intervalType) return
 
-        formatterType = type
+        intervalType = interval
 
-        xAxis.valueFormatter = when (type) {
-            ChronoUnit.DAYS -> DayFormatter()
-            ChronoUnit.WEEKS -> WeekFormatter()
-            ChronoUnit.MONTHS -> MonthFormatter()
-            else -> return
-        }
+        xAxis.valueFormatter = interval.valueFormatter
 
-        if (type == ChronoUnit.DAYS) {
-            viewPortHandler.setMaximumScaleX(8f)
-            viewPortHandler.setMinimumScaleX(4f)
-            setScaleEnabled(true)
-            entries?.let { entries -> zoom(8f, 1f, entries.last().x, 0f) }
-        } else {
-            viewPortHandler.setMaximumScaleX(3f)
-            viewPortHandler.setMinimumScaleX(3f)
-            entries?.let { entries -> zoom(3f, 1f, entries.last().x, 0f) }
-            setScaleEnabled(false)
-        }
+        viewPortHandler.setMaximumScaleX(interval.maxScale)
+        viewPortHandler.setMinimumScaleX(interval.minScale)
+        setScaleEnabled(interval.scaleEnabled)
+        entries?.let { entries -> zoom(interval.maxScale, 1f, entries.last().x, 0f) }
 
         displayGoal(goal)
         invalidate()
     }
 
-    fun update(type: ChronoUnit, chartData: ChartData, viewLifecycleOwner: LifecycleOwner) {
-        val stats = when (type) {
-            ChronoUnit.DAYS -> chartData.dailyStats
-            ChronoUnit.WEEKS -> chartData.weeklyStats
-            ChronoUnit.MONTHS -> chartData.monthlyStats
-            else -> return
-        }
-
-        chartData.dailyStats.removeObservers(viewLifecycleOwner)
-        chartData.weeklyStats.removeObservers(viewLifecycleOwner)
-        chartData.monthlyStats.removeObservers(viewLifecycleOwner)
-
-        stats.observe(viewLifecycleOwner) { state ->
-            setState(state)
-            setFormatterType(type)
-        }
+    fun update(data: BarChartData) {
+        setState(data.entries)
+        setFormatterType(data.interval)
     }
 
     fun setUnit(unit: UiMeasurementUnit) {

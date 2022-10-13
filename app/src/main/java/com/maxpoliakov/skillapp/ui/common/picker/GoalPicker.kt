@@ -18,7 +18,7 @@ abstract class GoalPicker<T> : PickerDialog() {
     open fun getWeeklyPickerValue(value: T): String = getPickerValue(value)
 
     override fun getFirstPickerValues() = goalTypes.map { type ->
-        requireContext().getString(type?.goalNameStringResId ?: R.string.no_plan)
+        requireContext().getString(type?.goalResId ?: R.string.no_plan)
     }.toTypedArray()
 
     override fun getSecondPickerValues(): Array<String> {

@@ -16,7 +16,7 @@ data class UiGoal(
 ) {
     fun format(context: Context): String {
         return context.getString(
-            type.goalWithoutProgressStringResId,
+            type.goalWithValueResId,
             unit.toShortString(count, context)
         )
     }
@@ -25,7 +25,7 @@ data class UiGoal(
         if (completedCount == null) return ""
 
         return context.getString(
-            type.goalStringResId,
+            type.goalWithValueAndProgressResId,
             unit.toShortString(completedCount, context),
             unit.toShortString(count, context),
         )
@@ -33,23 +33,23 @@ data class UiGoal(
 
     enum class Type : MappableEnum<Type, Goal.Type> {
         Daily {
-            override val goalNameStringResId get() = R.string.plan_daily
-            override val goalStringResId get() = R.string.daily_goal
-            override val goalWithoutProgressStringResId get() = R.string.daily_goal_without_progress
+            override val goalResId get() = R.string.plan_daily
+            override val goalWithValueAndProgressResId get() = R.string.daily_goal
+            override val goalWithValueResId get() = R.string.daily_goal_without_progress
 
             override fun toDomain() = Goal.Type.Daily
         },
         Weekly {
-            override val goalNameStringResId get() = R.string.plan_weekly
-            override val goalStringResId get() = R.string.weekly_goal
-            override val goalWithoutProgressStringResId get() = R.string.weekly_goal_without_progress
+            override val goalResId get() = R.string.plan_weekly
+            override val goalWithValueAndProgressResId get() = R.string.weekly_goal
+            override val goalWithValueResId get() = R.string.weekly_goal_without_progress
 
             override fun toDomain() = Goal.Type.Weekly
         };
 
-        abstract val goalNameStringResId: Int
-        abstract val goalStringResId: Int
-        abstract val goalWithoutProgressStringResId: Int
+        abstract val goalResId: Int
+        abstract val goalWithValueAndProgressResId: Int
+        abstract val goalWithValueResId: Int
 
         companion object : MappableEnum.Companion<Type, Goal.Type>(values())
     }

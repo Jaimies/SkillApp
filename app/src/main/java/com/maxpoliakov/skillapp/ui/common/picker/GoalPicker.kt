@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.model.UiGoal
+import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 
 abstract class GoalPicker<T> : PickerDialog() {
     private lateinit var goalStringValues: Array<Array<String>>
@@ -15,8 +17,8 @@ abstract class GoalPicker<T> : PickerDialog() {
 
     open fun getWeeklyPickerValue(value: T): String = getPickerValue(value)
 
-    override fun getFirstPickerValues() = firstPickerValueResIds.map { resId ->
-        requireContext().getString(resId)
+    override fun getFirstPickerValues() = goalTypes.map { type ->
+        requireContext().getString(type?.goalNameStringResId ?: R.string.no_plan)
     }.toTypedArray()
 
     override fun getSecondPickerValues(): Array<String> {
@@ -28,7 +30,7 @@ abstract class GoalPicker<T> : PickerDialog() {
             val type = goalTypes[firstPicker.value] ?: return null
             val values = goalValues[firstPicker.value]
 
-            return Goal(toLong(values[secondPicker.value]), type)
+            return Goal(toLong(values[secondPicker.value]), type.toDomain())
         }
 
     override fun onAttach(context: Context) {
@@ -75,7 +77,7 @@ abstract class GoalPicker<T> : PickerDialog() {
             }
 
             runCatching {
-                val goalValue = goalTypes.indexOf(goal.type).coerceAtLeast(0)
+                val goalValue = goalTypes.indexOf(goal.type.mapToUI()).coerceAtLeast(0)
                 setFirstPickerValue(goalValue)
 
                 val durationValue = getSecondPickerValue(goalValue, goal.count).coerceAtLeast(0)
@@ -87,7 +89,6 @@ abstract class GoalPicker<T> : PickerDialog() {
     }
 
     companion object {
-        private val goalTypes = arrayOf(null, Goal.Type.Daily, Goal.Type.Weekly)
-        private val firstPickerValueResIds = arrayOf(R.string.no_plan, R.string.plan_daily, R.string.plan_weekly)
+        private val goalTypes = arrayOf(null, *UiGoal.Type.values())
     }
 }

@@ -33,18 +33,21 @@ data class UiGoal(
 
     enum class Type : MappableEnum<Type, Goal.Type> {
         Daily {
+            override val goalNameStringResId get() = R.string.plan_daily
             override val goalStringResId get() = R.string.daily_goal
             override val goalWithoutProgressStringResId get() = R.string.daily_goal_without_progress
 
             override fun toDomain() = Goal.Type.Daily
         },
         Weekly {
+            override val goalNameStringResId get() = R.string.plan_weekly
             override val goalStringResId get() = R.string.weekly_goal
             override val goalWithoutProgressStringResId get() = R.string.weekly_goal_without_progress
 
             override fun toDomain() = Goal.Type.Weekly
         };
 
+        abstract val goalNameStringResId: Int
         abstract val goalStringResId: Int
         abstract val goalWithoutProgressStringResId: Int
 

@@ -31,7 +31,7 @@ data class UiGoal(
         )
     }
 
-    enum class Type {
+    enum class Type : MappableEnum<Type, Goal.Type> {
         Daily {
             override val goalStringResId get() = R.string.daily_goal
             override val goalWithoutProgressStringResId get() = R.string.daily_goal_without_progress
@@ -48,16 +48,7 @@ data class UiGoal(
         abstract val goalStringResId: Int
         abstract val goalWithoutProgressStringResId: Int
 
-        abstract fun toDomain(): Goal.Type
-
-        companion object {
-            fun from(type: Goal.Type): Type {
-                return values().find { uiUnit -> uiUnit.toDomain() == type }
-                    ?: throw IllegalArgumentException("Unknown measurement unit: $type")
-            }
-
-            fun Goal.Type.mapToUI(): Type = from(this)
-        }
+        companion object : MappableEnum.Companion<Type, Goal.Type>(values())
     }
 
     companion object {

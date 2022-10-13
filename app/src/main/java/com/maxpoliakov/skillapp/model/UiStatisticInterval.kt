@@ -6,26 +6,26 @@ import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.ui.common.MonthFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekFormatter
 
-enum class UiStatisticInterval {
+enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInterval> {
     Daily {
         override val valueFormatter get() = DayFormatter()
         override val scaleEnabled get() = true
         override val minScale get() = 4f
         override val maxScale get() = 8f
 
-        override fun mapToDomain() = StatisticInterval.Daily
+        override fun toDomain() = StatisticInterval.Daily
     },
 
     Weekly {
         override val valueFormatter get() = WeekFormatter()
 
-        override fun mapToDomain() = StatisticInterval.Weekly
+        override fun toDomain() = StatisticInterval.Weekly
     },
 
     Monthly {
         override val valueFormatter get() = MonthFormatter()
 
-        override fun mapToDomain() = StatisticInterval.Monthly
+        override fun toDomain() = StatisticInterval.Monthly
     },
     ;
 
@@ -35,14 +35,5 @@ enum class UiStatisticInterval {
     open val minScale = 3f
     open val maxScale = 3f
 
-    abstract fun mapToDomain(): StatisticInterval
-
-    companion object {
-        fun from(unit: StatisticInterval): UiStatisticInterval {
-            return values().find { uiUnit -> uiUnit.mapToDomain() == unit }
-                ?: throw IllegalArgumentException("Unknown measurement unit: $unit")
-        }
-
-        fun StatisticInterval.mapToUI() = from(this)
-    }
+    companion object : MappableEnum.Companion<UiStatisticInterval, StatisticInterval>(values())
 }

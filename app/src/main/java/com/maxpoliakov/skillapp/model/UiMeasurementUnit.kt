@@ -20,7 +20,7 @@ import com.maxpoliakov.skillapp.util.ui.format
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
 
-enum class UiMeasurementUnit {
+enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> {
     Millis {
         override val totalCountStringResId = R.string.total_hours
         override val initialTimeResId = R.string.initial_time
@@ -170,8 +170,6 @@ enum class UiMeasurementUnit {
     abstract fun getValuePickerBuilder(): ValuePicker.Builder
     abstract fun getGoalPickerBuilder(): GoalPicker.Builder
 
-    abstract fun toDomain(): MeasurementUnit
-
     fun showPicker(
         context: Context,
         initialCount: Long = 0,
@@ -205,12 +203,5 @@ enum class UiMeasurementUnit {
         dialog.show(fragmentManager, null)
     }
 
-    companion object {
-        fun from(unit: MeasurementUnit): UiMeasurementUnit {
-            return values().find { uiUnit -> uiUnit.toDomain() == unit }
-                ?: throw IllegalArgumentException("Unknown measurement unit: $unit")
-        }
-
-        fun MeasurementUnit.mapToUI() = from(this)
-    }
+    companion object : MappableEnum.Companion<UiMeasurementUnit, MeasurementUnit>(values())
 }

@@ -16,7 +16,7 @@
             name="unit"
             type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
 
-        <import type="com.maxpoliakov.skillapp.domain.model.StatisticInterval" />
+        <import type="com.maxpoliakov.skillapp.model.UiStatisticInterval" />
     </data>
 
     <FrameLayout
@@ -48,19 +48,19 @@
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{StatisticInterval.Daily}"
+                    app:activeIntervalType="@{UiStatisticInterval.Daily}"
                     app:data="@{data}"
                     app:label="@{@string/one_day}" />
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{StatisticInterval.Weekly}"
+                    app:activeIntervalType="@{UiStatisticInterval.Weekly}"
                     app:data="@{data}"
                     app:label="@{@string/one_week}" />
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{StatisticInterval.Monthly}"
+                    app:activeIntervalType="@{UiStatisticInterval.Monthly}"
                     app:data="@{data}"
                     app:label="@{@string/one_month}" />
             </LinearLayout>

@@ -9,6 +9,7 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.BarChartData
+import com.maxpoliakov.skillapp.model.UiStatisticInterval
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,6 +35,8 @@ abstract class ChartData(private val getStats: GetStatsUseCase) {
     fun setStatisticType(type: StatisticInterval) {
         statisticType.value = type
     }
+
+    fun setStatisticType(type: UiStatisticInterval) = setStatisticType(type.toDomain())
 
     fun getChartData(interval: StatisticInterval): Flow<List<Statistic>> {
         return skillIdsFlow.flatMapLatest { ids ->

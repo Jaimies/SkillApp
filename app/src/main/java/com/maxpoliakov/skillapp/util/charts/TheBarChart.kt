@@ -217,6 +217,9 @@ class TheBarChart : BarChart {
         ) {
             val line = formattedLabel.split("\n").toTypedArray()
             Utils.drawXAxisValue(c, line[0], x, y, mAxisLabelPaint, anchor, angleDegrees)
+
+            if (line.size == 1) return
+
             Utils.drawXAxisValue(
                 c,
                 line[1], x, y + mAxisLabelPaint.textSize, mAxisLabelPaint, anchor, angleDegrees

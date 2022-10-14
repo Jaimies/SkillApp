@@ -9,9 +9,7 @@ import com.maxpoliakov.skillapp.ui.common.WeekFormatter
 enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInterval> {
     Daily {
         override val valueFormatter get() = DayFormatter()
-        override val scaleEnabled get() = true
-        override val minScale get() = 4f
-        override val maxScale get() = 8f
+        override val numberOfValuesVisibleAtOnce get() = 7..14
 
         override fun toDomain() = StatisticInterval.Daily
     },
@@ -31,9 +29,16 @@ enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInte
 
     abstract val valueFormatter: ValueFormatter
 
-    open val scaleEnabled = false
-    open val minScale = 3f
-    open val maxScale = 3f
+    open val numberOfValuesVisibleAtOnce get() = 7..7
+
+    val scaleEnabled get() = numberOfValuesVisibleAtOnce.first != numberOfValuesVisibleAtOnce.last
+
+    val minScale get() = scaleToDisplayNValues(numberOfValuesVisibleAtOnce.last)
+    val maxScale get() = scaleToDisplayNValues(numberOfValuesVisibleAtOnce.first)
+
+    private fun scaleToDisplayNValues(numberOfValues: Int): Float {
+        return toDomain().numberOfValues / numberOfValues.toFloat()
+    }
 
     companion object : MappableEnum.Companion<UiStatisticInterval, StatisticInterval>(values())
 }

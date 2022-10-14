@@ -5,6 +5,7 @@ import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.ui.common.MonthFormatter
 import com.maxpoliakov.skillapp.ui.common.WeekFormatter
+import com.maxpoliakov.skillapp.ui.common.YearFormatter
 
 enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInterval> {
     Daily {
@@ -25,6 +26,12 @@ enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInte
 
         override fun toDomain() = StatisticInterval.Monthly
     },
+
+    Yearly {
+        override val valueFormatter get() = YearFormatter()
+
+        override fun toDomain() = StatisticInterval.Yearly
+    }
     ;
 
     abstract val valueFormatter: ValueFormatter

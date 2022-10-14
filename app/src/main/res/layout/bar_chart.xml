@@ -63,6 +63,12 @@
                     app:activeIntervalType="@{UiStatisticInterval.Monthly}"
                     app:data="@{data}"
                     app:label="@{@string/one_month}" />
+
+                <include
+                    layout="@layout/bar_chart_interval_selection_btn"
+                    app:activeIntervalType="@{UiStatisticInterval.Yearly}"
+                    app:data="@{data}"
+                    app:label="@{@string/one_year}" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </FrameLayout>

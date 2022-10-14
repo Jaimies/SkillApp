@@ -25,3 +25,10 @@ class MonthFormatter : ValueFormatter() {
         return "${date.month.shortName}\n${date.year % 100}"
     }
 }
+
+class YearFormatter: ValueFormatter() {
+    override fun getFormattedValue(value: Float): String {
+        val date = EPOCH.plusYears(value.toLong())
+        return date.year.toString()
+    }
+}

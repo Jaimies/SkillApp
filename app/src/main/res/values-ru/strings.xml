@@ -114,4 +114,5 @@
     <string name="duration_picker_interval">Интервал выбора времени</string>
     <string name="duration_1_min">1 мин</string>
     <string name="duration_5_min">5 мин</string>
+    <string name="one_year">годы</string>
 </resources>

@@ -15,7 +15,7 @@ open class GetRecentCountUseCaseImpl(
         val startOfInterval = interval.atStartOfInterval(getCurrentDate())
         val daysCount = startOfInterval.until(getCurrentDate(), ChronoUnit.DAYS) + 1
         val dailyTimes = List(daysCount.toInt()) { index ->
-            statsRepository.getCountAtDate(skillId, startOfInterval.plusDays(index.toLong()))
+            statsRepository.getCountAtDateFlow(skillId, startOfInterval.plusDays(index.toLong()))
         }
 
         return combine(dailyTimes) { times -> times.sum() }

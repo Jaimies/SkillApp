@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.model
 
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
+import java.time.Duration
 import java.time.LocalDate
 
 sealed class HistoryUiModel {
@@ -15,6 +16,7 @@ sealed class HistoryUiModel {
 
     data class Separator(
         val date: LocalDate,
+        val totalTime: Duration,
     ) : HistoryUiModel()
 }
 

@@ -14,7 +14,8 @@ fun Float.toReadableFloat(): String {
     return if (string.last() == '0') string.dropLast(2) else string
 }
 
-fun Context.toReadableDate(date: LocalDate): String {
+fun Context.toReadableDate(date: LocalDate?): String {
+    if (date == null) return ""
     if (date == getCurrentDate()) return getString(R.string.today)
     if (date == getCurrentDate().minusDays(1)) return getString(R.string.yesterday)
     if(date.year == getCurrentDate().year) return getString(R.string.date, date.dayOfWeek.shortName, date.month.shortName, date.dayOfMonth)

@@ -26,7 +26,11 @@ class SkillStatsRepositoryImpl @Inject constructor(
         statsDao.addRecord(record.skillId, record.date, record.count)
     }
 
-    override fun getCountAtDate(id: Id, date: LocalDate): Flow<Long> {
-        return statsDao.getCountAtDate(id, date).map { time -> time ?: 0 }
+    override fun getCountAtDateFlow(id: Id, date: LocalDate): Flow<Long> {
+        return statsDao.getCountAtDateFlow(id, date).map { time -> time ?: 0 }
+    }
+
+    override suspend fun getCountAtDate(id: Id, date: LocalDate): Long {
+        return statsDao.getCountAtDate(id, date) ?: 0
     }
 }

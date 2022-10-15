@@ -9,6 +9,8 @@ import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.mapToPresentation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.Duration
+import java.time.LocalDate
 
 abstract class ViewModelWithHistory : ViewModel() {
     protected abstract val recordPagingData: Flow<PagingData<Record>>
@@ -19,11 +21,23 @@ abstract class ViewModelWithHistory : ViewModel() {
         }
     }
 
+    protected abstract suspend fun getTimeAtDate(date: LocalDate): Duration
+
     private fun PagingData<HistoryUiModel.Record>.withSeparators(): PagingData<HistoryUiModel> {
-        return this.insertSeparators { record, record2 ->
-            if (record2 != null && record?.date != record2.date)
-                HistoryUiModel.Separator(record2.date)
-            else null
-        }
+        return this.insertSeparators(generator = ::createSeparatorIfNeeded)
+    }
+
+    private suspend fun createSeparatorIfNeeded(
+        record: HistoryUiModel.Record?,
+        record2: HistoryUiModel.Record?
+    ): HistoryUiModel.Separator? {
+        if (record2 != null && record?.date != record2.date)
+            return createSeparator(record2)
+
+        return null
+    }
+
+    private suspend fun createSeparator(record: HistoryUiModel.Record): HistoryUiModel.Separator {
+        return HistoryUiModel.Separator(record.date, getTimeAtDate(record.date))
     }
 }

@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.maxpoliakov.skillapp.data.db.BaseDao
 import kotlinx.coroutines.flow.Flow
-import java.time.Duration
 import java.time.LocalDate
 
 @Dao
@@ -31,7 +30,10 @@ interface StatsDao : BaseDao<DBStatistic> {
     fun getStats(skillId: Int, daysAgoStart: Long): Flow<List<DBStatistic>>
 
     @Query("SELECT time from stats WHERE skillId = :skillId AND date = :date")
-    fun getCountAtDate(skillId: Int, date: LocalDate): Flow<Long?>
+    fun getCountAtDateFlow(skillId: Int, date: LocalDate): Flow<Long?>
+
+    @Query("SELECT time from stats WHERE skillId = :skillId AND date = :date")
+    suspend fun getCountAtDate(skillId: Int, date: LocalDate): Long?
 
     @Query("SELECT * FROM stats")
     suspend fun getAllStats(): List<DBStatistic>

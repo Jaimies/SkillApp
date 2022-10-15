@@ -14,6 +14,7 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentSkillCountUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
+import com.maxpoliakov.skillapp.domain.usecase.stats.GetTimeAtDateUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +44,7 @@ class SkillDetailViewModel @Inject constructor(
     getRecordsUseCase: GetRecordsUseCase,
     getRecentCount: GetRecentSkillCountUseCase,
     getStats: GetStatsUseCase,
+    private val getTimeAtDate: GetTimeAtDateUseCase,
 ) : DetailsViewModel(
     stopwatchUtil,
     getRecentCount,
@@ -77,6 +80,8 @@ class SkillDetailViewModel @Inject constructor(
     override val nameFlow = skill.map { it.name }
 
     override val recordPagingData = getRecordsUseCase.run(skillId)
+
+    override suspend fun getTimeAtDate(date: LocalDate) = getTimeAtDate.run(skillId, date)
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
         return state.skillId == skillId

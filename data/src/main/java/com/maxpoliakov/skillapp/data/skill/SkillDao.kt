@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.maxpoliakov.skillapp.data.db.BaseDao
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import kotlinx.coroutines.flow.Flow
 import java.time.Duration
 
@@ -28,6 +29,9 @@ interface SkillDao : BaseDao<DBSkill> {
         WHERE skills.id = :id"""
     )
     fun getSkillFlow(id: Int): Flow<DBSkill?>
+
+    @Query("SELECT * FROM skills WHERE unit = :unit")
+    suspend fun getSkillsWithMeasurementUnit(unit: MeasurementUnit): List<DBSkill>
 
     @Query("SELECT * FROM skills WHERE id = :id")
     fun getSkill(id: Int): DBSkill?

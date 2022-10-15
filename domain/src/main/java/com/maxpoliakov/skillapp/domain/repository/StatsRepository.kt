@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface StatsRepository {
-    fun getCountAtDate(id: Id, date: LocalDate): Flow<Long>
+    fun getCountAtDateFlow(id: Id, date: LocalDate): Flow<Long>
+    suspend fun getCountAtDate(id: Id, date: LocalDate): Long
 }

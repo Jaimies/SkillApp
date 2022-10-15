@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface SkillRepository {
     fun getSkills(): Flow<List<Skill>>
     fun getSkillsWithLastWeekCount(unit: MeasurementUnit): Flow<List<Skill>>
+    suspend fun getSkillsWithMeasurementUnit(unit: MeasurementUnit): List<Skill>
 
     fun getSkillFlowById(id: Id): Flow<Skill>
     fun getTopSkills(count: Int): Flow<List<Skill>>

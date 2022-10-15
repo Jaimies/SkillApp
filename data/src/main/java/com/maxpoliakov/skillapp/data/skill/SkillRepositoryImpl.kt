@@ -36,6 +36,10 @@ class SkillRepositoryImpl @Inject constructor(
             }
     }
 
+    override suspend fun getSkillsWithMeasurementUnit(unit: MeasurementUnit): List<Skill> {
+        return skillDao.getSkillsWithMeasurementUnit(unit).map(DBSkill::mapToDomain)
+    }
+
     override fun getSkillFlowById(id: Int) = skillDao.getSkillFlow(id)
         .filterNotNull()
         .map { it.mapToDomain() }

@@ -5,6 +5,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
 
+@JvmOverloads
 fun Duration?.format(context: Context, timeHoursAndMinutesResId: Int = R.string.time_hours_and_minutes): String {
     if (this == null) return ""
 

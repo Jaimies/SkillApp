@@ -4,24 +4,28 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import androidx.paging.insertSeparators
 import androidx.paging.map
-import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
+import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.mapToPresentation
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.Duration
 import java.time.LocalDate
 
-abstract class ViewModelWithHistory : ViewModel() {
-    protected abstract val recordPagingData: Flow<PagingData<Record>>
+abstract class ViewModelWithHistory(
+    private val getHistory: GetHistoryUseCase,
+) : ViewModel() {
+    protected abstract val selectionCriteria: SelectionCriteria
 
     val records by lazy {
-        recordPagingData.map { data ->
+        getHistory.getRecords(selectionCriteria).map { data ->
             data.map { it.mapToPresentation() }.withSeparators()
         }
     }
 
-    protected abstract suspend fun getTimeAtDate(date: LocalDate): Duration
+    private suspend fun getTimeAtDate(date: LocalDate): Duration {
+        return getHistory.getTimeAtDate(selectionCriteria, date)
+    }
 
     private fun PagingData<HistoryUiModel.Record>.withSeparators(): PagingData<HistoryUiModel> {
         return this.insertSeparators(generator = ::createSeparatorIfNeeded)

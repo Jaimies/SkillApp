@@ -9,6 +9,7 @@ import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.model.mapToUI
@@ -31,8 +32,9 @@ import java.time.ZonedDateTime
 abstract class DetailsViewModel(
     stopwatchUtil: StopwatchUtil,
     getRecentTime: GetRecentCountUseCase,
+    getHistory: GetHistoryUseCase,
     flow: Flow<Trackable>,
-) : ViewModelWithHistory() {
+) : ViewModelWithHistory(getHistory) {
     abstract val unitFlow: Flow<UiMeasurementUnit>
     val unit by lazy { unitFlow.asLiveData() }
     protected abstract val nameFlow: Flow<String>

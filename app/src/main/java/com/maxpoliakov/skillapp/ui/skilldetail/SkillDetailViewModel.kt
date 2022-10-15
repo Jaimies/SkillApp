@@ -5,16 +5,16 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
-import com.maxpoliakov.skillapp.domain.usecase.records.GetRecordsUseCase
+import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentSkillCountUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
-import com.maxpoliakov.skillapp.domain.usecase.stats.GetTimeAtDateUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,16 +40,17 @@ class SkillDetailViewModel @Inject constructor(
     private val stopwatchUtil: StopwatchUtil,
     args: SkillDetailFragmentArgs,
     getSkillById: GetSkillByIdUseCase,
-    getRecordsUseCase: GetRecordsUseCase,
+    getHistory: GetHistoryUseCase,
     getRecentCount: GetRecentSkillCountUseCase,
     getStats: GetStatsUseCase,
-    private val getTimeAtDate: GetTimeAtDateUseCase,
 ) : DetailsViewModel(
     stopwatchUtil,
     getRecentCount,
+    getHistory,
     getSkillById.run(args.skillId),
 ) {
     private val skillId = args.skillId
+    override val selectionCriteria = SelectionCriteria.Skill(skillId)
 
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()
@@ -78,10 +78,6 @@ class SkillDetailViewModel @Inject constructor(
     val chartData = SkillChartData(getStats, skillId)
 
     override val nameFlow = skill.map { it.name }
-
-    override val recordPagingData = getRecordsUseCase.run(skillId)
-
-    override suspend fun getTimeAtDate(date: LocalDate) = getTimeAtDate.run(skillId, date)
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
         return state.skillId == skillId

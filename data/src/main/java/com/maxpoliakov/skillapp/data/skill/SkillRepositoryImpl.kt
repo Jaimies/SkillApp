@@ -3,8 +3,10 @@ package com.maxpoliakov.skillapp.data.skill
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
+import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
+import com.maxpoliakov.skillapp.shared.util.filterList
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -27,13 +29,17 @@ class SkillRepositoryImpl @Inject constructor(
     override fun getSkills() = _skills
     override fun getSkillsWithLastWeekCount(unit: MeasurementUnit): Flow<List<Skill>> {
         return _skills
-            .map { it.filter { skill -> skill.unit == unit } }
+            .filterList { skill -> skill.unit == unit }
             .flatMapLatest { skills ->
                 if (skills.isEmpty()) flowOf(listOf())
                 else combine(skills.map { skillDao.getSkillFlow(it.id) }) {
                     it.map { it!!.mapToDomain() }
                 }
             }
+    }
+
+    override fun getSkills(criteria: SelectionCriteria): Flow<List<Skill>> {
+        return _skills.filterList { skill -> criteria.isIdValid(skill.id) }
     }
 
     override suspend fun getSkillsWithMeasurementUnit(unit: MeasurementUnit): List<Skill> {

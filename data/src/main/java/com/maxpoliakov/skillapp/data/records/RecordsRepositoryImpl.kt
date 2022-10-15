@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.filter
 import androidx.paging.map
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -33,14 +34,10 @@ class RecordsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getRecords() = _records
-
-    override fun getRecordsBySkillId(skillId: Int): Flow<PagingData<Record>> {
-        return _records.map { it.filter { record -> record.skillId == skillId } }
-    }
-
-    override fun getRecordsBySkillIds(skillIds: List<Int>): Flow<PagingData<Record>> {
-        return _records.map { it.filter { record -> record.skillId in skillIds } }
+    override fun getRecords(criteria: SelectionCriteria): Flow<PagingData<Record>> {
+        return _records.map { it.filter {record ->
+            criteria.isIdValid(record.id)
+        }}
     }
 
     override suspend fun getRecord(id: Int): Record? {

@@ -22,6 +22,7 @@ import javax.inject.Inject
 
 class SkillViewModel @Inject constructor(
     private val stopwatchUtil: StopwatchUtil,
+    manager: EditingModeManager,
     private val ioScope: CoroutineScope,
 ) {
     private val _skill = MutableStateFlow<Skill?>(null)
@@ -41,6 +42,7 @@ class SkillViewModel @Inject constructor(
     private val _notifyRecordAdded = SingleLiveEvent<Record>()
     val notifyRecordAdded: LiveData<Record> get() = _notifyRecordAdded
 
+    val dragHandleShown = manager.isInEditingMode
     val groupId get() = skill.value?.groupId ?: -1
 
     val isStopwatchActive = stopwatchUtil.state.combine(_skill) { state, skill ->

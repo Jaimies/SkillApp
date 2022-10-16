@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui.skills
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
@@ -21,7 +22,7 @@ import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.common.BaseFragment
+import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.util.fragment.observe
@@ -44,7 +45,7 @@ interface SkillsFragmentCallback {
 }
 
 @AndroidEntryPoint
-class SkillsFragment : BaseFragment(), SkillsFragmentCallback {
+class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmentCallback {
     private var lastItemDropTime = 0L
 
     private val itemTouchHelperCallback = object : ItemTouchHelperCallback {
@@ -283,6 +284,17 @@ class SkillsFragment : BaseFragment(), SkillsFragmentCallback {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.edit) {
+            viewModel.toggleEditingMode()
+            menu.getItem(0)
+                .setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
+            return true
+        }
+
+        return false
+    }
+
     private fun setStopwatchActive(isActive: Boolean) {
         if (isActive) showStopwatch()
         else hideStopwatch()
@@ -296,6 +308,8 @@ class SkillsFragment : BaseFragment(), SkillsFragmentCallback {
     private fun hideStopwatch() = listAdapter.hideStopwatch()
 
     override fun startDrag(viewHolder: RecyclerView.ViewHolder) {
+        if (!viewModel.isInEditingMode) return
+
         viewHolder.itemView.translationZ = 10f
         itemTouchHelper.startDrag(viewHolder)
     }

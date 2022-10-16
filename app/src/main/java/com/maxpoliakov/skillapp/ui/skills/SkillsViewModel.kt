@@ -27,6 +27,7 @@ class SkillsViewModel @Inject constructor(
     private val manageGroup: AddOrRemoveSkillToGroupUseCase,
     private val updateOrder: UpdateOrderUseCase,
     private val stopwatchUtil: StopwatchUtil,
+    private val editingModeManager: EditingModeManager,
     private val ioScope: CoroutineScope,
 ) : ViewModel() {
 
@@ -41,6 +42,8 @@ class SkillsViewModel @Inject constructor(
     val isActive = stopwatchUtil.state.map { it is Running }.asLiveData()
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
+
+    val isInEditingMode get() = editingModeManager.isInEditingMode.value!!
 
     fun updateOrder(skills: List<Orderable>) = viewModelScope.launch {
         updateOrder.run(skills)
@@ -60,5 +63,6 @@ class SkillsViewModel @Inject constructor(
     }
 
     fun stopTimer() = ioScope.launch { stopwatchUtil.stop() }
+    fun toggleEditingMode() = editingModeManager.toggleEditingMode()
     fun navigateToAddSkill() = navigateToAddEdit.call()
 }

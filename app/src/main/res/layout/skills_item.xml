@@ -44,6 +44,7 @@
                     android:clickable="true"
                     android:contentDescription="@string/drag_handle_label"
                     android:focusable="true"
+                    app:visible="@{viewModel.dragHandleShown}"
                     android:src="@drawable/ic_drag_handle"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -53,6 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="1dp"
                     android:layout_marginEnd="@dimen/margin_small"
+                    android:padding="@{viewModel.dragHandleShown ? 0f : @dimen/skills_item_name_padding_left_without_handle}"
                     android:singleLine="true"
                     android:text="@{viewModel.skill.name}"
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"

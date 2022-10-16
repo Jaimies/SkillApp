@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="skills_item_name_padding_left_without_handle">20dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="padding_default">16dp</dimen>
     <dimen name="margin_xsmall">4dp</dimen>

@@ -40,7 +40,7 @@ class SkillGroupViewModel @Inject constructor(
     private val _group = getGroup.getById(groupId)
     val group = _group.asLiveData()
 
-    override val selectionCriteria = SelectionCriteria.Group(_group)
+    override val selectionCriteria = SelectionCriteria.Group(groupId)
 
     override val nameFlow = _group.map { it.name }
 

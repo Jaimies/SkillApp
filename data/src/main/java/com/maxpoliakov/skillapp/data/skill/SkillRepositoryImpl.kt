@@ -39,7 +39,7 @@ class SkillRepositoryImpl @Inject constructor(
     }
 
     override fun getSkills(criteria: SelectionCriteria): Flow<List<Skill>> {
-        return _skills.filterList { skill -> criteria.isIdValid(skill.id) }
+        return _skills.filterList { skill -> criteria.isValid(skill) }
     }
 
     override suspend fun getSkillsWithMeasurementUnit(unit: MeasurementUnit): List<Skill> {

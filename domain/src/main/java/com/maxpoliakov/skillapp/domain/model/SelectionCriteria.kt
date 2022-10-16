@@ -1,26 +1,17 @@
 package com.maxpoliakov.skillapp.domain.model
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-
 sealed class SelectionCriteria {
     object All : SelectionCriteria() {
-        override suspend fun isIdValid(id: Id) = true
+        override suspend fun isValid(skill: com.maxpoliakov.skillapp.domain.model.Skill) = true
     }
 
     class Skill(private val id: Id) : SelectionCriteria() {
-        override suspend fun isIdValid(id: Id) = this.id == id
+        override suspend fun isValid(skill: com.maxpoliakov.skillapp.domain.model.Skill) = this.id == skill.id
     }
 
-    class Group(group: Flow<SkillGroup>) : SelectionCriteria() {
-        private val ids = group
-            .map { group -> group.skills.map { skill -> skill.id } }
-            .distinctUntilChanged()
-
-        override suspend fun isIdValid(id: Id) = id in ids.first()
+    class Group(private val groupId: Id) : SelectionCriteria() {
+        override suspend fun isValid(skill: com.maxpoliakov.skillapp.domain.model.Skill) = skill.groupId == this.groupId
     }
 
-    abstract suspend fun isIdValid(id: Id): Boolean
+    abstract suspend fun isValid(skill: com.maxpoliakov.skillapp.domain.model.Skill): Boolean
 }

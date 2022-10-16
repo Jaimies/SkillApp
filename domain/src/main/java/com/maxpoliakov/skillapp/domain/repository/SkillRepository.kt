@@ -3,13 +3,13 @@ package com.maxpoliakov.skillapp.domain.repository
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
-import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Skill
 import kotlinx.coroutines.flow.Flow
 
 interface SkillRepository {
     fun getSkills(): Flow<List<Skill>>
-    fun getSkills(criteria: SelectionCriteria): Flow<List<Skill>>
+    fun getSkills(criteria: SkillSelectionCriteria): Flow<List<Skill>>
 
     fun getSkillsWithLastWeekCount(unit: MeasurementUnit): Flow<List<Skill>>
     suspend fun getSkillsWithMeasurementUnit(unit: MeasurementUnit): List<Skill>

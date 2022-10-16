@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
@@ -24,11 +24,11 @@ class GetHistoryUseCase @Inject constructor(
     private val skillRepository: SkillRepository,
     private val statsRepository: SkillStatsRepository,
 ) {
-    fun getRecords(criteria: SelectionCriteria): Flow<PagingData<Record>> {
+    fun getRecords(criteria: SkillSelectionCriteria): Flow<PagingData<Record>> {
         return getSkillIds(criteria).flatMapLatest(recordsRepository::getRecordsBySkillIds)
     }
 
-    suspend fun getTimeAtDate(criteria: SelectionCriteria, date: LocalDate): Duration {
+    suspend fun getTimeAtDate(criteria: SkillSelectionCriteria, date: LocalDate): Duration {
         val ids = getSkillIds(criteria) { skill ->
             skill.unit == MeasurementUnit.Millis
         }.first()
@@ -37,7 +37,7 @@ class GetHistoryUseCase @Inject constructor(
     }
 
     private fun getSkillIds(
-        criteria: SelectionCriteria,
+        criteria: SkillSelectionCriteria,
         additionalRequirements: (Skill) -> Boolean = { true }
     ): Flow<List<Id>> {
         return skillRepository

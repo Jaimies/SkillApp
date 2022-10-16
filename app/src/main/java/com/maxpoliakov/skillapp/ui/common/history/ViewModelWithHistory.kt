@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import androidx.paging.insertSeparators
 import androidx.paging.map
-import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.mapToPresentation
@@ -17,7 +17,7 @@ abstract class ViewModelWithHistory: ViewModel() {
     @Inject
     protected lateinit var getHistory: GetHistoryUseCase
 
-    protected abstract val selectionCriteria: SelectionCriteria
+    protected abstract val selectionCriteria: SkillSelectionCriteria
 
     val records by lazy {
         getHistory.getRecords(selectionCriteria).map { data ->

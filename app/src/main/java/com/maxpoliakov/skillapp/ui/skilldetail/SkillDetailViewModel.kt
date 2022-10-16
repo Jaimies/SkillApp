@@ -5,7 +5,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
@@ -47,7 +47,7 @@ class SkillDetailViewModel @Inject constructor(
     getSkillById.run(args.skillId),
 ) {
     private val skillId = args.skillId
-    override val selectionCriteria = SelectionCriteria.Skill(skillId)
+    override val selectionCriteria = SkillSelectionCriteria.WithId(skillId)
 
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()

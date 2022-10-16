@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Daily
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
@@ -40,7 +40,7 @@ class SkillGroupViewModel @Inject constructor(
     private val _group = getGroup.getById(groupId)
     val group = _group.asLiveData()
 
-    override val selectionCriteria = SelectionCriteria.Group(groupId)
+    override val selectionCriteria = SkillSelectionCriteria.InGroupWithId(groupId)
 
     override val nameFlow = _group.map { it.name }
 

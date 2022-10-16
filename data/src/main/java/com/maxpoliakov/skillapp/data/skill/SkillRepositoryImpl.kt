@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.data.skill
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
-import com.maxpoliakov.skillapp.domain.model.SelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.shared.util.filterList
@@ -38,7 +38,7 @@ class SkillRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun getSkills(criteria: SelectionCriteria): Flow<List<Skill>> {
+    override fun getSkills(criteria: SkillSelectionCriteria): Flow<List<Skill>> {
         return _skills.filterList { skill -> criteria.isValid(skill) }
     }
 

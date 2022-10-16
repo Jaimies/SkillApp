@@ -35,8 +35,8 @@ class RecordsRepositoryImpl @Inject constructor(
     }
 
     override fun getRecords(criteria: SelectionCriteria): Flow<PagingData<Record>> {
-        return _records.map { it.filter {record ->
-            criteria.isIdValid(record.id)
+        return _records.map { it.filter { record ->
+            criteria.isIdValid(record.skillId)
         }}
     }
 

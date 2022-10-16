@@ -11,10 +11,12 @@ import com.maxpoliakov.skillapp.model.mapToPresentation
 import kotlinx.coroutines.flow.map
 import java.time.Duration
 import java.time.LocalDate
+import javax.inject.Inject
 
-abstract class ViewModelWithHistory(
-    private val getHistory: GetHistoryUseCase,
-) : ViewModel() {
+abstract class ViewModelWithHistory: ViewModel() {
+    @Inject
+    protected lateinit var getHistory: GetHistoryUseCase
+
     protected abstract val selectionCriteria: SelectionCriteria
 
     val records by lazy {

@@ -10,7 +10,6 @@ import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
-import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentSkillCountUseCase
@@ -40,13 +39,11 @@ class SkillDetailViewModel @Inject constructor(
     private val stopwatchUtil: StopwatchUtil,
     args: SkillDetailFragmentArgs,
     getSkillById: GetSkillByIdUseCase,
-    getHistory: GetHistoryUseCase,
     getRecentCount: GetRecentSkillCountUseCase,
     getStats: GetStatsUseCase,
 ) : DetailsViewModel(
     stopwatchUtil,
     getRecentCount,
-    getHistory,
     getSkillById.run(args.skillId),
 ) {
     private val skillId = args.skillId

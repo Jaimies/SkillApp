@@ -10,12 +10,13 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle.State.RESUMED
 
 abstract class ActionBarFragment(@MenuRes private val menuId: Int) : BaseFragment() {
-    protected lateinit var menu: Menu
+    protected var menu: Menu? = null
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-            menuInflater.inflate(menuId, menu)
+            if (menuId != -1) menuInflater.inflate(menuId, menu)
             this@ActionBarFragment.menu = menu
+            onMenuCreated(menu)
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -28,4 +29,6 @@ abstract class ActionBarFragment(@MenuRes private val menuId: Int) : BaseFragmen
     }
 
     abstract fun onMenuItemSelected(id: Int): Boolean
+
+    protected open fun onMenuCreated(menu: Menu) {}
 }

@@ -132,7 +132,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuI
 
         lifecycleScope.launchWhenResumed {
             delay(100)
-            runCatching { menu.getItem(0).setTitle(R.string.save) }
+            runCatching { menu?.getItem(0)?.setTitle(R.string.save) }
         }
 
         val duration = transitionDuration
@@ -170,7 +170,7 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuI
         isFocusableInTouchMode = false
         clearFocus()
 
-        menu.getItem(0).setTitle(R.string.edit)
+        menu?.getItem(0)?.setTitle(R.string.edit)
         val duration = shortTransitionDuration
 
         content.isGone = false

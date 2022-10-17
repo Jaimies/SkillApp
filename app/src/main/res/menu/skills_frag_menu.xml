@@ -6,5 +6,6 @@
         android:id="@+id/edit"
         android:icon="@drawable/ic_edit"
         app:showAsAction="always"
+        android:visible="false"
         android:title="@string/edit" />
 </menu>

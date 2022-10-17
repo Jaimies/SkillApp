@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.ui.skills
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
@@ -284,15 +283,13 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.edit) {
-            viewModel.toggleEditingMode()
-            menu.getItem(0)
-                .setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
-            return true
-        }
+    override fun onMenuItemSelected(id: Int): Boolean {
+        if (id != R.id.edit) return false
 
-        return false
+        viewModel.toggleEditingMode()
+        menu.getItem(0)
+            .setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
+        return true
     }
 
     private fun setStopwatchActive(isActive: Boolean) {

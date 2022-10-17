@@ -32,6 +32,8 @@ class StatisticsFragment : BarChartFragment(-1) {
         return binding.root
     }
 
+    override fun onMenuItemSelected(id: Int) = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

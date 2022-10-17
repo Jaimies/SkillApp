@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.common
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -92,22 +91,25 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuI
     }
 
     @CallSuper
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            onBackPressed()
-            return true
+    override fun onMenuItemSelected(id: Int): Boolean {
+        return when(id) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            R.id.edit -> {
+                onEditClicked()
+                true
+            }
+            else -> false
         }
+    }
 
-        if (item.itemId == R.id.edit) {
-            if (viewModel.isEditing.value!!)
-                viewModel.save()
-            else
-                startEditing()
-
-            return true
-        }
-
-        return false
+    private fun onEditClicked() {
+        if (viewModel.isEditing.value!!)
+            viewModel.save()
+        else
+            startEditing()
     }
 
     open fun onStartEditing() {}

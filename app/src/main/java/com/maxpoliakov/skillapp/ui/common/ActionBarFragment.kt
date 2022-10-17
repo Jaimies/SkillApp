@@ -3,20 +3,29 @@ package com.maxpoliakov.skillapp.ui.common
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-import androidx.annotation.CallSuper
+import android.view.MenuItem
 import androidx.annotation.MenuRes
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle.State.RESUMED
 
 abstract class ActionBarFragment(@MenuRes private val menuId: Int) : BaseFragment() {
     protected lateinit var menu: Menu
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(menuId != -1)
+    private val menuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(menuId, menu)
+            this@ActionBarFragment.menu = menu
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            return onMenuItemSelected(menuItem.itemId)
+        }
     }
 
-    @CallSuper
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        this.menu = menu
-        if (menuId != -1) inflater.inflate(menuId, menu)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().addMenuProvider(menuProvider, viewLifecycleOwner, RESUMED)
     }
+
+    abstract fun onMenuItemSelected(id: Int): Boolean
 }

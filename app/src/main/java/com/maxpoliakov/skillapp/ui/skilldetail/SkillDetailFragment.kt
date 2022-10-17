@@ -58,18 +58,9 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.delete) {
-            showDeleteDialog()
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onStartEditing() = logEvent("edit_skill")
 
-    private fun showDeleteDialog() {
+    override fun onDeleteSelected() {
         requireContext().showDialog(R.string.delete_skill_title, R.string.delete_skill_message, R.string.delete) {
             deleteSkill()
         }

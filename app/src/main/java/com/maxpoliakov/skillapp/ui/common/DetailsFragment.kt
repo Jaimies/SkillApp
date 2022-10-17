@@ -32,6 +32,8 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuI
 
     abstract override val viewModel: DetailsViewModel
 
+    protected open fun onDeleteSelected() {}
+
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,6 +101,10 @@ abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuI
             }
             R.id.edit -> {
                 onEditClicked()
+                true
+            }
+            R.id.delete -> {
+                onDeleteSelected()
                 true
             }
             else -> false

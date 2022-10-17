@@ -43,7 +43,7 @@ class SkillsViewModel @Inject constructor(
 
     val navigateToAddEdit = SingleLiveEvent<Any>()
 
-    val isInEditingMode get() = editingModeManager.isInEditingMode.value!!
+    val isInEditingMode get() = editingModeManager.isInEditingMode.value
 
     fun updateOrder(skills: List<Orderable>) = viewModelScope.launch {
         updateOrder.run(skills)

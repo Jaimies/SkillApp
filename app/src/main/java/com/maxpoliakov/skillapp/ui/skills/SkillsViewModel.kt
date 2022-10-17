@@ -17,6 +17,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,11 +34,13 @@ class SkillsViewModel @Inject constructor(
 
     val skillsAndGroups = getSkills.getSkillsAndGroups()
 
-    val isEmpty = skillsAndGroups.map {
+    val isEmptyFlow = skillsAndGroups.map {
         val isEmpty = it.skills.isEmpty() && it.groups.isEmpty()
         if (isEmpty) delay(50)
         isEmpty
-    }.asLiveData()
+    }.distinctUntilChanged()
+
+    val isEmpty = isEmptyFlow.asLiveData()
 
     val isActive = stopwatchUtil.state.map { it is Running }.asLiveData()
 

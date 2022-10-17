@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui.skills
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
@@ -33,6 +34,7 @@ import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import com.maxpoliakov.skillapp.util.ui.smoothScrollToTop
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -281,14 +283,28 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
             val directions = MainDirections.actionToAddSkillFragment()
             navigateWithTransition(directions, extras)
         }
+
+        observe(viewModel.isEmpty) { isEmpty ->
+            editMenuItem?.let { item ->
+                if (item.isVisible != !isEmpty) requireActivity().invalidateOptionsMenu()
+            }
+        }
     }
+
+    override fun onMenuCreated(menu: Menu) {
+        lifecycleScope.launch {
+            val isEmpty = viewModel.isEmptyFlow.first()
+            editMenuItem?.isVisible = !isEmpty
+        }
+    }
+
+    private val editMenuItem get() = menu?.findItem(R.id.edit)
 
     override fun onMenuItemSelected(id: Int): Boolean {
         if (id != R.id.edit) return false
 
         viewModel.toggleEditingMode()
-        menu.getItem(0)
-            .setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
+        editMenuItem?.setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
         return true
     }
 

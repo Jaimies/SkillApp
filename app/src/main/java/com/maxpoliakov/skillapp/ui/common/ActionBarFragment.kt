@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.MenuRes
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle.State.RESUMED
@@ -22,8 +23,7 @@ abstract class ActionBarFragment(@MenuRes private val menuId: Int) : BaseFragmen
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().addMenuProvider(menuProvider, viewLifecycleOwner, RESUMED)
     }
 

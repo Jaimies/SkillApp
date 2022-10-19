@@ -44,7 +44,7 @@ class SkillsViewModel @Inject constructor(
 
     val isActive = stopwatchUtil.state.map { it is Running }.asLiveData()
 
-    val navigateToAddEdit = SingleLiveEvent<Any>()
+    val navigateToAddSkill = SingleLiveEvent<Any>()
 
     val isInEditingMode get() = editingModeManager.isInEditingMode.value
 
@@ -67,5 +67,5 @@ class SkillsViewModel @Inject constructor(
 
     fun stopTimer() = ioScope.launch { stopwatchUtil.stop() }
     fun toggleEditingMode() = editingModeManager.toggleEditingMode()
-    fun navigateToAddSkill() = navigateToAddEdit.call()
+    fun navigateToAddSkill() = navigateToAddSkill.call()
 }

@@ -277,12 +277,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
         observe(viewModel.isActive, this::setStopwatchActive)
 
-        observe(viewModel.navigateToAddEdit) {
-            val transitionName = getString(R.string.add_skill_transition_name)
-            val extras = FragmentNavigatorExtras(binding.addSkillFab to transitionName)
-            val directions = MainDirections.actionToAddSkillFragment()
-            navigateWithTransition(directions, extras)
-        }
+        observe(viewModel.navigateToAddSkill) { navigateToAddSkill() }
 
         observe(viewModel.isEmpty) { isEmpty ->
             editMenuItem?.let { item ->
@@ -329,15 +324,21 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
     override fun navigateToSkillDetail(view: View, skill: Skill) {
         val directions = MainDirections.actionToSkillDetailFragment(skill.id)
-        val transitionName = getString(R.string.skill_transition_name)
-        val extras = FragmentNavigatorExtras(view to transitionName)
-        navigateWithTransition(directions, extras)
+        navigate(view, directions, R.string.skill_transition_name)
     }
 
     override fun navigateToGroupDetail(view: View, group: SkillGroup) {
         val directions = MainDirections.actionToSkillGroupFragment(group.id)
-        val transitionName = getString(R.string.group_transition_name)
-        val extras = FragmentNavigatorExtras(view to transitionName)
+        navigate(view, directions, R.string.group_transition_name)
+    }
+
+    private fun navigateToAddSkill() {
+        val directions = MainDirections.actionToAddSkillFragment()
+        navigate(binding.addSkillFab, directions, R.string.add_skill_transition_name)
+    }
+
+    private fun navigate(view: View, directions: NavDirections, transitionNameResId: Int) {
+        val extras = FragmentNavigatorExtras(view to getString(transitionNameResId))
         navigateWithTransition(directions, extras)
     }
 

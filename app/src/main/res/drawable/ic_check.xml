@@ -3,6 +3,7 @@
     android:height="24dp"
     android:tint="?android:attr/textColorPrimary"
     android:viewportWidth="24"
+    android:alpha="0.68"
     android:viewportHeight="24">
     <path
         android:fillColor="@android:color/white"

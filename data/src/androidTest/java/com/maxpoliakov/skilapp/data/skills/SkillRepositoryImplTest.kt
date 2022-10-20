@@ -60,8 +60,8 @@ class SkillRepositoryImplTest {
         skillStatsRepository.addRecord(createRecord(1, Duration.ofHours(4)))
         skillStatsRepository.addRecord(createRecord(2, Duration.ofHours(3)))
 
-        skillStatsRepository.getCountAtDate(1, LocalDate.now()).await() shouldBe Duration.ofHours(6).toMillis()
-        groupStatsRepository.getCountAtDate(1, LocalDate.now()).await() shouldBe Duration.ofHours(9).toMillis()
+        skillStatsRepository.getCountAtDateFlow(1, LocalDate.now()).await() shouldBe Duration.ofHours(6).toMillis()
+        groupStatsRepository.getCountAtDateFlow(1, LocalDate.now()).await() shouldBe Duration.ofHours(9).toMillis()
     }
 
     private fun createSkill(name: String, totalTime: Duration, id: Int): Skill {

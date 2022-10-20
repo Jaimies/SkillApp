@@ -1,44 +1,55 @@
 package com.maxpoliakov.skillapp.util.charts
 
 import com.github.mikephil.charting.data.Entry
-import com.maxpoliakov.skillapp.test.clockOfEpochDay
 import com.maxpoliakov.skillapp.domain.model.Statistic
+import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.shared.util.setClock
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.Clock
 import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 
 class StatsEntriesTest : StringSpec({
     beforeSpec {
-        setClock(clockOfEpochDay(7))
+        val instant = LocalDate.ofYearDay(2021, 1)
+            .atTime(LocalTime.of(0, 0))
+            .toInstant(ZoneOffset.UTC)
+
+        setClock(Clock.fixed(instant, ZoneId.systemDefault()))
     }
 
     "withMissingStats()" {
         val stats = listOf(
-            Statistic(LocalDate.ofEpochDay(5), Duration.ofHours(2).toMillis()),
-            Statistic(LocalDate.ofEpochDay(2), Duration.ofMinutes(32).toMillis())
+            Statistic(LocalDate.ofYearDay(2014, 1), Duration.ofHours(2).toMillis()),
+            Statistic(LocalDate.ofYearDay(2020, 1), Duration.ofMinutes(32).toMillis())
         )
 
-        stats.withMissingStats(count = 6) shouldBe listOf(
-            Statistic(LocalDate.ofEpochDay(2), Duration.ofMinutes(32).toMillis()),
-            Statistic(LocalDate.ofEpochDay(3), 0),
-            Statistic(LocalDate.ofEpochDay(4), 0),
-            Statistic(LocalDate.ofEpochDay(5), Duration.ofHours(2).toMillis()),
-            Statistic(LocalDate.ofEpochDay(6), 0),
-            Statistic(LocalDate.ofEpochDay(7), 0)
+        stats.withMissingStats(StatisticInterval.Yearly) shouldBe listOf(
+            Statistic(LocalDate.ofYearDay(2012, 1), 0),
+            Statistic(LocalDate.ofYearDay(2013, 1), 0),
+            Statistic(LocalDate.ofYearDay(2014, 1), Duration.ofHours(2).toMillis()),
+            Statistic(LocalDate.ofYearDay(2015, 1), 0),
+            Statistic(LocalDate.ofYearDay(2016, 1), 0),
+            Statistic(LocalDate.ofYearDay(2017, 1), 0),
+            Statistic(LocalDate.ofYearDay(2018, 1), 0),
+            Statistic(LocalDate.ofYearDay(2019, 1), 0),
+            Statistic(LocalDate.ofYearDay(2020, 1), Duration.ofMinutes(32).toMillis()),
+            Statistic(LocalDate.ofYearDay(2021, 1), 0),
         )
     }
 
     "toStatsEntries() returns null for empty list" {
         val stats = listOf<Statistic>()
-        stats.toEntries() shouldBe null
+        stats.toEntries(StatisticInterval.Daily) shouldBe null
     }
 
     "toStatsEntries() returns null for list with no positive time" {
         val stats = listOf(Statistic(LocalDate.ofEpochDay(0), 0))
-        stats.toEntries() shouldBe null
+        stats.toEntries(StatisticInterval.Daily) shouldBe null
     }
 
     fun List<Entry>.toPairs() = map { it.x to it.y }
@@ -49,7 +60,8 @@ class StatsEntriesTest : StringSpec({
             Statistic(LocalDate.ofEpochDay(2), Duration.ofHours(2).toMillis())
         )
 
-        val statsEntries = stats.toEntries()!!
+        val statsEntries = stats.toEntries(StatisticInterval.Daily)!!
+
         statsEntries.toPairs() shouldBe listOf(
             1f to Duration.ofMinutes(20).toMillis().toFloat(),
             2f to Duration.ofHours(2).toMillis().toFloat(),

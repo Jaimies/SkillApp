@@ -2,39 +2,23 @@ package com.maxpoliakov.skillapp.ui.intro
 
 import android.graphics.Color
 import android.os.Bundle
+import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro
 import com.maxpoliakov.skillapp.R
-import java.time.LocalDate
-import java.time.Month
 
-class TheIntro : AppIntro() {
+abstract class BaseIntro : AppIntro() {
+    @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setColorDoneText(Color.WHITE)
         setColorSkipButton(Color.WHITE)
         setIndicatorColor(addAlpha(Color.WHITE, 180), addAlpha(Color.WHITE, 100))
-
-        if (shouldShowTheIntroSlide())
-            addSlide(R.string.intro_slide1_title, R.string.intro_slide1_description)
-
-        addSlide(R.string.intro_slide2_title, R.string.intro_slide2_description, "intro_grouping")
-        addSlide(R.string.intro_slide3_title, R.string.intro_slide3_description, "intro_units")
-        addSlide(R.string.intro_slide4_title, R.string.intro_slide4_description, "intro_backups")
+        setDoneText(R.string.got_it)
         isWizardMode = true
-    }
-
-    private fun shouldShowTheIntroSlide(): Boolean {
-        return LocalDate.now() < LocalDate.of(2022, Month.AUGUST, 15)
-    }
-
-    private fun addSlide(@StringRes titleResId: Int, @StringRes descriptionResId: Int, videoFileName: String = "") {
-        addSlide(
-            IntroSlide.newInstance(titleResId, descriptionResId, videoFileName)
-        )
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {
@@ -45,6 +29,12 @@ class TheIntro : AppIntro() {
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
         finish()
+    }
+
+    protected fun addSlide(@StringRes titleResId: Int, @StringRes descriptionResId: Int, videoFileName: String = "") {
+        addSlide(
+            IntroSlide.newInstance(titleResId, descriptionResId, videoFileName)
+        )
     }
 }
 

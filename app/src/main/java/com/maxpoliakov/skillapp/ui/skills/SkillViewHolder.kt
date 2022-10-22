@@ -29,7 +29,7 @@ class SkillViewHolder(
         private fun beginDelayedTransition(binding: SkillsItemBinding) {
             TransitionManager.beginDelayedTransition(
                 binding.root as ViewGroup,
-                AutoTransition().apply { duration = 50 },
+                AutoTransition().apply { duration = 150 },
             )
         }
     }

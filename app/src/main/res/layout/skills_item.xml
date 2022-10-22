@@ -33,12 +33,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="9dp"
+                android:paddingStart="19dp"
                 android:paddingEnd="24dp">
 
                 <ImageButton
                     android:id="@+id/drag_handle"
-                    android:layout_width="40dp"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:clickable="true"
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="1dp"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:padding="@{viewModel.dragHandleShown ? 0f : @dimen/skills_item_name_padding_left_without_handle}"
+                    android:paddingHorizontal="10dp"
                     android:singleLine="true"
                     android:text="@{viewModel.skill.name}"
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"
@@ -84,10 +84,10 @@
                     android:contentDescription="@string/start_the_timer"
                     android:onClick="@{() -> viewModel.toggleTimer()}"
                     android:src="@{viewModel.isStopwatchActive ? @drawable/ic_stop : @drawable/ic_start}"
-                    app:visible="@{viewModel.unit.stopwatchEnabled}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:visible="@{viewModel.unit.stopwatchEnabled}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
     </FrameLayout>

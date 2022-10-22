@@ -291,6 +291,8 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
             val isEmpty = viewModel.isEmptyFlow.first()
             editMenuItem?.isVisible = !isEmpty
         }
+
+        editMenuItem?.setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
     }
 
     private val editMenuItem get() = menu?.findItem(R.id.edit)

@@ -23,8 +23,8 @@ class IntroUtilImpl @Inject constructor(
     override fun showIntroIfNecessary() {
         intros
             .filterNot(Intro<*>::hasBeenShown)
-            .first()
-            .show()
+            .firstOrNull()
+            ?.show()
 
         intros.markAllAsShown()
     }
@@ -38,7 +38,7 @@ class IntroUtilImpl @Inject constructor(
         val preferenceName: String,
     ) {
         var hasBeenShown: Boolean
-            get() = sharedPreferences.getBoolean(preferenceName, false) && kClass != Intro_3_1_0::class
+            get() = sharedPreferences.getBoolean(preferenceName, false)
             set(value) = sharedPreferences.edit { putBoolean(preferenceName, value) }
 
         fun show() {

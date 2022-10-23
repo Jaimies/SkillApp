@@ -39,10 +39,11 @@ class SkillViewHolder(
     }
 
     init {
-        binding.dragHandle.setOnTouchListener { view, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
+        binding.dragHandleWrapper.setOnTouchListener { view, event ->
+            if (event.action == MotionEvent.ACTION_DOWN && viewModel.dragHandleShown.value) {
                 view.performClick()
                 callback.startDrag(this)
+                return@setOnTouchListener true
             }
 
             false

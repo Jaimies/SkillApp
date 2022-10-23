@@ -33,20 +33,29 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="19dp"
+                android:paddingStart="9dp"
                 android:paddingEnd="24dp">
 
-                <ImageButton
-                    android:id="@+id/drag_handle"
-                    android:layout_width="20dp"
+                <FrameLayout
+                    android:id="@+id/drag_handle_wrapper"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@null"
                     android:clickable="true"
-                    android:contentDescription="@string/drag_handle_label"
                     android:focusable="true"
-                    app:visible="@{viewModel.dragHandleShown}"
-                    android:src="@drawable/ic_drag_handle"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:focusableInTouchMode="true"
+                    android:paddingHorizontal="10dp"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageButton
+                        android:id="@+id/drag_handle"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@null"
+                        android:contentDescription="@string/drag_handle_label"
+                        android:src="@drawable/ic_drag_handle"
+                        app:visible="@{viewModel.dragHandleShown}" />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/name"
@@ -54,13 +63,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="1dp"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:paddingHorizontal="10dp"
+                    android:paddingEnd="10dp"
                     android:singleLine="true"
                     android:text="@{viewModel.skill.name}"
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/total_time"
-                    app:layout_constraintStart_toEndOf="@id/drag_handle"
+                    app:layout_constraintStart_toEndOf="@id/drag_handle_wrapper"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed"
                     tools:text="Skill name" />

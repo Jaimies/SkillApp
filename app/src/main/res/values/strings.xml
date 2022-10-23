@@ -125,6 +125,8 @@
     <string name="duration_1_min">1min</string>
     <string name="duration_5_min">5min</string>
     <string name="got_it">Got it</string>
+    <string name="reorder_skills">Reorder skills</string>
+    <string name="done">Done</string>
     <string name="new_intro_title">To reorder skills, click the "edit" button</string>
     <string name="new_intro_text">You will then be able to reorder and group your skills as normal</string>
 </resources>

@@ -292,7 +292,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
             editMenuItem?.isVisible = !isEmpty
         }
 
-        editMenuItem?.setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
+        updateMenu()
     }
 
     private val editMenuItem get() = menu?.findItem(R.id.edit)
@@ -301,8 +301,15 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         if (id != R.id.edit) return false
 
         viewModel.toggleEditingMode()
-        editMenuItem?.setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
+        updateMenu()
         return true
+    }
+
+    private fun updateMenu() {
+        editMenuItem?.run {
+            setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
+            setTitle(if (viewModel.isInEditingMode) R.string.done else R.string.reorder_skills)
+        }
     }
 
     private fun setStopwatchActive(isActive: Boolean) {

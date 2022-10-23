@@ -3,11 +3,13 @@ package com.maxpoliakov.skillapp.ui.skills
 import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.databinding.OnRebindCallback
+import androidx.lifecycle.asLiveData
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
+import kotlinx.coroutines.flow.drop
 
 class SkillViewHolder(
     private val binding: SkillsItemBinding,
@@ -16,12 +18,14 @@ class SkillViewHolder(
 ) : SkillListViewHolder(binding.root) {
     val viewModel = binding.viewModel!!
 
-    private var initialPreBindRan = false
+    private var shouldAnimateLayoutChanges = false
 
     private val onRebindCallback = object : OnRebindCallback<SkillsItemBinding>() {
         override fun onPreBind(binding: SkillsItemBinding): Boolean {
-            if (initialPreBindRan) beginDelayedTransition(binding)
-            else initialPreBindRan = true
+            if (shouldAnimateLayoutChanges) {
+                beginDelayedTransition(binding)
+                shouldAnimateLayoutChanges = false
+            }
 
             return super.onPreBind(binding)
         }
@@ -45,6 +49,10 @@ class SkillViewHolder(
         }
 
         binding.addOnRebindCallback(onRebindCallback)
+
+        viewModel.dragHandleShown.drop(1).asLiveData().observe {
+            shouldAnimateLayoutChanges = true
+        }
 
         viewModel.startDrag.observe {
             callback.startDrag(this)

@@ -4,6 +4,19 @@
 default_platform(:android)
 
 platform :android do
+    lane :generate_screenshots do
+        gradle(
+            task: 'Assemble',
+            build_type: 'Debug',
+        )
+
+        gradle(
+            task: ':app:AssembleAndroidTest',
+        )
+
+        screengrab()
+    end
+
     lane :release_to_internal_testing do
         gradle(
             task: 'Bundle',

@@ -1,0 +1,22 @@
+SkillApp is a simple skill tracker that does not have any complicated features or achievements, so you can focus on being productive. Just choose a skill and start the timer.
+
+The app is completely free, has no ads, and does not limit the number of skills you can create.
+
+Here are a few things you'll love about SkillApp:
+• Track your progress in hours, kilometers, and times with a single click.
+• Organize related skills into groups.
+• Set your goals and achieve them.
+• See your productivity at a glance with statistics.
+• Keep your data safe with Google Drive backups.
+• Stay productive at any time of day with the Dark mode.
+
+<b>The 10000 hour rule</b>
+The 10000-hour rule claims that in order to become a master in a given field, one needs to practice for about 10000 hours. Although recent studies have shown that the number of hours is not the same for everyone, practice remains the only way of achieving mastery.
+
+<b>We value your privacy</b>
+Your data is only stored on your device and is never uploaded to our servers (in fact, we don't have any).
+
+You can optionally backup your data to a private folder in your Google Drive. These backups will only be accessible by SkillApp.
+
+<b>We love feedback!</b>
+You can always contact us at theskillapp@gmail.com if you have any questions or want something new in the app. We listen to all the feedback we get from you because we want to create an app that perfectly fits your needs!

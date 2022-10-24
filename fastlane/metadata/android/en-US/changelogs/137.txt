@@ -1,0 +1,1 @@
+• Add time with an interval of either 1 minute or 5 minutes.

@@ -36,6 +36,6 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:onClick="@{() -> chooseGoal.invoke()}"
-            android:text="@{goal.format(context)}" />
+            android:text="@{goal.format(context) ?? @string/goal_not_set}" />
     </com.google.android.material.textfield.TextInputLayout>
 </layout>

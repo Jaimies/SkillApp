@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.ui.skills
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -15,6 +16,8 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
 import com.google.android.material.transition.Hold
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
@@ -29,6 +32,7 @@ import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createReorderAndGroupItemTouchHelper
+import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.findViewHolder
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import com.maxpoliakov.skillapp.util.ui.smoothScrollToTop
@@ -244,6 +248,10 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
+        // todo show conditionally
+        // todo consider making the initial guide also use highlights
+        showClickToReorderGuide()
+
         lifecycleScope.launch {
             delay(1)
             viewModel.skillsAndGroups.collect {
@@ -284,6 +292,22 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
                 if (item.isVisible != !isEmpty) requireActivity().invalidateOptionsMenu()
             }
         }
+    }
+
+    private fun showClickToReorderGuide() {
+        // todo use a view rather than bounds
+        val tapTarget = TapTarget.forBounds(
+            Rect(
+                requireView().width - 30.dp.toPx(requireContext()),
+                10.dp.toPx(requireContext()),
+                requireView().width - 10.dp.toPx(requireContext()),
+                100.dp.toPx(requireContext())
+            ),
+            getString(R.string.new_intro_title),
+            getString(R.string.new_intro_text)
+        ).transparentTarget(true)
+
+        TapTargetView.showFor(requireActivity(), tapTarget)
     }
 
     override fun onMenuCreated(menu: Menu) {

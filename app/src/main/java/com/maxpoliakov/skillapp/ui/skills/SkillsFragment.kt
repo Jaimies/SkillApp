@@ -25,6 +25,7 @@ import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.ui.MainActivity
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
@@ -224,6 +225,8 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
     private val viewModel: SkillsViewModel by viewModels()
 
+    private val toolbar get() = (requireActivity() as MainActivity).toolbar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -294,20 +297,20 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         }
     }
 
+    // todo don't use delay()
     private fun showClickToReorderGuide() {
-        // todo use a view rather than bounds
-        val tapTarget = TapTarget.forBounds(
-            Rect(
-                requireView().width - 30.dp.toPx(requireContext()),
-                10.dp.toPx(requireContext()),
-                requireView().width - 10.dp.toPx(requireContext()),
-                100.dp.toPx(requireContext())
-            ),
-            getString(R.string.new_intro_title),
-            getString(R.string.new_intro_text)
-        ).transparentTarget(true)
+        lifecycleScope.launch {
+            delay(2000)
 
-        TapTargetView.showFor(requireActivity(), tapTarget)
+            val tapTarget = TapTarget.forToolbarMenuItem(
+                toolbar,
+                R.id.edit,
+                getString(R.string.new_intro_title),
+                getString(R.string.new_intro_text)
+            ).tintTarget(false)
+
+            TapTargetView.showFor(requireActivity(), tapTarget)
+        }
     }
 
     override fun onMenuCreated(menu: Menu) {

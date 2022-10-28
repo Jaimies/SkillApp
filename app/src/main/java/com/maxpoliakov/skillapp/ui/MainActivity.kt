@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(),
     lateinit var stopwatchUtil: StopwatchUtil
 
     @Inject
-    lateinit var introManager: IntroUtil
+    lateinit var introUtil: IntroUtil
 
     private val appBarConfiguration = AppBarConfiguration(
         setOf(
@@ -43,10 +43,12 @@ class MainActivity : AppCompatActivity(),
         )
     )
 
+    val toolbar get() = binding.toolbar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Theme_SkillApp)
         super.onCreate(savedInstanceState)
-        introManager.showIntroIfNecessary()
+        introUtil.showIntroIfNecessary()
         binding = MainActBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)

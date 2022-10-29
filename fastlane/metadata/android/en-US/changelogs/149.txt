@@ -1,0 +1,3 @@
+• Added yearly statistics
+• Added daily totals in history
+• To reorder skills, one now needs to click the "edit" button first (the aim is to prevent accidental reordering)

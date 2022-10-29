@@ -16,8 +16,8 @@ class Intro_3_1_0 @Inject constructor(
     suspend fun show(toolbar: Toolbar) {
         val tapTarget = TapTarget.forView(
             toolbar.getViewByIdWhenReady(R.id.edit),
-            activity.getString(R.string.new_intro_title),
-            activity.getString(R.string.new_intro_text)
+            activity.getString(R.string.intro_3_1_0_title),
+            activity.getString(R.string.intro_3_1_0_text)
         ).tintTarget(false)
 
         TapTargetView.showFor(activity, tapTarget)

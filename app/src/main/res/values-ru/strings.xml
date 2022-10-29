@@ -118,6 +118,6 @@
     <string name="got_it">Понятно</string>
     <string name="reorder_skills">Упорядочить</string>
     <string name="done">Готово</string>
-    <string name="new_intro_title">Чтобы упорядочить навыки, нажмите кнопку \"Упорядочить\"</string>
-    <string name="new_intro_text">После этого вы сможете изменять порядок навыков и группировать их как обычно</string>
+    <string name="intro_3_1_0_title">Чтобы упорядочить навыки, нажмите кнопку \"Упорядочить\"</string>
+    <string name="intro_3_1_0_text">После этого вы сможете изменять порядок навыков и группировать их как обычно</string>
 </resources>

@@ -118,6 +118,6 @@
     <string name="got_it">Зрозуміло</string>
     <string name="reorder_skills">Впорядкувати</string>
     <string name="done">Готово</string>
-    <string name="new_intro_title">Щоб упорядкувати навички, натисніть кнопку \"Впорядкувати\"</string>
-    <string name="new_intro_text">Тоді ви зможете впорядковувати та групувати навички як зазвичай</string>
+    <string name="intro_3_1_0_title">Щоб упорядкувати навички, натисніть кнопку \"Впорядкувати\"</string>
+    <string name="intro_3_1_0_text">Тоді ви зможете впорядковувати та групувати навички як зазвичай</string>
 </resources>

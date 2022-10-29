@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.ui.skills
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -33,8 +32,8 @@ import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createReorderAndGroupItemTouchHelper
-import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.findViewHolder
+import com.maxpoliakov.skillapp.util.ui.getViewByIdWhenReady
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import com.maxpoliakov.skillapp.util.ui.smoothScrollToTop
 import dagger.hilt.android.AndroidEntryPoint
@@ -297,20 +296,14 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         }
     }
 
-    // todo don't use delay()
-    private fun showClickToReorderGuide() {
-        lifecycleScope.launch {
-            delay(2000)
+    private fun showClickToReorderGuide() = lifecycleScope.launch {
+        val tapTarget = TapTarget.forView(
+            toolbar.getViewByIdWhenReady(R.id.edit),
+            getString(R.string.new_intro_title),
+            getString(R.string.new_intro_text)
+        ).tintTarget(false)
 
-            val tapTarget = TapTarget.forToolbarMenuItem(
-                toolbar,
-                R.id.edit,
-                getString(R.string.new_intro_title),
-                getString(R.string.new_intro_text)
-            ).tintTarget(false)
-
-            TapTargetView.showFor(requireActivity(), tapTarget)
-        }
+        TapTargetView.showFor(requireActivity(), tapTarget)
     }
 
     override fun onMenuCreated(menu: Menu) {

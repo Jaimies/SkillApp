@@ -30,7 +30,11 @@ class IntroSlide : Fragment() {
             return@run
         }
 
-        setOnPreparedListener { mp -> mp.isLooping = true }
+        setOnPreparedListener { mp ->
+            mp.isLooping = true
+            mp.setVolume(0f, 0f)
+        }
+
         val rawId = resources.getIdentifier(videoFileName, "raw", requireContext().packageName)
         val uri = Uri.parse("android.resource://${requireContext().packageName}/$rawId")
 

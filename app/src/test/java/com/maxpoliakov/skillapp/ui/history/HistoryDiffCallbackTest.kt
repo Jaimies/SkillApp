@@ -5,6 +5,7 @@ import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import java.time.Duration
 import java.time.LocalDate
 
 class HistoryDiffCallbackTest : StringSpec({
@@ -17,19 +18,19 @@ class HistoryDiffCallbackTest : StringSpec({
 
     "areItemsTheSame() compares Separators by date" {
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1)),
-            Separator(LocalDate.ofEpochDay(1))
+            Separator(LocalDate.ofEpochDay(1), Duration.ofHours(2)),
+            Separator(LocalDate.ofEpochDay(1), Duration.ofMinutes(20)),
         ) shouldBe true
 
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1)),
-            Separator(LocalDate.ofEpochDay(2))
+            Separator(LocalDate.ofEpochDay(1), Duration.ofMinutes(20)),
+            Separator(LocalDate.ofEpochDay(2), Duration.ofMinutes(50)),
         ) shouldBe false
     }
 
     "areItemsTheSame() returns false if the items are of different types" {
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1)),
+            Separator(LocalDate.ofEpochDay(1), Duration.ofHours(1)),
             createRecord(1)
         ) shouldBe false
     }

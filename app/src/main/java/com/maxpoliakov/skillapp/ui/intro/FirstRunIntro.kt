@@ -17,7 +17,7 @@ class FirstRunIntro : BaseIntro() {
 
     companion object {
         fun show(activity: Activity) {
-            val intent = Intent(activity, this::class.java)
+            val intent = Intent(activity, FirstRunIntro::class.java)
             activity.startActivity(intent)
         }
     }

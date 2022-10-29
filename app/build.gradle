@@ -143,7 +143,6 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
-    kapt "androidx.hilt:hilt-compiler:1.0.0"
 
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "io.mockk:mockk:$Versions.mockk"

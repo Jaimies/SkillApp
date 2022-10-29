@@ -7,12 +7,12 @@ object Versions {
     const val appcompat = "1.4.2"
     const val constraintLayout = "2.1.4"
     const val legacy = "1.0.0"
+    const val androidxAnnotation = "1.3.0"
 
     const val room = "2.3.0"
     const val paging = "3.1.1"
     const val navigation = "2.5.1"
     const val lifecycle = "2.5.1"
-    const val livedata = "2.2.0"
     const val fragment = "1.5.1"
     const val workManager = "2.7.1"
 

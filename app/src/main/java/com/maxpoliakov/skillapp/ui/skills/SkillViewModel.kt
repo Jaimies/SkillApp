@@ -82,6 +82,6 @@ class SkillViewModel @Inject constructor(
 
     fun startDrag(): Boolean {
         startDrag.call()
-        return false
+        return true
     }
 }

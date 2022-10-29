@@ -110,8 +110,8 @@
     <string name="measurement_unit">Measurement unit</string>
     <string name="mail_app_not_found">Email application not found</string>
     <string name="cant_open_google_play">Unable to open Google Play</string>
-    <string name="intro_slide1_title">To reorder skills, click the "edit" button</string>
-    <string name="intro_slide1_description">Then drag a skill to change its position</string>
+    <string name="intro_slide1_title">Reorder skills</string>
+    <string name="intro_slide1_description">Click the "edit" button and drag the skill you want to move</string>
     <string name="intro_slide2_title">Organize skills into groups</string>
     <string name="intro_slide2_description">Drag one skill on top of another to group them</string>
     <string name="intro_slide3_title">Measurement units</string>

@@ -101,8 +101,8 @@
     <string name="change_count">Змінити кількість</string>
     <string name="mail_app_not_found">Додаток Email не знайдено</string>
     <string name="cant_open_google_play">Не вдається відкрити Google Play</string>
-    <string name="intro_slide1_title">Щоб упорядкувати навички, натисніть кнопку \"Впорядкувати\"</string>
-    <string name="intro_slide1_description">Потім перетягніть навичку, щоб змінити її положення у списку</string>
+    <string name="intro_slide1_title">Змінюйте порядок навичок</string>
+    <string name="intro_slide1_description">Натисніть кнопку \"редагувати\" та перетягніть навичку</string>
     <string name="intro_slide2_title">Організовуйте навички у групи</string>
     <string name="intro_slide2_description">Перетягніть одну навичку над іншою щоб згрупувати їх</string>
     <string name="intro_slide3_title">Одиниці вимірювання</string>

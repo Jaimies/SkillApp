@@ -181,4 +181,4 @@ fabric.properties
 ### AndroidStudio Patch ###
 !/gradle/wrapper/gradle-wrapper.jar
 
-fastlane/fastlane/metadata
+keys/

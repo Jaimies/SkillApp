@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 abstract class ViewModelWithHistory: ViewModel() {
     @Inject
-    protected lateinit var getHistory: GetHistoryUseCase
+    lateinit var getHistory: GetHistoryUseCase
 
     protected abstract val selectionCriteria: SkillSelectionCriteria
 

@@ -78,8 +78,6 @@ fastlane/readme.md
 # Version control
 vcs.xml
 
-fastlane/metadata/
-
 # lint
 lint/intermediates/
 lint/generated/

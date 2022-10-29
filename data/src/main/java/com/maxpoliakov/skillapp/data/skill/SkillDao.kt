@@ -30,9 +30,6 @@ interface SkillDao : BaseDao<DBSkill> {
     )
     fun getSkillFlow(id: Int): Flow<DBSkill?>
 
-    @Query("SELECT * FROM skills WHERE unit = :unit")
-    suspend fun getSkillsWithMeasurementUnit(unit: MeasurementUnit): List<DBSkill>
-
     @Query("SELECT * FROM skills WHERE id = :id")
     fun getSkill(id: Int): DBSkill?
 

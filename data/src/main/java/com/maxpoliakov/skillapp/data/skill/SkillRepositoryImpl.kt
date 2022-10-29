@@ -42,10 +42,6 @@ class SkillRepositoryImpl @Inject constructor(
         return _skills.filterList { skill -> criteria.isValid(skill) }
     }
 
-    override suspend fun getSkillsWithMeasurementUnit(unit: MeasurementUnit): List<Skill> {
-        return skillDao.getSkillsWithMeasurementUnit(unit).map(DBSkill::mapToDomain)
-    }
-
     override fun getSkillFlowById(id: Int) = skillDao.getSkillFlow(id)
         .filterNotNull()
         .map { it.mapToDomain() }

@@ -6,6 +6,7 @@ import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
@@ -32,6 +33,7 @@ import java.time.ZonedDateTime
 
 class StubSkillRepository : SkillRepository {
     override fun getSkills() = flowOf<List<Skill>>()
+    override fun getSkills(criteria: SkillSelectionCriteria) = getSkills()
     override fun getSkillsWithLastWeekCount(unit: MeasurementUnit) = getSkills()
     override fun getSkillFlowById(id: Id) = flowOf<Skill>()
     override fun getTopSkills(count: Int) = flowOf<List<Skill>>()

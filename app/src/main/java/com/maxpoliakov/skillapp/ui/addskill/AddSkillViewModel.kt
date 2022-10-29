@@ -40,7 +40,7 @@ class AddSkillViewModel @Inject constructor(
 
     override fun save(name: String) {
         viewModelScope.launch {
-            val count = unit.value!!.getInitialCount(totalTime.value?.toLongOrNull() ?: 0L)
+            val count = _unit.value.getInitialCount(totalTime.value?.toLongOrNull() ?: 0L)
 
             val skillId = manageSkill.addSkill(
                 Skill(
@@ -48,7 +48,7 @@ class AddSkillViewModel @Inject constructor(
                     totalCount = count,
                     initialCount = count,
                     goal = _goal.value,
-                    unit = unit.value!!.toDomain(),
+                    unit = _unit.value.toDomain(),
                 )
             )
 

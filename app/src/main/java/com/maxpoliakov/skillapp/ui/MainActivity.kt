@@ -15,6 +15,8 @@ import com.maxpoliakov.skillapp.R.id.statistics_fragment_dest
 import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
 import com.maxpoliakov.skillapp.databinding.MainActBinding
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.model.Intro
+import com.maxpoliakov.skillapp.ui.intro.FirstRunIntro
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.util.ui.findNavHostFragment
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Theme_SkillApp)
         super.onCreate(savedInstanceState)
-        introUtil.showIntroIfNecessary()
+        introUtil.showIfNecessary(Intro.FirstRunIntro) { FirstRunIntro.show(this) }
         binding = MainActBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)

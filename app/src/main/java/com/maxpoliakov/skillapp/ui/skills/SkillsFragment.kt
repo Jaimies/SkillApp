@@ -24,9 +24,11 @@ import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.model.Intro
 import com.maxpoliakov.skillapp.ui.MainActivity
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
+import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
@@ -222,6 +224,9 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         listAdapterFactory.create(this)
     }
 
+    @Inject
+    lateinit var introUtil: IntroUtil
+
     private val viewModel: SkillsViewModel by viewModels()
 
     private val toolbar get() = (requireActivity() as MainActivity).toolbar
@@ -250,9 +255,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
-        // todo show conditionally
-        // todo consider making the initial guide also use highlights
-        showClickToReorderGuide()
+        introUtil.showIfNecessary(Intro.Intro_3_1_0) { showClickToReorderGuide() }
 
         lifecycleScope.launch {
             delay(1)

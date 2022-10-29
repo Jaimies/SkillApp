@@ -35,10 +35,6 @@
             android:name=".ui.intro.FirstRunIntro"
             android:exported="true" />
 
-        <activity
-            android:name=".ui.intro.Intro_3_1_0"
-            android:exported="true" />
-
         <receiver android:name=".StopTimerBroadcastReceiver" />
 
         <receiver

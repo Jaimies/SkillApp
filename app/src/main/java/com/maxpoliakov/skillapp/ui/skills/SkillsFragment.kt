@@ -15,8 +15,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.getkeepsafe.taptargetview.TapTarget
-import com.getkeepsafe.taptargetview.TapTargetView
 import com.google.android.material.transition.Hold
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
@@ -29,13 +27,13 @@ import com.maxpoliakov.skillapp.ui.MainActivity
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
+import com.maxpoliakov.skillapp.ui.intro.Intro_3_1_0
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createReorderAndGroupItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.findViewHolder
-import com.maxpoliakov.skillapp.util.ui.getViewByIdWhenReady
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import com.maxpoliakov.skillapp.util.ui.smoothScrollToTop
 import dagger.hilt.android.AndroidEntryPoint
@@ -227,6 +225,9 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
     @Inject
     lateinit var introUtil: IntroUtil
 
+    @Inject
+    lateinit var intro: Intro_3_1_0
+
     private val viewModel: SkillsViewModel by viewModels()
 
     private val toolbar get() = (requireActivity() as MainActivity).toolbar
@@ -255,7 +256,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
-        introUtil.showIfNecessary(Intro.Intro_3_1_0) { showClickToReorderGuide() }
+        introUtil.showIfNecessary(Intro.Intro_3_1_0) { showIntro() }
 
         lifecycleScope.launch {
             delay(1)
@@ -299,14 +300,8 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         }
     }
 
-    private fun showClickToReorderGuide() = lifecycleScope.launch {
-        val tapTarget = TapTarget.forView(
-            toolbar.getViewByIdWhenReady(R.id.edit),
-            getString(R.string.new_intro_title),
-            getString(R.string.new_intro_text)
-        ).tintTarget(false)
-
-        TapTargetView.showFor(requireActivity(), tapTarget)
+    private fun showIntro() = lifecycleScope.launch {
+        intro.show(toolbar)
     }
 
     override fun onMenuCreated(menu: Menu) {

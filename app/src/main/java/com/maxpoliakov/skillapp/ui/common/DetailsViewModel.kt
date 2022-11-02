@@ -6,11 +6,12 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToUI
 import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.until
@@ -33,8 +34,12 @@ abstract class DetailsViewModel(
     getRecentTime: GetRecentCountUseCase,
     flow: Flow<Trackable>,
 ) : ViewModelWithHistory() {
-    abstract val unitFlow: Flow<UiMeasurementUnit>
-    val unit by lazy { unitFlow.asLiveData() }
+    abstract val unitFlow: Flow<MeasurementUnit>
+
+    override val unitForDailyTotals get() = unitFlow
+
+    private val uiUnitFlow by lazy { unitFlow.map { it.mapToUI() } }
+    val unit by lazy { uiUnitFlow.asLiveData() }
     protected abstract val nameFlow: Flow<String>
 
     private val _isEditing = MutableLiveData(false)
@@ -47,7 +52,7 @@ abstract class DetailsViewModel(
     val inputIsValid = name.map { it?.isBlank() == false }
 
     private val _goal = MutableStateFlow<Goal?>(null)
-    val goal by lazy { _goal.mapToUI(unitFlow).asLiveData() }
+    val goal by lazy { _goal.mapToUI(uiUnitFlow).asLiveData() }
 
     private val _chooseGoal = SingleLiveEvent<Any>()
     val chooseGoal: LiveData<Any> get() = _chooseGoal

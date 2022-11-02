@@ -46,7 +46,7 @@ class SkillGroupViewModel @Inject constructor(
 
     val chartData = GroupChartData(getStats, getGroup, groupId)
 
-    override val unitFlow = _group.map { group -> group.unit.mapToUI() }
+    override val unitFlow = _group.map { group -> group.unit }
 
     val uiGoal = group.map { group -> group.goal?.mapToUI(group.unit) }
 

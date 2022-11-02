@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="@{FormattingKt.format(separator.totalTime, context)}"
+            android:text="@{separator.total.format(context)}"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"

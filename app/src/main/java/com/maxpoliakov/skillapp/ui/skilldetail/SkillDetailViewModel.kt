@@ -16,7 +16,6 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentSkillCountUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
@@ -66,7 +65,7 @@ class SkillDetailViewModel @Inject constructor(
     val skillLiveData = skill.asLiveData()
 
     val uiGoal = skillLiveData.map { skill -> skill.goal?.mapToUI(skill.unit) }
-    override val unitFlow = skill.map { skill -> skill.unit.mapToUI() }
+    override val unitFlow = skill.map { skill -> skill.unit }
 
     val summary = skill.map { skill ->
         ProductivitySummary.from(skill)

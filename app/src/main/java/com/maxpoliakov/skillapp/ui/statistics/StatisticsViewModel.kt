@@ -2,17 +2,17 @@ package com.maxpoliakov.skillapp.ui.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.PieEntry
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit.Millis
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria.WithUnit
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
-import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.mapList
 import com.maxpoliakov.skillapp.shared.util.sumByLong
-import com.maxpoliakov.skillapp.ui.common.SkillChartDataThatOnlyDisplaysHours
+import com.maxpoliakov.skillapp.ui.common.ChartData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -20,9 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
-    getStats: GetStatsUseCase
+    chartDataFactory: ChartData.Factory,
 ) : ViewModel() {
-    val chartData = SkillChartDataThatOnlyDisplaysHours(getSkills, getStats)
+    val chartData = chartDataFactory.create(WithUnit(Millis))
 
     val summary = getSkills.getSkillsWithLastWeekTime(MeasurementUnit.Millis).map { skills ->
         calculateSummary(skills)

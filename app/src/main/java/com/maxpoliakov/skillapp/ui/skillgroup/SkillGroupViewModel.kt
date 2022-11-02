@@ -9,14 +9,12 @@ import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentGroupCountUseCase
-import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
-import com.maxpoliakov.skillapp.ui.common.GroupChartData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -26,7 +24,6 @@ import javax.inject.Inject
 class SkillGroupViewModel @Inject constructor(
     args: SkillGroupFragmentArgs,
     getGroup: GetGroupUseCase,
-    getStats: GetStatsUseCase,
     stopwatchUtil: StopwatchUtil,
     getRecentCount: GetRecentGroupCountUseCase,
     private val updateGroup: UpdateGroupUseCase,
@@ -43,9 +40,6 @@ class SkillGroupViewModel @Inject constructor(
     override val selectionCriteria = SkillSelectionCriteria.InGroupWithId(groupId)
 
     override val nameFlow = _group.map { it.name }
-
-    val chartData = GroupChartData(getStats, getGroup, groupId)
-
     override val unitFlow = _group.map { group -> group.unit }
 
     val uiGoal = group.map { group -> group.goal?.mapToUI(group.unit) }

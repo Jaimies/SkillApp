@@ -13,13 +13,11 @@ import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentSkillCountUseCase
-import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
-import com.maxpoliakov.skillapp.ui.common.SkillChartData
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,7 +37,6 @@ class SkillDetailViewModel @Inject constructor(
     args: SkillDetailFragmentArgs,
     getSkillById: GetSkillByIdUseCase,
     getRecentCount: GetRecentSkillCountUseCase,
-    getStats: GetStatsUseCase,
 ) : DetailsViewModel(
     stopwatchUtil,
     getRecentCount,
@@ -70,8 +67,6 @@ class SkillDetailViewModel @Inject constructor(
     val summary = skill.map { skill ->
         ProductivitySummary.from(skill)
     }.asLiveData()
-
-    val chartData = SkillChartData(getStats, skillId)
 
     override val nameFlow = skill.map { it.name }
 

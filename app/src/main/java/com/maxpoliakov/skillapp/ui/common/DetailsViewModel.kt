@@ -28,12 +28,19 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.ZonedDateTime
+import javax.inject.Inject
 
 abstract class DetailsViewModel(
     stopwatchUtil: StopwatchUtil,
     getRecentTime: GetRecentCountUseCase,
     flow: Flow<Trackable>,
 ) : ViewModelWithHistory() {
+
+    @Inject
+    lateinit var chartDataFactory: ChartData.Factory
+
+    val chartData by lazy { chartDataFactory.create(selectionCriteria) }
+
     abstract val unitFlow: Flow<MeasurementUnit>
 
     override val unitForDailyTotals get() = unitFlow

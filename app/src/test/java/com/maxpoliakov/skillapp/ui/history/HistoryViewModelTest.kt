@@ -38,16 +38,16 @@ class HistoryViewModelTest : StringSpec({
     "records maps the input records and adds the separators where needed" {
         val getHistory = mock(GetHistoryUseCase::class.java)
         `when`(getHistory.getRecords(any())).thenReturn(flowOf(pagingData))
-        `when`(getHistory.getTimeAtDate(any(), any())).thenReturn(Duration.ofHours(1))
+        `when`(getHistory.getCountAtDate(any(), any())).thenReturn(200)
         val viewModel = HistoryViewModel()
         viewModel.getHistory = getHistory
 
         viewModel.records.await().awaitData() shouldBe listOf(
-            Separator(LocalDate.ofEpochDay(10), Duration.ofHours(1)),
+            Separator(LocalDate.ofEpochDay(10), Separator.Total(200, UiMeasurementUnit.Millis)),
             createUiRecord(0, LocalDate.ofEpochDay(10)),
-            Separator(LocalDate.ofEpochDay(9), Duration.ofHours(1)),
+            Separator(LocalDate.ofEpochDay(9), Separator.Total(200, UiMeasurementUnit.Millis)),
             createUiRecord(1, LocalDate.ofEpochDay(9)),
-            Separator(LocalDate.ofEpochDay(7), Duration.ofHours(1)),
+            Separator(LocalDate.ofEpochDay(7), Separator.Total(200, UiMeasurementUnit.Millis)),
             createUiRecord(2, LocalDate.ofEpochDay(7)),
             createUiRecord(3, LocalDate.ofEpochDay(7)),
         )

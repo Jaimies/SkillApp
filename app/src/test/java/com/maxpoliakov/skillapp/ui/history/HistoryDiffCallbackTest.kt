@@ -18,20 +18,20 @@ class HistoryDiffCallbackTest : StringSpec({
 
     "areItemsTheSame() compares Separators by date" {
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1), Duration.ofHours(2)),
-            Separator(LocalDate.ofEpochDay(1), Duration.ofMinutes(20)),
+            createSeparator(LocalDate.ofEpochDay(1), 200),
+            createSeparator(LocalDate.ofEpochDay(1), 100),
         ) shouldBe true
 
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1), Duration.ofMinutes(20)),
-            Separator(LocalDate.ofEpochDay(2), Duration.ofMinutes(50)),
+            createSeparator(LocalDate.ofEpochDay(1), 100),
+            createSeparator(LocalDate.ofEpochDay(2), 70),
         ) shouldBe false
     }
 
     "areItemsTheSame() returns false if the items are of different types" {
         diffCallback.areItemsTheSame(
-            Separator(LocalDate.ofEpochDay(1), Duration.ofHours(1)),
-            createRecord(1)
+            createSeparator(LocalDate.ofEpochDay(1), 70),
+            createRecord(1),
         ) shouldBe false
     }
 
@@ -45,4 +45,11 @@ class HistoryDiffCallbackTest : StringSpec({
 
 fun createRecord(id: Int, name: String = ""): Record {
     return Record(id, name, 0, UiMeasurementUnit.Millis, LocalDate.ofEpochDay(0))
+}
+
+fun createSeparator(date: LocalDate, totalCount: Long) : Separator {
+    return Separator(
+        date,
+        Separator.Total(totalCount, UiMeasurementUnit.Millis),
+    )
 }

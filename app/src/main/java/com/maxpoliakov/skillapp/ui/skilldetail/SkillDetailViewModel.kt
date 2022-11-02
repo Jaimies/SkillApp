@@ -64,9 +64,7 @@ class SkillDetailViewModel @Inject constructor(
     val uiGoal = skillLiveData.map { skill -> skill.goal?.mapToUI(skill.unit) }
     override val unitFlow = skill.map { skill -> skill.unit }
 
-    val summary = skill.map { skill ->
-        ProductivitySummary.from(skill)
-    }.asLiveData()
+    val summary = skill.map(ProductivitySummary.Companion::from).asLiveData()
 
     override val nameFlow = skill.map { it.name }
 

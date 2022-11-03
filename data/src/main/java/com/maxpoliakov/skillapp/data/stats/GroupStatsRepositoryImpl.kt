@@ -18,9 +18,9 @@ class GroupStatsRepositoryImpl @Inject constructor(
 
     override fun getCountAtDateFlow(id: Id, date: LocalDate): Flow<Long> {
         return groupDao.getGroupFlowById(id).flatMapLatest { group ->
-            val timeTodayFlows = group.skills.map { (id) ->
+            val timeTodayFlows = group?.skills?.map { (id) ->
                 skillStatsRepository.getCountAtDateFlow(id, date)
-            }
+            } ?: listOf()
 
             combine(timeTodayFlows) { todayTimes -> todayTimes.sum() }
         }

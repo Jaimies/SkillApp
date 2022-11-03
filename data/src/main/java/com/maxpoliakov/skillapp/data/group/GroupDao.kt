@@ -20,7 +20,7 @@ interface GroupDao : BaseDao<DBGroup> {
 
     @Transaction
     @Query("SELECT * FROM groups WHERE id = :id")
-    fun getGroupFlowById(id: Int): Flow<GroupWithSkills>
+    fun getGroupFlowById(id: Int): Flow<GroupWithSkills?>
 
     @Transaction
     @Query("SELECT * FROM groups WHERE id = :id")

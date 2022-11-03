@@ -13,7 +13,6 @@ import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToUI
-import com.maxpoliakov.skillapp.shared.util.collectOnce
 import com.maxpoliakov.skillapp.shared.util.until
 import com.maxpoliakov.skillapp.ui.common.history.ViewModelWithHistory
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
@@ -21,6 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -101,12 +101,12 @@ abstract class DetailsViewModel(
     init {
         viewModelScope.launch {
             delay(1)
-            nameFlow.collectOnce { newName ->
+            nameFlow.first().let { newName ->
                 name.value = newName
                 lastName = newName
             }
 
-            goalFlow.collectOnce { goal -> _goal.value = goal }
+            _goal.value = goalFlow.first()
         }
     }
 

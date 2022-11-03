@@ -18,17 +18,6 @@ inline fun <T> Flow<List<T>>.filterList(crossinline transform: suspend (T) -> Bo
     }
 }
 
-suspend inline fun <T> Flow<T>.collectOnce(crossinline collector: (T) -> Unit) {
-    coroutineScope {
-        launch {
-            collect { value ->
-                collector.invoke(value)
-                this.cancel()
-            }
-        }
-    }
-}
-
 suspend inline fun <T> Flow<T>.collectIgnoringInitialValue(crossinline action: suspend (value: T) -> Unit) {
     var firstValueReceived = false
 

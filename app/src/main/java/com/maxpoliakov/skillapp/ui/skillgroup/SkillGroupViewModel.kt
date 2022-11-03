@@ -2,7 +2,9 @@ package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
+import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Daily
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
@@ -40,13 +42,21 @@ class SkillGroupViewModel @Inject constructor(
     override val selectionCriteria = SkillSelectionCriteria.InGroupWithId(groupId)
 
     override val nameFlow = _group.map { it.name }
-    override val unitFlow = _group.map { group -> group.unit }
+    override val unitFlow = _group.map { it.unit }
 
     val uiGoal = group.map { group -> group.goal?.mapToUI(group.unit) }
 
-    val summary = _group.combine(chartData.getChartData(Daily)) { group, stats ->
-        ProductivitySummary(group.totalCount, stats.sumByLong { it.count }, group.unit.mapToUI())
-    }.asLiveData()
+    val summary by lazy {
+        _group.combine(chartData.getChartData(Daily), ::getSummary).asLiveData()
+    }
+
+    private fun getSummary(group: SkillGroup, stats: List<Statistic>): ProductivitySummary {
+        return ProductivitySummary(
+            group.totalCount,
+            stats.sumByLong { it.count },
+            group.unit.mapToUI()
+        )
+    }
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
         return state.groupId == groupId

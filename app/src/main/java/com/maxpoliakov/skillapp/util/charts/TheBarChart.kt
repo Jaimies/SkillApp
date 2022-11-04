@@ -45,11 +45,11 @@ class TheBarChart : BarChart {
         showGoalIfNecessary(data)
         updateInterval(data)
         updateData(data)
-        scrollToLast(data)
     }
 
     private fun updateData(data: BarChartData) {
         this.data = createBarData(data)
+        scrollToLast(data)
     }
 
     private fun createBarData(data: BarChartData): BarData {

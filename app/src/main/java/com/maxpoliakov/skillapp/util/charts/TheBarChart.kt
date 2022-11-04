@@ -22,8 +22,6 @@ class TheBarChart : BarChart {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
-    private var intervalType: UiStatisticInterval? = null
-
     init {
         setup()
     }
@@ -186,11 +184,7 @@ class TheBarChart : BarChart {
     }
 
     private fun updateInterval(data: BarChartData) {
-        if (data.interval == this.intervalType) return
-
-        intervalType = data.interval
         xAxis.valueFormatter = data.interval.valueFormatter
-
         viewPortHandler.setScaleXRange(data.interval.scale)
         setScaleEnabled(data.interval.scaleEnabled)
     }

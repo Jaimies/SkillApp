@@ -200,14 +200,12 @@ class TheBarChart : BarChart {
         intervalType = data.interval
         xAxis.valueFormatter = data.interval.valueFormatter
 
-        viewPortHandler.setMaximumScaleX(data.interval.maxScale)
-        viewPortHandler.setMinimumScaleX(data.interval.minScale)
-
+        viewPortHandler.setScaleXRange(data.interval.scale)
         setScaleEnabled(data.interval.scaleEnabled)
     }
 
     private fun scrollToLast(data: BarChartData) {
-        zoom(data.interval.maxScale, 1f, data.entries.last().x, 0f)
+        zoom(data.interval.scale.endInclusive, 1f, data.entries.last().x, 0f)
     }
 
     companion object {

@@ -38,13 +38,15 @@ enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInte
 
     open val numberOfValuesVisibleAtOnce get() = 7..7
 
-    val scaleEnabled get() = numberOfValuesVisibleAtOnce.first != numberOfValuesVisibleAtOnce.last
+    val scale get() = scaleToDisplayNValues(numberOfValuesVisibleAtOnce)
+    val scaleEnabled get() = scale.start != scale.endInclusive
 
-    val minScale get() = scaleToDisplayNValues(numberOfValuesVisibleAtOnce.last)
-    val maxScale get() = scaleToDisplayNValues(numberOfValuesVisibleAtOnce.first)
+    private fun scaleToDisplayNValues(n: Int): Float {
+        return toDomain().numberOfValues / n.toFloat()
+    }
 
-    private fun scaleToDisplayNValues(numberOfValues: Int): Float {
-        return toDomain().numberOfValues / numberOfValues.toFloat()
+    private fun scaleToDisplayNValues(n: IntRange): ClosedFloatingPointRange<Float> {
+        return scaleToDisplayNValues(n.first)..scaleToDisplayNValues(n.last)
     }
 
     companion object : MappableEnum.Companion<UiStatisticInterval, StatisticInterval>(values())

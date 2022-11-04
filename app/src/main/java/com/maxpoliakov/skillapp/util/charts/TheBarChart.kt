@@ -1,21 +1,14 @@
 package com.maxpoliakov.skillapp.util.charts
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Typeface
 import android.util.AttributeSet
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.LimitLine.LimitLabelPosition
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.renderer.XAxisRenderer
-import com.github.mikephil.charting.utils.MPPointF
-import com.github.mikephil.charting.utils.Transformer
-import com.github.mikephil.charting.utils.Utils
-import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.UiGoal
@@ -59,7 +52,7 @@ class TheBarChart : BarChart {
         this.data = createBarData(data)
     }
 
-    private fun createBarData(data: BarChartData) : BarData {
+    private fun createBarData(data: BarChartData): BarData {
         return BarData(createDataSets(data)).apply {
             barWidth = 0.3f
         }
@@ -90,13 +83,7 @@ class TheBarChart : BarChart {
 
     private fun setupZoom() {
         viewPortHandler.setMaximumScaleY(1f)
-        setXAxisRenderer(
-            CustomXAxisRenderer(
-                viewPortHandler,
-                xAxis,
-                getTransformer(YAxis.AxisDependency.LEFT)
-            )
-        )
+        setXAxisRenderer(MultilineXAxisRenderer(this))
     }
 
     private fun setupOffsets() {
@@ -191,28 +178,6 @@ class TheBarChart : BarChart {
 
     private fun shouldDisplayGoal(goal: UiGoal): Boolean {
         return goal.type.toDomain().interval.mapToUI() == intervalType
-    }
-
-    class CustomXAxisRenderer(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, trans: Transformer?) :
-        XAxisRenderer(viewPortHandler, xAxis, trans) {
-        override fun drawLabel(
-            c: Canvas?,
-            formattedLabel: String,
-            x: Float,
-            y: Float,
-            anchor: MPPointF?,
-            angleDegrees: Float
-        ) {
-            val line = formattedLabel.split("\n").toTypedArray()
-            Utils.drawXAxisValue(c, line[0], x, y, mAxisLabelPaint, anchor, angleDegrees)
-
-            if (line.size == 1) return
-
-            Utils.drawXAxisValue(
-                c,
-                line[1], x, y + mAxisLabelPaint.textSize, mAxisLabelPaint, anchor, angleDegrees
-            )
-        }
     }
 
     private fun updateInterval(data: BarChartData) {

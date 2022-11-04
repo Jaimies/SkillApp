@@ -42,7 +42,7 @@ class TheBarChart : BarChart {
     }
 
     private fun updateUI(data: BarChartData) {
-        displayGoal(data)
+        showGoalIfNecessary(data)
         updateInterval(data)
         updateData(data)
         zoomToLast(data)
@@ -137,28 +137,42 @@ class TheBarChart : BarChart {
         description.isEnabled = false
     }
 
-    private fun displayGoal(data: BarChartData) {
+    private fun showGoalIfNecessary(data: BarChartData) {
         if (data.goal == null || !shouldDisplayGoal(data.goal)) {
-            axisLeft.removeAllLimitLines()
-            axisLeft.resetAxisMaximum()
-            return
+            hideGoal()
+        } else {
+            showGoal(data.goal, data)
         }
+    }
 
-        axisLeft.run {
-            removeAllLimitLines()
-            val label = data.goal.unit.toLongString(data.goal.count, context)
-            val limitLine = LimitLine(data.goal.count.toFloat(), label).apply {
-                val color = context.textColor
-                lineWidth = 1f
-                lineColor = color
-                textColor = color
-                labelPosition = LimitLabelPosition.LEFT_BOTTOM
-                textSize = 12.sp.toDp(context)
-                typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
-            }
-            addLimitLine(limitLine)
-            updateAxisMaximum(data)
+    private fun showGoal(goal: UiGoal, data: BarChartData) {
+        showLimitLine(goal)
+        updateAxisMaximum(data)
+    }
+
+    private fun showLimitLine(goal: UiGoal) = axisLeft.run {
+        removeAllLimitLines()
+        addLimitLine(makeLimitLine(goal))
+    }
+
+    private fun makeLimitLine(goal: UiGoal): LimitLine {
+        return LimitLine(
+            goal.count.toFloat(),
+            goal.unit.toLongString(goal.count, context),
+        ).apply {
+            val color = context.textColor
+            lineWidth = 1f
+            lineColor = color
+            textColor = color
+            labelPosition = LimitLabelPosition.LEFT_BOTTOM
+            textSize = 12.sp.toDp(context)
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
         }
+    }
+
+    private fun hideGoal() {
+        axisLeft.removeAllLimitLines()
+        axisLeft.resetAxisMaximum()
     }
 
     private fun updateAxisMaximum(data: BarChartData) {

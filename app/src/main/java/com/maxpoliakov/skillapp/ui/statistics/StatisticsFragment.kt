@@ -37,8 +37,6 @@ class StatisticsFragment : BarChartFragment(-1) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.chartData.stats, binding.productivityChart.chart::update)
-
         observe(viewModel.pieData) { pieData ->
             binding.splitChart.chart.setData(pieData)
             binding.splitChart.root.isGone = binding.splitChart.chart.data == null

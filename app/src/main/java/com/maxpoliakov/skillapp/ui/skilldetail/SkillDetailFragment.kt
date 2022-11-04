@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -49,8 +48,6 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        observe(viewModel.chartData.stats, binding.productivityChart.chart::update)
 
         observe(viewModel.showRecordDialog) { showRecordDialog() }
         observe(viewModel.showRecordAdded) { record ->

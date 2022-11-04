@@ -42,8 +42,6 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.chartData.stats, binding.productivityChart.chart::update)
-
         observe(viewModel.group) { group ->
             val data = group.skills.map { skill ->
                 PieEntry(skill.totalCount.toFloat(), skill.name)

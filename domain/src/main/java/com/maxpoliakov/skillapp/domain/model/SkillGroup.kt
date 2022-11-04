@@ -4,7 +4,7 @@ import com.maxpoliakov.skillapp.shared.util.sumByLong
 
 data class SkillGroup(
     override val id: Int,
-    val name: String,
+    override val name: String,
     val skills: List<Skill>,
     override val unit: MeasurementUnit,
     override val goal: Goal?,

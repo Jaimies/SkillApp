@@ -58,12 +58,3 @@ fun View.setConditionalConstraint(
     }
 }
 
-@BindingAdapter("goal")
-fun TheBarChart.setChartGoal(goal: UiGoal?) {
-    if (goal != null) setGoal(goal)
-}
-
-@BindingAdapter("unit")
-fun TheBarChart.setChartUnit(unit: UiMeasurementUnit?) {
-    if (unit != null) setUnit(unit)
-}

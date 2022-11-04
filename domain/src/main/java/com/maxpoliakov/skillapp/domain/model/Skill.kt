@@ -4,7 +4,7 @@ import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import java.time.LocalDate
 
 data class Skill(
-    val name: String,
+    override val name: String,
     override val unit: MeasurementUnit,
     override val totalCount: Long,
     val initialCount: Long,

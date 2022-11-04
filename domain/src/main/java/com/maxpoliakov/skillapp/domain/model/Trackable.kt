@@ -5,4 +5,5 @@ interface Trackable {
     val totalCount: Long
     val unit: MeasurementUnit
     val goal: Goal?
+    val name: String
 }

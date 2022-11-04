@@ -61,12 +61,7 @@ class SkillDetailViewModel @Inject constructor(
     val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
     val skillLiveData = skill.asLiveData()
 
-    val uiGoal = skillLiveData.map { skill -> skill.goal?.mapToUI(skill.unit) }
-    override val unitFlow = skill.map { skill -> skill.unit }
-
     val summary = skill.map(ProductivitySummary.Companion::from).asLiveData()
-
-    override val nameFlow = skill.map { it.name }
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
         return state.skillId == skillId

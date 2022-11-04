@@ -11,7 +11,6 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.renderer.XAxisRenderer
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.Transformer
@@ -20,7 +19,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.UiGoal
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.model.UiStatisticInterval
 import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
 import com.maxpoliakov.skillapp.ui.common.DayFormatter
@@ -33,21 +31,16 @@ class TheBarChart : BarChart {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
-    private var entries: List<BarEntry>? = null
     private var intervalType: UiStatisticInterval? = null
-    private var unit = UiMeasurementUnit.Millis
-    private var goal: UiGoal? = null
 
     init {
         setup()
     }
 
-    fun setState(entries: List<BarEntry>?) {
-        if (entries != null) {
-            this.entries = entries
-            updateUI(entries)
+    fun update(data: BarChartData?) {
+        if (data != null) {
+            updateUI(data)
         } else {
-            this.entries = null
             this.data = null
         }
 
@@ -55,25 +48,32 @@ class TheBarChart : BarChart {
         invalidate()
     }
 
-    private fun updateUI(entries: List<BarEntry>) {
-        this.data = BarData(createDataSets(entries))
-        this.data.barWidth = 0.3f
-        zoom(8f, 1f, entries.last().x, 0f)
-        updateAxisMaximum()
+    private fun updateUI(data: BarChartData) {
+        displayGoal(data)
+        updateInterval(data)
+        updateData(data)
+        zoomToLast(data)
     }
 
-    private fun createDataSets(entries: List<BarEntry>): List<BarDataSet> {
-        return listOf(createDataSet(entries))
+    private fun updateData(data: BarChartData) {
+        this.data = createBarData(data)
     }
 
-    private fun createDataSet(entries: List<BarEntry>): BarDataSet {
-        val textColor = context.textColor
+    private fun createBarData(data: BarChartData) : BarData {
+        return BarData(createDataSets(data)).apply {
+            barWidth = 0.3f
+        }
+    }
 
-        return BarDataSet(entries, "").apply {
+    private fun createDataSets(data: BarChartData): List<BarDataSet> {
+        return listOf(createDataSet(data))
+    }
+
+    private fun createDataSet(data: BarChartData): BarDataSet {
+        return BarDataSet(data.entries, "").apply {
             valueTextSize = VALUE_TEXT_SIZE
-            valueFormatter = unit.getValueFormatter(context)
-            valueTextColor = textColor
-            this.color = textColor
+            valueFormatter = data.unit.getValueFormatter(context)
+            valueTextColor = context.textColor
             color = context.primaryColor
             isHighlightEnabled = false
         }
@@ -150,24 +150,17 @@ class TheBarChart : BarChart {
         description.isEnabled = false
     }
 
-    fun setGoal(goal: UiGoal) {
-        this.goal = goal
-        displayGoal(goal)
-    }
-
-    private fun displayGoal(goal: UiGoal?) {
-        if (goal == null || !shouldDisplayGoal(goal)) {
+    private fun displayGoal(data: BarChartData) {
+        if (data.goal == null || !shouldDisplayGoal(data.goal)) {
             axisLeft.removeAllLimitLines()
             axisLeft.resetAxisMaximum()
-            notifyDataSetChanged()
-            invalidate()
             return
         }
 
         axisLeft.run {
             removeAllLimitLines()
-            val label = goal.unit.toLongString(goal.count, context)
-            val limitLine = LimitLine(goal.count.toFloat(), label).apply {
+            val label = data.goal.unit.toLongString(data.goal.count, context)
+            val limitLine = LimitLine(data.goal.count.toFloat(), label).apply {
                 val color = context.textColor
                 lineWidth = 1f
                 lineColor = color
@@ -177,26 +170,21 @@ class TheBarChart : BarChart {
                 typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             }
             addLimitLine(limitLine)
-
-            updateAxisMaximum()
-            notifyDataSetChanged()
-            invalidate()
+            updateAxisMaximum(data)
         }
     }
 
-    private fun updateAxisMaximum() {
-        val goal = this.goal
-
-        if (goal == null) {
+    private fun updateAxisMaximum(data: BarChartData) {
+        if (data.goal == null) {
             axisLeft.resetAxisMaximum()
         } else {
-            val axisMaximum = (entries?.maxByOrNull { it.y }?.y ?: 0f) * 1.1f
-            val goalTime = goal.count.toFloat()
+            val axisMaximum = (data.entries.maxByOrNull { it.y }?.y ?: 0f) * 1.1f
+            val goalTime = data.goal.count.toFloat()
 
             if (goalTime < axisMaximum) {
                 axisLeft.resetAxisMaximum()
             } else {
-                axisLeft.axisMaximum = goal.count.toFloat().coerceAtLeast(axisMaximum)
+                axisLeft.axisMaximum = data.goal.count.toFloat().coerceAtLeast(axisMaximum)
             }
         }
     }
@@ -227,33 +215,20 @@ class TheBarChart : BarChart {
         }
     }
 
-    private fun setFormatterType(interval: UiStatisticInterval) {
-        if (interval == this.intervalType) return
+    private fun updateInterval(data: BarChartData) {
+        if (data.interval == this.intervalType) return
 
-        intervalType = interval
+        intervalType = data.interval
+        xAxis.valueFormatter = data.interval.valueFormatter
 
-        xAxis.valueFormatter = interval.valueFormatter
+        viewPortHandler.setMaximumScaleX(data.interval.maxScale)
+        viewPortHandler.setMinimumScaleX(data.interval.minScale)
 
-        viewPortHandler.setMaximumScaleX(interval.maxScale)
-        viewPortHandler.setMinimumScaleX(interval.minScale)
-        setScaleEnabled(interval.scaleEnabled)
-        entries?.let { entries -> zoom(interval.maxScale, 1f, entries.last().x, 0f) }
-
-        displayGoal(goal)
-        invalidate()
+        setScaleEnabled(data.interval.scaleEnabled)
     }
 
-    fun update(data: BarChartData) {
-        setState(data.entries)
-        setFormatterType(data.interval)
-    }
-
-    fun setUnit(unit: UiMeasurementUnit) {
-        this.unit = unit
-        val valueFormatter = unit.getValueFormatter(context)
-        data?.dataSets?.forEach { dataset ->
-            dataset.valueFormatter = valueFormatter
-        }
+    private fun zoomToLast(data: BarChartData) {
+        zoom(data.interval.maxScale, 1f, data.entries.last().x, 0f)
     }
 
     companion object {

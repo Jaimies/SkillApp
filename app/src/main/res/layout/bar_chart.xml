@@ -8,14 +8,6 @@
             name="data"
             type="com.maxpoliakov.skillapp.ui.common.ChartData" />
 
-        <variable
-            name="goal"
-            type="com.maxpoliakov.skillapp.model.UiGoal" />
-
-        <variable
-            name="unit"
-            type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
-
         <import type="com.maxpoliakov.skillapp.model.UiStatisticInterval" />
     </data>
 
@@ -36,9 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/chart_height"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="40dp"
-                app:unit="@{unit}"
-                app:goal="@{goal}" />
+                android:layout_marginBottom="40dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

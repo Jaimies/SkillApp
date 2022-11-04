@@ -41,11 +41,6 @@ class SkillGroupViewModel @Inject constructor(
 
     override val selectionCriteria = SkillSelectionCriteria.InGroupWithId(groupId)
 
-    override val nameFlow = _group.map { it.name }
-    override val unitFlow = _group.map { it.unit }
-
-    val uiGoal = group.map { group -> group.goal?.mapToUI(group.unit) }
-
     val summary by lazy {
         _group.combine(chartData.getChartData(Daily), ::getSummary).asLiveData()
     }

@@ -75,9 +75,7 @@
                         android:layout_height="@dimen/chart_height"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="8dp"
-                        app:data="@{viewModel.chartData}"
-                        app:unit="@{viewModel.unit}"
-                        app:goal="@{viewModel.uiGoal}" />
+                        app:data="@{viewModel.chartData}" />
 
                     <include
                         android:id="@+id/split_chart"

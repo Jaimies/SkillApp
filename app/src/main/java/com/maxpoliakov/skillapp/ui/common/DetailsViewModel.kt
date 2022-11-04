@@ -6,7 +6,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
@@ -35,19 +34,13 @@ abstract class DetailsViewModel(
     getRecentTime: GetRecentCountUseCase,
     flow: Flow<Trackable>,
 ) : ViewModelWithHistory() {
-
     @Inject
     lateinit var chartDataFactory: ChartData.Factory
-
-    val chartData by lazy { chartDataFactory.create(selectionCriteria) }
-
-    abstract val unitFlow: Flow<MeasurementUnit>
 
     override val unitForDailyTotals get() = unitFlow
 
     private val uiUnitFlow by lazy { unitFlow.map { it.mapToUI() } }
     val unit by lazy { uiUnitFlow.asLiveData() }
-    protected abstract val nameFlow: Flow<String>
 
     private val _isEditing = MutableLiveData(false)
     val isEditing: LiveData<Boolean> get() = _isEditing
@@ -67,6 +60,10 @@ abstract class DetailsViewModel(
     private var lastName = ""
 
     private val goalFlow = flow.map { it.goal }
+    private val unitFlow = flow.map { it.unit }
+    private val nameFlow = flow.map { it.name }
+
+    val chartData by lazy { chartDataFactory.create(selectionCriteria, unitFlow, goalFlow) }
 
     private val recordedCountFlow = flow.flatMapLatest { trackable ->
         val goal = trackable.goal ?: return@flatMapLatest flowOf(0L)

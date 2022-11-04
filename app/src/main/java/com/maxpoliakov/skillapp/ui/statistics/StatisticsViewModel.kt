@@ -14,6 +14,7 @@ import com.maxpoliakov.skillapp.shared.util.mapList
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.ChartData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ class StatisticsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
     chartDataFactory: ChartData.Factory,
 ) : ViewModel() {
-    val chartData = chartDataFactory.create(WithUnit(Millis))
+    val chartData = chartDataFactory.create(WithUnit(Millis), flowOf(Millis), flowOf(null))
 
     val summary = getSkills.getSkillsWithLastWeekTime(MeasurementUnit.Millis).map { skills ->
         calculateSummary(skills)

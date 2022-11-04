@@ -45,7 +45,7 @@ class TheBarChart : BarChart {
         showGoalIfNecessary(data)
         updateInterval(data)
         updateData(data)
-        zoomToLast(data)
+        scrollToLast(data)
     }
 
     private fun updateData(data: BarChartData) {
@@ -206,7 +206,7 @@ class TheBarChart : BarChart {
         setScaleEnabled(data.interval.scaleEnabled)
     }
 
-    private fun zoomToLast(data: BarChartData) {
+    private fun scrollToLast(data: BarChartData) {
         zoom(data.interval.maxScale, 1f, data.entries.last().x, 0f)
     }
 

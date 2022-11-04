@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
@@ -14,7 +13,6 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentSkillCountUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
-import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
@@ -24,7 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -58,8 +56,8 @@ class SkillDetailViewModel @Inject constructor(
         else getZonedDateTime()
     }.asLiveData()
 
-    val skill = getSkillById.run(skillId).shareIn(viewModelScope, Eagerly, replay = 1)
-    val skillLiveData = skill.asLiveData()
+    val skill = getSkillById.run(skillId)
+    private val skillStateFlow = skill.stateIn(viewModelScope, Eagerly, null)
 
     val summary = skill.map(ProductivitySummary.Companion::from).asLiveData()
 
@@ -67,12 +65,12 @@ class SkillDetailViewModel @Inject constructor(
         return state.skillId == skillId
     }
 
-    fun addRecord(count: Long) {
-        val record = Record("", skillId, count, skillLiveData.value!!.unit)
+    fun addRecord(count: Long) = skillStateFlow.value?.let { skill ->
+        val record = Record("", skillId, count, skill.unit)
         ioScope.launch { addRecord.run(record) }
     }
 
-    fun deleteSkill() = this.skill.replayCache.lastOrNull()?.let { skill ->
+    fun deleteSkill() = skillStateFlow.value?.let { skill ->
         ioScope.launch { manageSkill.deleteSkill(skill) }
         logEvent("delete_skill")
     }

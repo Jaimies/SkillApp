@@ -15,8 +15,13 @@ data class BarChartData(
     val interval: UiStatisticInterval,
     val entries: List<BarEntry>,
     val unit: UiMeasurementUnit,
-    val goal: UiGoal?
+    val goal: UiGoal?,
 ) {
+    val shouldDisplayGoal: Boolean
+        get() {
+            return goal != null && goal.type.toDomain().interval == interval.toDomain()
+        }
+
     companion object {
         fun from(
             interval: StatisticInterval,

@@ -12,8 +12,6 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.UiGoal
-import com.maxpoliakov.skillapp.model.UiStatisticInterval
-import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
 import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.util.ui.primaryColor
 import com.maxpoliakov.skillapp.util.ui.sp
@@ -138,15 +136,12 @@ class TheBarChart : BarChart {
     }
 
     private fun showGoalIfNecessary(data: BarChartData) {
-        if (data.goal == null || !shouldDisplayGoal(data.goal)) {
-            hideGoal()
-        } else {
-            showGoal(data.goal, data)
-        }
+        if (data.shouldDisplayGoal) showGoal(data)
+        else hideGoal()
     }
 
-    private fun showGoal(goal: UiGoal, data: BarChartData) {
-        showLimitLine(goal)
+    private fun showGoal(data: BarChartData) {
+        showLimitLine(data.goal!!)
         updateAxisMaximum(data)
     }
 
@@ -188,10 +183,6 @@ class TheBarChart : BarChart {
                 axisLeft.axisMaximum = data.goal.count.toFloat().coerceAtLeast(axisMaximum)
             }
         }
-    }
-
-    private fun shouldDisplayGoal(goal: UiGoal): Boolean {
-        return goal.type.toDomain().interval.mapToUI() == intervalType
     }
 
     private fun updateInterval(data: BarChartData) {

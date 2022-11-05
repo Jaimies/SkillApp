@@ -7,8 +7,8 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 
 class ThePieChart : PieChart {
@@ -37,8 +37,8 @@ class ThePieChart : PieChart {
         extraBottomOffset = 5f
     }
 
-    fun setData(entries: List<PieEntry>) {
-        val validEntries = entries
+    fun update(data: PieChartData) {
+        val validEntries = data.entries
             .filter { it.y > 0 }
             .sortedBy { -it.y }
 
@@ -61,7 +61,7 @@ class ThePieChart : PieChart {
             setDrawValues(false)
         }
 
-        data = PieData(dataSet)
+        this.data = PieData(dataSet)
         invalidate()
     }
 }

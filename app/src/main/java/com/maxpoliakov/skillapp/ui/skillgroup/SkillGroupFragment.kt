@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.fragment.app.viewModels
-import com.github.mikephil.charting.data.PieEntry
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillGroupFragBinding
 import com.maxpoliakov.skillapp.ui.common.DetailsFragment
@@ -42,12 +41,8 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.group) { group ->
-            val data = group.skills.map { skill ->
-                PieEntry(skill.totalCount.toFloat(), skill.name)
-            }
-
-            binding.splitChart.chart.setData(data)
+        observe(viewModel.pieData.data) { data ->
+            binding.splitChart.chart.update(data)
             binding.splitChart.root.isGone = binding.splitChart.chart.data == null
         }
     }

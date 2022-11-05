@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Statistic
@@ -12,14 +11,13 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentGroupCountUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
-import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
+import com.maxpoliakov.skillapp.util.charts.PieData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,6 +36,8 @@ class SkillGroupViewModel @Inject constructor(
 
     private val _group = getGroup.getById(groupId)
     val group = _group.asLiveData()
+
+    val pieData = PieData(_group)
 
     override val selectionCriteria = SkillSelectionCriteria.InGroupWithId(groupId)
 

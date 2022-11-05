@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.common
+package com.maxpoliakov.skillapp.util.charts
 
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.Goal

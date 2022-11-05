@@ -11,7 +11,6 @@ import com.maxpoliakov.skillapp.domain.repository.DriveRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
-import com.maxpoliakov.skillapp.shared.util.collectIgnoringInitialValue
 import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.error.logToCrashlytics

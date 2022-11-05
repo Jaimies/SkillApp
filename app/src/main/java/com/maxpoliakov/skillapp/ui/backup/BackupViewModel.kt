@@ -19,6 +19,7 @@ import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.util.network.NetworkUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -67,7 +68,7 @@ class BackupViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            restoreBackupUseCase.state.collectIgnoringInitialValue { state ->
+            restoreBackupUseCase.state.drop(1).collect { state ->
                 if (state == RestorationState.Finished) _showBackupRestorationSucceeded.call()
             }
         }

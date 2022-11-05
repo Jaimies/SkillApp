@@ -17,16 +17,3 @@ inline fun <T> Flow<List<T>>.filterList(crossinline transform: suspend (T) -> Bo
         list.filter { item -> transform(item) }
     }
 }
-
-suspend inline fun <T> Flow<T>.collectIgnoringInitialValue(crossinline action: suspend (value: T) -> Unit) {
-    var firstValueReceived = false
-
-    collect { value ->
-        if (!firstValueReceived) {
-            firstValueReceived = true
-            return@collect
-        }
-
-        action(value)
-    }
-}

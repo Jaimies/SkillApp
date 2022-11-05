@@ -10,9 +10,9 @@ import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.DriveRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
-import com.maxpoliakov.skillapp.shared.util.collectIgnoringInitialValue
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,7 +42,7 @@ class RestoreBackupViewModel @Inject constructor(
             getBackups()
 
         viewModelScope.launch {
-            restoreBackupUseCase.state.collectIgnoringInitialValue { state ->
+            restoreBackupUseCase.state.drop(1).collect { state ->
                 if (state == RestorationState.Finished) _restorationSucceeded.call()
             }
         }

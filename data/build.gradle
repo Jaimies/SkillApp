@@ -103,6 +103,7 @@ dependencies {
     implementation("com.google.apis:google-api-services-drive:$Versions.googleApiServices")
 
     testImplementation project(":sharedTest")
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:$Versions.kotlin"
     testImplementation 'androidx.test.ext:junit:1.1.3'
     testImplementation "io.mockk:mockk:$Versions.mockk"
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"

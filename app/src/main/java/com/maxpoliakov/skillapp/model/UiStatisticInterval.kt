@@ -46,7 +46,7 @@ enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInte
     }
 
     private fun scaleToDisplayNValues(n: IntRange): ClosedFloatingPointRange<Float> {
-        return scaleToDisplayNValues(n.first)..scaleToDisplayNValues(n.last)
+        return scaleToDisplayNValues(n.last)..scaleToDisplayNValues(n.first)
     }
 
     companion object : MappableEnum.Companion<UiStatisticInterval, StatisticInterval>(values())

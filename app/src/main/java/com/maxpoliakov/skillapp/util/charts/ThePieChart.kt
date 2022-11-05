@@ -2,16 +2,22 @@ package com.maxpoliakov.skillapp.util.charts
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.util.AttributeSet
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
+import com.maxpoliakov.skillapp.util.ui.textColor
 
-class ThePieChart : PieChart {
+class ThePieChart : PieChart, OnChartValueSelectedListener {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
@@ -20,6 +26,7 @@ class ThePieChart : PieChart {
         setup()
     }
 
+    // todo split into different functions
     fun setup() {
         setHoleColor(Color.TRANSPARENT)
         holeRadius = 52.5f
@@ -35,6 +42,12 @@ class ThePieChart : PieChart {
         }
 
         extraBottomOffset = 5f
+        // todo better formatting
+        setDrawCenterText(true)
+        setCenterTextSize(24f)
+        setCenterTextTypeface(Typeface.DEFAULT_BOLD)
+        setCenterTextColor(context.textColor)
+        setOnChartValueSelectedListener(this)
     }
 
     fun update(data: PieChartData) {
@@ -59,5 +72,17 @@ class ThePieChart : PieChart {
 
         this.data = PieData(dataSet)
         invalidate()
+    }
+
+    override fun onValueSelected(entry: Entry?, highlight: Highlight?) {
+        if (entry is PieEntry) {
+            centerText = entry.label
+        }
+
+
+    }
+
+    override fun onNothingSelected() {
+        centerText = ""
     }
 }

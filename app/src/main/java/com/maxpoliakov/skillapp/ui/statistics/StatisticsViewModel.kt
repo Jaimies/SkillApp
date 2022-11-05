@@ -21,6 +21,7 @@ import javax.inject.Inject
 class StatisticsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
     chartDataFactory: ChartData.Factory,
+    pieDataFactory: PieData.Factory,
 ) : ViewModel() {
     val chartData = chartDataFactory.create(WithUnit(Millis), flowOf(Millis), flowOf(null))
 
@@ -28,7 +29,7 @@ class StatisticsViewModel @Inject constructor(
         calculateSummary(skills)
     }.asLiveData()
 
-    val pieData = PieData(getSkills.getTopSkills(5), flowOf(Millis))
+    val pieData = pieDataFactory.create(getSkills.getTopSkills(5), flowOf(Millis))
 }
 
 fun calculateSummary(skills: List<Skill>): ProductivitySummary {

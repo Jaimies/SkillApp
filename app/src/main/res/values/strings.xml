@@ -129,4 +129,5 @@
     <string name="done">Done</string>
     <string name="intro_3_1_0_title">To reorder skills, click the "edit" button</string>
     <string name="intro_3_1_0_text">You will then be able to reorder and group your skills as normal</string>
+    <string name="pie_chart_legend_entry">%1$s: %2$s</string>
 </resources>

@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.maxpoliakov.skillapp.ui.common.ChartData" />
+            type="com.maxpoliakov.skillapp.util.charts.ChartData" />
 
         <import type="com.maxpoliakov.skillapp.model.UiStatisticInterval" />
     </data>

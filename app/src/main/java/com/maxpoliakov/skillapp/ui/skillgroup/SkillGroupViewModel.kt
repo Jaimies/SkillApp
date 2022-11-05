@@ -39,7 +39,7 @@ class SkillGroupViewModel @Inject constructor(
     private val _group = getGroup.getById(groupId)
     val group = _group.asLiveData()
 
-    val pieData = pieDataFactory.create(_group.map { it.skills }, _group.map { it.unit })
+    val pieData = pieDataFactory.create(_group.map { it.skills })
 
     override val selectionCriteria = SkillSelectionCriteria.InGroupWithId(groupId)
 

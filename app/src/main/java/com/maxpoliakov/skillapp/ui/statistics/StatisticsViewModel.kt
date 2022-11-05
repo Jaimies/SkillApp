@@ -29,7 +29,7 @@ class StatisticsViewModel @Inject constructor(
         calculateSummary(skills)
     }.asLiveData()
 
-    val pieData = pieDataFactory.create(getSkills.getTopSkills(5), flowOf(Millis))
+    val pieData = pieDataFactory.create(getSkills.getTopSkills(5))
 }
 
 fun calculateSummary(skills: List<Skill>): ProductivitySummary {

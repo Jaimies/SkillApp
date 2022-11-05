@@ -23,18 +23,17 @@ class PieData @AssistedInject constructor(
 ) {
     val data = skills.map { skills ->
         val entries = skills.map { skill ->
-            PieEntry(
-                skill.totalCount.toFloat(),
-                context.getString(
-                    R.string.pie_chart_legend_entry,
-                    skill.name,
-                    skill.unit.mapToUI().toLongString(skill.totalCount, context)
-                ),
-            )
+            PieEntry(skill.totalCount.toFloat(), context.getLabel(skill))
         }
 
         PieChartData(entries)
     }.asLiveData()
+
+    private fun Context.getLabel(skill: Skill) = getString(
+        R.string.pie_chart_legend_entry,
+        skill.name,
+        skill.unit.mapToUI().toLongString(skill.totalCount, this)
+    )
 
     val isEmpty = data.map { it.entries.isEmpty() }
 

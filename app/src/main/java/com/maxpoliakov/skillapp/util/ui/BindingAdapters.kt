@@ -8,7 +8,9 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.google.android.material.button.MaterialButton
 import com.maxpoliakov.skillapp.model.BarChartData
+import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.util.charts.TheBarChart
+import com.maxpoliakov.skillapp.util.charts.ThePieChart
 
 @BindingAdapter("visible")
 fun View.isVisible(value: Boolean) {
@@ -62,3 +64,7 @@ fun TheBarChart.setData(data: BarChartData?) {
     update(data)
 }
 
+@BindingAdapter("data")
+fun ThePieChart.setData(data: PieChartData?) {
+    data?.let(this::update)
+}

@@ -38,16 +38,12 @@ class ThePieChart : PieChart {
     }
 
     fun update(data: PieChartData) {
-        val validEntries = data.entries
-            .filter { it.y > 0 }
-            .sortedBy { -it.y }
-
-        if (validEntries.isEmpty()) {
+        if (data.entries.isEmpty()) {
             this.data = null
             return
         }
 
-        val dataSet = PieDataSet(validEntries, "").apply {
+        val dataSet = PieDataSet(data.entries, "").apply {
             val colors = intArrayOf(
                 ColorTemplate.rgb("#2ecc71"),
                 ColorTemplate.rgb("#ffc41e"),

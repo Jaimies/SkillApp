@@ -38,14 +38,5 @@ class SkillGroupFragment : DetailsFragment(R.menu.skillgroup_detail_frag_menu) {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        observe(viewModel.pieData.data) { data ->
-            binding.splitChart.chart.update(data)
-            binding.splitChart.root.isGone = binding.splitChart.chart.data == null
-        }
-    }
-
     override fun onStartEditing() = logEvent("edit_skill_group")
 }

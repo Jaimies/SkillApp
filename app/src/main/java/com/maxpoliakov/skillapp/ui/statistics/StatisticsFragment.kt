@@ -33,13 +33,4 @@ class StatisticsFragment : BarChartFragment(-1) {
     }
 
     override fun onMenuItemSelected(id: Int) = false
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        observe(viewModel.pieData.data) { pieData ->
-            binding.splitChart.chart.update(pieData)
-            binding.splitChart.root.isGone = binding.splitChart.chart.data == null
-        }
-    }
 }

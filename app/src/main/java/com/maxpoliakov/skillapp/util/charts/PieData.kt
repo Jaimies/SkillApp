@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.util.charts
 
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import com.github.mikephil.charting.data.PieEntry
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -25,4 +26,6 @@ class PieData(
 
         PieChartData(entries, unit.mapToUI())
     }.asLiveData()
+
+    val isEmpty = data.map { it.entries.isEmpty() }
 }

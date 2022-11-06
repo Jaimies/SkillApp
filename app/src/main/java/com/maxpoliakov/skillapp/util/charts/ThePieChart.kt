@@ -29,26 +29,41 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         setup()
     }
 
-    // todo split into different functions
-    fun setup() {
+    private fun setup() {
+        setupHole()
+        setupLegend()
+        setupCenterText()
+        setupDescription()
+        setupOffsets()
+    }
+
+    private fun setupHole() {
         setHoleColor(Color.TRANSPARENT)
         holeRadius = 52.5f
         transparentCircleRadius = 0f
-        description.isEnabled = false
+    }
 
-        legend.run {
-            textColor = context.getColorAttributeValue(android.R.attr.textColorPrimary)
-            setDrawInside(false)
-            verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
-            orientation = Legend.LegendOrientation.VERTICAL
-        }
+    private fun setupLegend() = legend.run {
+        textColor = context.getColorAttributeValue(android.R.attr.textColorPrimary)
+        setDrawInside(false)
+        verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+        orientation = Legend.LegendOrientation.VERTICAL
+    }
 
-        extraBottomOffset = 5f
+    private fun setupCenterText() {
         setDrawCenterText(true)
         setCenterTextSize(16f)
         setCenterTextColor(context.textColor)
         setOnChartValueSelectedListener(this)
+    }
+
+    private fun setupDescription() {
+        description.isEnabled = false
+    }
+
+    private fun setupOffsets() {
+        extraBottomOffset = 5f
     }
 
     fun update(data: PieChartData) {

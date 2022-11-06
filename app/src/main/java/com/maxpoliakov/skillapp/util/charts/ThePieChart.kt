@@ -3,18 +3,21 @@ package com.maxpoliakov.skillapp.util.charts
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.util.AttributeSet
+import androidx.core.text.buildSpannedString
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
+import com.maxpoliakov.skillapp.util.ui.setSpanForWholeString
 import com.maxpoliakov.skillapp.util.ui.textColor
 
 class ThePieChart : PieChart, OnChartValueSelectedListener {
@@ -42,10 +45,8 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         }
 
         extraBottomOffset = 5f
-        // todo better formatting
         setDrawCenterText(true)
-        setCenterTextSize(24f)
-        setCenterTextTypeface(Typeface.DEFAULT_BOLD)
+        setCenterTextSize(16f)
         setCenterTextColor(context.textColor)
         setOnChartValueSelectedListener(this)
     }
@@ -75,11 +76,19 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
     }
 
     override fun onValueSelected(entry: Entry?, highlight: Highlight?) {
-        if (entry is PieEntry) {
-            centerText = entry.label
+        if (entry is ThePieEntry) {
+            updateCenterText(entry)
         }
+    }
 
-
+    private fun updateCenterText(entry: ThePieEntry) {
+        centerText = buildSpannedString {
+            append(entry.name)
+            setSpanForWholeString(StyleSpan(Typeface.BOLD))
+            setSpanForWholeString(RelativeSizeSpan(1.5f))
+            append("\n")
+            append(entry.formattedValue)
+        }
     }
 
     override fun onNothingSelected() {

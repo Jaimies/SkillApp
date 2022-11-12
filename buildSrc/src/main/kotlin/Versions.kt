@@ -1,7 +1,7 @@
 @Suppress("unused")
 object Versions {
-    const val kotlin = "1.7.10"
-    const val coroutines = "1.6.0"
+    const val kotlin = "1.7.21"
+    const val coroutines = "1.6.4"
 
     const val androidxCore = "1.8.0"
     const val appcompat = "1.4.2"
@@ -11,9 +11,9 @@ object Versions {
 
     const val room = "2.3.0"
     const val paging = "3.1.1"
-    const val navigation = "2.5.1"
+    const val navigation = "2.5.3"
     const val lifecycle = "2.5.1"
-    const val fragment = "1.5.1"
+    const val fragment = "1.5.4"
     const val workManager = "2.7.1"
 
     const val googleHttpClient = "1.40.0"

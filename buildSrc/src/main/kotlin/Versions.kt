@@ -25,9 +25,9 @@ object Versions {
     const val preference = "1.2.0"
     const val MPAndroidChart = "3.1.0"
 
-    const val hilt = "2.43.1"
+    const val hilt = "2.44.1"
 
-    const val firebase = "28.2.0"
+    const val firebase = "31.0.3"
 
     const val gradle = "7.3.1"
 

@@ -2,7 +2,7 @@ plugins {
     id 'kotlin'
     id 'kotlin-kapt'
 
-    id 'io.gitlab.arturbosch.detekt' version '1.5.0'
+    id 'io.gitlab.arturbosch.detekt' version '1.21.0'
 }
 
 detekt {

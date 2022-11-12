@@ -4,7 +4,7 @@ object Versions {
     const val coroutines = "1.6.4"
 
     const val androidxCore = "1.8.0"
-    const val appcompat = "1.4.2"
+    const val appcompat = "1.5.1"
     const val constraintLayout = "2.1.4"
     const val legacy = "1.0.0"
     const val androidxAnnotation = "1.3.0"
@@ -21,7 +21,7 @@ object Versions {
     const val googleApiServices = "v3-rev197-1.25.0"
     const val playServicesAuth = "20.2.0"
 
-    const val material = "1.6.1"
+    const val material = "1.7.0"
     const val preference = "1.2.0"
     const val MPAndroidChart = "3.1.0"
 

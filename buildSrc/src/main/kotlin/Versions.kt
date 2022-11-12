@@ -29,7 +29,6 @@ object Versions {
 
     const val firebase = "28.2.0"
 
-    const val lint = "26.5.3"
     const val gradle = "7.3.1"
 
     const val mockito = "3.12.1"

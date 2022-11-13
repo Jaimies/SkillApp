@@ -8,7 +8,6 @@ import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,9 +16,12 @@ class SkillStatsRepositoryImpl @Inject constructor(
     private val statsDao: StatsDao,
 ) : SkillStatsRepository {
 
-    override fun getStats(skillId: Id, startDate: LocalDate): Flow<List<Statistic>> {
-        val daysAgoStart = ChronoUnit.DAYS.between(startDate, LocalDate.now())
-        return statsDao.getStats(skillId, daysAgoStart).mapList { it.mapToDomain() }
+    override fun getStats(skillId: Id, dateRange: ClosedRange<LocalDate>): Flow<List<Statistic>> {
+        return statsDao.getStats(
+            skillId,
+            dateRange.start,
+            dateRange.endInclusive,
+        ).mapList(DBStatistic::mapToDomain)
     }
 
     override suspend fun addRecord(record: Record) {

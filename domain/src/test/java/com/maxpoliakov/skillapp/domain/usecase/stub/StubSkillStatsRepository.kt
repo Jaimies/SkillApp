@@ -12,7 +12,7 @@ class StubSkillStatsRepository(
     private val stats: Map<Int, List<Statistic>>,
 ) : SkillStatsRepository {
 
-    override fun getStats(skillId: Id, startDate: LocalDate): Flow<List<Statistic>> {
+    override fun getStats(skillId: Id, dateRange: ClosedRange<LocalDate>): Flow<List<Statistic>> {
         return flowOf(stats[skillId]!!)
     }
 

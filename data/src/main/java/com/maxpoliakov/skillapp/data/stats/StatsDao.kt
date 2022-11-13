@@ -19,15 +19,14 @@ interface StatsDao : BaseDao<DBStatistic> {
 
     @Query(
         """
-        SELECT date, :skillId as skillId, SUM(time) as time FROM stats
-        WHERE (:skillId = -1 OR skillId = :skillId)
-        AND date(date) > date('now','localtime', '-' || :daysAgoStart || ' days') 
-        AND date(date) <= date('now', 'localtime')
-        AND time > 0
-        GROUP BY date
+            SELECT date, :skillId as skillId, SUM(time) as time FROM stats
+            WHERE (:skillId = -1 OR skillId = :skillId)
+            AND date(date) BETWEEN date(:dateStart) AND date(:dateEnd)
+            AND time > 0
+            GROUP BY date
         """
     )
-    fun getStats(skillId: Int, daysAgoStart: Long): Flow<List<DBStatistic>>
+    fun getStats(skillId: Int, dateStart: LocalDate, dateEnd: LocalDate): Flow<List<DBStatistic>>
 
     @Query("SELECT time from stats WHERE skillId = :skillId AND date = :date")
     fun getCountAtDateFlow(skillId: Int, date: LocalDate): Flow<Long?>

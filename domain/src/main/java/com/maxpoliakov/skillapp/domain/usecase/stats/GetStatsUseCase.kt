@@ -21,9 +21,9 @@ class GetStatsUseCase @Inject constructor(
 
     fun getStats(skillId: Int, interval: StatisticInterval): Flow<List<Statistic>> {
         val startDate = LocalDate.now()
-            .minus(interval.numberOfValues.toLong(), interval.unit)
+            .minus(interval.numberOfValues.toLong() - 1, interval.unit)
 
-        val dailyStats = statsRepository.getStats(skillId, startDate)
+        val dailyStats = statsRepository.getStats(skillId, startDate.rangeTo(LocalDate.now()))
 
         return dailyStats.map { stats ->
             stats

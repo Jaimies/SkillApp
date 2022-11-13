@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface SkillStatsRepository : StatsRepository {
-    fun getStats(skillId: Id, startDate: LocalDate): Flow<List<Statistic>>
+    fun getStats(skillId: Id, dateRange: ClosedRange<LocalDate>): Flow<List<Statistic>>
 
     suspend fun addRecord(record: Record)
 }

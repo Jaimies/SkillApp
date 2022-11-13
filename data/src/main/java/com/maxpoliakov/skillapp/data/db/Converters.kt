@@ -2,11 +2,10 @@ package com.maxpoliakov.skillapp.data.db
 
 import androidx.room.TypeConverter
 import com.maxpoliakov.skillapp.domain.model.Goal
-import java.time.Duration
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class Converters {
+object Converters {
     private val formatter = DateTimeFormatter.ISO_LOCAL_DATE
 
     @TypeConverter

@@ -22,7 +22,4 @@ interface UtilityModule {
 
     @Binds
     fun provideNetworkUtil(networkUtil: NetworkUtilImpl): NetworkUtil
-
-    @Binds
-    fun provideRecordUtil(recordUtil: RecordUtilImpl): RecordUtil
 }

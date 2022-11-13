@@ -10,7 +10,7 @@
             type="com.maxpoliakov.skillapp.ui.skills.SkillsViewModel" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionGroup="true"
@@ -43,5 +43,5 @@
             android:onClick="@{() -> viewModel.navigateToAddSkill()}"
             android:src="@drawable/ic_plus_24dp"
             android:transitionName="@string/add_skill_transition_name" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </FrameLayout>
 </layout>

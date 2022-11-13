@@ -15,7 +15,7 @@
         <import type="com.maxpoliakov.skillapp.util.ui.FormattingKt" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionName="@string/skill_transition_name">
@@ -111,5 +111,5 @@
             android:paddingStart="20dp"
             android:text="@string/save"
             app:elevation="16dp" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </FrameLayout>
 </layout>

@@ -13,7 +13,6 @@ import com.maxpoliakov.skillapp.util.ui.getBaseContext
 
 class StopwatchViewHolder(
     private val view: View,
-    private val parentView: View,
     private val recordUtil: RecordUtil,
     viewModel: StopwatchViewModel,
 ) : BaseViewHolder(view) {
@@ -23,8 +22,7 @@ class StopwatchViewHolder(
         }
 
         viewModel.showRecordAdded.observe { record ->
-            if (record == null) return@observe
-            recordUtil.notifyRecordAdded(parentView, record)
+            record?.let(recordUtil::notifyRecordAdded)
         }
     }
 

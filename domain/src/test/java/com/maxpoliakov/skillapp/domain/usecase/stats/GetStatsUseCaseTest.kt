@@ -31,7 +31,7 @@ class GetStatsUseCaseTest : StringSpec({
 
         val useCase = GetStatsUseCase(statsRepository)
 
-        useCase.getStats(listOf(1, 2), StatisticInterval.Weekly).await() shouldBe listOf(
+        useCase.getStats(listOf(1, 2), LocalDate.now()..LocalDate.now(),StatisticInterval.Weekly).await() shouldBe listOf(
             Statistic(referenceDate, Duration.ofHours(12).toMillis()),
             Statistic(referenceDate.minusWeeks(1), Duration.ofHours(8).toMillis()),
             Statistic(referenceDate.minusWeeks(3), Duration.ofHours(4).toMillis()),

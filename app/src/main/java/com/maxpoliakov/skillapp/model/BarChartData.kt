@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
 import com.maxpoliakov.skillapp.util.charts.toEntries
 import com.maxpoliakov.skillapp.util.charts.withMissingStats
+import java.time.LocalDate
 
 data class BarChartData(
     val interval: UiStatisticInterval,
@@ -28,9 +29,10 @@ data class BarChartData(
             entries: List<Statistic>,
             unit: MeasurementUnit,
             goal: Goal?,
+            dates: ClosedRange<LocalDate>,
         ): BarChartData? {
             val mappedEntries = entries
-                .withMissingStats(interval)
+                .withMissingStats(interval, dates)
                 .toEntries(interval)
                 ?: return null
 

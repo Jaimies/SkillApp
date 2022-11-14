@@ -14,7 +14,7 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToUI
 import com.maxpoliakov.skillapp.shared.util.until
 import com.maxpoliakov.skillapp.ui.common.history.ViewModelWithHistory
-import com.maxpoliakov.skillapp.util.charts.ChartData
+import com.maxpoliakov.skillapp.util.charts.ChartDataImpl
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +36,7 @@ abstract class DetailsViewModel(
     flow: Flow<Trackable>,
 ) : ViewModelWithHistory() {
     @Inject
-    lateinit var chartDataFactory: ChartData.Factory
+    lateinit var chartDataFactory: ChartDataImpl.Factory
 
     override val unitForDailyTotals get() = unitFlow
 

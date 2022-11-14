@@ -13,19 +13,18 @@ import javax.inject.Inject
 class GetStatsUseCase @Inject constructor(
     private val statsRepository: SkillStatsRepository
 ) {
-    fun getStats(skillIds: List<Int>, interval: StatisticInterval) : Flow<List<Statistic>> {
-        return combine(skillIds.map { id -> getStats(id, interval) }) { stats ->
+    fun getStats(
+        skillIds: List<Int>,
+        dates: ClosedRange<LocalDate>,
+        interval: StatisticInterval
+    ): Flow<List<Statistic>> {
+        return combine(skillIds.map { id -> getStats(id, dates, interval) }) { stats ->
             group(stats, interval)
         }
     }
 
-    fun getStats(skillId: Int, interval: StatisticInterval): Flow<List<Statistic>> {
-        val startDate = LocalDate.now()
-            .minus(interval.numberOfValues.toLong() - 1, interval.unit)
-
-        val dailyStats = statsRepository.getStats(skillId, startDate.rangeTo(LocalDate.now()))
-
-        return dailyStats.map { stats ->
+    fun getStats(skillId: Int, dates: ClosedRange<LocalDate>, interval: StatisticInterval): Flow<List<Statistic>> {
+        return statsRepository.getStats(skillId, dates).map { stats ->
             stats
                 .groupBy { interval.toNumber(it.date) }
                 .map { entry ->

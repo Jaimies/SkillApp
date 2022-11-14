@@ -10,7 +10,7 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseC
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.sumByLong
-import com.maxpoliakov.skillapp.util.charts.ChartData
+import com.maxpoliakov.skillapp.util.charts.ChartDataImpl
 import com.maxpoliakov.skillapp.util.charts.PieData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flowOf
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
-    chartDataFactory: ChartData.Factory,
+    chartDataFactory: ChartDataImpl.Factory,
     pieDataFactory: PieData.Factory,
 ) : ViewModel() {
     val chartData = chartDataFactory.create(WithUnit(Millis), flowOf(Millis), flowOf(null))

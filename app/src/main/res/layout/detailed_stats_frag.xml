@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingHorizontal="12dp"
+        android:paddingHorizontal="16dp"
         tools:context=".ui.detailedstats.DetailedStatsFragment">
 
         <TextView
@@ -57,10 +57,6 @@
                     android:layout_height="match_parent"
                     android:text="@={viewModel.endDate}" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <Space
-                android:layout_width="12dp"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout

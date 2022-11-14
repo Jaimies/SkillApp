@@ -73,6 +73,7 @@
                         layout="@layout/bar_chart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/chart_height"
+                        android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="8dp"
                         app:data="@{viewModel.chartData}" />
@@ -82,9 +83,8 @@
                         layout="@layout/pie_chart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="12dp"
-                        android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         app:data="@{viewModel.pieData}" />
 

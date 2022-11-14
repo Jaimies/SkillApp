@@ -115,6 +115,8 @@ class TheBarChart : BarChart {
             position = XAxis.XAxisPosition.BOTTOM
             setDrawGridLines(false)
             setDrawAxisLine(false)
+            isGranularityEnabled = true
+            granularity = 1f
         }
     }
 
@@ -185,7 +187,11 @@ class TheBarChart : BarChart {
 
     private fun updateInterval(data: BarChartData) {
         xAxis.valueFormatter = data.interval.valueFormatter
-        viewPortHandler.setScaleXRange(data.interval.scale)
+        // todo too concrete
+        viewPortHandler.setScaleXRange(
+            if (data.entries.size < 7) 1f..1f
+            else data.interval.scale
+        )
         setScaleEnabled(data.interval.scaleEnabled)
     }
 

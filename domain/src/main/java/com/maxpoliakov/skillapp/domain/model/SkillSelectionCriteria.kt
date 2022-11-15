@@ -9,6 +9,10 @@ sealed class SkillSelectionCriteria {
         override fun isValid(skill: Skill) = this.id == skill.id
     }
 
+    class WithIdInList(private val ids: List<Id>): SkillSelectionCriteria() {
+        override fun isValid(skill: Skill) = skill.id in this.ids
+    }
+
     class InGroupWithId(private val groupId: Id) : SkillSelectionCriteria() {
         override fun isValid(skill: Skill) = skill.groupId == this.groupId
     }

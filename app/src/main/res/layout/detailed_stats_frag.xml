@@ -68,12 +68,12 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Skill id">
+                android:hint="Skill ids">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@={viewModel.skillId}" />
+                    android:text="@={viewModel.skillIds}" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

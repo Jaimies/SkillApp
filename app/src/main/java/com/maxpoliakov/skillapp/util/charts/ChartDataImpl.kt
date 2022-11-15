@@ -25,9 +25,8 @@ import java.time.LocalDate
 class ChartDataImpl @AssistedInject constructor(
     private val getStats: GetStatsUseCase,
     private val skillRepository: SkillRepository,
-    private val scope: CoroutineScope,
     @Assisted
-    private val criteria: SkillSelectionCriteria,
+    private val criteria: Flow<SkillSelectionCriteria>,
     @Assisted
     private val unit: Flow<MeasurementUnit>,
     @Assisted
@@ -64,7 +63,7 @@ class ChartDataImpl @AssistedInject constructor(
 
     override fun getChartData(interval: StatisticInterval): Flow<List<Statistic>> {
         return combine(
-            skillRepository.getSkills(criteria),
+            criteria.flatMapLatest { skillRepository.getSkills(it) },
             coolMutableDate,
         ) { skills, dates ->
             println(dates)
@@ -81,7 +80,7 @@ class ChartDataImpl @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
         fun create(
-            criteria: SkillSelectionCriteria,
+            criteria: Flow<SkillSelectionCriteria>,
             unit: Flow<MeasurementUnit>,
             goal: Flow<Goal?>,
         ): ChartDataImpl

@@ -34,6 +34,9 @@ interface StatsDao : BaseDao<DBStatistic> {
     @Query("SELECT time from stats WHERE skillId = :skillId AND date = :date")
     suspend fun getCountAtDate(skillId: Int, date: LocalDate): Long?
 
+    @Query("SELECT time from stats WHERE skillId = :skillId AND date(date) BETWEEN date(:startDate) AND date(:endDate)")
+    suspend fun getCountInDateRange(skillId: Int, startDate: LocalDate, endDate: LocalDate): Long?
+
     @Query("SELECT * FROM stats")
     suspend fun getAllStats(): List<DBStatistic>
 

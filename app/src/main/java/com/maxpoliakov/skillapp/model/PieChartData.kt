@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.model
 
-import com.github.mikephil.charting.data.PieEntry
+import com.maxpoliakov.skillapp.util.charts.ThePieEntry
 
 data class PieChartData(
-    val entries: List<PieEntry>,
+    val entries: List<ThePieEntry>,
 )

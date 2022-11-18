@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.util.charts.ChartDataImpl
 import com.maxpoliakov.skillapp.util.charts.PieData
+import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -29,7 +30,7 @@ class StatisticsViewModel @Inject constructor(
         calculateSummary(skills)
     }.asLiveData()
 
-    val pieData = pieDataFactory.create(getSkills.getTopSkills(5))
+    val pieData = pieDataFactory.create(getSkills.getTopSkills(5).map { it.toEntries() })
 }
 
 fun calculateSummary(skills: List<Skill>): ProductivitySummary {

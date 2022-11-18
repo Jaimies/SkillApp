@@ -32,7 +32,7 @@ class SkillStatsRepositoryImpl @Inject constructor(
         return statsDao.getCountAtDateFlow(id, date).map { time -> time ?: 0 }
     }
 
-    override suspend fun getCountAtDate(id: Id, date: LocalDate): Long {
-        return statsDao.getCountAtDate(id, date) ?: 0
+    override suspend fun getCount(id: Id, range: ClosedRange<LocalDate>): Long {
+        return statsDao.getCountInDateRange(id, range.start, range.endInclusive) ?: 0
     }
 }

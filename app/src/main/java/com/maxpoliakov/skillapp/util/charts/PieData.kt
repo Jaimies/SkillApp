@@ -3,11 +3,8 @@ package com.maxpoliakov.skillapp.util.charts
 import android.content.Context
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import com.github.mikephil.charting.data.PieEntry
-import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.model.PieChartData
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
+import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toPieEntries
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -17,22 +14,18 @@ import kotlinx.coroutines.flow.map
 
 class PieData @AssistedInject constructor(
     @ApplicationContext
-    context: Context,
+    private val context: Context,
     @Assisted
-    val skills: Flow<List<Skill>>,
+    val skills: Flow<List<SkillPieEntry>>,
 ) {
     val data = skills.map { skills ->
-        val entries = skills.map { skill ->
-            ThePieEntry.from(skill, context)
-        }
-
-        PieChartData(entries)
+        PieChartData(skills.toPieEntries(context))
     }.asLiveData()
 
     val isEmpty = data.map { it.entries.isEmpty() }
 
     @AssistedFactory
     interface Factory {
-        fun create(skills: Flow<List<Skill>>): PieData
+        fun create(skills: Flow<List<SkillPieEntry>>): PieData
     }
 }

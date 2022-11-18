@@ -24,9 +24,13 @@ class GetHistoryUseCase @Inject constructor(
         return getSkillIds(criteria).flatMapLatest(recordsRepository::getRecordsBySkillIds)
     }
 
-    suspend fun getCountAtDate(criteria: SkillSelectionCriteria, date: LocalDate): Long {
+    suspend fun getCount(criteria: SkillSelectionCriteria, range: ClosedRange<LocalDate>): Long {
         val ids = getSkillIds(criteria).first()
-        return getCountAtDate(ids, date)
+        return getCount(ids, range)
+    }
+
+    suspend fun getCount(criteria: SkillSelectionCriteria, date: LocalDate): Long {
+        return getCount(criteria, date..date)
     }
 
     private fun getSkillIds(criteria: SkillSelectionCriteria): Flow<List<Id>> {
@@ -35,7 +39,7 @@ class GetHistoryUseCase @Inject constructor(
             .mapList { skill -> skill.id }
     }
 
-    private suspend fun getCountAtDate(ids: List<Id>, date: LocalDate): Long {
-        return ids.sumByLong { id -> statsRepository.getCountAtDate(id, date) }
+    private suspend fun getCount(ids: List<Id>, range: ClosedRange<LocalDate>): Long {
+        return ids.sumByLong { id -> statsRepository.getCount(id, range) }
     }
 }

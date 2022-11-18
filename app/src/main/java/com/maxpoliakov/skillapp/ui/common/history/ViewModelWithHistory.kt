@@ -31,7 +31,7 @@ abstract class ViewModelWithHistory : ViewModel() {
     }
 
     private suspend fun getCountAtDate(unit: MeasurementUnit, date: LocalDate): Long {
-        return getHistory.getCountAtDate(
+        return getHistory.getCount(
             selectionCriteria.withUnit(unit),
             date,
         )

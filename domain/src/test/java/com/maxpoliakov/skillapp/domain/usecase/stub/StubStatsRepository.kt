@@ -7,5 +7,5 @@ import java.time.LocalDate
 
 open class StubStatsRepository : StatsRepository {
     override fun getCountAtDateFlow(id: Id, date: LocalDate) = flowOf(2L)
-    override suspend fun getCountAtDate(id: Id, date: LocalDate) = 2L
+    override suspend fun getCount(id: Id, range: ClosedRange<LocalDate>) = 2L
 }

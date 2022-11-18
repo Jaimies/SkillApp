@@ -3,21 +3,30 @@ package com.maxpoliakov.skillapp.ui.detailedstats
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit.Millis
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
+import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
 import com.maxpoliakov.skillapp.util.charts.ChartDataImpl
+import com.maxpoliakov.skillapp.util.charts.PieData
+import com.maxpoliakov.skillapp.util.charts.SkillPieEntry
+import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailedStatsViewModel @Inject constructor(
-    skillRepository: SkillRepository,
-    chartDataFactory: ChartDataImpl.Factory
+    private val skillRepository: SkillRepository,
+    private val getHistory: GetHistoryUseCase,
+    chartDataFactory: ChartDataImpl.Factory,
+    pieDataFactory: PieData.Factory,
 ) : ViewModel() {
     val startDate = MutableLiveData("")
     val endDate = MutableLiveData("")
@@ -41,6 +50,9 @@ class DetailedStatsViewModel @Inject constructor(
         flowOf(null),
     )
 
+    val skills = MutableStateFlow<List<SkillPieEntry>>(listOf())
+    val pieData = pieDataFactory.create(skills)
+
     fun showStats(): Boolean {
         val startDate = LocalDate.parse(this.startDate.value)
         val endDate = LocalDate.parse(this.endDate.value)
@@ -50,6 +62,17 @@ class DetailedStatsViewModel @Inject constructor(
 
         chartData.coolMutableDate.value = startDate..endDate
         criteria.value = getCriteria(skillIds)
+
+        viewModelScope.launch {
+            skills.value = skillRepository.getSkills(SkillSelectionCriteria.WithIdInList(skillIds)).map { skills ->
+                skills.toEntries { skill ->
+                    getHistory.getCount(
+                        SkillSelectionCriteria.WithId(skill.id),
+                        chartData.coolMutableDate.value!!,
+                    )
+                }
+            }.first()
+        }
 
         return false
     }

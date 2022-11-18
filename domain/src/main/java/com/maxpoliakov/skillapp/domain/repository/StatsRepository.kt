@@ -6,5 +6,6 @@ import java.time.LocalDate
 
 interface StatsRepository {
     fun getCountAtDateFlow(id: Id, date: LocalDate): Flow<Long>
-    suspend fun getCountAtDate(id: Id, date: LocalDate): Long
+
+    suspend fun getCount(id: Id, range: ClosedRange<LocalDate>): Long
 }

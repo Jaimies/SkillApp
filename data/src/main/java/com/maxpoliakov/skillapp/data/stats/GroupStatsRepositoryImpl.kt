@@ -26,9 +26,9 @@ class GroupStatsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCountAtDate(id: Id, date: LocalDate): Long {
+    override suspend fun getCount(id: Id, range: ClosedRange<LocalDate>): Long {
         return groupDao.getGroupById(id)?.skills?.sumByLong { skill ->
-            skillStatsRepository.getCountAtDate(skill.id, date)
+            skillStatsRepository.getCount(skill.id, range)
         } ?: 0
     }
 }

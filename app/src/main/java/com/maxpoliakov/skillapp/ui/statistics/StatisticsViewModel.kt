@@ -24,7 +24,8 @@ class StatisticsViewModel @Inject constructor(
     chartDataFactory: ChartDataImpl.Factory,
     pieDataFactory: PieData.Factory,
 ) : ViewModel() {
-    val chartData = chartDataFactory.create(flowOf(WithUnit(Millis)), flowOf(Millis), flowOf(null))
+    // todo too long
+    val chartData = chartDataFactory.create(flowOf(WithUnit(Millis)), flowOf(null), flowOf(Millis), flowOf(null))
 
     val summary = getSkills.getSkillsWithLastWeekTime(MeasurementUnit.Millis).map { skills ->
         calculateSummary(skills)

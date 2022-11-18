@@ -14,7 +14,6 @@ import com.maxpoliakov.skillapp.model.UiStatisticInterval
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -28,20 +27,20 @@ class ChartDataImpl @AssistedInject constructor(
     @Assisted
     private val criteria: Flow<SkillSelectionCriteria>,
     @Assisted
+    private val dateRange: Flow<ClosedRange<LocalDate>?>,
+    @Assisted
     private val unit: Flow<MeasurementUnit>,
     @Assisted
     private val goal: Flow<Goal?>,
 ) : ChartData {
     private val statisticType = MutableStateFlow(StatisticInterval.Daily)
 
-    val coolMutableDate = MutableStateFlow<ClosedRange<LocalDate>?>(null)
-
     private val statsTypes by lazy {
         StatisticInterval.values().associateBy({ it }, ::getChartData)
     }
 
     // todo goofy name
-    override val stats = combine(statisticType, unit, goal, coolMutableDate) { interval, unit, goal, dates ->
+    override val stats = combine(statisticType, unit, goal, dateRange) { interval, unit, goal, dates ->
         statsTypes[interval]!!.map { stats ->
             // todo maybe pass fewer arguments
             BarChartData.from(
@@ -64,7 +63,7 @@ class ChartDataImpl @AssistedInject constructor(
     override fun getChartData(interval: StatisticInterval): Flow<List<Statistic>> {
         return combine(
             criteria.flatMapLatest { skillRepository.getSkills(it) },
-            coolMutableDate,
+            dateRange,
         ) { skills, dates ->
             println(dates)
             getStats.getStats(
@@ -81,6 +80,7 @@ class ChartDataImpl @AssistedInject constructor(
     interface Factory {
         fun create(
             criteria: Flow<SkillSelectionCriteria>,
+            dateRange: Flow<ClosedRange<LocalDate>?>,
             unit: Flow<MeasurementUnit>,
             goal: Flow<Goal?>,
         ): ChartDataImpl

@@ -3,21 +3,24 @@ package com.maxpoliakov.skillapp.ui.detailedstats
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit.Millis
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria.WithId
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria.WithIdInList
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria.WithUnit
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
 import com.maxpoliakov.skillapp.util.charts.ChartDataImpl
 import com.maxpoliakov.skillapp.util.charts.PieData
-import com.maxpoliakov.skillapp.util.charts.SkillPieEntry
 import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -28,9 +31,9 @@ class DetailedStatsViewModel @Inject constructor(
     chartDataFactory: ChartDataImpl.Factory,
     pieDataFactory: PieData.Factory,
 ) : ViewModel() {
-    val startDate = MutableLiveData("")
-    val endDate = MutableLiveData("")
-    val skillIds = MutableLiveData("")
+    val startDate = MutableLiveData("2022-11-12")
+    val endDate = MutableLiveData("2022-11-13")
+    val skillIds = MutableLiveData("1,2,3")
 
     val allSkills = skillRepository.getSkills()
         .map {
@@ -44,14 +47,25 @@ class DetailedStatsViewModel @Inject constructor(
         SkillSelectionCriteria.WithUnit(Millis)
     )
 
+    private val dateRange = MutableStateFlow<ClosedRange<LocalDate>?>(null)
+
+    private val theSkillIds = MutableStateFlow<List<Id>>(listOf())
+
+    private val entries = combine(theSkillIds, dateRange) { skillIds, dateRange ->
+        skillRepository
+            .getSkills(WithIdInList(skillIds))
+            .map { skills -> skills.toPieEntries(dateRange) }
+    }
+        .flatMapLatest { it }
+
     val chartData = chartDataFactory.create(
         criteria,
+        dateRange,
         flowOf(Millis),
         flowOf(null),
     )
 
-    val skills = MutableStateFlow<List<SkillPieEntry>>(listOf())
-    val pieData = pieDataFactory.create(skills)
+    val pieData = pieDataFactory.create(entries)
 
     fun showStats(): Boolean {
         val startDate = LocalDate.parse(this.startDate.value)
@@ -60,30 +74,24 @@ class DetailedStatsViewModel @Inject constructor(
             .split(",")
             .mapNotNull(String::toIntOrNull)
 
-        chartData.coolMutableDate.value = startDate..endDate
-        criteria.value = getCriteria(skillIds)
+        this.theSkillIds.value = skillIds
 
-        viewModelScope.launch {
-            skills.value = skillRepository.getSkills(SkillSelectionCriteria.WithIdInList(skillIds)).map { skills ->
-                skills.toEntries { skill ->
-                    getHistory.getCount(
-                        SkillSelectionCriteria.WithId(skill.id),
-                        chartData.coolMutableDate.value!!,
-                    )
-                }
-            }.first()
-        }
+        dateRange.value = startDate..endDate
+        criteria.value = getCriteria(skillIds)
 
         return false
     }
 
     private fun getCriteria(skillIds: List<Int>): SkillSelectionCriteria {
         if (skillIds.isEmpty()) {
-            return SkillSelectionCriteria.WithUnit(Millis)
+            return WithUnit(Millis)
         }
 
-        return SkillSelectionCriteria
-            .WithIdInList(skillIds)
-            .withUnit(Millis)
+        return WithIdInList(skillIds).withUnit(Millis)
+    }
+
+    private suspend fun List<Skill>.toPieEntries(dateRange: ClosedRange<LocalDate>?) = toEntries { skill ->
+        // todo should be a sensible default
+        getHistory.getCount(WithId(skill.id), dateRange ?: LocalDate.ofEpochDay(0)..LocalDate.now())
     }
 }

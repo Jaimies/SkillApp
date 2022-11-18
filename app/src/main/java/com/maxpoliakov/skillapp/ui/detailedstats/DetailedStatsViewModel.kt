@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria.WithIdInList
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria.WithUnit
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
+import com.maxpoliakov.skillapp.shared.util.FullLocalDateRange
 import com.maxpoliakov.skillapp.util.charts.ChartDataImpl
 import com.maxpoliakov.skillapp.util.charts.PieData
 import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
@@ -91,7 +92,6 @@ class DetailedStatsViewModel @Inject constructor(
     }
 
     private suspend fun List<Skill>.toPieEntries(dateRange: ClosedRange<LocalDate>?) = toEntries { skill ->
-        // todo should be a sensible default
-        getHistory.getCount(WithId(skill.id), dateRange ?: LocalDate.ofEpochDay(0)..LocalDate.now())
+        getHistory.getCount(WithId(skill.id), dateRange ?: FullLocalDateRange)
     }
 }

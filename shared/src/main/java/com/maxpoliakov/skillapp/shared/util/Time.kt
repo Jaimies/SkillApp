@@ -22,6 +22,9 @@ val LocalDate.daysSinceEpoch get() = DAYS.between(EPOCH, this)
 val LocalDate.weeksSinceEpoch get() = WEEKS.between(EPOCH.atStartOfWeek(), this.atStartOfWeek())
 val LocalDate.monthsSinceEpoch get() = MONTHS.between(EPOCH, this)
 
+val FullLocalDateRange: ClosedRange<LocalDate>
+    get() = LocalDate.ofYearDay(Int.MIN_VALUE, 1)..LocalDate.ofYearDay(Int.MAX_VALUE, 1)
+
 val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy  HH:mm:ss")
 
 fun LocalDate.atStartOfWeek(): LocalDate {

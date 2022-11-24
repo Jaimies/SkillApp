@@ -17,18 +17,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/title_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="25dp"
-            android:text="@{title}"
-            android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
+            android:background="@android:color/transparent"
             android:paddingStart="@dimen/productivity_summary_spacing_start"
+            android:text="@={title}"
+            android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
             tools:text="Programming" />
 
         <include

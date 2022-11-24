@@ -80,6 +80,5 @@ class MainActivity : AppCompatActivity(),
         arguments: Bundle?
     ) {
         hideKeyboard()
-        binding.toolbar.isGone = destination.id == statistics_fragment_dest
     }
 }

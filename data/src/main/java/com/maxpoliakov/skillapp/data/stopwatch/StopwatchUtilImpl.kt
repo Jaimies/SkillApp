@@ -9,10 +9,12 @@ import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
-import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
+import com.maxpoliakov.skillapp.shared.util.until
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.time.Clock
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,6 +24,7 @@ class StopwatchUtilImpl @Inject constructor(
     private val addRecord: AddRecordUseCase,
     private val skillRepository: SkillRepository,
     private val notificationUtil: NotificationUtil,
+    private val clock: Clock,
 ) : StopwatchUtil {
     override val state: StateFlow<StopwatchState> get() = _state
     private val _state = MutableStateFlow(persistence.getState())
@@ -66,7 +69,7 @@ class StopwatchUtilImpl @Inject constructor(
         if (!shouldStartTimer(skillId)) return null
         val record = addRecordIfNeeded(_state.value)
         val skill = skillRepository.getSkillById(skillId) ?: return null
-        val state = Running(getZonedDateTime(), skillId, skill.groupId)
+        val state = Running(ZonedDateTime.now(clock), skillId, skill.groupId)
         setState(state)
 
         return record
@@ -94,10 +97,10 @@ class StopwatchUtilImpl @Inject constructor(
         val record = Record(
             "",
             state.skillId,
-            state.time.toMillis(),
+            state.startTime.until(ZonedDateTime.now(clock)).toMillis(),
             date = state.startTime.toLocalDate(),
             unit = MeasurementUnit.Millis,
-            dateTimeRange = state.startTime.toLocalDateTime()..LocalDateTime.now(),
+            dateTimeRange = state.startTime.toLocalDateTime()..LocalDateTime.now(clock),
         )
 
         val recordId = addRecord.run(record)

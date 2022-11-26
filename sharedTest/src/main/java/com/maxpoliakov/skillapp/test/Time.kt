@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.test
 
 import java.time.Clock
 import java.time.Instant
-import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit.DAYS
 
@@ -15,10 +15,10 @@ fun clockOfEpochSecond(second: Long): Clock {
 }
 
 fun clockOfInstant(instant: Instant): Clock {
-    return Clock.fixed(instant, ZoneId.systemDefault())
+    return Clock.fixed(instant, ZoneOffset.UTC)
 }
 
 fun dateOfEpochSecond(second: Long): ZonedDateTime {
     val instant = Instant.ofEpochSecond(second)
-    return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault())
+    return ZonedDateTime.ofInstant(instant, ZoneOffset.UTC)
 }

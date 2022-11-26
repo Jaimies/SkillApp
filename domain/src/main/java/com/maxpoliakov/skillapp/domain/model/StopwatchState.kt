@@ -9,9 +9,7 @@ sealed class StopwatchState {
         val startTime: ZonedDateTime,
         val skillId: Int,
         val groupId: Int,
-    ) : StopwatchState() {
-        val time get() = startTime.until(getZonedDateTime())
-    }
+    ) : StopwatchState()
 
     object Paused : StopwatchState()
 }

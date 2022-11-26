@@ -13,12 +13,9 @@ import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
-import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
-import com.maxpoliakov.skillapp.shared.util.setClock
-import com.maxpoliakov.skillapp.test.clockOfEpochDay
-import com.maxpoliakov.skillapp.test.clockOfEpochSecond
 import com.maxpoliakov.skillapp.test.dateOfEpochSecond
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.extensions.time.MutableClock
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -26,10 +23,13 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import java.time.Clock
 import java.time.Duration
+import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset.UTC
 import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 
 class StubSkillRepository : SkillRepository {
     override fun getSkills() = flowOf<List<Skill>>()
@@ -59,38 +59,53 @@ class StopwatchUtilImplTest : StringSpec({
     val addRecord = mockk<AddRecordUseCase>(relaxed = true)
     val notificationUtil = mockk<NotificationUtil>(relaxed = true)
     val skillRepository = StubSkillRepository()
+    var clock = MutableClock(Instant.EPOCH, UTC)
 
-    beforeEach { setClock(clockOfEpochSecond(0)) }
+    beforeEach { clock = MutableClock(Instant.EPOCH, UTC) }
     afterEach { clearAllMocks() }
-    afterSpec { setClock(Clock.systemDefaultZone()) }
 
     coEvery { addRecord.run(any()) }.returns(1)
 
-    fun getRunningState() = Running(getZonedDateTime(), skillId, groupId)
+    fun getRunningState() = Running(ZonedDateTime.now(clock), skillId, groupId)
 
     fun createStopwatch(state: StopwatchState = Paused): StopwatchUtilImpl {
         val persistence = StubStopwatchPersistence(state)
-        return StopwatchUtilImpl(persistence, addRecord, skillRepository, notificationUtil)
+        return StopwatchUtilImpl(persistence, addRecord, skillRepository, notificationUtil, clock)
     }
+
+    fun createRecord(
+        duration: Duration = Duration.ofSeconds(1),
+        date: LocalDate = LocalDate.ofEpochDay(0),
+        dateTimeRange: ClosedRange<LocalDateTime> =
+            LocalDateTime.ofEpochSecond(0, 0, UTC)
+                .rangeTo(LocalDateTime.ofEpochSecond(1, 0, UTC))
+    ) = Record(
+        name = "",
+        skillId = skillId,
+        count = duration.toMillis(),
+        unit = MeasurementUnit.Millis,
+        date = date,
+        dateTimeRange = dateTimeRange,
+    )
 
     "add the record properly" {
         val stopwatch = createStopwatch()
         stopwatch.state.value shouldBe Paused
         stopwatch.toggle(skillId)
         stopwatch.state.value shouldBe getRunningState()
-        setClock(clockOfEpochSecond(1))
+        clock.withInstant(Instant.ofEpochSecond(1))
         stopwatch.toggle(skillId)
 
-        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1).toMillis(), MeasurementUnit.Millis)) }
+        coVerify { addRecord.run(createRecord()) }
     }
 
     "records the time of the current timer when trying to start a new one" {
         val stopwatch = createStopwatch()
         stopwatch.toggle(skillId)
-        setClock(clockOfEpochSecond(1))
+        clock.withInstant(Instant.ofEpochSecond(1))
         stopwatch.toggle(otherSkillId)
-        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1).toMillis(), MeasurementUnit.Millis)) }
-        stopwatch.state.value shouldBe Running(getZonedDateTime(), otherSkillId, groupId)
+        coVerify { addRecord.run(createRecord()) }
+        stopwatch.state.value shouldBe Running(ZonedDateTime.now(clock), otherSkillId, groupId)
     }
 
     "gets the initial state from the persistence" {
@@ -101,7 +116,7 @@ class StopwatchUtilImplTest : StringSpec({
 
     "persists the state and shows the notification" {
         val persistence = mockk<StopwatchPersistence>(relaxed = true)
-        val stopwatch = StopwatchUtilImpl(persistence, addRecord, skillRepository, notificationUtil)
+        val stopwatch = StopwatchUtilImpl(persistence, addRecord, skillRepository, notificationUtil, clock)
         stopwatch.toggle(skillId)
 
         verify { persistence.saveState(getRunningState()) }
@@ -111,7 +126,7 @@ class StopwatchUtilImplTest : StringSpec({
     "start() does nothing if the timer is already running with the same id" {
         val stopwatch = createStopwatch()
         stopwatch.start(skillId)
-        setClock(clockOfEpochSecond(1))
+        clock.withInstant(Instant.ofEpochSecond(1))
         stopwatch.start(skillId)
         stopwatch.state.value shouldBe Running(dateOfEpochSecond(0), skillId, groupId)
     }
@@ -119,11 +134,11 @@ class StopwatchUtilImplTest : StringSpec({
     "start() stops the existing timer and starts a new one" {
         val stopwatch = createStopwatch()
         stopwatch.start(skillId)
-        setClock(clockOfEpochSecond(1))
+        clock.withInstant(Instant.ofEpochSecond(1))
         stopwatch.start(otherSkillId)
-        setClock(clockOfEpochSecond(2))
+        clock.withInstant(Instant.ofEpochSecond(2))
         stopwatch.state.value shouldBe Running(dateOfEpochSecond(1), otherSkillId, groupId)
-        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1).toMillis(), MeasurementUnit.Millis)) }
+        coVerify { addRecord.run(createRecord()) }
     }
 
     "stop() does nothing if the timer is not running" {
@@ -140,10 +155,10 @@ class StopwatchUtilImplTest : StringSpec({
 
     "stop() stops the timer and removes the notification" {
         val stopwatch = createStopwatch(getRunningState())
-        setClock(clockOfEpochSecond(1))
+        clock.withInstant(Instant.ofEpochSecond(1))
         stopwatch.stop()
         stopwatch.state.value shouldBe Paused
-        coVerify { addRecord.run(Record("", skillId, Duration.ofSeconds(1).toMillis(), MeasurementUnit.Millis)) }
+        coVerify { addRecord.run(createRecord()) }
         verify { notificationUtil.removeStopwatchNotification() }
     }
 
@@ -159,9 +174,16 @@ class StopwatchUtilImplTest : StringSpec({
 
     "adds the record with the date of stopwatch start" {
         val stopwatchUtil = createStopwatch(getRunningState())
-        setClock(clockOfEpochDay(2))
+        clock.withInstant(Instant.EPOCH.plus(2, ChronoUnit.DAYS))
         stopwatchUtil.stop()
-        coVerify { addRecord.run(Record("", skillId, Duration.ofDays(2).toMillis(), MeasurementUnit.Millis, 0, LocalDate.ofEpochDay(0))) }
+        coVerify {
+            addRecord.run(
+                createRecord(
+                    duration = Duration.ofDays(2),
+                    dateTimeRange = LocalDate.ofEpochDay(0).atStartOfDay()..LocalDate.ofEpochDay(2).atStartOfDay()
+                )
+            )
+        }
     }
 }) {
     companion object {

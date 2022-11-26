@@ -9,10 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-enum class RestorationState {
-    NotStarted, Active, Finished, Failed
-}
-
 @Singleton
 class RestoreBackupUseCase @Inject constructor(
     private val driveRepository: DriveRepository,
@@ -43,5 +39,9 @@ class RestoreBackupUseCase @Inject constructor(
             _state.emit(RestorationState.Failed)
             throw e
         }
+    }
+
+    enum class RestorationState {
+        NotStarted, Active, Finished, Failed
     }
 }

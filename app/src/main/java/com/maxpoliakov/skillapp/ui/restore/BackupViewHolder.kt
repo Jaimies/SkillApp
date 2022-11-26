@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.domain.model.Backup
-import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
+import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.dialog.showDialog

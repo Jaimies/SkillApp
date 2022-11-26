@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.DriveRepository
-import com.maxpoliakov.skillapp.domain.usecase.backup.RestorationState
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
+import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.drop

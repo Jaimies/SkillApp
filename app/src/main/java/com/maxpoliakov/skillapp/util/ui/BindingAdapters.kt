@@ -1,7 +1,10 @@
 package com.maxpoliakov.skillapp.util.ui
 
+import android.os.SystemClock
+import android.text.format.DateFormat
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Chronometer
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
@@ -30,6 +33,17 @@ fun View.setBottomMargin(dimen: Float) {
     val layoutParams = layoutParams as ViewGroup.MarginLayoutParams
     layoutParams.bottomMargin = dimen.toInt()
     this.layoutParams = layoutParams
+}
+
+@BindingAdapter("format")
+fun Chronometer.setTimeFormat(format: String) {
+    setOnChronometerTickListener { chronometer ->
+        val time = SystemClock.elapsedRealtime() - chronometer.base
+        chronometer.post {
+            // todo consider a different method for formatting
+            chronometer.text = DateFormat.format(format, time)
+        }
+    }
 }
 
 @BindingAdapter("backgroundTintAttr")

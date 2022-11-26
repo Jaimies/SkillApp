@@ -67,6 +67,10 @@ fun Duration.toMinutesPartCompat(): Long {
     return toMinutes() - toHours() * 60
 }
 
+fun Duration.toSecondsPartCompat(): Long {
+    return seconds - toMinutes() * 60
+}
+
 private var clock: Clock = Clock.systemDefaultZone()
 
 @VisibleForTesting

@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.util.ui
 import android.content.Context
 import android.util.TypedValue
 import androidx.annotation.AttrRes
+import androidx.core.graphics.ColorUtils
 import com.maxpoliakov.skillapp.R
 
 val Context.textColor get() = getColorAttributeValue(android.R.attr.textColorPrimary)
@@ -17,4 +18,10 @@ fun Context.getColorAttributeValue(@AttrRes id: Int): Int {
     result.recycle()
 
     return color
+}
+
+fun Context.getColorAttributeValueWithAlpha(@AttrRes id: Int, alpha: Int): Int {
+    return getColorAttributeValue(id).let { color ->
+        ColorUtils.setAlphaComponent(color, alpha)
+    }
 }

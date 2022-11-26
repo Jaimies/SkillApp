@@ -10,6 +10,8 @@
             type="com.maxpoliakov.skillapp.ui.history.RecordViewModel" />
 
         <import type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
+
+        <import type="com.maxpoliakov.skillapp.ui.common.history.RecordFormatter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,16 +52,16 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
             android:gravity="center_vertical"
+            android:text="@{viewModel.record.unit.toLongString(viewModel.record.count, context)}"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/more_btn"
             app:layout_constraintTop_toTopOf="parent"
             app:visible="@{viewModel.record.unit != UiMeasurementUnit.Millis}"
-            android:text="@{viewModel.record.unit.toLongString(viewModel.record.count, context)}"
             tools:text="25m" />
 
-        <Chronometer
+        <TextView
             android:id="@+id/chronometer"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -67,7 +69,7 @@
             android:gravity="center_vertical"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="12sp"
-            app:count="@{viewModel.record.count}"
+            app:text="@{RecordFormatter.getFormattedTime(context, viewModel.record)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/more_btn"
             app:layout_constraintTop_toTopOf="parent"

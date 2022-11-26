@@ -9,7 +9,7 @@ object Versions {
     const val legacy = "1.0.0"
     const val androidxAnnotation = "1.3.0"
 
-    const val room = "2.3.0"
+    const val room = "2.4.3"
     const val paging = "3.1.1"
     const val navigation = "2.5.3"
     const val lifecycle = "2.5.1"

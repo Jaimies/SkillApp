@@ -131,4 +131,6 @@
     <string name="intro_3_1_0_text">You will then be able to reorder and group your skills as normal</string>
     <string name="pie_chart_legend_entry">%1$s: %2$s</string>
     <string name="detailed_stats">Query statistics</string>
+    <string name="duration_format" translatable="false">%1$s:%2$s:%3$s</string>
+    <string name="duration_format_without_hours" translatable="false">%1$s:%2$s</string>
 </resources>

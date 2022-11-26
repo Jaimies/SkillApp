@@ -12,6 +12,7 @@ import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.time.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -90,7 +91,15 @@ class StopwatchUtilImpl @Inject constructor(
     }
 
     private suspend fun addRecord(state: Running): Record {
-        val record = Record("", state.skillId, state.time.toMillis(), date = state.startTime.toLocalDate(), unit = MeasurementUnit.Millis)
+        val record = Record(
+            "",
+            state.skillId,
+            state.time.toMillis(),
+            date = state.startTime.toLocalDate(),
+            unit = MeasurementUnit.Millis,
+            dateTimeRange = state.startTime.toLocalDateTime()..LocalDateTime.now(),
+        )
+
         val recordId = addRecord.run(record)
         return record.copy(id = recordId.toInt())
     }

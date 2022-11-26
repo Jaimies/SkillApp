@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.data.db
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -16,8 +17,14 @@ import com.maxpoliakov.skillapp.data.stats.StatsDao
 
 @Database(
     entities = [DBSkill::class, DBRecord::class, DBStatistic::class, DBGroup::class],
-    version = 6,
-    exportSchema = true
+    version = 7,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(
+            from = 6,
+            to = 7
+        ),
+    ],
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

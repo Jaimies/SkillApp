@@ -1,4 +1,4 @@
-@file:UseSerializers(LocalDateAsStringSerializer::class)
+@file:UseSerializers(LocalDateAsStringSerializer::class, LocalDateTimeAsStringSerializer::class)
 
 package com.maxpoliakov.skillapp.data.records
 
@@ -7,6 +7,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
+import com.maxpoliakov.skillapp.data.serialization.LocalDateTimeAsStringSerializer
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
@@ -15,6 +16,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.UseSerializers
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Serializable
 @Entity(
@@ -35,8 +37,9 @@ data class DBRecord(
     @Transient
     val recordName: String = "",
     val unit: MeasurementUnit = MeasurementUnit.Millis,
-    val date: LocalDate = getCurrentDate()
+    val date: LocalDate = getCurrentDate(),
+    val dateTimeRange: ClosedRange<LocalDateTime>?,
 )
 
-fun DBRecord.mapToDomain() = Record(recordName, skillId, time, unit, id, date)
-fun Record.mapToDB() = DBRecord(id, count, skillId, name, unit, date)
+fun DBRecord.mapToDomain() = Record(recordName, skillId, time, unit, id, date, dateTimeRange)
+fun Record.mapToDB() = DBRecord(id, count, skillId, name, unit, date, dateTimeRange)

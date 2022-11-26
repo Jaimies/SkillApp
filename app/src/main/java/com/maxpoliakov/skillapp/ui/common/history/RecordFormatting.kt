@@ -22,7 +22,6 @@ fun Context.getFormattedTime(record: HistoryUiModel.Record?): CharSequence? {
     return buildSpannedString {
         append("${format(record.dateTimeRange.start)}-")
         append("${format(record.dateTimeRange.endInclusive)} | ")
-        // todo the color looks kinda dull
         val color = getColorAttributeValueWithAlpha(android.R.attr.textColorPrimary, 120)
         setSpanForWholeString(ForegroundColorSpan(color))
         append(format(Duration.ofMillis(record.count)))

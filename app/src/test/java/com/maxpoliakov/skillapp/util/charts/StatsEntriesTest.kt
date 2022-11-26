@@ -2,7 +2,8 @@ package com.maxpoliakov.skillapp.util.charts
 
 import com.github.mikephil.charting.data.Entry
 import com.maxpoliakov.skillapp.domain.model.Statistic
-import com.maxpoliakov.skillapp.domain.model.StatisticInterval
+import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Daily
+import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Yearly
 import com.maxpoliakov.skillapp.shared.util.setClock
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -28,7 +29,7 @@ class StatsEntriesTest : StringSpec({
             Statistic(LocalDate.ofYearDay(2020, 1), Duration.ofMinutes(32).toMillis())
         )
 
-        stats.withMissingStats(StatisticInterval.Yearly) shouldBe listOf(
+        stats.withMissingStats(Yearly, LocalDate.ofYearDay(2012, 1)..LocalDate.ofYearDay(2021, 1)) shouldBe listOf(
             Statistic(LocalDate.ofYearDay(2012, 1), 0),
             Statistic(LocalDate.ofYearDay(2013, 1), 0),
             Statistic(LocalDate.ofYearDay(2014, 1), Duration.ofHours(2).toMillis()),
@@ -44,12 +45,12 @@ class StatsEntriesTest : StringSpec({
 
     "toStatsEntries() returns null for empty list" {
         val stats = listOf<Statistic>()
-        stats.toEntries(StatisticInterval.Daily) shouldBe null
+        stats.toEntries(Daily) shouldBe null
     }
 
     "toStatsEntries() returns null for list with no positive time" {
         val stats = listOf(Statistic(LocalDate.ofEpochDay(0), 0))
-        stats.toEntries(StatisticInterval.Daily) shouldBe null
+        stats.toEntries(Daily) shouldBe null
     }
 
     fun List<Entry>.toPairs() = map { it.x to it.y }
@@ -60,7 +61,7 @@ class StatsEntriesTest : StringSpec({
             Statistic(LocalDate.ofEpochDay(2), Duration.ofHours(2).toMillis())
         )
 
-        val statsEntries = stats.toEntries(StatisticInterval.Daily)!!
+        val statsEntries = stats.toEntries(Daily)!!
 
         statsEntries.toPairs() shouldBe listOf(
             1f to Duration.ofMinutes(20).toMillis().toFloat(),

@@ -38,7 +38,7 @@ data class DBRecord(
     val recordName: String = "",
     val unit: MeasurementUnit = MeasurementUnit.Millis,
     val date: LocalDate = getCurrentDate(),
-    val dateTimeRange: ClosedRange<LocalDateTime>?,
+    val dateTimeRange: ClosedRange<LocalDateTime>? = null,
 )
 
 fun DBRecord.mapToDomain() = Record(recordName, skillId, time, unit, id, date, dateTimeRange)

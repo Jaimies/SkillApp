@@ -20,15 +20,17 @@ object Converters {
     fun toDateRange(value: String?): ClosedRange<LocalDateTime>? {
         if (value == null) return null
 
-        return value.split("|")
-            .map(this::toLocalDateTime)
-            .let { parts -> parts[0]..parts[1] }
+        return runCatching {
+            value.split("|")
+                .map(this::toLocalDateTime)
+                .let { parts -> parts[0]..parts[1] }
+        }.getOrNull()
     }
 
     // todo consider a better format
     @TypeConverter
     fun fromDateRange(range: ClosedRange<LocalDateTime>?): String? {
-        if(range == null) return null
+        if (range == null) return null
 
         return listOf(range.start, range.endInclusive)
             .joinToString("|", transform = this::fromLocalDateTime)

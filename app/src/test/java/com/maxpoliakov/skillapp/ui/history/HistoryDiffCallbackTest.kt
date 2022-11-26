@@ -44,7 +44,7 @@ class HistoryDiffCallbackTest : StringSpec({
 })
 
 fun createRecord(id: Int, name: String = ""): Record {
-    return Record(id, name, 0, UiMeasurementUnit.Millis, LocalDate.ofEpochDay(0))
+    return Record(id, name, 0, UiMeasurementUnit.Millis, LocalDate.ofEpochDay(0), null)
 }
 
 fun createSeparator(date: LocalDate, totalCount: Long) : Separator {

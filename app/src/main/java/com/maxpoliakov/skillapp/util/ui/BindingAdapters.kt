@@ -35,17 +35,6 @@ fun View.setBottomMargin(dimen: Float) {
     this.layoutParams = layoutParams
 }
 
-@BindingAdapter("format")
-fun Chronometer.setTimeFormat(format: String) {
-    setOnChronometerTickListener { chronometer ->
-        val time = SystemClock.elapsedRealtime() - chronometer.base
-        chronometer.post {
-            // todo consider a different method for formatting
-            chronometer.text = DateFormat.format(format, time)
-        }
-    }
-}
-
 @BindingAdapter("backgroundTintAttr")
 fun View.setBackgroundTintAttr(attrValue: Int) {
     setBackgroundColor(context.getColorAttributeValue(attrValue))

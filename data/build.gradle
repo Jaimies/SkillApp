@@ -78,6 +78,7 @@ dependencies {
     implementation project(':domain')
 
     implementation "androidx.room:room-ktx:$Versions.room"
+    implementation "androidx.room:room-paging:$Versions.room"
     kapt "androidx.room:room-compiler:$Versions.room"
 
     implementation "androidx.paging:paging-runtime-ktx:$Versions.paging"

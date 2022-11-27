@@ -14,12 +14,10 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCaseImpl
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCaseImpl
-import com.maxpoliakov.skillapp.domain.usecase.records.ChangeRecordDateUseCase
-import com.maxpoliakov.skillapp.domain.usecase.records.ChangeRecordDateUseCaseImpl
-import com.maxpoliakov.skillapp.domain.usecase.records.ChangeRecordTimeUseCase
-import com.maxpoliakov.skillapp.domain.usecase.records.ChangeRecordTimeUseCaseImpl
 import com.maxpoliakov.skillapp.domain.usecase.records.DeleteRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.DeleteRecordUseCaseImpl
+import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase
+import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCaseImpl
 import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCaseImpl
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
@@ -79,13 +77,10 @@ interface UseCaseModule {
     fun provideUpdateOrderUseCase(useCase: UpdateOrderUseCaseImpl): UpdateOrderUseCase
 
     @Binds
-    fun provideChangeRecordDateUseCase(useCase: ChangeRecordDateUseCaseImpl): ChangeRecordDateUseCase
+    fun provideEditRecordUseCase(useCase: EditRecordUseCaseImpl): EditRecordUseCase
 
     @Binds
     fun provideDeleteRecordUseCase(useCase: DeleteRecordUseCaseImpl): DeleteRecordUseCase
-
-    @Binds
-    fun provideChangeRecordTimeUseCase(useCase: ChangeRecordTimeUseCaseImpl): ChangeRecordTimeUseCase
 
     @Binds
     fun provideGetHistoryUseCase(useCase: GetHistoryUseCaseImpl): GetHistoryUseCase

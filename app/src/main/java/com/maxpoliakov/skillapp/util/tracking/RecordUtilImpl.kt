@@ -7,7 +7,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.usecase.records.ChangeRecordTimeUseCase
+import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @ActivityScoped
 class RecordUtilImpl @Inject constructor(
-    private val changeRecordTime: ChangeRecordTimeUseCase,
+    private val editRecord: EditRecordUseCase,
     private val ioScope: CoroutineScope,
     private val activity: Activity,
 ) : RecordUtil {
@@ -54,7 +54,7 @@ class RecordUtilImpl @Inject constructor(
     private fun editTime(view: View, record: Record) {
         UiMeasurementUnit.Millis.showPicker(view.context, record.count, editMode = true) { newTime ->
             ioScope.launch {
-                changeRecordTime.run(record.id, newTime)
+                editRecord.changeCount(record.id, newTime)
             }
         }
     }

@@ -2,9 +2,9 @@ package com.maxpoliakov.skillapp.domain.usecase.skill
 
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
+import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase.SkillsAndGroups
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -37,8 +37,3 @@ class GetSkillsAndSkillGroupsUseCaseImpl @Inject constructor(
         }
     }
 }
-
-data class SkillsAndGroups(
-    val skills: List<Skill>,
-    val groups: List<SkillGroup>
-)

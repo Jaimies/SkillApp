@@ -14,7 +14,6 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -27,9 +26,8 @@ class SkillsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
     private val manageGroup: AddOrRemoveSkillToGroupUseCase,
     private val updateOrder: UpdateOrderUseCase,
-    private val stopwatchUtil: StopwatchUtil,
     private val editingModeManager: EditingModeManager,
-    private val ioScope: CoroutineScope,
+    stopwatchUtil: StopwatchUtil,
 ) : ViewModel() {
 
     val skillsAndGroups = getSkills.getSkillsAndGroups()
@@ -65,7 +63,6 @@ class SkillsViewModel @Inject constructor(
         manageGroup.removeFromGroup(skill)
     }
 
-    fun stopTimer() = ioScope.launch { stopwatchUtil.stop() }
     fun toggleEditingMode() = editingModeManager.toggleEditingMode()
     fun navigateToAddSkill() = navigateToAddSkill.call()
 }

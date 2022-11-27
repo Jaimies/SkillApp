@@ -32,5 +32,5 @@ private fun createUseCase(): GetSkillsAndSkillGroupsUseCase {
 
     every { groupRepository.getSkillGroups() } returns flowOf(listOf(createGroup(), createGroup()))
 
-    return GetSkillsAndSkillGroupsUseCase(skillRepository, groupRepository)
+    return GetSkillsAndSkillGroupsUseCaseImpl(skillRepository, groupRepository)
 }

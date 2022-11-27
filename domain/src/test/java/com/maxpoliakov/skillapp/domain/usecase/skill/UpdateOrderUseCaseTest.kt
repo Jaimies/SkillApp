@@ -13,7 +13,7 @@ class UpdateOrderUseCaseTest : StringSpec({
         val skillRepository = mockk<SkillRepository>(relaxed = true)
         val groupRepository = mockk<SkillGroupRepository>(relaxed = true)
 
-        val useCase = UpdateOrderUseCase(skillRepository, groupRepository)
+        val useCase = UpdateOrderUseCaseImpl(skillRepository, groupRepository)
 
         val items = listOf(
             createSkill(id = 1, groupId = -1),

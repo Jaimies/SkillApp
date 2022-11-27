@@ -46,7 +46,7 @@ private fun createUseCase(
     every { authRepository.currentUser } returns if (isAuthenticated) User("user@gmail.com") else null
     every { authRepository.hasAppDataPermission } returns hasPermissions
 
-    return CreateBackupUseCase(driveRepository, authRepository, backupUtil) to driveRepository
+    return CreateBackupUseCaseImpl(driveRepository, authRepository, backupUtil) to driveRepository
 }
 
 private const val backupData = "Some backup data"

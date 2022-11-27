@@ -34,5 +34,5 @@ private fun createUseCase(hasSkills: Boolean): Pair<DeleteGroupIfEmptyUseCase, S
     val skillGroup = SkillGroup(1, "name", if (hasSkills) listOf(skill) else listOf(), MeasurementUnit.Millis, null, -1)
     coEvery { skillGroupRepository.getSkillGroupById(any()) } returns skillGroup
 
-    return DeleteGroupIfEmptyUseCase(skillGroupRepository) to skillGroupRepository
+    return DeleteGroupIfEmptyUseCaseImpl(skillGroupRepository) to skillGroupRepository
 }

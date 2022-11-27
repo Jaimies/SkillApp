@@ -4,6 +4,7 @@ import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
 import com.maxpoliakov.skillapp.domain.repository.DriveRepository
+import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -90,7 +91,7 @@ private fun createUseCase(
 
     every { authRepository.hasAppDataPermission } returns hasAppDataPermission
 
-    return RestoreBackupUseCase(driveRepository, backupUtil, authRepository) to backupUtil
+    return RestoreBackupUseCaseImpl(driveRepository, backupUtil, authRepository) to backupUtil
 }
 
 private const val backupContents = "some backup contents"

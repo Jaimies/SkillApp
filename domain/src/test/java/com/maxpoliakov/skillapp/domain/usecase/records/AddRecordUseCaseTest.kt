@@ -25,7 +25,7 @@ class AddRecordUseCaseTest : StringSpec({
 
         coEvery { skillRepository.getSkillById(any()) } returns skill
 
-        val addRecordUseCase = AddRecordUseCase(recordRepository, skillRepository, statsRepository)
+        val addRecordUseCase = AddRecordUseCaseImpl(recordRepository, skillRepository, statsRepository)
         addRecordUseCase.run(record)
 
         coVerify { recordRepository.addRecord(record) }
@@ -40,7 +40,7 @@ class AddRecordUseCaseTest : StringSpec({
 
         coEvery { skillRepository.getSkillById(any()) } returns null
 
-        val addRecordUseCase = AddRecordUseCase(recordRepository, skillRepository, statsRepository)
+        val addRecordUseCase = AddRecordUseCaseImpl(recordRepository, skillRepository, statsRepository)
         addRecordUseCase.run(record)
 
         verify { listOf(recordRepository, statsRepository) wasNot Called }

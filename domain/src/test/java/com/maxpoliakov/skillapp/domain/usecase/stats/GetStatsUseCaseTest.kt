@@ -29,7 +29,7 @@ class GetStatsUseCaseTest : StringSpec({
             )
         )
 
-        val useCase = GetStatsUseCase(statsRepository)
+        val useCase = GetStatsUseCaseImpl(statsRepository)
 
         useCase.getStats(listOf(1, 2), LocalDate.now()..LocalDate.now(),StatisticInterval.Weekly).await() shouldBe listOf(
             Statistic(referenceDate, Duration.ofHours(12).toMillis()),

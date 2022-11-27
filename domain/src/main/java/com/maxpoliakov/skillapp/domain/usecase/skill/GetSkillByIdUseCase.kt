@@ -1,9 +1,9 @@
 package com.maxpoliakov.skillapp.domain.usecase.skill
 
 import com.maxpoliakov.skillapp.domain.model.Id
-import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import javax.inject.Inject
+import com.maxpoliakov.skillapp.domain.model.Skill
+import kotlinx.coroutines.flow.Flow
 
-class GetSkillByIdUseCase @Inject constructor(private val skillRepository: SkillRepository) {
-    fun run(id: Id) = skillRepository.getSkillFlowById(id)
+interface GetSkillByIdUseCase {
+    fun run(id: Id): Flow<Skill>
 }

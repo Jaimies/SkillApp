@@ -18,18 +18,17 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.time.MutableClock
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
-import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneOffset.UTC
 import java.time.ZonedDateTime
-import java.time.temporal.ChronoUnit
+import java.time.temporal.ChronoUnit.DAYS
+import java.time.temporal.ChronoUnit.HOURS
 
 class StubSkillRepository : SkillRepository {
     override fun getSkills() = flowOf<List<Skill>>()
@@ -55,16 +54,26 @@ class StubSkillRepository : SkillRepository {
     override suspend fun decreaseCount(id: Id, count: Long) {}
 }
 
+class SpyAddRecordUseCase : AddRecordUseCase {
+    private val _addedRecords = mutableListOf<Record>()
+    val addedRecords: List<Record> get() = _addedRecords
+
+    override suspend fun run(record: Record): Long {
+        _addedRecords.add(record)
+        return 1
+    }
+
+    fun clear() = _addedRecords.clear()
+}
+
 class StopwatchUtilImplTest : StringSpec({
-    val addRecord = mockk<AddRecordUseCase>(relaxed = true)
+    val addRecord = SpyAddRecordUseCase()
     val notificationUtil = mockk<NotificationUtil>(relaxed = true)
     val skillRepository = StubSkillRepository()
     var clock = MutableClock(Instant.EPOCH, UTC)
 
     beforeEach { clock = MutableClock(Instant.EPOCH, UTC) }
-    afterEach { clearAllMocks() }
-
-    coEvery { addRecord.run(any()) }.returns(1)
+    afterEach { addRecord.clear(); clearAllMocks() }
 
     fun getRunningState() = Running(ZonedDateTime.now(clock), skillId, groupId)
 
@@ -76,16 +85,14 @@ class StopwatchUtilImplTest : StringSpec({
     fun createRecord(
         duration: Duration = Duration.ofSeconds(1),
         date: LocalDate = LocalDate.ofEpochDay(0),
-        dateTimeRange: ClosedRange<LocalDateTime> =
-            LocalDateTime.ofEpochSecond(0, 0, UTC)
-                .rangeTo(LocalDateTime.ofEpochSecond(1, 0, UTC))
+        timeRange: ClosedRange<LocalTime> = LocalTime.ofSecondOfDay(0)..LocalTime.ofSecondOfDay(1)
     ) = Record(
         name = "",
         skillId = skillId,
         count = duration.toMillis(),
         unit = MeasurementUnit.Millis,
         date = date,
-        dateTimeRange = dateTimeRange,
+        timeRange = timeRange,
     )
 
     "add the record properly" {
@@ -96,7 +103,7 @@ class StopwatchUtilImplTest : StringSpec({
         clock.withInstant(Instant.ofEpochSecond(1))
         stopwatch.toggle(skillId)
 
-        coVerify { addRecord.run(createRecord()) }
+        addRecord.addedRecords shouldBe listOf(createRecord())
     }
 
     "records the time of the current timer when trying to start a new one" {
@@ -104,7 +111,7 @@ class StopwatchUtilImplTest : StringSpec({
         stopwatch.toggle(skillId)
         clock.withInstant(Instant.ofEpochSecond(1))
         stopwatch.toggle(otherSkillId)
-        coVerify { addRecord.run(createRecord()) }
+        addRecord.addedRecords shouldBe listOf(createRecord())
         stopwatch.state.value shouldBe Running(ZonedDateTime.now(clock), otherSkillId, groupId)
     }
 
@@ -138,7 +145,7 @@ class StopwatchUtilImplTest : StringSpec({
         stopwatch.start(otherSkillId)
         clock.withInstant(Instant.ofEpochSecond(2))
         stopwatch.state.value shouldBe Running(dateOfEpochSecond(1), otherSkillId, groupId)
-        coVerify { addRecord.run(createRecord()) }
+        addRecord.addedRecords shouldBe listOf(createRecord())
     }
 
     "stop() does nothing if the timer is not running" {
@@ -158,7 +165,7 @@ class StopwatchUtilImplTest : StringSpec({
         clock.withInstant(Instant.ofEpochSecond(1))
         stopwatch.stop()
         stopwatch.state.value shouldBe Paused
-        coVerify { addRecord.run(createRecord()) }
+        addRecord.addedRecords shouldBe listOf(createRecord())
         verify { notificationUtil.removeStopwatchNotification() }
     }
 
@@ -173,17 +180,50 @@ class StopwatchUtilImplTest : StringSpec({
     }
 
     "adds the record with the date of stopwatch start" {
+        clock.withInstant(Instant.EPOCH.plus(10, HOURS))
+
         val stopwatchUtil = createStopwatch(getRunningState())
-        clock.withInstant(Instant.EPOCH.plus(2, ChronoUnit.DAYS))
+
+        clock.withInstant(Instant.EPOCH.plus(2, DAYS).plus(10, HOURS))
+
         stopwatchUtil.stop()
-        coVerify {
-            addRecord.run(
-                createRecord(
-                    duration = Duration.ofDays(2),
-                    dateTimeRange = LocalDate.ofEpochDay(0).atStartOfDay()..LocalDate.ofEpochDay(2).atStartOfDay()
-                )
-            )
-        }
+
+        addRecord.addedRecords shouldBe listOf(
+            createRecord(
+                date = LocalDate.ofEpochDay(0),
+                duration = Duration.ofHours(14),
+                timeRange = LocalTime.of(10, 0)..LocalTime.MAX,
+            ),
+            createRecord(
+                date = LocalDate.ofEpochDay(1),
+                duration = Duration.ofDays(1),
+                timeRange = LocalTime.MIN..LocalTime.MAX
+            ),
+            createRecord(
+                date = LocalDate.ofEpochDay(2),
+                duration = Duration.ofHours(10),
+                timeRange = LocalTime.MIN..LocalTime.of(10, 0)
+            ),
+        )
+    }
+
+    "stop() returns a record with correct data" {
+        clock.withInstant(Instant.EPOCH.plus(10, HOURS))
+
+        val stopwatchUtil = createStopwatch(getRunningState())
+
+        clock.withInstant(Instant.EPOCH.plus(2, DAYS).plus(10, HOURS))
+
+        val record = stopwatchUtil.stop()
+
+        record shouldBe Record(
+            name = "",
+            skillId = skillId,
+            count = Duration.ofDays(2).toMillis(),
+            date = LocalDate.ofEpochDay(0),
+            unit = MeasurementUnit.Millis,
+            timeRange = null,
+        )
     }
 }) {
     companion object {

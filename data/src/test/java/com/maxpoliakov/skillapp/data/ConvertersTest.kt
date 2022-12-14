@@ -5,33 +5,33 @@ import com.maxpoliakov.skillapp.domain.model.Goal
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.LocalTime
 
 class ConvertersTest : StringSpec({
     val epoch = LocalDate.ofEpochDay(0)
 
-    "fromDateRange()" {
-        Converters.fromDateRange(
-            LocalDateTime.parse("2015-02-15T05:20:30")..LocalDateTime.parse("2020-05-25T20:30:00"),
-        ) shouldBe "2015-02-15T05:20:30|2020-05-25T20:30:00"
+    "fromTimeRange()" {
+        Converters.fromTimeRange(
+            LocalTime.parse("05:20:30")..LocalTime.parse("20:30:00"),
+        ) shouldBe "05:20:30|20:30:00"
 
-        Converters.fromDateRange(
-            LocalDateTime.parse("2022-11-01T13:15:15")..LocalDateTime.parse("2022-11-15T02:40:55"),
-        ) shouldBe "2022-11-01T13:15:15|2022-11-15T02:40:55"
+        Converters.fromTimeRange(
+            LocalTime.parse("13:15:15")..LocalTime.parse("02:40:55"),
+        ) shouldBe "13:15:15|02:40:55"
     }
 
-    "toDateRange()" {
-        Converters.toDateRange(
-            "2015-02-15T05:20:30|2020-05-25T20:30:00",
-        ) shouldBe LocalDateTime.parse("2015-02-15T05:20:30")..LocalDateTime.parse("2020-05-25T20:30:00")
+    "toTimeRange()" {
+        Converters.toTimeRange(
+            "05:20:30|20:30:00",
+        ) shouldBe LocalTime.parse("05:20:30")..LocalTime.parse("20:30:00")
 
-        Converters.toDateRange(
-            "2022-11-01T13:15:15|2022-11-15T02:40:55",
-        ) shouldBe LocalDateTime.parse("2022-11-01T13:15:15")..LocalDateTime.parse("2022-11-15T02:40:55")
+        Converters.toTimeRange(
+            "13:15:15|02:40:55",
+        ) shouldBe LocalTime.parse("13:15:15")..LocalTime.parse("02:40:55")
     }
 
     "toDateRange() returns null if value cannot be parsed" {
-        Converters.toDateRange("invalid format") shouldBe null
+        Converters.toTimeRange("invalid format") shouldBe null
     }
 
     "fromLocalDate()" {

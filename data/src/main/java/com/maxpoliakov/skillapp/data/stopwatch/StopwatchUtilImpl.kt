@@ -9,7 +9,8 @@ import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
-import com.maxpoliakov.skillapp.shared.util.until
+import com.maxpoliakov.skillapp.shared.util.range.split
+import com.maxpoliakov.skillapp.shared.util.toDuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.time.Clock
@@ -94,16 +95,28 @@ class StopwatchUtilImpl @Inject constructor(
     }
 
     private suspend fun addRecord(state: Running): Record {
-        val record = Record(
-            "",
-            state.skillId,
-            state.startTime.until(ZonedDateTime.now(clock)).toMillis(),
+        val dateTimeRange = state.startTime.toLocalDateTime()..LocalDateTime.now(clock)
+
+        for (range in dateTimeRange.split()) {
+            val record = Record(
+                name = "",
+                skillId = state.skillId,
+                count = range.toDuration().toMillis(),
+                date = range.date,
+                unit = MeasurementUnit.Millis,
+                timeRange = range.range,
+            )
+
+            addRecord.run(record)
+        }
+
+        return Record(
+            name = "",
+            skillId = state.skillId,
+            count = dateTimeRange.toDuration().toMillis(),
             date = state.startTime.toLocalDate(),
             unit = MeasurementUnit.Millis,
-            dateTimeRange = state.startTime.toLocalDateTime()..LocalDateTime.now(clock),
+            timeRange = null,
         )
-
-        val recordId = addRecord.run(record)
-        return record.copy(id = recordId.toInt())
     }
 }

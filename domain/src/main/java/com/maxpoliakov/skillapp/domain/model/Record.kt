@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.domain.model
 
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.LocalTime
 
 data class Record(
     val name: String,
@@ -11,5 +11,5 @@ data class Record(
     val unit: MeasurementUnit,
     val id: Id = 0,
     val date: LocalDate = getCurrentDate(),
-    val dateTimeRange: ClosedRange<LocalDateTime>? = null
+    val timeRange: ClosedRange<LocalTime>? = null,
 )

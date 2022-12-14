@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "8472423f14bea1764074bbe8914c403e",
+    "identityHash": "515d0f019950bcc875e676ab492ff7bb",
     "entities": [
       {
         "tableName": "skills",
@@ -86,7 +86,7 @@
       },
       {
         "tableName": "records",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `time` INTEGER NOT NULL, `skillId` INTEGER NOT NULL, `recordName` TEXT NOT NULL, `unit` TEXT NOT NULL, `date` TEXT NOT NULL, `dateTimeRange` TEXT, FOREIGN KEY(`skillId`) REFERENCES `skills`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `time` INTEGER NOT NULL, `skillId` INTEGER NOT NULL, `recordName` TEXT NOT NULL, `unit` TEXT NOT NULL, `date` TEXT NOT NULL, `timeRange` TEXT, FOREIGN KEY(`skillId`) REFERENCES `skills`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -125,8 +125,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "dateTimeRange",
-            "columnName": "dateTimeRange",
+            "fieldPath": "timeRange",
+            "columnName": "timeRange",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -144,6 +144,7 @@
             "columnNames": [
               "skillId"
             ],
+            "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_records_skillId` ON `${TABLE_NAME}` (`skillId`)"
           }
         ],
@@ -198,6 +199,7 @@
             "columnNames": [
               "skillId"
             ],
+            "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_stats_skillId` ON `${TABLE_NAME}` (`skillId`)"
           }
         ],
@@ -263,7 +265,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8472423f14bea1764074bbe8914c403e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '515d0f019950bcc875e676ab492ff7bb')"
     ]
   }
 }

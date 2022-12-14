@@ -4,7 +4,7 @@ import android.content.Context
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.LocalTime
 
 sealed class HistoryUiModel {
     data class Record(
@@ -13,7 +13,7 @@ sealed class HistoryUiModel {
         val count: Long,
         val unit: UiMeasurementUnit,
         val date: LocalDate,
-        val dateTimeRange: ClosedRange<LocalDateTime>?,
+        val dateTimeRange: ClosedRange<LocalTime>?,
     ) : HistoryUiModel()
 
     data class Separator(
@@ -31,5 +31,5 @@ sealed class HistoryUiModel {
 }
 
 fun Record.mapToPresentation(): HistoryUiModel.Record {
-    return HistoryUiModel.Record(id, name, count, unit.mapToUI(), date, dateTimeRange)
+    return HistoryUiModel.Record(id, name, count, unit.mapToUI(), date, timeRange)
 }

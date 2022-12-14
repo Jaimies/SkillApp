@@ -12,7 +12,7 @@ import com.maxpoliakov.skillapp.shared.util.toSecondsPartCompat
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValueWithAlpha
 import com.maxpoliakov.skillapp.util.ui.setSpanForWholeString
 import java.time.Duration
-import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 fun Context.getFormattedTime(record: HistoryUiModel.Record?): CharSequence? {
@@ -49,6 +49,6 @@ private fun Long.toPaddedString(): String {
     return this.toString().padStart(2, '0')
 }
 
-private fun format(dateTime: LocalDateTime): String {
-    return dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+private fun format(time: LocalTime): String {
+    return time.format(DateTimeFormatter.ofPattern("HH:mm"))
 }

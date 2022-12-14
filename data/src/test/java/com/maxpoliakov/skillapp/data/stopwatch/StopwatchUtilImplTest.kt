@@ -23,6 +23,7 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import java.time.Duration
 import java.time.Instant
+import java.time.Instant.EPOCH
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneOffset.UTC
@@ -70,9 +71,9 @@ class StopwatchUtilImplTest : StringSpec({
     val addRecord = SpyAddRecordUseCase()
     val notificationUtil = mockk<NotificationUtil>(relaxed = true)
     val skillRepository = StubSkillRepository()
-    var clock = MutableClock(Instant.EPOCH, UTC)
+    var clock = MutableClock(EPOCH, UTC)
 
-    beforeEach { clock = MutableClock(Instant.EPOCH, UTC) }
+    beforeEach { clock = MutableClock(EPOCH, UTC) }
     afterEach { addRecord.clear(); clearAllMocks() }
 
     fun getRunningState() = Running(ZonedDateTime.now(clock), skillId, groupId)
@@ -161,7 +162,8 @@ class StopwatchUtilImplTest : StringSpec({
     }
 
     "stop() stops the timer and removes the notification" {
-        val stopwatch = createStopwatch(getRunningState())
+        val stopwatch = createStopwatch()
+        stopwatch.start(skillId)
         clock.withInstant(Instant.ofEpochSecond(1))
         stopwatch.stop()
         stopwatch.state.value shouldBe Paused
@@ -180,12 +182,10 @@ class StopwatchUtilImplTest : StringSpec({
     }
 
     "adds the record with the date of stopwatch start" {
-        clock.withInstant(Instant.EPOCH.plus(10, HOURS))
-
-        val stopwatchUtil = createStopwatch(getRunningState())
-
-        clock.withInstant(Instant.EPOCH.plus(2, DAYS).plus(10, HOURS))
-
+        val stopwatchUtil = createStopwatch()
+        clock.withInstant(EPOCH.plus(10, HOURS))
+        stopwatchUtil.start(skillId)
+        clock.withInstant(EPOCH.plus(2, DAYS).plus(10, HOURS))
         stopwatchUtil.stop()
 
         addRecord.addedRecords shouldBe listOf(
@@ -208,18 +208,15 @@ class StopwatchUtilImplTest : StringSpec({
     }
 
     "stop() returns a record with correct data" {
-        clock.withInstant(Instant.EPOCH.plus(10, HOURS))
-
-        val stopwatchUtil = createStopwatch(getRunningState())
-
-        clock.withInstant(Instant.EPOCH.plus(2, DAYS).plus(10, HOURS))
-
+        val stopwatchUtil = createStopwatch()
+        stopwatchUtil.start(skillId)
+        clock.withInstant(EPOCH.plus(2, DAYS).plus(10, HOURS))
         val record = stopwatchUtil.stop()
 
         record shouldBe Record(
             name = "",
             skillId = skillId,
-            count = Duration.ofDays(2).toMillis(),
+            count = Duration.ofDays(2).plusHours(10).toMillis(),
             date = LocalDate.ofEpochDay(0),
             unit = MeasurementUnit.Millis,
             timeRange = null,

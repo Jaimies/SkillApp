@@ -176,7 +176,7 @@ class StopwatchUtilImplTest : StringSpec({
         verify { notificationUtil.showStopwatchNotification(getRunningState()) }
     }
 
-    "removes the notification if the state isd Paused on startup" {
+    "removes the notification if the state is Paused on startup" {
         createStopwatch(Paused)
         verify { notificationUtil.removeStopwatchNotification() }
     }

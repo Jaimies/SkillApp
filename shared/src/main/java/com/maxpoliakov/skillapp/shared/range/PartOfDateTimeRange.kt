@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.shared.util.range
+package com.maxpoliakov.skillapp.shared.range
 
 import com.maxpoliakov.skillapp.shared.util.toDuration
 import java.time.LocalDate

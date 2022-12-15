@@ -9,7 +9,7 @@ import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
-import com.maxpoliakov.skillapp.shared.util.range.split
+import com.maxpoliakov.skillapp.shared.range.split
 import com.maxpoliakov.skillapp.shared.util.toDuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

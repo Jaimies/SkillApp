@@ -23,7 +23,7 @@ fun ClosedRange<LocalDateTime>.split(): List<PartOfDateTimeRange> {
 
     for (addedDays in 1..numOfRecords) {
         val date = startDate.plusDays(addedDays)
-        records.add(1, PartOfDateTimeRange(date, LocalTime.MIN..LocalTime.MAX))
+        records.add(records.lastIndex, PartOfDateTimeRange(date, LocalTime.MIN..LocalTime.MAX))
     }
 
     return records

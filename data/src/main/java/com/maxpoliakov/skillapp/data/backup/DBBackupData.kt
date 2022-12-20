@@ -7,7 +7,7 @@ import com.maxpoliakov.skillapp.data.stats.DBStatistic
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BackupData(
+data class DBBackupData(
     val skills: List<DBSkill>,
     val records: List<DBRecord>,
     val stats: List<DBStatistic>,

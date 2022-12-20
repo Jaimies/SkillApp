@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.data.backup
 
 import com.maxpoliakov.skillapp.data.db.AppDatabase
+import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -17,13 +18,15 @@ class DBBackupCreator @Inject constructor(
         val statsAsync = async { db.statsDao().getAllStats() }
         val groupsAsync = async { db.skillGroupDao().getAllGroups() }
 
-        val backupData = BackupData(
+        val backupData = DBBackupData(
             skills = skillsAsync.await(),
             records = recordsAsync.await(),
             stats = statsAsync.await(),
             groups = groupsAsync.await()
         )
 
-        Json.encodeToString(backupData)
+        BackupData(
+            Json.encodeToString(backupData),
+        )
     }
 }

@@ -4,6 +4,7 @@ import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import com.maxpoliakov.skillapp.domain.model.Backup
+import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,12 +19,12 @@ import javax.inject.Provider
 class GoogleDriveBackupRepository @Inject constructor(
     private val driveProvider: Provider<Drive>,
 ) : BackupRepository {
-    override suspend fun upload(content: String) = withContext(Dispatchers.IO) {
+    override suspend fun upload(data: BackupData) = withContext(Dispatchers.IO) {
         val file = File()
             .setParents(listOf("appDataFolder"))
             .setMimeType("text/plain")
 
-        val byteArrayContent = ByteArrayContent.fromString("text/plain", content)
+        val byteArrayContent = ByteArrayContent.fromString("text/plain", data.contents)
 
         driveProvider.get().files().create(file, byteArrayContent).execute()
         Unit
@@ -48,9 +49,13 @@ class GoogleDriveBackupRepository @Inject constructor(
         return _getBackups(2).firstOrNull()
     }
 
-    override suspend fun getContents(backup: Backup): String = withContext(Dispatchers.IO) {
+    override suspend fun getContents(backup: Backup): BackupData = withContext(Dispatchers.IO) {
         val stream = ByteArrayOutputStream()
         driveProvider.get().files().get(backup.id).executeMediaAndDownloadTo(stream)
-        stream.toByteArray().toString(StandardCharsets.UTF_8)
+
+        stream
+            .toByteArray()
+            .toString(StandardCharsets.UTF_8)
+            .let(::BackupData)
     }
 }

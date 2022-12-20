@@ -2,12 +2,12 @@ package com.maxpoliakov.skilapp.data.skills
 
 import com.maxpoliakov.skilapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.db.AppDatabase
-import com.maxpoliakov.skillapp.data.group.SkillGroupRepositoryImpl
+import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
 import com.maxpoliakov.skillapp.data.records.RecordsDao
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.data.skill.mapToDB
-import com.maxpoliakov.skillapp.data.stats.GroupStatsRepositoryImpl
-import com.maxpoliakov.skillapp.data.stats.SkillStatsRepositoryImpl
+import com.maxpoliakov.skillapp.data.stats.DBGroupStatsRepository
+import com.maxpoliakov.skillapp.data.stats.DBSkillStatsRepository
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -24,7 +24,7 @@ import org.junit.Test
 import java.time.Duration
 import java.time.LocalDate
 
-class SkillRepositoryImplTest {
+class DBSkillRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var skillDao: SkillDao
     private lateinit var recordsDao: RecordsDao
@@ -37,9 +37,9 @@ class SkillRepositoryImplTest {
         db = createTestDatabase()
         skillDao = db.skillDao()
         recordsDao = db.recordsDao()
-        groupRepository = SkillGroupRepositoryImpl(db.skillGroupDao())
-        skillStatsRepository = SkillStatsRepositoryImpl(db.statsDao())
-        groupStatsRepository = GroupStatsRepositoryImpl(db.skillGroupDao(), skillStatsRepository)
+        groupRepository = DBSkillGroupRepository(db.skillGroupDao())
+        skillStatsRepository = DBSkillStatsRepository(db.statsDao())
+        groupStatsRepository = DBGroupStatsRepository(db.skillGroupDao(), skillStatsRepository)
     }
 
     @After

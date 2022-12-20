@@ -11,7 +11,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SkillGroupRepositoryImpl @Inject constructor(
+class DBSkillGroupRepository @Inject constructor(
     private val groupDao: GroupDao,
 ) : SkillGroupRepository {
 

@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SkillStatsRepositoryImpl @Inject constructor(
+class DBSkillStatsRepository @Inject constructor(
     private val statsDao: StatsDao,
 ) : SkillStatsRepository {
 

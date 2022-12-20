@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import java.time.LocalDate
 import javax.inject.Inject
 
-class GroupStatsRepositoryImpl @Inject constructor(
+class DBGroupStatsRepository @Inject constructor(
     private val groupDao: GroupDao,
     private val skillStatsRepository: SkillStatsRepository,
 ) : GroupStatsRepository {

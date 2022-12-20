@@ -1,11 +1,11 @@
 package com.maxpoliakov.skillapp.screenshots
 
 import com.maxpoliakov.skillapp.data.di.RepositoryModule
-import com.maxpoliakov.skillapp.data.group.SkillGroupRepositoryImpl
+import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
 import com.maxpoliakov.skillapp.data.records.RecordsRepositoryImpl
-import com.maxpoliakov.skillapp.data.skill.SkillRepositoryImpl
-import com.maxpoliakov.skillapp.data.stats.GroupStatsRepositoryImpl
-import com.maxpoliakov.skillapp.data.stats.SkillStatsRepositoryImpl
+import com.maxpoliakov.skillapp.data.skill.DBSkillRepository
+import com.maxpoliakov.skillapp.data.stats.DBGroupStatsRepository
+import com.maxpoliakov.skillapp.data.stats.DBSkillStatsRepository
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.GroupStatsRepository
@@ -25,19 +25,19 @@ import dagger.hilt.testing.TestInstallIn
 )
 interface TestRepositoryModule {
     @Binds
-    fun provideSkillRepository(repository: SkillRepositoryImpl): SkillRepository
+    fun provideSkillRepository(repository: DBSkillRepository): SkillRepository
 
     @Binds
     fun provideRecordsRepository(repository: RecordsRepositoryImpl): RecordsRepository
 
     @Binds
-    fun provideSkillStatsRepository(repository: SkillStatsRepositoryImpl): SkillStatsRepository
+    fun provideSkillStatsRepository(repository: DBSkillStatsRepository): SkillStatsRepository
 
     @Binds
-    fun provideGroupStatsRepository(repository: GroupStatsRepositoryImpl): GroupStatsRepository
+    fun provideGroupStatsRepository(repository: DBGroupStatsRepository): GroupStatsRepository
 
     @Binds
-    fun provideSkillGroupRepository(repository: SkillGroupRepositoryImpl): SkillGroupRepository
+    fun provideSkillGroupRepository(repository: DBSkillGroupRepository): SkillGroupRepository
 
     @Binds
     fun provideAuthRepository(authRepository: StubAuthRepository): AuthRepository

@@ -2,10 +2,10 @@ package com.maxpoliakov.skilapp.data.group
 
 import com.maxpoliakov.skilapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.db.AppDatabase
-import com.maxpoliakov.skillapp.data.group.SkillGroupRepositoryImpl
+import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
 import com.maxpoliakov.skillapp.data.records.RecordsDao
 import com.maxpoliakov.skillapp.data.skill.SkillDao
-import com.maxpoliakov.skillapp.data.skill.SkillRepositoryImpl
+import com.maxpoliakov.skillapp.data.skill.DBSkillRepository
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -16,22 +16,21 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.time.Duration
 
-class SkillRepositoryImplTest {
+class DBSkillRepositoryTest {
     private lateinit var db: AppDatabase
     private lateinit var skillDao: SkillDao
     private lateinit var recordsDao: RecordsDao
     private lateinit var groupRepository: SkillGroupRepository
-    private lateinit var skillRepository: SkillRepositoryImpl
+    private lateinit var skillRepository: DBSkillRepository
 
     @Before
     fun setup() {
         db = createTestDatabase()
         skillDao = db.skillDao()
         recordsDao = db.recordsDao()
-        groupRepository = SkillGroupRepositoryImpl(db.skillGroupDao())
-        skillRepository = SkillRepositoryImpl(db.skillDao())
+        groupRepository = DBSkillGroupRepository(db.skillGroupDao())
+        skillRepository = DBSkillRepository(db.skillDao())
     }
 
     @After

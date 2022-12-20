@@ -7,7 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
-import com.maxpoliakov.skillapp.domain.repository.DriveRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RestoreBackupViewModel @Inject constructor(
-    private val driveRepository: DriveRepository,
+    private val backupRepository: BackupRepository,
     restoreBackupUseCase: RestoreBackupUseCase,
     authRepository: AuthRepository,
 ) : ViewModel() {
@@ -51,7 +51,7 @@ class RestoreBackupViewModel @Inject constructor(
     private fun getBackups() {
         viewModelScope.launch {
             try {
-                val backups = driveRepository.getBackups()
+                val backups = backupRepository.getBackups()
                 _backups.value = backups
             } catch (e: Exception) {
                 _showError.call()

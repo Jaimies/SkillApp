@@ -4,7 +4,7 @@ import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import com.maxpoliakov.skillapp.domain.model.Backup
-import com.maxpoliakov.skillapp.domain.repository.DriveRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
@@ -15,9 +15,9 @@ import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Provider
 
-class DriveRepositoryImpl @Inject constructor(
+class BackupRepositoryImpl @Inject constructor(
     private val driveProvider: Provider<Drive>,
-) : DriveRepository {
+) : BackupRepository {
     override suspend fun uploadBackup(content: String) = withContext(Dispatchers.IO) {
         val file = File()
             .setParents(listOf("appDataFolder"))

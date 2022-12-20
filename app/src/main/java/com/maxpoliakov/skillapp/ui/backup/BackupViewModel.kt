@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
-import com.maxpoliakov.skillapp.domain.repository.DriveRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
@@ -28,7 +28,7 @@ class BackupViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val createBackupUseCase: CreateBackupUseCase,
     private val restoreBackupUseCase: RestoreBackupUseCase,
-    private val driveRepository: DriveRepository,
+    private val backupRepository: BackupRepository,
     private val networkUtil: NetworkUtil,
     private val ioScope: CoroutineScope,
 ) : ViewModel() {
@@ -91,7 +91,7 @@ class BackupViewModel @Inject constructor(
         }
 
         try {
-            val backup = driveRepository.getLastBackup()
+            val backup = backupRepository.getLastBackup()
             if (backup == null) _lastBackupDate.value = R.string.no_backup_found
             else _lastBackupDate.value = dateTimeFormatter.format(backup.creationDate)
         } catch (e: Exception) {

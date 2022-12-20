@@ -3,13 +3,12 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
-import com.maxpoliakov.skillapp.domain.repository.DriveRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.MutableStateFlow
 
 class CreateBackupUseCaseTest : StringSpec({
     "creates backup if both authenticated and subscribed" {
@@ -37,8 +36,8 @@ class CreateBackupUseCaseTest : StringSpec({
 private fun createUseCase(
     isAuthenticated: Boolean,
     hasPermissions: Boolean,
-): Pair<CreateBackupUseCase, DriveRepository> {
-    val driveRepository = mockk<DriveRepository>(relaxed = true)
+): Pair<CreateBackupUseCase, BackupRepository> {
+    val backupRepository = mockk<BackupRepository>(relaxed = true)
     val authRepository = mockk<AuthRepository>(relaxed = true)
     val backupUtil = mockk<BackupUtil>(relaxed = true)
 
@@ -46,7 +45,7 @@ private fun createUseCase(
     every { authRepository.currentUser } returns if (isAuthenticated) User("user@gmail.com") else null
     every { authRepository.hasAppDataPermission } returns hasPermissions
 
-    return CreateBackupUseCaseImpl(driveRepository, authRepository, backupUtil) to driveRepository
+    return CreateBackupUseCaseImpl(backupRepository, authRepository, backupUtil) to backupRepository
 }
 
 private const val backupData = "Some backup data"

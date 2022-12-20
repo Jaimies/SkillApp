@@ -7,7 +7,7 @@ import com.maxpoliakov.skillapp.data.skill.SkillRepositoryImpl
 import com.maxpoliakov.skillapp.data.stats.GroupStatsRepositoryImpl
 import com.maxpoliakov.skillapp.data.stats.SkillStatsRepositoryImpl
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
-import com.maxpoliakov.skillapp.domain.repository.DriveRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.GroupStatsRepository
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
@@ -43,5 +43,5 @@ interface TestRepositoryModule {
     fun provideAuthRepository(authRepository: StubAuthRepository): AuthRepository
 
     @Binds
-    fun provideDriveRepository(repository: StubDriveRepository): DriveRepository
+    fun provideDriveRepository(repository: StubBackupRepository): BackupRepository
 }

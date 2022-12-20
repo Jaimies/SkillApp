@@ -2,11 +2,11 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
-import com.maxpoliakov.skillapp.domain.repository.DriveRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import javax.inject.Inject
 
 class CreateBackupUseCaseImpl @Inject constructor(
-    private val driveRepository: DriveRepository,
+    private val backupRepository: BackupRepository,
     private val authRepository: AuthRepository,
     private val backupUtil: BackupUtil,
 ): CreateBackupUseCase {
@@ -21,6 +21,6 @@ class CreateBackupUseCaseImpl @Inject constructor(
             return
         }
 
-        driveRepository.uploadBackup(backupUtil.getDatabaseBackup())
+        backupRepository.uploadBackup(backupUtil.getDatabaseBackup())
     }
 }

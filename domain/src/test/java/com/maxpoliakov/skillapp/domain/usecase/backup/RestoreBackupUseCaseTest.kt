@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
-import com.maxpoliakov.skillapp.domain.repository.DriveRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
@@ -15,7 +15,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 
-class StubDriveRepository : DriveRepository {
+class StubBackupRepository : BackupRepository {
     override suspend fun uploadBackup(content: String) {
         delay(5)
     }
@@ -29,7 +29,7 @@ class StubDriveRepository : DriveRepository {
     override suspend fun getLastBackup(): Backup? = null
 }
 
-class CrashingStubDriveRepository : DriveRepository {
+class CrashingStubBackupRepository : BackupRepository {
     override suspend fun uploadBackup(content: String) = throw Exception("Something went wrong")
     override suspend fun getBackups() = throw Exception("Something went wrong")
     override suspend fun getLastBackup() = throw Exception("Something went wrong")
@@ -70,7 +70,7 @@ class RestoreBackupUseCaseTest : StringSpec({
     }
 
     "updates state to Failed when failing" {
-        val (useCase) = createUseCase(CrashingStubDriveRepository())
+        val (useCase) = createUseCase(CrashingStubBackupRepository())
         shouldThrow<Exception> { useCase.restoreBackup(backup) }
         useCase.state.value shouldBe RestorationState.Failed
     }
@@ -83,7 +83,7 @@ class RestoreBackupUseCaseTest : StringSpec({
 })
 
 private fun createUseCase(
-    driveRepository: DriveRepository = StubDriveRepository(),
+    backupRepository: BackupRepository = StubBackupRepository(),
     hasAppDataPermission: Boolean = true
 ): Pair<RestoreBackupUseCase, BackupUtil> {
     val backupUtil = mockk<BackupUtil>(relaxed = true)
@@ -91,7 +91,7 @@ private fun createUseCase(
 
     every { authRepository.hasAppDataPermission } returns hasAppDataPermission
 
-    return RestoreBackupUseCaseImpl(driveRepository, backupUtil, authRepository) to backupUtil
+    return RestoreBackupUseCaseImpl(backupRepository, backupUtil, authRepository) to backupUtil
 }
 
 private const val backupContents = "some backup contents"

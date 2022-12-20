@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupUtil
-import com.maxpoliakov.skillapp.domain.repository.DriveRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 class RestoreBackupUseCaseImpl @Inject constructor(
-    private val driveRepository: DriveRepository,
+    private val backupRepository: BackupRepository,
     private val backupUtil: BackupUtil,
     private val authRepository: AuthRepository,
 ): RestoreBackupUseCase {
@@ -33,7 +33,7 @@ class RestoreBackupUseCaseImpl @Inject constructor(
         _state.emit(RestorationState.Active)
 
         try {
-            val backupContents = driveRepository.getBackupContents(backup)
+            val backupContents = backupRepository.getBackupContents(backup)
             backupUtil.restoreBackup(backupContents)
             _state.emit(RestorationState.Finished)
         } catch (e: Exception) {

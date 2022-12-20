@@ -48,7 +48,7 @@ class GoogleDriveBackupRepository @Inject constructor(
         return _getBackups(2).firstOrNull()
     }
 
-    override suspend fun getBackupContents(backup: Backup): String = withContext(Dispatchers.IO) {
+    override suspend fun getContents(backup: Backup): String = withContext(Dispatchers.IO) {
         val stream = ByteArrayOutputStream()
         driveProvider.get().files().get(backup.id).executeMediaAndDownloadTo(stream)
         stream.toByteArray().toString(StandardCharsets.UTF_8)

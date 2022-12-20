@@ -33,7 +33,7 @@ class RestoreBackupUseCaseImpl @Inject constructor(
         _state.emit(RestorationState.Active)
 
         try {
-            val backupContents = backupRepository.getBackupContents(backup)
+            val backupContents = backupRepository.getContents(backup)
             backupRestorer.restore(backupContents)
             _state.emit(RestorationState.Finished)
         } catch (e: Exception) {

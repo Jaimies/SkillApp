@@ -7,5 +7,5 @@ interface BackupRepository {
 
     suspend fun getBackups(): List<Backup>
     suspend fun getLastBackup(): Backup?
-    suspend fun getBackupContents(backup: Backup): String
+    suspend fun getContents(backup: Backup): String
 }

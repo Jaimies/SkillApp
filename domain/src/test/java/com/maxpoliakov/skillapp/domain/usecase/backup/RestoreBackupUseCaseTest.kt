@@ -16,11 +16,11 @@ import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 
 class StubBackupRepository : BackupRepository {
-    override suspend fun uploadBackup(content: String) {
+    override suspend fun upload(content: String) {
         delay(5)
     }
 
-    override suspend fun getBackupContents(backup: Backup): String {
+    override suspend fun getContents(backup: Backup): String {
         delay(5)
         return backupContents
     }
@@ -30,10 +30,10 @@ class StubBackupRepository : BackupRepository {
 }
 
 class CrashingStubBackupRepository : BackupRepository {
-    override suspend fun uploadBackup(content: String) = throw Exception("Something went wrong")
+    override suspend fun upload(content: String) = throw Exception("Something went wrong")
     override suspend fun getBackups() = throw Exception("Something went wrong")
     override suspend fun getLastBackup() = throw Exception("Something went wrong")
-    override suspend fun getBackupContents(backup: Backup) = throw Exception("Something went wrong")
+    override suspend fun getContents(backup: Backup) = throw Exception("Something went wrong")
 }
 
 class RestoreBackupUseCaseTest : StringSpec({

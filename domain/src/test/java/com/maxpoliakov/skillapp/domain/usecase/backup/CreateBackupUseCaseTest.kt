@@ -14,22 +14,22 @@ class CreateBackupUseCaseTest : StringSpec({
     "creates backup if both authenticated and subscribed" {
         val (useCase, driveRepository) = createUseCase(isAuthenticated = true, hasPermissions = true)
         useCase.createBackup()
-        coVerify { driveRepository.uploadBackup(backupData) }
+        coVerify { driveRepository.upload(backupData) }
     }
     "doesn't create backup if not authenticated" {
         val (useCase, driveRepository) = createUseCase(isAuthenticated = false, hasPermissions = true)
         useCase.createBackup()
-        coVerify(exactly = 0) { driveRepository.uploadBackup(any()) }
+        coVerify(exactly = 0) { driveRepository.upload(any()) }
     }
     "doesn't create backup if AppData permission is not granted" {
         val (useCase, driveRepository) = createUseCase(isAuthenticated = true, hasPermissions = false)
         useCase.createBackup()
-        coVerify(exactly = 0) { driveRepository.uploadBackup(backupData) }
+        coVerify(exactly = 0) { driveRepository.upload(backupData) }
     }
     "doesn't create backup if neither subscribed nor authenticated" {
         val (useCase, driveRepository) = createUseCase(isAuthenticated = false, hasPermissions = false)
         useCase.createBackup()
-        coVerify(exactly = 0) { driveRepository.uploadBackup(backupData) }
+        coVerify(exactly = 0) { driveRepository.upload(backupData) }
     }
 })
 

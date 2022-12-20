@@ -21,6 +21,6 @@ class CreateBackupUseCaseImpl @Inject constructor(
             return
         }
 
-        backupRepository.uploadBackup(backupCreator.create())
+        backupRepository.upload(backupCreator.create())
     }
 }

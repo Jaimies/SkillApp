@@ -18,7 +18,7 @@ import javax.inject.Provider
 class GoogleDriveBackupRepository @Inject constructor(
     private val driveProvider: Provider<Drive>,
 ) : BackupRepository {
-    override suspend fun uploadBackup(content: String) = withContext(Dispatchers.IO) {
+    override suspend fun upload(content: String) = withContext(Dispatchers.IO) {
         val file = File()
             .setParents(listOf("appDataFolder"))
             .setMimeType("text/plain")

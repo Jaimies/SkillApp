@@ -7,7 +7,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
-class BackupRestorerImpl @Inject constructor(
+class DBBackupRestorer @Inject constructor(
     private val db: AppDatabase,
 ) : BackupRestorer {
     override suspend fun restore(backupData: String) {

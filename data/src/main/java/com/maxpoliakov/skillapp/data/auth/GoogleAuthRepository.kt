@@ -10,7 +10,7 @@ import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor(
+class GoogleAuthRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     private val googleSignInClient: GoogleSignInClient,
 ) : AuthRepository {

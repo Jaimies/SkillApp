@@ -2,8 +2,8 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
-import com.maxpoliakov.skillapp.domain.repository.BackupUtil
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
@@ -38,14 +38,14 @@ class CrashingStubBackupRepository : BackupRepository {
 
 class RestoreBackupUseCaseTest : StringSpec({
     "restores backup" {
-        val (useCase, backupUtil) = createUseCase()
+        val (useCase, backupRestorer) = createUseCase()
         useCase.restoreBackup(Backup(backupId, LocalDateTime.now()))
 
-        coVerify { backupUtil.restoreBackup(backupContents) }
+        coVerify { backupRestorer.restore(backupContents) }
     }
 
     "does not restore backup if another restoration is in progress" {
-        val (useCase, backupUtil) = createUseCase()
+        val (useCase, backupRestorer) = createUseCase()
 
         val job1 = async { useCase.restoreBackup(backup) }
         val job2 = async { useCase.restoreBackup(backup) }
@@ -53,7 +53,7 @@ class RestoreBackupUseCaseTest : StringSpec({
         job1.await()
         job2.await()
 
-        coVerify(exactly = 1) { backupUtil.restoreBackup(backupContents) }
+        coVerify(exactly = 1) { backupRestorer.restore(backupContents) }
     }
 
     "updates state" {
@@ -76,22 +76,22 @@ class RestoreBackupUseCaseTest : StringSpec({
     }
 
     "does not restore backup if the AppData permission was not granted" {
-        val (useCase, backupUtil) = createUseCase(hasAppDataPermission = false)
+        val (useCase, backupRestorer) = createUseCase(hasAppDataPermission = false)
         useCase.restoreBackup(backup)
-        coVerify(exactly = 0) { backupUtil.restoreBackup(backupContents) }
+        coVerify(exactly = 0) { backupRestorer.restore(backupContents) }
     }
 })
 
 private fun createUseCase(
     backupRepository: BackupRepository = StubBackupRepository(),
     hasAppDataPermission: Boolean = true
-): Pair<RestoreBackupUseCase, BackupUtil> {
-    val backupUtil = mockk<BackupUtil>(relaxed = true)
+): Pair<RestoreBackupUseCase, BackupRestorer> {
+    val backupRestorer = mockk<BackupRestorer>(relaxed = true)
     val authRepository = mockk<AuthRepository>(relaxed = true)
 
     every { authRepository.hasAppDataPermission } returns hasAppDataPermission
 
-    return RestoreBackupUseCaseImpl(backupRepository, backupUtil, authRepository) to backupUtil
+    return RestoreBackupUseCaseImpl(backupRepository, backupRestorer, authRepository) to backupRestorer
 }
 
 private const val backupContents = "some backup contents"

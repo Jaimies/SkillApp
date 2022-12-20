@@ -1,14 +1,14 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
-import com.maxpoliakov.skillapp.domain.repository.BackupUtil
+import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import javax.inject.Inject
 
 class CreateBackupUseCaseImpl @Inject constructor(
     private val backupRepository: BackupRepository,
     private val authRepository: AuthRepository,
-    private val backupUtil: BackupUtil,
+    private val backupCreator: BackupCreator,
 ): CreateBackupUseCase {
     override suspend fun createBackup() {
         if (authRepository.currentUser == null) {
@@ -21,6 +21,6 @@ class CreateBackupUseCaseImpl @Inject constructor(
             return
         }
 
-        backupRepository.uploadBackup(backupUtil.getDatabaseBackup())
+        backupRepository.uploadBackup(backupCreator.create())
     }
 }

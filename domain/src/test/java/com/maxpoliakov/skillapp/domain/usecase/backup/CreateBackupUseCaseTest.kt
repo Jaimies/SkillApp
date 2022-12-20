@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
-import com.maxpoliakov.skillapp.domain.repository.BackupUtil
+import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
@@ -39,13 +39,13 @@ private fun createUseCase(
 ): Pair<CreateBackupUseCase, BackupRepository> {
     val backupRepository = mockk<BackupRepository>(relaxed = true)
     val authRepository = mockk<AuthRepository>(relaxed = true)
-    val backupUtil = mockk<BackupUtil>(relaxed = true)
+    val backupCreator = mockk<BackupCreator>(relaxed = true)
 
-    coEvery { backupUtil.getDatabaseBackup() } returns backupData
+    coEvery { backupCreator.create() } returns backupData
     every { authRepository.currentUser } returns if (isAuthenticated) User("user@gmail.com") else null
     every { authRepository.hasAppDataPermission } returns hasPermissions
 
-    return CreateBackupUseCaseImpl(backupRepository, authRepository, backupUtil) to backupRepository
+    return CreateBackupUseCaseImpl(backupRepository, authRepository, backupCreator) to backupRepository
 }
 
 private const val backupData = "Some backup data"

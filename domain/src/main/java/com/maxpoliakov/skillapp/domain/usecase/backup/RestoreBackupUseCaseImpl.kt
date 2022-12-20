@@ -2,8 +2,8 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
-import com.maxpoliakov.skillapp.domain.repository.BackupUtil
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class RestoreBackupUseCaseImpl @Inject constructor(
     private val backupRepository: BackupRepository,
-    private val backupUtil: BackupUtil,
+    private val backupRestorer: BackupRestorer,
     private val authRepository: AuthRepository,
 ): RestoreBackupUseCase {
     private val _state = MutableStateFlow(RestorationState.NotStarted)
@@ -34,7 +34,7 @@ class RestoreBackupUseCaseImpl @Inject constructor(
 
         try {
             val backupContents = backupRepository.getBackupContents(backup)
-            backupUtil.restoreBackup(backupContents)
+            backupRestorer.restore(backupContents)
             _state.emit(RestorationState.Finished)
         } catch (e: Exception) {
             _state.emit(RestorationState.Failed)

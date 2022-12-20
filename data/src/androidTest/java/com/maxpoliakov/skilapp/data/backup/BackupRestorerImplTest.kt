@@ -1,7 +1,7 @@
 package com.maxpoliakov.skilapp.data.backup
 
 import com.maxpoliakov.skilapp.data.createTestDatabase
-import com.maxpoliakov.skillapp.data.backup.BackupCreatorImpl
+import com.maxpoliakov.skillapp.data.backup.DBBackupCreator
 import com.maxpoliakov.skillapp.data.backup.BackupRestorerImpl
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.group.DBGroup
@@ -18,12 +18,12 @@ import java.time.LocalDate
 class BackupRestorerImplTest {
     private lateinit var db: AppDatabase
     private lateinit var backupRestorer: BackupRestorerImpl
-    private lateinit var backupCreator: BackupCreatorImpl
+    private lateinit var backupCreator: DBBackupCreator
 
     @Before
     fun setup() {
         db = createTestDatabase()
-        backupCreator = BackupCreatorImpl(db)
+        backupCreator = DBBackupCreator(db)
         backupRestorer = BackupRestorerImpl(db)
     }
 

@@ -8,7 +8,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
-class BackupCreatorImpl @Inject constructor(
+class DBBackupCreator @Inject constructor(
     private val db: AppDatabase,
 ) : BackupCreator {
     override suspend fun create() = coroutineScope {

@@ -63,7 +63,7 @@ class StopwatchPersistenceImplTest : StringSpec({
                     "STOPWATCH_GROUP_ID" to groupId,
                 )
             )
-            return StopwatchRepositoryImpl(prefs)
+            return SharedPreferencesStopwatchRepository(prefs)
         }
     }
 }

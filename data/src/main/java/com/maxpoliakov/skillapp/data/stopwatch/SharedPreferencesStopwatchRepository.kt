@@ -11,7 +11,7 @@ import com.maxpoliakov.skillapp.shared.util.toZonedDateTimeOrNull
 import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME
 import javax.inject.Inject
 
-class StopwatchRepositoryImpl @Inject constructor(
+class SharedPreferencesStopwatchRepository @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : StopwatchRepository {
     override fun getState(): StopwatchState {

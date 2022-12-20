@@ -15,7 +15,7 @@ import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Provider
 
-class BackupRepositoryImpl @Inject constructor(
+class GoogleDriveBackupRepository @Inject constructor(
     private val driveProvider: Provider<Drive>,
 ) : BackupRepository {
     override suspend fun uploadBackup(content: String) = withContext(Dispatchers.IO) {

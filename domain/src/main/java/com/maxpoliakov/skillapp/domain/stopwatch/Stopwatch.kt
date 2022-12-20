@@ -1,11 +1,10 @@
-package com.maxpoliakov.skillapp.domain.repository
+package com.maxpoliakov.skillapp.domain.stopwatch
 
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.StateFlow
 
-interface StopwatchUtil {
+interface Stopwatch {
     val state: StateFlow<StopwatchState>
 
     suspend fun start(skillId: Int): Record?

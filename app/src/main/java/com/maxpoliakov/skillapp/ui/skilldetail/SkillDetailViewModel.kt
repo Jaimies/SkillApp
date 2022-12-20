@@ -7,7 +7,7 @@ import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
@@ -31,12 +31,12 @@ class SkillDetailViewModel @Inject constructor(
     private val addRecord: AddRecordUseCase,
     private val manageSkill: ManageSkillUseCase,
     private val ioScope: CoroutineScope,
-    private val stopwatchUtil: StopwatchUtil,
+    private val stopwatch: Stopwatch,
     args: SkillDetailFragmentArgs,
     getSkillById: GetSkillByIdUseCase,
     getRecentCount: GetRecentSkillCountUseCase,
 ) : DetailsViewModel(
-    stopwatchUtil,
+    stopwatch,
     getRecentCount,
     getSkillById.run(args.skillId),
 ) {
@@ -47,11 +47,11 @@ class SkillDetailViewModel @Inject constructor(
     private val _showRecordAdded = SingleLiveEvent<Record>()
     val showRecordAdded: LiveData<Record?> get() = _showRecordAdded
 
-    val stopwatchIsRunning = stopwatchUtil.state.map {
+    val stopwatchIsRunning = stopwatch.state.map {
         it is Running && it.skillId == skillId
     }.asLiveData()
 
-    val stopwatchStartTime = stopwatchUtil.state.map {
+    val stopwatchStartTime = stopwatch.state.map {
         if (it is Running) it.startTime
         else getZonedDateTime()
     }.asLiveData()
@@ -76,7 +76,7 @@ class SkillDetailViewModel @Inject constructor(
     }
 
     fun toggleTimer() = ioScope.launch {
-        val record = stopwatchUtil.toggle(skillId)
+        val record = stopwatch.toggle(skillId)
         record.let(_showRecordAdded::postValue)
         logEvent("toggle_timer")
     }

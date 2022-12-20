@@ -7,7 +7,7 @@ import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
@@ -27,7 +27,7 @@ class SkillsViewModel @Inject constructor(
     private val manageGroup: AddOrRemoveSkillToGroupUseCase,
     private val updateOrder: UpdateOrderUseCase,
     private val editingModeManager: EditingModeManager,
-    stopwatchUtil: StopwatchUtil,
+    stopwatch: Stopwatch,
 ) : ViewModel() {
 
     val skillsAndGroups = getSkills.getSkillsAndGroups()
@@ -40,7 +40,7 @@ class SkillsViewModel @Inject constructor(
 
     val isEmpty = isEmptyFlow.asLiveData()
 
-    val isActive = stopwatchUtil.state.map { it is Running }.asLiveData()
+    val isActive = stopwatch.state.map { it is Running }.asLiveData()
 
     val navigateToAddSkill = SingleLiveEvent<Any>()
 

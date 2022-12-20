@@ -6,7 +6,7 @@ import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SkillViewModel @Inject constructor(
-    private val stopwatchUtil: StopwatchUtil,
+    private val stopwatch: Stopwatch,
     manager: EditingModeManager,
     private val ioScope: CoroutineScope,
 ) {
@@ -45,7 +45,7 @@ class SkillViewModel @Inject constructor(
     val dragHandleShown = manager.isInEditingMode
     val groupId get() = skill.value?.groupId ?: -1
 
-    val isStopwatchActive = stopwatchUtil.state.combine(_skill) { state, skill ->
+    val isStopwatchActive = stopwatch.state.combine(_skill) { state, skill ->
         state is StopwatchState.Running && state.skillId == skill?.id
     }.asLiveData()
 
@@ -56,7 +56,7 @@ class SkillViewModel @Inject constructor(
 
     fun toggleTimer() {
         ioScope.launch {
-            val record = stopwatchUtil.toggle(skill.value!!.id)
+            val record = stopwatch.toggle(skill.value!!.id)
             record?.let { record ->
                 withContext(Dispatchers.Main) { _notifyRecordAdded.value = record }
             }

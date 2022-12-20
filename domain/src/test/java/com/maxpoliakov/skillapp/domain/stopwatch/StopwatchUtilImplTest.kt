@@ -1,6 +1,5 @@
-package com.maxpoliakov.skillapp.data.stopwatch
+package com.maxpoliakov.skillapp.domain.stopwatch
 
-import com.maxpoliakov.skillapp.data.StubStopwatchPersistence
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
@@ -12,6 +11,7 @@ import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
+import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.test.dateOfEpochSecond
 import io.kotest.core.spec.style.StringSpec
@@ -78,9 +78,9 @@ class StopwatchUtilImplTest : StringSpec({
 
     fun getRunningState() = Running(ZonedDateTime.now(clock), skillId, groupId)
 
-    fun createStopwatch(state: StopwatchState = Paused): StopwatchUtilImpl {
-        val persistence = StubStopwatchPersistence(state)
-        return StopwatchUtilImpl(persistence, addRecord, skillRepository, notificationUtil, clock)
+    fun createStopwatch(state: StopwatchState = Paused): StopwatchImpl {
+        val persistence = StubStopwatchRepository(state)
+        return StopwatchImpl(persistence, addRecord, skillRepository, notificationUtil, clock)
     }
 
     fun createRecord(
@@ -123,8 +123,8 @@ class StopwatchUtilImplTest : StringSpec({
     }
 
     "persists the state and shows the notification" {
-        val persistence = mockk<StopwatchPersistence>(relaxed = true)
-        val stopwatch = StopwatchUtilImpl(persistence, addRecord, skillRepository, notificationUtil, clock)
+        val persistence = mockk<StopwatchRepository>(relaxed = true)
+        val stopwatch = StopwatchImpl(persistence, addRecord, skillRepository, notificationUtil, clock)
         stopwatch.toggle(skillId)
 
         verify { persistence.saveState(getRunningState()) }

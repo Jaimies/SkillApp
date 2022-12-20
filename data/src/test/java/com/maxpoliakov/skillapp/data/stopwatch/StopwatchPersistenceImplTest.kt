@@ -5,6 +5,7 @@ import com.maxpoliakov.skillapp.data.StubSharedPreferences
 import com.maxpoliakov.skillapp.shared.util.setClock
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.Clock
@@ -54,7 +55,7 @@ class StopwatchPersistenceImplTest : StringSpec({
         private const val groupId = 5
         private val date = ZonedDateTime.ofInstant(Instant.ofEpochSecond(0), ZoneId.systemDefault())
 
-        private fun createPersistence(skillId: Int, startTime: String, groupId: Int): StopwatchPersistence {
+        private fun createPersistence(skillId: Int, startTime: String, groupId: Int): StopwatchRepository {
             val prefs = StubSharedPreferences(
                 mapOf(
                     "STOPWATCH_SKILL_ID" to skillId,
@@ -62,7 +63,7 @@ class StopwatchPersistenceImplTest : StringSpec({
                     "STOPWATCH_GROUP_ID" to groupId,
                 )
             )
-            return StopwatchPersistenceImpl(prefs)
+            return StopwatchRepositoryImpl(prefs)
         }
     }
 }

@@ -6,13 +6,14 @@ import com.maxpoliakov.skillapp.data.persistence.getStringPreference
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
 import com.maxpoliakov.skillapp.shared.util.toZonedDateTimeOrNull
 import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME
 import javax.inject.Inject
 
-class StopwatchPersistenceImpl @Inject constructor(
+class StopwatchRepositoryImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences
-) : StopwatchPersistence {
+) : StopwatchRepository {
     override fun getState(): StopwatchState {
         val skillId = sharedPreferences.getInt(SKILL_ID, -1)
         val groupId = sharedPreferences.getInt(GROUP_ID, -1)

@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class StopTimerBroadcastReceiver : BroadcastReceiver() {
     @Inject
-    lateinit var stopwatchUtil: StopwatchUtil
+    lateinit var stopwatch: Stopwatch
 
     @Inject
     lateinit var ioScope: CoroutineScope
@@ -24,7 +24,7 @@ class StopTimerBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         ioScope.launch {
-            stopwatchUtil.stop()
+            stopwatch.stop()
             delay(100)
             notificationUtil.removeStopwatchNotification()
         }

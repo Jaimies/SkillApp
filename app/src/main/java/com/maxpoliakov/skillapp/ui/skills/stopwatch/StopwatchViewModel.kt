@@ -5,7 +5,7 @@ import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StopwatchViewModel @Inject constructor(
-    private val stopwatchUtil: StopwatchUtil,
+    private val stopwatch: Stopwatch,
     private val getSkill: GetSkillByIdUseCase,
     private val ioScope: CoroutineScope,
 ) {
@@ -26,19 +26,19 @@ class StopwatchViewModel @Inject constructor(
     private val _showRecordAdded = SingleLiveEvent<Record>()
     val showRecordAdded: LiveData<Record?> get() = _showRecordAdded
 
-    val trackingSkill = stopwatchUtil.state.flatMapLatest { state ->
+    val trackingSkill = stopwatch.state.flatMapLatest { state ->
         if (state is StopwatchState.Running) getSkill.run(state.skillId)
         else flowOf(null)
     }.asLiveData()
 
-    val stopwatchStartTime = stopwatchUtil.state.map { state ->
+    val stopwatchStartTime = stopwatch.state.map { state ->
         if (state is StopwatchState.Running) state.startTime else getZonedDateTime()
     }.asLiveData()
 
-    val isActive = stopwatchUtil.state.map { it is StopwatchState.Running }.asLiveData()
+    val isActive = stopwatch.state.map { it is StopwatchState.Running }.asLiveData()
 
     fun stopTimer() = ioScope.launch {
-        val record = stopwatchUtil.stop()
+        val record = stopwatch.stop()
         record?.let(_showRecordAdded::postValue)
     }
 

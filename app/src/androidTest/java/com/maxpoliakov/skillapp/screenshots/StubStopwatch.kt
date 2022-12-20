@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.screenshots
 
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.ZonedDateTime
@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StubStopwatchUtil @Inject constructor() : StopwatchUtil {
+class StubStopwatch @Inject constructor() : Stopwatch {
     private val _state = MutableStateFlow<StopwatchState>(getRunningState())
 
     override val state = _state.asStateFlow()

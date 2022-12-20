@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.Trackable
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToUI
@@ -31,7 +31,7 @@ import java.time.ZonedDateTime
 import javax.inject.Inject
 
 abstract class DetailsViewModel(
-    stopwatchUtil: StopwatchUtil,
+    stopwatch: Stopwatch,
     getRecentTime: GetRecentCountUseCase,
     flow: Flow<Trackable>,
 ) : ViewModelWithHistory() {
@@ -78,7 +78,7 @@ abstract class DetailsViewModel(
         }
     }
 
-    private val timeOnStopwatch = stopwatchUtil.state.combine(tick) { state, _ ->
+    private val timeOnStopwatch = stopwatch.state.combine(tick) { state, _ ->
         if (state !is StopwatchState.Running || !isStopwatchTracking(state))
             return@combine Duration.ZERO
 

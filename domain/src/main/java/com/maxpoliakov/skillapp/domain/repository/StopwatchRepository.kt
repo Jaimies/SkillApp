@@ -1,8 +1,8 @@
-package com.maxpoliakov.skillapp.data.stopwatch
+package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 
-interface StopwatchPersistence {
+interface StopwatchRepository {
     fun getState(): StopwatchState
     fun saveState(state: StopwatchState)
 }

@@ -13,7 +13,7 @@ import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.test.R
@@ -53,7 +53,7 @@ class ScreenshotsTest {
     lateinit var db: AppDatabase
 
     @Inject
-    lateinit var stopwatchUtil: StopwatchUtil
+    lateinit var stopwatch: Stopwatch
 
     @Inject
     lateinit var addRecordUseCase: AddRecordUseCase
@@ -156,7 +156,7 @@ class ScreenshotsTest {
         setupNavController()
         val directions = MainDirections.actionToSkillDetailFragment(4)
         navigate(directions)
-        stopwatchUtil.stop()
+        stopwatch.stop()
         makeScreenshot("skilldetail")
 
         val groupDirections = MainDirections.actionToSkillGroupFragment(1)

@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isGone
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,7 +13,7 @@ import com.maxpoliakov.skillapp.R.id.skills_fragment_dest
 import com.maxpoliakov.skillapp.R.id.statistics_fragment_dest
 import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
 import com.maxpoliakov.skillapp.databinding.MainActBinding
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.model.Intro
 import com.maxpoliakov.skillapp.ui.intro.FirstRunIntro
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var binding: MainActBinding
 
     @Inject
-    lateinit var stopwatchUtil: StopwatchUtil
+    lateinit var stopwatch: Stopwatch
 
     @Inject
     lateinit var introUtil: IntroUtil
@@ -59,8 +58,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun onResume() {
         super.onResume()
-        stopwatchUtil.updateState()
-        stopwatchUtil.updateNotification()
+        stopwatch.updateState()
+        stopwatch.updateNotification()
     }
 
     private fun setupNavController() {

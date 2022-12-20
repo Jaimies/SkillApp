@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.data.stopwatch
+package com.maxpoliakov.skillapp.domain.stopwatch
 
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
@@ -7,7 +7,7 @@ import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import com.maxpoliakov.skillapp.domain.repository.StopwatchUtil
+import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.range.split
 import com.maxpoliakov.skillapp.shared.util.toDuration
@@ -20,13 +20,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StopwatchUtilImpl @Inject constructor(
-    private val persistence: StopwatchPersistence,
+class StopwatchImpl @Inject constructor(
+    private val persistence: StopwatchRepository,
     private val addRecord: AddRecordUseCase,
     private val skillRepository: SkillRepository,
     private val notificationUtil: NotificationUtil,
     private val clock: Clock,
-) : StopwatchUtil {
+) : Stopwatch {
     override val state: StateFlow<StopwatchState> get() = _state
     private val _state = MutableStateFlow(persistence.getState())
 

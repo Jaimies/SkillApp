@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
+import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
@@ -16,11 +17,11 @@ import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 
 class StubBackupRepository : BackupRepository {
-    override suspend fun upload(content: String) {
+    override suspend fun upload(data: BackupData) {
         delay(5)
     }
 
-    override suspend fun getContents(backup: Backup): String {
+    override suspend fun getContents(backup: Backup): BackupData {
         delay(5)
         return backupContents
     }
@@ -30,7 +31,7 @@ class StubBackupRepository : BackupRepository {
 }
 
 class CrashingStubBackupRepository : BackupRepository {
-    override suspend fun upload(content: String) = throw Exception("Something went wrong")
+    override suspend fun upload(data: BackupData) = throw Exception("Something went wrong")
     override suspend fun getBackups() = throw Exception("Something went wrong")
     override suspend fun getLastBackup() = throw Exception("Something went wrong")
     override suspend fun getContents(backup: Backup) = throw Exception("Something went wrong")
@@ -94,6 +95,6 @@ private fun createUseCase(
     return RestoreBackupUseCaseImpl(backupRepository, backupRestorer, authRepository) to backupRestorer
 }
 
-private const val backupContents = "some backup contents"
 private const val backupId = "id123"
 private val backup = Backup(backupId, LocalDateTime.now())
+private val backupContents = BackupData("some backup contents")

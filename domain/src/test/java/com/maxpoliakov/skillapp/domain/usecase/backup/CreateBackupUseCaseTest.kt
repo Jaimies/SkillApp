@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
+import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
@@ -48,4 +49,4 @@ private fun createUseCase(
     return CreateBackupUseCaseImpl(backupRepository, authRepository, backupCreator) to backupRepository
 }
 
-private const val backupData = "Some backup data"
+private val backupData = BackupData("Some backup data")

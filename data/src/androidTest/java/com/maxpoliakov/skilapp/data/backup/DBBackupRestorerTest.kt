@@ -8,6 +8,7 @@ import com.maxpoliakov.skillapp.data.group.DBGroup
 import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
+import com.maxpoliakov.skillapp.domain.model.BackupData
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -53,7 +54,7 @@ class DBBackupRestorerTest {
     fun restoresBackupFromOldDbVersion() = runBlocking {
         val backup = """{"skills":[{"id":1,"name":"Skill 0"},{"id":2,"name":"Skill 1","totalTime":3600000,"initialTime":60000},{"id":3,"name":"Skill 2","totalTime":7200000,"initialTime":120000},{"id":4,"name":"Skill 3","totalTime":10800000,"initialTime":180000},{"id":5,"name":"Skill 4","totalTime":14400000,"initialTime":240000}],"records":[{"id":1,"skillId":1},{"id":2,"time":3600000,"skillId":2},{"id":3,"time":7200000,"skillId":3},{"id":4,"time":10800000,"skillId":4},{"id":5,"time":14400000,"skillId":5}],"stats":[{"date":"2022-04-30","skillId":1,"time":0},{"date":"2022-04-30","skillId":2,"time":3600000},{"date":"2022-04-30","skillId":3,"time":7200000},{"date":"2022-04-30","skillId":4,"time":10800000},{"date":"2022-04-30","skillId":5,"time":14400000}],"groups":[{"id":1,"name":"Group 0","order":0},{"id":2,"name":"Group 1","order":1},{"id":3,"name":"Group 2","order":2},{"id":4,"name":"Group 3","order":3},{"id":5,"name":"Group 4","order":4}]}"""
 
-        backupRestorer.restore(backup)
+        backupRestorer.restore(BackupData(backup))
 
         db.skillDao().getAllSkills() shouldBe skills
         db.recordsDao().getAllRecords() shouldBe records

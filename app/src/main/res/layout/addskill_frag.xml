@@ -8,9 +8,6 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.addskill.AddSkillViewModel" />
-
-        <import type="com.maxpoliakov.skillapp.util.ui.FormattingKt" />
-        <import type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,17 +45,17 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/measurement_unit"
             android:layout_marginTop="16dp"
+            android:hint="@string/measurement_unit"
             app:layout_constraintTop_toBottomOf="@id/name_text_input_layout">
 
             <AutoCompleteTextView
                 android:id="@+id/unit_selection_select"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@null"
                 android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:background="@null" />
+                android:focusableInTouchMode="false" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -79,23 +76,15 @@
                 android:text="@={viewModel.totalTime}" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/goal_text_input"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        <include
+            android:id="@+id/goal_picker"
+            layout="@layout/goal_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/initial_time_edit_text">
-
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:onClick="@{() -> viewModel.chooseGoal()}"
-                android:text="@{viewModel.goal.format(context) ?? @string/goal_not_set}" />
-        </com.google.android.material.textfield.TextInputLayout>
+            app:chooseGoal="@{() -> viewModel.chooseGoal()}"
+            app:goal="@{viewModel.goal}"
+            app:layout_constraintTop_toBottomOf="@id/initial_time_edit_text" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/save_fab"

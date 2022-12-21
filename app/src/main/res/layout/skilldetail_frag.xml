@@ -9,10 +9,6 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.skilldetail.SkillDetailViewModel" />
-
-        <import type="com.maxpoliakov.skillapp.domain.model.StopwatchState" />
-
-        <import type="com.maxpoliakov.skillapp.util.ui.FormattingKt" />
     </data>
 
     <FrameLayout
@@ -50,6 +46,11 @@
                 <include
                     android:id="@+id/goal_picker"
                     layout="@layout/goal_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="30dp"
+                    android:visibility="gone"
                     app:chooseGoal="@{() -> viewModel.chooseGoal()}"
                     app:goal="@{viewModel.goal}"/>
 

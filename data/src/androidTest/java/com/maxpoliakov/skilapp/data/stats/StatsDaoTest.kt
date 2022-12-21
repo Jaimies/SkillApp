@@ -28,76 +28,58 @@ class StatsDaoTest {
         db = createTestDatabase()
         statsDao = db.statsDao()
         skillDao = db.skillDao()
-        skillDao.insert(DBSkill())
+        skillDao.insert(DBSkill(id = skillId))
+        skillDao.insert(DBSkill(id = otherSkillId))
+        skillDao.insert(DBSkill(id = yetAnotherSkillId))
     }
 
     @Test
-    fun addRecord() = runBlocking {
-        statsDao.addRecord(skillId, date, recordTime.toMillis())
-        statsDao.getStats(skillId, 7).await() shouldBe listOf(
-            DBStatistic(date, skillId, Duration.ofMinutes(100).toMillis())
-        )
-    }
-
-    @Test
-    fun addRecord_recordAtGivenDayExists_sumsTime() = runBlocking {
-        statsDao.addRecord(skillId, date, recordTime.toMillis())
-        statsDao.addRecord(skillId, date, recordTime.toMillis())
-        statsDao.getStats(skillId, 7).await() shouldBe listOf(
-            DBStatistic(date, skillId, Duration.ofMinutes(200).toMillis())
-        )
-    }
-
-    @Test
-    fun addRecord_multipleSkillsAtOneDay_areHandledIndependently() = runBlocking {
-        skillDao.insert(DBSkill())
+    fun getStats_selectsOnlyStatsForGivenSkillId() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime.toMillis())
         statsDao.addRecord(otherSkillId, date, recordTime.toMillis())
-        statsDao.getStats(skillId, 7).await() shouldBe listOf(
-            DBStatistic(date, skillId, Duration.ofMinutes(100).toMillis())
+        statsDao.addRecord(yetAnotherSkillId, date, recordTime.toMillis())
+
+        statsDao.getStats(skillId, date, date).await() shouldBe listOf(
+            DBStatistic(date, skillId, recordTime.toMillis()),
         )
     }
 
     @Test
-    fun getStats_selectsOnlyFromSpecifiedSkill() = runBlocking {
+    fun getStats_selectsOnlyStatsInGivenRange() = runBlocking {
+        statsDao.addRecord(skillId, date.minusDays(2), recordTime.toMillis())
+        statsDao.addRecord(skillId, date.minusDays(1), recordTime.toMillis())
         statsDao.addRecord(skillId, date, recordTime.toMillis())
-        statsDao.getStats(otherSkillId, 7).await() shouldBe listOf()
+        statsDao.addRecord(skillId, date.plusDays(1), recordTime.toMillis())
+
+        statsDao.getStats(skillId, date.minusDays(1), date).await() shouldBe listOf(
+            DBStatistic(date.minusDays(1), skillId, recordTime.toMillis()),
+            DBStatistic(date, skillId, recordTime.toMillis()),
+        )
+    }
+
+    @Test
+    fun getStats_sumsTime() = runBlocking {
+        statsDao.addRecord(skillId, date, recordTime.toMillis())
+        statsDao.addRecord(skillId, date, recordTime.toMillis())
+
+        statsDao.getStats(skillId, date, date).await() shouldBe listOf(
+            DBStatistic(date, skillId, recordTime.multipliedBy(2).toMillis()),
+        )
     }
 
     @Test
     fun getStats_selectsOnlyWithPositiveTime() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime.negated().toMillis())
-        statsDao.getStats(skillId, 7).await() shouldBe listOf()
+        statsDao.getStats(skillId, date, date).await() shouldBe listOf()
     }
 
     @Test
-    fun getStats_includes6DaysAgo() = runBlocking {
-        statsDao.addRecord(skillId, date.minusDays(6), recordTime.toMillis())
-        statsDao.getStats(skillId, 7).await() shouldBe listOf(
-            DBStatistic(date.minusDays(6), skillId, recordTime.toMillis())
-        )
-    }
-
-    @Test
-    fun getStats_ignoresOlderThan55DaysAgo() = runBlocking {
-        statsDao.addRecord(skillId, date.minusDays(56), recordTime.toMillis())
-        statsDao.getStats(skillId, 7).await() shouldBe listOf()
-    }
-
-    @Test
-    fun getStats_ignoresMoreRecentThanToday() = runBlocking {
-        statsDao.addRecord(skillId, date.plusDays(1), recordTime.toMillis())
-        statsDao.getStats(skillId, 7).await() shouldBe listOf()
-    }
-
-    @Test
-    fun getStats_getsTotal() = runBlocking {
-        skillDao.insert(DBSkill())
-        statsDao.addRecord(skillId, date.minusDays(56), recordTime.toMillis())
+    fun getStats_getsStatsForAllSkillsWhenNegativeOnePassedAsId() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime.toMillis())
         statsDao.addRecord(otherSkillId, date, recordTime.toMillis())
-        statsDao.getStats(-1, 7).await() shouldBe listOf(
-            DBStatistic(date, -1, Duration.ofMinutes(200).toMillis())
+
+        statsDao.getStats(-1, date, date).await() shouldBe listOf(
+            DBStatistic(date, -1, recordTime.multipliedBy(2).toMillis())
         )
     }
 
@@ -111,5 +93,6 @@ class StatsDaoTest {
         private val recordTime = Duration.ofMinutes(100)
         private const val skillId = 1
         private const val otherSkillId = 2
+        private const val yetAnotherSkillId = 3
     }
 }

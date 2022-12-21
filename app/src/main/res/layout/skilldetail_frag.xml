@@ -50,7 +50,6 @@
                 <include
                     android:id="@+id/goal_picker"
                     layout="@layout/goal_picker"
-                    app:unit="@{viewModel.unit}"
                     app:chooseGoal="@{() -> viewModel.chooseGoal()}"
                     app:goal="@{viewModel.goal}"/>
 

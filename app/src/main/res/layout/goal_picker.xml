@@ -11,12 +11,6 @@
         <variable
             name="goal"
             type="com.maxpoliakov.skillapp.model.UiGoal" />
-
-        <variable
-            name="unit"
-            type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
-
-        <import type="com.maxpoliakov.skillapp.util.ui.FormattingKt" />
     </data>
 
     <com.google.android.material.textfield.TextInputLayout

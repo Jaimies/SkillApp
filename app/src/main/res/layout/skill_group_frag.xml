@@ -46,8 +46,7 @@
                     android:id="@+id/goal_picker"
                     layout="@layout/goal_picker"
                     app:chooseGoal="@{() -> viewModel.chooseGoal()}"
-                    app:goal="@{viewModel.goal}"
-                    app:unit="@{viewModel.unit}" />
+                    app:goal="@{viewModel.goal}" />
 
                 <LinearLayout
                     android:id="@+id/data_layout"

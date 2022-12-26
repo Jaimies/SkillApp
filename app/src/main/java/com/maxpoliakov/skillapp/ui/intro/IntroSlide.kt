@@ -43,10 +43,15 @@ class IntroSlide : Fragment() {
         start()
     }
 
-    override fun onResume() = binding.videoView.run {
+    override fun onPause() {
+        super.onPause()
+        binding.videoView.pause()
+    }
+
+    override fun onResume() {
         super.onResume()
-        requestFocus()
-        start()
+        binding.videoView.requestFocus()
+        binding.videoView.start()
     }
 
     companion object {

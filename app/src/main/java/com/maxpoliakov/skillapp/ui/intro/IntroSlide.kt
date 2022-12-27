@@ -39,8 +39,6 @@ class IntroSlide : Fragment() {
         val uri = Uri.parse("android.resource://${requireContext().packageName}/$rawId")
 
         setVideoURI(uri)
-        requestFocus()
-        start()
     }
 
     override fun onPause() {

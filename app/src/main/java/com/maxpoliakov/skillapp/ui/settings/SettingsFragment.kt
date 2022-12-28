@@ -44,6 +44,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             openUri(Intent.ACTION_VIEW, R.string.market_uri, R.string.cant_open_google_play)
         }
 
+        setOnPreferenceClickedListener("privacy_policy") {
+            openUri(Intent.ACTION_VIEW, R.string.privacy_policy_url, R.string.browser_not_found)
+        }
+
         setOnPreferenceClickedListener("contact_developer") {
             openUri(Intent.ACTION_SENDTO, R.string.mail_dev_uri, R.string.mail_app_not_found)
         }

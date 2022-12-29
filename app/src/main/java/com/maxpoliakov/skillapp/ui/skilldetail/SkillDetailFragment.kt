@@ -1,9 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skilldetail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
@@ -17,7 +15,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
+class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skilldetail_frag_menu) {
+    override val layoutId get() = R.layout.skilldetail_frag
+
     override val content get() = binding.dataLayout
     override val input get() = binding.titleInput
     override val saveBtn get() = binding.saveFab
@@ -31,19 +31,8 @@ class SkillDetailFragment : DetailsFragment(R.menu.skilldetail_frag_menu) {
     @Inject
     lateinit var recordUtil: RecordUtil
 
-    private lateinit var binding: SkilldetailFragBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        binding = SkilldetailFragBinding.inflate(inflater, container, false).also {
-            it.lifecycleOwner = viewLifecycleOwner
-            it.viewModel = viewModel
-        }
-
-        return binding.root
+    override fun onBindingCreated(binding: SkilldetailFragBinding) {
+        binding.viewModel = viewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

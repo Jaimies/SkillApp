@@ -10,6 +10,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.MenuRes
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
@@ -23,7 +24,7 @@ import com.maxpoliakov.skillapp.util.ui.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-abstract class DetailsFragment(@MenuRes menuId: Int) : FragmentWithHistory(menuId) {
+abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : FragmentWithHistory<T>(menuId) {
     protected abstract val saveBtn: Button
     protected abstract val input: EditText
     protected abstract val content: ViewGroup

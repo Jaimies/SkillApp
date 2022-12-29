@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.ui.common.history
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.MenuRes
-import androidx.core.view.isVisible
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class FragmentWithHistory(@MenuRes menuResId: Int) : BarChartFragment(menuResId) {
+abstract class FragmentWithHistory<T : ViewDataBinding>(@MenuRes menuResId: Int) : BarChartFragment<T>(menuResId) {
     @Inject
     lateinit var listAdapter: HistoryPagingAdapter
 
@@ -31,7 +31,7 @@ abstract class FragmentWithHistory(@MenuRes menuResId: Int) : BarChartFragment(m
         }
         listAdapter.addLoadStateListener { loadStates ->
             if (loadStates.refresh !is LoadState.Loading) {
-                if(listAdapter.itemCount == 0) onHistoryEmpty()
+                if (listAdapter.itemCount == 0) onHistoryEmpty()
                 else onHistoryNotEmpty()
             }
         }

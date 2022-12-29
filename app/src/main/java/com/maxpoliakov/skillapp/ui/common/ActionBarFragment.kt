@@ -7,9 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.annotation.MenuRes
 import androidx.core.view.MenuProvider
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle.State.RESUMED
 
-abstract class ActionBarFragment(@MenuRes private val menuId: Int) : BaseFragment() {
+abstract class ActionBarFragment<T: ViewDataBinding>(@MenuRes private val menuId: Int) : DataBindingFragment<T>() {
     protected var menu: Menu? = null
 
     private val menuProvider = object : MenuProvider {

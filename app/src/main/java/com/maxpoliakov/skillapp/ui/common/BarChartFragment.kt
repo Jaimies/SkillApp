@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.MenuRes
+import androidx.databinding.ViewDataBinding
 import com.github.mikephil.charting.charts.BarChart
 
-abstract class BarChartFragment(@MenuRes menuId: Int) : ActionBarFragment(menuId) {
+abstract class BarChartFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : ActionBarFragment<T>(menuId) {
     abstract val chart: BarChart?
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -1,10 +1,8 @@
 package com.maxpoliakov.skillapp.ui.skills
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -50,7 +48,9 @@ interface SkillsFragmentCallback {
 }
 
 @AndroidEntryPoint
-class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmentCallback {
+class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_menu), SkillsFragmentCallback {
+    override val layoutId get() = R.layout.skills_frag
+
     private var lastItemDropTime = 0L
 
     private val itemTouchHelperCallback = object : ItemTouchHelperCallback {
@@ -213,11 +213,6 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
     private var itemTouchHelper: ItemTouchHelper = createReorderAndGroupItemTouchHelper(itemTouchHelperCallback)
 
-    private var _binding: SkillsFragBinding? = null
-    private val binding get() = requireNotNull(_binding) {
-        "Trying to access binding before onCreateView() or after onDestroyView()"
-    }
-
     @Inject
     lateinit var listAdapterFactory: SkillListAdapter.Factory
 
@@ -235,17 +230,8 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
     private val toolbar get() = (requireActivity() as MainActivity).toolbar
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        _binding = SkillsFragBinding.inflate(inflater, container, false).also {
-            it.lifecycleOwner = viewLifecycleOwner
-            it.viewModel = viewModel
-        }
-
-        return binding.root
+    override fun onBindingCreated(binding: SkillsFragBinding) {
+        binding.viewModel = viewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -303,11 +289,9 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun clearViewReferences() {
         binding.recyclerView.adapter = null
         itemTouchHelper.attachToRecyclerView(null)
-        _binding = null
     }
 
     private fun showIntro() = lifecycleScope.launch {

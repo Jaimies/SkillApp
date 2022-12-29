@@ -6,9 +6,9 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
 
-fun Fragment.setAsCurrentScreen() {
+fun logCurrentScreenToAnalytics(fragment: Fragment) {
     Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
-        val className = this@setAsCurrentScreen::class.java.simpleName
+        val className = fragment::class.java.simpleName
         param(FirebaseAnalytics.Param.SCREEN_NAME, className)
         param(FirebaseAnalytics.Param.SCREEN_CLASS, className)
     }

@@ -11,7 +11,7 @@ import androidx.preference.PreferenceFragmentCompat
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.analytics.setAsCurrentScreen
+import com.maxpoliakov.skillapp.util.analytics.logCurrentScreenToAnalytics
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
@@ -79,6 +79,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onResume() {
         super.onResume()
-        setAsCurrentScreen()
+        logCurrentScreenToAnalytics(this)
     }
 }

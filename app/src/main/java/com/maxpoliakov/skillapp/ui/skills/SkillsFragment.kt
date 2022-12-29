@@ -213,7 +213,10 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
 
     private var itemTouchHelper: ItemTouchHelper = createReorderAndGroupItemTouchHelper(itemTouchHelperCallback)
 
-    private lateinit var binding: SkillsFragBinding
+    private var _binding: SkillsFragBinding? = null
+    private val binding get() = requireNotNull(_binding) {
+        "Trying to access binding before onCreateView() or after onDestroyView()"
+    }
 
     @Inject
     lateinit var listAdapterFactory: SkillListAdapter.Factory
@@ -237,7 +240,7 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
         savedInstanceState: Bundle?
     ): View {
 
-        binding = SkillsFragBinding.inflate(inflater, container, false).also {
+        _binding = SkillsFragBinding.inflate(inflater, container, false).also {
             it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
         }
@@ -298,6 +301,13 @@ class SkillsFragment : ActionBarFragment(R.menu.skills_frag_menu), SkillsFragmen
                 if (item.isVisible != !isEmpty) requireActivity().invalidateOptionsMenu()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.recyclerView.adapter = null
+        itemTouchHelper.attachToRecyclerView(null)
+        _binding = null
     }
 
     private fun showIntro() = lifecycleScope.launch {

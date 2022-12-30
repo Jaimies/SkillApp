@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.LifecycleOwnerProvider
+import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupHeaderDelegateAdapter
-import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchDelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
 import dagger.assisted.Assisted
@@ -28,38 +28,37 @@ class SkillListAdapter @AssistedInject constructor(
     skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
 
-    private val skillDelegateAdapter = skillDelegateAdapterFactory.create(callback)
-    private val skillGroupFooterDelegateAdapter = SkillGroupFooterDelegateAdapter()
-    private val skillGroupHeaderDelegateAdapter = SkillGroupHeaderDelegateAdapter(callback)
-
     val adapters = mapOf(
-        ITEM_TYPE_SKILL to skillDelegateAdapter,
-        ITEM_TYPE_SKILL_GROUP_HEADER to skillGroupHeaderDelegateAdapter,
-        ITEM_TYPE_SKILL_GROUP_FOOTER to skillGroupFooterDelegateAdapter,
-        ITEM_TYPE_STOPWATCH to stopwatchDelegateAdapter
-    )
+        ITEM_TYPE_SKILL to skillDelegateAdapterFactory.create(callback),
+        ITEM_TYPE_SKILL_GROUP_HEADER to SkillGroupHeaderDelegateAdapter(callback),
+        ITEM_TYPE_SKILL_GROUP_FOOTER to SkillGroupFooterDelegateAdapter(),
+        ITEM_TYPE_STOPWATCH to stopwatchDelegateAdapter,
+    ) as Map<Int, DelegateAdapter<Any, RecyclerView.ViewHolder>>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return adapters[viewType]!!.onCreateViewHolder(parent, lifecycleOwnerProvider.get())
+        return adapters[viewType]!!
+            .onCreateViewHolder(parent, lifecycleOwnerProvider.get())
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = getItem(position)
-
-        if (item is Skill)
-            skillDelegateAdapter.onBindViewHolder(holder as SkillViewHolder, item)
-        else if (item is SkillGroup)
-            skillGroupHeaderDelegateAdapter.onBindViewHolder(holder as SkillGroupViewHolder, item)
-        else if (item is SkillGroupFooter)
-            skillGroupFooterDelegateAdapter.onBindViewHolder(holder as SkillGroupFooterViewHolder, item)
+        adapters[getItemViewType(position)]!!
+            .onBindViewHolder(holder, getItem(position))
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position < 0 || position >= currentList.size) return -1
-        if (getItem(position) is SkillGroup) return ITEM_TYPE_SKILL_GROUP_HEADER
-        if (getItem(position) is Skill) return ITEM_TYPE_SKILL
-        if (getItem(position) is SkillGroupFooter) return ITEM_TYPE_SKILL_GROUP_FOOTER
-        return ITEM_TYPE_STOPWATCH
+        if (isOutOfBounds(position)) return -1
+
+        return when (getItem(position)) {
+            is SkillGroup -> ITEM_TYPE_SKILL_GROUP_HEADER
+            is Skill -> ITEM_TYPE_SKILL
+            is SkillGroupFooter -> ITEM_TYPE_SKILL_GROUP_FOOTER
+            is StopwatchUiModel -> ITEM_TYPE_STOPWATCH
+            else -> throw IllegalStateException("Item of unsupported type ${getItem(position)::class.simpleName}")
+        }
+    }
+
+    private fun isOutOfBounds(position: Int): Boolean {
+        return position < 0 || position >= currentList.size
     }
 
     @JvmName("submitSkillList")

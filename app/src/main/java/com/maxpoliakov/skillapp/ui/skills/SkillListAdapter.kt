@@ -14,11 +14,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 
-const val ITEM_TYPE_SKILL = 0
-const val ITEM_TYPE_SKILL_GROUP_HEADER = 1
-const val ITEM_TYPE_STOPWATCH = 2
-const val ITEM_TYPE_SKILL_GROUP_FOOTER = 3
-
 class SkillListAdapter @AssistedInject constructor(
     @Assisted
     callback: SkillsFragmentCallback,
@@ -29,10 +24,10 @@ class SkillListAdapter @AssistedInject constructor(
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
 
     val adapters = mapOf(
-        ITEM_TYPE_SKILL to skillDelegateAdapterFactory.create(callback),
-        ITEM_TYPE_SKILL_GROUP_HEADER to SkillGroupHeaderDelegateAdapter(callback),
-        ITEM_TYPE_SKILL_GROUP_FOOTER to SkillGroupFooterDelegateAdapter(),
-        ITEM_TYPE_STOPWATCH to stopwatchDelegateAdapter,
+        ItemType.Skill to skillDelegateAdapterFactory.create(callback),
+        ItemType.SkillGroupHeader to SkillGroupHeaderDelegateAdapter(callback),
+        ItemType.SkillGroupFooter to SkillGroupFooterDelegateAdapter(),
+        ItemType.Stopwatch to stopwatchDelegateAdapter,
     ) as Map<Int, DelegateAdapter<Any, RecyclerView.ViewHolder>>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -48,12 +43,14 @@ class SkillListAdapter @AssistedInject constructor(
     override fun getItemViewType(position: Int): Int {
         if (isOutOfBounds(position)) return -1
 
-        return when (getItem(position)) {
-            is SkillGroup -> ITEM_TYPE_SKILL_GROUP_HEADER
-            is Skill -> ITEM_TYPE_SKILL
-            is SkillGroupFooter -> ITEM_TYPE_SKILL_GROUP_FOOTER
-            is StopwatchUiModel -> ITEM_TYPE_STOPWATCH
-            else -> throw IllegalStateException("Item of unsupported type ${getItem(position)::class.simpleName}")
+        val item = getItem(position)
+
+        return when (item) {
+            is Skill -> ItemType.Skill
+            is SkillGroup -> ItemType.SkillGroupHeader
+            is SkillGroupFooter -> ItemType.SkillGroupFooter
+            is StopwatchUiModel -> ItemType.Stopwatch
+            else -> throw IllegalStateException("Item of unsupported type ${item::class.simpleName}")
         }
     }
 
@@ -110,7 +107,14 @@ class SkillListAdapter @AssistedInject constructor(
     }
 
     private fun stopwatchIsShown(): Boolean {
-        return itemCount != 0 && getItemViewType(0) == ITEM_TYPE_STOPWATCH
+        return itemCount != 0 && getItemViewType(0) == ItemType.Stopwatch
+    }
+
+    object ItemType {
+        const val Skill = 0
+        const val SkillGroupHeader = 1
+        const val SkillGroupFooter = 2
+        const val Stopwatch = 3
     }
 
     @AssistedFactory

@@ -11,8 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.ui.skills.ITEM_TYPE_SKILL_GROUP_FOOTER
 import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooterViewHolder
+import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillListViewHolder
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
@@ -61,8 +61,11 @@ class CardViewDecoration : ItemDecoration() {
         nextItemViewType: Int,
         parent: RecyclerView
     ): Int {
-        if (lastViewHolder is SkillGroupFooterViewHolder || nextItemViewType == ITEM_TYPE_SKILL_GROUP_FOOTER)
+        if (lastViewHolder is SkillGroupFooterViewHolder ||
+            nextItemViewType == SkillListAdapter.ItemType.SkillGroupFooter
+        ) {
             return 0
+        }
 
         // This is necessary to prevent the rounded edges from showing when
         // the last item visible is not the last item in the group
@@ -123,7 +126,7 @@ class CardViewDecoration : ItemDecoration() {
         val position = params.absoluteAdapterPosition
         val viewType = parent.adapter!!.getItemViewType(position)
 
-        if (viewType == ITEM_TYPE_SKILL_GROUP_FOOTER)
+        if (viewType == SkillListAdapter.ItemType.SkillGroupFooter)
             outRect.set(0, 0, 0, 24.dp.toPx(parent.context))
 
         outRect.left = padding16dp

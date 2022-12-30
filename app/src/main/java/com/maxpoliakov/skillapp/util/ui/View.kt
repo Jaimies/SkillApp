@@ -5,18 +5,13 @@ import android.content.ContextWrapper
 import android.graphics.Rect
 import android.view.TouchDelegate
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-val ViewGroup.fragmentActivity get() = context.getBaseContext() as FragmentActivity
-
 inline fun <reified T> Context.getBaseContext() =
     if (this is T) this else (this as ContextWrapper).baseContext as T
-
 
 fun Context.getFragmentManager(): FragmentManager {
     return getBaseContext<AppCompatActivity>().supportFragmentManager

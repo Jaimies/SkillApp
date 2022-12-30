@@ -5,10 +5,15 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
+import com.maxpoliakov.skillapp.ui.common.LifecycleOwnerProvider
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
-import javax.inject.Inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-class HistoryPagingAdapter @Inject constructor(
+class HistoryPagingAdapter @AssistedInject constructor(
+    @Assisted
+    private val lifecycleOwnerProvider: LifecycleOwnerProvider,
     recordDelegateAdapter: RecordDelegateAdapter
 ) : PagingDataAdapter<HistoryUiModel, ViewHolder>(HistoryDiffCallback()) {
 
@@ -18,7 +23,7 @@ class HistoryPagingAdapter @Inject constructor(
     ) as List<DelegateAdapter<HistoryUiModel, ViewHolder>>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return delegateAdapters[viewType].onCreateViewHolder(parent)
+        return delegateAdapters[viewType].onCreateViewHolder(parent, lifecycleOwnerProvider.get())
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -28,5 +33,10 @@ class HistoryPagingAdapter @Inject constructor(
 
     override fun getItemViewType(position: Int): Int {
         return if (getItem(position) is Record) 0 else 1
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(lifecycleOwnerProvider: LifecycleOwnerProvider): HistoryPagingAdapter
     }
 }

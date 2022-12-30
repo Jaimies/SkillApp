@@ -107,7 +107,8 @@ class CardViewDecoration : ItemDecoration() {
 
     private fun RecyclerView.findLastViewHolderInGroup(groupId: Int): RecyclerView.ViewHolder? {
         for (i in childCount - 1 downTo 0) {
-            val holder = getChildViewHolder(getChildAt(i)) as? SkillListViewHolder ?: continue
+            val holder = getChildViewHolder(getChildAt(i))
+            if (holder !is SkillListViewHolder) continue
             if (holder.groupId == groupId) return holder
         }
 

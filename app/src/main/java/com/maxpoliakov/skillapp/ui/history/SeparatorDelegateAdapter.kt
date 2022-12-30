@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.history
 
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SeparatorItemBinding
@@ -9,8 +10,7 @@ import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 
 class SeparatorDelegateAdapter : DelegateAdapter<Separator, SeparatorDelegateAdapter.ViewHolder> {
-
-    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, lifecycleOwner: LifecycleOwner): ViewHolder {
         return ViewHolder(parent.inflateDataBinding(R.layout.separator_item))
     }
 

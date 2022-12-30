@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.ui.common.LifecycleOwnerProvider
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupHeaderDelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
@@ -21,6 +22,8 @@ const val ITEM_TYPE_SKILL_GROUP_FOOTER = 3
 class SkillListAdapter @AssistedInject constructor(
     @Assisted
     callback: SkillsFragmentCallback,
+    @Assisted
+    private val lifecycleOwnerProvider: LifecycleOwnerProvider,
     stopwatchDelegateAdapter: StopwatchDelegateAdapter,
     skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
@@ -37,7 +40,7 @@ class SkillListAdapter @AssistedInject constructor(
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return adapters[viewType]!!.onCreateViewHolder(parent)
+        return adapters[viewType]!!.onCreateViewHolder(parent, lifecycleOwnerProvider.get())
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -113,6 +116,6 @@ class SkillListAdapter @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(callback: SkillsFragmentCallback): SkillListAdapter
+        fun create(callback: SkillsFragmentCallback, lifecycleOwnerProvider: LifecycleOwnerProvider): SkillListAdapter
     }
 }

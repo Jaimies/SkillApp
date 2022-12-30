@@ -6,22 +6,23 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.databinding.StopwatchBannerBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import com.maxpoliakov.skillapp.util.ui.getBaseContext
 
 class StopwatchViewHolder(
-    private val view: View,
+    private val binding: StopwatchBannerBinding,
     private val recordUtil: RecordUtil,
     viewModel: StopwatchViewModel,
-) : BaseViewHolder(view) {
+) : BaseViewHolder(binding) {
     init {
-        viewModel.navigateToSkill.observe { skill ->
-            navigateToSkillDetail(view, skill)
+        viewModel.navigateToSkill.observe(lifecycleOwner) { skill ->
+            navigateToSkillDetail(binding.root, skill)
         }
 
-        viewModel.showRecordAdded.observe { record ->
+        viewModel.showRecordAdded.observe(lifecycleOwner) { record ->
             record?.let(recordUtil::notifyRecordAdded)
         }
     }

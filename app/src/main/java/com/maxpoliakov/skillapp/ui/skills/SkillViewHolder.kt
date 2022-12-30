@@ -8,6 +8,7 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import kotlinx.coroutines.flow.drop
 
@@ -15,7 +16,7 @@ class SkillViewHolder(
     private val binding: SkillsItemBinding,
     private val recordUtil: RecordUtil,
     callback: SkillsFragmentCallback,
-) : SkillListViewHolder(binding.root) {
+) : BaseViewHolder(binding), SkillListViewHolder {
     val viewModel = binding.viewModel!!
 
     private var shouldAnimateLayoutChanges = false
@@ -50,19 +51,19 @@ class SkillViewHolder(
 
         binding.addOnRebindCallback(onRebindCallback)
 
-        viewModel.dragHandleShown.drop(1).asLiveData().observe {
+        viewModel.dragHandleShown.drop(1).asLiveData().observe(lifecycleOwner) {
             shouldAnimateLayoutChanges = true
         }
 
-        viewModel.startDrag.observe {
+        viewModel.startDrag.observe(lifecycleOwner) {
             callback.startDrag(this)
         }
 
-        viewModel.navigateToDetails.observe { skill ->
+        viewModel.navigateToDetails.observe(lifecycleOwner) { skill ->
             callback.navigateToSkillDetail(binding.card, skill)
         }
 
-        viewModel.notifyRecordAdded.observe(recordUtil::notifyRecordAdded)
+        viewModel.notifyRecordAdded.observe(lifecycleOwner, recordUtil::notifyRecordAdded)
     }
 
     fun setItem(item: Skill) = viewModel.setSkill(item)

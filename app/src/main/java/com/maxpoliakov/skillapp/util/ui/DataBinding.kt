@@ -7,7 +7,5 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
 fun <T : ViewDataBinding> ViewGroup.inflateDataBinding(@LayoutRes resId: Int): T {
-    return DataBindingUtil.inflate<T>(LayoutInflater.from(context), resId, this, false).apply {
-        lifecycleOwner = fragmentActivity
-    }
+    return DataBindingUtil.inflate(LayoutInflater.from(context), resId, this, false)
 }

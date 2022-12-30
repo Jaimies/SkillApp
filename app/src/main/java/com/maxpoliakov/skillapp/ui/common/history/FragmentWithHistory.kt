@@ -17,7 +17,11 @@ import javax.inject.Inject
 
 abstract class FragmentWithHistory<T : ViewDataBinding>(@MenuRes menuResId: Int) : BarChartFragment<T>(menuResId) {
     @Inject
-    lateinit var listAdapter: HistoryPagingAdapter
+    lateinit var adapterFactory: HistoryPagingAdapter.Factory
+
+    private val listAdapter by lazy {
+        adapterFactory.create(lifecycleOwnerProvider = { viewLifecycleOwner })
+    }
 
     protected abstract val viewModel: ViewModelWithHistory
     abstract val recyclerView: RecyclerView

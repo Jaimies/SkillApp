@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skills
 
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -21,10 +22,10 @@ class SkillDelegateAdapter @AssistedInject constructor(
     private val callback: SkillsFragmentCallback,
 ) : DelegateAdapter<Skill, SkillViewHolder> {
 
-    override fun onCreateViewHolder(parent: ViewGroup): SkillViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, lifecycleOwner: LifecycleOwner): SkillViewHolder {
         parent.inflateDataBinding<SkillsItemBinding>(R.layout.skills_item).run {
-            val viewModel = viewModelProvider.get()
-            this.viewModel = viewModel
+            this.lifecycleOwner = lifecycleOwner
+            this.viewModel = viewModelProvider.get()
             this.startTimer.increaseTouchAreaBy(15.dp)
             return SkillViewHolder(this, recordUtil, callback)
         }

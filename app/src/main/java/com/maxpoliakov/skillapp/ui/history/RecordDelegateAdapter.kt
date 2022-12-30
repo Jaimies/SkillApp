@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.lifecycle.LifecycleOwner
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.RecordsItemBinding
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
@@ -25,8 +26,9 @@ class RecordDelegateAdapter @Inject constructor(
     private val viewModelProvider: Provider<RecordViewModel>
 ) : DelegateAdapter<Record, ViewHolder> {
 
-    override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, lifecycleOwner: LifecycleOwner): ViewHolder {
         parent.inflateDataBinding<RecordsItemBinding>(R.layout.records_item).run {
+            this.lifecycleOwner = lifecycleOwner
             val viewModel = viewModelProvider.get().also { viewModel = it }
             return ViewHolder(this, viewModel)
         }
@@ -39,12 +41,12 @@ class RecordDelegateAdapter @Inject constructor(
     class ViewHolder(
         private val binding: RecordsItemBinding,
         private val viewModel: RecordViewModel
-    ) : BaseViewHolder(binding.root) {
+    ) : BaseViewHolder(binding) {
 
         init {
             binding.moreBtn.increaseTouchAreaBy(35.dp)
 
-            viewModel.showMenu.observe {
+            viewModel.showMenu.observe(lifecycleOwner) {
                 val popup = showPopupMenu(binding.moreBtn, viewModel.record.value!!.unit)
                 popup.setOnMenuItemClickListener(this::onMenuItemClicked)
             }

@@ -2,13 +2,14 @@ package com.maxpoliakov.skillapp.ui.skills
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
-import com.maxpoliakov.skillapp.util.ui.dp
 
 class SkillGroupFooterDelegateAdapter : DelegateAdapter<SkillGroupFooter, SkillGroupFooterViewHolder> {
-    override fun onCreateViewHolder(parent: ViewGroup): SkillGroupFooterViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, lifecycleOwner: LifecycleOwner): SkillGroupFooterViewHolder {
         val view = View(parent.context).apply {
             layoutParams = ViewGroup.LayoutParams(parent.width, 10)
         }
@@ -20,7 +21,7 @@ class SkillGroupFooterDelegateAdapter : DelegateAdapter<SkillGroupFooter, SkillG
     }
 }
 
-class SkillGroupFooterViewHolder(view: View) : SkillListViewHolder(view) {
+class SkillGroupFooterViewHolder(view: View) : ViewHolder(view), SkillListViewHolder {
     var group: SkillGroup? = null
     override val unit: MeasurementUnit get() = group!!.unit
     override val groupId get() = group?.id ?: -1

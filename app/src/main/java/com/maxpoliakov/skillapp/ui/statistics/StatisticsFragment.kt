@@ -4,7 +4,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.StatisticsFragBinding
-import com.maxpoliakov.skillapp.ui.common.BarChartFragment
+import com.maxpoliakov.skillapp.ui.chart.BarChartFragment
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import dagger.hilt.android.AndroidEntryPoint
 

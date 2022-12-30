@@ -7,7 +7,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import com.maxpoliakov.skillapp.ui.common.BarChartFragment
+import com.maxpoliakov.skillapp.ui.chart.BarChartFragment
 import com.maxpoliakov.skillapp.ui.history.HistoryPagingAdapter
 import com.maxpoliakov.skillapp.util.ui.addDividers
 import com.maxpoliakov.skillapp.util.ui.setupAdapter

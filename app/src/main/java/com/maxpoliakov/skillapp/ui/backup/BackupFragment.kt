@@ -3,9 +3,7 @@ package com.maxpoliakov.skillapp.ui.backup
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.edit
 import androidx.fragment.app.viewModels
@@ -17,7 +15,7 @@ import com.google.android.gms.common.api.Scope
 import com.google.api.services.drive.DriveScopes
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
-import com.maxpoliakov.skillapp.ui.common.BaseFragment
+import com.maxpoliakov.skillapp.ui.common.DataBindingFragment
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
@@ -28,10 +26,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BackupFragment : BaseFragment() {
-    private val viewModel: BackupViewModel by viewModels()
+class BackupFragment : DataBindingFragment<BackupFragBinding>() {
+    override val layoutId get() = R.layout.backup_frag
 
-    private lateinit var binding: BackupFragBinding
+    private val viewModel: BackupViewModel by viewModels()
 
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
@@ -52,11 +50,8 @@ class BackupFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = BackupFragBinding.inflate(inflater, container, false)
+    override fun onBindingCreated(binding: BackupFragBinding) {
         binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

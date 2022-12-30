@@ -1,10 +1,10 @@
 package com.maxpoliakov.skillapp.ui.skills
 
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.common.LifecycleOwnerProvider
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
 import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupHeaderDelegateAdapter
@@ -13,12 +13,12 @@ import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import javax.inject.Provider
 
 class SkillListAdapter @AssistedInject constructor(
     @Assisted
     callback: SkillsFragmentCallback,
-    @Assisted
-    private val lifecycleOwnerProvider: LifecycleOwnerProvider,
+    private val lifecycleOwnerProvider: Provider<LifecycleOwner>,
     stopwatchDelegateAdapter: StopwatchDelegateAdapter,
     skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
@@ -119,6 +119,6 @@ class SkillListAdapter @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(callback: SkillsFragmentCallback, lifecycleOwnerProvider: LifecycleOwnerProvider): SkillListAdapter
+        fun create(callback: SkillsFragmentCallback): SkillListAdapter
     }
 }

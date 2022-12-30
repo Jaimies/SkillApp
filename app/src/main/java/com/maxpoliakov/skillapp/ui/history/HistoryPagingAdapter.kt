@@ -1,19 +1,17 @@
 package com.maxpoliakov.skillapp.ui.history
 
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
-import com.maxpoliakov.skillapp.ui.common.LifecycleOwnerProvider
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import javax.inject.Inject
+import javax.inject.Provider
 
-class HistoryPagingAdapter @AssistedInject constructor(
-    @Assisted
-    private val lifecycleOwnerProvider: LifecycleOwnerProvider,
+class HistoryPagingAdapter @Inject constructor(
+    private val lifecycleOwnerProvider: Provider<LifecycleOwner>,
     recordDelegateAdapter: RecordDelegateAdapter
 ) : PagingDataAdapter<HistoryUiModel, ViewHolder>(HistoryDiffCallback()) {
 
@@ -44,10 +42,5 @@ class HistoryPagingAdapter @AssistedInject constructor(
     object ItemType {
         const val Record = 0
         const val Separator = 1
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(lifecycleOwnerProvider: LifecycleOwnerProvider): HistoryPagingAdapter
     }
 }

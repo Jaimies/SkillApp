@@ -216,9 +216,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
     @Inject
     lateinit var listAdapterFactory: SkillListAdapter.Factory
 
-    private val listAdapter by lazy {
-        listAdapterFactory.create(this, lifecycleOwnerProvider = { viewLifecycleOwner })
-    }
+    private val listAdapter by lazy { listAdapterFactory.create(this) }
 
     @Inject
     lateinit var introUtil: IntroUtil

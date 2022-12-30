@@ -12,7 +12,6 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.UiGoal
-import com.maxpoliakov.skillapp.ui.common.DayFormatter
 import com.maxpoliakov.skillapp.util.ui.primaryColor
 import com.maxpoliakov.skillapp.util.ui.sp
 import com.maxpoliakov.skillapp.util.ui.textColor
@@ -107,7 +106,6 @@ class TheBarChart : BarChart {
 
     private fun setupXAxis() {
         xAxis.run {
-            valueFormatter = DayFormatter()
             spaceMin = X_AXIS_SPACE_MIN
             spaceMax = X_AXIS_SPACE_MAX
             yOffset = X_AXIS_Y_OFFSET

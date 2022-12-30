@@ -17,22 +17,33 @@ class HistoryPagingAdapter @AssistedInject constructor(
     recordDelegateAdapter: RecordDelegateAdapter
 ) : PagingDataAdapter<HistoryUiModel, ViewHolder>(HistoryDiffCallback()) {
 
-    private val delegateAdapters = listOf(
-        recordDelegateAdapter,
-        SeparatorDelegateAdapter()
-    ) as List<DelegateAdapter<HistoryUiModel, ViewHolder>>
+    private val delegateAdapters = mapOf(
+        ItemType.Record to recordDelegateAdapter,
+        ItemType.Separator to SeparatorDelegateAdapter()
+    ) as Map<Int, DelegateAdapter<HistoryUiModel, ViewHolder>>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return delegateAdapters[viewType].onCreateViewHolder(parent, lifecycleOwnerProvider.get())
+        return delegateAdapters[viewType]!!
+            .onCreateViewHolder(parent, lifecycleOwnerProvider.get())
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val delegateAdapter = delegateAdapters[getItemViewType(position)]
-        delegateAdapter.onBindViewHolder(holder, getItem(position)!!)
+        delegateAdapters[getItemViewType(position)]!!
+            .onBindViewHolder(holder, getItem(position)!!)
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (getItem(position) is Record) 0 else 1
+        val item = getItem(position) ?: return -1
+
+        return when (item) {
+            is Record -> ItemType.Record
+            is HistoryUiModel.Separator -> ItemType.Separator
+        }
+    }
+
+    object ItemType {
+        const val Record = 0
+        const val Separator = 1
     }
 
     @AssistedFactory

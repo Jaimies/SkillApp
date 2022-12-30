@@ -37,7 +37,7 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
         }
     }
 
-    override fun clearViewReferences() {
+    override fun onPreDestroyBinding() {
         binding.backupsList.adapter = null
     }
 }

@@ -289,7 +289,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
     }
 
-    override fun clearViewReferences() {
+    override fun onPreDestroyBinding() {
         binding.recyclerView.adapter = null
         itemTouchHelper.attachToRecyclerView(null)
     }

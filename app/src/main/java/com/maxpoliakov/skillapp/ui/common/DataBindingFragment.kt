@@ -30,13 +30,13 @@ abstract class DataBindingFragment<T : ViewDataBinding> : BaseFragment() {
     protected open fun onBindingCreated(binding: T) {
     }
 
-    protected open fun clearViewReferences() {
+    protected open fun onPreDestroyBinding() {
     }
 
     @CallSuper
     override fun onDestroyView() {
         super.onDestroyView()
-        clearViewReferences()
+        onPreDestroyBinding()
         _binding = null
     }
 }

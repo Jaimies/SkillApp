@@ -36,4 +36,8 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
             showSnackbar(R.string.something_went_wrong)
         }
     }
+
+    override fun clearViewReferences() {
+        binding.backupsList.adapter = null
+    }
 }

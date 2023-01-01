@@ -1,12 +1,15 @@
 package com.maxpoliakov.skillapp.ui.restore
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
+import com.maxpoliakov.skillapp.di.SnackbarRoot
 import com.maxpoliakov.skillapp.domain.model.Backup
+import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
@@ -15,16 +18,20 @@ import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.dialog.showToast
 import com.maxpoliakov.skillapp.util.error.logToCrashlytics
-import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class BackupViewHolder(
+class BackupViewHolder @AssistedInject constructor(
+    @Assisted
     binding: BackupListItemBinding,
     private val restoreBackupUseCase: RestoreBackupUseCase,
     private val ioScope: CoroutineScope,
     private val networkUtil: NetworkUtil,
+    @SnackbarRoot
+    private val snackbarRoot: View,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val _backup = MutableLiveData<Backup>()
@@ -56,6 +63,7 @@ class BackupViewHolder(
         val backup = backup.value ?: return@launch
         try {
             restoreBackupUseCase.restoreBackup(backup)
+            snackbarRoot.showSnackbar(R.string.backup_restore_successful)
         } catch (e: Exception) {
             e.logToCrashlytics()
             e.printStackTrace()
@@ -63,13 +71,8 @@ class BackupViewHolder(
         }
     }
 
-    class Factory @Inject constructor(
-        private val restoreBackupUseCase: RestoreBackupUseCase,
-        private val ioScope: CoroutineScope,
-        private val networkUtil: NetworkUtil,
-    ) {
-        fun create(binding: BackupListItemBinding): BackupViewHolder {
-            return BackupViewHolder(binding, restoreBackupUseCase, ioScope, networkUtil)
-        }
+    @AssistedFactory
+    interface Factory {
+        fun create(binding: BackupListItemBinding): BackupViewHolder
     }
 }

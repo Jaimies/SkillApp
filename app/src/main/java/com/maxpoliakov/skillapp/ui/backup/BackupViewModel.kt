@@ -6,21 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.User
+import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
-import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
-import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.error.logToCrashlytics
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
-import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
-import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
@@ -30,7 +27,6 @@ import javax.inject.Inject
 class BackupViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val createBackupUseCase: CreateBackupUseCase,
-    private val restoreBackupUseCase: RestoreBackupUseCase,
     private val backupRepository: BackupRepository,
     private val networkUtil: NetworkUtil,
     private val ioScope: CoroutineScope,
@@ -63,13 +59,6 @@ class BackupViewModel @Inject constructor(
     val requestAppDataPermission: LiveData<Nothing> get() = _requestAppDataPermission
 
     init {
-        viewModelScope.launch {
-            restoreBackupUseCase.state.drop(1).collect { state ->
-                if (state == RestorationState.Finished)
-                    _showSnackbar.value = R.string.backup_restore_successful
-            }
-        }
-
         updateLastBackupDate()
 
         if (!networkUtil.isConnected) _showNoNetwork.call()

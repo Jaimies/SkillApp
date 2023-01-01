@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.util.network
+package com.maxpoliakov.skillapp.domain.repository
 
 interface NetworkUtil {
     val isConnected: Boolean

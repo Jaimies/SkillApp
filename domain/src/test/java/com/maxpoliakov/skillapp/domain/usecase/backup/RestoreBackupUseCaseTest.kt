@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
+import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
@@ -17,8 +18,9 @@ import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 
 class StubBackupRepository : BackupRepository {
-    override suspend fun upload(data: BackupData) {
+    override suspend fun upload(data: BackupData): BackupUploadResult {
         delay(5)
+        return BackupUploadResult.Success
     }
 
     override suspend fun getContents(backup: Backup): BackupData {

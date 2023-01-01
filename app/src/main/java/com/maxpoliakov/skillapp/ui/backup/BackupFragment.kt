@@ -62,16 +62,8 @@ class BackupFragment : DataBindingFragment<BackupFragBinding>() {
         }
 
         observe(viewModel.showNoNetwork) { showToast(R.string.no_internet) }
+        observe(viewModel.showSnackbar, this::showSnackbar)
 
-        observe(viewModel.showBackupCreationSucceeded) {
-            showSnackbar(R.string.backup_successful)
-        }
-        observe(viewModel.showBackupRestorationSucceeded) {
-            showSnackbar(R.string.backup_restore_successful)
-        }
-        observe(viewModel.showError) {
-            showSnackbar(R.string.something_went_wrong)
-        }
         observe(viewModel.showLogoutDialog) {
             requireContext().showDialog(R.string.confirm_logout, R.string.logout) {
                 viewModel.signOut()

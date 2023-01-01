@@ -1,14 +1,19 @@
 package com.maxpoliakov.skillapp.data.drive
 
+import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
+import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult
+import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.time.Instant
 import java.time.LocalDateTime
@@ -16,18 +21,52 @@ import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Provider
 
+fun BackupData.toByteArrayContent(mimeType: String = "text/plain"): ByteArrayContent {
+    return ByteArrayContent.fromString(mimeType, contents)
+}
+
 class GoogleDriveBackupRepository @Inject constructor(
     private val driveProvider: Provider<Drive>,
+    private val networkUtil: NetworkUtil,
+    private val authRepository: AuthRepository,
 ) : BackupRepository {
-    override suspend fun upload(data: BackupData) = withContext(Dispatchers.IO) {
-        val file = File()
+
+    override suspend fun upload(data: BackupData): BackupUploadResult = withContext(Dispatchers.IO) {
+        when {
+            !networkUtil.isConnected -> BackupUploadResult.NoInternetConnection
+            authRepository.currentUser == null -> BackupUploadResult.Unauthorized
+            !authRepository.hasAppDataPermission -> BackupUploadResult.PermissionDenied
+            else -> tryUpload(data)
+        }
+    }
+
+    private fun tryUpload(data: BackupData): BackupUploadResult {
+        try {
+            doUpload(data)
+            return BackupUploadResult.Success
+        } catch (e: GoogleJsonResponseException) {
+            if (quotaExceeded(e)) return BackupUploadResult.QuotaExceeded
+            return BackupUploadResult.Error(e)
+        } catch (e: IOException) {
+            return BackupUploadResult.IOFailure(e)
+        }
+    }
+
+    private fun doUpload(data: BackupData) {
+        driveProvider.get()
+            .files()
+            .create(createFile(), data.toByteArrayContent())
+            .execute()
+    }
+
+    private fun createFile(): File {
+        return File()
             .setParents(listOf("appDataFolder"))
             .setMimeType("text/plain")
+    }
 
-        val byteArrayContent = ByteArrayContent.fromString("text/plain", data.contents)
-
-        driveProvider.get().files().create(file, byteArrayContent).execute()
-        Unit
+    private fun quotaExceeded(e: GoogleJsonResponseException): Boolean {
+        return e.details.errors.first().reason == "storageQuotaExceeded"
     }
 
     override suspend fun getBackups() = _getBackups(30)

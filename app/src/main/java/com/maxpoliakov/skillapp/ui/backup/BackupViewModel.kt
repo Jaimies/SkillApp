@@ -15,11 +15,14 @@ import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.error.logToCrashlytics
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
-import com.maxpoliakov.skillapp.util.network.NetworkUtil
+import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
+import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -44,15 +47,6 @@ class BackupViewModel @Inject constructor(
     private val _backupCreating = MutableLiveData(false)
     val backupCreating: LiveData<Boolean> get() = _backupCreating
 
-    private val _showBackupCreationSucceeded = SingleLiveEvent<Nothing>()
-    val showBackupCreationSucceeded: LiveData<Nothing> = _showBackupCreationSucceeded
-
-    private val _showError = SingleLiveEvent<Nothing>()
-    val showError: LiveData<Nothing> get() = _showError
-
-    private val _showBackupRestorationSucceeded = SingleLiveEvent<Nothing>()
-    val showBackupRestorationSucceeded: LiveData<Nothing> = _showBackupRestorationSucceeded
-
     private val _showLogoutDialog = SingleLiveEvent<Nothing>()
     val showLogoutDialog: LiveData<Nothing> get() = _showLogoutDialog
 
@@ -62,13 +56,17 @@ class BackupViewModel @Inject constructor(
     private val _lastBackupDate = MutableLiveData<Any?>(R.string.loading_last_backup)
     val lastBackupDate: LiveData<Any?> get() = _lastBackupDate
 
+    private val _showSnackbar = SingleLiveEvent<Int>()
+    val showSnackbar: LiveData<Int> get() = _showSnackbar
+
     private val _requestAppDataPermission = SingleLiveEvent<Nothing>()
     val requestAppDataPermission: LiveData<Nothing> get() = _requestAppDataPermission
 
     init {
         viewModelScope.launch {
             restoreBackupUseCase.state.drop(1).collect { state ->
-                if (state == RestorationState.Finished) _showBackupRestorationSucceeded.call()
+                if (state == RestorationState.Finished)
+                    _showSnackbar.value = R.string.backup_restore_successful
             }
         }
 
@@ -98,7 +96,7 @@ class BackupViewModel @Inject constructor(
             e.logToCrashlytics()
             e.printStackTrace()
             _lastBackupDate.value = null
-            _showError.call()
+            _showSnackbar.value = R.string.something_went_wrong
         }
     }
 
@@ -116,10 +114,11 @@ class BackupViewModel @Inject constructor(
     }
 
     private fun createBackupInBackground() = ioScope.launch {
-        try {
-            createBackupUseCase.createBackup()
+        val result = createBackupUseCase.createBackup()
+
+        if (result is BackupUploadResult.Success) {
             _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
-        } catch (e: Exception) {}
+        }
     }
 
     fun showLogoutDialog() = _showLogoutDialog.call()
@@ -136,30 +135,43 @@ class BackupViewModel @Inject constructor(
     }
 
     fun createBackup() = ioScope.launch {
-        if (!networkUtil.isConnected) {
-            _showNoNetwork.postCall()
-            return@launch
-        }
-
-        if (!authRepository.hasAppDataPermission) {
-            _requestAppDataPermission.postCall()
-            return@launch
-        }
-
-        _backupCreating.postValue(true)
         logEvent("create_backup")
-
-        try {
-            createBackupUseCase.createBackup()
-            _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
-            _showBackupCreationSucceeded.postCall()
-        } catch (e: Exception) {
-            e.logToCrashlytics()
-            e.printStackTrace()
-            _showError.postCall()
-        }
-
+        _backupCreating.postValue(true)
+        val result = createBackupUseCase.createBackup()
+        handleUploadResult(result)
         _backupCreating.postValue(false)
+    }
+
+    private suspend fun handleUploadResult(result: BackupUploadResult) = withContext(Dispatchers.Main) {
+        when (result) {
+            is BackupUploadResult.Success -> {
+                _lastBackupDate.value = dateTimeFormatter.format(LocalDateTime.now())
+                _showSnackbar.value = R.string.backup_successful
+            }
+
+            is BackupUploadResult.NoInternetConnection -> {
+                _showNoNetwork.call()
+            }
+
+            is BackupUploadResult.IOFailure -> {
+                _showSnackbar.value = R.string.failed_to_reach_google_drive
+            }
+
+            is BackupUploadResult.QuotaExceeded -> {
+                _showSnackbar.value = R.string.drive_out_of_space
+            }
+
+            is BackupUploadResult.PermissionDenied -> {
+                _requestAppDataPermission.call()
+            }
+
+            is BackupUploadResult.Error -> {
+                _showSnackbar.value = R.string.something_went_wrong
+                result.exception.logToCrashlytics()
+            }
+
+            else -> {}
+        }
     }
 
     fun goToRestore() {

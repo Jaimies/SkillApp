@@ -1,8 +1,8 @@
 package com.maxpoliakov.skillapp.di
 
+import com.maxpoliakov.skillapp.data.AndroidNetworkUtil
+import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
-import com.maxpoliakov.skillapp.util.network.NetworkUtil
-import com.maxpoliakov.skillapp.util.network.NetworkUtilImpl
 import com.maxpoliakov.skillapp.util.notifications.NotificationUtilImpl
 import dagger.Binds
 import dagger.Module
@@ -16,5 +16,5 @@ interface UtilityModule {
     fun provideNotificationUtil(notificationUtil: NotificationUtilImpl): NotificationUtil
 
     @Binds
-    fun provideNetworkUtil(networkUtil: NetworkUtilImpl): NetworkUtil
+    fun provideNetworkUtil(networkUtil: AndroidNetworkUtil): NetworkUtil
 }

@@ -1,5 +1,4 @@
 @file:UseSerializers(
-    ClosedLocalTimeRangeAsPairSerializer::class,
     LocalDateAsStringSerializer::class,
     LocalTimeAsStringSerializer::class,
 )
@@ -10,7 +9,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.maxpoliakov.skillapp.data.serialization.ClosedLocalTimeRangeAsPairSerializer
 import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
 import com.maxpoliakov.skillapp.data.serialization.LocalTimeAsStringSerializer
 import com.maxpoliakov.skillapp.data.skill.DBSkill
@@ -43,8 +41,18 @@ data class DBRecord(
     val recordName: String = "",
     val unit: MeasurementUnit = MeasurementUnit.Millis,
     val date: LocalDate = getCurrentDate(),
-    val timeRange: ClosedRange<LocalTime>? = null,
+    val startTime: LocalTime? = null,
+    val endTime: LocalTime? = null,
 )
 
-fun DBRecord.mapToDomain() = Record(recordName, skillId, time, unit, id, date, timeRange)
-fun Record.mapToDB() = DBRecord(id, count, skillId, name, unit, date, timeRange)
+fun DBRecord.mapToDomain() = Record(
+    recordName,
+    skillId,
+    time,
+    unit,
+    id,
+    date,
+    if (startTime != null && endTime != null) startTime..endTime else null,
+)
+
+fun Record.mapToDB() = DBRecord(id, count, skillId, name, unit, date, timeRange?.start, timeRange?.endInclusive)

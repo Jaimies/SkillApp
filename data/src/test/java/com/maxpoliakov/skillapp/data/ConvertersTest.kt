@@ -10,36 +10,22 @@ import java.time.LocalTime
 class ConvertersTest : StringSpec({
     val epoch = LocalDate.ofEpochDay(0)
 
-    "fromTimeRange()" {
-        Converters.fromTimeRange(
-            LocalTime.parse("05:20:30")..LocalTime.parse("20:30:00"),
-        ) shouldBe "05:20:30|20:30:00"
-
-        Converters.fromTimeRange(
-            LocalTime.parse("13:15:15")..LocalTime.parse("02:40:55"),
-        ) shouldBe "13:15:15|02:40:55"
-    }
-
-    "toTimeRange()" {
-        Converters.toTimeRange(
-            "05:20:30|20:30:00",
-        ) shouldBe LocalTime.parse("05:20:30")..LocalTime.parse("20:30:00")
-
-        Converters.toTimeRange(
-            "13:15:15|02:40:55",
-        ) shouldBe LocalTime.parse("13:15:15")..LocalTime.parse("02:40:55")
-    }
-
-    "toDateRange() returns null if value cannot be parsed" {
-        Converters.toTimeRange("invalid format") shouldBe null
-    }
-
     "fromLocalDate()" {
         Converters.fromLocalDate(epoch) shouldBe "1970-01-01"
     }
 
     "toLocalDate()" {
         Converters.toLocalDate("1970-01-01") shouldBe epoch
+    }
+
+    "fromLocalTime()" {
+        Converters.fromLocalTime(LocalTime.NOON) shouldBe "12:00:00"
+        Converters.fromLocalTime(null) shouldBe null
+    }
+
+    "toLocalTime()" {
+        Converters.toLocalTime("12:00:00") shouldBe LocalTime.NOON
+        Converters.toLocalTime(null) shouldBe null
     }
 
     "toGoalType() and fromGoalType()" {

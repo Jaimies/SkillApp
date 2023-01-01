@@ -17,29 +17,13 @@ object Converters {
     fun fromLocalDate(date: LocalDate): String = date.format(dateFormatter)
 
     @TypeConverter
-    fun toTimeRange(value: String?): ClosedRange<LocalTime>? {
+    fun toLocalTime(value: String?): LocalTime? {
         if (value == null) return null
-
-        return runCatching {
-            value.split("|")
-                .map(this::toLocalDateTime)
-                .let { parts -> parts[0]..parts[1] }
-        }.getOrNull()
+        return timeFormatter.parse(value, LocalTime::from)
     }
 
     @TypeConverter
-    fun fromTimeRange(range: ClosedRange<LocalTime>?): String? {
-        if (range == null) return null
-
-        return listOf(range.start, range.endInclusive)
-            .joinToString("|", transform = this::fromLocalDateTime)
-    }
-
-    @TypeConverter
-    fun toLocalDateTime(value: String): LocalTime = timeFormatter.parse(value, LocalTime::from)
-
-    @TypeConverter
-    fun fromLocalDateTime(date: LocalTime): String = date.format(timeFormatter)
+    fun fromLocalTime(date: LocalTime?): String? = date?.format(timeFormatter)
 
     @TypeConverter
     fun toGoalType(value: String): Goal.Type = Goal.Type.valueOf(value)

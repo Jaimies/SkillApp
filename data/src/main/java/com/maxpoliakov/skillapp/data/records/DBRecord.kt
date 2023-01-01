@@ -1,4 +1,8 @@
-@file:UseSerializers(LocalDateAsStringSerializer::class, LocalTimeAsStringSerializer::class)
+@file:UseSerializers(
+    ClosedLocalTimeRangeAsPairSerializer::class,
+    LocalDateAsStringSerializer::class,
+    LocalTimeAsStringSerializer::class,
+)
 
 package com.maxpoliakov.skillapp.data.records
 
@@ -6,6 +10,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.maxpoliakov.skillapp.data.serialization.ClosedLocalTimeRangeAsPairSerializer
 import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
 import com.maxpoliakov.skillapp.data.serialization.LocalTimeAsStringSerializer
 import com.maxpoliakov.skillapp.data.skill.DBSkill

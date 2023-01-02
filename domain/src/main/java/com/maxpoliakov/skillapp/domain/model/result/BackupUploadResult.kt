@@ -4,11 +4,14 @@ import java.io.IOException
 
 sealed class BackupUploadResult {
     object Success : BackupUploadResult()
-    object NoInternetConnection : BackupUploadResult()
-    object Unauthorized : BackupUploadResult()
-    object PermissionDenied : BackupUploadResult()
-    object QuotaExceeded : BackupUploadResult()
 
-    class IOFailure(val exception: IOException) : BackupUploadResult()
-    class Error(val exception: Throwable) : BackupUploadResult()
+    sealed class Failure : BackupUploadResult() {
+        object NoInternetConnection : Failure()
+        object Unauthorized : Failure()
+        object PermissionDenied : Failure()
+        object QuotaExceeded : Failure()
+
+        class IOFailure(val exception: IOException) : Failure()
+        class Error(val exception: Throwable) : Failure()
+    }
 }

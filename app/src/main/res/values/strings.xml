@@ -135,4 +135,6 @@
     <string name="duration_format_without_hours" translatable="false">%1$s:%2$s</string>
     <string name="drive_out_of_space">Not enough free space on the Google Drive</string>
     <string name="failed_to_reach_google_drive">Failed to reach Google Drive</string>
+    <string name="backup_creation_failed">Failed to create a back up</string>
+    <string name="backup_upload_failed">Failed to upload the back up to Google Drive</string>
 </resources>

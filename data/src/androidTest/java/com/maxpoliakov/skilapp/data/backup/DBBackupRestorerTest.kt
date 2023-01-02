@@ -9,6 +9,7 @@ import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
 import com.maxpoliakov.skillapp.domain.model.BackupData
+import com.maxpoliakov.skillapp.domain.model.result.BackupCreationResult
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -35,14 +36,14 @@ class DBBackupRestorerTest {
         db.statsDao().insert(statistics)
         db.skillGroupDao().insert(groups)
 
-        val backup = backupCreator.create()
+        val backupResult = backupCreator.create() as BackupCreationResult.Success
 
         db.skillDao().deleteAll()
         db.recordsDao().deleteAll()
         db.skillGroupDao().deleteAll()
         db.statsDao().deleteAll()
 
-        backupRestorer.restore(backup)
+        backupRestorer.restore(backupResult.data)
 
         db.skillDao().getAllSkills() shouldBe skills
         db.recordsDao().getAllRecords() shouldBe records

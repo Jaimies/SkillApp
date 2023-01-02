@@ -20,6 +20,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Provider
+import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult.Failure as UploadFailure
 
 fun BackupData.toByteArrayContent(mimeType: String = "text/plain"): ByteArrayContent {
     return ByteArrayContent.fromString(mimeType, contents)
@@ -33,9 +34,9 @@ class GoogleDriveBackupRepository @Inject constructor(
 
     override suspend fun upload(data: BackupData): BackupUploadResult = withContext(Dispatchers.IO) {
         when {
-            !networkUtil.isConnected -> BackupUploadResult.NoInternetConnection
-            authRepository.currentUser == null -> BackupUploadResult.Unauthorized
-            !authRepository.hasAppDataPermission -> BackupUploadResult.PermissionDenied
+            !networkUtil.isConnected -> UploadFailure.NoInternetConnection
+            authRepository.currentUser == null -> UploadFailure.Unauthorized
+            !authRepository.hasAppDataPermission -> UploadFailure.PermissionDenied
             else -> tryUpload(data)
         }
     }
@@ -45,10 +46,10 @@ class GoogleDriveBackupRepository @Inject constructor(
             doUpload(data)
             return BackupUploadResult.Success
         } catch (e: GoogleJsonResponseException) {
-            if (quotaExceeded(e)) return BackupUploadResult.QuotaExceeded
-            return BackupUploadResult.Error(e)
+            if (quotaExceeded(e)) return UploadFailure.QuotaExceeded
+            return UploadFailure.Error(e)
         } catch (e: IOException) {
-            return BackupUploadResult.IOFailure(e)
+            return UploadFailure.IOFailure(e)
         }
     }
 

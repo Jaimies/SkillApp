@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.User
-import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult
+import com.maxpoliakov.skillapp.domain.model.result.BackupResult
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import javax.inject.Inject
+import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult.Failure as UploadFailure
 
 @HiltViewModel
 class BackupViewModel @Inject constructor(
@@ -105,7 +106,7 @@ class BackupViewModel @Inject constructor(
     private fun createBackupInBackground() = ioScope.launch {
         val result = createBackupUseCase.createBackup()
 
-        if (result is BackupUploadResult.Success) {
+        if (result is BackupResult.Success) {
             _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
         }
     }
@@ -127,35 +128,45 @@ class BackupViewModel @Inject constructor(
         logEvent("create_backup")
         _backupCreating.postValue(true)
         val result = createBackupUseCase.createBackup()
-        handleUploadResult(result)
+        withContext(Dispatchers.Main) { handleResult(result) }
         _backupCreating.postValue(false)
     }
 
-    private suspend fun handleUploadResult(result: BackupUploadResult) = withContext(Dispatchers.Main) {
+    private fun handleResult(result: BackupResult) {
         when (result) {
-            is BackupUploadResult.Success -> {
+            is BackupResult.Success -> {
                 _lastBackupDate.value = dateTimeFormatter.format(LocalDateTime.now())
                 _showSnackbar.value = R.string.backup_successful
             }
 
-            is BackupUploadResult.NoInternetConnection -> {
+            is BackupResult.CreationFailure -> {
+                _showSnackbar.value = R.string.backup_creation_failed
+            }
+
+            is BackupResult.UploadFailure -> handleUploadFailure(result)
+        }
+    }
+
+    private fun handleUploadFailure(result: BackupResult.UploadFailure) {
+        when (val result = result.uploadResult) {
+            is UploadFailure.NoInternetConnection -> {
                 _showNoNetwork.call()
             }
 
-            is BackupUploadResult.IOFailure -> {
+            is UploadFailure.IOFailure -> {
                 _showSnackbar.value = R.string.failed_to_reach_google_drive
             }
 
-            is BackupUploadResult.QuotaExceeded -> {
+            is UploadFailure.QuotaExceeded -> {
                 _showSnackbar.value = R.string.drive_out_of_space
             }
 
-            is BackupUploadResult.PermissionDenied -> {
+            is UploadFailure.PermissionDenied -> {
                 _requestAppDataPermission.call()
             }
 
-            is BackupUploadResult.Error -> {
-                _showSnackbar.value = R.string.something_went_wrong
+            is UploadFailure.Error -> {
+                _showSnackbar.value = R.string.backup_upload_failed
                 result.exception.logToCrashlytics()
             }
 

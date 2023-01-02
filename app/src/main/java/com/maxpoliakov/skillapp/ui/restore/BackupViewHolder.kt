@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
@@ -30,6 +31,7 @@ class BackupViewHolder @AssistedInject constructor(
     private val restoreBackupUseCase: RestoreBackupUseCase,
     private val ioScope: CoroutineScope,
     private val networkUtil: NetworkUtil,
+    private val navController: NavController,
     @SnackbarRoot
     private val snackbarRoot: View,
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -58,16 +60,17 @@ class BackupViewHolder @AssistedInject constructor(
         }
     }
 
-    private fun restoreBackup() = ioScope.launch {
+    private fun restoreBackup() {
         logEvent("restore_backup")
-        val backup = backup.value ?: return@launch
+        val backup = backup.value ?: return
+
         try {
-            restoreBackupUseCase.restoreBackup(backup)
+            ioScope.launch { restoreBackupUseCase.restoreBackup(backup) }
             snackbarRoot.showSnackbar(R.string.backup_restore_successful)
+            navController.navigateUp()
         } catch (e: Exception) {
             e.logToCrashlytics()
-            e.printStackTrace()
-            itemView.showSnackbar(R.string.something_went_wrong)
+            snackbarRoot.showSnackbar(R.string.something_went_wrong)
         }
     }
 

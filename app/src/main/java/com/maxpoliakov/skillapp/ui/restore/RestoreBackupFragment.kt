@@ -31,7 +31,6 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
         binding.backupsList.setupAdapter(adapter)
         binding.backupsList.addDividers()
         observe(viewModel.backups, adapter::submitList)
-        observe(viewModel.restorationSucceeded) { findNavController().navigateUp() }
         observe(viewModel.showError) {
             showSnackbar(R.string.something_went_wrong)
         }

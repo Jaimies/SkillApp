@@ -12,7 +12,6 @@ import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,31 +30,19 @@ class RestoreBackupViewModel @Inject constructor(
         state == RestorationState.Active
     }.asLiveData()
 
-    private val _restorationSucceeded = SingleLiveEvent<Nothing>()
-    val restorationSucceeded: LiveData<Nothing> get() = _restorationSucceeded
-
     private val _showError = SingleLiveEvent<Nothing>()
     val showError: LiveData<Nothing> get() = _showError
 
     init {
-        if (authRepository.currentUser != null)
-            getBackups()
-
-        viewModelScope.launch {
-            restoreBackupUseCase.state.drop(1).collect { state ->
-                if (state == RestorationState.Finished) _restorationSucceeded.call()
-            }
-        }
+        if (authRepository.currentUser != null) getBackups()
     }
 
-    private fun getBackups() {
-        viewModelScope.launch {
-            try {
-                val backups = backupRepository.getBackups()
-                _backups.value = backups
-            } catch (e: Exception) {
-                _showError.call()
-            }
+    private fun getBackups() = viewModelScope.launch {
+        try {
+            val backups = backupRepository.getBackups()
+            _backups.value = backups
+        } catch (e: Exception) {
+            _showError.call()
         }
     }
 }

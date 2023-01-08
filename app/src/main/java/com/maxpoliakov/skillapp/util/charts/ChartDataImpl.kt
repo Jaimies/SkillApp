@@ -61,13 +61,9 @@ class ChartDataImpl @AssistedInject constructor(
     override fun setStatisticType(type: UiStatisticInterval) = setStatisticType(type.toDomain())
 
     override fun getChartData(interval: StatisticInterval): Flow<List<Statistic>> {
-        return combine(
-            criteria.flatMapLatest { skillRepository.getSkills(it) },
-            dateRange,
-        ) { skills, dates ->
-            println(dates)
+        return combine(criteria, dateRange) { criteria, dates ->
             getStats.getStats(
-                skills.map(Skill::id),
+                criteria,
                 dates ?: LocalDate.now()
                     .minus(interval.numberOfValues.toLong() - 1, interval.unit)
                     .rangeTo(LocalDate.now()),

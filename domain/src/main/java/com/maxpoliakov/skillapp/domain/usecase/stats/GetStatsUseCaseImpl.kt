@@ -1,30 +1,37 @@
 package com.maxpoliakov.skillapp.domain.usecase.stats
 
+import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
+import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 
 class GetStatsUseCaseImpl @Inject constructor(
+    private val skillRepository: SkillRepository,
     private val statsRepository: SkillStatsRepository
 ): GetStatsUseCase {
     override fun getStats(
-        skillIds: List<Int>,
+        criteria: SkillSelectionCriteria,
         dates: ClosedRange<LocalDate>,
         interval: StatisticInterval
     ): Flow<List<Statistic>> {
-        return combine(skillIds.map { id -> getStats(id, dates, interval) }) { stats ->
-            group(stats, interval)
+        return skillRepository.getSkills(criteria).flatMapLatest { skills ->
+            combine(skills.map { skill -> getStats(skill, dates, interval) }) { stats ->
+                group(stats, interval)
+            }
         }
     }
 
-    override fun getStats(skillId: Int, dates: ClosedRange<LocalDate>, interval: StatisticInterval): Flow<List<Statistic>> {
-        return statsRepository.getStats(skillId, dates).map { stats ->
+    private fun getStats(skill: Skill, dates: ClosedRange<LocalDate>, interval: StatisticInterval): Flow<List<Statistic>> {
+        return statsRepository.getStats(skill.id, dates).map { stats ->
             stats
                 .groupBy { interval.toNumber(it.date) }
                 .map { entry ->

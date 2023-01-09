@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
+import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToUI
 import com.maxpoliakov.skillapp.shared.util.until
@@ -38,6 +39,9 @@ abstract class DetailsViewModel(
     @Inject
     lateinit var chartDataFactory: ChartDataImpl.Factory
 
+    @Inject
+    lateinit var getStatsUseCase: GetStatsUseCase
+
     override val unitForDailyTotals get() = unitFlow
 
     private val uiUnitFlow by lazy { unitFlow.map { it.mapToUI() } }
@@ -57,6 +61,10 @@ abstract class DetailsViewModel(
 
     private val _chooseGoal = SingleLiveEvent<Any>()
     val chooseGoal: LiveData<Any> get() = _chooseGoal
+
+    val lastWeekTime by lazy {
+        getStatsUseCase.getLast7DayCount(selectionCriteria)
+    }
 
     private var lastName = ""
 

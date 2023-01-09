@@ -47,32 +47,10 @@ class SkillDaoTest {
     fun getSkills_sortsProperly() = runBlocking {
         skillDao.insert(DBSkill(totalTime = Duration.ofHours(1).toMillis()))
         skillDao.insert(DBSkill(totalTime = Duration.ofHours(2).toMillis()))
+
         skillDao.getSkills().await() shouldBe listOf(
             DBSkill(id = 2, totalTime = Duration.ofHours(2).toMillis()),
             DBSkill(id = 1, totalTime = Duration.ofHours(1).toMillis())
-        )
-    }
-
-    @Test
-    fun getSkill_calculatesLastWeekTime() = runBlocking {
-        skillDao.insert(DBSkill())
-
-        val recordDates = listOf(
-            LocalDate.now().minusDays(7),
-            LocalDate.now().minusDays(6),
-            LocalDate.now().plusDays(1),
-            LocalDate.now()
-        )
-
-        recordDates.forEach { timestamp ->
-            recordsDao.insert(
-                DBRecord(skillId = 1, time = Duration.ofHours(3).toMillis(), date = timestamp)
-            )
-        }
-
-        skillDao.getSkillFlow(1).await() shouldBe DBSkill(
-            id = 1,
-            lastWeekTime = Duration.ofHours(6).toMillis(),
         )
     }
 

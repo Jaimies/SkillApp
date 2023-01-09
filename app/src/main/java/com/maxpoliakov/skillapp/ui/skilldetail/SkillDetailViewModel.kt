@@ -21,6 +21,7 @@ import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -59,7 +60,9 @@ class SkillDetailViewModel @Inject constructor(
     val skill = getSkillById.run(skillId)
     private val skillStateFlow = skill.stateIn(viewModelScope, Eagerly, null)
 
-    val summary = skill.map(ProductivitySummary.Companion::from).asLiveData()
+    val summary by lazy {
+        skill.combine(lastWeekTime, ProductivitySummary.Companion::from).asLiveData()
+    }
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
         return state.skillId == skillId

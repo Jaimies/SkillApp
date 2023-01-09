@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.domain.usecase.skill
 
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase.SkillsAndGroups
@@ -18,8 +18,8 @@ class GetSkillsAndSkillGroupsUseCaseImpl @Inject constructor(
         return skillRepository.getSkills()
     }
 
-    override fun getSkillsWithLastWeekTime(unit: MeasurementUnit): Flow<List<Skill>> {
-        return skillRepository.getSkillsWithLastWeekCount(unit)
+    override fun getSkills(criteria: SkillSelectionCriteria): Flow<List<Skill>> {
+        return skillRepository.getSkills(criteria)
     }
 
     override fun getTopSkills(count: Int): Flow<List<Skill>> {

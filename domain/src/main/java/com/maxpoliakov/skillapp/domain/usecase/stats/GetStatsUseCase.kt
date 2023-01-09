@@ -12,4 +12,6 @@ interface GetStatsUseCase {
         dates: ClosedRange<LocalDate>,
         interval: StatisticInterval
     ): Flow<List<Statistic>>
+
+    fun getLast7DayCount(criteria: SkillSelectionCriteria): Flow<Long>
 }

@@ -27,16 +27,6 @@ class DBSkillRepository @Inject constructor(
     }
 
     override fun getSkills() = _skills
-    override fun getSkillsWithLastWeekCount(unit: MeasurementUnit): Flow<List<Skill>> {
-        return _skills
-            .filterList { skill -> skill.unit == unit }
-            .flatMapLatest { skills ->
-                if (skills.isEmpty()) flowOf(listOf())
-                else combine(skills.map { skillDao.getSkillFlow(it.id) }) {
-                    it.map { it!!.mapToDomain() }
-                }
-            }
-    }
 
     override fun getSkills(criteria: SkillSelectionCriteria): Flow<List<Skill>> {
         return _skills.filterList { skill -> criteria.isValid(skill) }

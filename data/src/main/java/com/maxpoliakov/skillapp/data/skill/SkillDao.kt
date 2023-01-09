@@ -19,15 +19,7 @@ interface SkillDao : BaseDao<DBSkill> {
     @Query("SELECT * FROM skills WHERE unit = 'Millis' ORDER BY totalTime DESC LIMIT :count")
     fun getTopSkills(count: Int): Flow<List<DBSkill>>
 
-    @Query(
-        """
-        SELECT skills.*, (
-            SELECT SUM(time) FROM records WHERE skillId = :id
-            AND date(records.date) >= date('now','localtime', '-6 day')
-            AND date(records.date) <= date('now', 'localtime')
-        ) as lastWeekTime FROM skills
-        WHERE skills.id = :id"""
-    )
+    @Query("""SELECT * FROM skills WHERE id = :id""")
     fun getSkillFlow(id: Int): Flow<DBSkill?>
 
     @Query("SELECT * FROM skills WHERE id = :id")

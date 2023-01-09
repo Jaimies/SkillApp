@@ -25,7 +25,6 @@ class StubSkillRepository(private vararg val skills: Skill) : SkillRepository {
         return flowOf(skills.filter(criteria::isValid))
     }
 
-    override fun getSkillsWithLastWeekCount(unit: MeasurementUnit) = flowOf<List<Skill>>()
     override fun getSkillFlowById(id: Id) = flowOf<Skill>()
     override fun getTopSkills(count: Int) = flowOf<List<Skill>>()
 

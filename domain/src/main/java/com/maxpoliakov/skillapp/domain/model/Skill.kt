@@ -8,7 +8,6 @@ data class Skill(
     override val unit: MeasurementUnit,
     override val totalCount: Long,
     val initialCount: Long,
-    val lastWeekCount: Long = 0,
     override val id: Id = 0,
     val date: LocalDate = getCurrentDate(),
     val groupId: Int = -1,

@@ -1,6 +1,6 @@
 package com.maxpoliakov.skillapp.model
 
-import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 
 data class ProductivitySummary(
@@ -11,8 +11,12 @@ data class ProductivitySummary(
     companion object {
         val ZERO = ProductivitySummary(0L, 0L, UiMeasurementUnit.Millis)
 
-        fun from(skill: Skill) : ProductivitySummary {
-            return ProductivitySummary(skill.totalCount, skill.lastWeekCount, skill.unit.mapToUI())
+        fun from(trackable: Trackable, lastWeekCount: Long): ProductivitySummary {
+            return ProductivitySummary(
+                totalCount = trackable.totalCount,
+                lastWeekCount = lastWeekCount,
+                unit = trackable.unit.mapToUI(),
+            )
         }
     }
 }

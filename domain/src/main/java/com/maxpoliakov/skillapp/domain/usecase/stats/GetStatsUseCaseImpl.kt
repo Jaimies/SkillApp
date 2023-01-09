@@ -4,6 +4,7 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
+import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Daily
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
 import com.maxpoliakov.skillapp.shared.util.sumByLong
@@ -17,7 +18,14 @@ import javax.inject.Inject
 class GetStatsUseCaseImpl @Inject constructor(
     private val skillRepository: SkillRepository,
     private val statsRepository: SkillStatsRepository
-): GetStatsUseCase {
+) : GetStatsUseCase {
+
+    override fun getLast7DayCount(criteria: SkillSelectionCriteria): Flow<Long> {
+        return getStats(criteria, LocalDate.now().minusDays(6)..LocalDate.now(), Daily).map { stats ->
+            stats.sumByLong(Statistic::count)
+        }
+    }
+
     override fun getStats(
         criteria: SkillSelectionCriteria,
         dates: ClosedRange<LocalDate>,

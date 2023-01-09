@@ -1,19 +1,14 @@
 package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
-import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
-import com.maxpoliakov.skillapp.domain.model.Statistic
-import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Daily
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentGroupCountUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToDomain
-import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
 import com.maxpoliakov.skillapp.util.charts.PieData
 import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
@@ -45,15 +40,7 @@ class SkillGroupViewModel @Inject constructor(
     override val selectionCriteria = SkillSelectionCriteria.InGroupWithId(groupId)
 
     val summary by lazy {
-        _group.combine(chartData.getChartData(Daily), ::getSummary).asLiveData()
-    }
-
-    private fun getSummary(group: SkillGroup, stats: List<Statistic>): ProductivitySummary {
-        return ProductivitySummary(
-            group.totalCount,
-            stats.sumByLong { it.count },
-            group.unit.mapToUI()
-        )
+        _group.combine(lastWeekTime, ProductivitySummary.Companion::from).asLiveData()
     }
 
     override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {

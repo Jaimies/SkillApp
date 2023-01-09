@@ -16,12 +16,12 @@ class StatisticsViewModelTest : StringSpec({
 
     "calculateSummary()" {
         val skills = listOf(
-            createSkill(Duration.ofHours(5), Duration.ofHours(1)),
-            createSkill(Duration.ofHours(6), Duration.ofHours(2)),
-            createSkill(Duration.ofHours(11), Duration.ofHours(3))
+            createSkill(Duration.ofHours(5)),
+            createSkill(Duration.ofHours(6)),
+            createSkill(Duration.ofHours(11))
         )
 
-        calculateSummary(skills) shouldBe ProductivitySummary(
+        calculateSummary(skills, Duration.ofHours(6).toMillis()) shouldBe ProductivitySummary(
             totalCount = Duration.ofHours(22).toMillis(),
             lastWeekCount = Duration.ofHours(6).toMillis(),
             unit = UiMeasurementUnit.Millis,
@@ -29,12 +29,11 @@ class StatisticsViewModelTest : StringSpec({
     }
 })
 
-private fun createSkill(time: Duration, lastWeekTime: Duration): Skill {
+private fun createSkill(time: Duration): Skill {
     return Skill(
         name = "name",
         totalCount = time.toMillis(),
         initialCount = time.toMillis() / 2,
-        lastWeekCount = lastWeekTime.toMillis(),
         date = LocalDate.ofEpochDay(0),
         unit = MeasurementUnit.Millis,
     )

@@ -45,7 +45,7 @@ class DiffCallbackTest : StringSpec({
 })
 
 private fun createSkill(id: Int, name: String, order: Int = 0): Skill {
-    return Skill(name, MeasurementUnit.Millis, 0, 0, 0, id, LocalDate.ofEpochDay(0), order)
+    return Skill(name, MeasurementUnit.Millis, 0, 0, id, LocalDate.ofEpochDay(0), order)
 }
 
 private fun createGroup(id: Int, name: String, order: Int = 0): SkillGroup {

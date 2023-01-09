@@ -3,11 +3,9 @@ package com.maxpoliakov.skillapp.util.charts
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
-import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
-import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.UiStatisticInterval
@@ -23,7 +21,6 @@ import java.time.LocalDate
 
 class ChartDataImpl @AssistedInject constructor(
     private val getStats: GetStatsUseCase,
-    private val skillRepository: SkillRepository,
     @Assisted
     private val criteria: Flow<SkillSelectionCriteria>,
     @Assisted

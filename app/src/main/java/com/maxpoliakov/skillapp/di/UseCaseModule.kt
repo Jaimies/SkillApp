@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.di
 
-import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
-import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCaseImpl
+import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
+import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCaseImpl
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCaseImpl
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
@@ -47,7 +47,7 @@ interface UseCaseModule {
     fun provideGetStatsUseCase(useCase: GetStatsUseCaseImpl): GetStatsUseCase
 
     @Binds
-    fun provideCreateBackupUseCase(useCase: CreateBackupUseCaseImpl): CreateBackupUseCase
+    fun provideCreateBackupUseCase(useCase: PerformBackupUseCaseImpl): PerformBackupUseCase
 
     @Binds
     fun provideRestoreBackupUseCase(useCase: RestoreBackupUseCaseImpl): RestoreBackupUseCase

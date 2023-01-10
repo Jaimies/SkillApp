@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.domain.usecase.stats
 
-import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
@@ -26,20 +25,8 @@ class GetStatsUseCaseImpl @Inject constructor(
         }
     }
 
-    override fun getStats(
-        criteria: SkillSelectionCriteria,
-        dates: ClosedRange<LocalDate>,
-        interval: StatisticInterval
-    ): Flow<List<Statistic>> {
-        return skillRepository.getSkills(criteria).flatMapLatest { skills ->
-            combine(skills.map { skill -> getStats(skill, dates, interval) }) { stats ->
-                group(stats, interval)
-            }
-        }
-    }
-
-    private fun getStats(skill: Skill, dates: ClosedRange<LocalDate>, interval: StatisticInterval): Flow<List<Statistic>> {
-        return statsRepository.getStats(skill.id, dates).map { stats ->
+    override fun getStats(criteria: SkillSelectionCriteria, dates: ClosedRange<LocalDate>, interval: StatisticInterval): Flow<List<Statistic>> {
+        return getAllStats(criteria, dates).map { stats ->
             stats
                 .groupBy { interval.toNumber(it.date) }
                 .map { entry ->
@@ -51,10 +38,11 @@ class GetStatsUseCaseImpl @Inject constructor(
         }
     }
 
-    private fun group(statsLists: Array<List<Statistic>>, interval: StatisticInterval) = statsLists
-        .flatMap { it }
-        .groupBy { interval.toNumber(it.date) }
-        .map { entry ->
-            Statistic(entry.value[0].date, entry.value.sumByLong(Statistic::count))
+    private fun getAllStats(criteria: SkillSelectionCriteria, dates: ClosedRange<LocalDate>): Flow<List<Statistic>> {
+        return skillRepository.getSkills(criteria).flatMapLatest { skills ->
+            combine(skills.map { statsRepository.getStats(it.id, dates) }) {
+                it.toList().flatten()
+            }
         }
+    }
 }

@@ -11,7 +11,7 @@ import dagger.hilt.android.components.ActivityComponent
 
 @Module
 @InstallIn(ActivityComponent::class)
-interface ActivityUtilityModule {
+interface ActivityModule {
     @Binds
     fun provideIntroUtil(introUtil: IntroUtilImpl): IntroUtil
 

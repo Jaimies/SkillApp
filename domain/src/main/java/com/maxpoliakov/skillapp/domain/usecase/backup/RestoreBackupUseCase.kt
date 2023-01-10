@@ -9,6 +9,6 @@ interface RestoreBackupUseCase {
     suspend fun restoreBackup(backup: Backup)
 
     enum class RestorationState {
-        NotStarted, Active, Finished, Failed
+        Active, Inactive,
     }
 }

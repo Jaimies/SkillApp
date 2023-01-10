@@ -16,7 +16,7 @@ class RestoreBackupUseCaseImpl @Inject constructor(
     private val backupRestorer: BackupRestorer,
     private val authRepository: AuthRepository,
 ): RestoreBackupUseCase {
-    private val _state = MutableStateFlow(RestorationState.NotStarted)
+    private val _state = MutableStateFlow(RestorationState.Inactive)
     override val state: StateFlow<RestorationState> get() = _state
 
     override suspend fun restoreBackup(backup: Backup) {
@@ -35,10 +35,8 @@ class RestoreBackupUseCaseImpl @Inject constructor(
         try {
             val backupContents = backupRepository.getContents(backup)
             backupRestorer.restore(backupContents)
-            _state.emit(RestorationState.Finished)
-        } catch (e: Exception) {
-            _state.emit(RestorationState.Failed)
-            throw e
+        } finally {
+            _state.emit(RestorationState.Inactive)
         }
     }
 }

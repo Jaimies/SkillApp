@@ -4,11 +4,12 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
+import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
-import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,7 +21,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Provider
-import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult.Failure as UploadFailure
 
 fun BackupData.toByteArrayContent(mimeType: String = "text/plain"): ByteArrayContent {
     return ByteArrayContent.fromString(mimeType, contents)
@@ -32,25 +32,8 @@ class GoogleDriveBackupRepository @Inject constructor(
     private val authRepository: AuthRepository,
 ) : BackupRepository {
 
-    override suspend fun upload(data: BackupData): BackupUploadResult = withContext(Dispatchers.IO) {
-        when {
-            !networkUtil.isConnected -> UploadFailure.NoInternetConnection
-            authRepository.currentUser == null -> UploadFailure.Unauthorized
-            !authRepository.hasAppDataPermission -> UploadFailure.PermissionDenied
-            else -> tryUpload(data)
-        }
-    }
-
-    private fun tryUpload(data: BackupData): BackupUploadResult {
-        try {
-            doUpload(data)
-            return BackupUploadResult.Success
-        } catch (e: GoogleJsonResponseException) {
-            if (quotaExceeded(e)) return UploadFailure.QuotaExceeded
-            return UploadFailure.Error(e)
-        } catch (e: IOException) {
-            return UploadFailure.IOFailure(e)
-        }
+    override suspend fun upload(data: BackupData): Result<Unit> {
+        return tryIfAuthorized { doUpload(data) }
     }
 
     private fun doUpload(data: BackupData) {
@@ -89,13 +72,45 @@ class GoogleDriveBackupRepository @Inject constructor(
         return _getBackups(2).firstOrNull()
     }
 
-    override suspend fun getContents(backup: Backup): BackupData = withContext(Dispatchers.IO) {
+    override suspend fun getContents(backup: Backup): Result<BackupData> {
+        return tryIfAuthorized { doGetContents(backup) }
+    }
+
+    private fun doGetContents(backup: Backup): BackupData {
         val stream = ByteArrayOutputStream()
         driveProvider.get().files().get(backup.id).executeMediaAndDownloadTo(stream)
 
-        stream
+        return stream
             .toByteArray()
             .toString(StandardCharsets.UTF_8)
             .let(::BackupData)
+    }
+
+    private suspend fun <T> doIfAuthorized(operation: suspend () -> Result<T>) =
+        withContext(Dispatchers.IO) {
+            when {
+                !networkUtil.isConnected -> Result.Failure.NoInternetConnection
+                authRepository.currentUser == null -> Result.Failure.Unauthorized
+                !authRepository.hasAppDataPermission -> Result.Failure.PermissionDenied
+                else -> operation()
+            }
+        }
+
+    private suspend fun <T> tryIfAuthorized(operation: suspend () -> T): Result<T> {
+        return doIfAuthorized { tryOperation(operation) }
+    }
+
+    private suspend fun <T> tryOperation(operation: suspend () -> T): Result<T> {
+        try {
+            val result = operation()
+            return Result.Success(result)
+        } catch (e: GoogleJsonResponseException) {
+            if (quotaExceeded(e)) return Result.Failure.QuotaExceeded
+            e.logToCrashlytics()
+            return Result.Failure.Error(e)
+        } catch (e: IOException) {
+            e.logToCrashlytics()
+            return Result.Failure.IOFailure(e)
+        }
     }
 }

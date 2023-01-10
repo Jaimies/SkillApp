@@ -1,7 +1,10 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
-import com.maxpoliakov.skillapp.domain.repository.AuthRepository
+import com.maxpoliakov.skillapp.domain.model.BackupData
+import com.maxpoliakov.skillapp.domain.model.result.BackupRestorationResult
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result as FetchBackupResult
+import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.Result
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
@@ -14,29 +17,36 @@ import javax.inject.Singleton
 class RestoreBackupUseCaseImpl @Inject constructor(
     private val backupRepository: BackupRepository,
     private val backupRestorer: BackupRestorer,
-    private val authRepository: AuthRepository,
-): RestoreBackupUseCase {
+) : RestoreBackupUseCase {
     private val _state = MutableStateFlow(RestorationState.Inactive)
     override val state: StateFlow<RestorationState> get() = _state
 
-    override suspend fun restoreBackup(backup: Backup) {
-        if (!authRepository.hasAppDataPermission) {
-            println("Not restoring a backup because the AppData permission is not granted")
-            return
-        }
-
+    override suspend fun restoreBackup(backup: Backup): Result {
         if (state.value == RestorationState.Active) {
-            println("Not starting a backup restoration because another restoration is already running")
-            return
+            return Result.AlreadyInProgress
         }
 
         _state.emit(RestorationState.Active)
+        val result = doRestore(backup)
+        _state.emit(RestorationState.Inactive)
+        return result
+    }
 
-        try {
-            val backupContents = backupRepository.getContents(backup)
-            backupRestorer.restore(backupContents)
-        } finally {
-            _state.emit(RestorationState.Inactive)
+    private suspend fun doRestore(backup: Backup): Result {
+        val result = backupRepository.getContents(backup)
+
+        return when (result) {
+            is FetchBackupResult.Success -> restoreBackup(result.value)
+            is FetchBackupResult.Failure -> Result.FetchFailure(result)
+        }
+    }
+
+    private suspend fun restoreBackup(data: BackupData): Result {
+        val result = backupRestorer.restore(data)
+
+        return when (result) {
+            is BackupRestorationResult.Success -> Result.Success
+            is BackupRestorationResult.Failure -> Result.RestorationFailure(result)
         }
     }
 }

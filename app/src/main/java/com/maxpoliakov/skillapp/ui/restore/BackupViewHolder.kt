@@ -18,12 +18,13 @@ import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.dialog.showSnackbar
 import com.maxpoliakov.skillapp.util.dialog.showToast
-import com.maxpoliakov.skillapp.util.error.logToCrashlytics
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BackupViewHolder @AssistedInject constructor(
     @Assisted
@@ -64,13 +65,25 @@ class BackupViewHolder @AssistedInject constructor(
         logEvent("restore_backup")
         val backup = backup.value ?: return
 
-        try {
-            ioScope.launch { restoreBackupUseCase.restoreBackup(backup) }
-            snackbarRoot.showSnackbar(R.string.backup_restore_successful)
-            navController.navigateUp()
-        } catch (e: Exception) {
-            e.logToCrashlytics()
-            snackbarRoot.showSnackbar(R.string.something_went_wrong)
+        ioScope.launch {
+            val result = restoreBackupUseCase.restoreBackup(backup)
+            handle(result)
+        }
+    }
+
+    private suspend fun handle(result: RestoreBackupUseCase.Result) = withContext(Dispatchers.Main) {
+        when (result) {
+            is RestoreBackupUseCase.Result.Success -> {
+                snackbarRoot.showSnackbar(R.string.backup_restore_successful)
+                navController.navigateUp()
+            }
+
+            is RestoreBackupUseCase.Result.FetchFailure,
+            is RestoreBackupUseCase.Result.RestorationFailure -> {
+                snackbarRoot.showSnackbar(R.string.something_went_wrong)
+            }
+
+            is RestoreBackupUseCase.Result.AlreadyInProgress -> {}
         }
     }
 

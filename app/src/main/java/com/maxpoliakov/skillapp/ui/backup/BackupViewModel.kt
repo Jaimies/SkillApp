@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.User
-import com.maxpoliakov.skillapp.domain.model.result.BackupResult
+import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase.Result as BackupResult
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result as BackupUploadResult
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
-import com.maxpoliakov.skillapp.domain.usecase.backup.CreateBackupUseCase
+import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.error.logToCrashlytics
@@ -22,12 +23,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import javax.inject.Inject
-import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult.Failure as UploadFailure
 
 @HiltViewModel
 class BackupViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val createBackupUseCase: CreateBackupUseCase,
+    private val performBackupUseCase: PerformBackupUseCase,
     private val backupRepository: BackupRepository,
     private val networkUtil: NetworkUtil,
     private val ioScope: CoroutineScope,
@@ -104,7 +104,7 @@ class BackupViewModel @Inject constructor(
     }
 
     private fun createBackupInBackground() = ioScope.launch {
-        val result = createBackupUseCase.createBackup()
+        val result = performBackupUseCase.performBackup()
 
         if (result is BackupResult.Success) {
             _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
@@ -127,7 +127,7 @@ class BackupViewModel @Inject constructor(
     fun createBackup() = ioScope.launch {
         logEvent("create_backup")
         _backupCreating.postValue(true)
-        val result = createBackupUseCase.createBackup()
+        val result = performBackupUseCase.performBackup()
         withContext(Dispatchers.Main) { handleResult(result) }
         _backupCreating.postValue(false)
     }
@@ -149,23 +149,23 @@ class BackupViewModel @Inject constructor(
 
     private fun handleUploadFailure(result: BackupResult.UploadFailure) {
         when (val result = result.uploadResult) {
-            is UploadFailure.NoInternetConnection -> {
+            is BackupUploadResult.Failure.NoInternetConnection -> {
                 _showNoNetwork.call()
             }
 
-            is UploadFailure.IOFailure -> {
+            is BackupUploadResult.Failure.IOFailure -> {
                 _showSnackbar.value = R.string.failed_to_reach_google_drive
             }
 
-            is UploadFailure.QuotaExceeded -> {
+            is BackupUploadResult.Failure.QuotaExceeded -> {
                 _showSnackbar.value = R.string.drive_out_of_space
             }
 
-            is UploadFailure.PermissionDenied -> {
+            is BackupUploadResult.Failure.PermissionDenied -> {
                 _requestAppDataPermission.call()
             }
 
-            is UploadFailure.Error -> {
+            is BackupUploadResult.Failure.Error -> {
                 _showSnackbar.value = R.string.backup_upload_failed
                 result.exception.logToCrashlytics()
             }

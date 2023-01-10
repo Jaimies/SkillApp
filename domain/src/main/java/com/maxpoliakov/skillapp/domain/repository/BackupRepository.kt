@@ -2,12 +2,26 @@ package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
-import com.maxpoliakov.skillapp.domain.model.result.BackupUploadResult
+import java.io.IOException
 
 interface BackupRepository {
-    suspend fun upload(data: BackupData): BackupUploadResult
+    suspend fun upload(data: BackupData): Result<Unit>
 
     suspend fun getBackups(): List<Backup>
     suspend fun getLastBackup(): Backup?
-    suspend fun getContents(backup: Backup): BackupData
+    suspend fun getContents(backup: Backup): Result<BackupData>
+
+    sealed class Result<out T> {
+        class Success<T>(val value: T) : Result<T>()
+
+        sealed class Failure : Result<Nothing>() {
+            object NoInternetConnection : Failure()
+            object Unauthorized : Failure()
+            object PermissionDenied : Failure()
+            object QuotaExceeded : Failure()
+
+            class IOFailure(val exception: IOException) : Failure()
+            class Error(val exception: Throwable) : Failure()
+        }
+    }
 }

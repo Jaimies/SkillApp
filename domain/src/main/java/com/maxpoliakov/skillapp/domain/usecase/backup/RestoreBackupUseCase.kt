@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.result.BackupRestorationResult
-import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result as FetchBackupResult
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import kotlinx.coroutines.flow.StateFlow
 
 interface RestoreBackupUseCase {
@@ -13,7 +13,7 @@ interface RestoreBackupUseCase {
     sealed class Result {
         object Success : Result()
         object AlreadyInProgress : Result()
-        class FetchFailure(val result: FetchBackupResult.Failure) : Result()
+        class FetchFailure(val result: BackupRepository.Result.Failure) : Result()
         class RestorationFailure(val result: BackupRestorationResult.Failure) : Result()
     }
 

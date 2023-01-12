@@ -3,7 +3,6 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.model.result.BackupRestorationResult
-import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result as FetchBackupResult
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.Result
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
@@ -36,8 +35,8 @@ class RestoreBackupUseCaseImpl @Inject constructor(
         val result = backupRepository.getContents(backup)
 
         return when (result) {
-            is FetchBackupResult.Success -> restoreBackup(result.value)
-            is FetchBackupResult.Failure -> Result.FetchFailure(result)
+            is BackupRepository.Result.Success -> restoreBackup(result.value)
+            is BackupRepository.Result.Failure -> Result.FetchFailure(result)
         }
     }
 

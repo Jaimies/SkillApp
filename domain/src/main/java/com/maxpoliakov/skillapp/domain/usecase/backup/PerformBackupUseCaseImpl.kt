@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.BackupData
-import com.maxpoliakov.skillapp.domain.model.result.BackupCreationResult
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase.Result
@@ -16,8 +15,8 @@ class PerformBackupUseCaseImpl @Inject constructor(
         val result = backupCreator.create()
 
         return when (result) {
-            is BackupCreationResult.Success -> uploadBackup(result.data)
-            is BackupCreationResult.Failure -> Result.CreationFailure(result)
+            is BackupCreator.Result.Success -> uploadBackup(result.data)
+            is BackupCreator.Result.Failure -> Result.CreationFailure(result)
         }
     }
 

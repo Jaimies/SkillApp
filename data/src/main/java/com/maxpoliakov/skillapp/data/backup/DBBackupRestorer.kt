@@ -4,7 +4,6 @@ import androidx.room.withTransaction
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.model.BackupData
-import com.maxpoliakov.skillapp.domain.model.result.BackupRestorationResult
 import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -13,13 +12,13 @@ import javax.inject.Inject
 class DBBackupRestorer @Inject constructor(
     private val db: AppDatabase,
 ) : BackupRestorer {
-    override suspend fun restore(data: BackupData): BackupRestorationResult {
+    override suspend fun restore(data: BackupData): BackupRestorer.Result {
         try {
             doRestore(data)
-            return BackupRestorationResult.Success
+            return BackupRestorer.Result.Success
         } catch (e: Throwable) {
             e.logToCrashlytics()
-            return BackupRestorationResult.Failure(e)
+            return BackupRestorer.Result.Failure(e)
         }
     }
 

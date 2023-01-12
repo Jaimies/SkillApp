@@ -3,7 +3,6 @@ package com.maxpoliakov.skillapp.data.backup
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.model.BackupData
-import com.maxpoliakov.skillapp.domain.model.result.BackupCreationResult
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -14,13 +13,13 @@ import javax.inject.Inject
 class DBBackupCreator @Inject constructor(
     private val db: AppDatabase,
 ) : BackupCreator {
-    override suspend fun create(): BackupCreationResult {
+    override suspend fun create(): BackupCreator.Result {
         try {
             val data = createBackup()
-            return BackupCreationResult.Success(data)
+            return BackupCreator.Result.Success(data)
         } catch (e: Exception) {
             e.logToCrashlytics()
-            return BackupCreationResult.Failure(e)
+            return BackupCreator.Result.Failure(e)
         }
     }
 

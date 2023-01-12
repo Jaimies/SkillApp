@@ -1,8 +1,12 @@
 package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.BackupData
-import com.maxpoliakov.skillapp.domain.model.result.BackupRestorationResult
 
 interface BackupRestorer {
-    suspend fun restore(data: BackupData): BackupRestorationResult
+    suspend fun restore(data: BackupData): Result
+
+    sealed class Result {
+        object Success : Result()
+        class Failure(val exception: Throwable) : Result()
+    }
 }

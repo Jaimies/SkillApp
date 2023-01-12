@@ -1,6 +1,6 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
-import com.maxpoliakov.skillapp.domain.model.result.BackupCreationResult
+import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 
 interface PerformBackupUseCase {
@@ -8,7 +8,7 @@ interface PerformBackupUseCase {
 
     sealed class Result {
         object Success : Result()
-        class CreationFailure(val creationResult: BackupCreationResult.Failure) : Result()
+        class CreationFailure(val creationResult: BackupCreator.Result.Failure) : Result()
         class UploadFailure(val uploadResult: BackupRepository.Result.Failure) : Result()
     }
 }

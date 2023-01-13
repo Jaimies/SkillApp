@@ -13,8 +13,8 @@ interface RestoreBackupUseCase {
     sealed class Result {
         object Success : Result()
         object AlreadyInProgress : Result()
-        class FetchFailure(val result: BackupRepository.Result.Failure) : Result()
-        class RestorationFailure(val result: BackupRestorer.Result.Failure) : Result()
+        data class FetchFailure(val result: BackupRepository.Result.Failure) : Result()
+        data class RestorationFailure(val result: BackupRestorer.Result.Failure) : Result()
     }
 
     enum class RestorationState {

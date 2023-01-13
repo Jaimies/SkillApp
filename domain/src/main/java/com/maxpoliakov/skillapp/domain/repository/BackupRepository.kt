@@ -12,7 +12,7 @@ interface BackupRepository {
     suspend fun getContents(backup: Backup): Result<BackupData>
 
     sealed class Result<out T> {
-        class Success<T>(val value: T) : Result<T>()
+        data class Success<T>(val value: T) : Result<T>()
 
         sealed class Failure : Result<Nothing>() {
             object NoInternetConnection : Failure()
@@ -20,8 +20,8 @@ interface BackupRepository {
             object PermissionDenied : Failure()
             object QuotaExceeded : Failure()
 
-            class IOFailure(val exception: IOException) : Failure()
-            class Error(val exception: Throwable) : Failure()
+            data class IOFailure(val exception: IOException) : Failure()
+            data class Error(val exception: Throwable) : Failure()
         }
     }
 }

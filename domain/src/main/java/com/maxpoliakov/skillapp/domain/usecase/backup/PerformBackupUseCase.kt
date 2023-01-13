@@ -8,7 +8,7 @@ interface PerformBackupUseCase {
 
     sealed class Result {
         object Success : Result()
-        class CreationFailure(val creationResult: BackupCreator.Result.Failure) : Result()
-        class UploadFailure(val uploadResult: BackupRepository.Result.Failure) : Result()
+        data class CreationFailure(val creationResult: BackupCreator.Result.Failure) : Result()
+        data class UploadFailure(val uploadResult: BackupRepository.Result.Failure) : Result()
     }
 }

@@ -6,7 +6,7 @@ interface BackupCreator {
     suspend fun create(): Result
 
     sealed class Result {
-        class Success(val data: BackupData) : Result()
-        class Failure(val exception: Throwable) : Result()
+        data class Success(val data: BackupData) : Result()
+        data class Failure(val exception: Throwable) : Result()
     }
 }

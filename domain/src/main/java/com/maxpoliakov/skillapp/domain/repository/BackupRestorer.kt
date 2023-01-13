@@ -7,6 +7,6 @@ interface BackupRestorer {
 
     sealed class Result {
         object Success : Result()
-        class Failure(val exception: Throwable) : Result()
+        data class Failure(val exception: Throwable) : Result()
     }
 }

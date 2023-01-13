@@ -13,7 +13,7 @@ import dagger.hilt.android.components.ActivityComponent
 class SnackbarModule {
     @Provides
     @SnackbarRoot
-    fun provideSnackbarRoot(activity: Activity): View {
+    fun provideSnackbarRoot(activity: Activity): View? {
         return activity.findViewById(R.id.snackbar_root)
     }
 }

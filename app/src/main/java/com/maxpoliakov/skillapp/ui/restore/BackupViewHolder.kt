@@ -25,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Provider
 
 class BackupViewHolder @AssistedInject constructor(
     @Assisted
@@ -34,7 +35,7 @@ class BackupViewHolder @AssistedInject constructor(
     private val networkUtil: NetworkUtil,
     private val navController: NavController,
     @SnackbarRoot
-    private val snackbarRoot: View,
+    private val snackbarRootProvider: Provider<View?>,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val _backup = MutableLiveData<Backup>()
@@ -74,13 +75,13 @@ class BackupViewHolder @AssistedInject constructor(
     private suspend fun handle(result: RestoreBackupUseCase.Result) = withContext(Dispatchers.Main) {
         when (result) {
             is RestoreBackupUseCase.Result.Success -> {
-                snackbarRoot.showSnackbar(R.string.backup_restore_successful)
+                snackbarRootProvider.get()?.showSnackbar(R.string.backup_restore_successful)
                 navController.navigateUp()
             }
 
             is RestoreBackupUseCase.Result.FetchFailure,
             is RestoreBackupUseCase.Result.RestorationFailure -> {
-                snackbarRoot.showSnackbar(R.string.something_went_wrong)
+                snackbarRootProvider.get()?.showSnackbar(R.string.something_went_wrong)
             }
 
             is RestoreBackupUseCase.Result.AlreadyInProgress -> {}

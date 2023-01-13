@@ -1,44 +1,11 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
-import com.maxpoliakov.skillapp.domain.model.BackupData
-import com.maxpoliakov.skillapp.domain.repository.BackupRepository
-import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
-
-class StubBackupRepository(
-    private val uploadResult: BackupRepository.Result<Unit> = uploadSuccess,
-    private val getContentsResult: BackupRepository.Result<BackupData> = getContentsSuccess,
-) : BackupRepository {
-    override suspend fun upload(data: BackupData): BackupRepository.Result<Unit> {
-        delay(2)
-        return uploadResult
-    }
-
-    override suspend fun getContents(backup: Backup): BackupRepository.Result<BackupData> {
-        delay(2)
-        return getContentsResult
-    }
-
-    override suspend fun getBackups(): List<Backup> = listOf()
-    override suspend fun getLastBackup(): Backup? = null
-}
-
-class StubBackupRestorer(
-    private val result: BackupRestorer.Result = BackupRestorer.Result.Success,
-) : BackupRestorer {
-    var restorationCount = 0
-        private set
-
-    override suspend fun restore(data: BackupData): BackupRestorer.Result {
-        restorationCount++
-        return result
-    }
-}
 
 class RestoreBackupUseCaseTest : StringSpec({
     "restores backup" {
@@ -85,21 +52,11 @@ class RestoreBackupUseCaseTest : StringSpec({
     }
 
     "returns Result.FetchFailure when BackupRepository.getContents() fails" {
-        val backupRepository = StubBackupRepository(getContentsResult = getContentsFailure)
+        val backupRepository = StubBackupRepository(getContentsResult = backupRepositoryFailure)
         val backupRestorer = StubBackupRestorer()
 
         val useCase = RestoreBackupUseCaseImpl(backupRepository, backupRestorer)
 
-        useCase.restoreBackup(backup) shouldBe RestoreBackupUseCase.Result.FetchFailure(getContentsFailure)
+        useCase.restoreBackup(backup) shouldBe RestoreBackupUseCase.Result.FetchFailure(backupRepositoryFailure)
     }
 })
-
-private const val backupId = "id123"
-private val backup = Backup(backupId, LocalDateTime.now())
-private val backupData = BackupData("some backup contents")
-
-private val backupRestorationFailure = BackupRestorer.Result.Failure(Error("Error"))
-private val getContentsFailure = BackupRepository.Result.Failure.Error(Error("Error"))
-private val uploadSuccess = BackupRepository.Result.Success(Unit)
-private val getContentsSuccess = BackupRepository.Result.Success(backupData)
-

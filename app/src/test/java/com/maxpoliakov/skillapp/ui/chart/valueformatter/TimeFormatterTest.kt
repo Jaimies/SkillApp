@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 
 class TimeFormatterTest : StringSpec({
     "getFormattedValue()" {
-        val formatter = UiMeasurementUnit.Millis.getValueFormatter(createMockContext())
+        val formatter = TimeFormatter(createMockContext())
         formatter.getFormattedValue(0f) shouldBe ""
         formatter.getFormattedValue(1_000f) shouldBe "1m"
         formatter.getFormattedValue(60_000f) shouldBe "1m"

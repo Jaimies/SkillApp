@@ -7,6 +7,9 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
+import com.maxpoliakov.skillapp.ui.chart.valueformatter.CountFormatter
+import com.maxpoliakov.skillapp.ui.chart.valueformatter.DistanceFormatter
+import com.maxpoliakov.skillapp.ui.chart.valueformatter.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.picker.DistanceGoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.DistancePicker
 import com.maxpoliakov.skillapp.ui.common.picker.DurationGoalPicker
@@ -55,31 +58,12 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
             )
         }
 
-        override fun getValueFormatter(context: Context) = Formatter(context)
+        override fun getValueFormatter(context: Context) = TimeFormatter(context)
         override fun toDomain() = MeasurementUnit.Millis
         override fun getValuePickerBuilder() = DurationPicker.Builder()
         override fun getGoalPickerBuilder() = DurationGoalPicker.Builder()
         override fun getInitialCount(countEnteredByUser: Long): Long {
             return Duration.ofHours(countEnteredByUser).toMillis()
-        }
-
-        inner class Formatter(private val context: Context) : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                val duration = Duration.ofMillis(value.toLong())
-
-                if (value == 0f) return ""
-                if (duration < Duration.ofMinutes(1)) return context.getString(R.string.time_minutes, "1")
-                if (duration >= Duration.ofHours(1)) return toHours(duration)
-                return toMinutes(duration)
-            }
-
-            private fun toMinutes(duration: Duration): String {
-                return context.getString(R.string.time_minutes, duration.toMinutes().toString())
-            }
-
-            private fun toHours(duration: Duration): String {
-                return context.getString(R.string.time_hours, (duration.toMinutes() / 60f).toReadableFloat())
-            }
         }
     },
 
@@ -104,18 +88,11 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
             return toShortString(count, context)
         }
 
-        override fun getValueFormatter(context: Context) = Formatter(context)
+        override fun getValueFormatter(context: Context) = DistanceFormatter(context)
         override fun getValuePickerBuilder() = DistancePicker.Builder()
         override fun getGoalPickerBuilder() = DistanceGoalPicker.Builder()
         override fun toDomain() = MeasurementUnit.Meters
         override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser * 1000
-
-        inner class Formatter(private val context: Context) : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                if (value == 0f) return ""
-                return toShortString(value.toLong(), context)
-            }
-        }
     },
 
     Times {
@@ -140,18 +117,11 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
             return toShortString(count, context)
         }
 
-        override fun getValueFormatter(context: Context) = Formatter()
+        override fun getValueFormatter(context: Context) = CountFormatter()
         override fun getValuePickerBuilder() = TimesPicker.Builder()
         override fun getGoalPickerBuilder() = TimesGoalPicker.Builder()
         override fun toDomain() = MeasurementUnit.Times
         override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser
-
-        inner class Formatter : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                if (value == 0f) return ""
-                return value.toInt().toString()
-            }
-        }
     };
 
     abstract val totalCountStringResId: Int

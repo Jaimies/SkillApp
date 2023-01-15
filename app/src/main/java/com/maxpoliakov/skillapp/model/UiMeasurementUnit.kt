@@ -80,14 +80,6 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
             return context.getString(R.string.distance_kilometers, kilometers)
         }
 
-        override fun toLongString(count: Long, context: Context): String {
-            return toShortString(count, context)
-        }
-
-        override fun getRecordAddedString(count: Long, context: Context): String {
-            return toShortString(count, context)
-        }
-
         override fun getValueFormatter(context: Context) = DistanceFormatter(context)
         override fun getValuePickerBuilder() = DistancePicker.Builder()
         override fun getGoalPickerBuilder() = DistanceGoalPicker.Builder()
@@ -109,14 +101,6 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
                 .format(count)
         }
 
-        override fun toLongString(count: Long, context: Context): String {
-            return toShortString(count, context)
-        }
-
-        override fun getRecordAddedString(count: Long, context: Context): String {
-            return toShortString(count, context)
-        }
-
         override fun getValueFormatter(context: Context) = CountFormatter()
         override fun getValuePickerBuilder() = TimesPicker.Builder()
         override fun getGoalPickerBuilder() = TimesGoalPicker.Builder()
@@ -132,13 +116,20 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
     abstract val isStopwatchEnabled: Boolean
 
     abstract fun toShortString(count: Long, context: Context): String
-    abstract fun toLongString(count: Long, context: Context): String
-    abstract fun getRecordAddedString(count: Long, context: Context): String
+
     abstract fun getValueFormatter(context: Context): ValueFormatter
     abstract fun getInitialCount(countEnteredByUser: Long): Long
 
     abstract fun getValuePickerBuilder(): ValuePicker.Builder
     abstract fun getGoalPickerBuilder(): GoalPicker.Builder
+
+    open fun toLongString(count: Long, context: Context): String {
+        return toShortString(count, context)
+    }
+
+    open fun getRecordAddedString(count: Long, context: Context): String {
+        return toShortString(count, context)
+    }
 
     fun showPicker(
         context: Context,

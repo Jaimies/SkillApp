@@ -32,7 +32,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
         override val nameResId = R.string.hours
         override val isStopwatchEnabled = true
 
-        override fun toShortString(count: Long, context: Context): String {
+        override fun toString(count: Long, context: Context): String {
             return Duration.ofMillis(count).format(context, R.string.time_hours_and_minutes_nbsp)
         }
 
@@ -75,7 +75,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
         override val nameResId = R.string.kilometers
         override val isStopwatchEnabled = false
 
-        override fun toShortString(count: Long, context: Context): String {
+        override fun toString(count: Long, context: Context): String {
             val kilometers = (count / 1000f).toReadableFloat()
             return context.getString(R.string.distance_kilometers, kilometers)
         }
@@ -95,7 +95,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
         override val nameResId = R.string.times
         override val isStopwatchEnabled = false
 
-        override fun toShortString(count: Long, context: Context): String {
+        override fun toString(count: Long, context: Context): String {
             return context.resources
                 .getQuantityString(R.plurals.times_count, count.toInt())
                 .format(count)
@@ -115,7 +115,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
     abstract val addRecordBtnResId: Int
     abstract val isStopwatchEnabled: Boolean
 
-    abstract fun toShortString(count: Long, context: Context): String
+    abstract fun toString(count: Long, context: Context): String
 
     abstract fun getValueFormatter(context: Context): ValueFormatter
     abstract fun getInitialCount(countEnteredByUser: Long): Long
@@ -124,11 +124,11 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
     abstract fun getGoalPickerBuilder(): GoalPicker.Builder
 
     open fun toLongString(count: Long, context: Context): String {
-        return toShortString(count, context)
+        return toString(count, context)
     }
 
     open fun getRecordAddedString(count: Long, context: Context): String {
-        return toShortString(count, context)
+        return toString(count, context)
     }
 
     fun showPicker(

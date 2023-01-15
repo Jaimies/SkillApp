@@ -83,7 +83,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:gravity="center_vertical"
-                    android:text="@{viewModel.unit.toShortString(viewModel.skill.totalCount, context)}"
+                    android:text="@{viewModel.unit.toString(viewModel.skill.totalCount, context)}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     app:layout_constraintEnd_toStartOf="@id/start_timer"
                     tools:text="820h" />

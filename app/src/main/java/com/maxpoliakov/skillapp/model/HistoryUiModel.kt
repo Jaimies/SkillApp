@@ -24,7 +24,7 @@ sealed class HistoryUiModel {
         data class Total(val count: Long, val unit: UiMeasurementUnit) {
             fun format(context: Context): String {
                 if (count == 0L) return ""
-                return unit.toShortString(count, context)
+                return unit.toString(count, context)
             }
         }
     }

@@ -17,7 +17,7 @@ data class UiGoal(
     fun format(context: Context): String {
         return context.getString(
             type.goalWithValueResId,
-            unit.toShortString(count, context)
+            unit.toString(count, context)
         )
     }
 
@@ -26,8 +26,8 @@ data class UiGoal(
 
         return context.getString(
             type.goalWithValueAndProgressResId,
-            unit.toShortString(completedCount, context),
-            unit.toShortString(count, context),
+            unit.toString(completedCount, context),
+            unit.toString(count, context),
         )
     }
 

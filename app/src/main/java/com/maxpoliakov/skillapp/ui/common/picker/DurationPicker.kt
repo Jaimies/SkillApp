@@ -40,7 +40,6 @@ class DurationPicker : ValuePicker() {
         override val titleTextInEditModeResId = R.string.change_time
 
         override fun createDialog() = DurationPicker()
-        override fun build() = super.build() as DurationPicker
 
         override fun setCount(count: Long): Builder {
             val duration = Duration.ofMillis(count)
@@ -53,10 +52,6 @@ class DurationPicker : ValuePicker() {
             setFirstPickerValue(duration.toHours().toInt())
             setSecondPickerValue(duration.toMinutesPartCompat().toInt() / 5)
         }
-    }
-
-    enum class Interval() {
-
     }
 
     companion object {

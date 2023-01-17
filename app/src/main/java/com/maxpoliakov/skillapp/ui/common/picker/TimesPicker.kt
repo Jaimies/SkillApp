@@ -11,6 +11,5 @@ class TimesPicker: IntegerValuePicker() {
         override val titleTextInEditModeResId = R.string.change_count
 
         override fun createDialog() = TimesPicker()
-        override fun build() = super.build() as TimesPicker
     }
 }

@@ -19,7 +19,6 @@ class DistancePicker : ValuePicker() {
         override val titleTextInEditModeResId = R.string.change_distance
 
         override fun createDialog() = DistancePicker()
-        override fun build() = super.build() as DistancePicker
 
         override fun setCount(count: Long): Builder {
             _setDistance(count.coerceAtMost(999_900))

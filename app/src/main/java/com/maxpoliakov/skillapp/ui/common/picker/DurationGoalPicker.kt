@@ -22,7 +22,6 @@ class DurationGoalPicker : GoalPicker<Duration>() {
         }
 
         override fun createDialog() = DurationGoalPicker()
-        override fun build() = super.build() as DurationGoalPicker
     }
 
     companion object {

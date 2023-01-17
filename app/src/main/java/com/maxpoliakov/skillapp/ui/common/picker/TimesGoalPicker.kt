@@ -10,7 +10,7 @@ class TimesGoalPicker : GoalPicker<Long>() {
         return UiMeasurementUnit.Times.toLongString(value, requireContext())
     }
 
-    class Builder: GoalPicker.Builder() {
+    class Builder : GoalPicker.Builder() {
         override fun getSecondPickerValue(firstPickerValue: Int, value: Long): Int {
             return goalValues[firstPickerValue].indexOf(value)
         }

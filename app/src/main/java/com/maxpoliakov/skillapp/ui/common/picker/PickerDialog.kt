@@ -263,7 +263,7 @@ abstract class PickerDialog : DialogFragment() {
         }
 
     /** Used to create [DurationPicker] instances.  */
-    abstract class Builder {
+    abstract class Builder<BuilderType : Builder<BuilderType, DialogType>, DialogType : PickerDialog> {
         open var titleTextResId = 0
         open var secondPickerEnabled = true
         var titleText: CharSequence? = null
@@ -271,41 +271,41 @@ abstract class PickerDialog : DialogFragment() {
         var firstPickerValue = 0
         var secondPickerValue = 0
 
-        abstract fun createDialog(): PickerDialog
+        abstract fun createDialog(): DialogType
 
-        fun setFirstPickerValue(value: Int): Builder {
+        fun setFirstPickerValue(value: Int): BuilderType {
             firstPickerValue = value
-            return this
+            return this as BuilderType
         }
 
-        fun setSecondPickerValue(value: Int): Builder {
+        fun setSecondPickerValue(value: Int): BuilderType {
             secondPickerValue = value
-            return this
+            return this as BuilderType
         }
 
         /**
          * Sets the text used to guide the user at the top of the picker.
          */
-        fun setTitleText(@StringRes titleTextResId: Int): Builder {
+        fun setTitleText(@StringRes titleTextResId: Int): BuilderType {
             this.titleTextResId = titleTextResId
-            return this
+            return this as BuilderType
         }
 
         /**
          * Sets the text used to guide the user at the top of the picker.
          */
-        fun setTitleText(charSequence: CharSequence?): Builder {
+        fun setTitleText(charSequence: CharSequence?): BuilderType {
             titleText = charSequence
-            return this
+            return this as BuilderType
         }
 
         /** Sets the theme for the time picker.  */
-        fun setTheme(@StyleRes themeResId: Int): Builder {
+        fun setTheme(@StyleRes themeResId: Int): BuilderType {
             overrideThemeResId = themeResId
-            return this
+            return this as BuilderType
         }
 
-        open fun build(): PickerDialog {
+        open fun build(): DialogType {
             return createDialog().apply {
                 arguments = createArguments()
             }

@@ -65,7 +65,7 @@ abstract class GoalPicker<T> : PickerDialog() {
         }
     }
 
-    abstract class Builder : PickerDialog.Builder() {
+    abstract class Builder: PickerDialog.Builder<Builder, GoalPicker<*>>() {
         override var titleTextResId = R.string.select_goal
 
         abstract fun getSecondPickerValue(firstPickerValue: Int, value: Long): Int

@@ -5,11 +5,8 @@ import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 class DistanceGoalPicker : GoalPicker<Long>(MeasurementUnit.Meters) {
     override val goalValues = Companion.goalValues
 
-    class Builder : GoalPicker.Builder() {
-        override fun getSecondPickerValue(firstPickerValue: Int, value: Long): Int {
-            return goalValues[firstPickerValue].indexOf(value)
-        }
-
+    class Builder : GoalPicker.Builder<Long>(MeasurementUnit.Meters) {
+        override val goalValues = Companion.goalValues
         override fun createDialog() = DistanceGoalPicker()
     }
 

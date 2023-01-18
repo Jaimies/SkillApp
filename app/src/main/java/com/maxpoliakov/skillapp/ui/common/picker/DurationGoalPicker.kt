@@ -11,18 +11,15 @@ class DurationGoalPicker : GoalPicker<Duration>(MeasurementUnit.Millis) {
         return requireContext().getString(R.string.time_hours, value.toHours().toString())
     }
 
-    class Builder : GoalPicker.Builder() {
-        override fun getSecondPickerValue(firstPickerValue: Int, value: Long): Int {
-            return goalValues[firstPickerValue].indexOf(Duration.ofMillis(value))
-        }
-
+    class Builder : GoalPicker.Builder<Duration>(MeasurementUnit.Millis) {
+        override val goalValues = Companion.goalValues
         override fun createDialog() = DurationGoalPicker()
     }
 
     companion object {
         private val emptyGoalValues = arrayOf(Duration.ZERO)
         private val dailyGoalValues =
-            Array(4) { index -> Duration.ofMinutes(index * 15L) } + Array(24) { index -> Duration.ofHours(index + 1L) }
+            Array(12) { index -> Duration.ofMinutes(index * 5L) } + Array(24) { index -> Duration.ofHours(index + 1L) }
         private val weeklyGoalValues = Array(169) { index -> Duration.ofHours(index.toLong()) }
         private val goalValues = arrayOf(emptyGoalValues, dailyGoalValues, weeklyGoalValues)
     }

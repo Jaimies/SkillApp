@@ -122,7 +122,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
     abstract fun getInitialCount(countEnteredByUser: Long): Long
 
     abstract fun getValuePickerBuilder(): ValuePicker.Builder
-    abstract fun getGoalPickerBuilder(): GoalPicker.Builder
+    abstract fun getGoalPickerBuilder(): GoalPicker.Builder<*>
 
     open fun toLongString(count: Long, context: Context): String {
         return toString(count, context)

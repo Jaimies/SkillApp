@@ -70,12 +70,11 @@ abstract class GoalPicker<T>(private val unit: MeasurementUnit<T>) : PickerDialo
         }
     }
 
-    abstract class Builder: PickerDialog.Builder<Builder, GoalPicker<*>>() {
+    abstract class Builder<T>(private val unit: MeasurementUnit<T>) : PickerDialog.Builder<Builder<T>, GoalPicker<*>>() {
+        protected abstract val goalValues: Array<Array<T>>
         override var titleTextResId = R.string.select_goal
 
-        abstract fun getSecondPickerValue(firstPickerValue: Int, value: Long): Int
-
-        fun setGoal(goal: Goal?): Builder {
+        fun setGoal(goal: Goal?): Builder<T> {
             if (goal == null) {
                 setFirstPickerValue(1)
                 return this
@@ -90,6 +89,10 @@ abstract class GoalPicker<T>(private val unit: MeasurementUnit<T>) : PickerDialo
             }
 
             return this
+        }
+
+        private fun getSecondPickerValue(firstPickerValue: Int, value: Long): Int {
+            return goalValues[firstPickerValue].indexOf(unit.toType(value))
         }
     }
 

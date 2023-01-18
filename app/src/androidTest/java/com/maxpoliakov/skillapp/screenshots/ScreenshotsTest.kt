@@ -9,6 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.group.DBGroup
+import com.maxpoliakov.skillapp.data.serialization.DBMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
@@ -172,7 +173,7 @@ class ScreenshotsTest {
             name = name,
             totalTime = data.totalCount,
             groupId = data.groupId,
-            unit = data.unit,
+            unit = data.unit.mapToUI(),
             goalType = Goal.Type.Daily,
             goalTime = data.goalCount,
         )
@@ -206,7 +207,7 @@ class ScreenshotsTest {
         @StringRes val nameResId: Int,
         val totalCount: Long,
         val groupId: Int,
-        val unit: MeasurementUnit,
+        val unit: MeasurementUnit<*>,
         val goalCount: Long = 0,
     )
 }

@@ -20,9 +20,6 @@ abstract class IntegerValuePicker(unit: MeasurementUnit<Long>) : ValuePicker<Lon
     override fun getSecondPickerValues() = arrayOf<String>()
 
     abstract class Builder(unit: MeasurementUnit<Long>) : ValuePicker.Builder<Long>(unit) {
-        open val numberOfValues = 5_000
-        override val maxValue get() = numberOfValues - 1L
-
         override var secondPickerEnabled = false
 
         override fun setValue(value: Long) {
@@ -31,7 +28,7 @@ abstract class IntegerValuePicker(unit: MeasurementUnit<Long>) : ValuePicker<Lon
 
         override fun saveArguments(bundle: Bundle) {
             super.saveArguments(bundle)
-            bundle.putInt(MAXIMUM_VALUE, numberOfValues)
+            bundle.putInt(MAXIMUM_VALUE, maxValue.toInt() - 1)
         }
     }
 

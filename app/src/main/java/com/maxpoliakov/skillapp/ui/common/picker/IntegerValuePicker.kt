@@ -2,15 +2,15 @@ package com.maxpoliakov.skillapp.ui.common.picker
 
 import android.os.Bundle
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 
 abstract class IntegerValuePicker(unit: MeasurementUnit<Long>) : ValuePicker<Long>(unit) {
     override val value get() = firstPicker.value.toLong()
 
-    abstract val unit: UiMeasurementUnit
+    private val uiUnit = unit.mapToUI()
 
     override fun getFirstPickerValues() = Array(getNumberOfValues()) { index ->
-        unit.toLongString(index.toLong(), requireContext())
+        uiUnit.toLongString(index.toLong(), requireContext())
     }
 
     private fun getNumberOfValues(): Int {

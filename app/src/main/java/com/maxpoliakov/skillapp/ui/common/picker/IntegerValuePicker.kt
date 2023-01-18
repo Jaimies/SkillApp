@@ -21,12 +21,12 @@ abstract class IntegerValuePicker(unit: MeasurementUnit<Long>) : ValuePicker<Lon
 
     abstract class Builder(unit: MeasurementUnit<Long>) : ValuePicker.Builder<Long>(unit) {
         open val numberOfValues = 5_000
-        private val maxValue get() = numberOfValues - 1
+        override val maxValue get() = numberOfValues - 1L
 
         override var secondPickerEnabled = false
 
         override fun setValue(value: Long) {
-            setFirstPickerValue(value.toInt().coerceAtMost(maxValue))
+            setFirstPickerValue(value.toInt())
         }
 
         override fun saveArguments(bundle: Bundle) {

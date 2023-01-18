@@ -11,8 +11,11 @@ abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDial
         }
     }
 
-    abstract class Builder<T>(private val unit: MeasurementUnit<T>) : PickerDialog.Builder<Builder<T>, ValuePicker<*>>() {
+    abstract class Builder<T : Comparable<T>>(
+        private val unit: MeasurementUnit<T>,
+    ) : PickerDialog.Builder<Builder<T>, ValuePicker<T>>() {
         abstract val titleTextInEditModeResId: Int
+        abstract val maxValue: T
 
         protected abstract fun setValue(value: T)
 
@@ -22,7 +25,9 @@ abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDial
         }
 
         fun setCount(count: Long): Builder<T> {
-            setValue(unit.toType(count))
+            val value = unit.toType(count)
+            if (value > maxValue) setValue(maxValue)
+            else setValue(value)
             return this
         }
     }

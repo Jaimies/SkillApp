@@ -38,21 +38,13 @@ class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
     class Builder : ValuePicker.Builder<Duration>(MeasurementUnit.Millis) {
         override var titleTextResId = R.string.add_time
         override val titleTextInEditModeResId = R.string.change_time
+        override val maxValue get() = Duration.ofHours(23).plusMinutes(55)
 
         override fun createDialog() = DurationPicker()
 
         override fun setValue(value: Duration) {
-            if (value > maxDuration) _setDuration(maxDuration)
-            else _setDuration(value)
+            setFirstPickerValue(value.toHours().toInt())
+            setSecondPickerValue(value.toMinutesPartCompat().toInt() / 5)
         }
-
-        private fun _setDuration(duration: Duration) {
-            setFirstPickerValue(duration.toHours().toInt())
-            setSecondPickerValue(duration.toMinutesPartCompat().toInt() / 5)
-        }
-    }
-
-    companion object {
-        private val maxDuration = Duration.ofHours(23).plusMinutes(55)
     }
 }

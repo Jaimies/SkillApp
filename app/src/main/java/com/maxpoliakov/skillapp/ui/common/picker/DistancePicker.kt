@@ -17,14 +17,11 @@ class DistancePicker : ValuePicker<Long>(MeasurementUnit.Meters) {
     class Builder : ValuePicker.Builder<Long>(MeasurementUnit.Meters) {
         override var titleTextResId = R.string.add_kilometers_record
         override val titleTextInEditModeResId = R.string.change_distance
+        override val maxValue get() = 999_900L
 
         override fun createDialog() = DistancePicker()
 
         override fun setValue(value: Long) {
-            _setDistance(value.coerceAtMost(999_900))
-        }
-
-        private fun _setDistance(value: Long) {
             setFirstPickerValue((value / 1000f).toInt())
             setSecondPickerValue((value % 1000 / 100).toInt())
         }

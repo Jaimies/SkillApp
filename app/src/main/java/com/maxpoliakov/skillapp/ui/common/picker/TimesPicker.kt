@@ -7,7 +7,7 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 class TimesPicker : IntegerValuePicker(MeasurementUnit.Times) {
     override val unit get() = UiMeasurementUnit.Times
 
-    class Builder : IntegerValuePicker.Builder() {
+    class Builder : IntegerValuePicker.Builder(MeasurementUnit.Times) {
         override var titleTextResId = R.string.add_times_record
         override val titleTextInEditModeResId = R.string.change_count
 

@@ -11,14 +11,19 @@ abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDial
         }
     }
 
-    abstract class Builder : PickerDialog.Builder<Builder, ValuePicker<*>>() {
+    abstract class Builder<T>(private val unit: MeasurementUnit<T>) : PickerDialog.Builder<Builder<T>, ValuePicker<*>>() {
         abstract val titleTextInEditModeResId: Int
 
-        fun setEditModeEnabled(isInEditMode: Boolean): Builder {
+        protected abstract fun setValue(value: T)
+
+        fun setEditModeEnabled(isInEditMode: Boolean): Builder<T> {
             setTitleText(if (isInEditMode) titleTextInEditModeResId else titleTextResId)
             return this
         }
 
-        abstract fun setCount(count: Long): Builder
+        fun setCount(count: Long): Builder<T> {
+            setValue(unit.toType(count))
+            return this
+        }
     }
 }

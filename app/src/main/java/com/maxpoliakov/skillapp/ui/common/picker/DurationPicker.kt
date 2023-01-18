@@ -35,17 +35,15 @@ class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
         return sharedPrefs.getStringPreference("duration_picker_interval", "5_min")
     }
 
-    class Builder : ValuePicker.Builder() {
+    class Builder : ValuePicker.Builder<Duration>(MeasurementUnit.Millis) {
         override var titleTextResId = R.string.add_time
         override val titleTextInEditModeResId = R.string.change_time
 
         override fun createDialog() = DurationPicker()
 
-        override fun setCount(count: Long): Builder {
-            val duration = Duration.ofMillis(count)
-            if (duration > maxDuration) _setDuration(maxDuration)
-            else _setDuration(duration)
-            return this
+        override fun setValue(value: Duration) {
+            if (value > maxDuration) _setDuration(maxDuration)
+            else _setDuration(value)
         }
 
         private fun _setDuration(duration: Duration) {

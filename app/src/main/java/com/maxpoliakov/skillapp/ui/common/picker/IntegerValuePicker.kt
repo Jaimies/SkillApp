@@ -19,15 +19,14 @@ abstract class IntegerValuePicker(unit: MeasurementUnit<Long>) : ValuePicker<Lon
 
     override fun getSecondPickerValues() = arrayOf<String>()
 
-    abstract class Builder : ValuePicker.Builder() {
+    abstract class Builder(unit: MeasurementUnit<Long>) : ValuePicker.Builder<Long>(unit) {
         open val numberOfValues = 5_000
         private val maxValue get() = numberOfValues - 1
 
         override var secondPickerEnabled = false
 
-        override fun setCount(count: Long): Builder {
-            setFirstPickerValue(count.toInt().coerceAtMost(maxValue))
-            return this
+        override fun setValue(value: Long) {
+            setFirstPickerValue(value.toInt().coerceAtMost(maxValue))
         }
 
         override fun saveArguments(bundle: Bundle) {

@@ -14,15 +14,14 @@ class DistancePicker : ValuePicker<Long>(MeasurementUnit.Meters) {
         requireContext().getString(R.string.distance_meters, index * 100)
     }
 
-    class Builder : ValuePicker.Builder() {
+    class Builder : ValuePicker.Builder<Long>(MeasurementUnit.Meters) {
         override var titleTextResId = R.string.add_kilometers_record
         override val titleTextInEditModeResId = R.string.change_distance
 
         override fun createDialog() = DistancePicker()
 
-        override fun setCount(count: Long): Builder {
-            _setDistance(count.coerceAtMost(999_900))
-            return this
+        override fun setValue(value: Long) {
+            _setDistance(value.coerceAtMost(999_900))
         }
 
         private fun _setDistance(value: Long) {

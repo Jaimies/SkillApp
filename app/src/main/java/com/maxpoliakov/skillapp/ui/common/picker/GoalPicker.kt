@@ -10,9 +10,11 @@ import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 
-abstract class GoalPicker<T>(private val unit: MeasurementUnit<T>) : PickerDialog() {
+abstract class GoalPicker<T>(
+    private val unit: MeasurementUnit<T>,
+    private val goalValues: Array<Array<T>>,
+) : PickerDialog() {
     private lateinit var goalStringValues: Array<Array<String>>
-    protected abstract val goalValues: Array<Array<T>>
 
     private val uiUnit get() = unit.mapToUI()
 
@@ -70,8 +72,10 @@ abstract class GoalPicker<T>(private val unit: MeasurementUnit<T>) : PickerDialo
         }
     }
 
-    abstract class Builder<T>(private val unit: MeasurementUnit<T>) : PickerDialog.Builder<Builder<T>, GoalPicker<*>>() {
-        protected abstract val goalValues: Array<Array<T>>
+    abstract class Builder<T>(
+        private val unit: MeasurementUnit<T>,
+        private val goalValues: Array<Array<T>>,
+    ) : PickerDialog.Builder<Builder<T>, GoalPicker<*>>() {
         override var titleTextResId = R.string.select_goal
 
         fun setGoal(goal: Goal?): Builder<T> {

@@ -2,11 +2,8 @@ package com.maxpoliakov.skillapp.ui.common.picker
 
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 
-class TimesGoalPicker : GoalPicker<Long>(MeasurementUnit.Times) {
-    override val goalValues = Companion.goalValues
-
-    class Builder : GoalPicker.Builder<Long>(MeasurementUnit.Times) {
-        override val goalValues = Companion.goalValues
+class TimesGoalPicker : GoalPicker<Long>(MeasurementUnit.Times, goalValues) {
+    class Builder : GoalPicker.Builder<Long>(MeasurementUnit.Times, goalValues) {
         override fun createDialog() = TimesGoalPicker()
     }
 

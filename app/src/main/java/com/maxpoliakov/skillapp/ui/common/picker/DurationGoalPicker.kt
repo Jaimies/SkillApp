@@ -4,15 +4,12 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import java.time.Duration
 
-class DurationGoalPicker : GoalPicker<Duration>(MeasurementUnit.Millis) {
-    override val goalValues = Companion.goalValues
-
+class DurationGoalPicker : GoalPicker<Duration>(MeasurementUnit.Millis, goalValues) {
     override fun getWeeklyPickerValue(value: Duration): String {
         return requireContext().getString(R.string.time_hours, value.toHours().toString())
     }
 
-    class Builder : GoalPicker.Builder<Duration>(MeasurementUnit.Millis) {
-        override val goalValues = Companion.goalValues
+    class Builder : GoalPicker.Builder<Duration>(MeasurementUnit.Millis, goalValues) {
         override fun createDialog() = DurationGoalPicker()
     }
 

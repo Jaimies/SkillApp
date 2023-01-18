@@ -1,15 +1,17 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
-abstract class ValuePicker : PickerDialog() {
-    abstract val count: Long
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
+
+abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDialog() {
+    abstract val value: T
 
     fun addOnConfirmedListener(listener: (count: Long) -> Unit) {
         addOnPositiveButtonClickListener {
-            listener(this.count)
+            listener(unit.toLong(value))
         }
     }
 
-    abstract class Builder : PickerDialog.Builder<Builder, ValuePicker>() {
+    abstract class Builder : PickerDialog.Builder<Builder, ValuePicker<*>>() {
         abstract val titleTextInEditModeResId: Int
 
         fun setEditModeEnabled(isInEditMode: Boolean): Builder {

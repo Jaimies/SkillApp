@@ -3,18 +3,18 @@ package com.maxpoliakov.skillapp.ui.common.picker
 import android.content.SharedPreferences
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.persistence.getStringPreference
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Duration
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DurationPicker : ValuePicker() {
-    override val count: Long
+class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
+    override val value: Duration
         get() = Duration.ZERO
             .plusHours(firstPicker.value.toLong())
             .plusMinutes(secondPicker.value.toLong() * minutePickerInterval)
-            .toMillis()
 
     private val minutePickerInterval by lazy {
         if (getPickerIntervalPreference() == "1_min") 1 else 5

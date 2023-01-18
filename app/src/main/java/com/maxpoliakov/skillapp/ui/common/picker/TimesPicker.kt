@@ -1,9 +1,10 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 
-class TimesPicker: IntegerValuePicker() {
+class TimesPicker : IntegerValuePicker(MeasurementUnit.Times) {
     override val unit get() = UiMeasurementUnit.Times
 
     class Builder : IntegerValuePicker.Builder() {

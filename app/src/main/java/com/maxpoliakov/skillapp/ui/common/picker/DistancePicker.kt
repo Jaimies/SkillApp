@@ -1,10 +1,10 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
 import com.maxpoliakov.skillapp.R
-import kotlin.math.roundToInt
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 
-class DistancePicker : ValuePicker() {
-    override val count get() = firstPicker.value * 1000L + secondPicker.value * 100L
+class DistancePicker : ValuePicker<Long>(MeasurementUnit.Meters) {
+    override val value get() = firstPicker.value * 1000L + secondPicker.value * 100L
 
     override fun getFirstPickerValues() = Array(1000) { index ->
         requireContext().getString(R.string.distance_kilometers, index.toString())

@@ -1,10 +1,11 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
 import android.os.Bundle
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 
-abstract class IntegerValuePicker : ValuePicker() {
-    override val count get() = firstPicker.value.toLong()
+abstract class IntegerValuePicker(unit: MeasurementUnit<Long>) : ValuePicker<Long>(unit) {
+    override val value get() = firstPicker.value.toLong()
 
     abstract val unit: UiMeasurementUnit
 

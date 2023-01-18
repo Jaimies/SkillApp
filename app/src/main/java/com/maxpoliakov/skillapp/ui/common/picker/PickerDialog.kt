@@ -14,6 +14,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.AttrRes
+import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.core.view.isGone
@@ -311,17 +312,21 @@ abstract class PickerDialog : DialogFragment() {
             }
         }
 
+        @CallSuper
+        open fun saveArguments(bundle: Bundle) = bundle.run {
+            putInt(FIRST_PICKER_VALUE, firstPickerValue)
+            putInt(SECOND_PICKER_VALUE, secondPickerValue)
+            putInt(TITLE_RES_EXTRA, titleTextResId)
+            putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
+            putBoolean(SECOND_PICKER_ENABLED, secondPickerEnabled)
+            if (titleText != null)
+                putString(TITLE_TEXT_EXTRA, titleText.toString())
+        }
+
         private fun createArguments(): Bundle {
-            val args = Bundle().apply {
-                putInt(FIRST_PICKER_VALUE, firstPickerValue)
-                putInt(SECOND_PICKER_VALUE, secondPickerValue)
-                putInt(TITLE_RES_EXTRA, titleTextResId)
-                putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
-                putBoolean(SECOND_PICKER_ENABLED, secondPickerEnabled)
-                if (titleText != null)
-                    putString(TITLE_TEXT_EXTRA, titleText.toString())
+            return Bundle().also { args ->
+                saveArguments(args)
             }
-            return args
         }
     }
 

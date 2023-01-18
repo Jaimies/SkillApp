@@ -6,6 +6,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
+import com.maxpoliakov.skillapp.shared.MappableEnum
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.CountFormatter
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.DistanceFormatter
@@ -23,7 +24,7 @@ import com.maxpoliakov.skillapp.util.ui.format
 import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
 
-enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> {
+enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*>> {
     Millis {
         override val totalCountStringResId = R.string.total_hours
         override val initialTimeResId = R.string.initial_time
@@ -158,11 +159,11 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit> 
     ) {
         val dialog = getGoalPickerBuilder()
             .setGoal(goal)
-            .build() as GoalPicker<*>
+            .build()
 
         dialog.addOnConfirmedListener(onGoalSet)
         dialog.show(fragmentManager, null)
     }
 
-    companion object : MappableEnum.Companion<UiMeasurementUnit, MeasurementUnit>(values())
+    companion object : MappableEnum.Companion<UiMeasurementUnit, MeasurementUnit<*>>(values())
 }

@@ -5,18 +5,19 @@ import android.os.Bundle
 import android.view.View
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 
-abstract class GoalPicker<T>(private val unit: UiMeasurementUnit) : PickerDialog() {
+abstract class GoalPicker<T>(private val unit: MeasurementUnit<T>) : PickerDialog() {
     private lateinit var goalStringValues: Array<Array<String>>
     protected abstract val goalValues: Array<Array<T>>
 
-    abstract fun toLong(value: T): Long
+    private val uiUnit get() = unit.mapToUI()
 
     open fun getPickerValue(value: T): String {
-        return unit.toLongString(toLong(value), requireContext())
+        return uiUnit.toLongString(unit.toLong(value), requireContext())
     }
 
     open fun getWeeklyPickerValue(value: T): String = getPickerValue(value)
@@ -34,7 +35,7 @@ abstract class GoalPicker<T>(private val unit: UiMeasurementUnit) : PickerDialog
             val type = goalTypes[firstPicker.value] ?: return null
             val values = goalValues[firstPicker.value]
 
-            return Goal(toLong(values[secondPicker.value]), type.toDomain())
+            return Goal(unit.toLong(values[secondPicker.value]), type.toDomain())
         }
 
     override fun onAttach(context: Context) {

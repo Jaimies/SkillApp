@@ -5,9 +5,10 @@ package com.maxpoliakov.skillapp.data.skill
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.maxpoliakov.skillapp.data.parseGoal
+import com.maxpoliakov.skillapp.data.serialization.DBMeasurementUnit
+import com.maxpoliakov.skillapp.data.serialization.DBMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.data.serialization.LocalDateAsStringSerializer
 import com.maxpoliakov.skillapp.domain.model.Goal
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import kotlinx.serialization.Serializable
@@ -21,7 +22,7 @@ data class DBSkill(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String = "",
-    val unit: MeasurementUnit = MeasurementUnit.Millis,
+    val unit: DBMeasurementUnit = DBMeasurementUnit.Millis,
     val totalTime: Long = 0,
     val initialTime: Long = 0,
     @Transient
@@ -36,7 +37,7 @@ data class DBSkill(
 fun DBSkill.mapToDomain(): Skill {
     return Skill(
         name,
-        unit,
+        unit.toDomain(),
         totalTime,
         initialTime,
         id,
@@ -51,7 +52,7 @@ fun Skill.mapToDB(): DBSkill {
     return DBSkill(
         id,
         name,
-        unit,
+        unit.mapToUI(),
         totalCount,
         initialCount,
         0,

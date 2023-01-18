@@ -22,7 +22,7 @@ abstract class ViewModelWithHistory : ViewModel() {
     lateinit var getHistory: GetHistoryUseCase
 
     protected abstract val selectionCriteria: SkillSelectionCriteria
-    protected abstract val unitForDailyTotals: Flow<MeasurementUnit>
+    protected abstract val unitForDailyTotals: Flow<MeasurementUnit<*>>
 
     val records by lazy {
         getHistory.getRecords(selectionCriteria).map { data ->
@@ -30,7 +30,7 @@ abstract class ViewModelWithHistory : ViewModel() {
         }
     }
 
-    private suspend fun getCountAtDate(unit: MeasurementUnit, date: LocalDate): Long {
+    private suspend fun getCountAtDate(unit: MeasurementUnit<*>, date: LocalDate): Long {
         return getHistory.getCount(
             selectionCriteria.withUnit(unit),
             date,

@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.domain.model
 
+// todo we can do better naming of subclasses
 sealed class SkillSelectionCriteria {
     object Any : SkillSelectionCriteria() {
         override fun isValid(skill: Skill) = true
@@ -17,7 +18,7 @@ sealed class SkillSelectionCriteria {
         override fun isValid(skill: Skill) = skill.groupId == this.groupId
     }
 
-    class WithUnit(private val unit: MeasurementUnit) : SkillSelectionCriteria() {
+    class WithUnit(private val unit: MeasurementUnit<*>) : SkillSelectionCriteria() {
         override fun isValid(skill: Skill) = skill.unit == unit
     }
 
@@ -30,10 +31,10 @@ sealed class SkillSelectionCriteria {
     }
 
     fun and(criteria: SkillSelectionCriteria): SkillSelectionCriteria {
-        return SkillSelectionCriteria.Combined(this, criteria)
+        return Combined(this, criteria)
     }
 
-    fun withUnit(unit: MeasurementUnit): SkillSelectionCriteria {
+    fun withUnit(unit: MeasurementUnit<*>): SkillSelectionCriteria {
         return this.and(WithUnit(unit))
     }
 

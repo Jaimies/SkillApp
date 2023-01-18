@@ -23,6 +23,6 @@ class SkillGroupFooterDelegateAdapter : DelegateAdapter<SkillGroupFooter, SkillG
 
 class SkillGroupFooterViewHolder(view: View) : ViewHolder(view), SkillListViewHolder {
     var group: SkillGroup? = null
-    override val unit: MeasurementUnit get() = group!!.unit
+    override val unit: MeasurementUnit<*> get() = group!!.unit
     override val groupId get() = group?.id ?: -1
 }

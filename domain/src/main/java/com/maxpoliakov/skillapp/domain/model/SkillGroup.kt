@@ -6,7 +6,7 @@ data class SkillGroup(
     override val id: Int,
     override val name: String,
     val skills: List<Skill>,
-    override val unit: MeasurementUnit,
+    override val unit: MeasurementUnit<*>,
     override val goal: Goal?,
     override val order: Int,
 ) : Trackable, Orderable {

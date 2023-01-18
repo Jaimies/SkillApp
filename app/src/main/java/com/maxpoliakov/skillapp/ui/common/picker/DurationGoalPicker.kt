@@ -1,13 +1,11 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import java.time.Duration
 
-class DurationGoalPicker : GoalPicker<Duration>(UiMeasurementUnit.Millis) {
+class DurationGoalPicker : GoalPicker<Duration>(MeasurementUnit.Millis) {
     override val goalValues = Companion.goalValues
-
-    override fun toLong(value: Duration) = value.toMillis()
 
     override fun getWeeklyPickerValue(value: Duration): String {
         return requireContext().getString(R.string.time_hours, value.toHours().toString())

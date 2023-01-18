@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.model
 
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
+import com.maxpoliakov.skillapp.shared.MappableEnum
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.DayFormatter
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.MonthFormatter
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.WeekFormatter

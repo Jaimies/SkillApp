@@ -27,7 +27,7 @@ data class BarChartData(
         fun from(
             interval: StatisticInterval,
             entries: List<Statistic>,
-            unit: MeasurementUnit,
+            unit: MeasurementUnit<*>,
             goal: Goal?,
             dates: ClosedRange<LocalDate>,
         ): BarChartData? {

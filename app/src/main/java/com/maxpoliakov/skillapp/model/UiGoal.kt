@@ -6,6 +6,8 @@ import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
+import com.maxpoliakov.skillapp.shared.MappableEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
@@ -55,15 +57,15 @@ data class UiGoal(
     }
 
     companion object {
-        fun from(goal: Goal, unit: MeasurementUnit): UiGoal {
+        fun from(goal: Goal, unit: MeasurementUnit<*>): UiGoal {
             return UiGoal(
                 goal.count,
                 goal.type.mapToUI(),
-                UiMeasurementUnit.from(unit),
+                unit.mapToUI(),
             )
         }
 
-        fun Goal.mapToUI(unit: MeasurementUnit) = from(this, unit)
+        fun Goal.mapToUI(unit: MeasurementUnit<*>) = from(this, unit)
     }
 }
 

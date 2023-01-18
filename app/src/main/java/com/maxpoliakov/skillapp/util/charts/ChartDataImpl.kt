@@ -26,7 +26,7 @@ class ChartDataImpl @AssistedInject constructor(
     @Assisted
     private val dateRange: Flow<ClosedRange<LocalDate>?>,
     @Assisted
-    private val unit: Flow<MeasurementUnit>,
+    private val unit: Flow<MeasurementUnit<*>>,
     @Assisted
     private val goal: Flow<Goal?>,
 ) : ChartData {
@@ -74,7 +74,7 @@ class ChartDataImpl @AssistedInject constructor(
         fun create(
             criteria: Flow<SkillSelectionCriteria>,
             dateRange: Flow<ClosedRange<LocalDate>?>,
-            unit: Flow<MeasurementUnit>,
+            unit: Flow<MeasurementUnit<*>>,
             goal: Flow<Goal?>,
         ): ChartDataImpl
     }

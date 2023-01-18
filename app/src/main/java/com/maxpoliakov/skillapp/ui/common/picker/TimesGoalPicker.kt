@@ -2,13 +2,10 @@ package com.maxpoliakov.skillapp.ui.common.picker
 
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 
-class TimesGoalPicker : GoalPicker<Long>() {
+class TimesGoalPicker : GoalPicker<Long>(UiMeasurementUnit.Times) {
     override val goalValues = Companion.goalValues
 
     override fun toLong(value: Long) = value
-    override fun getPickerValue(value: Long): String {
-        return UiMeasurementUnit.Times.toLongString(value, requireContext())
-    }
 
     class Builder : GoalPicker.Builder() {
         override fun getSecondPickerValue(firstPickerValue: Int, value: Long): Int {

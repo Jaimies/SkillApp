@@ -7,13 +7,17 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 
-abstract class GoalPicker<T> : PickerDialog() {
+abstract class GoalPicker<T>(private val unit: UiMeasurementUnit) : PickerDialog() {
     private lateinit var goalStringValues: Array<Array<String>>
     protected abstract val goalValues: Array<Array<T>>
 
     abstract fun toLong(value: T): Long
-    abstract fun getPickerValue(value: T): String
+
+    open fun getPickerValue(value: T): String {
+        return unit.toLongString(toLong(value), requireContext())
+    }
 
     open fun getWeeklyPickerValue(value: T): String = getPickerValue(value)
 

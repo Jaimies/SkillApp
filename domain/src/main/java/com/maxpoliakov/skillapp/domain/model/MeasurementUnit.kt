@@ -11,9 +11,9 @@ sealed class MeasurementUnit<T> {
         override fun toLong(value: Duration) = value.toMillis()
     }
 
-    object Meters : MeasurementUnit<Long>() {
-        override fun toType(value: Long) = value
-        override fun toLong(value: Long) = value
+    object Meters : MeasurementUnit<Distance>() {
+        override fun toType(value: Long) = Distance.ofMeters(value)
+        override fun toLong(value: Distance) = value.toMeters()
     }
 
     object Times : MeasurementUnit<Long>() {

@@ -1,17 +1,18 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
+import com.maxpoliakov.skillapp.domain.model.Distance
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 
-class DistanceGoalPicker : GoalPicker<Long>(MeasurementUnit.Meters, goalValues) {
-    class Builder : GoalPicker.Builder<Long>(MeasurementUnit.Meters, goalValues) {
+class DistanceGoalPicker : GoalPicker<Distance>(MeasurementUnit.Meters, goalValues) {
+    class Builder : GoalPicker.Builder<Distance>(MeasurementUnit.Meters, goalValues) {
         override fun createDialog() = DistanceGoalPicker()
     }
 
     companion object {
         private val goalValues = arrayOf(
-            arrayOf(0L),
-            Array(2000) { index -> index * 1000L },
-            Array(10_000) { index -> index * 1000L }
+            arrayOf(Distance.ZERO),
+            Array(2_000, Distance::ofKilometers),
+            Array(10_000, Distance::ofKilometers)
         )
     }
 }

@@ -4,9 +4,11 @@ import android.os.Bundle
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 
-abstract class IntegerValuePicker(unit: MeasurementUnit<Long>) : ValuePicker<Long>(unit) {
-    override val value get() = firstPicker.value.toLong()
+abstract class IntegerValuePicker<T>(
+    private val unit: MeasurementUnit<T>,
+) : ValuePicker<T>(unit) {
 
+    override val value get() = unit.toType(firstPicker.value.toLong())
     private val uiUnit = unit.mapToUI()
 
     override fun getFirstPickerValues() = Array(getNumberOfValues()) { index ->
@@ -19,16 +21,16 @@ abstract class IntegerValuePicker(unit: MeasurementUnit<Long>) : ValuePicker<Lon
 
     override fun getSecondPickerValues() = arrayOf<String>()
 
-    abstract class Builder(unit: MeasurementUnit<Long>) : ValuePicker.Builder<Long>(unit) {
+    abstract class Builder<T : Comparable<T>>(private val unit: MeasurementUnit<T>) : ValuePicker.Builder<T>(unit) {
         override var secondPickerEnabled = false
 
-        override fun setValue(value: Long) {
-            setFirstPickerValue(value.toInt())
+        override fun setValue(value: T) {
+            setFirstPickerValue(unit.toLong(value).toInt())
         }
 
         override fun saveArguments(bundle: Bundle) {
             super.saveArguments(bundle)
-            bundle.putInt(MAXIMUM_VALUE, maxValue.toInt() - 1)
+            bundle.putInt(MAXIMUM_VALUE, unit.toLong(maxValue).toInt() - 1)
         }
     }
 

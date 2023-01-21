@@ -1,17 +1,18 @@
 package com.maxpoliakov.skillapp.ui.common.picker
 
+import com.maxpoliakov.skillapp.domain.model.Count
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 
-class TimesGoalPicker : GoalPicker<Long>(MeasurementUnit.Times, goalValues) {
-    class Builder : GoalPicker.Builder<Long>(MeasurementUnit.Times, goalValues) {
+class TimesGoalPicker : GoalPicker<Count>(MeasurementUnit.Times, goalValues) {
+    class Builder : GoalPicker.Builder<Count>(MeasurementUnit.Times, goalValues) {
         override fun createDialog() = TimesGoalPicker()
     }
 
     companion object {
         private val goalValues = arrayOf(
-            arrayOf(0L),
-            Array(2000) { index -> index.toLong() },
-            Array(10_000) { index -> index.toLong() }
+            arrayOf(Count.ZERO),
+            Array(2_000, Count::ofTimes),
+            Array(10_000, Count::ofTimes),
         )
     }
 }

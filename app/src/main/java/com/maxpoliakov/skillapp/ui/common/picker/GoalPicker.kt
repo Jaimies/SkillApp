@@ -75,7 +75,7 @@ abstract class GoalPicker<T>(
     abstract class Builder<T>(
         private val unit: MeasurementUnit<T>,
         private val goalValues: Array<Array<T>>,
-    ) : PickerDialog.Builder<Builder<T>, GoalPicker<*>>() {
+    ) : PickerDialog.Builder<Builder<T>, GoalPicker<T>>() {
         override var titleTextResId = R.string.select_goal
 
         fun setGoal(goal: Goal?): Builder<T> {

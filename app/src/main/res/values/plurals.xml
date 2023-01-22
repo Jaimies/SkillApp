@@ -5,4 +5,10 @@
         <item quantity="many">%d\u00A0times</item>
         <item quantity="other">%d\u00A0times</item>
     </plurals>
+
+    <plurals name="pages">
+        <item quantity="one">%d\u00A0page</item>
+        <item quantity="many">%d\u00A0pages</item>
+        <item quantity="other">%d\u00A0pages</item>
+    </plurals>
 </resources>

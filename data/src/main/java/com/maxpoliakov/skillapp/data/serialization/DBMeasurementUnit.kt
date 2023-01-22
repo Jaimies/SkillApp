@@ -12,6 +12,9 @@ enum class DBMeasurementUnit : MappableEnum<DBMeasurementUnit, MeasurementUnit<*
     },
     Times {
         override fun toDomain() = MeasurementUnit.Times
+    },
+    Pages {
+        override fun toDomain() = MeasurementUnit.Pages
     };
 
     companion object : MappableEnum.Companion<DBMeasurementUnit, MeasurementUnit<*>>(values())

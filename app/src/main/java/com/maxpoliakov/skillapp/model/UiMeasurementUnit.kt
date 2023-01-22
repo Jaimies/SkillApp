@@ -10,12 +10,15 @@ import com.maxpoliakov.skillapp.shared.MappableEnum
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.CountFormatter
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.DistanceFormatter
+import com.maxpoliakov.skillapp.ui.chart.valueformatter.PageCountFormatter
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.TimeFormatter
 import com.maxpoliakov.skillapp.ui.common.picker.DistanceGoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.DistancePicker
 import com.maxpoliakov.skillapp.ui.common.picker.DurationGoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.DurationPicker
 import com.maxpoliakov.skillapp.ui.common.picker.GoalPicker
+import com.maxpoliakov.skillapp.ui.common.picker.PageCountGoalPicker
+import com.maxpoliakov.skillapp.ui.common.picker.PageCountPicker
 import com.maxpoliakov.skillapp.ui.common.picker.TimesGoalPicker
 import com.maxpoliakov.skillapp.ui.common.picker.TimesPicker
 import com.maxpoliakov.skillapp.ui.common.picker.ValuePicker
@@ -107,6 +110,27 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         override fun getGoalPickerBuilder() = TimesGoalPicker.Builder()
         override fun toDomain() = MeasurementUnit.Times
         override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser
+    },
+
+    Pages {
+        override val totalCountStringResId = R.string.total_pages
+        override val initialTimeResId = R.string.pages_already_read
+        override val changeCountResId = R.string.change_number_of_pages
+        override val nameResId = R.string.pages
+        override val addRecordBtnResId = R.string.add_pages
+        override val isStopwatchEnabled = false
+
+        override fun toString(count: Long, context: Context): String {
+            return context.resources
+                .getQuantityString(R.plurals.pages, count.toInt())
+                .format(count)
+        }
+
+        override fun getValueFormatter(context: Context) = PageCountFormatter()
+        override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser
+        override fun getValuePickerBuilder() = PageCountPicker.Builder()
+        override fun getGoalPickerBuilder() = PageCountGoalPicker.Builder()
+        override fun toDomain() = MeasurementUnit.Pages
     };
 
     abstract val totalCountStringResId: Int

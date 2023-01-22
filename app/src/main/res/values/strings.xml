@@ -137,4 +137,9 @@
     <string name="failed_to_reach_google_drive">Failed to reach Google Drive</string>
     <string name="backup_creation_failed">Failed to create a back up</string>
     <string name="backup_upload_failed">Failed to upload the back up to Google Drive</string>
+    <string name="change_number_of_pages">Change page count</string>
+    <string name="total_pages">Total pages</string>
+    <string name="pages_already_read">Number of pages already read</string>
+    <string name="pages">Pages</string>
+    <string name="add_pages">Add pages</string>
 </resources>

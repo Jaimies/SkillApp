@@ -20,4 +20,9 @@ sealed class MeasurementUnit<T> {
         override fun toType(value: Long) = Count.ofTimes(value)
         override fun toLong(value: Count) = value.toTimes()
     }
+
+    object Pages : MeasurementUnit<Count>() {
+        override fun toType(value: Long) = Count.ofTimes(value)
+        override fun toLong(value: Count) = value.toTimes()
+    }
 }

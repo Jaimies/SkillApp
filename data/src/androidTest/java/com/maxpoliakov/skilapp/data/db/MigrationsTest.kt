@@ -21,8 +21,7 @@ import java.time.Duration
 class MigrationsTest {
     private val helper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
-        AppDatabase::class.java.canonicalName,
-        FrameworkSQLiteOpenHelperFactory()
+        AppDatabase::class.java,
     )
 
     @Test

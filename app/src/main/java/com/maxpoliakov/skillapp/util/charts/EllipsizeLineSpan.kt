@@ -6,6 +6,8 @@ import android.graphics.Rect
 import android.text.style.LineBackgroundSpan
 import android.text.style.ReplacementSpan
 import kotlin.math.ceil
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 class EllipsizeLineSpan : ReplacementSpan(), LineBackgroundSpan {
     private var layoutLeft = 0
@@ -28,7 +30,10 @@ class EllipsizeLineSpan : ReplacementSpan(), LineBackgroundSpan {
         paint: Paint, text: CharSequence?, start: Int, end: Int,
         fm: Paint.FontMetricsInt?,
     ): Int {
-        return layoutRight - layoutLeft
+        return min(
+            layoutRight - layoutLeft,
+            paint.measureText(text, start, end).roundToInt(),
+        )
     }
 
     override fun draw(

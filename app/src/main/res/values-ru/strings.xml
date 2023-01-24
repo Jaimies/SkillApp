@@ -124,4 +124,11 @@
     <string name="detailed_stats">Детальная статистика</string>
     <string name="drive_out_of_space">Недостаточно свободного места на Google Диске</string>
     <string name="failed_to_reach_google_drive">Не удалось связаться с Google Диском</string>
+    <string name="backup_creation_failed">Не удалось создать резервную копию</string>
+    <string name="backup_upload_failed">Не удалось загрузить резервную копию на Google Диск</string>
+    <string name="change_number_of_pages">Изменить кол-во страниц</string>
+    <string name="total_pages">Всего страниц</string>
+    <string name="pages_already_read">Количество уже прочитанных страниц</string>
+    <string name="pages">Страницы</string>
+    <string name="add_pages">Добавить страницы</string>
 </resources>

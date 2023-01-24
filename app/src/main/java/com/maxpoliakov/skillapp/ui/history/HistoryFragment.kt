@@ -20,8 +20,6 @@ class HistoryFragment : FragmentWithHistory<HistoryFragBinding>(-1) {
         binding.viewModel = viewModel
     }
 
-    override fun onMenuItemSelected(id: Int) = false
-
     override fun onHistoryEmpty() {
         binding.emptyListLayout.root.isVisible = true
     }

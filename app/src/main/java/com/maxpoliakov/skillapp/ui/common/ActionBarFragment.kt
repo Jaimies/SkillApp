@@ -29,7 +29,9 @@ abstract class ActionBarFragment<T: ViewDataBinding>(@MenuRes private val menuId
         requireActivity().addMenuProvider(menuProvider, viewLifecycleOwner, RESUMED)
     }
 
-    abstract fun onMenuItemSelected(id: Int): Boolean
+    open fun onMenuItemSelected(id: Int): Boolean {
+        return false
+    }
 
     protected open fun onMenuCreated(menu: Menu) {}
 }

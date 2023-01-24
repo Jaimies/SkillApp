@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.maxpoliakov.skillapp.data.logToCrashlytics
+import com.maxpoliakov.skillapp.data.log
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -21,7 +21,7 @@ class BackupWorker @AssistedInject constructor(
             performBackupUseCase.performBackup()
             return Result.success()
         } catch (e: Exception) {
-            e.logToCrashlytics()
+            e.log()
             return Result.retry()
         }
     }

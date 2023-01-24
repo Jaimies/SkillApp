@@ -23,7 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import cn.carbswang.android.numberpickerview.library.NumberPickerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.data.logToCrashlytics
+import com.maxpoliakov.skillapp.data.log
 import com.maxpoliakov.skillapp.util.ui.setup
 
 abstract class PickerDialog : DialogFragment() {
@@ -107,7 +107,7 @@ abstract class PickerDialog : DialogFragment() {
             firstPicker.value = bundle.getInt(FIRST_PICKER_VALUE, 0)
             secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
         } catch (e: Throwable) {
-            e.logToCrashlytics()
+            e.log()
             e.printStackTrace()
         }
     }

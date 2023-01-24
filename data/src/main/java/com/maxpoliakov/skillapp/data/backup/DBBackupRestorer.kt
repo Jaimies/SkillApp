@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.data.backup
 
 import androidx.room.withTransaction
 import com.maxpoliakov.skillapp.data.db.AppDatabase
-import com.maxpoliakov.skillapp.data.logToCrashlytics
+import com.maxpoliakov.skillapp.data.log
 import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
 import kotlinx.serialization.decodeFromString
@@ -17,7 +17,7 @@ class DBBackupRestorer @Inject constructor(
             doRestore(data)
             return BackupRestorer.Result.Success
         } catch (e: Throwable) {
-            e.logToCrashlytics()
+            e.log()
             return BackupRestorer.Result.Failure(e)
         }
     }

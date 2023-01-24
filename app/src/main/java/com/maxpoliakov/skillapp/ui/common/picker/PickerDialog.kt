@@ -23,7 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import cn.carbswang.android.numberpickerview.library.NumberPickerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.util.error.logToCrashlytics
+import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.util.ui.setup
 
 abstract class PickerDialog : DialogFragment() {

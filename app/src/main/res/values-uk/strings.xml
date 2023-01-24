@@ -131,4 +131,5 @@
     <string name="total_pages">Всього сторінок</string>
     <string name="backup_upload_failed">Не вдалося завантажити резервну копію на Google Диск</string>
     <string name="backup_creation_failed">Не вдалося створити резервну копію</string>
+    <string name="failed_to_load_last_backup_date">Не вдалося завантажити останню резервну копію</string>
 </resources>

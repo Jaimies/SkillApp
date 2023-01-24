@@ -74,7 +74,7 @@ class BackupViewModel @Inject constructor(
         if (result is BackupRepository.Result.Success) {
             return getLastBackupDateValue(result)
         } else {
-            return null
+            return R.string.failed_to_load_last_backup_date
         }
     }
 

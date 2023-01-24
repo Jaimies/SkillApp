@@ -142,4 +142,5 @@
     <string name="pages_already_read">Number of pages already read</string>
     <string name="pages">Pages</string>
     <string name="add_pages">Add pages</string>
+    <string name="failed_to_load_last_backup_date">Couldn\'t load the most recent backup</string>
 </resources>

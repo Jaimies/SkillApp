@@ -131,4 +131,5 @@
     <string name="pages_already_read">Количество уже прочитанных страниц</string>
     <string name="pages">Страницы</string>
     <string name="add_pages">Добавить страницы</string>
+    <string name="failed_to_load_last_backup_date">Не удалось загрузить последнюю резервную копию</string>
 </resources>

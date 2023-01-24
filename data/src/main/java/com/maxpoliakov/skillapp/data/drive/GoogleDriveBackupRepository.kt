@@ -68,8 +68,8 @@ class GoogleDriveBackupRepository @Inject constructor(
         }
     }
 
-    override suspend fun getLastBackup(): Backup? {
-        return _getBackups(2).firstOrNull()
+    override suspend fun getLastBackup(): Result<Backup?> = tryIfAuthorized {
+        _getBackups(2).firstOrNull()
     }
 
     override suspend fun getContents(backup: Backup): Result<BackupData> {

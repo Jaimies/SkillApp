@@ -8,7 +8,7 @@ interface BackupRepository {
     suspend fun upload(data: BackupData): Result<Unit>
 
     suspend fun getBackups(): List<Backup>
-    suspend fun getLastBackup(): Backup?
+    suspend fun getLastBackup(): Result<Backup?>
     suspend fun getContents(backup: Backup): Result<BackupData>
 
     sealed class Result<out T> {

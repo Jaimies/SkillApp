@@ -20,5 +20,5 @@ class StubBackupRepository(
     }
 
     override suspend fun getBackups(): List<Backup> = listOf()
-    override suspend fun getLastBackup(): Backup? = null
+    override suspend fun getLastBackup() = BackupRepository.Result.Success(null)
 }

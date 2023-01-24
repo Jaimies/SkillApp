@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
@@ -12,7 +13,6 @@ import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.error.logToCrashlytics
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -66,26 +66,21 @@ class BackupViewModel @Inject constructor(
     }
 
     fun updateLastBackupDate() = viewModelScope.launch {
-        if (!networkUtil.isConnected || currentUser.value == null) {
-            _lastBackupDate.value = null
-            return@launch
-        }
+        val result = backupRepository.getLastBackup()
+        _lastBackupDate.value = getLastBackupDateValue(result)
+    }
 
-        if (!authRepository.hasAppDataPermission) {
-            println("Not getting last backup date because the AppData permission is not granted")
-            return@launch
+    private fun getLastBackupDateValue(result: BackupRepository.Result<Backup?>): Any? {
+        if (result is BackupRepository.Result.Success) {
+            return getLastBackupDateValue(result)
+        } else {
+            return null
         }
+    }
 
-        try {
-            val backup = backupRepository.getLastBackup()
-            if (backup == null) _lastBackupDate.value = R.string.no_backup_found
-            else _lastBackupDate.value = dateTimeFormatter.format(backup.creationDate)
-        } catch (e: Exception) {
-            e.logToCrashlytics()
-            e.printStackTrace()
-            _lastBackupDate.value = null
-            _showSnackbar.value = R.string.something_went_wrong
-        }
+    private fun getLastBackupDateValue(result: BackupRepository.Result.Success<Backup?>): Any {
+        return result.value?.creationDate?.let(dateTimeFormatter::format)
+            ?: R.string.no_backup_found
     }
 
     fun notifySignedIn() {

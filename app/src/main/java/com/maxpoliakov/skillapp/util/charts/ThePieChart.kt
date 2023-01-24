@@ -47,6 +47,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
     private fun setupLegend() = legend.run {
         textColor = context.getColorAttributeValue(android.R.attr.textColorPrimary)
         setDrawInside(false)
+        textSize = 10.sp.toDp(context)
         verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
         orientation = Legend.LegendOrientation.VERTICAL
@@ -54,7 +55,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
 
     private fun setupCenterText() {
         setDrawCenterText(true)
-        setCenterTextSize(16f)
+        setCenterTextSize(16.sp.toDp(context))
         setCenterTextColor(context.textColor)
         setOnChartValueSelectedListener(this)
     }

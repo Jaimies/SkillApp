@@ -59,7 +59,7 @@ class TheBarChart : BarChart {
 
     private fun createDataSet(data: BarChartData): BarDataSet {
         return BarDataSet(data.entries, "").apply {
-            valueTextSize = VALUE_TEXT_SIZE
+            valueTextSize = 12.sp.toDp(context)
             valueFormatter = data.unit.getValueFormatter(context)
             valueTextColor = context.textColor
             color = context.primaryColor
@@ -198,8 +198,6 @@ class TheBarChart : BarChart {
     }
 
     companion object {
-        private const val VALUE_TEXT_SIZE = 12f
-
         private const val LEFT_OFFSET = 15f
         private const val TOP_OFFSET = 27f
         private const val RIGHT_OFFSET = 20f

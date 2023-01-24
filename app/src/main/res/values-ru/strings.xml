@@ -122,8 +122,8 @@
     <string name="intro_3_1_0_text">После этого вы сможете изменять порядок навыков и группировать их как обычно</string>
     <string name="pie_chart_legend_entry">%1$s: %2$s</string>
     <string name="detailed_stats">Детальная статистика</string>
-    <string name="drive_out_of_space">Недостаточно свободного места на Google Диске</string>
-    <string name="failed_to_reach_google_drive">Не удалось связаться с Google Диском</string>
+    <string name="drive_out_of_space">Недостаточно свободного места на вашем Google Диске</string>
+    <string name="failed_to_reach_google_drive">Не удалось соединиться с Google Диском</string>
     <string name="backup_creation_failed">Не удалось создать резервную копию</string>
     <string name="backup_upload_failed">Не удалось загрузить резервную копию на Google Диск</string>
     <string name="change_number_of_pages">Изменить кол-во страниц</string>

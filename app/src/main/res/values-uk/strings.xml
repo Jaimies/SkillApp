@@ -122,8 +122,8 @@
     <string name="intro_3_1_0_text">Тоді ви зможете впорядковувати та групувати навички як зазвичай</string>
     <string name="pie_chart_legend_entry">%1$s: %2$s</string>
     <string name="detailed_stats">Детальна статистика</string>
-    <string name="drive_out_of_space">Недостатньо вільного місця на Google Диску</string>
-    <string name="failed_to_reach_google_drive">Не вдалося зв\'язатися з Google Диском</string>
+    <string name="drive_out_of_space">Недостатньо вільного місця на вашому Google Диску</string>
+    <string name="failed_to_reach_google_drive">Не вдалося з\'єднатися з Google Диском</string>
     <string name="add_pages">Додати сторінки</string>
     <string name="pages">Сторінки</string>
     <string name="pages_already_read">Кількість вже прочитаних сторінок</string>

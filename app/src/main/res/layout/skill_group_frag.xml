@@ -38,6 +38,7 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:paddingStart="@dimen/productivity_summary_spacing_start"
+                    android:paddingEnd="24dp"
                     android:text="@={viewModel.name}"
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
                     tools:text="Programming" />

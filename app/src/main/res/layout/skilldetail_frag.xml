@@ -39,6 +39,7 @@
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:paddingStart="@dimen/productivity_summary_spacing_start"
+                    android:paddingEnd="24dp"
                     android:text="@={viewModel.name}"
                     android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
                     tools:text="Programming" />
@@ -52,7 +53,7 @@
                     android:layout_marginTop="30dp"
                     android:visibility="gone"
                     app:chooseGoal="@{() -> viewModel.chooseGoal()}"
-                    app:goal="@{viewModel.goal}"/>
+                    app:goal="@{viewModel.goal}" />
 
                 <LinearLayout
                     android:id="@+id/data_layout"
@@ -78,24 +79,24 @@
                     <include
                         android:id="@+id/progress_goal_indicator"
                         layout="@layout/progress_goal_indicator"
-                        app:unit="@{viewModel.unit}"
+                        app:countToday="@{viewModel.timeToday}"
                         app:goal="@{viewModel.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
-                        app:countToday="@{viewModel.timeToday}" />
+                        app:unit="@{viewModel.unit}" />
 
                     <include
                         android:id="@+id/productivity_chart"
                         layout="@layout/bar_chart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/chart_height"
-                        android:layout_marginTop="12dp"
                         android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp"
                         android:layout_marginBottom="16dp"
                         app:data="@{viewModel.chartData}" />
 
                     <include
                         android:id="@+id/history"
-                        layout="@layout/details_fragment_history_recycler_view"/>
+                        layout="@layout/details_fragment_history_recycler_view" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

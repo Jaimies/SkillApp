@@ -18,6 +18,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 import com.maxpoliakov.skillapp.util.ui.setSpanForWholeString
+import com.maxpoliakov.skillapp.util.ui.sp
 import com.maxpoliakov.skillapp.util.ui.textColor
 
 class ThePieChart : PieChart, OnChartValueSelectedListener {
@@ -98,9 +99,12 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
 
     private fun updateCenterText(entry: ThePieEntry) {
         centerText = buildSpannedString {
+            append("\u00A0")
             append(entry.name)
+            append("\u00A0")
             setSpanForWholeString(StyleSpan(Typeface.BOLD))
             setSpanForWholeString(RelativeSizeSpan(1.5f))
+            setSpanForWholeString(EllipsizeLineSpan())
             append("\n")
             append(entry.formattedValue)
         }

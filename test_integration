@@ -1,2 +1,1 @@
-~/Android/Sdk/emulator/emulator -avd Cool_Pixel_4_API_30
 ./gradlew :data:connectedDebugAndroidTest

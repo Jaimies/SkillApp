@@ -146,7 +146,7 @@ class BackupViewModel @Inject constructor(
     }
 
     private fun handleUploadFailure(result: PerformBackupUseCase.Result.UploadFailure) {
-        when (val result = result.uploadResult) {
+        when (result.uploadResult) {
             is BackupRepository.Result.Failure.NoInternetConnection -> {
                 _showNoNetwork.call()
             }
@@ -165,7 +165,6 @@ class BackupViewModel @Inject constructor(
 
             is BackupRepository.Result.Failure.Error -> {
                 _showSnackbar.value = R.string.backup_upload_failed
-                result.exception.logToCrashlytics()
             }
 
             else -> {}

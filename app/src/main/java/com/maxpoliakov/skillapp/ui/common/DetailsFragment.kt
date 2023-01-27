@@ -169,6 +169,7 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
     protected open fun stopEditing() = input.run {
         isFocusable = false
         isFocusableInTouchMode = false
+        setSelection(0)
         clearFocus()
 
         menu?.getItem(0)?.setTitle(R.string.edit)

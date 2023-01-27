@@ -47,7 +47,7 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState != null && savedInstanceState.getBoolean(IS_IN_EDITING_MODE, false))
+        if (viewModel.isEditing.value!!)
             startEditing()
 
         observe(viewModel.onSave) { stopEditing() }
@@ -67,11 +67,6 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             isEnabled = !onBackPressed()
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(IS_IN_EDITING_MODE, viewModel.isEditing.value ?: false)
     }
 
     private fun onBackPressed(): Boolean {
@@ -202,8 +197,4 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
 
     protected val shortTransitionDuration
         get() = resources.getInteger(R.integer.animation_duration_short).toLong()
-
-    companion object {
-        private const val IS_IN_EDITING_MODE = "IS_IN_EDITING_MODE"
-    }
 }

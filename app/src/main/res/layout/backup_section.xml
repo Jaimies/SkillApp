@@ -41,16 +41,19 @@
 
             <TextView
                 android:id="@+id/title_text_view"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="@{title}"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="15sp"
+                android:lines="1"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toTopOf="@id/subtitle_text_view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintEnd_toStartOf="@id/label_text_view"
                 app:layout_constraint_endSide="@{subtitle == null ? ConstraintSet.BOTTOM : ConstraintSet.TOP}"
                 app:layout_constraint_startSide="@{ConstraintSet.BOTTOM}"
                 app:layout_constraint_toEndId="@{subtitle == null ? ConstraintSet.PARENT_ID : subtitleTextView.getId()}"
@@ -59,14 +62,17 @@
 
             <TextView
                 android:id="@+id/subtitle_text_view"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="@{subtitle}"
+                android:lines="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/label_text_view"
                 app:layout_constraintTop_toBottomOf="@id/title_text_view"
                 app:layout_constraintVertical_chainStyle="packed"
+                android:ellipsize="end"
                 app:visible="@{subtitle != null}"
                 tools:text="foo.bar@gmail.com" />
 

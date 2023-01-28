@@ -3,6 +3,8 @@ package com.maxpoliakov.skillapp.util.charts
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.AttributeSet
@@ -17,7 +19,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
-import com.maxpoliakov.skillapp.util.ui.setSpanForWholeString
 import com.maxpoliakov.skillapp.util.ui.sp
 import com.maxpoliakov.skillapp.util.ui.textColor
 
@@ -100,15 +101,24 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
 
     private fun updateCenterText(entry: ThePieEntry) {
         centerText = buildSpannedString {
-            append("\u00A0")
-            append(entry.name)
-            append("\u00A0")
-            setSpanForWholeString(StyleSpan(Typeface.BOLD))
-            setSpanForWholeString(RelativeSizeSpan(1.5f))
-            setSpanForWholeString(EllipsizeLineSpan())
+            addLine(entry.name, StyleSpan(Typeface.BOLD), RelativeSizeSpan(1.5f))
             append("\n")
-            append("\u00A0${entry.formattedValue}\u00A0", EllipsizeLineSpan(), 0)
+            addLine(entry.formattedValue)
         }
+    }
+
+    private fun SpannableStringBuilder.addLine(text: CharSequence, vararg spans: Any): SpannableStringBuilder {
+        val start = length
+
+        append("\u00A0")
+        append(text)
+        append("\u00A0")
+
+        for (span in spans.toList() + EllipsizeLineSpan()) {
+            setSpan(span, start, length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        }
+
+        return this
     }
 
     override fun onNothingSelected() {

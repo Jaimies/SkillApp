@@ -1,8 +1,10 @@
 package com.maxpoliakov.skillapp.ui.common
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.addCallback
@@ -48,8 +50,10 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
         super.onViewCreated(view, savedInstanceState)
 
         saveBtn.isGone = true
-        input.isFocusable = false
-        input.isFocusableInTouchMode = false
+        input.isSingleLine = true
+        input.maxLines = 2
+        input.setHorizontallyScrolling(false)
+        input.exitEditMode()
 
         if (viewModel.isEditing.value!!)
             startEditing()
@@ -118,11 +122,7 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
 
     protected open fun startEditing() = input.run {
         onStartEditing()
-
-        isFocusable = true
-        isFocusableInTouchMode = true
-        requestFocus()
-        setSelection(text.length)
+        enterEditMode()
 
         viewModel.enterEditingMode()
 
@@ -162,10 +162,7 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
     }
 
     protected open fun stopEditing() = input.run {
-        isFocusable = false
-        isFocusableInTouchMode = false
-        setSelection(0)
-        clearFocus()
+        exitEditMode()
 
         menu?.getItem(0)?.setTitle(R.string.edit)
         val duration = shortTransitionDuration
@@ -190,6 +187,24 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
         }
 
         goalInput.isVisible = false
+    }
+
+    private fun EditText.enterEditMode() {
+        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+
+        isFocusable = true
+        isFocusableInTouchMode = true
+        requestFocus()
+        setSelection(text.length)
+    }
+
+    private fun EditText.exitEditMode() {
+        inputType = EditorInfo.TYPE_NULL
+
+        isFocusable = false
+        isFocusableInTouchMode = false
+        setSelection(0)
+        clearFocus()
     }
 
     protected val transitionDuration

@@ -5,4 +5,10 @@
         <item quantity="few">%d\u00A0рази</item>
         <item quantity="many">%d\u00A0разів</item>
     </plurals>
+
+    <plurals name="pages">
+        <item quantity="one">%d\u00A0сторінка</item>
+        <item quantity="few">%d\u00A0сторінки</item>
+        <item quantity="many">%d\u00A0сторінок</item>
+    </plurals>
 </resources>

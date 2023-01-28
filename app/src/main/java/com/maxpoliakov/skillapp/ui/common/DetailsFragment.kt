@@ -47,6 +47,10 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        saveBtn.isGone = true
+        input.isFocusable = false
+        input.isFocusableInTouchMode = false
+
         if (viewModel.isEditing.value!!)
             startEditing()
 
@@ -59,10 +63,6 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
                 onGoalSet = viewModel::setGoal
             )
         }
-
-        saveBtn.isGone = true
-        input.isFocusable = false
-        input.isFocusableInTouchMode = false
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             isEnabled = !onBackPressed()

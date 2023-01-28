@@ -22,7 +22,6 @@ class DBBackupRestorer @Inject constructor(
         }
     }
 
-    // todo consider better name
     private suspend fun doRestore(data: BackupData) {
         val backup = Json.decodeFromString<DBBackupData>(data.contents)
 

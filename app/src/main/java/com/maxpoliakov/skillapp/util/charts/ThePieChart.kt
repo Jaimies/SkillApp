@@ -107,7 +107,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
             setSpanForWholeString(RelativeSizeSpan(1.5f))
             setSpanForWholeString(EllipsizeLineSpan())
             append("\n")
-            append(entry.formattedValue)
+            append("\u00A0${entry.formattedValue}\u00A0", EllipsizeLineSpan(), 0)
         }
     }
 

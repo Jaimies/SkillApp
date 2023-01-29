@@ -62,7 +62,7 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
 
         observe(viewModel.chooseGoal) {
             viewModel.unit.value!!.showGoalPicker(
-                requireContext(),
+                childFragmentManager,
                 viewModel.goal.value?.mapToDomain(),
                 onGoalSet = viewModel::setGoal
             )

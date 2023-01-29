@@ -1,13 +1,12 @@
 package com.maxpoliakov.skillapp.util.fragment
 
-import android.content.Context
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.maxpoliakov.skillapp.shared.util.dateOfEpochMillis
 import com.maxpoliakov.skillapp.shared.util.millisSinceEpoch
-import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.LocalDate
 
-inline fun Context.showDatePicker(
+inline fun FragmentManager.showDatePicker(
     selectedDate: LocalDate,
     crossinline onSelected: (LocalDate) -> Unit
 ) {
@@ -20,5 +19,5 @@ inline fun Context.showDatePicker(
         if (date != selectedDate) onSelected(date)
     }
 
-    picker.show(getFragmentManager(), null)
+    picker.show(this, null)
 }

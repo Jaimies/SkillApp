@@ -14,7 +14,4 @@ import dagger.hilt.android.components.ActivityComponent
 interface ActivityModule {
     @Binds
     fun provideIntroUtil(introUtil: IntroUtilImpl): IntroUtil
-
-    @Binds
-    fun provideRecordUtil(recordUtil: RecordUtilImpl): RecordUtil
 }

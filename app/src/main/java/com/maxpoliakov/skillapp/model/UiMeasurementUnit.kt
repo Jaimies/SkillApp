@@ -24,7 +24,6 @@ import com.maxpoliakov.skillapp.ui.common.picker.TimesPicker
 import com.maxpoliakov.skillapp.ui.common.picker.ValuePicker
 import com.maxpoliakov.skillapp.util.time.toReadableFloat
 import com.maxpoliakov.skillapp.util.ui.format
-import com.maxpoliakov.skillapp.util.ui.getFragmentManager
 import java.time.Duration
 
 enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*>> {
@@ -157,10 +156,9 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
     }
 
     fun showPicker(
-        context: Context,
+        fragmentManager: FragmentManager,
         initialCount: Long = 0,
         editMode: Boolean = false,
-        fragmentManager: FragmentManager = context.getFragmentManager(),
         onTimeSet: (count: Long) -> Unit
     ) {
         val picker = getValuePickerBuilder()
@@ -176,9 +174,8 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
     }
 
     fun showGoalPicker(
-        context: Context,
+        fragmentManager: FragmentManager,
         goal: Goal?,
-        fragmentManager: FragmentManager = context.getFragmentManager(),
         onGoalSet: (goal: Goal?) -> Unit
     ) {
         val dialog = getGoalPickerBuilder()

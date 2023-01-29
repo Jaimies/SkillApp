@@ -46,7 +46,7 @@ class AddSkillFragment : DataBindingFragment<AddskillFragBinding>() {
         }
 
         observe(viewModel.chooseGoal) {
-            viewModel.unit.value!!.showGoalPicker(requireContext(), viewModel.goal.value?.mapToDomain(), onGoalSet = viewModel::setGoal)
+            viewModel.unit.value!!.showGoalPicker(childFragmentManager, viewModel.goal.value?.mapToDomain(), onGoalSet = viewModel::setGoal)
         }
     }
 }

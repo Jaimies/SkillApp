@@ -58,6 +58,6 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
     }
 
     private fun showRecordDialog() {
-        viewModel.unit.value!!.showPicker(requireContext(), onTimeSet = viewModel::addRecord)
+        viewModel.unit.value!!.showPicker(childFragmentManager, onTimeSet = viewModel::addRecord)
     }
 }

@@ -12,7 +12,6 @@ import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -26,7 +25,6 @@ class RecordUtilImpl @Inject constructor(
     private val ioScope: CoroutineScope,
     @SnackbarRoot
     private val snackbarRootProvider: Provider<View?>,
-    @ApplicationContext
     private val context: Context,
     @ChildFragmentManager
     private val fragmentManager: FragmentManager,

@@ -50,7 +50,7 @@ class GoogleDriveBackupRepository @Inject constructor(
     }
 
     private fun quotaExceeded(e: GoogleJsonResponseException): Boolean {
-        return e.details.errors.first().reason == "storageQuotaExceeded"
+        return e.details?.errors?.first()?.reason == "storageQuotaExceeded"
     }
 
     override suspend fun getBackups() = _getBackups(30)

@@ -10,16 +10,14 @@ import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 import javax.inject.Inject
 
 class StopwatchDelegateAdapter @Inject constructor(
-    private val stopwatchViewModel: StopwatchViewModel,
-    private val recordUtil: RecordUtil,
+    private val viewHolderFactory: StopwatchViewHolder.Factory,
 ) : DelegateAdapter<StopwatchUiModel, StopwatchViewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup, lifecycleOwner: LifecycleOwner): StopwatchViewHolder {
         val binding = parent.inflateDataBinding<StopwatchBannerBinding>(R.layout.stopwatch_banner).apply {
             this.lifecycleOwner = lifecycleOwner
-            viewModel = stopwatchViewModel
         }
 
-        return StopwatchViewHolder(binding, recordUtil, stopwatchViewModel)
+        return viewHolderFactory.create(binding)
     }
 
     override fun onBindViewHolder(holder: StopwatchViewHolder, item: StopwatchUiModel) {}

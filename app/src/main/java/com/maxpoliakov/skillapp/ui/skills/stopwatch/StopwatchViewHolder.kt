@@ -11,13 +11,19 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import com.maxpoliakov.skillapp.util.ui.getBaseContext
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-class StopwatchViewHolder(
+class StopwatchViewHolder @AssistedInject constructor(
+    @Assisted
     private val binding: StopwatchBannerBinding,
     private val recordUtil: RecordUtil,
     viewModel: StopwatchViewModel,
 ) : BaseViewHolder(binding) {
     init {
+        binding.viewModel = viewModel
+
         viewModel.navigateToSkill.observe(lifecycleOwner) { skill ->
             navigateToSkillDetail(binding.root, skill)
         }
@@ -34,5 +40,10 @@ class StopwatchViewHolder(
         val activity = context.getBaseContext<AppCompatActivity>()
         val navController = activity.findNavController(R.id.nav_host_container)
         navController.navigate(directions, extras)
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(binding: StopwatchBannerBinding): StopwatchViewHolder
     }
 }

@@ -33,9 +33,9 @@ class GroupDaoTest {
             DBSkill(id = 2, name = "Other skill"),
         )
 
-        skills.forEach { skill -> skillDao.insert(skill) }
+        skillDao.insert(skills)
 
-        val group = SkillGroup(1, "Group name", skills.map { it.mapToDomain() }, MeasurementUnit.Millis, null, -1)
+        val group = SkillGroup(1, "Group name", skills.map(DBSkill::mapToDomain), MeasurementUnit.Millis, null, -1)
         groupDao.createGroup(group)
         val groupFromDB = groupDao.getGroupById(1)!!
 

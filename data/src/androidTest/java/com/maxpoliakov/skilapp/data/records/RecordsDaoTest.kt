@@ -1,18 +1,19 @@
 package com.maxpoliakov.skilapp.data.records
 
+import androidx.paging.PagingSource
 import com.maxpoliakov.skilapp.data.createTestDatabase
-import com.maxpoliakov.skilapp.data.getValue
-import com.maxpoliakov.skillapp.data.skill.SkillDao
-import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.records.RecordsDao
+import com.maxpoliakov.skillapp.data.skill.DBSkill
+import com.maxpoliakov.skillapp.data.skill.SkillDao
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beInstanceOf
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.time.Duration
 
 class RecordsDaoTest {
     private lateinit var db: AppDatabase
@@ -32,10 +33,18 @@ class RecordsDaoTest {
     }
 
     @Test
-    fun getRecords() = runBlocking {
-        skillDao.insert(DBSkill(name = "Skill name"))
-        recordsDao.insert(DBRecord(time = Duration.ofMinutes(50), skillId = 1))
-        val record = recordsDao.getRecords().getValue()[0]
-        record.recordName shouldBe "Skill name"
+    fun getRecords_getsNameForRecordFromItsSkill() = runBlocking {
+        skillDao.insert(skill)
+        recordsDao.insert(record)
+        val loadResult = recordsDao.getRecords().load(PagingSource.LoadParams.Refresh(0, 100, false))
+
+        loadResult should beInstanceOf<PagingSource.LoadResult.Page<*, *>>()
+        val data = (loadResult as PagingSource.LoadResult.Page).data
+        data[0].recordName shouldBe "Skill name"
+    }
+
+    companion object {
+        val skill = DBSkill(name = "Skill name")
+        val record = DBRecord(time = 1296, skillId = 1)
     }
 }

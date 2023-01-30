@@ -177,19 +177,19 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun findGroupViewHolderById(groupId: Int): SkillGroupViewHolder? {
-            return binding.recyclerView.findViewHolder { viewHolder ->
+            return requireBinding().recyclerView.findViewHolder { viewHolder ->
                 viewHolder.viewModel.skillGroup.value!!.id == groupId
             }
         }
 
         private fun findGroupFooterViewHolderById(groupId: Int): SkillGroupFooterViewHolder? {
-            return binding.recyclerView.findViewHolder { viewHolder ->
+            return requireBinding().recyclerView.findViewHolder { viewHolder ->
                 viewHolder.groupId == groupId
             }
         }
 
         private fun findSkillViewHolderById(skillId: Int): SkillViewHolder? {
-            return binding.recyclerView.findViewHolder { viewHolder ->
+            return requireBinding().recyclerView.findViewHolder { viewHolder ->
                 viewHolder.viewModel.skill.value!!.id == skillId
             }
         }
@@ -238,10 +238,10 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        binding.recyclerView.setupAdapter(listAdapter)
-        binding.recyclerView.addItemDecoration(CardViewDecoration())
+        requireBinding().recyclerView.setupAdapter(listAdapter)
+        requireBinding().recyclerView.addItemDecoration(CardViewDecoration())
 
-        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+        itemTouchHelper.attachToRecyclerView(requireBinding().recyclerView)
 
         introUtil.showIfNecessary(Intro.Intro_3_1_0) { showIntro() }
 
@@ -268,7 +268,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
                 if (listAdapter.currentList.run { isNotEmpty() && list.size > this.size }) {
                     whenResumed {
-                        binding.recyclerView.smoothScrollToTop()
+                        requireBinding().recyclerView.smoothScrollToTop()
                     }
                 }
 
@@ -288,7 +288,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
     }
 
     override fun onPreDestroyBinding() {
-        binding.recyclerView.adapter = null
+        requireBinding().recyclerView.adapter = null
         itemTouchHelper.attachToRecyclerView(null)
     }
 
@@ -329,7 +329,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
     private fun showStopwatch() {
         listAdapter.showStopwatch()
-        binding.recyclerView.smoothScrollToTop()
+        requireBinding().recyclerView.smoothScrollToTop()
     }
 
     private fun hideStopwatch() = listAdapter.hideStopwatch()
@@ -353,7 +353,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
     private fun navigateToAddSkill() {
         val directions = MainDirections.actionToAddSkillFragment()
-        navigate(binding.addSkillFab, directions, R.string.add_skill_transition_name)
+        navigate(requireBinding().addSkillFab, directions, R.string.add_skill_transition_name)
     }
 
     private fun navigate(view: View, directions: NavDirections, transitionNameResId: Int) {

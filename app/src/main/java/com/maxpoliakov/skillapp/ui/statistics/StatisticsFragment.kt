@@ -14,7 +14,7 @@ class StatisticsFragment : BarChartFragment<StatisticsFragBinding>(R.menu.stats_
 
     private val viewModel: StatisticsViewModel by viewModels()
 
-    override val chart get() = binding.productivityChart.chart
+    override val chart get() = requireBinding().productivityChart.chart
 
     override fun onBindingCreated(binding: StatisticsFragBinding) {
         binding.viewModel = viewModel

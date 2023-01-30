@@ -11,19 +11,21 @@ import androidx.databinding.ViewDataBinding
 abstract class DataBindingFragment<T : ViewDataBinding> : BaseFragment() {
     abstract val layoutId: Int
 
-    private var _binding: T? = null
-    protected val binding: T
-        get() = requireNotNull(_binding) {
-            "Trying to access binding before onCreateView() is called or after onDestroyView() is called"
-        }
+    protected var binding: T? = null
+        private set
+
+    protected fun requireBinding(): T = requireNotNull(binding) {
+        "Trying to access binding before onCreateView() is called or after onDestroyView() is called"
+    }
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false).apply {
+        val binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             onBindingCreated(this)
         }
 
+        this.binding = binding
         return binding.root
     }
 
@@ -37,6 +39,6 @@ abstract class DataBindingFragment<T : ViewDataBinding> : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         onPreDestroyBinding()
-        _binding = null
+        binding = null
     }
 }

@@ -35,8 +35,8 @@ class AddSkillFragment : DataBindingFragment<AddskillFragBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val values = UiMeasurementUnit.values().map { unit -> getString(unit.nameResId) }
-        binding.unitSelectionSelect.setup(values)
-        binding.unitSelectionSelect.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
+        requireBinding().unitSelectionSelect.setup(values)
+        requireBinding().unitSelectionSelect.onItemClickListener = AdapterView.OnItemClickListener { _, _, pos, _ ->
             viewModel.setMeasurementUnitIndex(pos)
             viewModel.setGoal(null)
         }

@@ -14,17 +14,17 @@ class HistoryFragment : FragmentWithHistory<HistoryFragBinding>(-1) {
 
     override val chart: BarChart? = null
     override val viewModel: HistoryViewModel by viewModels()
-    override val recyclerView get() = binding.recyclerView
+    override val recyclerView get() = requireBinding().recyclerView
 
     override fun onBindingCreated(binding: HistoryFragBinding) {
         binding.viewModel = viewModel
     }
 
     override fun onHistoryEmpty() {
-        binding.emptyListLayout.root.isVisible = true
+        requireBinding().emptyListLayout.root.isVisible = true
     }
 
     override fun onHistoryNotEmpty() {
-        binding.emptyListLayout.root.isVisible = false
+        requireBinding().emptyListLayout.root.isVisible = false
     }
 }

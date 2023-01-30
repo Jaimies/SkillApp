@@ -18,13 +18,13 @@ import javax.inject.Inject
 class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skilldetail_frag_menu) {
     override val layoutId get() = R.layout.skilldetail_frag
 
-    override val content get() = binding.dataLayout
-    override val input get() = binding.titleInput
-    override val saveBtn get() = binding.saveFab
-    override val goalInput get() = binding.goalPicker.root
-    override val recyclerView get() = binding.history.recyclerView
-    override val history get() = binding.history.root
-    override val chart get() = binding.productivityChart.chart
+    override val content get() = requireBinding().dataLayout
+    override val input get() = requireBinding().titleInput
+    override val saveBtn get() = requireBinding().saveFab
+    override val goalInput get() = requireBinding().goalPicker.root
+    override val recyclerView get() = requireBinding().history.recyclerView
+    override val history get() = requireBinding().history.root
+    override val chart get() = requireBinding().productivityChart.chart
 
     override val viewModel: SkillDetailViewModel by viewModels()
 

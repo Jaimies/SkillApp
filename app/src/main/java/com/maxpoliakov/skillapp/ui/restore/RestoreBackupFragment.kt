@@ -3,7 +3,6 @@ package com.maxpoliakov.skillapp.ui.restore
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.RestoreBackupFragBinding
 import com.maxpoliakov.skillapp.ui.common.DataBindingFragment
@@ -28,8 +27,8 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.backupsList.setupAdapter(adapter)
-        binding.backupsList.addDividers()
+        requireBinding().backupsList.setupAdapter(adapter)
+        requireBinding().backupsList.addDividers()
         observe(viewModel.backups, adapter::submitList)
         observe(viewModel.showError) {
             showSnackbar(R.string.something_went_wrong)
@@ -37,6 +36,6 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
     }
 
     override fun onPreDestroyBinding() {
-        binding.backupsList.adapter = null
+        requireBinding().backupsList.adapter = null
     }
 }

@@ -287,8 +287,8 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
     }
 
-    override fun onPreDestroyBinding() {
-        requireBinding().recyclerView.adapter = null
+    override fun onPreDestroyBinding(binding: SkillsFragBinding) {
+        binding.recyclerView.adapter = null
         itemTouchHelper.attachToRecyclerView(null)
     }
 

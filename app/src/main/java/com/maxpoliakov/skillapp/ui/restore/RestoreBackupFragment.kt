@@ -35,7 +35,7 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
         }
     }
 
-    override fun onPreDestroyBinding() {
-        requireBinding().backupsList.adapter = null
+    override fun onPreDestroyBinding(binding: RestoreBackupFragBinding) {
+        binding.backupsList.adapter = null
     }
 }

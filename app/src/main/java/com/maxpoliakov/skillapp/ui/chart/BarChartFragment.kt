@@ -17,6 +17,7 @@ abstract class BarChartFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Acti
         outState.putFloat(SCROLL_POSITION, binding?.chart?.lowestVisibleX ?: return)
     }
 
+    @CallSuper
     override fun onBindingCreated(binding: T, savedInstanceState: Bundle?) {
         val position = savedInstanceState?.getFloat(SCROLL_POSITION) ?: return
         binding.chart?.moveViewToX(position)

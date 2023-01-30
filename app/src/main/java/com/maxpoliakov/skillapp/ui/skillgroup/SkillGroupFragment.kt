@@ -24,6 +24,7 @@ class SkillGroupFragment : DetailsFragment<SkillGroupFragBinding>(R.menu.skillgr
     override val history get() = requireBinding().history.root
 
     override fun onBindingCreated(binding: SkillGroupFragBinding, savedInstanceState: Bundle?) {
+        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
     }
 

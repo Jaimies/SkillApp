@@ -32,6 +32,7 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
     lateinit var recordUtil: RecordUtil
 
     override fun onBindingCreated(binding: SkilldetailFragBinding, savedInstanceState: Bundle?) {
+        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
     }
 

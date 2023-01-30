@@ -22,7 +22,7 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
     @Inject
     lateinit var adapter: BackupListAdapter
 
-    override fun onBindingCreated(binding: RestoreBackupFragBinding) {
+    override fun onBindingCreated(binding: RestoreBackupFragBinding, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
     }
 

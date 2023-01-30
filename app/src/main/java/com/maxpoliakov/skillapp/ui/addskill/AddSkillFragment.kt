@@ -29,7 +29,7 @@ class AddSkillFragment : DataBindingFragment<AddskillFragBinding>() {
     }
 
 
-    override fun onBindingCreated(binding: AddskillFragBinding) {
+    override fun onBindingCreated(binding: AddskillFragBinding, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
     }
 

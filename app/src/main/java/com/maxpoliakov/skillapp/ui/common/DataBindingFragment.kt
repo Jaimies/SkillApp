@@ -22,14 +22,14 @@ abstract class DataBindingFragment<T : ViewDataBinding> : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
-            onBindingCreated(this)
+            onBindingCreated(this, savedInstanceState)
         }
 
         this.binding = binding
         return binding.root
     }
 
-    protected open fun onBindingCreated(binding: T) {
+    protected open fun onBindingCreated(binding: T, savedInstanceState: Bundle?) {
     }
 
     protected open fun onPreDestroyBinding(binding: T) {

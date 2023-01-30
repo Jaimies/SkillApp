@@ -228,7 +228,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
     private val toolbar get() = (requireActivity() as MainActivity).toolbar
 
-    override fun onBindingCreated(binding: SkillsFragBinding) {
+    override fun onBindingCreated(binding: SkillsFragBinding, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
     }
 

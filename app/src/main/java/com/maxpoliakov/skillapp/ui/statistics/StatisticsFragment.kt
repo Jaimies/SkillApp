@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.ui.statistics
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
@@ -16,7 +17,7 @@ class StatisticsFragment : BarChartFragment<StatisticsFragBinding>(R.menu.stats_
 
     override val chart get() = requireBinding().productivityChart.chart
 
-    override fun onBindingCreated(binding: StatisticsFragBinding) {
+    override fun onBindingCreated(binding: StatisticsFragBinding, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
     }
 

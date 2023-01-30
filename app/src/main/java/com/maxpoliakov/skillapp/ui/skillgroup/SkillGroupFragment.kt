@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.ui.skillgroup
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillGroupFragBinding
@@ -22,7 +23,7 @@ class SkillGroupFragment : DetailsFragment<SkillGroupFragBinding>(R.menu.skillgr
     override val recyclerView get() = requireBinding().history.recyclerView
     override val history get() = requireBinding().history.root
 
-    override fun onBindingCreated(binding: SkillGroupFragBinding) {
+    override fun onBindingCreated(binding: SkillGroupFragBinding, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
     }
 

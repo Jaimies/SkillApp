@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.ui.history
 
+import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.charts.BarChart
@@ -16,7 +17,7 @@ class HistoryFragment : FragmentWithHistory<HistoryFragBinding>(-1) {
     override val viewModel: HistoryViewModel by viewModels()
     override val recyclerView get() = requireBinding().recyclerView
 
-    override fun onBindingCreated(binding: HistoryFragBinding) {
+    override fun onBindingCreated(binding: HistoryFragBinding, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
     }
 

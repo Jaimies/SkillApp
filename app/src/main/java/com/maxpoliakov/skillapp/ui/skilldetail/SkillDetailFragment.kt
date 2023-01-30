@@ -24,7 +24,7 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
     override val goalInput get() = requireBinding().goalPicker.root
     override val recyclerView get() = requireBinding().history.recyclerView
     override val history get() = requireBinding().history.root
-    override val chart get() = requireBinding().productivityChart.chart
+    override val SkilldetailFragBinding.chart get() = productivityChart.chart
 
     override val viewModel: SkillDetailViewModel by viewModels()
 

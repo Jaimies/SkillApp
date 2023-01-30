@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HistoryFragment : FragmentWithHistory<HistoryFragBinding>(-1) {
     override val layoutId get() = R.layout.history_frag
 
-    override val chart: BarChart? = null
+    override val HistoryFragBinding.chart: BarChart? get() = null
     override val viewModel: HistoryViewModel by viewModels()
     override val recyclerView get() = requireBinding().recyclerView
 

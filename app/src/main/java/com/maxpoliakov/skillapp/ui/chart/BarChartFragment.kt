@@ -10,21 +10,16 @@ import com.github.mikephil.charting.jobs.MoveViewJob
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 
 abstract class BarChartFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : ActionBarFragment<T>(menuId) {
-    abstract val chart: BarChart?
+    abstract val T.chart: BarChart?
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putFloat(SCROLL_POSITION, chart?.lowestVisibleX ?: 0f)
+        outState.putFloat(SCROLL_POSITION, binding?.chart?.lowestVisibleX ?: return)
     }
 
-    @CallSuper
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = chart.let { chart ->
-        super.onViewCreated(view, savedInstanceState)
-
-        if (savedInstanceState != null && chart != null) {
-            val position = savedInstanceState.getFloat(SCROLL_POSITION)
-            chart.moveViewToX(position)
-        }
+    override fun onBindingCreated(binding: T, savedInstanceState: Bundle?) {
+        val position = savedInstanceState?.getFloat(SCROLL_POSITION) ?: return
+        binding.chart?.moveViewToX(position)
     }
 
     override fun onPause() {

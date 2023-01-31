@@ -15,10 +15,7 @@ class StatisticsFragment : BarChartFragment<StatisticsFragBinding>(R.menu.stats_
 
     private val viewModel: StatisticsViewModel by viewModels()
 
-    override val StatisticsFragBinding.chart get() = productivityChart.chart
-
     override fun onBindingCreated(binding: StatisticsFragBinding, savedInstanceState: Bundle?) {
-        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
     }
 

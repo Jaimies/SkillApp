@@ -24,15 +24,12 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
     override val goalInput get() = requireBinding().goalPicker.root
     override val recyclerView get() = requireBinding().history.recyclerView
     override val history get() = requireBinding().history.root
-    override val SkilldetailFragBinding.chart get() = productivityChart.chart
-
     override val viewModel: SkillDetailViewModel by viewModels()
 
     @Inject
     lateinit var recordUtil: RecordUtil
 
     override fun onBindingCreated(binding: SkilldetailFragBinding, savedInstanceState: Bundle?) {
-        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
     }
 

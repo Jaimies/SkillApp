@@ -14,7 +14,6 @@ class SkillGroupFragment : DetailsFragment<SkillGroupFragBinding>(R.menu.skillgr
 
     override val viewModel: SkillGroupViewModel by viewModels()
 
-    override val SkillGroupFragBinding.chart get() = productivityChart.chart
     override val content get() = requireBinding().dataLayout
     override val saveBtn get() = requireBinding().saveFab
     override val input get() = requireBinding().titleInput
@@ -24,7 +23,6 @@ class SkillGroupFragment : DetailsFragment<SkillGroupFragBinding>(R.menu.skillgr
     override val history get() = requireBinding().history.root
 
     override fun onBindingCreated(binding: SkillGroupFragBinding, savedInstanceState: Bundle?) {
-        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
     }
 

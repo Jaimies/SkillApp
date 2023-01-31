@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.util.charts
 
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Parcelable
 import android.util.AttributeSet
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.LimitLine
@@ -15,6 +16,7 @@ import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.util.ui.primaryColor
 import com.maxpoliakov.skillapp.util.ui.sp
 import com.maxpoliakov.skillapp.util.ui.textColor
+import kotlinx.parcelize.Parcelize
 
 class TheBarChart : BarChart {
     constructor(context: Context?) : super(context)
@@ -23,6 +25,22 @@ class TheBarChart : BarChart {
 
     init {
         setup()
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        return ChartState(lowestVisibleX, scaleX, super.onSaveInstanceState())
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if (state !is ChartState) {
+            super.onRestoreInstanceState(state)
+            return
+        }
+
+        super.onRestoreInstanceState(state.superSavedState)
+
+        viewPortHandler.zoom(state.scaleX, scaleY)
+        moveViewToX(state.lowestVisibleX)
     }
 
     fun update(data: BarChartData?) {
@@ -195,8 +213,14 @@ class TheBarChart : BarChart {
 
     private fun scrollToLast(data: BarChartData) {
         zoom(data.interval.scale.endInclusive, 1f, data.entries.last().x, 0f)
-        moveViewToX(data.entries.last().x)
     }
+
+    @Parcelize
+    data class ChartState(
+        val lowestVisibleX: Float,
+        val scaleX: Float,
+        val superSavedState: Parcelable?,
+    ) : BaseSavedState(superSavedState), Parcelable
 
     companion object {
         private const val LEFT_OFFSET = 15f

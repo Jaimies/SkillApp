@@ -1,27 +1,36 @@
 package com.maxpoliakov.skillapp.ui.chart
 
 import android.os.Bundle
-import android.view.View
+import android.os.Parcelable
 import androidx.annotation.CallSuper
 import androidx.annotation.MenuRes
 import androidx.databinding.ViewDataBinding
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.jobs.MoveViewJob
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
+import kotlinx.parcelize.Parcelize
 
-abstract class BarChartFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : ActionBarFragment<T>(menuId) {
+abstract class BarChartFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : ActionBarFragment<T>(menuId) {
     abstract val T.chart: BarChart?
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putFloat(SCROLL_POSITION, binding?.chart?.lowestVisibleX ?: return)
+        val state = binding?.chart?.getChartState()
+        outState.putParcelable(CHART_STATE, state)
     }
 
     @CallSuper
     override fun onBindingCreated(binding: T, savedInstanceState: Bundle?) {
-        val position = savedInstanceState?.getFloat(SCROLL_POSITION) ?: return
-        binding.chart?.moveViewToX(position)
+        val state = savedInstanceState?.getChartState() ?: return
+        binding.chart?.applyState(state)
     }
+
+    private fun BarChart.applyState(state: ChartState) {
+        viewPortHandler.zoom(state.scaleX, scaleY)
+        moveViewToX(state.lowestVisibleX)
+    }
+
+    private fun Bundle.getChartState(): ChartState? = getParcelable(CHART_STATE)
+    private fun BarChart.getChartState(): ChartState = ChartState(lowestVisibleX, scaleX)
 
     override fun onPause() {
         super.onPause()
@@ -29,7 +38,10 @@ abstract class BarChartFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Acti
         MoveViewJob.getInstance(null, 0f, 0f, null, null)
     }
 
+    @Parcelize
+    data class ChartState(val lowestVisibleX: Float, val scaleX: Float) : Parcelable
+
     companion object {
-        const val SCROLL_POSITION = "BarChartFragment.chartScrollPosition"
+        const val CHART_STATE = "CHART_STATE"
     }
 }

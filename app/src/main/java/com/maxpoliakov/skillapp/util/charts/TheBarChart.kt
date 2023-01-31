@@ -30,11 +30,11 @@ class TheBarChart : BarChart {
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
     override fun onSaveInstanceState(): Parcelable {
-        return ChartState(lowestVisibleX, scaleX, super.onSaveInstanceState())
+        return PersistedState(lowestVisibleX, scaleX, super.onSaveInstanceState())
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        if (state !is ChartState) {
+        if (state !is PersistedState) {
             super.onRestoreInstanceState(state)
             return
         }
@@ -221,7 +221,7 @@ class TheBarChart : BarChart {
     }
 
     @Parcelize
-    data class ChartState(
+    private data class PersistedState(
         val lowestVisibleX: Float,
         val scaleX: Float,
         val superSavedState: Parcelable?,

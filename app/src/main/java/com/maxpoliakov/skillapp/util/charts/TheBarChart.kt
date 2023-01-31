@@ -195,6 +195,7 @@ class TheBarChart : BarChart {
 
     private fun scrollToLast(data: BarChartData) {
         zoom(data.interval.scale.endInclusive, 1f, data.entries.last().x, 0f)
+        moveViewToX(data.entries.last().x)
     }
 
     companion object {

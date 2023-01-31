@@ -19,13 +19,15 @@ import com.maxpoliakov.skillapp.util.ui.textColor
 import kotlinx.parcelize.Parcelize
 
 class TheBarChart : BarChart {
-    constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
+    private var stateRestored = false
 
     init {
         setup()
     }
+
+    constructor(context: Context?) : super(context)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
     override fun onSaveInstanceState(): Parcelable {
         return ChartState(lowestVisibleX, scaleX, super.onSaveInstanceState())
@@ -39,8 +41,10 @@ class TheBarChart : BarChart {
 
         super.onRestoreInstanceState(state.superSavedState)
 
-        viewPortHandler.zoom(state.scaleX, scaleY)
+        zoom(state.scaleX, scaleY, state.lowestVisibleX, 0f)
         moveViewToX(state.lowestVisibleX)
+
+        stateRestored = true
     }
 
     fun update(data: BarChartData?) {
@@ -62,7 +66,7 @@ class TheBarChart : BarChart {
 
     private fun updateData(data: BarChartData) {
         this.data = createBarData(data)
-        scrollToLast(data)
+        if (!stateRestored) scrollToLast(data)
     }
 
     private fun createBarData(data: BarChartData): BarData {
@@ -213,6 +217,7 @@ class TheBarChart : BarChart {
 
     private fun scrollToLast(data: BarChartData) {
         zoom(data.interval.scale.endInclusive, 1f, data.entries.last().x, 0f)
+        moveViewToX(data.entries.last().x)
     }
 
     @Parcelize

@@ -229,19 +229,17 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
     private val toolbar get() = (requireActivity() as MainActivity).toolbar
 
     override fun onBindingCreated(binding: SkillsFragBinding, savedInstanceState: Bundle?) {
-        binding.viewModel = viewModel
-    }
+        super.onBindingCreated(binding, savedInstanceState)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
 
         postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
+        binding.root.doOnPreDraw { startPostponedEnterTransition() }
 
-        requireBinding().recyclerView.setupAdapter(listAdapter)
-        requireBinding().recyclerView.addItemDecoration(CardViewDecoration())
+        binding.recyclerView.setupAdapter(listAdapter)
+        binding.recyclerView.addItemDecoration(CardViewDecoration())
 
-        itemTouchHelper.attachToRecyclerView(requireBinding().recyclerView)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
         introUtil.showIfNecessary(Intro.Intro_3_1_0) { showIntro() }
 

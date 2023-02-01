@@ -24,11 +24,9 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
 
     override fun onBindingCreated(binding: RestoreBackupFragBinding, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        requireBinding().backupsList.setupAdapter(adapter)
-        requireBinding().backupsList.addDividers()
+        binding.backupsList.setupAdapter(adapter)
+        binding.backupsList.addDividers()
         observe(viewModel.backups, adapter::submitList)
         observe(viewModel.showError) {
             showSnackbar(R.string.something_went_wrong)

@@ -17,6 +17,7 @@ class HistoryFragment : FragmentWithHistory<HistoryFragBinding>(-1) {
     override val HistoryFragBinding.recyclerView get() = recyclerView
 
     override fun onBindingCreated(binding: HistoryFragBinding, savedInstanceState: Bundle?) {
+        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
     }
 

@@ -26,12 +26,12 @@ import com.maxpoliakov.skillapp.util.ui.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : FragmentWithHistory<T>(menuId) {
-    protected abstract val saveBtn: Button
-    protected abstract val input: EditText
-    protected abstract val content: ViewGroup
-    protected abstract val goalInput: View
-    protected abstract val history: View
+abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : FragmentWithHistory<T>(menuId) {
+    protected abstract val T.saveBtn: Button
+    protected abstract val T.input: EditText
+    protected abstract val T.content: ViewGroup
+    protected abstract val T.goalInput: View
+    protected abstract val T.history: View
 
     abstract override val viewModel: DetailsViewModel
 
@@ -46,19 +46,21 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
     }
 
     @CallSuper
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onBindingCreated(binding: T, savedInstanceState: Bundle?) {
+        super.onBindingCreated(binding, savedInstanceState)
 
-        saveBtn.isGone = true
-        input.isSingleLine = true
-        input.maxLines = 2
-        input.setHorizontallyScrolling(false)
-        input.exitEditMode()
+        binding.run {
+            saveBtn.isGone = true
+            input.isSingleLine = true
+            input.maxLines = 2
+            input.setHorizontallyScrolling(false)
+            input.exitEditMode()
+        }
 
         if (viewModel.isEditing.value!!)
-            startEditing()
+            binding.startEditing()
 
-        observe(viewModel.onSave) { stopEditing() }
+        observe(viewModel.onSave) { this.binding?.stopEditing() }
 
         observe(viewModel.chooseGoal) {
             viewModel.unit.value!!.showGoalPicker(
@@ -76,7 +78,7 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
     private fun onBackPressed(): Boolean {
         if (viewModel.isEditing.value!!) {
             viewModel.exitEditingMode()
-            stopEditing()
+            binding?.stopEditing()
             return false
         } else {
             findNavController().navigateUp()
@@ -85,11 +87,11 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
     }
 
     override fun onHistoryEmpty() {
-        history.isVisible = false
+        binding?.history?.isVisible = false
     }
 
     override fun onHistoryNotEmpty() {
-        history.isVisible = true
+        binding?.history?.isVisible = true
     }
 
     @CallSuper
@@ -115,12 +117,12 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
         if (viewModel.isEditing.value!!)
             viewModel.save()
         else
-            startEditing()
+            binding?.startEditing()
     }
 
     open fun onStartEditing() {}
 
-    protected open fun startEditing() = input.run {
+    protected open fun T.startEditing() = input.run {
         onStartEditing()
         enterEditMode()
 
@@ -161,7 +163,7 @@ abstract class DetailsFragment<T: ViewDataBinding>(@MenuRes menuId: Int) : Fragm
             .start()
     }
 
-    protected open fun stopEditing() = input.run {
+    protected open fun T.stopEditing() = input.run {
         exitEditMode()
 
         menu?.getItem(0)?.setTitle(R.string.edit)

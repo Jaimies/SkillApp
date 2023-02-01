@@ -14,15 +14,16 @@ class SkillGroupFragment : DetailsFragment<SkillGroupFragBinding>(R.menu.skillgr
 
     override val viewModel: SkillGroupViewModel by viewModels()
 
-    override val content get() = requireBinding().dataLayout
-    override val saveBtn get() = requireBinding().saveFab
-    override val input get() = requireBinding().titleInput
-    override val goalInput get() = requireBinding().goalPicker.root
+    override val SkillGroupFragBinding.content get() = dataLayout
+    override val SkillGroupFragBinding.saveBtn get() = saveFab
+    override val SkillGroupFragBinding.input get() = titleInput
+    override val SkillGroupFragBinding.goalInput get() = goalPicker.root
+    override val SkillGroupFragBinding.history get() = history.root
 
     override val recyclerView get() = requireBinding().history.recyclerView
-    override val history get() = requireBinding().history.root
 
     override fun onBindingCreated(binding: SkillGroupFragBinding, savedInstanceState: Bundle?) {
+        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
     }
 

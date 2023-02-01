@@ -18,13 +18,14 @@ import javax.inject.Inject
 class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skilldetail_frag_menu) {
     override val layoutId get() = R.layout.skilldetail_frag
 
+    override val viewModel: SkillDetailViewModel by viewModels()
+
     override val SkilldetailFragBinding.content get() = dataLayout
     override val SkilldetailFragBinding.input get() = titleInput
     override val SkilldetailFragBinding.saveBtn get() = saveFab
     override val SkilldetailFragBinding.goalInput get() = goalPicker.root
     override val SkilldetailFragBinding.history get() = history.root
-    override val recyclerView get() = requireBinding().history.recyclerView
-    override val viewModel: SkillDetailViewModel by viewModels()
+    override val SkilldetailFragBinding.recyclerView get() = history.recyclerView
 
     @Inject
     lateinit var recordUtil: RecordUtil

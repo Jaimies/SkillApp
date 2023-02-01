@@ -13,7 +13,8 @@ class HistoryFragment : FragmentWithHistory<HistoryFragBinding>(-1) {
     override val layoutId get() = R.layout.history_frag
 
     override val viewModel: HistoryViewModel by viewModels()
-    override val recyclerView get() = requireBinding().recyclerView
+
+    override val HistoryFragBinding.recyclerView get() = recyclerView
 
     override fun onBindingCreated(binding: HistoryFragBinding, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel

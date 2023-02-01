@@ -20,12 +20,15 @@ abstract class FragmentWithHistory<T : ViewDataBinding>(@MenuRes menuResId: Int)
     lateinit var listAdapter: HistoryPagingAdapter
 
     protected abstract val viewModel: ViewModelWithHistory
-    abstract val recyclerView: RecyclerView
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        recyclerView.setupAdapter(listAdapter)
-        recyclerView.addDividers()
+    protected abstract val T.recyclerView: RecyclerView
+
+    override fun onBindingCreated(binding: T, savedInstanceState: Bundle?) {
+        super.onBindingCreated(binding, savedInstanceState)
+
+        binding.recyclerView.setupAdapter(listAdapter)
+        binding.recyclerView.addDividers()
+
         lifecycleScope.launch {
             viewModel.records.collectLatest(listAdapter::submitData)
         }
@@ -38,7 +41,7 @@ abstract class FragmentWithHistory<T : ViewDataBinding>(@MenuRes menuResId: Int)
     }
 
     override fun onPreDestroyBinding(binding: T) {
-        recyclerView.adapter = null
+        binding.recyclerView.adapter = null
     }
 
     protected abstract fun onHistoryEmpty()

@@ -19,8 +19,7 @@ class SkillGroupFragment : DetailsFragment<SkillGroupFragBinding>(R.menu.skillgr
     override val SkillGroupFragBinding.input get() = titleInput
     override val SkillGroupFragBinding.goalInput get() = goalPicker.root
     override val SkillGroupFragBinding.history get() = history.root
-
-    override val recyclerView get() = requireBinding().history.recyclerView
+    override val SkillGroupFragBinding.recyclerView get() = history.recyclerView
 
     override fun onBindingCreated(binding: SkillGroupFragBinding, savedInstanceState: Bundle?) {
         super.onBindingCreated(binding, savedInstanceState)

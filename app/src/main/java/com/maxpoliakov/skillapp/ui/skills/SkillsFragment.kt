@@ -32,6 +32,7 @@ import com.maxpoliakov.skillapp.util.ui.Change
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.util.ui.createReorderAndGroupItemTouchHelper
 import com.maxpoliakov.skillapp.util.ui.findViewHolder
+import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import com.maxpoliakov.skillapp.util.ui.smoothScrollToTop
 import dagger.hilt.android.AndroidEntryPoint
@@ -177,19 +178,19 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun findGroupViewHolderById(groupId: Int): SkillGroupViewHolder? {
-            return requireBinding().recyclerView.findViewHolder { viewHolder ->
+            return binding?.recyclerView?.findViewHolder { viewHolder ->
                 viewHolder.viewModel.skillGroup.value!!.id == groupId
             }
         }
 
         private fun findGroupFooterViewHolderById(groupId: Int): SkillGroupFooterViewHolder? {
-            return requireBinding().recyclerView.findViewHolder { viewHolder ->
+            return binding?.recyclerView?.findViewHolder { viewHolder ->
                 viewHolder.groupId == groupId
             }
         }
 
         private fun findSkillViewHolderById(skillId: Int): SkillViewHolder? {
-            return requireBinding().recyclerView.findViewHolder { viewHolder ->
+            return binding?.recyclerView?.findViewHolder { viewHolder ->
                 viewHolder.viewModel.skill.value!!.id == skillId
             }
         }
@@ -266,7 +267,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
                 if (listAdapter.currentList.run { isNotEmpty() && list.size > this.size }) {
                     whenResumed {
-                        requireBinding().recyclerView.smoothScrollToTop()
+                        this@SkillsFragment.binding?.recyclerView?.smoothScrollToTop()
                     }
                 }
 
@@ -327,7 +328,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
     private fun showStopwatch() {
         listAdapter.showStopwatch()
-        requireBinding().recyclerView.smoothScrollToTop()
+        binding?.recyclerView?.smoothScrollToTop()
     }
 
     private fun hideStopwatch() = listAdapter.hideStopwatch()
@@ -351,7 +352,19 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
     private fun navigateToAddSkill() {
         val directions = MainDirections.actionToAddSkillFragment()
-        navigate(requireBinding().addSkillFab, directions, R.string.add_skill_transition_name)
+
+        val view = binding?.addSkillFab
+
+        if (view == null) {
+            navigate(directions)
+            return
+        }
+
+        navigate(view, directions, R.string.add_skill_transition_name)
+    }
+
+    private fun navigate(directions: NavDirections) {
+        findNavController().navigateAnimated(directions)
     }
 
     private fun navigate(view: View, directions: NavDirections, transitionNameResId: Int) {

@@ -21,10 +21,10 @@ class HistoryFragment : FragmentWithHistory<HistoryFragBinding>(-1) {
     }
 
     override fun onHistoryEmpty() {
-        requireBinding().emptyListLayout.root.isVisible = true
+        binding?.emptyListLayout?.root?.isVisible = true
     }
 
     override fun onHistoryNotEmpty() {
-        requireBinding().emptyListLayout.root.isVisible = false
+        binding?.emptyListLayout?.root?.isVisible = false
     }
 }

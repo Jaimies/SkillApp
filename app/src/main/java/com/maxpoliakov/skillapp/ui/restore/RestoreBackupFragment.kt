@@ -23,6 +23,7 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
     lateinit var adapter: BackupListAdapter
 
     override fun onBindingCreated(binding: RestoreBackupFragBinding, savedInstanceState: Bundle?) {
+        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
 
         binding.backupsList.setupAdapter(adapter)
@@ -34,6 +35,7 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
     }
 
     override fun onPreDestroyBinding(binding: RestoreBackupFragBinding) {
+        super.onPreDestroyBinding(binding)
         binding.backupsList.adapter = null
     }
 }

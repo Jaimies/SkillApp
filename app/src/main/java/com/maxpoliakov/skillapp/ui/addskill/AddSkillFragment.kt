@@ -30,6 +30,7 @@ class AddSkillFragment : DataBindingFragment<AddskillFragBinding>() {
 
 
     override fun onBindingCreated(binding: AddskillFragBinding, savedInstanceState: Bundle?) {
+        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
 
         val values = UiMeasurementUnit.values().map { unit -> getString(unit.nameResId) }

@@ -51,6 +51,7 @@ class BackupFragment : DataBindingFragment<BackupFragBinding>() {
     }
 
     override fun onBindingCreated(binding: BackupFragBinding, savedInstanceState: Bundle?) {
+        super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
     }
 

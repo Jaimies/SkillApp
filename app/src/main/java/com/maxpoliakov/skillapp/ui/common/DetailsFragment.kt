@@ -45,7 +45,6 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
         sharedElementReturnTransition = createMaterialContainerTransform(R.integer.animation_duration_short)
     }
 
-    @CallSuper
     override fun onBindingCreated(binding: T, savedInstanceState: Bundle?) {
         super.onBindingCreated(binding, savedInstanceState)
 

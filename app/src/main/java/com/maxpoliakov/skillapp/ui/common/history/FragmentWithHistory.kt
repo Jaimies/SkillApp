@@ -41,6 +41,7 @@ abstract class FragmentWithHistory<T : ViewDataBinding>(@MenuRes menuResId: Int)
     }
 
     override fun onPreDestroyBinding(binding: T) {
+        super.onPreDestroyBinding(binding)
         binding.recyclerView.adapter = null
     }
 

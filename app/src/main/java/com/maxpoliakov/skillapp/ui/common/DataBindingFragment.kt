@@ -29,9 +29,11 @@ abstract class DataBindingFragment<T : ViewDataBinding> : BaseFragment() {
         return binding.root
     }
 
+    @CallSuper
     protected open fun onBindingCreated(binding: T, savedInstanceState: Bundle?) {
     }
 
+    @CallSuper
     protected open fun onPreDestroyBinding(binding: T) {
     }
 

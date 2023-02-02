@@ -10,13 +10,22 @@ import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
 import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
+import com.maxpoliakov.skillapp.shared.util.setClock
+import com.maxpoliakov.skillapp.test.clockOfInstant
+import dagger.hilt.android.testing.HiltAndroidTest
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.time.Clock
 import java.time.Duration
+import java.time.Instant
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
+@HiltAndroidTest
 class DBBackupRestorerTest {
     private lateinit var db: AppDatabase
     private lateinit var backupRestorer: DBBackupRestorer
@@ -25,12 +34,17 @@ class DBBackupRestorerTest {
     @Before
     fun setup() {
         db = createTestDatabase()
-        backupCreator = DBBackupCreator(db)
+        backupCreator = DBBackupCreator(db, Json { encodeDefaults = true })
         backupRestorer = DBBackupRestorer(db)
     }
 
+    @After
+    fun teardown() {
+        setClock(Clock.systemDefaultZone())
+    }
+
     @Test
-    fun restoresBackup() = runBlocking {
+    fun restoresBackup_onADifferentDateFromWhenItWasCreated() = runBlocking {
         db.skillDao().insert(skills)
         db.recordsDao().insert(records)
         db.statsDao().insert(statistics)
@@ -43,6 +57,7 @@ class DBBackupRestorerTest {
         db.skillGroupDao().deleteAll()
         db.statsDao().deleteAll()
 
+        setClock(clockOfInstant(Instant.now().plus(1, ChronoUnit.DAYS)))
         backupRestorer.restore(backupResult.data)
 
         db.skillDao().getAllSkills() shouldBe skills

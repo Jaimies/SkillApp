@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 class DBBackupCreator @Inject constructor(
     private val db: AppDatabase,
+    private val json: Json,
 ) : BackupCreator {
     override suspend fun create(): BackupCreator.Result {
         try {
@@ -37,7 +38,7 @@ class DBBackupCreator @Inject constructor(
         )
 
         BackupData(
-            Json.encodeToString(backupData),
+            json.encodeToString(backupData),
         )
     }
 }

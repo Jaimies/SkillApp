@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit.Millis
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
@@ -14,9 +15,11 @@ import com.maxpoliakov.skillapp.util.charts.ChartDataImpl
 import com.maxpoliakov.skillapp.util.charts.PieData
 import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +37,7 @@ class StatisticsViewModel @Inject constructor(
 
     val summary = getSkills.getSkills(criteria)
         .combine(getStats.getLast7DayCount(criteria), ::calculateSummary)
-        .asLiveData()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, ProductivitySummary.ZERO)
 
     val pieData = pieDataFactory.create(getSkills.getTopSkills(5).map { it.toEntries() })
 }

@@ -3,4 +3,6 @@
     <item type="id" name="delete"/>
     <item type="id" name="change_count"/>
     <item type="id" name="change_date"/>
+    <item type="id" name="change_start_time"/>
+    <item type="id" name="change_end_time"/>
 </resources>

@@ -8,6 +8,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.di.ChildFragmentManager
 import com.maxpoliakov.skillapp.di.SnackbarRoot
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.RecordChange
 import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
@@ -58,7 +59,7 @@ class RecordUtilImpl @Inject constructor(
     private fun editTime(record: Record) {
         UiMeasurementUnit.Millis.showPicker(fragmentManager, record.count, editMode = true) { newTime ->
             ioScope.launch {
-                editRecord.changeCount(record.id, newTime)
+                editRecord.change(record.id, RecordChange.Count(newTime))
             }
         }
     }

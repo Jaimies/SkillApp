@@ -132,4 +132,6 @@
     <string name="pages">Страницы</string>
     <string name="add_pages">Добавить страницы</string>
     <string name="failed_to_load_last_backup_date">Не удалось загрузить последнюю резервную копию</string>
+    <string name="change_start_time">Изменить время начала</string>
+    <string name="change_end_time">Изменить время окончания</string>
 </resources>

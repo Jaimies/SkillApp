@@ -2,14 +2,19 @@ package com.maxpoliakov.skillapp.ui.history
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.Change
 import com.maxpoliakov.skillapp.domain.usecase.records.DeleteRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase
-import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
+import com.maxpoliakov.skillapp.domain.model.RangeChange
+import com.maxpoliakov.skillapp.domain.model.RecordChange
+import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 
 class RecordViewModel @Inject constructor(
@@ -18,10 +23,10 @@ class RecordViewModel @Inject constructor(
     private val ioScope: CoroutineScope
 ) {
     val showMenu = SingleLiveEvent<Any>()
-    val record: LiveData<Record> get() = _record
-    private val _record = MutableLiveData<Record>()
+    val record: LiveData<HistoryUiModel.Record> get() = _record
+    private val _record = MutableLiveData<HistoryUiModel.Record>()
 
-    fun setRecord(record: Record) {
+    fun setRecord(record: HistoryUiModel.Record) {
         _record.value = record
     }
 
@@ -33,17 +38,27 @@ class RecordViewModel @Inject constructor(
     }
 
     fun changeRecordDate(newDate: LocalDate) {
-        ioScope.launch {
-            editRecord.changeDate(record.value!!.id, newDate)
-        }
+        change(RecordChange.Date(newDate))
         logEvent("change_record_date")
     }
 
     fun changeRecordTime(newCount: Long) {
-        ioScope.launch {
-            editRecord.changeCount(record.value!!.id, newCount)
-        }
+        change(RecordChange.Count(newCount))
         logEvent("change_record_time")
+    }
+
+    fun changeStartTime(newTime: LocalTime) {
+        change(RecordChange.TimeRange(RangeChange.Start(newTime)))
+    }
+
+    fun changeEndTime(newTime: LocalTime) {
+        change(RecordChange.TimeRange(RangeChange.End(newTime)))
+    }
+
+    fun change(change: Change<Record>) {
+        ioScope.launch {
+            editRecord.change(record.value?.id ?: return@launch, change)
+        }
     }
 
     fun showMenu(): Boolean {

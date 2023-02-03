@@ -132,4 +132,6 @@
     <string name="backup_upload_failed">Не вдалося завантажити резервну копію на Google Диск</string>
     <string name="backup_creation_failed">Не вдалося створити резервну копію</string>
     <string name="failed_to_load_last_backup_date">Не вдалося завантажити останню резервну копію</string>
+    <string name="change_start_time">Змінити час початку</string>
+    <string name="change_end_time">Змінити час завершення</string>
 </resources>

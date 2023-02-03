@@ -14,6 +14,7 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.showDatePicker
+import com.maxpoliakov.skillapp.util.fragment.showTimePicker
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaBy
 import dagger.assisted.Assisted
@@ -43,6 +44,8 @@ class RecordViewHolder @AssistedInject constructor(
             R.id.delete -> showDeleteDialog()
             R.id.change_date -> showChangeDateDialog()
             R.id.change_count -> showCountPickerDialog()
+            R.id.change_start_time -> showChangeStartTimeDialog();
+            R.id.change_end_time -> showChangeEndTimeDialog();
         }
 
         return true
@@ -54,7 +57,12 @@ class RecordViewHolder @AssistedInject constructor(
         popup.menu.run {
             add(Menu.NONE, R.id.change_date, 0, R.string.change_date)
             add(Menu.NONE, R.id.change_count, 1, unit.changeCountResId)
-            add(Menu.NONE, R.id.delete, 2, R.string.delete)
+            add(Menu.NONE, R.id.delete, 4, R.string.delete)
+
+            if (viewModel.record.value?.dateTimeRange != null) {
+                add(Menu.NONE, R.id.change_start_time, 2, R.string.change_start_time)
+                add(Menu.NONE, R.id.change_end_time, 3, R.string.change_end_time)
+            }
         }
 
         popup.show()
@@ -62,21 +70,42 @@ class RecordViewHolder @AssistedInject constructor(
     }
 
     private fun showDeleteDialog() {
-        context.showDialog(R.string.delete_record_title, R.string.delete_record_message, R.string.delete) {
-            viewModel.deleteRecord()
-        }
+        context.showDialog(
+            R.string.delete_record_title,
+            R.string.delete_record_message,
+            R.string.delete,
+            viewModel::deleteRecord,
+        )
     }
 
     private fun showChangeDateDialog() {
-        fragmentManager.showDatePicker(viewModel.record.value!!.date) { date ->
-            viewModel.changeRecordDate(date)
-        }
+        fragmentManager.showDatePicker(
+            viewModel.record.value!!.date,
+            viewModel::changeRecordDate,
+        )
     }
 
     private fun showCountPickerDialog() {
-        viewModel.record.value!!.unit.showPicker(fragmentManager, viewModel.record.value!!.count, editMode = true) { time ->
-            viewModel.changeRecordTime(time)
-        }
+        viewModel.record.value!!.unit.showPicker(
+            fragmentManager,
+            viewModel.record.value!!.count,
+            editMode = true,
+            onTimeSet = viewModel::changeRecordTime
+        )
+    }
+
+    private fun showChangeStartTimeDialog() {
+        fragmentManager.showTimePicker(
+            viewModel.record.value?.dateTimeRange?.start ?: return,
+            viewModel::changeStartTime,
+        )
+    }
+
+    private fun showChangeEndTimeDialog() {
+        fragmentManager.showTimePicker(
+            viewModel.record.value?.dateTimeRange?.endInclusive ?: return,
+            viewModel::changeEndTime,
+        )
     }
 
     fun bindRecord(record: HistoryUiModel.Record) {

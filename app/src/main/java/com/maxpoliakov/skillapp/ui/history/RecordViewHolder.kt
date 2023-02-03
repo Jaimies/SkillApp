@@ -96,6 +96,7 @@ class RecordViewHolder @AssistedInject constructor(
 
     private fun showChangeStartTimeDialog() {
         fragmentManager.showTimePicker(
+            context,
             viewModel.record.value?.dateTimeRange?.start ?: return,
             viewModel::changeStartTime,
         )
@@ -103,6 +104,7 @@ class RecordViewHolder @AssistedInject constructor(
 
     private fun showChangeEndTimeDialog() {
         fragmentManager.showTimePicker(
+            context,
             viewModel.record.value?.dateTimeRange?.endInclusive ?: return,
             viewModel::changeEndTime,
         )

@@ -112,17 +112,15 @@ abstract class PickerDialog : DialogFragment() {
         }
     }
 
-    override fun onCreateView(
-        layoutInflater: LayoutInflater,
-        viewGroup: ViewGroup?,
-        bundle: Bundle?
-    ): View {
-        val root = layoutInflater.inflate(R.layout.picker_dialog, viewGroup) as ViewGroup
+    override fun onCreateView(layoutInflater: LayoutInflater, viewGroup: ViewGroup?, bundle: Bundle?): View {
+        return layoutInflater.inflate(R.layout.picker_dialog, viewGroup)
+    }
 
-        firstPicker = root.findViewById(R.id.hours_picker)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        firstPicker = view.findViewById(R.id.hours_picker)
         firstPicker.setup(getFirstPickerValues())
 
-        secondPicker = root.findViewById(R.id.minutes_picker)
+        secondPicker = view.findViewById(R.id.minutes_picker)
 
         if (secondPickerEnabled) {
             secondPicker.setup(getSecondPickerValues())
@@ -130,28 +128,27 @@ abstract class PickerDialog : DialogFragment() {
             secondPicker.isGone = true
         }
 
-        val headerTitle = root.findViewById<TextView>(R.id.header_title)
+        val headerTitle = view.findViewById<TextView>(R.id.header_title)
         if (!TextUtils.isEmpty(titleText)) {
             headerTitle.text = titleText
         }
         if (titleResId != 0) {
             headerTitle.setText(titleResId)
         }
-        val okButton = root.findViewById<Button>(R.id.material_timepicker_ok_button)
+        val okButton = view.findViewById<Button>(R.id.material_timepicker_ok_button)
         okButton.setOnClickListener { v ->
             for (listener in positiveButtonListeners) {
                 listener.onClick(v)
             }
             dismiss()
         }
-        val cancelButton = root.findViewById<Button>(R.id.material_timepicker_cancel_button)
+        val cancelButton = view.findViewById<Button>(R.id.material_timepicker_cancel_button)
         cancelButton.setOnClickListener { v ->
             for (listener in negativeButtonListeners) {
                 listener.onClick(v)
             }
             dismiss()
         }
-        return root
     }
 
     override fun onCancel(dialogInterface: DialogInterface) {

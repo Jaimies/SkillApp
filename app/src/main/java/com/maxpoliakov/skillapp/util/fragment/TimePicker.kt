@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.util.fragment
 
 import android.content.Context
 import android.text.format.DateFormat
+import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -11,12 +12,14 @@ import java.time.LocalTime
 
 inline fun FragmentManager.showTimePicker(
     context: Context,
+    @StringRes titleResId: Int,
     initialValue: LocalTime,
     crossinline onSelected: (LocalTime) -> Unit,
 ) {
     val picker = MaterialTimePicker.Builder()
         .setHour(initialValue.hour)
         .setMinute(initialValue.minute)
+        .setTitleText(titleResId)
         .setTimeFormat(getPreferredTimeFormat(context))
         .build()
 

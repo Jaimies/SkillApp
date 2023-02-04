@@ -41,13 +41,13 @@
         android:paddingEnd="24dp"
         android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/hours_picker"
+        app:layout_constraintStart_toEndOf="@id/first_picker"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_min="100dp"
         app:npv_ItemPaddingVertical="24dp" />
 
     <Button
-        android:id="@+id/material_timepicker_cancel_button"
+        android:id="@+id/cancel_button"
         style="?attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,11 +55,11 @@
         android:layout_marginEnd="8dp"
         android:minWidth="72dp"
         android:text="@android:string/cancel"
-        app:layout_constraintEnd_toStartOf="@id/material_timepicker_ok_button"
-        app:layout_constraintTop_toBottomOf="@id/hours_picker" />
+        app:layout_constraintEnd_toStartOf="@id/ok_button"
+        app:layout_constraintTop_toBottomOf="@id/first_picker" />
 
     <Button
-        android:id="@+id/material_timepicker_ok_button"
+        android:id="@+id/ok_button"
         style="?attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,5 +67,5 @@
         android:minWidth="64dp"
         android:text="@android:string/ok"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hours_picker" />
+        app:layout_constraintTop_toBottomOf="@id/first_picker" />
 </androidx.constraintlayout.widget.ConstraintLayout>

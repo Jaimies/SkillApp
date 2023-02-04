@@ -144,14 +144,14 @@ abstract class PickerDialog : DialogFragment() {
             binding.headerTitle.setText(titleResId)
         }
 
-        binding.materialTimepickerOkButton.setOnClickListener { v ->
+        binding.okButton.setOnClickListener { v ->
             for (listener in positiveButtonListeners) {
                 listener.onClick(v)
             }
             dismiss()
         }
 
-        binding.materialTimepickerCancelButton.setOnClickListener { v ->
+        binding.cancelButton.setOnClickListener { v ->
             for (listener in negativeButtonListeners) {
                 listener.onClick(v)
             }

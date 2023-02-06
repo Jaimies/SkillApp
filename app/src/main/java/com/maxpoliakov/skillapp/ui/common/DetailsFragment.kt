@@ -56,7 +56,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
             input.makeNonEditable()
         }
 
-        if (viewModel.isEditing.value!!)
+        if (viewModel.isEditing.value)
             binding.switchToEditMode()
 
         observe(viewModel.onSave) { this.binding?.switchToViewMode() }
@@ -75,7 +75,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
     }
 
     private fun onBackPressed(): Boolean {
-        if (viewModel.isEditing.value!!) {
+        if (viewModel.isEditing.value) {
             viewModel.exitEditingMode()
             binding?.switchToViewMode()
             return false
@@ -113,7 +113,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
     }
 
     private fun onEditClicked() {
-        if (viewModel.isEditing.value!!)
+        if (viewModel.isEditing.value)
             viewModel.save()
         else
             binding?.switchToEditMode()

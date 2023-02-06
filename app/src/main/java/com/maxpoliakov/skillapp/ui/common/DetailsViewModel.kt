@@ -20,6 +20,7 @@ import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -47,8 +48,8 @@ abstract class DetailsViewModel(
     private val uiUnitFlow by lazy { unitFlow.map { it.mapToUI() } }
     val unit by lazy { uiUnitFlow.asLiveData() }
 
-    private val _isEditing = MutableLiveData(false)
-    val isEditing: LiveData<Boolean> get() = _isEditing
+    private val _isEditing = MutableStateFlow(false)
+    val isEditing get() = _isEditing.asStateFlow()
 
     private val _onSave = SingleLiveEvent<Nothing>()
     val onSave: LiveData<Nothing> get() = _onSave

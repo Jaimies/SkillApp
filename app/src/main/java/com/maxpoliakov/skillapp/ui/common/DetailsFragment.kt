@@ -208,9 +208,9 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
         clearFocus()
     }
 
-    protected val transitionDuration
+    private val transitionDuration
         get() = resources.getInteger(R.integer.animation_duration).toLong()
 
-    protected val shortTransitionDuration
+    private val shortTransitionDuration
         get() = resources.getInteger(R.integer.animation_duration_short).toLong()
 }

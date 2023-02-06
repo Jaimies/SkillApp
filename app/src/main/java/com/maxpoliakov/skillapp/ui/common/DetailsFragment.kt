@@ -86,21 +86,14 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
 
     @CallSuper
     override fun onMenuItemSelected(id: Int): Boolean {
-        return when (id) {
-            android.R.id.home -> {
-                viewModel.onBackPressed()
-                true
-            }
-            R.id.edit -> {
-                viewModel.onEditClicked()
-                true
-            }
-            R.id.delete -> {
-                onDeleteSelected()
-                true
-            }
-            else -> false
+        when (id) {
+            android.R.id.home -> viewModel.onBackPressed()
+            R.id.edit -> viewModel.onEditClicked()
+            R.id.delete -> onDeleteSelected()
+            else -> return false
         }
+
+        return true
     }
 
     open fun onSwitchToEditMode() {}

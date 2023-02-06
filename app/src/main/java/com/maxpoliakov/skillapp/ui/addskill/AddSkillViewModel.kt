@@ -2,14 +2,15 @@ package com.maxpoliakov.skillapp.ui.addskill
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.model.mapToUI
-import com.maxpoliakov.skillapp.ui.common.EditableViewModel
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +20,11 @@ import javax.inject.Inject
 @HiltViewModel
 class AddSkillViewModel @Inject constructor(
     private val manageSkill: ManageSkillUseCase,
-) : EditableViewModel() {
+) : ViewModel() {
+    val name = MutableLiveData("")
     val totalTime = MutableLiveData<String>()
+
+    val inputIsValid = name.map { it?.isBlank() == false }
 
     private val _chooseGoal = SingleLiveEvent<Any>()
     val chooseGoal: LiveData<Any> get() = _chooseGoal
@@ -38,8 +42,9 @@ class AddSkillViewModel @Inject constructor(
         _unit.value = UiMeasurementUnit.values()[index]
     }
 
-    override fun save(name: String) {
+    fun update() {
         viewModelScope.launch {
+            val name = name.value.orEmpty().trim()
             val count = _unit.value.getInitialCount(totalTime.value?.toLongOrNull() ?: 0L)
 
             val skillId = manageSkill.addSkill(

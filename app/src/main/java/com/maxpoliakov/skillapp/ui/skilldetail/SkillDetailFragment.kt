@@ -44,7 +44,7 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
         }
     }
 
-    override fun onStartEditing() = logEvent("edit_skill")
+    override fun onSwitchToEditMode() = logEvent("edit_skill")
 
     override fun onDeleteSelected() {
         requireContext().showDialog(R.string.delete_skill_title, R.string.delete_skill_message, R.string.delete) {

@@ -53,13 +53,13 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
             input.isSingleLine = true
             input.maxLines = 2
             input.setHorizontallyScrolling(false)
-            input.exitEditMode()
+            input.makeNonEditable()
         }
 
         if (viewModel.isEditing.value!!)
-            binding.startEditing()
+            binding.switchToEditMode()
 
-        observe(viewModel.onSave) { this.binding?.stopEditing() }
+        observe(viewModel.onSave) { this.binding?.switchToViewMode() }
 
         observe(viewModel.chooseGoal) {
             viewModel.unit.value!!.showGoalPicker(
@@ -77,7 +77,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
     private fun onBackPressed(): Boolean {
         if (viewModel.isEditing.value!!) {
             viewModel.exitEditingMode()
-            binding?.stopEditing()
+            binding?.switchToViewMode()
             return false
         } else {
             findNavController().navigateUp()
@@ -116,14 +116,14 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
         if (viewModel.isEditing.value!!)
             viewModel.save()
         else
-            binding?.startEditing()
+            binding?.switchToEditMode()
     }
 
-    open fun onStartEditing() {}
+    open fun onSwitchToEditMode() {}
 
-    protected open fun T.startEditing() = input.run {
-        onStartEditing()
-        enterEditMode()
+    protected open fun T.switchToEditMode() = input.run {
+        onSwitchToEditMode()
+        this.makeEditable()
 
         viewModel.enterEditingMode()
 
@@ -162,8 +162,8 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
             .start()
     }
 
-    protected open fun T.stopEditing() = input.run {
-        exitEditMode()
+    protected open fun T.switchToViewMode() = input.run {
+        this.makeNonEditable()
 
         menu?.getItem(0)?.setTitle(R.string.edit)
         val duration = shortTransitionDuration
@@ -190,7 +190,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
         goalInput.isVisible = false
     }
 
-    private fun EditText.enterEditMode() {
+    private fun EditText.makeEditable() {
         inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
 
         isFocusable = true
@@ -199,7 +199,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
         setSelection(text.length)
     }
 
-    private fun EditText.exitEditMode() {
+    private fun EditText.makeNonEditable() {
         inputType = EditorInfo.TYPE_NULL
 
         isFocusable = false

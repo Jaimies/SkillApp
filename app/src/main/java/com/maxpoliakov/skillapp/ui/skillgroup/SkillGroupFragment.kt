@@ -26,5 +26,5 @@ class SkillGroupFragment : DetailsFragment<SkillGroupFragBinding>(R.menu.skillgr
         binding.viewModel = viewModel
     }
 
-    override fun onStartEditing() = logEvent("edit_skill_group")
+    override fun onSwitchToEditMode() = logEvent("edit_skill_group")
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.Trackable
@@ -48,8 +49,8 @@ abstract class DetailsViewModel(
     private val uiUnitFlow by lazy { unitFlow.map { it.mapToUI() } }
     val unit by lazy { uiUnitFlow.asLiveData() }
 
-    private val _isEditing = MutableStateFlow(false)
-    val isEditing get() = _isEditing.asStateFlow()
+    private val _mode = MutableStateFlow(Mode.View)
+    val mode get() = _mode.asStateFlow()
 
     private val _onSave = SingleLiveEvent<Nothing>()
     val onSave: LiveData<Nothing> get() = _onSave
@@ -62,6 +63,9 @@ abstract class DetailsViewModel(
 
     private val _chooseGoal = SingleLiveEvent<Any>()
     val chooseGoal: LiveData<Any> get() = _chooseGoal
+
+    private val _navigateUp = SingleLiveEvent<Any>()
+    val navigateUp: LiveData<Any> get() = _navigateUp
 
     val lastWeekTime by lazy {
         getStatsUseCase.getLast7DayCount(selectionCriteria)
@@ -119,13 +123,26 @@ abstract class DetailsViewModel(
 
     protected abstract fun isStopwatchTracking(state: StopwatchState.Running): Boolean
 
-    fun enterEditingMode() {
-        _isEditing.value = true
+    fun switchToEditMode() {
+        _mode.value = Mode.Edit
     }
 
-    fun exitEditingMode() {
+    fun switchToViewMode() {
         name.value = lastName
-        _isEditing.value = false
+        _mode.value = Mode.View
+    }
+
+    fun onEditClicked() {
+        if (_mode.value == Mode.Edit) save()
+        else switchToEditMode()
+    }
+
+    fun onBackPressed() {
+        if (mode.value == Mode.Edit) {
+            switchToViewMode()
+        } else {
+            _navigateUp.call()
+        }
     }
 
     abstract suspend fun update(name: String)
@@ -136,7 +153,7 @@ abstract class DetailsViewModel(
             lastName = name
         }
 
-        _isEditing.value = false
+        _mode.value = Mode.View
         _onSave.call()
     }
 
@@ -146,6 +163,12 @@ abstract class DetailsViewModel(
     }
 
     fun chooseGoal() = _chooseGoal.call()
+
+    // todo consider extracting
+    enum class Mode {
+        View,
+        Edit,
+    }
 
     companion object {
         private const val GOAL_PROGRESS_REFRESH_INTERVAL = 2_000L

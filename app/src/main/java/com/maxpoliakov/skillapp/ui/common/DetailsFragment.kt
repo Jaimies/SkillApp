@@ -56,10 +56,12 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
             input.makeNonEditable()
         }
 
-        if (viewModel.isEditing.value)
-            binding.switchToEditMode()
+        lifecycleScope.launch {
+            viewModel.mode.collect(::switchToMode)
+        }
 
         observe(viewModel.onSave) { this.binding?.switchToViewMode() }
+        observe(viewModel.navigateUp) { findNavController().navigateUp() }
 
         observe(viewModel.chooseGoal) {
             viewModel.unit.value!!.showGoalPicker(
@@ -70,18 +72,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            isEnabled = !onBackPressed()
-        }
-    }
-
-    private fun onBackPressed(): Boolean {
-        if (viewModel.isEditing.value) {
-            viewModel.exitEditingMode()
-            binding?.switchToViewMode()
-            return false
-        } else {
-            findNavController().navigateUp()
-            return true
+            viewModel.onBackPressed()
         }
     }
 
@@ -95,13 +86,13 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
 
     @CallSuper
     override fun onMenuItemSelected(id: Int): Boolean {
-        return when(id) {
+        return when (id) {
             android.R.id.home -> {
-                onBackPressed()
+                viewModel.onBackPressed()
                 true
             }
             R.id.edit -> {
-                onEditClicked()
+                viewModel.onEditClicked()
                 true
             }
             R.id.delete -> {
@@ -112,20 +103,18 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
         }
     }
 
-    private fun onEditClicked() {
-        if (viewModel.isEditing.value)
-            viewModel.save()
-        else
-            binding?.switchToEditMode()
-    }
-
     open fun onSwitchToEditMode() {}
+
+    private fun switchToMode(mode: DetailsViewModel.Mode) = binding?.run {
+        when (mode) {
+            DetailsViewModel.Mode.View -> switchToViewMode()
+            DetailsViewModel.Mode.Edit -> switchToEditMode()
+        }
+    }
 
     private fun T.switchToEditMode() = input.run {
         onSwitchToEditMode()
         this.makeEditable()
-
-        viewModel.enterEditingMode()
 
         lifecycleScope.launchWhenResumed {
             delay(100)

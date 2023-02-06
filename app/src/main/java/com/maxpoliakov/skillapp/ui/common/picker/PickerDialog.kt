@@ -17,7 +17,9 @@ import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import cn.carbswang.android.numberpickerview.library.NumberPickerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.log
@@ -44,6 +46,8 @@ abstract class PickerDialog : DialogFragment() {
 
     abstract fun getFirstPickerValues(): Array<String>
     abstract fun getSecondPickerValues(): Array<String>
+
+    private val viewModel by viewModels<PickerDialogViewModel>()
 
     override fun onCreateDialog(bundle: Bundle?): Dialog {
         val dialog = Dialog(requireContext(), themeResId)
@@ -121,6 +125,8 @@ abstract class PickerDialog : DialogFragment() {
 
     override fun onCreateView(layoutInflater: LayoutInflater, viewGroup: ViewGroup?, bundle: Bundle?): View {
         val binding = PickerDialogBinding.inflate(layoutInflater, viewGroup, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
         this.binding = binding
 
         onBindingCreated(binding, bundle)

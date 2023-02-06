@@ -8,4 +8,6 @@
     <dimen name="productivity_summary_spacing_start">60dp</dimen>
     <dimen name="small_card_height">70dp</dimen>
     <dimen name="highlighted_card_stroke_width">4dp</dimen>
+    <dimen name="picker_dialog_text_input_width">95dp</dimen>
+    <dimen name="picker_dialog_text_input_height">80dp</dimen>
 </resources>

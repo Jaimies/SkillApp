@@ -1,71 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingHorizontal="8dp"
-    android:accessibilityPaneTitle="@string/material_timepicker_select_time"
-    android:paddingBottom="2dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/header_title"
-        style="?attr/textAppearanceOverline"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.maxpoliakov.skillapp.ui.common.picker.PickerDialogViewModel" />
+
+        <import type="com.maxpoliakov.skillapp.ui.common.picker.InputMode" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:importantForAccessibility="no"
-        android:text="@string/material_timepicker_select_time"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:accessibilityPaneTitle="@string/material_timepicker_select_time"
+        android:paddingHorizontal="8dp"
+        android:paddingBottom="2dp">
 
+        <TextView
+            android:id="@+id/header_title"
+            style="?attr/textAppearanceOverline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:importantForAccessibility="no"
+            android:text="@string/material_timepicker_select_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <cn.carbswang.android.numberpickerview.library.NumberPickerView
-        android:id="@+id/first_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:paddingStart="24dp"
-        android:paddingEnd="32dp"
-        android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_min="100dp"
-        app:npv_ItemPaddingVertical="24dp" />
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/slider_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="first_picker,second_picker"
+            app:visible="@{viewModel.mode == InputMode.Slider}" />
 
-    <cn.carbswang.android.numberpickerview.library.NumberPickerView
-        android:id="@+id/second_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:paddingEnd="24dp"
-        android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/first_picker"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_min="100dp"
-        app:npv_ItemPaddingVertical="24dp" />
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+            android:id="@+id/first_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="32dp"
+            android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_min="100dp"
+            app:npv_ItemPaddingVertical="24dp" />
 
-    <Button
-        android:id="@+id/cancel_button"
-        style="?attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="8dp"
-        android:minWidth="72dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintEnd_toStartOf="@id/ok_button"
-        app:layout_constraintTop_toBottomOf="@id/first_picker" />
+        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+            android:id="@+id/second_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:paddingEnd="24dp"
+            android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/first_picker"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_min="100dp"
+            app:npv_ItemPaddingVertical="24dp" />
 
-    <Button
-        android:id="@+id/ok_button"
-        style="?attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:minWidth="64dp"
-        android:text="@android:string/ok"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/first_picker" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/keyboard_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="first_text_input,second_text_input"
+            app:visible="@{viewModel.mode == InputMode.Keyboard}" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/first_text_input"
+            android:layout_width="@dimen/picker_dialog_text_input_width"
+            android:layout_height="@dimen/picker_dialog_text_input_height"
+            android:layout_marginStart="20dp"
+            app:layout_constraintEnd_toStartOf="@id/second_text_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/second_text_input"
+            android:layout_width="@dimen/picker_dialog_text_input_width"
+            android:layout_height="@dimen/picker_dialog_text_input_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/first_text_input"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toBottomOf="@id/header_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <NumberPicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="first_text_input,second_text_input,first_picker,second_picker" />
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintEnd_toStartOf="@id/cancel_button"
+            android:onClick="@{() -> viewModel.toggleInputMode()}"
+            android:background="?selectableItemBackgroundBorderless"
+            android:padding="3dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/cancel_button"
+            app:layout_constraintTop_toTopOf="@id/cancel_button"
+            android:src="@{viewModel.mode == InputMode.Slider ? @drawable/ic_keyboard : @drawable/ic_clock}" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
+            android:minWidth="72dp"
+            android:text="@android:string/cancel"
+            app:layout_constraintEnd_toStartOf="@id/ok_button"
+            app:layout_constraintTop_toBottomOf="@id/barrier" />
+
+        <Button
+            android:id="@+id/ok_button"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:minWidth="64dp"
+            android:text="@android:string/ok"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

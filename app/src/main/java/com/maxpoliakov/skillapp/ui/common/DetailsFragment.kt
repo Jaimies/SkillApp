@@ -121,7 +121,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
 
     open fun onSwitchToEditMode() {}
 
-    protected open fun T.switchToEditMode() = input.run {
+    private fun T.switchToEditMode() = input.run {
         onSwitchToEditMode()
         this.makeEditable()
 
@@ -162,7 +162,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
             .start()
     }
 
-    protected open fun T.switchToViewMode() = input.run {
+    private fun T.switchToViewMode() = input.run {
         this.makeNonEditable()
 
         menu?.getItem(0)?.setTitle(R.string.edit)

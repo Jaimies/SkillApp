@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.MappableEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 
 data class UiGoal(
     val count: Long,
@@ -71,6 +72,11 @@ data class UiGoal(
 
 fun UiGoal.mapToDomain() = Goal(count, type.toDomain())
 
+@JvmName("mapToUI_withUIMeasurementUnit")
 fun Flow<Goal?>.mapToUI(unit: Flow<UiMeasurementUnit>): Flow<UiGoal?> {
-    return combine(unit) { goal, unit -> goal?.mapToUI(unit.toDomain()) }
+    return mapToUI(unit.map(UiMeasurementUnit::toDomain))
+}
+
+fun Flow<Goal?>.mapToUI(unit: Flow<MeasurementUnit<*>>): Flow<UiGoal?> {
+    return combine(unit) { goal, unit -> goal?.mapToUI(unit) }
 }

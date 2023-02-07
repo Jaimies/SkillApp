@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.Trackable
@@ -46,8 +45,7 @@ abstract class DetailsViewModel(
 
     override val unitForDailyTotals get() = unitFlow
 
-    private val uiUnitFlow by lazy { unitFlow.map { it.mapToUI() } }
-    val unit by lazy { uiUnitFlow.asLiveData() }
+    val unit by lazy { unitFlow.map { it.mapToUI() }.asLiveData() }
 
     private val _mode = MutableStateFlow(Mode.View)
     val mode get() = _mode.asStateFlow()
@@ -59,7 +57,7 @@ abstract class DetailsViewModel(
     val inputIsValid = name.map { it?.isBlank() == false }
 
     private val _goal = MutableStateFlow<Goal?>(null)
-    val goal by lazy { _goal.mapToUI(uiUnitFlow).asLiveData() }
+    val goal by lazy { _goal.mapToUI(unitFlow).asLiveData() }
 
     private val _chooseGoal = SingleLiveEvent<Any>()
     val chooseGoal: LiveData<Any> get() = _chooseGoal

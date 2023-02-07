@@ -5,12 +5,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.StatisticsFragBinding
-import com.maxpoliakov.skillapp.ui.chart.BarChartFragment
+import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.util.ui.navigateAnimated
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class StatisticsFragment : BarChartFragment<StatisticsFragBinding>(R.menu.stats_frag_menu) {
+class StatisticsFragment : ActionBarFragment<StatisticsFragBinding>(R.menu.stats_frag_menu) {
     override val layoutId get() = R.layout.statistics_frag
 
     private val viewModel: StatisticsViewModel by viewModels()

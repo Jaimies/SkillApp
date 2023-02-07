@@ -10,6 +10,7 @@ import com.github.mikephil.charting.components.LimitLine.LimitLabelPosition
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.jobs.MoveViewJob
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.UiGoal
@@ -45,6 +46,13 @@ class TheBarChart : BarChart {
         moveViewToX(state.lowestVisibleX)
 
         stateRestored = true
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+
+        // fix for https://github.com/PhilJay/MPAndroidChart/issues/2238
+        MoveViewJob.getInstance(null, 0f, 0f, null, null)
     }
 
     fun update(data: BarChartData?) {

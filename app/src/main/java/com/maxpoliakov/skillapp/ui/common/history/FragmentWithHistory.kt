@@ -7,7 +7,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import com.maxpoliakov.skillapp.ui.chart.BarChartFragment
+import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.history.HistoryPagingAdapter
 import com.maxpoliakov.skillapp.util.ui.addDividers
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class FragmentWithHistory<T : ViewDataBinding>(@MenuRes menuResId: Int) : BarChartFragment<T>(menuResId) {
+abstract class FragmentWithHistory<T : ViewDataBinding>(@MenuRes menuResId: Int) : ActionBarFragment<T>(menuResId) {
     @Inject
     lateinit var listAdapter: HistoryPagingAdapter
 

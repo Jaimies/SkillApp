@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import com.maxpoliakov.skillapp.shared.util.combine
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria as Criteria
@@ -49,15 +50,17 @@ class ChartDataImpl @AssistedInject constructor(
         StatisticInterval.values().associateBy({ it }, ::getChartData)
     }
 
-    private val entry = MutableStateFlow<Entry?>(Entry(LocalDate.now().daysSinceEpoch.toFloat(), 0f))
+    private val selectedEntry = MutableStateFlow<Entry?>(Entry(LocalDate.now().daysSinceEpoch.toFloat(), 0f))
 
-    private val selectedDateRange = entry.combine(statisticType) { entry, type ->
+    private val selectedDateRange = selectedEntry.combine(statisticType) { entry, type ->
         entry?.x?.toLong()?.let { num ->
             type.toDate(num)..type.toDate(num)
         }
     }
 
-    override val pieData = selectedDateRange.combine(criteria, this::getPieEntries)
+    private val state = combine(criteria, dateRange, selectedDateRange, unit, statisticType, goal, ::State)
+
+    override val pieData = state.map(this::getPieEntries)
         .flatMapLatest { it }
         .map { skillPieEntries ->
             PieChartData(toPieEntries(skillPieEntries))
@@ -65,26 +68,27 @@ class ChartDataImpl @AssistedInject constructor(
         .asLiveData()
 
     // todo goofy name
-    override val stats = combine(statisticType, unit, goal, dateRange) { interval, unit, goal, dates ->
-        statsTypes[interval]!!.map { stats ->
-            // todo maybe pass fewer arguments
-            BarChartData.from(
-                interval, stats, unit, goal,
-                dates ?: LocalDate.now()
-                    .minus(interval.numberOfValues.toLong() - 1, interval.unit)
-                    .rangeTo(LocalDate.now()),
-            )
+    override val stats = state.flatMapLatest { state ->
+        statsTypes[state.interval]!!.map { stats ->
+            makeBarChartData(state, stats)
         }
+    }.asLiveData()
+
+    private fun makeBarChartData(state: State, stats: List<Statistic>): BarChartData? {
+        return BarChartData.from(
+            state.interval, stats, state.unit, state.goal,
+            state.dateRange ?: LocalDate.now()
+                .minus(state.interval.numberOfValues.toLong() - 1, state.interval.unit)
+                .rangeTo(LocalDate.now()),
+        )
     }
-        .flatMapLatest { it }
-        .asLiveData()
 
     override fun setSelectedEntry(entry: Entry?) {
         if (entry == null) {
             // todo handle null as well
             return
         }
-        this.entry.value = entry
+        this.selectedEntry.value = entry
     }
 
     override fun setStatisticType(type: StatisticInterval) {
@@ -94,10 +98,10 @@ class ChartDataImpl @AssistedInject constructor(
     override fun setStatisticType(type: UiStatisticInterval) = setStatisticType(type.toDomain())
 
     override fun getChartData(interval: StatisticInterval): Flow<List<Statistic>> {
-        return combine(criteria, dateRange) { criteria, dates ->
+        return state.map { state ->
             getStats.getGroupedStats(
-                criteria,
-                dates ?: LocalDate.now()
+                state.criteria,
+                state.dateRange ?: LocalDate.now()
                     .minus(interval.numberOfValues.toLong() - 1, interval.unit)
                     .rangeTo(LocalDate.now()),
                 interval,
@@ -105,11 +109,11 @@ class ChartDataImpl @AssistedInject constructor(
         }.flatMapLatest { it }
     }
 
-    private fun getPieEntries(dateRange: ClosedRange<LocalDate>?, criteria: Criteria): Flow<List<SkillPieEntry>> {
-        return if (dateRange == null) {
+    private fun getPieEntries(state: State): Flow<List<SkillPieEntry>> {
+        return if (state.selectedDateRange == null) {
             TODO()
         } else {
-            getPieEntries(criteria, dateRange)
+            getPieEntries(state.criteria, state.selectedDateRange)
         }
     }
 
@@ -139,6 +143,15 @@ class ChartDataImpl @AssistedInject constructor(
             .take(5)
             .toPieEntries(context)
     }
+
+    data class State(
+        val criteria: Criteria,
+        val dateRange: ClosedRange<LocalDate>?,
+        val selectedDateRange: ClosedRange<LocalDate>?,
+        val unit: MeasurementUnit<*>,
+        val interval: StatisticInterval,
+        val goal: Goal?,
+    )
 
     @AssistedFactory
     interface Factory {

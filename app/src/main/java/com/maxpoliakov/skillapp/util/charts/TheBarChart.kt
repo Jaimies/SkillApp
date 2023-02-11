@@ -93,7 +93,6 @@ class TheBarChart : BarChart {
             valueFormatter = data.unit.getValueFormatter(context)
             valueTextColor = context.textColor
             color = context.primaryColor
-            isHighlightEnabled = false
         }
     }
 

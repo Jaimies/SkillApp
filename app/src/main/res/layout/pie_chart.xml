@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.maxpoliakov.skillapp.util.charts.PieData" />
+            type="com.maxpoliakov.skillapp.util.charts.ChartData" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         app:contentPaddingBottom="20dp"
         app:contentPaddingLeft="14dp"
-        app:contentPaddingRight="14dp"
-        app:visible="@{!data.isEmpty}">
+        app:contentPaddingRight="14dp">
+        <!-- todo hide if empty? -->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="-50dp"
-                app:data="@{data.data}"
+                app:data="@{data.pieData}"
                 app:layout_constraintDimensionRatio="H,2:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

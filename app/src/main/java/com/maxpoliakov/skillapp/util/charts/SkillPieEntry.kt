@@ -11,6 +11,8 @@ data class SkillPieEntry(
     val count: Long,
 ) : PieEntry(count.toFloat()) {
 
+    val hasPositiveValue get() = count > 0L
+
     fun toPieEntry(context: Context): ThePieEntry {
         val formattedValue = skill.unit
             .mapToUI()

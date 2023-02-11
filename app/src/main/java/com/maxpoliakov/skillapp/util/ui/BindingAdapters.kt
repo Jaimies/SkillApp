@@ -1,14 +1,14 @@
 package com.maxpoliakov.skillapp.util.ui
 
-import android.os.SystemClock
-import android.text.format.DateFormat
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Chronometer
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.android.material.button.MaterialButton
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.PieChartData
@@ -70,4 +70,21 @@ fun TheBarChart.setData(data: BarChartData?) {
 @BindingAdapter("data")
 fun ThePieChart.setData(data: PieChartData?) {
     data?.let(this::update)
+}
+
+interface OnBarChartValueSetListener {
+    fun onValueSelected(e: Entry?)
+}
+
+@BindingAdapter("onEntrySelected")
+fun TheBarChart.setOnEntrySelected(listener: OnBarChartValueSetListener) {
+    setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+        override fun onValueSelected(e: Entry?, h: Highlight?) {
+            listener.onValueSelected(e)
+        }
+
+        override fun onNothingSelected() {
+            listener.onValueSelected(null)
+        }
+    })
 }

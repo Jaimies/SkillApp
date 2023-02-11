@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface GetStatsUseCase {
-    fun getStats(
+    fun getStats(criteria: SkillSelectionCriteria, dates: ClosedRange<LocalDate>): Flow<List<Statistic>>
+
+    fun getGroupedStats(
         criteria: SkillSelectionCriteria,
         dates: ClosedRange<LocalDate>,
         interval: StatisticInterval

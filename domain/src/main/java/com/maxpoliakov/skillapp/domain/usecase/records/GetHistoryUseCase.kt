@@ -9,6 +9,6 @@ import java.time.LocalDate
 interface GetHistoryUseCase {
     fun getRecords(criteria: SkillSelectionCriteria): Flow<PagingData<Record>>
 
-    suspend fun getCount(criteria: SkillSelectionCriteria, range: ClosedRange<LocalDate>): Long
-    suspend fun getCount(criteria: SkillSelectionCriteria, date: LocalDate): Long
+    fun getCount(criteria: SkillSelectionCriteria, range: ClosedRange<LocalDate>): Flow<Long>
+    fun getCount(criteria: SkillSelectionCriteria, date: LocalDate): Flow<Long>
 }

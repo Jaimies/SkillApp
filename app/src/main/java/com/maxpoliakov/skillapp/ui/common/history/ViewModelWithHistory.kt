@@ -13,6 +13,7 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToPresentation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
@@ -30,13 +31,6 @@ abstract class ViewModelWithHistory : ViewModel() {
         }
     }
 
-    private suspend fun getCountAtDate(unit: MeasurementUnit<*>, date: LocalDate): Long {
-        return getHistory.getCount(
-            selectionCriteria.withUnit(unit),
-            date,
-        )
-    }
-
     private fun PagingData<HistoryUiModel.Record>.withSeparators(): PagingData<HistoryUiModel> {
         return this.insertSeparators(generator = ::createSeparatorIfNeeded)
     }
@@ -52,11 +46,18 @@ abstract class ViewModelWithHistory : ViewModel() {
     }
 
     private suspend fun createSeparator(record: HistoryUiModel.Record): Separator {
-        return Separator(record.date, getTotal(record.date))
+        return Separator(record.date, getTotal(record.date).first())
     }
 
-    private suspend fun getTotal(date: LocalDate): Separator.Total {
-        val unit = unitForDailyTotals.first()
-        return Separator.Total(getCountAtDate(unit, date), unit.mapToUI())
+    private fun getTotal(date: LocalDate): Flow<Separator.Total> {
+        return unitForDailyTotals.flatMapLatest { unit ->
+            getCountAtDate(unit, date).map { count ->
+                Separator.Total(count, unit.mapToUI())
+            }
+        }
+    }
+
+    private fun getCountAtDate(unit: MeasurementUnit<*>, date: LocalDate): Flow<Long> {
+        return getHistory.getCount(selectionCriteria.withUnit(unit), date)
     }
 }

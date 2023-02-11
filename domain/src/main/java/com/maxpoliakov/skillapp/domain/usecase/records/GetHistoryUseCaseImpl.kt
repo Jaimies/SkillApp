@@ -8,9 +8,8 @@ import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
-import com.maxpoliakov.skillapp.shared.util.sumByLong
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import java.time.LocalDate
 import javax.inject.Inject
@@ -19,17 +18,18 @@ class GetHistoryUseCaseImpl @Inject constructor(
     private val recordsRepository: RecordsRepository,
     private val skillRepository: SkillRepository,
     private val statsRepository: SkillStatsRepository,
-): GetHistoryUseCase {
+) : GetHistoryUseCase {
     override fun getRecords(criteria: SkillSelectionCriteria): Flow<PagingData<Record>> {
         return getSkillIds(criteria).flatMapLatest(recordsRepository::getRecordsBySkillIds)
     }
 
-    override suspend fun getCount(criteria: SkillSelectionCriteria, range: ClosedRange<LocalDate>): Long {
-        val ids = getSkillIds(criteria).first()
-        return getCount(ids, range)
+    override fun getCount(criteria: SkillSelectionCriteria, range: ClosedRange<LocalDate>): Flow<Long> {
+        return getSkillIds(criteria).flatMapLatest { ids ->
+            getCount(ids, range)
+        }
     }
 
-    override suspend fun getCount(criteria: SkillSelectionCriteria, date: LocalDate): Long {
+    override fun getCount(criteria: SkillSelectionCriteria, date: LocalDate): Flow<Long> {
         return getCount(criteria, date..date)
     }
 
@@ -39,7 +39,10 @@ class GetHistoryUseCaseImpl @Inject constructor(
             .mapList { skill -> skill.id }
     }
 
-    private suspend fun getCount(ids: List<Id>, range: ClosedRange<LocalDate>): Long {
-        return ids.sumByLong { id -> statsRepository.getCount(id, range) }
+    private fun getCount(ids: List<Id>, range: ClosedRange<LocalDate>): Flow<Long> {
+        return combine(
+            ids.map { statsRepository.getCount(it, range) },
+            Array<Long>::sum,
+        )
     }
 }

@@ -54,14 +54,16 @@ class DBSkillRepositoryTest {
             createSkill("other name", Duration.ofHours(20), 2),
         ).onEach { skill -> skillDao.insert(skill.mapToDB()) }
 
+        val dateRange = LocalDate.now()..LocalDate.now()
+
         groupRepository.createGroup(createGroup(skills))
 
         skillStatsRepository.addRecord(createRecord(1, Duration.ofHours(2)))
         skillStatsRepository.addRecord(createRecord(1, Duration.ofHours(4)))
         skillStatsRepository.addRecord(createRecord(2, Duration.ofHours(3)))
 
-        skillStatsRepository.getCountAtDateFlow(1, LocalDate.now()).await() shouldBe Duration.ofHours(6).toMillis()
-        groupStatsRepository.getCountAtDateFlow(1, LocalDate.now()).await() shouldBe Duration.ofHours(9).toMillis()
+        skillStatsRepository.getCount(1, dateRange).await() shouldBe Duration.ofHours(6).toMillis()
+        groupStatsRepository.getCount(1, dateRange).await() shouldBe Duration.ofHours(9).toMillis()
     }
 
     private fun createSkill(name: String, totalTime: Duration, id: Int): Skill {

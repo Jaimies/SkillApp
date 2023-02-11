@@ -19,6 +19,7 @@ import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -92,6 +93,6 @@ class DetailedStatsViewModel @Inject constructor(
     }
 
     private suspend fun List<Skill>.toPieEntries(dateRange: ClosedRange<LocalDate>?) = toEntries { skill ->
-        getHistory.getCount(WithId(skill.id), dateRange ?: FullLocalDateRange)
+        getHistory.getCount(WithId(skill.id), dateRange ?: FullLocalDateRange).first()
     }
 }

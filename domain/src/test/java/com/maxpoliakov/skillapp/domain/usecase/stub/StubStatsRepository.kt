@@ -6,6 +6,5 @@ import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDate
 
 open class StubStatsRepository : StatsRepository {
-    override fun getCountAtDateFlow(id: Id, date: LocalDate) = flowOf(2L)
-    override suspend fun getCount(id: Id, range: ClosedRange<LocalDate>) = 2L
+    override fun getCount(id: Id, range: ClosedRange<LocalDate>) = flowOf(2L)
 }

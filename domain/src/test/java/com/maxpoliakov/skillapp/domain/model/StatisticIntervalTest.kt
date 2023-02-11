@@ -12,4 +12,11 @@ class StatisticIntervalTest : StringSpec({
         StatisticInterval.Monthly.toNumber(date) shouldBe 12
         StatisticInterval.Yearly.toNumber(date) shouldBe 1
     }
+
+    "toDate()" {
+        StatisticInterval.Daily.toDate(5) shouldBe LocalDate.parse("1970-01-06")
+        StatisticInterval.Weekly.toDate(5) shouldBe LocalDate.parse("1970-02-01")
+        StatisticInterval.Monthly.toDate(5) shouldBe LocalDate.parse("1970-06-01")
+        StatisticInterval.Yearly.toDate(5) shouldBe LocalDate.parse("1975-01-01")
+    }
 })

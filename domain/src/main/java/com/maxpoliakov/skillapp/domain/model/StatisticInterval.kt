@@ -42,5 +42,9 @@ enum class StatisticInterval {
     fun toNumber(date: LocalDate): Long {
         return unit.between(atStartOfInterval(EPOCH), atStartOfInterval(date))
     }
+
+    fun toDate(number: Long): LocalDate {
+        return atStartOfInterval(EPOCH).plus(number, unit)
+    }
 }
 

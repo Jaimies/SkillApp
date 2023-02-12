@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 import com.maxpoliakov.skillapp.util.ui.sp
@@ -37,6 +38,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         setupCenterText()
         setupDescription()
         setupOffsets()
+        setupNoDataText()
     }
 
     private fun setupHole() {
@@ -67,6 +69,13 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
 
     private fun setupOffsets() {
         extraBottomOffset = 5f
+    }
+
+    private fun setupNoDataText() {
+        val textSize = 14f.sp.toPx(context)
+        getPaint(PAINT_INFO).textSize = textSize.toFloat()
+        setNoDataTextColor(context.textColor)
+        setNoDataText(context.getString(R.string.no_data_for_given_interval))
     }
 
     fun update(data: PieChartData) {

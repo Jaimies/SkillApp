@@ -7,6 +7,8 @@
         <variable
             name="data"
             type="com.maxpoliakov.skillapp.util.charts.ChartData" />
+
+        <import type="com.maxpoliakov.skillapp.ui.chart.PieChartFormatter" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -25,13 +27,22 @@
                 android:id="@+id/chart"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="-50dp"
                 app:data="@{data.pieData}"
                 app:layout_constraintDimensionRatio="H,2:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_max="300dp" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{PieChartFormatter.format(context, data.selectedDateRange)}"
+                android:layout_marginTop="24dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

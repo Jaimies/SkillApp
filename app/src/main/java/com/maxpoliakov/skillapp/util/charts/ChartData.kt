@@ -8,12 +8,13 @@ import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.model.UiStatisticInterval
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
+// todo perhaps we should use flow instead of livedata
 interface ChartData {
     val stats: LiveData<BarChartData?>
-
-    // todo should be null if empty
-    val pieData: LiveData<PieChartData>
+    val pieData: LiveData<PieChartData?>
+    val selectedDateRange: LiveData<ClosedRange<LocalDate>?>
 
     fun setSelectedEntry(entry: Entry?)
     fun setStatisticType(type: StatisticInterval)

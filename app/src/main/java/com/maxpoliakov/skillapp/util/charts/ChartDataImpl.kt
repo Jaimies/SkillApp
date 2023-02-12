@@ -55,13 +55,15 @@ class ChartDataImpl @AssistedInject constructor(
 
     private val selectedEntry = MutableStateFlow<Entry?>(null)
 
-    private val selectedDateRange = selectedEntry.combine(statisticType) { entry, type ->
+    private val _selectedDateRange = selectedEntry.combine(statisticType) { entry, type ->
         entry?.x?.toLong()?.let { xValue ->
             type.getIntervalContaining(type.toDate(xValue))
         }
     }
 
-    private val state = combine(criteria, dateRange, selectedDateRange, unit, statisticType, goal, ::State)
+    override val selectedDateRange = _selectedDateRange.asLiveData()
+
+    private val state = combine(criteria, dateRange, _selectedDateRange, unit, statisticType, goal, ::State)
 
     override val pieData = state.map(this::getPieEntries)
         .flatMapLatest { it }

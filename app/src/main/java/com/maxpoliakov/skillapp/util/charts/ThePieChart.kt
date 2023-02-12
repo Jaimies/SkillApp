@@ -72,6 +72,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
     fun update(data: PieChartData) {
         if (data.entries.isEmpty()) {
             this.data = null
+            invalidate()
             return
         }
 

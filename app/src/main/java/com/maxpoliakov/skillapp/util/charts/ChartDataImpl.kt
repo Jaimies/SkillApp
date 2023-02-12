@@ -53,8 +53,8 @@ class ChartDataImpl @AssistedInject constructor(
     private val selectedEntry = MutableStateFlow<Entry?>(Entry(LocalDate.now().daysSinceEpoch.toFloat(), 0f))
 
     private val selectedDateRange = selectedEntry.combine(statisticType) { entry, type ->
-        entry?.x?.toLong()?.let { num ->
-            type.toDate(num)..type.toDate(num)
+        entry?.x?.toLong()?.let { xValue ->
+            type.getIntervalContaining(type.toDate(xValue))
         }
     }
 

@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria.*
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
+import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.PieChartData
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import com.maxpoliakov.skillapp.shared.util.combine
+import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria as Criteria
@@ -33,6 +35,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria as Criteria
 class ChartDataImpl @AssistedInject constructor(
     private val getStats: GetStatsUseCase,
     private val skillRepository: SkillRepository,
+    private val getSkillsAndSkillGroups: GetSkillsAndSkillGroupsUseCase,
     @ApplicationContext
     private val context: Context,
     @Assisted
@@ -50,7 +53,7 @@ class ChartDataImpl @AssistedInject constructor(
         StatisticInterval.values().associateBy({ it }, ::getChartData)
     }
 
-    private val selectedEntry = MutableStateFlow<Entry?>(Entry(LocalDate.now().daysSinceEpoch.toFloat(), 0f))
+    private val selectedEntry = MutableStateFlow<Entry?>(null)
 
     private val selectedDateRange = selectedEntry.combine(statisticType) { entry, type ->
         entry?.x?.toLong()?.let { xValue ->
@@ -84,10 +87,6 @@ class ChartDataImpl @AssistedInject constructor(
     }
 
     override fun setSelectedEntry(entry: Entry?) {
-        if (entry == null) {
-            // todo handle null as well
-            return
-        }
         this.selectedEntry.value = entry
     }
 
@@ -111,9 +110,18 @@ class ChartDataImpl @AssistedInject constructor(
 
     private fun getPieEntries(state: State): Flow<List<SkillPieEntry>> {
         return if (state.selectedDateRange == null) {
-            TODO()
+            getPieEntriesForTotalCount(state)
         } else {
             getPieEntries(state.criteria, state.selectedDateRange)
+        }
+    }
+
+    private fun getPieEntriesForTotalCount(state: State): Flow<List<SkillPieEntry>> {
+        return getSkillsAndSkillGroups.getSkills(state.criteria).map { skills ->
+            skills
+                .sortedByDescending(Skill::totalCount)
+                .take(5)
+                .toEntries()
         }
     }
 

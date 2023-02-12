@@ -2,9 +2,8 @@ package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
-import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import kotlinx.coroutines.flow.Flow
 
 interface SkillRepository {
@@ -12,7 +11,6 @@ interface SkillRepository {
     fun getSkills(criteria: SkillSelectionCriteria): Flow<List<Skill>>
 
     fun getSkillFlowById(id: Id): Flow<Skill>
-    fun getTopSkills(count: Int): Flow<List<Skill>>
     suspend fun getSkillById(id: Id): Skill?
 
     suspend fun addSkill(skill: Skill): Long

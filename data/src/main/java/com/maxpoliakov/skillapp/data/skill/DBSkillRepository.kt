@@ -2,17 +2,13 @@ package com.maxpoliakov.skillapp.data.skill
 
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Id
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
-import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Skill
+import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.shared.util.filterList
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,10 +31,6 @@ class DBSkillRepository @Inject constructor(
     override fun getSkillFlowById(id: Int) = skillDao.getSkillFlow(id)
         .filterNotNull()
         .map { it.mapToDomain() }
-
-    override fun getTopSkills(count: Int): Flow<List<Skill>> {
-        return skillDao.getTopSkills(count).mapList { it.mapToDomain() }
-    }
 
     override suspend fun getSkillById(id: Id): Skill? {
         return skillDao.getSkill(id)?.mapToDomain()

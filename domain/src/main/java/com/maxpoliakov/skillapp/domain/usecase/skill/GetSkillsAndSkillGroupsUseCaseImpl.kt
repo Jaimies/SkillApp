@@ -22,10 +22,6 @@ class GetSkillsAndSkillGroupsUseCaseImpl @Inject constructor(
         return skillRepository.getSkills(criteria)
     }
 
-    override fun getTopSkills(count: Int): Flow<List<Skill>> {
-        return skillRepository.getTopSkills(count)
-    }
-
     override fun getSkillsAndGroups(): Flow<SkillsAndGroups> {
         val groups = skillGroupRepository.getSkillGroups()
         val skills = skillRepository.getSkills().map {

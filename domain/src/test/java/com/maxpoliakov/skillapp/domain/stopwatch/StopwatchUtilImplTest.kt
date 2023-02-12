@@ -35,7 +35,6 @@ class StubSkillRepository : SkillRepository {
     override fun getSkills() = flowOf<List<Skill>>()
     override fun getSkills(criteria: SkillSelectionCriteria) = getSkills()
     override fun getSkillFlowById(id: Id) = flowOf<Skill>()
-    override fun getTopSkills(count: Int) = flowOf<List<Skill>>()
 
     override suspend fun getSkillById(id: Id): Skill? {
         if (id == StopwatchUtilImplTest.skillId || id == StopwatchUtilImplTest.otherSkillId)

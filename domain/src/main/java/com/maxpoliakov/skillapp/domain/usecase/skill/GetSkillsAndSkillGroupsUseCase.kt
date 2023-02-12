@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface GetSkillsAndSkillGroupsUseCase {
     fun getSkills(): Flow<List<Skill>>
     fun getSkills(criteria: SkillSelectionCriteria): Flow<List<Skill>>
-    fun getTopSkills(count: Int): Flow<List<Skill>>
     fun getSkillsAndGroups(): Flow<SkillsAndGroups>
 
     data class SkillsAndGroups(

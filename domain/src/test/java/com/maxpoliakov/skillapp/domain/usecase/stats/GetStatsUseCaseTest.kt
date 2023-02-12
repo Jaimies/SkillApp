@@ -26,7 +26,6 @@ class StubSkillRepository(private vararg val skills: Skill) : SkillRepository {
     }
 
     override fun getSkillFlowById(id: Id) = flowOf<Skill>()
-    override fun getTopSkills(count: Int) = flowOf<List<Skill>>()
 
     override suspend fun getSkillById(id: Id): Skill? = null
 
@@ -73,7 +72,7 @@ class GetStatsUseCaseTest : StringSpec({
 
         val criteria = SkillSelectionCriteria.WithIdInList(listOf(1, 2))
 
-        useCase.getStats(criteria, LocalDate.now()..LocalDate.now(), StatisticInterval.Weekly).await() shouldBe listOf(
+        useCase.getGroupedStats(criteria, LocalDate.now()..LocalDate.now(), StatisticInterval.Weekly).await() shouldBe listOf(
             Statistic(referenceDate, Duration.ofHours(12).toMillis()),
             Statistic(referenceDate.minusWeeks(1), Duration.ofHours(8).toMillis()),
             Statistic(referenceDate.minusWeeks(3), Duration.ofHours(4).toMillis()),

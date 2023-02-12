@@ -15,7 +15,6 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.model.UiStatisticInterval
-import com.maxpoliakov.skillapp.shared.util.daysSinceEpoch
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toPieEntries
 import dagger.assisted.Assisted
@@ -68,7 +67,7 @@ class ChartDataImpl @AssistedInject constructor(
     override val pieData = state.map(this::getPieEntries)
         .flatMapLatest { it }
         .map { skillPieEntries ->
-            PieChartData(toPieEntries(skillPieEntries))
+            toPieEntries(skillPieEntries)?.let(::PieChartData)
         }
         .asLiveData()
 
@@ -147,11 +146,13 @@ class ChartDataImpl @AssistedInject constructor(
             }
     }
 
-    private fun toPieEntries(entries: List<SkillPieEntry>): List<ThePieEntry> {
-        return entries.filter(SkillPieEntry::hasPositiveValue)
-            .sortedByDescending(SkillPieEntry::count)
-            .take(5)
-            .toPieEntries(context)
+    private fun toPieEntries(entries: List<SkillPieEntry>): List<ThePieEntry>? {
+        return entries
+            .takeIf(List<SkillPieEntry>::isNotEmpty)
+            ?.filter(SkillPieEntry::hasPositiveValue)
+            ?.sortedByDescending(SkillPieEntry::count)
+            ?.take(5)
+            ?.toPieEntries(context)
     }
 
     data class State(

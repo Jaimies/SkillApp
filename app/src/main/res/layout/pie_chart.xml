@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         app:contentPaddingBottom="20dp"
         app:contentPaddingLeft="14dp"
-        app:contentPaddingRight="14dp">
-        <!-- todo hide if empty? -->
+        app:contentPaddingRight="14dp"
+        app:visible="@{data.pieData != null}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -10,18 +10,14 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentGroupCountUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
-import com.maxpoliakov.skillapp.util.charts.PieData
-import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
 class SkillGroupViewModel @Inject constructor(
     args: SkillGroupFragmentArgs,
     getGroup: GetGroupUseCase,
-    pieDataFactory: PieData.Factory,
     stopwatch: Stopwatch,
     getRecentCount: GetRecentGroupCountUseCase,
     private val updateGroup: UpdateGroupUseCase,
@@ -34,8 +30,6 @@ class SkillGroupViewModel @Inject constructor(
 
     private val _group = getGroup.getById(groupId)
     val group = _group.asLiveData()
-
-    val pieData = pieDataFactory.create(_group.map { it.skills.toEntries() })
 
     override val selectionCriteria = SkillSelectionCriteria.InGroupWithId(groupId)
 

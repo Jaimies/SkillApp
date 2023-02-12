@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.statistics
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit.Millis
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -12,13 +11,10 @@ import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.util.charts.ChartDataImpl
-import com.maxpoliakov.skillapp.util.charts.PieData
-import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -27,7 +23,6 @@ class StatisticsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
     getStats: GetStatsUseCase,
     chartDataFactory: ChartDataImpl.Factory,
-    pieDataFactory: PieData.Factory,
 ) : ViewModel() {
 
     private val criteria = SkillSelectionCriteria.WithUnit(Millis)
@@ -38,8 +33,6 @@ class StatisticsViewModel @Inject constructor(
     val summary = getSkills.getSkills(criteria)
         .combine(getStats.getLast7DayCount(criteria), ::calculateSummary)
         .stateIn(viewModelScope, SharingStarted.Eagerly, ProductivitySummary.ZERO)
-
-    val pieData = pieDataFactory.create(getSkills.getTopSkills(5).map { it.toEntries() })
 }
 
 fun calculateSummary(skills: List<Skill>, lastWeekCount: Long): ProductivitySummary {

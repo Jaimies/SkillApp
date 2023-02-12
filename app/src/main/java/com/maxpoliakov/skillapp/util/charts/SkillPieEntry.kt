@@ -31,12 +31,6 @@ data class SkillPieEntry(
     }
 
     companion object {
-        inline fun List<Skill>.toEntries(count: (Skill) -> Long = Skill::totalCount): List<SkillPieEntry> {
-            return map { skill ->
-                SkillPieEntry(skill, count(skill))
-            }
-        }
-
         fun List<SkillPieEntry>.toPieEntries(context: Context): List<ThePieEntry> {
             return map { entry -> entry.toPieEntry(context) }
         }

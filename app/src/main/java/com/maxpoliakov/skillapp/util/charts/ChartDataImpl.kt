@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import com.maxpoliakov.skillapp.shared.util.combine
 import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
@@ -62,9 +61,9 @@ class ChartDataImpl @AssistedInject constructor(
 
     override val selectedDateRange = _selectedDateRange.asLiveData()
 
-    private val state = combine(criteria, dateRange, _selectedDateRange, unit, statisticType, goal, ::State)
+    private val state = combine(criteria, dateRange, unit, statisticType, goal, ::State)
 
-    override val pieData = state.map(this::getPieEntries)
+    override val pieData = state.combine(_selectedDateRange, this::getPieEntries)
         .flatMapLatest { it }
         .map { skillPieEntries ->
             toPieEntries(skillPieEntries)?.let(::PieChartData)
@@ -110,11 +109,11 @@ class ChartDataImpl @AssistedInject constructor(
         }.flatMapLatest { it }
     }
 
-    private fun getPieEntries(state: State): Flow<List<SkillPieEntry>> {
-        return if (state.selectedDateRange == null) {
+    private fun getPieEntries(state: State, selectedDateRange: ClosedRange<LocalDate>?): Flow<List<SkillPieEntry>> {
+        return if (selectedDateRange == null) {
             getPieEntriesForTotalCount(state)
         } else {
-            getPieEntries(state.criteria, state.selectedDateRange)
+            getPieEntries(state.criteria, selectedDateRange)
         }
     }
 
@@ -159,7 +158,6 @@ class ChartDataImpl @AssistedInject constructor(
     data class State(
         val criteria: Criteria,
         val dateRange: ClosedRange<LocalDate>?,
-        val selectedDateRange: ClosedRange<LocalDate>?,
         val unit: MeasurementUnit<*>,
         val interval: StatisticInterval,
         val goal: Goal?,

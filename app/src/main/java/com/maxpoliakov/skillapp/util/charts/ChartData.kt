@@ -10,7 +10,6 @@ import com.maxpoliakov.skillapp.model.UiStatisticInterval
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
-// todo perhaps we should use flow instead of livedata
 interface ChartData {
     val stats: LiveData<BarChartData?>
     val pieData: LiveData<PieChartData?>

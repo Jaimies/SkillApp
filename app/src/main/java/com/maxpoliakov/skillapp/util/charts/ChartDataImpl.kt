@@ -88,11 +88,12 @@ class ChartDataImpl @AssistedInject constructor(
     }
 
     override fun setSelectedEntry(entry: Entry?) {
-        this.selectedEntry.value = entry
+        selectedEntry.value = entry
     }
 
     override fun setStatisticType(type: StatisticInterval) {
         statisticType.value = type
+        selectedEntry.value = null
     }
 
     override fun setStatisticType(type: UiStatisticInterval) = setStatisticType(type.toDomain())

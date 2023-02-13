@@ -99,6 +99,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
             setDrawValues(false)
         }
 
+        highlightValue(null)
         this.data = PieData(dataSet)
         invalidate()
     }

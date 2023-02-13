@@ -62,6 +62,7 @@ class TheBarChart : BarChart {
             this.data = null
         }
 
+        highlightValue(null)
         notifyDataSetChanged()
         invalidate()
     }

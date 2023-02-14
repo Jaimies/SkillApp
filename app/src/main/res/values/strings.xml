@@ -150,5 +150,5 @@
     <string name="change_end_time">Change end time</string>
     <string name="no_data_for_given_interval">No data for this interval</string>
     <string name="all_time">All time</string>
-    <string name="date_range">%1$s - %2$s</string>
+    <string name="date_range" translatable="false">%1$s - %2$s</string>
 </resources>

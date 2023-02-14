@@ -29,6 +29,8 @@
     <string name="today">Сьогодні</string>
     <string name="yesterday">Вчора</string>
     <string name="date">%1$s, %3$d %2$s</string>
+    <string name="no_data_for_given_interval">Немає даних за цей проміжок часу</string>
+    <string name="all_time">Увесь часовий діапазон</string>
     <string name="date_with_year">%1$s, %3$d %2$s, %4$d</string>
     <string name="change_date">Змінити дату</string>
     <string name="change_time">Змінити час</string>
@@ -41,6 +43,9 @@
     <string name="light">Світла</string>
     <string name="dark">Темна</string>
     <string name="automatic">Автоматична</string>
+    <string name="date_month_and_day">%2$s %1$s</string>
+    <string name="date_month_and_year">%1$s %2$d</string>
+    <string name="date_year_only">%d-й рік</string>
     <string name="more">Ще</string>
     <string name="time_minutes">%s\u00A0хв</string>
     <string name="timers">Таймери</string>

@@ -22,5 +22,9 @@ fun Context.toReadableDate(date: LocalDate?): String {
     return getString(R.string.date_with_year, date.dayOfWeek.shortName, date.month.shortName, date.dayOfMonth, date.year)
 }
 
+fun Context.toShortReadableDate(date: LocalDate): String {
+    return getString(R.string.date_month_and_day, date.month.shortName, date.dayOfMonth)
+}
+
 private const val HOUR_MINUTES = 60
 private fun getHours(minutes: Long) = minutes / HOUR_MINUTES.toFloat()

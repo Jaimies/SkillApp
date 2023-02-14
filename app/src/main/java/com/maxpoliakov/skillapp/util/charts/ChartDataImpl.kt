@@ -15,6 +15,7 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.model.UiStatisticInterval
+import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toPieEntries
 import dagger.assisted.Assisted
@@ -59,6 +60,7 @@ class ChartDataImpl @AssistedInject constructor(
         }
     }
 
+    override val interval = statisticType.map { it.mapToUI() }.asLiveData()
     override val selectedDateRange = _selectedDateRange.asLiveData()
 
     private val state = combine(criteria, dateRange, unit, statisticType, goal, ::State)

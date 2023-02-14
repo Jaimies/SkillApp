@@ -1,16 +1,28 @@
 package com.maxpoliakov.skillapp.model
 
+import android.content.Context
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.shared.MappableEnum
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.DayFormatter
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.MonthFormatter
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.WeekFormatter
 import com.maxpoliakov.skillapp.ui.chart.valueformatter.YearFormatter
+import com.maxpoliakov.skillapp.util.time.toReadableDate
+import com.maxpoliakov.skillapp.util.time.toShortReadableDate
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 
 enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInterval> {
     Daily {
         override val valueFormatter get() = DayFormatter()
+
+        override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
+            return context.toReadableDate(range.start)
+        }
+
         override val numberOfValuesVisibleAtOnce get() = 7..14
 
         override fun toDomain() = StatisticInterval.Daily
@@ -19,11 +31,26 @@ enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInte
     Weekly {
         override val valueFormatter get() = WeekFormatter()
 
+        override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
+            return context.getString(
+                R.string.date_range,
+                context.toShortReadableDate(range.start),
+                context.toShortReadableDate(range.endInclusive),
+            )
+        }
+
         override fun toDomain() = StatisticInterval.Weekly
     },
 
     Monthly {
         override val valueFormatter get() = MonthFormatter()
+        override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
+            return context.getString(
+                R.string.date_month_and_year,
+                range.start.month.getDisplayName(TextStyle.FULL, Locale.getDefault()),
+                range.start.year,
+            )
+        }
 
         override fun toDomain() = StatisticInterval.Monthly
     },
@@ -31,11 +58,18 @@ enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInte
     Yearly {
         override val valueFormatter get() = YearFormatter()
 
+        override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
+            return context.getString(R.string.date_year_only, range.start.year)
+        }
+
         override fun toDomain() = StatisticInterval.Yearly
-    }
+    },
     ;
 
     abstract val valueFormatter: ValueFormatter
+
+    // todo perhaps restructure UIStatisticInterval to make this method make more sense
+    abstract fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String
 
     open val numberOfValuesVisibleAtOnce get() = 7..7
 

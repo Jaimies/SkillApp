@@ -13,6 +13,7 @@ import java.time.LocalDate
 interface ChartData {
     val stats: LiveData<BarChartData?>
     val pieData: LiveData<PieChartData?>
+    val interval: LiveData<UiStatisticInterval>
     val selectedDateRange: LiveData<ClosedRange<LocalDate>?>
 
     fun setSelectedEntry(entry: Entry?)

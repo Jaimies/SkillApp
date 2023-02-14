@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface ChartData {
-    val stats: LiveData<BarChartData?>
-    val pieData: LiveData<PieChartData?>
+    val barChartData: LiveData<BarChartData?>
+    val pieChartData: LiveData<PieChartData?>
     val interval: LiveData<UiStatisticInterval>
     val selectedDateRange: LiveData<ClosedRange<LocalDate>?>
 

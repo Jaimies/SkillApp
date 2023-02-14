@@ -17,7 +17,7 @@
         app:contentPaddingBottom="20dp"
         app:contentPaddingLeft="14dp"
         app:contentPaddingRight="14dp"
-        app:visible="@{data.pieData != null}">
+        app:visible="@{data.pieChartData != null}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:id="@+id/chart"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:data="@{data.pieData}"
+                app:data="@{data.pieChartData}"
                 app:layout_constraintDimensionRatio="H,2:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -65,15 +65,14 @@ class ChartDataImpl @AssistedInject constructor(
 
     private val state = combine(criteria, dateRange, unit, statisticType, goal, ::State)
 
-    override val pieData = state.combine(_selectedDateRange, this::getPieEntries)
+    override val pieChartData = state.combine(_selectedDateRange, this::getPieEntries)
         .flatMapLatest { it }
         .map { skillPieEntries ->
             toPieEntries(skillPieEntries)?.let(::PieChartData)
         }
         .asLiveData()
 
-    // todo goofy name
-    override val stats = state.flatMapLatest { state ->
+    override val barChartData = state.flatMapLatest { state ->
         statsTypes[state.interval]!!.map { stats ->
             makeBarChartData(state, stats)
         }

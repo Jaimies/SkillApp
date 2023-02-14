@@ -21,13 +21,13 @@ class StatisticIntervalTest : StringSpec({
         StatisticInterval.Yearly.toDate(5) shouldBe LocalDate.parse("1975-01-01")
     }
 
-    "getIntervalContaining()" {
+    "getDateRangeContaining()" {
         Locale.setDefault(Locale.UK)
 
         val date = LocalDate.parse("1970-01-08")
-        StatisticInterval.Daily.getIntervalContaining(date) shouldBe LocalDate.parse("1970-01-08")..LocalDate.parse("1970-01-08")
-        StatisticInterval.Weekly.getIntervalContaining(date) shouldBe LocalDate.parse("1970-01-05")..LocalDate.parse("1970-01-11")
-        StatisticInterval.Monthly.getIntervalContaining(date) shouldBe LocalDate.parse("1970-01-01")..LocalDate.parse("1970-01-31")
-        StatisticInterval.Yearly.getIntervalContaining(date) shouldBe LocalDate.parse("1970-01-01")..LocalDate.parse("1970-12-31")
+        StatisticInterval.Daily.getDateRangeContaining(date) shouldBe LocalDate.parse("1970-01-08")..LocalDate.parse("1970-01-08")
+        StatisticInterval.Weekly.getDateRangeContaining(date) shouldBe LocalDate.parse("1970-01-05")..LocalDate.parse("1970-01-11")
+        StatisticInterval.Monthly.getDateRangeContaining(date) shouldBe LocalDate.parse("1970-01-01")..LocalDate.parse("1970-01-31")
+        StatisticInterval.Yearly.getDateRangeContaining(date) shouldBe LocalDate.parse("1970-01-01")..LocalDate.parse("1970-12-31")
     }
 })

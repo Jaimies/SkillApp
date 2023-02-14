@@ -55,9 +55,10 @@ class ChartDataImpl @AssistedInject constructor(
 
     private val selectedEntry = MutableStateFlow<Entry?>(null)
 
-    private val _selectedDateRange = selectedEntry.combine(_interval) { entry, type ->
-        entry?.x?.toLong()?.let { xValue ->
-            type.getIntervalContaining(type.toDate(xValue))
+    private val _selectedDateRange = selectedEntry.combine(_interval) { selectedEntry, interval ->
+        selectedEntry?.x?.toLong()?.let { selectedXValue ->
+            val selectedDate = interval.toDate(selectedXValue)
+            interval.getDateRangeContaining(selectedDate)
         }
     }
 

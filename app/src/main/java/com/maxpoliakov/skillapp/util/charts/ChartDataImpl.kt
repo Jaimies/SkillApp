@@ -47,6 +47,7 @@ class ChartDataImpl @AssistedInject constructor(
     private val goal: Flow<Goal?>,
 ) : ChartData {
     private val _interval = MutableStateFlow(StatisticInterval.Daily)
+    override val interval = _interval.map { it.mapToUI() }.asLiveData()
 
     private val statsTypes by lazy {
         StatisticInterval.values().associateBy({ it }, ::getChartData)
@@ -60,7 +61,6 @@ class ChartDataImpl @AssistedInject constructor(
         }
     }
 
-    override val interval = _interval.map { it.mapToUI() }.asLiveData()
     override val selectedDateRange = _selectedDateRange.asLiveData()
 
     private val state = combine(criteria, dateRange, unit, _interval, goal, ::State)

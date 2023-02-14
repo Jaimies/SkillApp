@@ -46,7 +46,7 @@ class ChartDataImpl @AssistedInject constructor(
     @Assisted
     private val goal: Flow<Goal?>,
 ) : ChartData {
-    private val statisticType = MutableStateFlow(StatisticInterval.Daily)
+    private val _interval = MutableStateFlow(StatisticInterval.Daily)
 
     private val statsTypes by lazy {
         StatisticInterval.values().associateBy({ it }, ::getChartData)
@@ -54,16 +54,16 @@ class ChartDataImpl @AssistedInject constructor(
 
     private val selectedEntry = MutableStateFlow<Entry?>(null)
 
-    private val _selectedDateRange = selectedEntry.combine(statisticType) { entry, type ->
+    private val _selectedDateRange = selectedEntry.combine(_interval) { entry, type ->
         entry?.x?.toLong()?.let { xValue ->
             type.getIntervalContaining(type.toDate(xValue))
         }
     }
 
-    override val interval = statisticType.map { it.mapToUI() }.asLiveData()
+    override val interval = _interval.map { it.mapToUI() }.asLiveData()
     override val selectedDateRange = _selectedDateRange.asLiveData()
 
-    private val state = combine(criteria, dateRange, unit, statisticType, goal, ::State)
+    private val state = combine(criteria, dateRange, unit, _interval, goal, ::State)
 
     override val pieChartData = state.combine(_selectedDateRange, this::getPieEntries)
         .flatMapLatest { it }
@@ -92,7 +92,7 @@ class ChartDataImpl @AssistedInject constructor(
     }
 
     override fun setStatisticType(type: StatisticInterval) {
-        statisticType.value = type
+        _interval.value = type
         selectedEntry.value = null
     }
 

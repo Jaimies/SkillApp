@@ -19,7 +19,6 @@ interface ChartData {
 
     val highlight: MutableStateFlow<Highlight?>
 
-    fun setStatisticType(type: StatisticInterval)
     fun setStatisticType(type: UiStatisticInterval)
     fun getChartData(interval: StatisticInterval): Flow<List<Statistic>>
 }

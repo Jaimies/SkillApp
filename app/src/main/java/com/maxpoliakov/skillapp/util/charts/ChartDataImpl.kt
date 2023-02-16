@@ -17,6 +17,7 @@ import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.model.UiStatisticInterval
 import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.util.sumByLong
+import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toPieEntries
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -26,7 +27,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria as Criteria
@@ -88,12 +88,10 @@ class ChartDataImpl @AssistedInject constructor(
         )
     }
 
-    override fun setStatisticType(type: StatisticInterval) {
-        _interval.value = type
+    override fun setStatisticType(type: UiStatisticInterval) {
+        _interval.value = type.toDomain()
         highlight.value = null
     }
-
-    override fun setStatisticType(type: UiStatisticInterval) = setStatisticType(type.toDomain())
 
     override fun getChartData(interval: StatisticInterval): Flow<List<Statistic>> {
         return state.map { state ->

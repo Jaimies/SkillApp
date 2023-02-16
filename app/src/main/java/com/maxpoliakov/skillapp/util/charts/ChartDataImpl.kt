@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.util.charts
 
 import android.content.Context
 import androidx.lifecycle.asLiveData
-import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.highlight.Highlight
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -53,11 +53,11 @@ class ChartDataImpl @AssistedInject constructor(
         StatisticInterval.values().associateBy({ it }, ::getChartData)
     }
 
-    private val selectedEntry = MutableStateFlow<Entry?>(null)
+    override val highlight = MutableStateFlow<Highlight?>(null)
 
-    private val _selectedDateRange = selectedEntry.combine(_interval) { selectedEntry, interval ->
-        selectedEntry?.x?.toLong()?.let { selectedXValue ->
-            val selectedDate = interval.toDate(selectedXValue)
+    private val _selectedDateRange = highlight.combine(_interval) { highlight, interval ->
+        highlight?.x?.toLong()?.let { highlightedXValue ->
+            val selectedDate = interval.toDate(highlightedXValue)
             interval.getDateRangeContaining(selectedDate)
         }
     }
@@ -88,13 +88,9 @@ class ChartDataImpl @AssistedInject constructor(
         )
     }
 
-    override fun setSelectedEntry(entry: Entry?) {
-        selectedEntry.value = entry
-    }
-
     override fun setStatisticType(type: StatisticInterval) {
         _interval.value = type
-        selectedEntry.value = null
+        highlight.value = null
     }
 
     override fun setStatisticType(type: UiStatisticInterval) = setStatisticType(type.toDomain())

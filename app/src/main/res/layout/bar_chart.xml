@@ -28,7 +28,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="40dp"
                 app:data="@{data.barChartData}"
-                app:onEntrySelected="@{(entry) -> data.setSelectedEntry(entry)}" />
+                app:highlight="@={data.highlight}" />
 
             <LinearLayout
                 android:layout_width="match_parent"

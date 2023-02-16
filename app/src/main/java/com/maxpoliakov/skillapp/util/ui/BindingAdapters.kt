@@ -6,6 +6,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
@@ -72,19 +74,20 @@ fun ThePieChart.setData(data: PieChartData?) {
     data?.let(this::update)
 }
 
-interface OnBarChartValueSetListener {
-    fun onValueSelected(e: Entry?)
+@BindingAdapter("highlight")
+fun TheBarChart.setHighlight(highlight: Highlight?) {
+    highlightValue(highlight)
 }
 
-@BindingAdapter("onEntrySelected")
-fun TheBarChart.setOnEntrySelected(listener: OnBarChartValueSetListener) {
-    setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-        override fun onValueSelected(e: Entry?, h: Highlight?) {
-            listener.onValueSelected(e)
-        }
+@InverseBindingAdapter(attribute = "highlight", event = "onChartValueSelected")
+fun TheBarChart.getHighlight(): Highlight? {
+    return highlighted?.getOrNull(0)
+}
 
-        override fun onNothingSelected() {
-            listener.onValueSelected(null)
-        }
+@BindingAdapter("onChartValueSelected")
+fun TheBarChart.setTextWatcher(onChanged: InverseBindingListener) {
+    setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+        override fun onValueSelected(e: Entry?, h: Highlight?) = onChanged.onChange()
+        override fun onNothingSelected() = onChanged.onChange()
     })
 }

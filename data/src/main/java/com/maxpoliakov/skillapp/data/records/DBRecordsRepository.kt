@@ -22,7 +22,7 @@ private val pagingConfig = PagingConfig(
 )
 
 @Singleton
-class RecordsRepositoryImpl @Inject constructor(
+class DBRecordsRepository @Inject constructor(
     private val recordsDao: RecordsDao
 ) : RecordsRepository {
 

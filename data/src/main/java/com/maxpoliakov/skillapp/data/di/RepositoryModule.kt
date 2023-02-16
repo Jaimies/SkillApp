@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.data.di
 import com.maxpoliakov.skillapp.data.auth.GoogleAuthRepository
 import com.maxpoliakov.skillapp.data.drive.GoogleDriveBackupRepository
 import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
-import com.maxpoliakov.skillapp.data.records.RecordsRepositoryImpl
+import com.maxpoliakov.skillapp.data.records.DBRecordsRepository
 import com.maxpoliakov.skillapp.data.skill.DBSkillRepository
 import com.maxpoliakov.skillapp.data.stats.DBGroupStatsRepository
 import com.maxpoliakov.skillapp.data.stats.DBSkillStatsRepository
@@ -26,7 +26,7 @@ interface RepositoryModule {
     fun provideSkillRepository(repository: DBSkillRepository): SkillRepository
 
     @Binds
-    fun provideRecordsRepository(repository: RecordsRepositoryImpl): RecordsRepository
+    fun provideRecordsRepository(repository: DBRecordsRepository): RecordsRepository
 
     @Binds
     fun provideSkillStatsRepository(repository: DBSkillStatsRepository): SkillStatsRepository

@@ -88,7 +88,7 @@ class ChartDataImpl @AssistedInject constructor(
         )
     }
 
-    override fun setStatisticType(type: UiStatisticInterval) {
+    override fun setInterval(type: UiStatisticInterval) {
         _interval.value = type.toDomain()
         highlight.value = null
     }

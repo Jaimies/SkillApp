@@ -32,7 +32,7 @@
             android:layout_margin="0dp"
             android:alpha="@{data.barChartData.interval == activeIntervalType ? 1f : 0.4f}"
             android:minHeight="0dp"
-            android:onClick="@{() -> data.setStatisticType(activeIntervalType)}"
+            android:onClick="@{() -> data.setInterval(activeIntervalType)}"
             android:paddingHorizontal="0dp"
             android:paddingVertical="10dp"
             android:text="@{label}"

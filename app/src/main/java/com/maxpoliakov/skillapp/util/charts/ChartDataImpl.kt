@@ -49,8 +49,8 @@ class ChartDataImpl @AssistedInject constructor(
     private val _interval = MutableStateFlow(StatisticInterval.Daily)
     override val interval = _interval.map { it.mapToUI() }.asLiveData()
 
-    private val barChartDataByInterval by lazy {
-        StatisticInterval.values().associateBy({ it }, ::getChartData)
+    private val statisticsByInterval by lazy {
+        StatisticInterval.values().associateBy({ it }, ::getStatistics)
     }
 
     override val highlight = MutableStateFlow<Highlight?>(null)
@@ -74,7 +74,7 @@ class ChartDataImpl @AssistedInject constructor(
         .asLiveData()
 
     override val barChartData = state.flatMapLatest { state ->
-        barChartDataByInterval[state.interval]!!.map { stats ->
+        statisticsByInterval[state.interval]!!.map { stats ->
             makeBarChartData(state, stats)
         }
     }.asLiveData()
@@ -93,7 +93,7 @@ class ChartDataImpl @AssistedInject constructor(
         highlight.value = null
     }
 
-    override fun getChartData(interval: StatisticInterval): Flow<List<Statistic>> {
+    private fun getStatistics(interval: StatisticInterval): Flow<List<Statistic>> {
         return state.map { state ->
             getStats.getGroupedStats(
                 state.criteria,

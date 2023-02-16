@@ -38,25 +38,25 @@
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{UiStatisticInterval.Daily}"
+                    app:interval="@{UiStatisticInterval.Daily}"
                     app:data="@{data}"
                     app:label="@{@string/one_day}" />
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{UiStatisticInterval.Weekly}"
+                    app:interval="@{UiStatisticInterval.Weekly}"
                     app:data="@{data}"
                     app:label="@{@string/one_week}" />
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{UiStatisticInterval.Monthly}"
+                    app:interval="@{UiStatisticInterval.Monthly}"
                     app:data="@{data}"
                     app:label="@{@string/one_month}" />
 
                 <include
                     layout="@layout/bar_chart_interval_selection_btn"
-                    app:activeIntervalType="@{UiStatisticInterval.Yearly}"
+                    app:interval="@{UiStatisticInterval.Yearly}"
                     app:data="@{data}"
                     app:label="@{@string/one_year}" />
             </LinearLayout>

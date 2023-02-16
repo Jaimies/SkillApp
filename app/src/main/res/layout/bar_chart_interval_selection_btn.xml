@@ -9,7 +9,7 @@
             type="com.maxpoliakov.skillapp.util.charts.ChartData" />
 
         <variable
-            name="activeIntervalType"
+            name="interval"
             type="UiStatisticInterval" />
 
         <variable
@@ -30,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="0dp"
-            android:alpha="@{data.barChartData.interval == activeIntervalType ? 1f : 0.4f}"
+            android:alpha="@{data.barChartData.interval == interval ? 1f : 0.4f}"
             android:minHeight="0dp"
-            android:onClick="@{() -> data.setInterval(activeIntervalType)}"
+            android:onClick="@{() -> data.setInterval(interval)}"
             android:paddingHorizontal="0dp"
             android:paddingVertical="10dp"
             android:text="@{label}"

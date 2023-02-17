@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
@@ -75,17 +76,17 @@ fun ThePieChart.setData(data: PieChartData?) {
 }
 
 @BindingAdapter("highlight")
-fun TheBarChart.setHighlight(highlight: Highlight?) {
+fun Chart<*>.setHighlight(highlight: Highlight?) {
     highlightValue(highlight)
 }
 
 @InverseBindingAdapter(attribute = "highlight", event = "onChartValueSelected")
-fun TheBarChart.getHighlight(): Highlight? {
+fun Chart<*>.getHighlight(): Highlight? {
     return highlighted?.getOrNull(0)
 }
 
 @BindingAdapter("onChartValueSelected")
-fun TheBarChart.setTextWatcher(onChanged: InverseBindingListener) {
+fun Chart<*>.setOnValueSelectedLister(onChanged: InverseBindingListener) {
     setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
         override fun onValueSelected(e: Entry?, h: Highlight?) = onChanged.onChange()
         override fun onNothingSelected() = onChanged.onChange()

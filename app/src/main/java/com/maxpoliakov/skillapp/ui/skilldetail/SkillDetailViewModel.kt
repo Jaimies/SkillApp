@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
@@ -36,6 +37,7 @@ class SkillDetailViewModel @Inject constructor(
     args: SkillDetailFragmentArgs,
     getSkillById: GetSkillByIdUseCase,
     getRecentCount: GetRecentSkillCountUseCase,
+    recordsRepository: RecordsRepository,
 ) : DetailsViewModel(
     stopwatch,
     getRecentCount,
@@ -47,6 +49,10 @@ class SkillDetailViewModel @Inject constructor(
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<Record>()
     val showRecordAdded: LiveData<Record?> get() = _showRecordAdded
+
+    val latestRecord = recordsRepository
+        .getLatestRecordForSkillWithId(skillId)
+        .stateIn(viewModelScope, Eagerly, null)
 
     val stopwatchIsRunning = stopwatch.state.map {
         it is Running && it.skillId == skillId

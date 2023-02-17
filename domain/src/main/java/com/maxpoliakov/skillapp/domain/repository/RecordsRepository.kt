@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface RecordsRepository {
     fun getRecordsBySkillIds(skillIds: List<Id>): Flow<PagingData<Record>>
+    fun getLatestRecordForSkillWithId(id: Id): Flow<Record?>
+
     suspend fun getRecord(id: Int): Record?
     suspend fun addRecord(record: Record): Long
     suspend fun deleteRecord(record: Record)

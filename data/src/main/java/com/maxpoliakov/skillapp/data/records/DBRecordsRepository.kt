@@ -40,6 +40,12 @@ class DBRecordsRepository @Inject constructor(
         }
     }
 
+    override fun getLatestRecordForSkillWithId(id: Id): Flow<Record?> {
+        return recordsDao.getLatestRecordForSkillWithId(id).map { record ->
+            record?.mapToDomain()
+        }
+    }
+
     override suspend fun getRecord(id: Int): Record? {
         return recordsDao.getRecordById(id)?.mapToDomain()
     }

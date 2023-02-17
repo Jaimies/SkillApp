@@ -5,6 +5,8 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.maxpoliakov.skillapp.data.db.BaseDao
+import com.maxpoliakov.skillapp.domain.model.Id
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecordsDao : BaseDao<DBRecord> {
@@ -21,6 +23,9 @@ interface RecordsDao : BaseDao<DBRecord> {
 
     @Query("SELECT * FROM records WHERE id = :id")
     suspend fun getRecordById(id: Int): DBRecord?
+
+    @Query("SELECT * FROM records WHERE skillId = :skillId ORDER BY id DESC LIMIT 1")
+    fun getLatestRecordForSkillWithId(skillId: Id): Flow<DBRecord?>
 
     @Query("DELETE FROM records")
     suspend fun deleteAll()

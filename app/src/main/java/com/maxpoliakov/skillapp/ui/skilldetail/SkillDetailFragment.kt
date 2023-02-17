@@ -58,6 +58,10 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
     }
 
     private fun showRecordDialog() {
-        viewModel.unit.value!!.showPicker(childFragmentManager, onTimeSet = viewModel::addRecord)
+        viewModel.unit.value!!.showPicker(
+            childFragmentManager,
+            initialCount = viewModel.latestRecord.value?.count ?: 0,
+            onTimeSet = viewModel::addRecord,
+        )
     }
 }

@@ -77,7 +77,7 @@ fun ThePieChart.setData(data: PieChartData?) {
 
 @BindingAdapter("highlight")
 fun Chart<*>.setHighlight(highlight: Highlight?) {
-    highlightValue(highlight)
+    highlightValue(highlight, true)
 }
 
 @InverseBindingAdapter(attribute = "highlight", event = "onChartValueSelected")

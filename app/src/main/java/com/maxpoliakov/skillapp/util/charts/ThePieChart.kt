@@ -28,6 +28,8 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
+    private var selectionListener: OnChartValueSelectedListener? = null
+
     init {
         setup()
     }
@@ -39,6 +41,11 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         setupDescription()
         setupOffsets()
         setupNoDataText()
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        setOnChartValueSelectedListenerInternal(this)
     }
 
     private fun setupHole() {
@@ -60,7 +67,6 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         setDrawCenterText(true)
         setCenterTextSize(16.sp.toDp(context))
         setCenterTextColor(context.textColor)
-        setOnChartValueSelectedListener(this)
     }
 
     private fun setupDescription() {
@@ -104,10 +110,24 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         invalidate()
     }
 
+    // Chart<*> only supports setting a single OnChartValueSelectedListener.
+    // Since we are already using one within ThePieChart, we need to make it
+    // possible to set an OnChartValueSelectedListener from outside of ThePieChart
+    // without breaking its functionality.
+    override fun setOnChartValueSelectedListener(listener: OnChartValueSelectedListener?) {
+        this.selectionListener = listener
+    }
+
+    private fun setOnChartValueSelectedListenerInternal(listener: OnChartValueSelectedListener?) {
+        super.setOnChartValueSelectedListener(listener)
+    }
+
     override fun onValueSelected(entry: Entry?, highlight: Highlight?) {
         if (entry is ThePieEntry) {
             updateCenterText(entry)
         }
+
+        selectionListener?.onValueSelected(entry, highlight)
     }
 
     private fun updateCenterText(entry: ThePieEntry) {
@@ -134,5 +154,6 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
 
     override fun onNothingSelected() {
         centerText = ""
+        selectionListener?.onNothingSelected()
     }
 }

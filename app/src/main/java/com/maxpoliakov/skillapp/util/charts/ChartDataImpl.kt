@@ -92,6 +92,7 @@ class ChartDataImpl @AssistedInject constructor(
     override fun setInterval(interval: UiStatisticInterval) {
         _interval.value = interval.toDomain()
         barChartHighlight.value = null
+        pieChartHighlight.value = null
     }
 
     private fun getStatistics(interval: StatisticInterval): Flow<List<Statistic>> {

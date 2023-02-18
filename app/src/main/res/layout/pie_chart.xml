@@ -28,6 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:data="@{data.pieChartData}"
+                app:highlight="@={data.pieChartHighlight}"
                 app:layout_constraintDimensionRatio="H,2:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,8 +39,8 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{PieChartFormatter.format(context, data.selectedDateRange, data.interval)}"
                 android:layout_marginTop="24dp"
+                android:text="@{PieChartFormatter.format(context, data.selectedDateRange, data.interval)}"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
                 app:layout_constraintTop_toTopOf="parent" />

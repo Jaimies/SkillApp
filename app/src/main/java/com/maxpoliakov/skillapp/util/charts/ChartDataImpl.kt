@@ -53,9 +53,10 @@ class ChartDataImpl @AssistedInject constructor(
         StatisticInterval.values().associateBy({ it }, ::getStatistics)
     }
 
-    override val highlight = MutableStateFlow<Highlight?>(null)
+    override val barChartHighlight = MutableStateFlow<Highlight?>(null)
+    override val pieChartHighlight = MutableStateFlow<Highlight?>(null)
 
-    private val _selectedDateRange = highlight.combine(_interval) { highlight, interval ->
+    private val _selectedDateRange = barChartHighlight.combine(_interval) { highlight, interval ->
         highlight?.x?.toLong()?.let { highlightedXValue ->
             val selectedDate = interval.toDate(highlightedXValue)
             interval.getDateRangeContaining(selectedDate)
@@ -90,7 +91,7 @@ class ChartDataImpl @AssistedInject constructor(
 
     override fun setInterval(interval: UiStatisticInterval) {
         _interval.value = interval.toDomain()
-        highlight.value = null
+        barChartHighlight.value = null
     }
 
     private fun getStatistics(interval: StatisticInterval): Flow<List<Statistic>> {

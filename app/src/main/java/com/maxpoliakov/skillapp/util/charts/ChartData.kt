@@ -14,7 +14,8 @@ interface ChartData {
     val interval: LiveData<UiStatisticInterval>
     val selectedDateRange: LiveData<ClosedRange<LocalDate>?>
 
-    val highlight: MutableStateFlow<Highlight?>
+    val barChartHighlight: MutableStateFlow<Highlight?>
+    val pieChartHighlight: MutableStateFlow<Highlight?>
 
     fun setInterval(interval: UiStatisticInterval)
 }

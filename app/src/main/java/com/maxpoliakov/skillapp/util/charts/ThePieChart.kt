@@ -29,6 +29,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
     private var selectionListener: OnChartValueSelectedListener? = null
+    private var selectedEntry: ThePieEntry? = null
 
     init {
         setup()
@@ -106,7 +107,40 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         }
 
         this.data = PieData(dataSet)
+        updateHighlight(data)
         invalidate()
+    }
+
+    private fun updateHighlight(newData: PieChartData) {
+        val selectedEntry = selectedEntry ?: return
+
+        if (newData.contains(selectedEntry)) {
+            updateHighlight(newData, selectedEntry)
+        } else {
+            removeHighlight()
+        }
+    }
+
+    private fun updateHighlight(newData: PieChartData, selectedEntry: ThePieEntry) {
+        try {
+            val indexOfEntry = newData.indexOfOrNull(selectedEntry) ?: return
+            highlightValue(indexOfEntry.toFloat(), 0, true)
+        } catch(e: Exception) {
+        }
+    }
+
+    private fun PieChartData.indexOfOrNull(selectedEntry: ThePieEntry): Int? {
+        return entries
+            .indexOfFirst { entry -> entry.skillId == selectedEntry.skillId }
+            .takeUnless { it < 0 }
+    }
+
+    private fun PieChartData.contains(selectedEntry: ThePieEntry): Boolean {
+        return entries.any { entry -> entry.skillId == selectedEntry.skillId }
+    }
+
+    private fun removeHighlight() {
+        highlightValue(null, true)
     }
 
     // Chart<*> only supports setting a single OnChartValueSelectedListener.
@@ -123,7 +157,10 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
 
     override fun onValueSelected(entry: Entry?, highlight: Highlight?) {
         if (entry is ThePieEntry) {
+            selectedEntry = entry
             updateCenterText(entry)
+        } else {
+            selectedEntry = null
         }
 
         selectionListener?.onValueSelected(entry, highlight)
@@ -152,6 +189,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
     }
 
     override fun onNothingSelected() {
+        selectedEntry = null
         centerText = ""
         selectionListener?.onNothingSelected()
     }

@@ -19,6 +19,7 @@ data class SkillPieEntry(
             .toLongString(count, context)
 
         return ThePieEntry(
+            skill.id,
             skill.name,
             formattedValue,
             context.getLabel(skill.name, formattedValue),

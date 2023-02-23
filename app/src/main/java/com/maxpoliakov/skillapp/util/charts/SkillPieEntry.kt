@@ -8,38 +8,38 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 
 data class SkillPieEntry(
     val skill: Skill,
+    val formattedValue: String,
+    @get:JvmName("getSkillPieEntryLabel")
+    val label: String,
     val count: Long,
-) : PieEntry(count.toFloat()) {
-
+) : PieEntry(count.toFloat(), label) {
     val hasPositiveValue get() = count > 0L
 
-    fun toPieEntry(context: Context): ThePieEntry {
-        val formattedValue = skill.unit
-            .mapToUI()
-            .toLongString(count, context)
-
-        return ThePieEntry(
-            skill.id,
-            skill.name,
-            formattedValue,
-            context.getLabel(skill.name, formattedValue),
-            count.toFloat(),
-        )
-    }
-
-    private fun Context.getLabel(name: String, formattedValue: String): String {
-        return getString(R.string.pie_chart_legend_entry, name, formattedValue)
-    }
-
     companion object {
-        inline fun List<Skill>.toEntries(count: (Skill) -> Long = Skill::totalCount): List<SkillPieEntry> {
-            return map { skill ->
-                SkillPieEntry(skill, count(skill))
-            }
+        fun create(skill: Skill, count: Long, context: Context): SkillPieEntry {
+            val formattedValue = skill.unit
+                .mapToUI()
+                .toLongString(count, context)
+
+            return SkillPieEntry(
+                skill,
+                formattedValue,
+                context.getLabel(skill.name, formattedValue),
+                count,
+            )
         }
 
-        fun List<SkillPieEntry>.toPieEntries(context: Context): List<ThePieEntry> {
-            return map { entry -> entry.toPieEntry(context) }
+        private fun Context.getLabel(name: String, formattedValue: String): String {
+            return getString(R.string.pie_chart_legend_entry, name, formattedValue)
+        }
+
+        inline fun List<Skill>.toSkillPieEntries(
+            context: Context,
+            count: (Skill) -> Long = Skill::totalCount,
+        ): List<SkillPieEntry> {
+            return map { skill ->
+                SkillPieEntry.create(skill, count(skill), context)
+            }
         }
     }
 }

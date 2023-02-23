@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.model
 
-import com.maxpoliakov.skillapp.util.charts.ThePieEntry
+import com.maxpoliakov.skillapp.util.charts.SkillPieEntry
 
 data class PieChartData(
-    val entries: List<ThePieEntry>,
+    val entries: List<SkillPieEntry>,
 )

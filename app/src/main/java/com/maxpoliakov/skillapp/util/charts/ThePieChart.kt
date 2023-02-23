@@ -29,7 +29,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
     private var selectionListener: OnChartValueSelectedListener? = null
-    private var selectedEntry: ThePieEntry? = null
+    private var selectedEntry: SkillPieEntry? = null
 
     init {
         setup()
@@ -121,7 +121,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         }
     }
 
-    private fun updateHighlight(newData: PieChartData, selectedEntry: ThePieEntry) {
+    private fun updateHighlight(newData: PieChartData, selectedEntry: SkillPieEntry) {
         try {
             val indexOfEntry = newData.indexOfOrNull(selectedEntry) ?: return
             highlightValue(indexOfEntry.toFloat(), 0, true)
@@ -129,14 +129,14 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         }
     }
 
-    private fun PieChartData.indexOfOrNull(selectedEntry: ThePieEntry): Int? {
+    private fun PieChartData.indexOfOrNull(selectedEntry: SkillPieEntry): Int? {
         return entries
-            .indexOfFirst { entry -> entry.skillId == selectedEntry.skillId }
+            .indexOfFirst { entry -> entry.skill.id == selectedEntry.skill.id }
             .takeUnless { it < 0 }
     }
 
-    private fun PieChartData.contains(selectedEntry: ThePieEntry): Boolean {
-        return entries.any { entry -> entry.skillId == selectedEntry.skillId }
+    private fun PieChartData.contains(selectedEntry: SkillPieEntry): Boolean {
+        return entries.any { entry -> entry.skill.id == selectedEntry.skill.id }
     }
 
     private fun removeHighlight() {
@@ -156,7 +156,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
     }
 
     override fun onValueSelected(entry: Entry?, highlight: Highlight?) {
-        if (entry is ThePieEntry) {
+        if (entry is SkillPieEntry) {
             selectedEntry = entry
             updateCenterText(entry)
         } else {
@@ -166,9 +166,9 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         selectionListener?.onValueSelected(entry, highlight)
     }
 
-    private fun updateCenterText(entry: ThePieEntry) {
+    private fun updateCenterText(entry: SkillPieEntry) {
         centerText = buildSpannedString {
-            addLine(entry.name, StyleSpan(Typeface.BOLD), RelativeSizeSpan(1.5f))
+            addLine(entry.skill.name, StyleSpan(Typeface.BOLD), RelativeSizeSpan(1.5f))
             append("\n")
             addLine(entry.formattedValue)
         }

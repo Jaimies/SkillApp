@@ -17,8 +17,7 @@ import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.model.UiStatisticInterval
 import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.util.sumByLong
-import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toEntries
-import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toPieEntries
+import com.maxpoliakov.skillapp.util.charts.SkillPieEntry.Companion.toSkillPieEntries
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -67,10 +66,13 @@ class ChartDataImpl @AssistedInject constructor(
 
     private val state = combine(criteria, dateRange, unit, _interval, goal, ::State)
 
-    override val pieChartData = state.combine(_selectedDateRange, this::getPieEntries)
+    override val pieChartData = state
+        .combine(_selectedDateRange, this::getPieEntries)
         .flatMapLatest { it }
-        .map { skillPieEntries ->
-            toPieEntries(skillPieEntries)?.let(::PieChartData)
+        .map { entries ->
+            entries
+                .organize()
+                ?.let(::PieChartData)
         }
         .asLiveData()
 
@@ -107,6 +109,13 @@ class ChartDataImpl @AssistedInject constructor(
         }.flatMapLatest { it }
     }
 
+    private fun List<SkillPieEntry>.organize(): List<SkillPieEntry>? {
+        return takeIf(List<SkillPieEntry>::isNotEmpty)
+            ?.filter(SkillPieEntry::hasPositiveValue)
+            ?.sortedByDescending(SkillPieEntry::count)
+            ?.take(5)
+    }
+
     private fun getPieEntries(state: State, selectedDateRange: ClosedRange<LocalDate>?): Flow<List<SkillPieEntry>> {
         return if (selectedDateRange == null) {
             getPieEntriesForTotalCount(state)
@@ -117,10 +126,7 @@ class ChartDataImpl @AssistedInject constructor(
 
     private fun getPieEntriesForTotalCount(state: State): Flow<List<SkillPieEntry>> {
         return getSkillsAndSkillGroups.getSkills(state.criteria).map { skills ->
-            skills
-                .sortedByDescending(Skill::totalCount)
-                .take(5)
-                .toEntries()
+            skills.toSkillPieEntries(context)
         }
     }
 
@@ -140,17 +146,8 @@ class ChartDataImpl @AssistedInject constructor(
     private fun getPieEntry(skill: Skill, dateRange: ClosedRange<LocalDate>): Flow<SkillPieEntry> {
         return getStats.getStats(WithId(skill.id), dateRange)
             .map { stats ->
-                SkillPieEntry(skill, stats.sumByLong(Statistic::count))
+                SkillPieEntry.create(skill, stats.sumByLong(Statistic::count), context)
             }
-    }
-
-    private fun toPieEntries(entries: List<SkillPieEntry>): List<ThePieEntry>? {
-        return entries
-            .takeIf(List<SkillPieEntry>::isNotEmpty)
-            ?.filter(SkillPieEntry::hasPositiveValue)
-            ?.sortedByDescending(SkillPieEntry::count)
-            ?.take(5)
-            ?.toPieEntries(context)
     }
 
     data class State(

@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.screenshots
 
 import com.maxpoliakov.skillapp.data.di.RepositoryModule
 import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
-import com.maxpoliakov.skillapp.data.records.RecordsRepositoryImpl
+import com.maxpoliakov.skillapp.data.records.DBRecordsRepository
 import com.maxpoliakov.skillapp.data.skill.DBSkillRepository
 import com.maxpoliakov.skillapp.data.stats.DBGroupStatsRepository
 import com.maxpoliakov.skillapp.data.stats.DBSkillStatsRepository
@@ -28,7 +28,7 @@ interface TestRepositoryModule {
     fun provideSkillRepository(repository: DBSkillRepository): SkillRepository
 
     @Binds
-    fun provideRecordsRepository(repository: RecordsRepositoryImpl): RecordsRepository
+    fun provideRecordsRepository(repository: DBRecordsRepository): RecordsRepository
 
     @Binds
     fun provideSkillStatsRepository(repository: DBSkillStatsRepository): SkillStatsRepository

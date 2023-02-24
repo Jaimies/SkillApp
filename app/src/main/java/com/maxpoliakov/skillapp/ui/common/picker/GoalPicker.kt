@@ -55,10 +55,9 @@ abstract class GoalPicker<T>(
 
         val firstPickerValue = savedInstanceState?.getInt(FIRST_PICKER_VALUE, 0) ?: 0
         secondPicker.setValues(goalStringValues[firstPickerValue])
-        // todo on value changed listener
-//        firstPicker.setOnValueChangeListenerInScrolling { _, _, newValue ->
-//            secondPicker.displayedValues = (goalStringValues[newValue])
-//        }
+        firstPicker.setOnValueChangedListener { _, _, newValue ->
+            secondPicker.setValues(goalStringValues[newValue])
+        }
     }
 
     override fun restoreStateOfPickers(bundle: Bundle) {

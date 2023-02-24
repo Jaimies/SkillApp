@@ -37,10 +37,10 @@
             app:constraint_referenced_ids="first_picker,second_picker"
             app:visible="@{viewModel.mode == InputMode.Slider}" />
 
-        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+        <NumberPicker
             android:id="@+id/first_picker"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/number_picker_height"
             android:layout_marginTop="36dp"
             android:paddingStart="24dp"
             android:paddingEnd="32dp"
@@ -50,10 +50,10 @@
             app:layout_constraintWidth_min="100dp"
             app:npv_ItemPaddingVertical="24dp" />
 
-        <cn.carbswang.android.numberpickerview.library.NumberPickerView
+        <NumberPicker
             android:id="@+id/second_picker"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/number_picker_height"
             android:layout_marginTop="36dp"
             android:paddingEnd="24dp"
             android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
@@ -88,10 +88,10 @@
             android:id="@+id/second_text_input"
             android:layout_width="@dimen/picker_dialog_text_input_width"
             android:layout_height="@dimen/picker_dialog_text_input_height"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/first_text_input"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/first_text_input"
             app:layout_constraintTop_toBottomOf="@id/header_title">
 
             <com.google.android.material.textfield.TextInputEditText

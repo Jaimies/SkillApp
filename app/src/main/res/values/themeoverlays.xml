@@ -7,10 +7,9 @@
     </style>
 
     <style name="ThemeOverlay.SkillApp.NumberPicker" parent="">
-        <item name="npv_ShowDivider">false</item>
-        <item name="npv_TextSizeNormal">24sp</item>
-        <item name="npv_TextSizeSelected">24sp</item>
-        <item name="npv_TextColorNormal">@color/number_picker_inactive_text_color</item>
-        <item name="npv_TextColorSelected">?android:attr/textColorPrimary</item>
+        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="colorControlActivated">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 </resources>

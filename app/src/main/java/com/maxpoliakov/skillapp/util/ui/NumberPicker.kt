@@ -1,14 +1,21 @@
 package com.maxpoliakov.skillapp.util.ui
 
-import android.graphics.Typeface
-import cn.carbswang.android.numberpickerview.library.NumberPickerView
+import android.widget.NumberPicker
 
-fun NumberPickerView.setFontFamily(fontFamily: String) {
-    setContentTextTypeface(Typeface.create(fontFamily, Typeface.NORMAL))
+fun NumberPicker.setup(displayedValues: Array<String>) {
+    setValues(displayedValues)
+    setFriction(0.03f)
 }
 
-fun NumberPickerView.setup(displayedValues: Array<String>) {
-    refreshByNewDisplayedValues(displayedValues)
-    setFriction(0.03f)
-    setFontFamily("sans-serif-medium")
+fun NumberPicker.setValues(displayedValues: Array<String>) {
+    minValue = 0
+    maxValue = displayedValues.lastIndex
+    setFormatter { value ->
+        displayedValues.getOrNull(value) ?: ""
+    }
+    invalidate()
+}
+
+fun setFriction(friction: Float) {
+    // todo
 }

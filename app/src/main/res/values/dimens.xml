@@ -10,6 +10,5 @@
     <dimen name="highlighted_card_stroke_width">4dp</dimen>
     <dimen name="picker_dialog_text_input_width">95dp</dimen>
     <dimen name="picker_dialog_text_input_height">80dp</dimen>
-    <dimen name="number_picker_width">100dp</dimen>
     <dimen name="number_picker_height">240dp</dimen>
 </resources>

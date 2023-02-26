@@ -19,7 +19,6 @@ import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import cn.carbswang.android.numberpickerview.library.NumberPickerView
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.log

@@ -13,11 +13,8 @@ fun NumberPicker.setup(displayedValues: Array<String>) {
 
 fun NumberPicker.setValues(displayedValues: Array<String>) {
     minValue = 0
-    maxValue = displayedValues.lastIndex
-    setFormatter { value ->
-        displayedValues.getOrNull(value) ?: ""
-    }
-    invalidate()
+    maxValue = displayedValues.size - 1
+    this.displayedValues = displayedValues
 }
 
 private const val NUMBER_PICKER_MAX_FLING_VELOCITY_FIELD = "mMaximumFlingVelocity"

@@ -136,6 +136,8 @@ dependencies {
     implementation 'androidx.hilt:hilt-work:1.0.0'
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
 
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
+
     implementation "com.google.android.gms:play-services-auth:$Versions.playServicesAuth"
 
     implementation "com.google.http-client:google-http-client-gson:$Versions.googleHttpClient"

@@ -24,6 +24,10 @@ fun NumberPicker.setValues(displayedValues: Array<String>) {
     setRawInputType(InputType.TYPE_CLASS_NUMBER)
 }
 
+fun NumberPicker.disableKeyboardInput() {
+    descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+}
+
 fun NumberPicker.setRawInputType(type: Int) {
     findEditText()?.setRawInputType(type)
 }

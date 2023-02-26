@@ -9,6 +9,7 @@ import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
+import com.maxpoliakov.skillapp.util.ui.disableKeyboardInput
 import com.maxpoliakov.skillapp.util.ui.setValues
 
 abstract class GoalPicker<T>(
@@ -52,6 +53,8 @@ abstract class GoalPicker<T>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        firstPicker.disableKeyboardInput()
 
         firstPicker.setOnValueChangedListener { _, _, newValue ->
             secondPicker.setValues(goalStringValues[newValue])

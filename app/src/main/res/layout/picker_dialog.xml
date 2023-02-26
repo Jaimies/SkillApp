@@ -99,10 +99,6 @@
                 android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <NumberPicker
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"
             android:layout_width="match_parent"

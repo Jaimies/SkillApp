@@ -1,6 +1,5 @@
 package com.maxpoliakov.skilapp.data.backup
 
-import com.maxpoliakov.skilapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.backup.DBBackupCreator
 import com.maxpoliakov.skillapp.data.backup.DBBackupRestorer
 import com.maxpoliakov.skillapp.data.db.AppDatabase
@@ -12,30 +11,38 @@ import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.shared.util.setClock
 import com.maxpoliakov.skillapp.test.clockOfInstant
+import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.Json
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
+import javax.inject.Inject
 
 @HiltAndroidTest
 class DBBackupRestorerTest {
-    private lateinit var db: AppDatabase
-    private lateinit var backupRestorer: DBBackupRestorer
-    private lateinit var backupCreator: DBBackupCreator
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var db: AppDatabase
+
+    @Inject
+    lateinit var backupRestorer: DBBackupRestorer
+
+    @Inject
+    lateinit var backupCreator: DBBackupCreator
 
     @Before
     fun setup() {
-        db = createTestDatabase()
-        backupCreator = DBBackupCreator(db, Json { encodeDefaults = true })
-        backupRestorer = DBBackupRestorer(db)
+        hiltRule.inject()
     }
 
     @After

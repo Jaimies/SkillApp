@@ -19,7 +19,7 @@ android {
     defaultConfig {
         minSdkVersion App.minSdk
         targetSdkVersion App.targetSdk
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.maxpoliakov.skilapp.data.CustomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -123,4 +123,6 @@ dependencies {
     androidTestImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
     androidTestImplementation "androidx.test.ext:junit:$Versions.androidJUnit"
     androidTestImplementation project(":sharedTest")
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$Versions.hilt"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$Versions.hilt"
 }

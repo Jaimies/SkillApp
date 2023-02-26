@@ -43,8 +43,7 @@
             app:layout_constraintEnd_toStartOf="@id/second_picker"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_min="100dp"
-            app:npv_ItemPaddingVertical="24dp" />
+            app:layout_constraintWidth_min="100dp" />
 
         <NumberPicker
             android:id="@+id/second_picker"
@@ -55,8 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/first_picker"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_min="100dp"
-            app:npv_ItemPaddingVertical="24dp" />
+            app:layout_constraintWidth_min="100dp" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"

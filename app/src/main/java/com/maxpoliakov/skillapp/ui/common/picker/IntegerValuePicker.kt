@@ -18,7 +18,7 @@ abstract class IntegerValuePicker<T>(
     }
 
     private fun getNumberOfValues(): Int {
-        return requireArguments().getLong(MAXIMUM_VALUE, 5_000L).toInt()
+        return requireArguments().getInt(MAXIMUM_VALUE, 5_000)
     }
 
     override fun getSecondPickerValues() = arrayOf<String>()

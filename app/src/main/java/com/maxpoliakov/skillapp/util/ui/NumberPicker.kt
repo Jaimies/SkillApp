@@ -20,6 +20,7 @@ fun NumberPicker.setValues(displayedValues: Array<String>) {
     minValue = 0
     maxValue = displayedValues.size - 1
     this.displayedValues = displayedValues
+    // it is important to make this call every time new values are set, otherwise it doesn't work.
     setRawInputType(InputType.TYPE_CLASS_NUMBER)
 }
 

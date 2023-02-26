@@ -39,11 +39,9 @@
 
         <NumberPicker
             android:id="@+id/first_picker"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/number_picker_width"
             android:layout_height="@dimen/number_picker_height"
             android:layout_marginTop="36dp"
-            android:paddingStart="24dp"
-            android:paddingEnd="32dp"
             android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,10 +50,9 @@
 
         <NumberPicker
             android:id="@+id/second_picker"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/number_picker_width"
             android:layout_height="@dimen/number_picker_height"
             android:layout_marginTop="36dp"
-            android:paddingEnd="24dp"
             android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/first_picker"

@@ -11,6 +11,8 @@ abstract class IntegerValuePicker<T>(
     override val value get() = unit.toType(firstPicker.value.toLong())
     private val uiUnit = unit.mapToUI()
 
+    override val secondPickerEnabled = false
+
     override fun getFirstPickerValues() = Array(getNumberOfValues()) { index ->
         uiUnit.toLongString(index.toLong(), requireContext())
     }
@@ -22,8 +24,6 @@ abstract class IntegerValuePicker<T>(
     override fun getSecondPickerValues() = arrayOf<String>()
 
     abstract class Builder<T : Comparable<T>>(private val unit: MeasurementUnit<T>) : ValuePicker.Builder<T>(unit) {
-        override var secondPickerEnabled = false
-
         override fun setValue(value: T) {
             setFirstPickerValue(unit.toLong(value).toInt())
         }

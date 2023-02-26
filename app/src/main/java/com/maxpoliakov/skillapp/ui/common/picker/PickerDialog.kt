@@ -35,7 +35,7 @@ abstract class PickerDialog : DialogFragment() {
     private var titleResId = 0
     private var titleText: String? = null
 
-    private var secondPickerEnabled = true
+    open val secondPickerEnabled = true
 
     protected val firstPicker get() = requireNotNull(binding).firstPicker
     protected val secondPicker get() = requireNotNull(binding).secondPicker
@@ -89,7 +89,6 @@ abstract class PickerDialog : DialogFragment() {
         bundle.putInt(TITLE_RES_EXTRA, titleResId)
         bundle.putString(TITLE_TEXT_EXTRA, titleText)
         bundle.putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
-        bundle.putBoolean(SECOND_PICKER_ENABLED, secondPickerEnabled)
 
         binding?.run {
             bundle.putInt(FIRST_PICKER_VALUE, firstPicker.value)
@@ -102,7 +101,6 @@ abstract class PickerDialog : DialogFragment() {
         titleResId = bundle.getInt(TITLE_RES_EXTRA, 0)
         titleText = bundle.getString(TITLE_TEXT_EXTRA)
         overrideThemeResId = bundle.getInt(OVERRIDE_THEME_RES_ID, 0)
-        secondPickerEnabled = bundle.getBoolean(SECOND_PICKER_ENABLED, true)
 
         lifecycleScope.launchWhenStarted {
             tryRestoreStateOfPickers(bundle)
@@ -282,7 +280,6 @@ abstract class PickerDialog : DialogFragment() {
     /** Used to create [DurationPicker] instances.  */
     abstract class Builder<BuilderType : Builder<BuilderType, DialogType>, DialogType : PickerDialog> {
         open var titleTextResId = 0
-        open var secondPickerEnabled = true
         var titleText: CharSequence? = null
         var overrideThemeResId = 0
         var firstPickerValue = 0
@@ -334,7 +331,6 @@ abstract class PickerDialog : DialogFragment() {
             putInt(SECOND_PICKER_VALUE, secondPickerValue)
             putInt(TITLE_RES_EXTRA, titleTextResId)
             putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
-            putBoolean(SECOND_PICKER_ENABLED, secondPickerEnabled)
             if (titleText != null)
                 putString(TITLE_TEXT_EXTRA, titleText.toString())
         }
@@ -352,7 +348,6 @@ abstract class PickerDialog : DialogFragment() {
         const val OVERRIDE_THEME_RES_ID = "TIME_PICKER_OVERRIDE_THEME_RES_ID"
         const val FIRST_PICKER_VALUE = "FIRST_PICKER_VALUE"
         const val SECOND_PICKER_VALUE = "SECOND_PICKER_VALUE"
-        const val SECOND_PICKER_ENABLED = "SECOND_PICKER_ENABLED"
 
         fun resolveOrThrow(
             context: Context,

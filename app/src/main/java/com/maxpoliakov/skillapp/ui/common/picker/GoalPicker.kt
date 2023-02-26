@@ -53,8 +53,6 @@ abstract class GoalPicker<T>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val firstPickerValue = savedInstanceState?.getInt(FIRST_PICKER_VALUE, 0) ?: 0
-        secondPicker.setValues(goalStringValues[firstPickerValue])
         firstPicker.setOnValueChangedListener { _, _, newValue ->
             secondPicker.setValues(goalStringValues[newValue])
         }

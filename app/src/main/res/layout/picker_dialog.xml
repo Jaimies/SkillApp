@@ -40,6 +40,7 @@
             android:layout_height="@dimen/number_picker_height"
             android:layout_marginTop="36dp"
             android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
+            app:layout_constraintEnd_toStartOf="@id/second_picker"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_min="100dp"

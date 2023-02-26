@@ -15,6 +15,8 @@ fun NumberPicker.setup(displayedValues: Array<String>) {
 }
 
 fun NumberPicker.setValues(displayedValues: Array<String>) {
+    // prevents ArrayIndexOutOfBoundsException when changing values
+    this.displayedValues = null
     minValue = 0
     maxValue = displayedValues.size - 1
     this.displayedValues = displayedValues

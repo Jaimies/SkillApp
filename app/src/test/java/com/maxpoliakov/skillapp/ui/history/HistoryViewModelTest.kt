@@ -38,7 +38,7 @@ class HistoryViewModelTest : StringSpec({
         val getHistory = mockk<GetHistoryUseCase>(relaxed = true)
 
         every { getHistory.getRecords(any()) } returns flowOf(pagingData)
-        coEvery { getHistory.getCount(any(), any<LocalDate>()) } returns 200
+        coEvery { getHistory.getCount(any(), any<LocalDate>()) } returns flowOf(200)
 
         val viewModel = HistoryViewModel()
         viewModel.getHistory = getHistory

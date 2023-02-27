@@ -116,9 +116,6 @@
     <string name="intro_slide4_description">Зайдите в Настройки\u00A0>\u00A0«Резервное копирование» и войдите в свой Google\u00A0Акаунт</string>
     <string name="support_app">Поддержать SkillApp</string>
     <string name="browser_not_found">Приложение браузера не найдено</string>
-    <string name="duration_picker_interval">Интервал выбора времени</string>
-    <string name="duration_1_min">1 мин</string>
-    <string name="duration_5_min">5 мин</string>
     <string name="one_year">годы</string>
     <string name="got_it">Понятно</string>
     <string name="reorder_skills">Упорядочить</string>

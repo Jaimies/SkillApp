@@ -11,19 +11,19 @@ abstract class IntegerValuePicker<T>(
     override val value get() = unit.toType(firstPicker.value.toLong())
     private val uiUnit = unit.mapToUI()
 
+    override val secondPickerEnabled = false
+
     override fun getFirstPickerValues() = Array(getNumberOfValues()) { index ->
         uiUnit.toLongString(index.toLong(), requireContext())
     }
 
     private fun getNumberOfValues(): Int {
-        return requireArguments().getLong(MAXIMUM_VALUE, 5_000L).toInt()
+        return requireArguments().getInt(MAXIMUM_VALUE, 5_000)
     }
 
     override fun getSecondPickerValues() = arrayOf<String>()
 
     abstract class Builder<T : Comparable<T>>(private val unit: MeasurementUnit<T>) : ValuePicker.Builder<T>(unit) {
-        override var secondPickerEnabled = false
-
         override fun setValue(value: T) {
             setFirstPickerValue(unit.toLong(value).toInt())
         }

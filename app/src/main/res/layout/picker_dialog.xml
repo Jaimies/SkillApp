@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="8dp"
     android:accessibilityPaneTitle="@string/material_timepicker_select_time"
+    android:paddingHorizontal="8dp"
     android:paddingBottom="2dp">
 
     <TextView
@@ -19,35 +19,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <cn.carbswang.android.numberpickerview.library.NumberPickerView
-        android:id="@+id/hours_picker"
+    <NumberPicker
+        android:id="@+id/first_picker"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/number_picker_height"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
-        android:paddingStart="24dp"
-        android:paddingEnd="32dp"
+        android:layout_marginEnd="32dp"
         android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
+        app:layout_constraintEnd_toStartOf="@id/second_picker"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_min="100dp"
-        app:npv_ItemPaddingVertical="24dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <cn.carbswang.android.numberpickerview.library.NumberPickerView
-        android:id="@+id/minutes_picker"
+    <NumberPicker
+        android:id="@+id/second_picker"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/number_picker_height"
         android:layout_marginTop="36dp"
-        android:paddingEnd="24dp"
+        android:layout_marginEnd="24dp"
         android:theme="@style/ThemeOverlay.SkillApp.NumberPicker"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/hours_picker"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_min="100dp"
-        app:npv_ItemPaddingVertical="24dp" />
+        app:layout_constraintStart_toEndOf="@id/first_picker"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="first_picker,second_picker" />
 
     <Button
-        android:id="@+id/material_timepicker_cancel_button"
+        android:id="@+id/cancel_button"
         style="?attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,11 +58,11 @@
         android:layout_marginEnd="8dp"
         android:minWidth="72dp"
         android:text="@android:string/cancel"
-        app:layout_constraintEnd_toStartOf="@id/material_timepicker_ok_button"
-        app:layout_constraintTop_toBottomOf="@id/hours_picker" />
+        app:layout_constraintEnd_toStartOf="@id/ok_button"
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
 
     <Button
-        android:id="@+id/material_timepicker_ok_button"
+        android:id="@+id/ok_button"
         style="?attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,5 +70,6 @@
         android:minWidth="64dp"
         android:text="@android:string/ok"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hours_picker" />
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

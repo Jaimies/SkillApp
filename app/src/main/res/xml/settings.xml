@@ -14,15 +14,6 @@
             android:title="@string/theme"
             app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            android:defaultValue="5_min"
-            android:entries="@array/duration_picker_interval_entries"
-            android:entryValues="@array/duration_picker_interval_values"
-            android:icon="@drawable/ic_add_time"
-            android:key="duration_picker_interval"
-            android:title="@string/duration_picker_interval"
-            app:useSimpleSummaryProvider="true" />
-
         <Preference
             android:icon="@drawable/ic_drive_translucent"
             android:key="backups"

@@ -9,6 +9,8 @@ import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
+import com.maxpoliakov.skillapp.util.ui.disableKeyboardInput
+import com.maxpoliakov.skillapp.util.ui.setValues
 
 abstract class GoalPicker<T>(
     private val unit: MeasurementUnit<T>,
@@ -52,17 +54,17 @@ abstract class GoalPicker<T>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val firstPickerValue = savedInstanceState?.getInt(FIRST_PICKER_VALUE, 0) ?: 0
-        secondPicker.refreshByNewDisplayedValues(goalStringValues[firstPickerValue])
-        firstPicker.setOnValueChangeListenerInScrolling { _, _, newValue ->
-            secondPicker.refreshByNewDisplayedValues(goalStringValues[newValue])
+        firstPicker.disableKeyboardInput()
+
+        firstPicker.setOnValueChangedListener { _, _, newValue ->
+            secondPicker.setValues(goalStringValues[newValue])
         }
     }
 
     override fun restoreStateOfPickers(bundle: Bundle) {
         val firstPickerValue = bundle.getInt(FIRST_PICKER_VALUE, 0)
         firstPicker.value = firstPickerValue
-        secondPicker.refreshByNewDisplayedValues(goalStringValues[firstPickerValue])
+        secondPicker.setValues(goalStringValues[firstPickerValue])
         secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
     }
 

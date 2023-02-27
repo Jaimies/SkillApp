@@ -120,7 +120,6 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$Versions.navigation"
 
     implementation "com.google.android.material:material:$Versions.material"
-    implementation 'cn.carbswang.android:NumberPickerView:1.2.0'
 
     implementation "com.github.PhilJay:MPAndroidChart:v$Versions.MPAndroidChart"
     implementation 'com.github.AppIntro:AppIntro:6.2.0'
@@ -134,7 +133,8 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$Versions.workManager"
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
     implementation 'androidx.hilt:hilt-work:1.0.0'
-    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
 
     implementation "com.google.android.gms:play-services-auth:$Versions.playServicesAuth"
 

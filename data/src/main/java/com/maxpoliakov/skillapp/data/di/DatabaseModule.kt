@@ -19,18 +19,14 @@ class DatabaseModule {
     }
 
     @Provides
-    @Singleton
     fun provideSkillDao(db: AppDatabase) = db.skillDao()
 
     @Provides
-    @Singleton
     fun provideStatsDao(db: AppDatabase) = db.statsDao()
 
     @Provides
-    @Singleton
     fun provideRecordsDao(db: AppDatabase) = db.recordsDao()
 
     @Provides
-    @Singleton
     fun provideSkillGroupDao(db: AppDatabase) = db.skillGroupDao()
 }

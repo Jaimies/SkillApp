@@ -1,11 +1,13 @@
 package com.maxpoliakov.skillapp.di
 
+import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.ui.intro.IntroUtilImpl
-import com.maxpoliakov.skillapp.util.tracking.RecordUtil
-import com.maxpoliakov.skillapp.util.tracking.RecordUtilImpl
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 
@@ -14,4 +16,11 @@ import dagger.hilt.android.components.ActivityComponent
 interface ActivityModule {
     @Binds
     fun provideIntroUtil(introUtil: IntroUtilImpl): IntroUtil
+
+    companion object {
+        @Provides
+        fun provideFragmentManager(activity: Activity): FragmentManager {
+            return (activity as AppCompatActivity).supportFragmentManager
+        }
+    }
 }

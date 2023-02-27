@@ -1,8 +1,7 @@
-package com.maxpoliakov.skilapp.data.skills
+package com.maxpoliakov.skillapp.data.skills
 
-import com.maxpoliakov.skilapp.data.createTestDatabase
+import com.maxpoliakov.skillapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.db.AppDatabase
-import com.maxpoliakov.skillapp.data.records.DBRecord
 import com.maxpoliakov.skillapp.data.records.RecordsDao
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.SkillDao
@@ -20,7 +19,6 @@ import org.junit.Before
 import org.junit.Test
 import java.time.Clock
 import java.time.Duration
-import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.ZoneId
 

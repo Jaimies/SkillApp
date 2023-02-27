@@ -1,6 +1,6 @@
-package com.maxpoliakov.skilapp.data.skills
+package com.maxpoliakov.skillapp.data.skills
 
-import com.maxpoliakov.skilapp.data.createTestDatabase
+import com.maxpoliakov.skillapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
 import com.maxpoliakov.skillapp.data.records.RecordsDao

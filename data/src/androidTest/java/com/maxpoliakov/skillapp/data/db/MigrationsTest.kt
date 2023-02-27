@@ -1,14 +1,7 @@
-package com.maxpoliakov.skilapp.data.db
+package com.maxpoliakov.skillapp.data.db
 
 import androidx.room.testing.MigrationTestHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.platform.app.InstrumentationRegistry
-import com.maxpoliakov.skillapp.data.db.AppDatabase
-import com.maxpoliakov.skillapp.data.db.MIGRATION_1_2
-import com.maxpoliakov.skillapp.data.db.MIGRATION_2_3
-import com.maxpoliakov.skillapp.data.db.MIGRATION_3_4
-import com.maxpoliakov.skillapp.data.db.MIGRATION_4_5
-import com.maxpoliakov.skillapp.data.db.MIGRATION_5_6
 import com.maxpoliakov.skillapp.data.getIntValue
 import com.maxpoliakov.skillapp.data.getLongValue
 import com.maxpoliakov.skillapp.data.getStringValue

@@ -1,4 +1,4 @@
-package com.maxpoliakov.skilapp.data
+package com.maxpoliakov.skillapp.data
 
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.di.DatabaseModule

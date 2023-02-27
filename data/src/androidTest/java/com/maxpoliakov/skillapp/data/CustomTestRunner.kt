@@ -1,4 +1,4 @@
-package com.maxpoliakov.skilapp.data
+package com.maxpoliakov.skillapp.data
 
 import android.app.Application
 import android.content.Context

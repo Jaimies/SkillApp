@@ -1,10 +1,8 @@
-package com.maxpoliakov.skilapp.data.records
+package com.maxpoliakov.skillapp.data.records
 
 import androidx.paging.PagingSource
-import com.maxpoliakov.skilapp.data.createTestDatabase
+import com.maxpoliakov.skillapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.db.AppDatabase
-import com.maxpoliakov.skillapp.data.records.DBRecord
-import com.maxpoliakov.skillapp.data.records.RecordsDao
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import io.kotest.matchers.should

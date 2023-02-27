@@ -1,9 +1,7 @@
-package com.maxpoliakov.skilapp.data.group
+package com.maxpoliakov.skillapp.data.group
 
-import com.maxpoliakov.skilapp.data.createTestDatabase
+import com.maxpoliakov.skillapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.db.AppDatabase
-import com.maxpoliakov.skillapp.data.group.GroupDao
-import com.maxpoliakov.skillapp.data.group.mapToDomain
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.data.skill.mapToDomain

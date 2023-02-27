@@ -1,12 +1,10 @@
-package com.maxpoliakov.skilapp.data.stats
+package com.maxpoliakov.skillapp.data.stats
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.maxpoliakov.skilapp.data.createTestDatabase
+import com.maxpoliakov.skillapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.SkillDao
-import com.maxpoliakov.skillapp.data.stats.DBStatistic
-import com.maxpoliakov.skillapp.data.stats.StatsDao
 import com.maxpoliakov.skillapp.test.await
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking

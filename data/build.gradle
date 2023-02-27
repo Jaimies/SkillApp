@@ -19,7 +19,7 @@ android {
     defaultConfig {
         minSdkVersion App.minSdk
         targetSdkVersion App.targetSdk
-        testInstrumentationRunner "com.maxpoliakov.skilapp.data.CustomTestRunner"
+        testInstrumentationRunner "com.maxpoliakov.skillapp.data.CustomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {

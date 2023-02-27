@@ -22,16 +22,4 @@ class TestDbModule {
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
     }
-
-    @Provides
-    fun provideSkillDao(db: AppDatabase) = db.skillDao()
-
-    @Provides
-    fun provideStatsDao(db: AppDatabase) = db.statsDao()
-
-    @Provides
-    fun provideRecordsDao(db: AppDatabase) = db.recordsDao()
-
-    @Provides
-    fun provideGroupDao(db: AppDatabase) = db.skillGroupDao()
 }

@@ -17,16 +17,4 @@ class DatabaseModule {
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
         return AppDatabase.create(context)
     }
-
-    @Provides
-    fun provideSkillDao(db: AppDatabase) = db.skillDao()
-
-    @Provides
-    fun provideStatsDao(db: AppDatabase) = db.statsDao()
-
-    @Provides
-    fun provideRecordsDao(db: AppDatabase) = db.recordsDao()
-
-    @Provides
-    fun provideSkillGroupDao(db: AppDatabase) = db.skillGroupDao()
 }

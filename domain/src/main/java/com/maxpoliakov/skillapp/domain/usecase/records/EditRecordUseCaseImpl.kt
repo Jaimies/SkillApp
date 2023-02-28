@@ -4,8 +4,6 @@ import com.maxpoliakov.skillapp.domain.model.Change
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class EditRecordUseCaseImpl @Inject constructor(
@@ -14,8 +12,8 @@ class EditRecordUseCaseImpl @Inject constructor(
     private val addRecord: AddRecordUseCase,
 ) : EditRecordUseCase {
 
-    override suspend fun change(recordId: Id, change: Change<Record>) = withContext(Dispatchers.IO) {
-        val oldRecord = recordsRepository.getRecord(recordId) ?: return@withContext
+    override suspend fun change(recordId: Id, change: Change<Record>) {
+        val oldRecord = recordsRepository.getRecord(recordId) ?: return
 
         deleteRecord.run(recordId)
         addRecord.run(change.apply(oldRecord))

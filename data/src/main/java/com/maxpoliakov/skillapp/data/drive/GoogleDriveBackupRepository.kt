@@ -86,15 +86,14 @@ class GoogleDriveBackupRepository @Inject constructor(
             .let(::BackupData)
     }
 
-    private suspend fun <T> doIfAuthorized(operation: suspend () -> Result<T>) =
-        withContext(Dispatchers.IO) {
-            when {
-                !networkUtil.isConnected -> Result.Failure.NoInternetConnection
-                authRepository.currentUser == null -> Result.Failure.Unauthorized
-                !authRepository.hasAppDataPermission -> Result.Failure.PermissionDenied
-                else -> operation()
-            }
+    private suspend fun <T> doIfAuthorized(operation: suspend () -> Result<T>): Result<T> {
+        return when {
+            !networkUtil.isConnected -> Result.Failure.NoInternetConnection
+            authRepository.currentUser == null -> Result.Failure.Unauthorized
+            !authRepository.hasAppDataPermission -> Result.Failure.PermissionDenied
+            else -> withContext(Dispatchers.IO) { operation() }
         }
+    }
 
     private suspend fun <T> tryIfAuthorized(operation: suspend () -> T): Result<T> {
         return doIfAuthorized { tryOperation(operation) }

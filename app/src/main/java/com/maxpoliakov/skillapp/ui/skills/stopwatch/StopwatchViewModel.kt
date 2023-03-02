@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui.skills.stopwatch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
@@ -19,7 +20,8 @@ import javax.inject.Inject
 class StopwatchViewModel @Inject constructor(
     private val stopwatch: Stopwatch,
     private val getSkill: GetSkillByIdUseCase,
-    private val ioScope: CoroutineScope,
+    @ApplicationScope
+    private val scope: CoroutineScope,
 ) {
     private val _navigateToSkill = SingleLiveEvent<Skill>()
     val navigateToSkill: LiveData<Skill> get() = _navigateToSkill
@@ -37,7 +39,7 @@ class StopwatchViewModel @Inject constructor(
 
     val isActive = stopwatch.state.map { it is StopwatchState.Running }.asLiveData()
 
-    fun stopTimer() = ioScope.launch {
+    fun stopTimer() = scope.launch {
         val record = stopwatch.stop()
         record?.let(_showRecordAdded::postValue)
     }

@@ -16,10 +16,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class BaseModule {
     @Provides
-    @Singleton
-    fun provideIoScope(): CoroutineScope = CoroutineScope(Dispatchers.IO)
-
-    @Provides
     fun provideClock(): Clock = Clock.systemDefaultZone()
 
     @Provides

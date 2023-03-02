@@ -7,6 +7,7 @@ import androidx.lifecycle.map
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.di.SnackbarRoot
 import com.maxpoliakov.skillapp.domain.model.Backup
@@ -22,16 +23,15 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Provider
 
 class BackupViewHolder @AssistedInject constructor(
     @Assisted
     binding: BackupListItemBinding,
     private val restoreBackupUseCase: RestoreBackupUseCase,
-    private val ioScope: CoroutineScope,
+    @ApplicationScope
+    private val scope: CoroutineScope,
     private val networkUtil: NetworkUtil,
     private val navController: NavController,
     @SnackbarRoot
@@ -66,13 +66,13 @@ class BackupViewHolder @AssistedInject constructor(
         logEvent("restore_backup")
         val backup = backup.value ?: return
 
-        ioScope.launch {
+        scope.launch {
             val result = restoreBackupUseCase.restoreBackup(backup)
             handle(result)
         }
     }
 
-    private suspend fun handle(result: RestoreBackupUseCase.Result) = withContext(Dispatchers.Main) {
+    private fun handle(result: RestoreBackupUseCase.Result) {
         when (result) {
             is RestoreBackupUseCase.Result.Success -> {
                 snackbarRootProvider.get()?.showSnackbar(R.string.backup_restore_successful)

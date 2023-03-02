@@ -16,6 +16,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.StopTimerBroadcastReceiver
+import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
@@ -30,9 +31,11 @@ import javax.inject.Singleton
 
 @Singleton
 class NotificationUtilImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @ApplicationContext
+    private val context: Context,
     private val notificationManager: NotificationManagerCompat,
     private val getSkill: GetSkillByIdUseCase,
+    @ApplicationScope
     private val scope: CoroutineScope
 ) : NotificationUtil {
 

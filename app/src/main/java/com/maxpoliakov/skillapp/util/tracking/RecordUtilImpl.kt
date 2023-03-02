@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.di.SnackbarRoot
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.RecordChange
@@ -23,7 +24,8 @@ import javax.inject.Provider
 @ActivityScoped
 class RecordUtilImpl @Inject constructor(
     private val editRecord: EditRecordUseCase,
-    private val ioScope: CoroutineScope,
+    @ApplicationScope
+    private val scope: CoroutineScope,
     @SnackbarRoot
     private val snackbarRootProvider: Provider<View?>,
     @ActivityContext
@@ -58,7 +60,7 @@ class RecordUtilImpl @Inject constructor(
 
     private fun editTime(record: Record) {
         UiMeasurementUnit.Millis.showPicker(fragmentManager, record.count, editMode = true) { newTime ->
-            ioScope.launch {
+            scope.launch {
                 editRecord.change(record.id, RecordChange.Count(newTime))
             }
         }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
@@ -16,9 +17,7 @@ import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -28,7 +27,8 @@ class BackupViewModel @Inject constructor(
     private val performBackupUseCase: PerformBackupUseCase,
     private val backupRepository: BackupRepository,
     private val networkUtil: NetworkUtil,
-    private val ioScope: CoroutineScope,
+    @ApplicationScope
+    private val scope: CoroutineScope,
 ) : ViewModel() {
     private val _currentUser = MutableLiveData(authRepository.currentUser)
     val currentUser: LiveData<User?> get() = _currentUser
@@ -96,7 +96,7 @@ class BackupViewModel @Inject constructor(
         logEvent("sign_in")
     }
 
-    private fun createBackupInBackground() = ioScope.launch {
+    private fun createBackupInBackground() = scope.launch {
         val result = performBackupUseCase.performBackup()
 
         if (result is PerformBackupUseCase.Result.Success) {
@@ -117,12 +117,12 @@ class BackupViewModel @Inject constructor(
         _signIn.call()
     }
 
-    fun createBackup() = ioScope.launch {
+    fun createBackup() = scope.launch {
         logEvent("create_backup")
-        _backupCreating.postValue(true)
+        _backupCreating.value = true
         val result = performBackupUseCase.performBackup()
-        withContext(Dispatchers.Main) { handleResult(result) }
-        _backupCreating.postValue(false)
+        handleResult(result)
+        _backupCreating.value = false
     }
 
     private fun handleResult(result: PerformBackupUseCase.Result) {

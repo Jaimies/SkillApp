@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.skills
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
@@ -11,19 +12,18 @@ import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.util.analytics.logEvent
 import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SkillViewModel @Inject constructor(
     private val stopwatch: Stopwatch,
     manager: EditingModeManager,
-    private val ioScope: CoroutineScope,
+    @ApplicationScope
+    private val scope: CoroutineScope,
 ) {
     private val _skill = MutableStateFlow<Skill?>(null)
     val skill = _skill.asStateFlow()
@@ -55,11 +55,9 @@ class SkillViewModel @Inject constructor(
     }
 
     fun toggleTimer() {
-        ioScope.launch {
+        scope.launch {
             val record = stopwatch.toggle(skill.value!!.id)
-            record?.let { record ->
-                withContext(Dispatchers.Main) { _notifyRecordAdded.value = record }
-            }
+            if (record != null) _notifyRecordAdded.value = record
         }
         logEvent("start_timer_from_home_screen")
     }

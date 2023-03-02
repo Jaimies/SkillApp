@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
@@ -32,7 +33,8 @@ import javax.inject.Inject
 class SkillDetailViewModel @Inject constructor(
     private val addRecord: AddRecordUseCase,
     private val manageSkill: ManageSkillUseCase,
-    private val ioScope: CoroutineScope,
+    @ApplicationScope
+    private val scope: CoroutineScope,
     private val stopwatch: Stopwatch,
     args: SkillDetailFragmentArgs,
     getSkillById: GetSkillByIdUseCase,
@@ -76,17 +78,17 @@ class SkillDetailViewModel @Inject constructor(
 
     fun addRecord(count: Long) = skillStateFlow.value?.let { skill ->
         val record = Record("", skillId, count, skill.unit)
-        ioScope.launch { addRecord.run(record) }
+        scope.launch { addRecord.run(record) }
     }
 
     fun deleteSkill() = skillStateFlow.value?.let { skill ->
-        ioScope.launch { manageSkill.deleteSkill(skill) }
+        scope.launch { manageSkill.deleteSkill(skill) }
         logEvent("delete_skill")
     }
 
-    fun toggleTimer() = ioScope.launch {
+    fun toggleTimer() = scope.launch {
         val record = stopwatch.toggle(skillId)
-        record.let(_showRecordAdded::postValue)
+        if (record != null) _showRecordAdded.value = record
         logEvent("toggle_timer")
     }
 

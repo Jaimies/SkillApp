@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.ui.history
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Change
 import com.maxpoliakov.skillapp.domain.usecase.records.DeleteRecordUseCase
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class RecordViewModel @Inject constructor(
     private val editRecord: EditRecordUseCase,
     private val deleteRecord: DeleteRecordUseCase,
-    private val ioScope: CoroutineScope
+    @ApplicationScope
+    private val scope: CoroutineScope
 ) {
     val showMenu = SingleLiveEvent<Any>()
     val record: LiveData<HistoryUiModel.Record> get() = _record
@@ -31,7 +33,7 @@ class RecordViewModel @Inject constructor(
     }
 
     fun deleteRecord() {
-        ioScope.launch {
+        scope.launch {
             deleteRecord.run(record.value!!.id)
         }
         logEvent("delete_record")
@@ -56,7 +58,7 @@ class RecordViewModel @Inject constructor(
     }
 
     fun change(change: Change<Record>) {
-        ioScope.launch {
+        scope.launch {
             editRecord.change(record.value?.id ?: return@launch, change)
         }
     }

@@ -37,12 +37,6 @@ class TimeTest : StringSpec({
         dateOfEpochMillis(86_399_999) shouldBe LocalDate.ofEpochDay(0)
     }
 
-    "durationOfHoursAndMinutes()" {
-        durationOfHoursAndMinutes(0, 0) shouldBe Duration.ZERO
-        durationOfHoursAndMinutes(0, 1) shouldBe Duration.ofMinutes(1)
-        durationOfHoursAndMinutes(1, 0) shouldBe Duration.ofHours(1)
-    }
-
     "String.toZonedDateTimeOrNull()" {
         val dateString = "2007-12-03T10:15:30+01:00[Europe/Paris]"
         "".toZonedDateTimeOrNull() shouldBe null

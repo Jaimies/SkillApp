@@ -51,12 +51,6 @@ fun <T> ClosedRange<T>.toDuration(): Duration where T : Comparable<T>, T : Tempo
     return start.until(endInclusive)
 }
 
-fun durationOfHoursAndMinutes(hours: Int, minutes: Int): Duration {
-    val hours = Duration.ofHours(hours.toLong())
-    val minutes = Duration.ofMinutes(minutes.toLong())
-    return hours.plus(minutes)
-}
-
 fun String.toZonedDateTimeOrNull(): ZonedDateTime? {
     return try {
         ZonedDateTime.parse(this)

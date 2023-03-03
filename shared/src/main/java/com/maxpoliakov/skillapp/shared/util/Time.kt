@@ -23,9 +23,6 @@ val DayOfWeek.shortName: String
 val Month.shortName: String
     get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
 
-val FullLocalDateRange: ClosedRange<LocalDate>
-    get() = LocalDate.ofYearDay(Int.MIN_VALUE, 1)..LocalDate.ofYearDay(Int.MAX_VALUE, 1)
-
 val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy  HH:mm:ss")
 
 fun LocalDate.atStartOfWeek(): LocalDate {

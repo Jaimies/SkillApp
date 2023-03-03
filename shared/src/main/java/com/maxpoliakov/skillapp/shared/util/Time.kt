@@ -10,10 +10,7 @@ import java.time.Month
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
-import java.time.temporal.ChronoUnit.DAYS
 import java.time.temporal.ChronoUnit.MILLIS
-import java.time.temporal.ChronoUnit.MONTHS
-import java.time.temporal.ChronoUnit.WEEKS
 import java.time.temporal.Temporal
 import java.time.temporal.WeekFields
 import java.util.Locale
@@ -25,11 +22,6 @@ val DayOfWeek.shortName: String
 
 val Month.shortName: String
     get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
-
-val LocalDate.daysAgo get() = DAYS.between(this, getCurrentDate())
-val LocalDate.daysSinceEpoch get() = DAYS.between(EPOCH, this)
-val LocalDate.weeksSinceEpoch get() = WEEKS.between(EPOCH.atStartOfWeek(), this.atStartOfWeek())
-val LocalDate.monthsSinceEpoch get() = MONTHS.between(EPOCH, this)
 
 val FullLocalDateRange: ClosedRange<LocalDate>
     get() = LocalDate.ofYearDay(Int.MIN_VALUE, 1)..LocalDate.ofYearDay(Int.MAX_VALUE, 1)

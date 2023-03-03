@@ -15,17 +15,6 @@ class TimeTest : StringSpec({
         DayOfWeek.TUESDAY.shortName shouldBe "Tue"
     }
 
-    "daysAgo" {
-        LocalDate.now().minusDays(1).daysAgo shouldBe 1
-        LocalDate.now().minusDays(2).daysAgo shouldBe 2
-    }
-
-    "daysSinceEpoch" {
-        LocalDate.ofEpochDay(0).daysSinceEpoch shouldBe 0
-        LocalDate.ofEpochDay(1).daysSinceEpoch shouldBe 1
-        LocalDate.ofEpochDay(365).daysSinceEpoch shouldBe 365
-    }
-
     "atStartOfWeek()" {
         Locale.setDefault(Locale.US)
         LocalDate.ofEpochDay(0).atStartOfWeek() shouldBe LocalDate.parse("1969-12-28")
@@ -34,18 +23,6 @@ class TimeTest : StringSpec({
         Locale.setDefault(Locale.UK)
         LocalDate.ofEpochDay(0).atStartOfWeek() shouldBe LocalDate.parse("1969-12-29")
         LocalDate.ofEpochDay(4).atStartOfWeek() shouldBe LocalDate.parse("1970-01-05")
-    }
-
-    "weeksSinceEpoch" {
-        LocalDate.ofEpochDay(0).atStartOfWeek().weeksSinceEpoch shouldBe 0
-        LocalDate.ofEpochDay(0).atStartOfWeek().plusWeeks(1).weeksSinceEpoch shouldBe 1
-        LocalDate.ofEpochDay(0).atStartOfWeek().plusWeeks(250).weeksSinceEpoch shouldBe 250
-    }
-
-    "monthsSinceEpoch" {
-        LocalDate.ofEpochDay(0).monthsSinceEpoch shouldBe 0
-        LocalDate.ofEpochDay(5).plusMonths(1).monthsSinceEpoch shouldBe 1
-        LocalDate.ofEpochDay(12).plusMonths(50).monthsSinceEpoch shouldBe 50
     }
 
     "millisSinceEpoch" {

@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.common
+package com.maxpoliakov.skillapp.ui.common.cardviewdecoration
 
 import android.content.Context
 import android.graphics.Canvas

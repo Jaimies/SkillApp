@@ -23,7 +23,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.model.Intro
 import com.maxpoliakov.skillapp.ui.MainActivity
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
-import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
+import com.maxpoliakov.skillapp.ui.common.cardviewdecoration.CardViewDecoration
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.ui.intro.Intro_3_1_0
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewHolder

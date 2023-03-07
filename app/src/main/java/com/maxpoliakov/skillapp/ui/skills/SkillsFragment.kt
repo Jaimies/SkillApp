@@ -26,7 +26,11 @@ import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
 import com.maxpoliakov.skillapp.ui.common.CardViewDecoration
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.ui.intro.Intro_3_1_0
-import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
 import com.maxpoliakov.skillapp.util.ui.ItemTouchHelperCallback

@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills
+package com.maxpoliakov.skillapp.ui.skills.recyclerview
 
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 

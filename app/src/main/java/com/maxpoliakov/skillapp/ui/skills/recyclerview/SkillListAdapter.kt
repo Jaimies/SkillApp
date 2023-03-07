@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills
+package com.maxpoliakov.skillapp.ui.skills.recyclerview
 
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
@@ -7,9 +7,13 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.common.adapter.ListAdapter
-import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupHeaderDelegateAdapter
-import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchDelegateAdapter
-import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
+import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterDelegateAdapter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupHeaderDelegateAdapter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillDelegateAdapter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchDelegateAdapter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

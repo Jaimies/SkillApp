@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills.stopwatch
+package com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch
 
 import android.view.View
 import androidx.navigation.NavController

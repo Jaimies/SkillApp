@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills.stopwatch
+package com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData

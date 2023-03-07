@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills
+package com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer
 
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 

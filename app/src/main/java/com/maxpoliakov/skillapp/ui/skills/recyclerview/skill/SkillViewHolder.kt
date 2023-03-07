@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills
+package com.maxpoliakov.skillapp.ui.skills.recyclerview.skill
 
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -9,6 +9,8 @@ import androidx.transition.TransitionManager
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
+import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import kotlinx.coroutines.flow.drop
 

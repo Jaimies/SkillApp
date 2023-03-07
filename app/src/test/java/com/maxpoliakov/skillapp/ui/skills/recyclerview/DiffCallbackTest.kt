@@ -1,9 +1,10 @@
-package com.maxpoliakov.skillapp.ui.skills
+package com.maxpoliakov.skillapp.ui.skills.recyclerview
 
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate

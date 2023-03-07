@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewModel" />
+            type="com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewModel" />
     </data>
 
     <FrameLayout

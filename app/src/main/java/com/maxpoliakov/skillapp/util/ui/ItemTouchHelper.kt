@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
-import com.maxpoliakov.skillapp.ui.skills.SkillListViewHolder
-import com.maxpoliakov.skillapp.ui.skills.SkillViewHolder
-import com.maxpoliakov.skillapp.ui.skills.group.SkillGroupViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewHolder
 import kotlin.math.abs
 import kotlin.math.min
 

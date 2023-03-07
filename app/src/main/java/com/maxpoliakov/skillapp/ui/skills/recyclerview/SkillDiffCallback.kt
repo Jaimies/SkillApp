@@ -1,9 +1,10 @@
-package com.maxpoliakov.skillapp.ui.skills
+package com.maxpoliakov.skillapp.ui.skills.recyclerview
 
 import androidx.recyclerview.widget.DiffUtil
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchUiModel
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 
 class SkillDiffCallback : DiffUtil.ItemCallback<Any>() {
     override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {

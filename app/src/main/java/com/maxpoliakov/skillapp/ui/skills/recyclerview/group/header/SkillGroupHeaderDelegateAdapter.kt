@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills.group
+package com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header
 
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner

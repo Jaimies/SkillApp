@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.skills.group
+package com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

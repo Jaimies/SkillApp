@@ -11,9 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.ui.skills.SkillGroupFooterViewHolder
-import com.maxpoliakov.skillapp.ui.skills.SkillListAdapter
-import com.maxpoliakov.skillapp.ui.skills.SkillListViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 

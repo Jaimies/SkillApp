@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.skills.stopwatch.StopwatchViewModel" />
+            type="com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

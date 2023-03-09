@@ -30,6 +30,7 @@ import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupVi
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListCardViewDecoration
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
@@ -242,7 +243,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         binding.root.doOnPreDraw { startPostponedEnterTransition() }
 
         binding.recyclerView.setupAdapter(listAdapter)
-        binding.recyclerView.addItemDecoration(CardViewDecoration())
+        binding.recyclerView.addItemDecoration(SkillListCardViewDecoration())
 
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 

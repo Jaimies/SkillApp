@@ -11,13 +11,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterViewHolder
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 
-class CardViewDecoration : ItemDecoration() {
+abstract class CardViewDecoration : ItemDecoration() {
     private val Context.size16dp get() = 16.dp.toPx(this).toFloat()
     private val Context.shadowColor get() = ContextCompat.getColor(this, R.color.cardview_shadow_start_color)
 
@@ -27,18 +24,20 @@ class CardViewDecoration : ItemDecoration() {
             it.setShadowLayer(4.dp.toPx(this).toFloat(), 0f, 1.dp.toPx(this).toFloat(), shadowColor)
         }
 
+    protected abstract val cardFooterViewType: Int
+
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val drawnGroupIds = mutableListOf<Int>()
 
         for (i in 0 until parent.childCount) {
             val viewHolder = parent.getChildViewHolder(parent.getChildAt(i))
 
-            if (viewHolder !is SkillListViewHolder || viewHolder.groupId == -1
-                || drawnGroupIds.contains(viewHolder.groupId)) continue
+            if (viewHolder !is PartOfFakeCardView || viewHolder.cardId == -1
+                || drawnGroupIds.contains(viewHolder.cardId)) continue
 
-            drawnGroupIds.add(viewHolder.groupId)
+            drawnGroupIds.add(viewHolder.cardId)
 
-            val lastViewHolder = parent.findLastViewHolderInGroup(viewHolder.groupId) ?: continue
+            val lastViewHolder = parent.findLastViewHolderInGroup(viewHolder.cardId) ?: continue
             c.drawCardView(parent, lastViewHolder, viewHolder)
         }
     }
@@ -56,20 +55,14 @@ class CardViewDecoration : ItemDecoration() {
         drawRoundRect(rect, size16dp, size16dp, fillPaint)
     }
 
-    private fun getBottomOffset(
-        lastViewHolder: RecyclerView.ViewHolder,
-        nextItemViewType: Int,
-        parent: RecyclerView
-    ): Int {
-        if (lastViewHolder is SkillGroupFooterViewHolder ||
-            nextItemViewType == SkillListAdapter.ItemType.SkillGroupFooter
-        ) {
-            return 0
+    private fun getBottomOffset(typeOfLastViewHolder: Int, parent: RecyclerView): Int {
+        if (typeOfLastViewHolder != cardFooterViewType) {
+            // This is necessary to prevent the rounded edges from showing when
+            // the last item visible is not the last item in the group
+            return 16.dp.toPx(parent.context)
         }
 
-        // This is necessary to prevent the rounded edges from showing when
-        // the last item visible is not the last item in the group
-        return 16.dp.toPx(parent.context)
+        return 0
     }
 
     private fun Context.getCardViewRect(
@@ -77,9 +70,7 @@ class CardViewDecoration : ItemDecoration() {
         viewHolder: RecyclerView.ViewHolder,
         lastViewHolder: RecyclerView.ViewHolder,
     ): RectF {
-        val nextItemViewType = parent.adapter!!.getItemViewType(lastViewHolder.absoluteAdapterPosition + 1)
-
-        val bottomOffset = getBottomOffset(lastViewHolder, nextItemViewType, parent)
+        val bottomOffset = getBottomOffset(lastViewHolder.itemViewType, parent)
 
         return RectF(
             size16dp,
@@ -108,11 +99,10 @@ class CardViewDecoration : ItemDecoration() {
         drawRoundRect(shadowRect, 16.dp.toPx(context).toFloat(), 16.dp.toPx(context).toFloat(), shadowPaint)
     }
 
-    private fun RecyclerView.findLastViewHolderInGroup(groupId: Int): RecyclerView.ViewHolder? {
+    private fun RecyclerView.findLastViewHolderInGroup(cardId: Int): RecyclerView.ViewHolder? {
         for (i in childCount - 1 downTo 0) {
             val holder = getChildViewHolder(getChildAt(i))
-            if (holder !is SkillListViewHolder) continue
-            if (holder.groupId == groupId) return holder
+            if (holder is PartOfFakeCardView && holder.cardId == cardId) return holder
         }
 
         return null
@@ -126,7 +116,7 @@ class CardViewDecoration : ItemDecoration() {
         val position = params.absoluteAdapterPosition
         val viewType = parent.adapter!!.getItemViewType(position)
 
-        if (viewType == SkillListAdapter.ItemType.SkillGroupFooter)
+        if (viewType == cardFooterViewType)
             outRect.set(0, 0, 0, 24.dp.toPx(parent.context))
 
         outRect.left = padding16dp

@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.util.ui.Dp
 import com.maxpoliakov.skillapp.util.ui.dp
 import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 
@@ -55,14 +56,14 @@ abstract class CardViewDecoration : ItemDecoration() {
         drawRoundRect(rect, size16dp, size16dp, fillPaint)
     }
 
-    private fun getBottomOffset(typeOfLastViewHolder: Int, parent: RecyclerView): Int {
+    private fun getBottomOffset(typeOfLastViewHolder: Int): Dp {
         if (typeOfLastViewHolder != cardFooterViewType) {
             // This is necessary to prevent the rounded edges from showing when
             // the last item visible is not the last item in the group
-            return 16.dp.toPx(parent.context)
+            return 16.dp
         }
 
-        return 0
+        return 0.dp
     }
 
     private fun Context.getCardViewRect(
@@ -70,7 +71,7 @@ abstract class CardViewDecoration : ItemDecoration() {
         viewHolder: RecyclerView.ViewHolder,
         lastViewHolder: RecyclerView.ViewHolder,
     ): RectF {
-        val bottomOffset = getBottomOffset(lastViewHolder.itemViewType, parent)
+        val bottomOffset = getBottomOffset(lastViewHolder.itemViewType).toPx(parent.context)
 
         return RectF(
             size16dp,

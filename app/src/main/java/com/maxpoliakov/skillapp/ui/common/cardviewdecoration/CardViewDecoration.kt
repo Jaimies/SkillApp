@@ -39,14 +39,14 @@ abstract class CardViewDecoration : ItemDecoration() {
             drawnGroupIds.add(viewHolder.cardId)
 
             val lastViewHolder = parent.findLastViewHolderInGroup(viewHolder.cardId) ?: continue
-            c.drawCardView(parent.context, lastViewHolder, viewHolder)
+            c.drawCardView(parent.context, viewHolder, lastViewHolder)
         }
     }
 
     private fun Canvas.drawCardView(
         context: Context,
+        firstViewHolder: RecyclerView.ViewHolder,
         lastViewHolder: RecyclerView.ViewHolder,
-        firstViewHolder: RecyclerView.ViewHolder
     ) = context.run {
         val rect = getCardViewRect(firstViewHolder, lastViewHolder)
 

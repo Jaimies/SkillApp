@@ -48,7 +48,7 @@ abstract class CardViewDecoration : ItemDecoration() {
         lastViewHolder: RecyclerView.ViewHolder,
         viewHolder: RecyclerView.ViewHolder
     ) = parent.context.run {
-        val rect = getCardViewRect(parent, viewHolder, lastViewHolder)
+        val rect = getCardViewRect(viewHolder, lastViewHolder)
 
         if (Build.VERSION.SDK_INT < 28)
             drawFakeShadow(shadowColor, rect, parent.context)
@@ -67,11 +67,10 @@ abstract class CardViewDecoration : ItemDecoration() {
     }
 
     private fun Context.getCardViewRect(
-        parent: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
         lastViewHolder: RecyclerView.ViewHolder,
     ): RectF {
-        val bottomOffset = getBottomOffset(lastViewHolder.itemViewType).toPx(parent.context)
+        val bottomOffset = getBottomOffset(lastViewHolder.itemViewType).toPx(this)
 
         return RectF(
             size16dp,

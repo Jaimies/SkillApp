@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.maxpoliakov.skillapp.util.ui.dp
 
-abstract class CardViewDecoration : ItemDecoration() {
+abstract class FakeCardViewDecoration : ItemDecoration() {
     protected abstract val cardFooterViewType: Int
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {

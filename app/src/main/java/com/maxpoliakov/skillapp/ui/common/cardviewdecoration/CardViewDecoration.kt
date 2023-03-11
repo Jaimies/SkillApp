@@ -39,15 +39,11 @@ abstract class CardViewDecoration : ItemDecoration() {
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        val padding16dp = 16.dp.toPx(parent.context)
         val params = view.layoutParams as RecyclerView.LayoutParams
         val position = params.absoluteAdapterPosition
         val viewType = parent.adapter!!.getItemViewType(position)
 
         if (viewType == cardFooterViewType)
             outRect.set(0, 0, 0, 24.dp.toPx(parent.context))
-
-        outRect.left = padding16dp
-        outRect.right = padding16dp
     }
 }

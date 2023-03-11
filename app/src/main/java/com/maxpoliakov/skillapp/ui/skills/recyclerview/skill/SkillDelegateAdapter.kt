@@ -5,7 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
 import com.maxpoliakov.skillapp.util.tracking.RecordUtil
 import com.maxpoliakov.skillapp.util.ui.dp

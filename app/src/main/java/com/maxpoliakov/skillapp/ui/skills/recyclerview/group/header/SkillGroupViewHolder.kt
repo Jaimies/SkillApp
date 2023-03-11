@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header
 
 import com.maxpoliakov.skillapp.databinding.SkillGroupHeaderBinding
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
+import com.maxpoliakov.skillapp.ui.common.recyclerview.BaseViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
 import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
 

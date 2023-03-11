@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
-import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
 import javax.inject.Inject
 import javax.inject.Provider
 

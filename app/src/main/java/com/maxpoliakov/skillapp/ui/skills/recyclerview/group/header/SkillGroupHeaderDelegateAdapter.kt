@@ -5,7 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillGroupHeaderBinding
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 

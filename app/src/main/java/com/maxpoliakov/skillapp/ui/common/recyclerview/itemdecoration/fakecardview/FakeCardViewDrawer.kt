@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.common.cardviewdecoration
+package com.maxpoliakov.skillapp.ui.common.recyclerview.itemdecoration.fakecardview
 
 import android.content.Context
 import android.graphics.Canvas

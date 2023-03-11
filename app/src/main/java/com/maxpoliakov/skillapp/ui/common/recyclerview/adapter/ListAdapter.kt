@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.common.adapter
+package com.maxpoliakov.skillapp.ui.common.recyclerview.adapter
 
 import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.AsyncDifferConfig

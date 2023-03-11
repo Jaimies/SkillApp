@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.common
+package com.maxpoliakov.skillapp.ui.common.recyclerview
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding

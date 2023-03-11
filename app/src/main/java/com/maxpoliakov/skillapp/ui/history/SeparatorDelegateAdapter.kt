@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SeparatorItemBinding
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
-import com.maxpoliakov.skillapp.ui.common.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
 
 class SeparatorDelegateAdapter : DelegateAdapter<Separator, SeparatorDelegateAdapter.ViewHolder> {

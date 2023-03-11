@@ -11,7 +11,7 @@ import com.maxpoliakov.skillapp.databinding.RecordsItemBinding
 import com.maxpoliakov.skillapp.di.ChildFragmentManager
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
-import com.maxpoliakov.skillapp.ui.common.BaseViewHolder
+import com.maxpoliakov.skillapp.ui.common.recyclerview.BaseViewHolder
 import com.maxpoliakov.skillapp.util.dialog.showDialog
 import com.maxpoliakov.skillapp.util.fragment.showDatePicker
 import com.maxpoliakov.skillapp.util.fragment.showTimePicker

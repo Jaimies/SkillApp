@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingHorizontal="16dp"
-            android:paddingTop="5dp"
+            android:paddingTop="10dp"
             android:paddingBottom="80dp"
             app:visible="@{!viewModel.isEmpty}"
             tools:itemCount="7"

@@ -23,7 +23,6 @@ import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.model.Intro
 import com.maxpoliakov.skillapp.ui.MainActivity
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
-import com.maxpoliakov.skillapp.ui.common.cardviewdecoration.CardViewDecoration
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.ui.intro.Intro_3_1_0
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewHolder
@@ -31,6 +30,7 @@ import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFo
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListCardViewDecoration
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListMarginDecoration
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import com.maxpoliakov.skillapp.util.fragment.observe
 import com.maxpoliakov.skillapp.util.ui.Change
@@ -244,6 +244,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
         binding.recyclerView.setupAdapter(listAdapter)
         binding.recyclerView.addItemDecoration(SkillListCardViewDecoration())
+        binding.recyclerView.addItemDecoration(SkillListMarginDecoration())
 
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 

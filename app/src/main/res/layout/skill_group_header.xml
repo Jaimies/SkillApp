@@ -13,7 +13,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:onClick="@{() -> viewModel.navigateToDetail()}"
         android:paddingBottom="10dp"
         android:transitionName="@{@string/group_transition_name(viewModel.skillGroup.id)}">

@@ -1,11 +1,8 @@
 package com.maxpoliakov.skillapp.ui.common.recyclerview.itemdecoration.fakecardview
 
 import android.graphics.Canvas
-import android.graphics.Rect
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.maxpoliakov.skillapp.util.ui.dp
 
 abstract class FakeCardViewDecoration : ItemDecoration() {
     protected abstract val cardFooterViewType: Int
@@ -34,16 +31,5 @@ abstract class FakeCardViewDecoration : ItemDecoration() {
         }
 
         return null
-    }
-
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        super.getItemOffsets(outRect, view, parent, state)
-
-        val params = view.layoutParams as RecyclerView.LayoutParams
-        val position = params.absoluteAdapterPosition
-        val viewType = parent.adapter!!.getItemViewType(position)
-
-        if (viewType == cardFooterViewType)
-            outRect.set(0, 0, 0, 24.dp.toPx(parent.context))
     }
 }

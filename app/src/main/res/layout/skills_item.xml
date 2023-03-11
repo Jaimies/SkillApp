@@ -16,8 +16,6 @@
         android:layout_height="@dimen/small_card_height"
         android:clickable="true"
         android:focusable="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="20dp"
         android:onClick="@{() -> viewModel.navigateToDetails()}"
         android:onLongClick="@{(view) -> viewModel.startDrag()}"
         android:transitionName="@{@string/skill_transition_name(viewModel.skill.id)}"

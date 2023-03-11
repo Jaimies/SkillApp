@@ -10,97 +10,91 @@
             type="com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewModel" />
     </data>
 
-    <FrameLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_sideMargin="@{viewModel.isSmall ? 0f: -@dimen/padding_default}">
+        android:layout_height="@dimen/small_card_height"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="@{() -> viewModel.navigateToDetails()}"
+        android:onLongClick="@{(view) -> viewModel.startDrag()}"
+        android:transitionName="@{@string/skill_transition_name(viewModel.skill.id)}"
+        app:layout_sideMargin="@{viewModel.isSmall ? @dimen/padding_default: 0}"
+        app:strokeColor="?attr/cardHighlightColor"
+        app:strokeWidth="@{viewModel.isHighlighted ? Math.round(@dimen/highlighted_card_stroke_width) : 0}">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/small_card_height"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{() -> viewModel.navigateToDetails()}"
-            android:onLongClick="@{(view) -> viewModel.startDrag()}"
-            android:transitionName="@{@string/skill_transition_name(viewModel.skill.id)}"
-            app:strokeColor="?attr/cardHighlightColor"
-            app:strokeWidth="@{viewModel.isHighlighted ? Math.round(@dimen/highlighted_card_stroke_width) : 0}">
+            android:layout_height="match_parent"
+            android:paddingStart="9dp"
+            android:paddingEnd="24dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:id="@+id/drag_handle_wrapper"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingStart="9dp"
-                android:paddingEnd="24dp">
-
-                <FrameLayout
-                    android:id="@+id/drag_handle_wrapper"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:paddingHorizontal="10dp"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <ImageButton
-                        android:id="@+id/drag_handle"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@null"
-                        android:contentDescription="@string/drag_handle_label"
-                        android:src="@drawable/ic_drag_handle"
-                        app:visible="@{viewModel.dragHandleShown}" />
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:paddingEnd="10dp"
-                    android:singleLine="true"
-                    android:text="@{viewModel.skill.name}"
-                    android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/total_time"
-                    app:layout_constraintStart_toEndOf="@id/drag_handle_wrapper"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    tools:text="Skill name" />
-
-                <TextView
-                    android:id="@+id/total_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="center_vertical"
-                    android:text="@{viewModel.unit.toString(viewModel.skill.totalCount, context)}"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                    app:layout_constraintEnd_toStartOf="@id/start_timer"
-                    tools:text="820h" />
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:paddingHorizontal="10dp"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageButton
-                    android:id="@+id/start_timer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/start_the_timer"
-                    android:onClick="@{() -> viewModel.toggleTimer()}"
-                    android:src="@{viewModel.isStopwatchActive ? @drawable/ic_stop : @drawable/ic_start}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:visible="@{viewModel.unit.stopwatchEnabled}" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
+                    android:id="@+id/drag_handle"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:contentDescription="@string/drag_handle_label"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:src="@drawable/ic_drag_handle"
+                    app:visible="@{viewModel.dragHandleShown}" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:paddingEnd="10dp"
+                android:singleLine="true"
+                android:text="@{viewModel.skill.name}"
+                android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/total_time"
+                app:layout_constraintStart_toEndOf="@id/drag_handle_wrapper"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Skill name" />
+
+            <TextView
+                android:id="@+id/total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:gravity="center_vertical"
+                android:text="@{viewModel.unit.toString(viewModel.skill.totalCount, context)}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintEnd_toStartOf="@id/start_timer"
+                tools:text="820h" />
+
+            <ImageButton
+                android:id="@+id/start_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/start_the_timer"
+                android:onClick="@{() -> viewModel.toggleTimer()}"
+                android:src="@{viewModel.isStopwatchActive ? @drawable/ic_stop : @drawable/ic_start}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:visible="@{viewModel.unit.stopwatchEnabled}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -1,30 +1,13 @@
 package com.maxpoliakov.skillapp.ui.common.cardviewdecoration
 
-import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.Rect
-import android.graphics.RectF
-import android.os.Build
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.util.ui.Dp
 import com.maxpoliakov.skillapp.util.ui.dp
-import com.maxpoliakov.skillapp.util.ui.getColorAttributeValue
 
 abstract class CardViewDecoration : ItemDecoration() {
-    private val Context.size16dp get() = 16.dp.toPx(this).toFloat()
-    private val Context.shadowColor get() = ContextCompat.getColor(this, R.color.cardview_shadow_start_color)
-
-    private val Context.fillPaint
-        get() = Paint().also {
-            it.color = getColorAttributeValue(R.attr.cardViewBackground)
-            it.setShadowLayer(4.dp.toPx(this).toFloat(), 0f, 1.dp.toPx(this).toFloat(), shadowColor)
-        }
-
     protected abstract val cardFooterViewType: Int
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
@@ -39,64 +22,9 @@ abstract class CardViewDecoration : ItemDecoration() {
             drawnGroupIds.add(viewHolder.cardId)
 
             val lastViewHolder = parent.findLastViewHolderInGroup(viewHolder.cardId) ?: continue
-            c.drawCardView(parent.context, viewHolder, lastViewHolder)
+
+            FakeCardViewDrawer(parent.context, c, viewHolder, lastViewHolder, cardFooterViewType).draw()
         }
-    }
-
-    private fun Canvas.drawCardView(
-        context: Context,
-        firstViewHolder: RecyclerView.ViewHolder,
-        lastViewHolder: RecyclerView.ViewHolder,
-    ) = context.run {
-        val rect = getCardViewRect(firstViewHolder, lastViewHolder)
-
-        if (Build.VERSION.SDK_INT < 28)
-            drawFakeShadow(shadowColor, rect, context)
-
-        drawRoundRect(rect, size16dp, size16dp, fillPaint)
-    }
-
-    private fun getBottomOffset(typeOfLastViewHolder: Int): Dp {
-        if (typeOfLastViewHolder != cardFooterViewType) {
-            // This is necessary to prevent the rounded edges from showing when
-            // the last item visible is not the last item in the group
-            return 16.dp
-        }
-
-        return 0.dp
-    }
-
-    private fun Context.getCardViewRect(
-        firstViewHolder: RecyclerView.ViewHolder,
-        lastViewHolder: RecyclerView.ViewHolder,
-    ): RectF {
-        val bottomOffset = getBottomOffset(lastViewHolder.itemViewType).toPx(this)
-
-        return RectF(
-            size16dp,
-            firstViewHolder.itemView.top.toFloat(),
-            firstViewHolder.itemView.right.toFloat(),
-            lastViewHolder.itemView.bottom.toFloat() + bottomOffset,
-        )
-    }
-
-    private fun Canvas.drawFakeShadow(
-        shadowColor: Int,
-        rect: RectF,
-        context: Context,
-    ) {
-        val shadowPaint = Paint().apply {
-            color = shadowColor
-        }
-
-        val shadowRect = RectF(rect).apply {
-            top -= 1.dp.toPx(context)
-            left -= 1.dp.toPx(context)
-            right += 1.dp.toPx(context)
-            bottom += 1.5f.dp.toPx(context)
-        }
-
-        drawRoundRect(shadowRect, 16.dp.toPx(context).toFloat(), 16.dp.toPx(context).toFloat(), shadowPaint)
     }
 
     private fun RecyclerView.findLastViewHolderInGroup(cardId: Int): RecyclerView.ViewHolder? {

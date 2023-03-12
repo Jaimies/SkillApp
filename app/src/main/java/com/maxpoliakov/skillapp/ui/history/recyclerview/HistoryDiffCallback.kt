@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.history
+package com.maxpoliakov.skillapp.ui.history.recyclerview
 
 import androidx.recyclerview.widget.DiffUtil
 import com.maxpoliakov.skillapp.model.HistoryUiModel

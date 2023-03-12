@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.history
+package com.maxpoliakov.skillapp.ui.history.recyclerview.record
 
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner

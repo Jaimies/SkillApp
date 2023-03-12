@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.history
+package com.maxpoliakov.skillapp.ui.history.recyclerview.record
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

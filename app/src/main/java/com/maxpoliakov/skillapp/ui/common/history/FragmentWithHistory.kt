@@ -1,14 +1,13 @@
 package com.maxpoliakov.skillapp.ui.common.history
 
 import android.os.Bundle
-import android.view.View
 import androidx.annotation.MenuRes
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.ui.common.ActionBarFragment
-import com.maxpoliakov.skillapp.ui.history.HistoryPagingAdapter
+import com.maxpoliakov.skillapp.ui.history.recyclerview.HistoryPagingAdapter
 import com.maxpoliakov.skillapp.util.ui.addDividers
 import com.maxpoliakov.skillapp.util.ui.setupAdapter
 import kotlinx.coroutines.flow.collectLatest

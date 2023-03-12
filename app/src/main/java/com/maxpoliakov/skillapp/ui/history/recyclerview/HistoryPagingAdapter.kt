@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.history
+package com.maxpoliakov.skillapp.ui.history.recyclerview
 
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
 import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.ui.history.recyclerview.record.RecordDelegateAdapter
+import com.maxpoliakov.skillapp.ui.history.recyclerview.separator.SeparatorDelegateAdapter
 import javax.inject.Inject
 import javax.inject.Provider
 

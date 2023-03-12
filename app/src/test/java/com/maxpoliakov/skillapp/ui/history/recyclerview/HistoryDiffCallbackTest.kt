@@ -1,11 +1,10 @@
-package com.maxpoliakov.skillapp.ui.history
+package com.maxpoliakov.skillapp.ui.history.recyclerview
 
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import java.time.Duration
 import java.time.LocalDate
 
 class HistoryDiffCallbackTest : StringSpec({

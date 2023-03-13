@@ -16,18 +16,12 @@
         <import type="com.maxpoliakov.skillapp.R" />
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+    <merge>
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.SkillApp.RoundButton.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
             android:layout_weight="1"
             app:visible="@{viewModel.unit.stopwatchEnabled}"
             android:onClick="@{() -> viewModel.toggleTimer()}"
@@ -40,12 +34,10 @@
             style="@style/Widget.SkillApp.RoundButton.Secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_weight="1"
             app:backgroundTintAttr="@{viewModel.unit.stopwatchEnabled ? R.attr.colorButtonSecondary : R.attr.colorPrimary}"
             app:textColorAttr="@{viewModel.unit.stopwatchEnabled ? R.attr.textColorButtonSecondary : R.attr.colorOnPrimary}"
             android:onClick="@{() -> viewModel.showRecordDialog()}"
             android:text="@{viewModel.unit.addRecordBtnResId > 0 ? context.getString(viewModel.unit.addRecordBtnResId) : ``}" />
-    </LinearLayout>
+    </merge>
 </layout>

@@ -11,55 +11,50 @@
         <import type="com.maxpoliakov.skillapp.model.UiStatisticInterval" />
     </data>
 
-    <FrameLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp">
 
-        <com.google.android.material.card.MaterialCardView
+        <com.maxpoliakov.skillapp.util.charts.TheBarChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/chart_height"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="40dp"
+            app:data="@{data.barChartData}"
+            app:highlight="@={data.barChartHighlight}" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp">
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="20dp">
 
-            <com.maxpoliakov.skillapp.util.charts.TheBarChart
-                android:id="@+id/chart"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/chart_height"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="40dp"
-                app:data="@{data.barChartData}"
-                app:highlight="@={data.barChartHighlight}" />
+            <include
+                layout="@layout/bar_chart_interval_selection_btn"
+                app:data="@{data}"
+                app:interval="@{UiStatisticInterval.Daily}"
+                app:label="@{@string/one_day}" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingHorizontal="20dp">
+            <include
+                layout="@layout/bar_chart_interval_selection_btn"
+                app:data="@{data}"
+                app:interval="@{UiStatisticInterval.Weekly}"
+                app:label="@{@string/one_week}" />
 
-                <include
-                    layout="@layout/bar_chart_interval_selection_btn"
-                    app:interval="@{UiStatisticInterval.Daily}"
-                    app:data="@{data}"
-                    app:label="@{@string/one_day}" />
+            <include
+                layout="@layout/bar_chart_interval_selection_btn"
+                app:data="@{data}"
+                app:interval="@{UiStatisticInterval.Monthly}"
+                app:label="@{@string/one_month}" />
 
-                <include
-                    layout="@layout/bar_chart_interval_selection_btn"
-                    app:interval="@{UiStatisticInterval.Weekly}"
-                    app:data="@{data}"
-                    app:label="@{@string/one_week}" />
-
-                <include
-                    layout="@layout/bar_chart_interval_selection_btn"
-                    app:interval="@{UiStatisticInterval.Monthly}"
-                    app:data="@{data}"
-                    app:label="@{@string/one_month}" />
-
-                <include
-                    layout="@layout/bar_chart_interval_selection_btn"
-                    app:interval="@{UiStatisticInterval.Yearly}"
-                    app:data="@{data}"
-                    app:label="@{@string/one_year}" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
+            <include
+                layout="@layout/bar_chart_interval_selection_btn"
+                app:data="@{data}"
+                app:interval="@{UiStatisticInterval.Yearly}"
+                app:label="@{@string/one_year}" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

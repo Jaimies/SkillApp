@@ -82,6 +82,9 @@
                     <include
                         android:id="@+id/progress_goal_indicator"
                         layout="@layout/progress_goal_indicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         app:countToday="@{viewModel.timeToday}"
                         app:goal="@{viewModel.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"

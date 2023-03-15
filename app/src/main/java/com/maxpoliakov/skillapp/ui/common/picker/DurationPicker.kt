@@ -30,7 +30,7 @@ class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
 
         override fun setValue(value: Duration) {
             setFirstPickerValue(value.toHours().toInt())
-            setSecondPickerValue(value.toMinutesPartCompat().toInt() / 5)
+            setSecondPickerValue(value.toMinutesPartCompat().toInt())
         }
     }
 }

@@ -23,6 +23,10 @@ data class BarChartData(
             return goal != null && goal.type.toDomain().interval == interval.toDomain()
         }
 
+    fun getHighestYValue(): Float {
+        return entries.maxByOrNull { it.y }?.y ?: 0f
+    }
+
     companion object {
         fun from(
             interval: StatisticInterval,

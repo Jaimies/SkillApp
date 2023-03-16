@@ -202,7 +202,7 @@ class TheBarChart : BarChart {
         if (data.goal == null) {
             axisLeft.resetAxisMaximum()
         } else {
-            val axisMaximum = (data.entries.maxByOrNull { it.y }?.y ?: 0f) * 1.1f
+            val axisMaximum = data.getHighestYValue() * 1.1f
             val goalTime = data.goal.count.toFloat()
 
             if (goalTime < axisMaximum) {

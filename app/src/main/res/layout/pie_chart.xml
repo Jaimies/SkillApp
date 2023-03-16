@@ -6,9 +6,9 @@
 
         <variable
             name="data"
-            type="com.maxpoliakov.skillapp.util.charts.ChartData" />
+            type="com.maxpoliakov.skillapp.shared.chart.ChartData" />
 
-        <import type="com.maxpoliakov.skillapp.ui.chart.PieChartFormatter" />
+        <import type="com.maxpoliakov.skillapp.shared.chart.PieChartFormatter" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.maxpoliakov.skillapp.util.charts.ThePieChart
+            <com.maxpoliakov.skillapp.shared.chart.ThePieChart
                 android:id="@+id/chart"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

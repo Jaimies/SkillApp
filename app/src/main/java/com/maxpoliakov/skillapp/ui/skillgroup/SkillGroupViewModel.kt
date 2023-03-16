@@ -9,7 +9,7 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentGroupCountUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.mapToDomain
-import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
+import com.maxpoliakov.skillapp.shared.DetailsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject

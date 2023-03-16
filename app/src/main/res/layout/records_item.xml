@@ -11,7 +11,7 @@
 
         <import type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
 
-        <import type="com.maxpoliakov.skillapp.ui.common.history.RecordFormatter" />
+        <import type="com.maxpoliakov.skillapp.shared.history.RecordFormatter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

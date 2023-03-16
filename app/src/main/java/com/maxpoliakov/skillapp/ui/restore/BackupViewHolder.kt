@@ -15,10 +15,10 @@ import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
-import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.dialog.showDialog
-import com.maxpoliakov.skillapp.util.dialog.showSnackbar
-import com.maxpoliakov.skillapp.util.dialog.showToast
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.dialog.showDialog
+import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
+import com.maxpoliakov.skillapp.shared.dialog.showToast
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

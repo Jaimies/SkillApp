@@ -13,8 +13,8 @@ import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
-import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.shared.recyclerview.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
 
 class SkillGroupFooterDelegateAdapter : DelegateAdapter<SkillGroupFooter, SkillGroupFooterViewHolder> {

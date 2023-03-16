@@ -10,8 +10,8 @@ import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.ui.skills.EditingModeManager
-import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

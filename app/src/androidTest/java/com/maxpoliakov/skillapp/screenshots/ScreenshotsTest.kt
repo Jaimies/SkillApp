@@ -193,7 +193,7 @@ class ScreenshotsTest {
 
     private suspend fun setTheme(theme: Theme) {
         withContext(Dispatchers.Main) {
-            com.maxpoliakov.skillapp.util.ui.setTheme(theme)
+            com.maxpoliakov.skillapp.shared.extensions.setTheme(theme)
         }
     }
 

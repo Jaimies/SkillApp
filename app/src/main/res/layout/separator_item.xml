@@ -11,9 +11,9 @@
 
         <import
             alias="Converters"
-            type="com.maxpoliakov.skillapp.util.time.ConvertersKt" />
+            type="com.maxpoliakov.skillapp.shared.time.ConvertersKt" />
         
-        <import type="com.maxpoliakov.skillapp.util.ui.FormattingKt"/>
+        <import type="com.maxpoliakov.skillapp.shared.extensions.FormattingKt"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

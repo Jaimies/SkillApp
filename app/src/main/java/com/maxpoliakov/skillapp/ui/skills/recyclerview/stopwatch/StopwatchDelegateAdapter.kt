@@ -4,9 +4,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.StopwatchBannerBinding
-import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
-import com.maxpoliakov.skillapp.util.tracking.RecordUtil
-import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
+import com.maxpoliakov.skillapp.shared.recyclerview.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.shared.extensions.inflateDataBinding
 import javax.inject.Inject
 
 class StopwatchDelegateAdapter @Inject constructor(

@@ -5,7 +5,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.HistoryFragBinding
-import com.maxpoliakov.skillapp.ui.common.history.FragmentWithHistory
+import com.maxpoliakov.skillapp.shared.history.FragmentWithHistory
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

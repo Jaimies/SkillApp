@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
-import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 
 class SkillGroupViewModel {
     private val _skillGroup = MutableLiveData<SkillGroup>()

@@ -20,7 +20,7 @@
             name="goalPercentage"
             type="int" />
 
-        <import type="com.maxpoliakov.skillapp.util.ui.FormattingKt" />
+        <import type="com.maxpoliakov.skillapp.shared.extensions.FormattingKt" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

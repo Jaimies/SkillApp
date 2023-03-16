@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="com.maxpoliakov.skillapp.util.ui.BindingUtil" />
+        <import type="com.maxpoliakov.skillapp.shared.extensions.BindingUtil" />
 
         <variable
             name="viewModel"

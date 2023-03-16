@@ -5,7 +5,7 @@ import androidx.appcompat.widget.Toolbar
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.util.ui.getViewByIdWhenReady
+import com.maxpoliakov.skillapp.shared.extensions.getViewByIdWhenReady
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 

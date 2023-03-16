@@ -5,8 +5,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
-import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.ListAdapter
+import com.maxpoliakov.skillapp.shared.recyclerview.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.shared.recyclerview.adapter.ListAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterDelegateAdapter

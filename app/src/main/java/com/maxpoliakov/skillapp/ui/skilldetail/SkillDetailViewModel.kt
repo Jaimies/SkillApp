@@ -17,9 +17,9 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentSkillCountUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
-import com.maxpoliakov.skillapp.ui.common.DetailsViewModel
-import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.DetailsViewModel
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly

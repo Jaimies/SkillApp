@@ -6,11 +6,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
-import com.maxpoliakov.skillapp.ui.common.DetailsFragment
-import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.dialog.showDialog
-import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.tracking.RecordUtil
+import com.maxpoliakov.skillapp.shared.DetailsFragment
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.dialog.showDialog
+import com.maxpoliakov.skillapp.shared.fragment.observe
+import com.maxpoliakov.skillapp.shared.tracking.RecordUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

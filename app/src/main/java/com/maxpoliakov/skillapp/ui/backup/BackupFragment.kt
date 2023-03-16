@@ -15,13 +15,13 @@ import com.google.android.gms.common.api.Scope
 import com.google.api.services.drive.DriveScopes
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
-import com.maxpoliakov.skillapp.ui.common.DataBindingFragment
-import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.dialog.showDialog
-import com.maxpoliakov.skillapp.util.dialog.showSnackbar
-import com.maxpoliakov.skillapp.util.dialog.showToast
-import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.ui.navigateAnimated
+import com.maxpoliakov.skillapp.shared.DataBindingFragment
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.dialog.showDialog
+import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
+import com.maxpoliakov.skillapp.shared.dialog.showToast
+import com.maxpoliakov.skillapp.shared.fragment.observe
+import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

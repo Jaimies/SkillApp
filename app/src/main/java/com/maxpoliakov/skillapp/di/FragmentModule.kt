@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.maxpoliakov.skillapp.util.tracking.RecordUtil
-import com.maxpoliakov.skillapp.util.tracking.RecordUtilImpl
+import com.maxpoliakov.skillapp.shared.tracking.RecordUtil
+import com.maxpoliakov.skillapp.shared.tracking.RecordUtilImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

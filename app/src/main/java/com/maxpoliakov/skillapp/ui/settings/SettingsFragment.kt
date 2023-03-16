@@ -10,12 +10,12 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.Theme
-import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.analytics.logCurrentScreenToAnalytics
-import com.maxpoliakov.skillapp.util.dialog.showSnackbar
-import com.maxpoliakov.skillapp.util.ui.dp
-import com.maxpoliakov.skillapp.util.ui.navigateAnimated
-import com.maxpoliakov.skillapp.util.ui.setTheme
+import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.analytics.logCurrentScreenToAnalytics
+import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
+import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
+import com.maxpoliakov.skillapp.shared.extensions.setTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

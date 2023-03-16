@@ -8,8 +8,8 @@ import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
-import com.maxpoliakov.skillapp.util.charts.toEntries
-import com.maxpoliakov.skillapp.util.charts.withMissingStats
+import com.maxpoliakov.skillapp.shared.chart.toEntries
+import com.maxpoliakov.skillapp.shared.chart.withMissingStats
 import java.time.LocalDate
 
 data class BarChartData(

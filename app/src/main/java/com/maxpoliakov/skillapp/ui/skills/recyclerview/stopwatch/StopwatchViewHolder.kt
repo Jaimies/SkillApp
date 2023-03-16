@@ -7,8 +7,8 @@ import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.StopwatchBannerBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.ui.common.recyclerview.BaseViewHolder
-import com.maxpoliakov.skillapp.util.tracking.RecordUtil
+import com.maxpoliakov.skillapp.shared.recyclerview.BaseViewHolder
+import com.maxpoliakov.skillapp.shared.tracking.RecordUtil
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

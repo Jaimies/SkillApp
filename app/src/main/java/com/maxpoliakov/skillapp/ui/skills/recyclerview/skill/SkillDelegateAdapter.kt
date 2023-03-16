@@ -5,12 +5,12 @@ import androidx.lifecycle.LifecycleOwner
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
+import com.maxpoliakov.skillapp.shared.recyclerview.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
-import com.maxpoliakov.skillapp.util.tracking.RecordUtil
-import com.maxpoliakov.skillapp.util.ui.dp
-import com.maxpoliakov.skillapp.util.ui.increaseTouchAreaBy
-import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
+import com.maxpoliakov.skillapp.shared.tracking.RecordUtil
+import com.maxpoliakov.skillapp.shared.extensions.increaseTouchAreaBy
+import com.maxpoliakov.skillapp.shared.extensions.inflateDataBinding
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

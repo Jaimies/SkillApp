@@ -10,7 +10,7 @@ import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
-import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

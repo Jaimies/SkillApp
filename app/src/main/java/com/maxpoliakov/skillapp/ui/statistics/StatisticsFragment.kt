@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.StatisticsFragBinding
-import com.maxpoliakov.skillapp.ui.common.DataBindingFragment
+import com.maxpoliakov.skillapp.shared.DataBindingFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

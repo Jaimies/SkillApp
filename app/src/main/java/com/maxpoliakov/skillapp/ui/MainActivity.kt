@@ -17,8 +17,8 @@ import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.model.Intro
 import com.maxpoliakov.skillapp.ui.intro.FirstRunIntro
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
-import com.maxpoliakov.skillapp.util.hardware.hideKeyboard
-import com.maxpoliakov.skillapp.util.ui.findNavHostFragment
+import com.maxpoliakov.skillapp.shared.hardware.hideKeyboard
+import com.maxpoliakov.skillapp.shared.extensions.findNavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

@@ -17,7 +17,7 @@
             name="label"
             type="String" />
 
-        <import type="com.maxpoliakov.skillapp.util.time.ConvertersKt" />
+        <import type="com.maxpoliakov.skillapp.shared.time.ConvertersKt" />
     </data>
 
     <LinearLayout

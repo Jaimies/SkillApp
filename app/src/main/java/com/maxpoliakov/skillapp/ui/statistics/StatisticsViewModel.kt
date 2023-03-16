@@ -10,7 +10,7 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.sumByLong
-import com.maxpoliakov.skillapp.util.charts.ChartDataImpl
+import com.maxpoliakov.skillapp.shared.chart.ChartDataImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine

@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.di
 import com.maxpoliakov.skillapp.data.AndroidNetworkUtil
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
-import com.maxpoliakov.skillapp.util.notifications.NotificationUtilImpl
+import com.maxpoliakov.skillapp.shared.notifications.NotificationUtilImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

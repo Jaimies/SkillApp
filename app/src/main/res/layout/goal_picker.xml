@@ -6,7 +6,7 @@
 
         <variable
             name="chooseGoal"
-            type="com.maxpoliakov.skillapp.util.Callback" />
+            type="com.maxpoliakov.skillapp.shared.Callback" />
 
         <variable
             name="goal"

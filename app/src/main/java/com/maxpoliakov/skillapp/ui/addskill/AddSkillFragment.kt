@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.addskill
 
 import android.os.Bundle
-import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -9,10 +8,10 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.AddskillFragBinding
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.model.mapToDomain
-import com.maxpoliakov.skillapp.ui.common.DataBindingFragment
-import com.maxpoliakov.skillapp.util.fragment.observe
-import com.maxpoliakov.skillapp.util.transition.createMaterialContainerTransform
-import com.maxpoliakov.skillapp.util.ui.setup
+import com.maxpoliakov.skillapp.shared.DataBindingFragment
+import com.maxpoliakov.skillapp.shared.fragment.observe
+import com.maxpoliakov.skillapp.shared.transition.createMaterialContainerTransform
+import com.maxpoliakov.skillapp.shared.extensions.setup
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

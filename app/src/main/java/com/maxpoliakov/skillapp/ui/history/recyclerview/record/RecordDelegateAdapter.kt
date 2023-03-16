@@ -5,8 +5,8 @@ import androidx.lifecycle.LifecycleOwner
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.RecordsItemBinding
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Record
-import com.maxpoliakov.skillapp.ui.common.recyclerview.adapter.DelegateAdapter
-import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
+import com.maxpoliakov.skillapp.shared.recyclerview.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.shared.extensions.inflateDataBinding
 import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 import javax.inject.Provider

@@ -10,8 +10,8 @@ import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase
 import com.maxpoliakov.skillapp.domain.model.RangeChange
 import com.maxpoliakov.skillapp.domain.model.RecordChange
 import com.maxpoliakov.skillapp.model.HistoryUiModel
-import com.maxpoliakov.skillapp.util.analytics.logEvent
-import com.maxpoliakov.skillapp.util.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate

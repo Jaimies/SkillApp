@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.domain.model.Backup
-import com.maxpoliakov.skillapp.util.ui.inflateDataBinding
+import com.maxpoliakov.skillapp.shared.extensions.inflateDataBinding
 import javax.inject.Inject
 import javax.inject.Provider
 

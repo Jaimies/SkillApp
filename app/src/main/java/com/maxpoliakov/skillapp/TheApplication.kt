@@ -11,7 +11,7 @@ import androidx.work.PeriodicWorkRequest.MIN_BACKOFF_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.maxpoliakov.skillapp.data.backup.BackupWorker
-import com.maxpoliakov.skillapp.util.ui.setupTheme
+import com.maxpoliakov.skillapp.shared.extensions.setupTheme
 import dagger.hilt.android.HiltAndroidApp
 import java.time.Duration
 import java.util.concurrent.TimeUnit.MILLISECONDS

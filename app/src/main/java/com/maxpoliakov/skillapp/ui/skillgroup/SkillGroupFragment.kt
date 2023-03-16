@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillGroupFragBinding
-import com.maxpoliakov.skillapp.ui.common.DetailsFragment
-import com.maxpoliakov.skillapp.util.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.DetailsFragment
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

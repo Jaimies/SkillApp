@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.maxpoliakov.skillapp.util.charts.ChartData" />
+            type="com.maxpoliakov.skillapp.shared.chart.ChartData" />
 
         <import type="com.maxpoliakov.skillapp.model.UiStatisticInterval" />
     </data>
@@ -17,7 +17,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp">
 
-        <com.maxpoliakov.skillapp.util.charts.TheBarChart
+        <com.maxpoliakov.skillapp.shared.chart.TheBarChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="@dimen/chart_height"

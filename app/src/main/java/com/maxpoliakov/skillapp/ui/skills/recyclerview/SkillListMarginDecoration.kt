@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skills.recyclerview
 
-import com.maxpoliakov.skillapp.ui.common.recyclerview.itemdecoration.margin.BottomMarginItemDecoration
-import com.maxpoliakov.skillapp.util.ui.dp
+import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
+import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.margin.BottomMarginItemDecoration
 
 class SkillListMarginDecoration : BottomMarginItemDecoration() {
     override val marginByItemViewType = mapOf(

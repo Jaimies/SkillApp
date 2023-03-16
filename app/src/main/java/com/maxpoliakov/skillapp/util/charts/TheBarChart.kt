@@ -199,18 +199,8 @@ class TheBarChart : BarChart {
     }
 
     private fun updateAxisMaximum(data: BarChartData) {
-        if (data.goal == null) {
-            axisLeft.resetAxisMaximum()
-        } else {
-            val axisMaximum = data.getHighestYValue() * 1.1f
-            val goalTime = data.goal.count.toFloat()
-
-            if (goalTime < axisMaximum) {
-                axisLeft.resetAxisMaximum()
-            } else {
-                axisLeft.axisMaximum = data.goal.count.toFloat().coerceAtLeast(axisMaximum)
-            }
-        }
+        val goalTime = data.goal?.count?.toFloat() ?: 0f
+        axisLeft.axisMaximum = (data.getHighestYValue() * 1.1f).coerceAtLeast(goalTime)
     }
 
     private fun updateInterval(data: BarChartData) {

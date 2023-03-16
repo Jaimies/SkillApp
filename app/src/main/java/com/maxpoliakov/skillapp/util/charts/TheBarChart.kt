@@ -169,8 +169,8 @@ class TheBarChart : BarChart {
     }
 
     private fun showGoal(data: BarChartData) {
-        showLimitLine(data.goal!!)
         updateAxisMaximum(data)
+        showLimitLine(data.goal!!)
     }
 
     private fun showLimitLine(goal: UiGoal) = axisLeft.run {
@@ -187,10 +187,15 @@ class TheBarChart : BarChart {
             lineWidth = 1f
             lineColor = color
             textColor = color
-            labelPosition = LimitLabelPosition.LEFT_BOTTOM
+            labelPosition = getLimitLabelPosition(goal)
             textSize = 12.sp.toDp(context)
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
         }
+    }
+
+    private fun getLimitLabelPosition(goal: UiGoal): LimitLabelPosition {
+        if (goal.count / axisLeft.axisMaximum > 0.5) return LimitLabelPosition.LEFT_BOTTOM
+        return LimitLabelPosition.LEFT_TOP
     }
 
     private fun hideGoal() {

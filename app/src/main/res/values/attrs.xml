@@ -6,4 +6,8 @@
     <attr name="cardViewBackground" format="color|reference" />
     <attr name="cardHighlightColor" format="color|reference" />
     <attr name="snackbarActionTextColor" format="color|reference" />
+
+    <declare-styleable name="RecyclerViewWithConfigurableMaxHeight">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
 </resources>

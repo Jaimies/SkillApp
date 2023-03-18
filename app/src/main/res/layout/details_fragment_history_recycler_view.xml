@@ -4,12 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="70dp"
-    app:contentPadding="16dp">
+    app:contentPaddingLeft="16dp"
+    app:contentPaddingRight="16dp">
 
     <com.maxpoliakov.skillapp.shared.recyclerview.RecyclerViewWithConfigurableMaxHeight
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-4dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
         app:maxHeight="350dp" />
 </com.google.android.material.card.MaterialCardView>

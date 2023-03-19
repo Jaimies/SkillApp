@@ -46,7 +46,7 @@ enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInte
         override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
             return context.getString(
                 R.string.date_month_and_year,
-                range.start.month.fullLocalizedName,
+                range.start.month.fullLocalizedName.replaceFirstChar(Char::titlecase),
                 range.start.year,
             )
         }

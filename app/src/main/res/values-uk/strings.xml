@@ -30,7 +30,7 @@
     <string name="yesterday">Вчора</string>
     <string name="date">%1$s, %3$d %2$s</string>
     <string name="no_data_for_given_interval">Немає даних за цей проміжок часу</string>
-    <string name="all_time">Увесь часовий діапазон</string>
+    <string name="all_time">Увесь час</string>
     <string name="date_with_year">%1$s, %3$d %2$s, %4$d</string>
     <string name="change_date">Змінити дату</string>
     <string name="change_time">Змінити час</string>

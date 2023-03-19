@@ -16,7 +16,6 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/small_card_height"
-        android:layout_marginTop="12dp"
         android:focusable="true"
         android:screenReaderFocusable="true"
         app:visible="@{isActive}">

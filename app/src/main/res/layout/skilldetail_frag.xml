@@ -75,6 +75,9 @@
                     <include
                         android:id="@+id/stopwatch_banner"
                         layout="@layout/skilldetail_stopwatch_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
                         app:isActive="@{viewModel.stopwatchIsRunning}"
                         app:startTime="@{viewModel.stopwatchStartTime}" />
 
@@ -83,7 +86,6 @@
                         layout="@layout/progress_goal_indicator"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
                         app:countToday="@{viewModel.timeToday}"
                         app:goal="@{viewModel.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
@@ -94,8 +96,8 @@
                         layout="@layout/bar_chart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/chart_height"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
                         app:data="@{viewModel.chartData}" />
 
                     <include

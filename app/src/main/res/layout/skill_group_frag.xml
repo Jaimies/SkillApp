@@ -80,8 +80,7 @@
                         layout="@layout/bar_chart"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/chart_height"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="20dp"
                         app:data="@{viewModel.chartData}" />
 
                     <include
@@ -89,8 +88,8 @@
                         layout="@layout/pie_chart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
                         app:data="@{viewModel.chartData}" />
 
                     <include

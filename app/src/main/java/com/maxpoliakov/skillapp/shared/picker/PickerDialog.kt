@@ -141,6 +141,11 @@ abstract class PickerDialog : DialogFragment() {
         }
 
         binding.okButton.setOnClickListener { v ->
+            // clearing the focus is necessary for the number pickers to
+            // update their `value` if they are receiving keyboard input
+            firstPicker.clearFocus()
+            secondPicker.clearFocus()
+
             for (listener in positiveButtonListeners) {
                 listener.onClick(v)
             }

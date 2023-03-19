@@ -11,9 +11,8 @@ import com.maxpoliakov.skillapp.shared.chart.valueformatter.WeekFormatter
 import com.maxpoliakov.skillapp.shared.chart.valueformatter.YearFormatter
 import com.maxpoliakov.skillapp.shared.time.toReadableDate
 import com.maxpoliakov.skillapp.shared.time.toShortReadableDate
+import com.maxpoliakov.skillapp.shared.util.fullLocalizedName
 import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
 
 enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInterval> {
     Daily {
@@ -47,7 +46,7 @@ enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInte
         override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
             return context.getString(
                 R.string.date_month_and_year,
-                range.start.month.getDisplayName(TextStyle.FULL, Locale.getDefault()),
+                range.start.month.fullLocalizedName,
                 range.start.year,
             )
         }

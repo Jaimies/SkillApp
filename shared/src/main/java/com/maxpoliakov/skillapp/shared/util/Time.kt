@@ -1,18 +1,21 @@
 package com.maxpoliakov.skillapp.shared.util
 
 import androidx.annotation.VisibleForTesting
+import java.text.SimpleDateFormat
 import java.time.Clock
 import java.time.DateTimeException
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
 import java.time.Month
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit.MILLIS
 import java.time.temporal.Temporal
 import java.time.temporal.WeekFields
+import java.util.Date
 import java.util.Locale
 
 val EPOCH: LocalDate get() = LocalDate.ofEpochDay(0)
@@ -23,7 +26,22 @@ val DayOfWeek.shortName: String
 val Month.shortName: String
     get() = getDisplayName(TextStyle.SHORT, Locale.getDefault())
 
+val Month.fullLocalizedName: String
+    get() {
+        // using SimpleDateFormat instead of DateTimeFormatter, because
+        // the DateTimeFormatter.ofPattern("LLLL").format() returns the month
+        // name with the wrong declination, e.g. "червня" instead of "червень"
+        val format = SimpleDateFormat("LLLL", Locale.getDefault())
+        val date = EPOCH.withDayOfMonth(1).withMonth(this.value)
+        return format.format(date.toDate())
+    }
+
 val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy  HH:mm:ss")
+
+fun LocalDate.toDate(): Date {
+    val instant = this.atStartOfDay().toInstant(ZoneOffset.UTC)
+    return Date.from(instant)
+}
 
 fun LocalDate.atStartOfWeek(): LocalDate {
     val date = with(WeekFields.of(Locale.getDefault()).firstDayOfWeek)

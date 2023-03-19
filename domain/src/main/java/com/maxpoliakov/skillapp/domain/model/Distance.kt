@@ -1,6 +1,6 @@
 package com.maxpoliakov.skillapp.domain.model
 
-class Distance private constructor(
+data class Distance(
     val meters: Long,
 ) : Comparable<Distance> {
     fun toMeters() = meters

@@ -56,10 +56,7 @@ class ChartDataImpl @AssistedInject constructor(
     override val pieChartHighlight = MutableStateFlow<Highlight?>(null)
 
     private val _selectedDateRange = barChartHighlight.combine(_interval) { highlight, interval ->
-        highlight?.x?.toLong()?.let { highlightedXValue ->
-            val selectedDate = interval.toDate(highlightedXValue)
-            interval.getDateRangeContaining(selectedDate)
-        }
+        highlight?.x?.toLong()?.let(interval::toDateRange)
     }
 
     override val selectedDateRange = _selectedDateRange.asLiveData()

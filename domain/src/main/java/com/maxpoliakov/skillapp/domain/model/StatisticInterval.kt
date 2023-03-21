@@ -43,12 +43,8 @@ enum class StatisticInterval {
         return unit.between(atStartOfInterval(EPOCH), atStartOfInterval(date))
     }
 
-    fun toDate(number: Long): LocalDate {
-        return atStartOfInterval(EPOCH).plus(number, unit)
-    }
-
-    fun getDateRangeContaining(date: LocalDate): ClosedRange<LocalDate> {
-        val start = atStartOfInterval(date)
+    fun toDateRange(number: Long): ClosedRange<LocalDate> {
+        val start = atStartOfInterval(EPOCH).plus(number, unit)
         val end = start.plus(1, unit).minusDays(1)
         return start..end
     }

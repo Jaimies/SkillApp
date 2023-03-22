@@ -1,74 +1,38 @@
 package com.maxpoliakov.skillapp.model
 
-import android.content.Context
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
+import com.maxpoliakov.skillapp.model.formatter.daterange.DayFormatter
+import com.maxpoliakov.skillapp.model.formatter.daterange.MonthFormatter
+import com.maxpoliakov.skillapp.model.formatter.daterange.DateRangeFormatter
+import com.maxpoliakov.skillapp.model.formatter.daterange.WeekFormatter
+import com.maxpoliakov.skillapp.model.formatter.daterange.YearFormatter
 import com.maxpoliakov.skillapp.shared.MappableEnum
-import com.maxpoliakov.skillapp.shared.chart.valueformatter.DayFormatter
-import com.maxpoliakov.skillapp.shared.chart.valueformatter.MonthFormatter
-import com.maxpoliakov.skillapp.shared.chart.valueformatter.WeekFormatter
-import com.maxpoliakov.skillapp.shared.chart.valueformatter.YearFormatter
-import com.maxpoliakov.skillapp.shared.time.toReadableDate
-import com.maxpoliakov.skillapp.shared.time.toShortReadableDate
-import com.maxpoliakov.skillapp.shared.util.fullLocalizedName
-import java.time.LocalDate
 
 enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInterval> {
     Daily {
-        override val valueFormatter get() = DayFormatter()
-
-        override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
-            return context.toReadableDate(range.start)
-        }
-
+        override val formatter get() = DayFormatter()
         override val numberOfValuesVisibleAtOnce get() = 7..14
 
         override fun toDomain() = StatisticInterval.Daily
     },
 
     Weekly {
-        override val valueFormatter get() = WeekFormatter()
-
-        override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
-            return context.getString(
-                R.string.date_range,
-                context.toShortReadableDate(range.start),
-                context.toShortReadableDate(range.endInclusive),
-            )
-        }
-
+        override val formatter get() = WeekFormatter()
         override fun toDomain() = StatisticInterval.Weekly
     },
 
     Monthly {
-        override val valueFormatter get() = MonthFormatter()
-        override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
-            return context.getString(
-                R.string.date_month_and_year,
-                range.start.month.fullLocalizedName.replaceFirstChar(Char::titlecase),
-                range.start.year,
-            )
-        }
-
+        override val formatter get() = MonthFormatter()
         override fun toDomain() = StatisticInterval.Monthly
     },
 
     Yearly {
-        override val valueFormatter get() = YearFormatter()
-
-        override fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String {
-            return context.getString(R.string.date_year_only, range.start.year)
-        }
-
+        override val formatter get() = YearFormatter()
         override fun toDomain() = StatisticInterval.Yearly
     },
     ;
 
-    abstract val valueFormatter: ValueFormatter
-
-    // todo perhaps restructure UIStatisticInterval to make this method make more sense
-    abstract fun formatDateRange(range: ClosedRange<LocalDate>, context: Context): String
+    abstract val formatter: DateRangeFormatter
 
     open val numberOfValuesVisibleAtOnce get() = 7..7
 

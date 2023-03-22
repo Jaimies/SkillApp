@@ -209,7 +209,7 @@ class TheBarChart : BarChart {
     }
 
     private fun updateInterval(data: BarChartData) {
-        xAxis.valueFormatter = data.interval.valueFormatter
+        xAxis.valueFormatter = data.interval.formatter.valueFormatter
         // todo too concrete
         viewPortHandler.setScaleXRange(
             if (data.entries.size < 7) 1f..1f

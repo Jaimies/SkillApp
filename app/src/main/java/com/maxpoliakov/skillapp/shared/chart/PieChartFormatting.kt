@@ -11,5 +11,5 @@ fun Context.format(dateRange: ClosedRange<LocalDate>?, interval: UiStatisticInte
     if (interval == null) return ""
     if (dateRange == null) return getString(R.string.all_time)
 
-    return interval.formatDateRange(dateRange, this)
+    return interval.formatter.format(dateRange, this)
 }

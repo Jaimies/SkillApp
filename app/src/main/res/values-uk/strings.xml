@@ -136,4 +136,7 @@
     <string name="failed_to_load_last_backup_date">Не вдалося завантажити останню резервну копію</string>
     <string name="change_start_time">Змінити час початку</string>
     <string name="change_end_time">Змінити час завершення</string>
+    <string name="this_week">Цей тиждень</string>
+    <string name="this_month">Цей місяць</string>
+    <string name="this_year">Цей рік</string>
 </resources>

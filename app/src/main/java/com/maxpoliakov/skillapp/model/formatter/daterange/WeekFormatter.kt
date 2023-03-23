@@ -9,12 +9,13 @@ import java.time.LocalDate
 
 class WeekFormatter : DateRangeFormatter() {
     override val interval = StatisticInterval.Weekly
+    override val currentDateRangeStringResId = R.string.this_week
 
     override fun format(date: LocalDate): String {
         return "${date.dayOfMonth}\n${date.month.shortName}"
     }
 
-    override fun format(range: ClosedRange<LocalDate>, context: Context): String {
+    override fun _format(range: ClosedRange<LocalDate>, context: Context): String {
         return context.getString(
             R.string.date_range,
             context.toShortReadableDate(range.start),

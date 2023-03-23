@@ -6,12 +6,13 @@ import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import java.time.LocalDate
 
 abstract class DateRangeFormatter {
-    val valueFormatter = object: ValueFormatter() {
+    val valueFormatter = object : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
             return formatDate(value.toLong())
         }
     }
 
+    abstract val currentDateRangeStringResId: Int
     abstract val interval: StatisticInterval
 
     fun formatDate(value: Long): String {
@@ -24,6 +25,14 @@ abstract class DateRangeFormatter {
         return format(dateRange, context)
     }
 
+    fun format(range: ClosedRange<LocalDate>, context: Context): String {
+       if (range == interval.getCurrentDateRange()) {
+            return context.getString(currentDateRangeStringResId)
+        }
+
+        return _format(range, context)
+    }
+
     abstract fun format(date: LocalDate): String
-    abstract fun format(range: ClosedRange<LocalDate>, context: Context): String
+    protected abstract fun _format(range: ClosedRange<LocalDate>, context: Context): String
 }

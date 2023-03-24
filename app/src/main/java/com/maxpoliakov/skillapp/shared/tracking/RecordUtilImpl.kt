@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.shared.tracking
 
-import android.content.Context
 import androidx.fragment.app.FragmentManager
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
@@ -10,13 +9,9 @@ import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShower
 import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShower.Action
-import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
-import com.maxpoliakov.skillapp.shared.util.sumByDuration
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.Duration
 import javax.inject.Inject
 
 @ActivityScoped
@@ -25,14 +20,13 @@ class RecordUtilImpl @Inject constructor(
     @ApplicationScope
     private val scope: CoroutineScope,
     private val snackbarShower: SnackbarShower,
-    @ActivityContext
-    private val context: Context,
+    private val labelFormatter: SnackbarLabelFormatter,
     private val fragmentManager: FragmentManager,
 ) : RecordUtil {
 
     override fun notifyRecordsAdded(records: List<Record>) {
         if (records.isEmpty()) return
-        snackbarShower.show(getLabel(records), getAction(records))
+        snackbarShower.show(labelFormatter.getLabel(records), getAction(records))
     }
 
     private fun getAction(records: List<Record>): Action? {
@@ -42,30 +36,6 @@ class RecordUtilImpl @Inject constructor(
 
     private fun getChangeTimeAction(record: Record): Action {
         return Action(R.string.change_time, { showChangeTimeDialog(record) })
-    }
-
-    private fun getLabel(time: Duration): String {
-        if (time.toHours() == 0L) {
-            if (time.toMinutes() == 0L) {
-                return context.getString(R.string.record_added, time.seconds)
-            }
-
-            return context.getString(R.string.record_added_with_minutes, time.toMinutes())
-        }
-
-        return context.getString(
-            R.string.record_added_with_hours,
-            time.toHours(),
-            time.toMinutesPartCompat()
-        )
-    }
-
-    private fun getLabel(records: List<Record>): String {
-        return getLabel(records.getTotalDuration())
-    }
-
-    private fun List<Record>.getTotalDuration(): Duration {
-        return sumByDuration { record -> Duration.ofMillis(record.count) }
     }
 
     private fun showChangeTimeDialog(record: Record) {

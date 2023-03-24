@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShower
 import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShowerImpl
-import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarShower
-import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarShowerImpl
+import com.maxpoliakov.skillapp.shared.tracking.EditRecordTimeDialogShower
+import com.maxpoliakov.skillapp.shared.tracking.EditRecordTimeDialogShowerImpl
 import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarLabelFormatter
 import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarLabelFormatterImpl
+import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarShower
+import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarShowerImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -26,6 +28,9 @@ interface ActivityModule {
 
     @Binds
     fun provideRecordAddedSnackbarShower(recordAddedSnackbarShower: RecordAddedSnackbarShowerImpl): RecordAddedSnackbarShower
+
+    @Binds
+    fun provideEditRecordTimeDialogShower(editRecordTimeDialogShower: EditRecordTimeDialogShowerImpl): EditRecordTimeDialogShower
 
     companion object {
         @Provides

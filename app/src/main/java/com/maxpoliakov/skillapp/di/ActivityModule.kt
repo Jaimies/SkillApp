@@ -7,8 +7,8 @@ import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShower
 import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShowerImpl
 import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarShower
 import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarShowerImpl
-import com.maxpoliakov.skillapp.shared.tracking.SnackbarLabelFormatter
-import com.maxpoliakov.skillapp.shared.tracking.SnackbarLabelFormatterImpl
+import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarLabelFormatter
+import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarLabelFormatterImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -22,7 +22,7 @@ interface ActivityModule {
     fun provideSnackbarShower(snackbarShower: SnackbarShowerImpl): SnackbarShower
 
     @Binds
-    fun provideSnackbarLabelFormatter(snackbarLabelFormatter: SnackbarLabelFormatterImpl): SnackbarLabelFormatter
+    fun provideSnackbarLabelFormatter(snackbarLabelFormatter: RecordAddedSnackbarLabelFormatterImpl): RecordAddedSnackbarLabelFormatter
 
     @Binds
     fun provideRecordAddedSnackbarShower(recordAddedSnackbarShower: RecordAddedSnackbarShowerImpl): RecordAddedSnackbarShower

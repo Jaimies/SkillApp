@@ -19,7 +19,7 @@ class RecordAddedSnackbarShowerImpl @Inject constructor(
     private val editRecord: EditRecordUseCase,
     @ApplicationScope
     private val scope: CoroutineScope,
-    private val labelFormatter: SnackbarLabelFormatter,
+    private val labelFormatter: RecordAddedSnackbarLabelFormatter,
 ) : RecordAddedSnackbarShower {
 
     override fun showRecordAddedSnackbar(duration: Duration, recordToBeEdited: Record?) {

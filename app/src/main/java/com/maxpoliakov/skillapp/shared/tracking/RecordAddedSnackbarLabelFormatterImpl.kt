@@ -2,17 +2,15 @@ package com.maxpoliakov.skillapp.shared.tracking
 
 import android.content.Context
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.shared.util.sumByDuration
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import dagger.hilt.android.qualifiers.ActivityContext
 import java.time.Duration
 import javax.inject.Inject
 
-class SnackbarLabelFormatterImpl @Inject constructor(
+class RecordAddedSnackbarLabelFormatterImpl @Inject constructor(
     @ActivityContext
     private val context: Context,
-): SnackbarLabelFormatter {
+): RecordAddedSnackbarLabelFormatter {
     override fun getLabel(time: Duration): String {
         if (time.toHours() == 0L) {
             if (time.toMinutes() == 0L) {

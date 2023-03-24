@@ -55,7 +55,7 @@ enum class StatisticInterval {
         return atStartOfInterval(EPOCH.plus(number, unit))
     }
 
-    private fun getDateRangeContaining(date: LocalDate): ClosedRange<LocalDate> {
+    fun getDateRangeContaining(date: LocalDate): ClosedRange<LocalDate> {
         val start = atStartOfInterval(date)
         val end = start.plus(1, unit).minusDays(1)
         return start..end

@@ -28,7 +28,7 @@ class StopwatchViewHolder @AssistedInject constructor(
         }
 
         viewModel.showRecordAdded.observe(lifecycleOwner) { record ->
-            record?.let(recordUtil::notifyRecordAdded)
+            record?.let(recordUtil::notifyRecordsAdded)
         }
     }
 

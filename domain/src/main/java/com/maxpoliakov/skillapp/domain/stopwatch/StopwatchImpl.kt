@@ -10,7 +10,6 @@ import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.range.split
-import com.maxpoliakov.skillapp.shared.util.toDuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.time.Clock
@@ -47,40 +46,40 @@ class StopwatchImpl @Inject constructor(
         _state.value = persistence.getState()
     }
 
-    override suspend fun toggle(skillId: Int): Record? {
+    override suspend fun toggle(skillId: Int): List<Record> {
         val state = _state.value
         if (state is Running && state.skillId == skillId) return stop()
 
         return start(skillId)
     }
 
-    override suspend fun stop(): Record? {
+    override suspend fun stop(): List<Record> {
         val state = _state.value
 
-        if (state !is Running) return null
+        if (state !is Running) return listOf()
         setState(Paused)
-        return addRecord(state)
+        return addRecords(state)
     }
 
     override fun cancel() {
         setState(Paused)
     }
 
-    override suspend fun start(skillId: Int): Record? {
-        if (!shouldStartTimer(skillId)) return null
-        val record = addRecordIfNeeded(_state.value)
-        val skill = skillRepository.getSkillById(skillId) ?: return null
+    override suspend fun start(skillId: Int): List<Record> {
+        if (!shouldStartTimer(skillId)) return listOf()
+        val records = addRecordsIfNeeded(_state.value)
+        val skill = skillRepository.getSkillById(skillId) ?: return listOf()
         val state = Running(ZonedDateTime.now(clock), skillId, skill.groupId)
         setState(state)
 
-        return record
+        return records
     }
 
-    private suspend fun addRecordIfNeeded(state: StopwatchState): Record? {
+    private suspend fun addRecordsIfNeeded(state: StopwatchState): List<Record> {
         if (state is Running)
-            return addRecord(state)
+            return addRecords(state)
 
-        return null
+        return listOf()
     }
 
     private fun shouldStartTimer(skillId: Int): Boolean {
@@ -94,8 +93,10 @@ class StopwatchImpl @Inject constructor(
         updateNotification(state)
     }
 
-    private suspend fun addRecord(state: Running): Record {
+    private suspend fun addRecords(state: Running): List<Record> {
         val dateTimeRange = state.startTime.toLocalDateTime()..LocalDateTime.now(clock)
+
+        val addedRecords = mutableListOf<Record>()
 
         for (range in dateTimeRange.split()) {
             val record = Record(
@@ -107,16 +108,10 @@ class StopwatchImpl @Inject constructor(
                 timeRange = range.range,
             )
 
-            addRecord.run(record)
+            val recordId = addRecord.run(record).toInt()
+            addedRecords.add(record.copy(id = recordId))
         }
 
-        return Record(
-            name = "",
-            skillId = state.skillId,
-            count = dateTimeRange.toDuration().toMillis(),
-            date = state.startTime.toLocalDate(),
-            unit = MeasurementUnit.Millis,
-            timeRange = null,
-        )
+        return addedRecords
     }
 }

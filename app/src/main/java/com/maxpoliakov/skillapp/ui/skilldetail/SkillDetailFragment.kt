@@ -40,7 +40,7 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
 
         observe(viewModel.showRecordDialog) { showRecordDialog() }
         observe(viewModel.showRecordAdded) { record ->
-            record?.let(recordUtil::notifyRecordAdded)
+            record?.let(recordUtil::notifyRecordsAdded)
         }
     }
 

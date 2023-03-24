@@ -57,12 +57,17 @@ class SpyAddRecordUseCase : AddRecordUseCase {
     private val _addedRecords = mutableListOf<Record>()
     val addedRecords: List<Record> get() = _addedRecords
 
+    private var highestRecordId = 1L
+
     override suspend fun run(record: Record): Long {
         _addedRecords.add(record)
-        return 1
+        return highestRecordId++
     }
 
-    fun clear() = _addedRecords.clear()
+    fun clear() {
+        _addedRecords.clear()
+        highestRecordId = 1L
+    }
 }
 
 class StopwatchUtilImplTest : StringSpec({
@@ -82,10 +87,12 @@ class StopwatchUtilImplTest : StringSpec({
     }
 
     fun createRecord(
+        id: Int = 0,
         duration: Duration = Duration.ofSeconds(1),
         date: LocalDate = LocalDate.ofEpochDay(0),
         timeRange: ClosedRange<LocalTime> = LocalTime.ofSecondOfDay(0)..LocalTime.ofSecondOfDay(1)
     ) = Record(
+        id = id,
         name = "",
         skillId = skillId,
         count = duration.toMillis(),
@@ -184,7 +191,7 @@ class StopwatchUtilImplTest : StringSpec({
         clock.withInstant(EPOCH.plus(10, HOURS))
         stopwatchUtil.start(skillId)
         clock.withInstant(EPOCH.plus(2, DAYS).plus(10, HOURS))
-        stopwatchUtil.stop()
+        val records = stopwatchUtil.stop()
 
         addRecord.addedRecords shouldBe listOf(
             createRecord(
@@ -203,21 +210,26 @@ class StopwatchUtilImplTest : StringSpec({
                 timeRange = LocalTime.MIN..LocalTime.of(10, 0)
             ),
         )
-    }
 
-    "stop() returns a record with correct data" {
-        val stopwatchUtil = createStopwatch()
-        stopwatchUtil.start(skillId)
-        clock.withInstant(EPOCH.plus(2, DAYS).plus(10, HOURS))
-        val record = stopwatchUtil.stop()
-
-        record shouldBe Record(
-            name = "",
-            skillId = skillId,
-            count = Duration.ofDays(2).plusHours(10).toMillis(),
-            date = LocalDate.ofEpochDay(0),
-            unit = MeasurementUnit.Millis,
-            timeRange = null,
+        records shouldBe listOf(
+            createRecord(
+                id = 1,
+                date = LocalDate.ofEpochDay(0),
+                duration = Duration.ofHours(14),
+                timeRange = LocalTime.of(10, 0)..LocalTime.MAX,
+            ),
+            createRecord(
+                id = 2,
+                date = LocalDate.ofEpochDay(1),
+                duration = Duration.ofDays(1),
+                timeRange = LocalTime.MIN..LocalTime.MAX
+            ),
+            createRecord(
+                id = 3,
+                date = LocalDate.ofEpochDay(2),
+                duration = Duration.ofHours(10),
+                timeRange = LocalTime.MIN..LocalTime.of(10, 0)
+            ),
         )
     }
 }) {

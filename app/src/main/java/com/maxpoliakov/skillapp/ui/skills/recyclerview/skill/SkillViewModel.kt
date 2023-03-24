@@ -40,8 +40,8 @@ class SkillViewModel @Inject constructor(
     private val _navigateToDetails = SingleLiveEvent<Skill>()
     val navigateToDetails: LiveData<Skill> get() = _navigateToDetails
 
-    private val _notifyRecordAdded = SingleLiveEvent<Record>()
-    val notifyRecordAdded: LiveData<Record> get() = _notifyRecordAdded
+    private val _notifyRecordAdded = SingleLiveEvent<List<Record>>()
+    val notifyRecordAdded: LiveData<List<Record>> get() = _notifyRecordAdded
 
     val dragHandleShown = manager.isInEditingMode
     val groupId get() = skill.value?.groupId ?: -1
@@ -58,7 +58,7 @@ class SkillViewModel @Inject constructor(
     fun toggleTimer() {
         scope.launch {
             val record = stopwatch.toggle(skill.value!!.id)
-            if (record != null) _notifyRecordAdded.value = record
+            _notifyRecordAdded.value = record
         }
         logEvent("start_timer_from_home_screen")
     }

@@ -15,15 +15,15 @@ class StubStopwatch @Inject constructor() : Stopwatch {
 
     override val state = _state.asStateFlow()
 
-    override suspend fun start(skillId: Int): Record? = null
+    override suspend fun start(skillId: Int) = listOf<Record>()
 
-    override suspend fun stop(): Record? {
+    override suspend fun stop(): List<Record> {
         _state.value = StopwatchState.Paused
-        return null
+        return listOf()
     }
 
     override fun cancel() {}
-    override suspend fun toggle(skillId: Int): Record? = null
+    override suspend fun toggle(skillId: Int) = listOf<Record>()
 
     private fun getStartTime() = ZonedDateTime.now().minusHours(1).minusMinutes(2)
     private fun getRunningState() = StopwatchState.Running(getStartTime(), 3, -1)

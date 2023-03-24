@@ -13,6 +13,7 @@ import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.shared.extensions.getColorAttributeValue
+import com.maxpoliakov.skillapp.shared.util.sumByDuration
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineScope
@@ -33,16 +34,15 @@ class RecordUtilImpl @Inject constructor(
     private val fragmentManager: FragmentManager,
 ) : RecordUtil {
 
-    override fun notifyRecordAdded(record: Record) {
-        Snackbar.make(snackbarRootProvider.get() ?: return, getLabel(record), Snackbar.LENGTH_LONG)
-            .setAction(R.string.change_time) { editTime(record) }
-            .setActionTextColor(context.getColorAttributeValue(R.attr.snackbarActionTextColor))
-            .show()
+    override fun notifyRecordsAdded(records: List<Record>) {
+        if (records.isEmpty()) return
+
+        createSnackbar(records)
+            ?.addChangeTimeActionIfThereIsOnlyOneRecord(records)
+            ?.show()
     }
 
-    private fun getLabel(record: Record): String {
-        val time = Duration.ofMillis(record.count)
-
+    private fun getLabel(time: Duration): String {
         if (time.toHours() == 0L) {
             if (time.toMinutes() == 0L) {
                 return context.getString(R.string.record_added, time.seconds)
@@ -58,7 +58,30 @@ class RecordUtilImpl @Inject constructor(
         )
     }
 
-    private fun editTime(record: Record) {
+    private fun getLabel(records: List<Record>): String {
+        return getLabel(records.getTotalDuration())
+    }
+
+    private fun List<Record>.getTotalDuration(): Duration {
+        return sumByDuration { record -> Duration.ofMillis(record.count) }
+    }
+
+    private fun Snackbar.addChangeTimeActionIfThereIsOnlyOneRecord(records: List<Record>): Snackbar {
+        if (records.size == 1) return addChangeTimeAction(records[0])
+        return this
+    }
+
+    private fun createSnackbar(records: List<Record>): Snackbar? {
+        return Snackbar
+            .make(snackbarRootProvider.get() ?: return null, getLabel(records), Snackbar.LENGTH_LONG)
+            .setActionTextColor(context.getColorAttributeValue(R.attr.snackbarActionTextColor))
+    }
+
+    private fun Snackbar.addChangeTimeAction(record: Record): Snackbar {
+        return setAction(R.string.change_time) { showEditTimeDialog(record) }
+    }
+
+    private fun showEditTimeDialog(record: Record) {
         UiMeasurementUnit.Millis.showPicker(fragmentManager, record.count, editMode = true) { newTime ->
             scope.launch {
                 editRecord.change(record.id, RecordChange.Count(newTime))

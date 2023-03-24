@@ -65,7 +65,7 @@ class SkillViewHolder(
             callback.navigateToSkillDetail(binding.card, skill)
         }
 
-        viewModel.notifyRecordAdded.observe(lifecycleOwner, recordUtil::notifyRecordAdded)
+        viewModel.notifyRecordAdded.observe(lifecycleOwner, recordUtil::notifyRecordsAdded)
     }
 
     fun setItem(item: Skill) = viewModel.setSkill(item)

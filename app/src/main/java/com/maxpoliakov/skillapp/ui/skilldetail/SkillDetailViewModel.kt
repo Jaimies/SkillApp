@@ -49,8 +49,8 @@ class SkillDetailViewModel @Inject constructor(
     override val selectionCriteria = SkillSelectionCriteria.WithId(skillId)
 
     val showRecordDialog = SingleLiveEvent<Any>()
-    private val _showRecordAdded = SingleLiveEvent<Record>()
-    val showRecordAdded: LiveData<Record?> get() = _showRecordAdded
+    private val _showRecordAdded = SingleLiveEvent<List<Record>>()
+    val showRecordAdded: LiveData<List<Record>?> get() = _showRecordAdded
 
     val latestRecord = recordsRepository
         .getLatestRecordForSkillWithId(skillId)
@@ -88,7 +88,7 @@ class SkillDetailViewModel @Inject constructor(
 
     fun toggleTimer() = scope.launch {
         val record = stopwatch.toggle(skillId)
-        if (record != null) _showRecordAdded.value = record
+        _showRecordAdded.value = record
         logEvent("toggle_timer")
     }
 

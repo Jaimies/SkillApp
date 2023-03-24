@@ -8,8 +8,8 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
-import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -25,8 +25,8 @@ class StopwatchViewModel @Inject constructor(
 ) {
     private val _navigateToSkill = SingleLiveEvent<Skill>()
     val navigateToSkill: LiveData<Skill> get() = _navigateToSkill
-    private val _showRecordAdded = SingleLiveEvent<Record>()
-    val showRecordAdded: LiveData<Record?> get() = _showRecordAdded
+    private val _showRecordAdded = SingleLiveEvent<List<Record>>()
+    val showRecordAdded: LiveData<List<Record>> get() = _showRecordAdded
 
     val trackingSkill = stopwatch.state.flatMapLatest { state ->
         if (state is StopwatchState.Running) getSkill.run(state.skillId)
@@ -40,8 +40,8 @@ class StopwatchViewModel @Inject constructor(
     val isActive = stopwatch.state.map { it is StopwatchState.Running }.asLiveData()
 
     fun stopTimer() = scope.launch {
-        val record = stopwatch.stop()
-        record?.let(_showRecordAdded::postValue)
+        val records = stopwatch.stop()
+        _showRecordAdded.value = records
     }
 
     fun navigateToCurrentlyTrackedSkill() {

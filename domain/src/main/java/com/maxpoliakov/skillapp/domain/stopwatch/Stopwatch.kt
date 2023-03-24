@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.StateFlow
 interface Stopwatch {
     val state: StateFlow<StopwatchState>
 
-    suspend fun start(skillId: Int): Record?
-    suspend fun stop(): Record?
+    suspend fun start(skillId: Int): List<Record>
+    suspend fun stop(): List<Record>
     fun cancel()
-    suspend fun toggle(skillId: Int): Record?
+    suspend fun toggle(skillId: Int): List<Record>
     fun updateNotification()
     fun updateState()
 }

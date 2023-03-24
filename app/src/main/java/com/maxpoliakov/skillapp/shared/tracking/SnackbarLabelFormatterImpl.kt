@@ -13,7 +13,7 @@ class SnackbarLabelFormatterImpl @Inject constructor(
     @ActivityContext
     private val context: Context,
 ): SnackbarLabelFormatter {
-    private fun getLabel(time: Duration): String {
+    override fun getLabel(time: Duration): String {
         if (time.toHours() == 0L) {
             if (time.toMinutes() == 0L) {
                 return context.getString(R.string.record_added, time.seconds)
@@ -27,13 +27,5 @@ class SnackbarLabelFormatterImpl @Inject constructor(
             time.toHours(),
             time.toMinutesPartCompat()
         )
-    }
-
-    override fun getLabel(records: List<Record>): String {
-        return getLabel(records.getTotalDuration())
-    }
-
-    private fun List<Record>.getTotalDuration(): Duration {
-        return sumByDuration { record -> Duration.ofMillis(record.count) }
     }
 }

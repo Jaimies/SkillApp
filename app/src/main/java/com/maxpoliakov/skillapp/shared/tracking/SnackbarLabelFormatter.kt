@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.shared.tracking
 
-import com.maxpoliakov.skillapp.domain.model.Record
+import java.time.Duration
 
 interface SnackbarLabelFormatter {
-    fun getLabel(records: List<Record>): String
+    fun getLabel(duration: Duration): String
 }

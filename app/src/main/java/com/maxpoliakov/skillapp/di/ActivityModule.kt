@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShower
 import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShowerImpl
+import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarShower
+import com.maxpoliakov.skillapp.shared.tracking.RecordAddedSnackbarShowerImpl
 import com.maxpoliakov.skillapp.shared.tracking.SnackbarLabelFormatter
 import com.maxpoliakov.skillapp.shared.tracking.SnackbarLabelFormatterImpl
 import dagger.Binds
@@ -21,6 +23,9 @@ interface ActivityModule {
 
     @Binds
     fun provideSnackbarLabelFormatter(snackbarLabelFormatter: SnackbarLabelFormatterImpl): SnackbarLabelFormatter
+
+    @Binds
+    fun provideRecordAddedSnackbarShower(recordAddedSnackbarShower: RecordAddedSnackbarShowerImpl): RecordAddedSnackbarShower
 
     companion object {
         @Provides

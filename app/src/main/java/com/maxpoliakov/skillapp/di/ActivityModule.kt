@@ -13,14 +13,9 @@ import dagger.hilt.android.components.ActivityComponent
 
 @Module
 @InstallIn(ActivityComponent::class)
-interface ActivityModule {
-    @Binds
-    fun provideIntroUtil(introUtil: IntroUtilImpl): IntroUtil
-
-    companion object {
-        @Provides
-        fun provideFragmentManager(activity: Activity): FragmentManager {
-            return (activity as AppCompatActivity).supportFragmentManager
-        }
+object ActivityModule {
+    @Provides
+    fun provideFragmentManager(activity: Activity): FragmentManager {
+        return (activity as AppCompatActivity).supportFragmentManager
     }
 }

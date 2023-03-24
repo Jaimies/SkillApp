@@ -4,6 +4,8 @@ import com.maxpoliakov.skillapp.data.AndroidNetworkUtil
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.shared.notifications.NotificationUtilImpl
+import com.maxpoliakov.skillapp.ui.intro.IntroUtil
+import com.maxpoliakov.skillapp.ui.intro.IntroUtilImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,4 +19,7 @@ interface UtilityModule {
 
     @Binds
     fun provideNetworkUtil(networkUtil: AndroidNetworkUtil): NetworkUtil
+
+    @Binds
+    fun provideIntroUtil(introUtil: IntroUtilImpl): IntroUtil
 }

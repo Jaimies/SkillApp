@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity(),
     val toolbar get() = binding.toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(Theme_SkillApp)
         super.onCreate(savedInstanceState)
         introUtil.showIfNecessary(Intro.FirstRunIntro) { FirstRunIntro.show(this) }
         binding = MainActBinding.inflate(layoutInflater)

@@ -30,6 +30,4 @@
         <item name="snackbarActionTextColor">@color/blue</item>
         <item name="android:dropDownItemStyle">@style/Widget.SkillApp.DropdownItem</item>
     </style>
-
-    <style name="Theme.SkillApp.Splash" />
 </resources>

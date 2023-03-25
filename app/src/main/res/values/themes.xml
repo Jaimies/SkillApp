@@ -33,6 +33,4 @@
     </style>
 
     <style name="Theme.SkillApp" parent="Theme.SkillApp.Base" />
-
-    <style name="Theme.SkillApp.Splash" />
 </resources>

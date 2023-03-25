@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.test.await
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -79,6 +80,17 @@ class StatsDaoTest {
         statsDao.getStats(-1, date, date).await() shouldBe listOf(
             DBStatistic(date, -1, recordTime.multipliedBy(2).toMillis())
         )
+    }
+
+    @Test
+    fun getCountInDateRange() = runBlocking {
+        statsDao.addRecord(skillId, date.minusDays(2), recordTime.toMillis())
+        statsDao.addRecord(skillId, date.minusDays(1), recordTime.toMillis())
+        statsDao.addRecord(skillId, date, recordTime.toMillis())
+        statsDao.addRecord(otherSkillId, date, recordTime.toMillis())
+        statsDao.addRecord(skillId, date.plusDays(1), recordTime.toMillis())
+
+        statsDao.getCountInDateRange(skillId, date.minusDays(1), date).first() shouldBe recordTime.toMillis() * 2
     }
 
     @After

@@ -12,19 +12,16 @@ import com.maxpoliakov.skillapp.model.PieChartData
 import com.maxpoliakov.skillapp.shared.chart.TheBarChart
 import com.maxpoliakov.skillapp.shared.chart.ThePieChart
 
-@BindingAdapter("data")
-fun TheBarChart.setData(data: BarChartData?) {
+@BindingAdapter("data", "highlight")
+fun ThePieChart.setDataAndHighlight(data: PieChartData?, highlight: Highlight?) {
     update(data)
+    if (data != null) highlightValue(highlight, true)
 }
 
-@BindingAdapter("data")
-fun ThePieChart.setData(data: PieChartData?) {
+@BindingAdapter("data", "highlight")
+fun TheBarChart.setDataAndHighlight(data: BarChartData?, highlight: Highlight?) {
     update(data)
-}
-
-@BindingAdapter("highlight")
-fun Chart<*>.setHighlight(highlight: Highlight?) {
-    highlightValue(highlight, true)
+    if (data != null) highlightValue(highlight, true)
 }
 
 @InverseBindingAdapter(attribute = "highlight", event = "onChartValueSelected")

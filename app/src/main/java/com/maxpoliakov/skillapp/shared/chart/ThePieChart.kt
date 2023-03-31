@@ -23,7 +23,7 @@ import com.maxpoliakov.skillapp.shared.Dimension.Companion.sp
 import com.maxpoliakov.skillapp.shared.extensions.getColorAttributeValue
 import com.maxpoliakov.skillapp.shared.extensions.textColor
 
-class ThePieChart : PieChart, OnChartValueSelectedListener {
+class ThePieChart : PieChart, TheChart<PieChartData>, OnChartValueSelectedListener {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
@@ -85,7 +85,7 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         setNoDataText(context.getString(R.string.no_data_for_given_interval))
     }
 
-    fun update(data: PieChartData?) {
+    override fun update(data: PieChartData?) {
         if (data == null || data.entries.isEmpty()) {
             this.data = null
             invalidate()

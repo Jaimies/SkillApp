@@ -19,7 +19,7 @@ import com.maxpoliakov.skillapp.shared.extensions.primaryColor
 import com.maxpoliakov.skillapp.shared.extensions.textColor
 import kotlinx.parcelize.Parcelize
 
-class TheBarChart : BarChart {
+class TheBarChart : BarChart, TheChart<BarChartData> {
     private var stateRestored = false
 
     init {
@@ -55,7 +55,7 @@ class TheBarChart : BarChart {
         MoveViewJob.getInstance(null, 0f, 0f, null, null)
     }
 
-    fun update(data: BarChartData?) {
+    override fun update(data: BarChartData?) {
         if (data != null) {
             updateUI(data)
         } else {

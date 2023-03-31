@@ -19,7 +19,7 @@ fun TheBarChart.setData(data: BarChartData?) {
 
 @BindingAdapter("data")
 fun ThePieChart.setData(data: PieChartData?) {
-    data?.let(this::update)
+    update(data)
 }
 
 @BindingAdapter("highlight")

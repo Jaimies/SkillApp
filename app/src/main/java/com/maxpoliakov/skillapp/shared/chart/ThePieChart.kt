@@ -85,8 +85,8 @@ class ThePieChart : PieChart, OnChartValueSelectedListener {
         setNoDataText(context.getString(R.string.no_data_for_given_interval))
     }
 
-    fun update(data: PieChartData) {
-        if (data.entries.isEmpty()) {
+    fun update(data: PieChartData?) {
+        if (data == null || data.entries.isEmpty()) {
             this.data = null
             invalidate()
             return

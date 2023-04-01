@@ -6,19 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentSkillCountUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.mapToDomain
-import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import com.maxpoliakov.skillapp.shared.DetailsViewModel
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted.Companion.Eagerly
@@ -46,6 +47,9 @@ class SkillDetailViewModel @Inject constructor(
 ) {
     private val skillId = args.skillId
     override val selectionCriteria = SkillSelectionCriteria.WithId(skillId)
+
+    private val _stopwatchStarted = SingleLiveEvent<Any>()
+    val stopwatchStarted: LiveData<Any> get() = _stopwatchStarted
 
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<List<Record>>()
@@ -88,6 +92,9 @@ class SkillDetailViewModel @Inject constructor(
     fun toggleTimer() = scope.launch {
         val stateChange = stopwatch.toggle(skillId)
         _showRecordAdded.value = stateChange.addedRecords
+        if (stateChange is StateChange.Start) {
+            _stopwatchStarted.call()
+        }
         logEvent("toggle_timer")
     }
 

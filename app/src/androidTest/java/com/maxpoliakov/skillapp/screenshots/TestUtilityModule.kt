@@ -5,6 +5,8 @@ import com.maxpoliakov.skillapp.di.UtilityModule
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.shared.notifications.NotificationUtilImpl
+import com.maxpoliakov.skillapp.shared.permissions.PermissionChecker
+import com.maxpoliakov.skillapp.shared.permissions.PermissionCheckerImpl
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.ui.intro.IntroUtilImpl
 import dagger.Binds
@@ -26,4 +28,7 @@ interface TestUtilityModule {
 
     @Binds
     fun provideIntroUtil(introUtil: StubIntroUtil): IntroUtil
+
+    @Binds
+    fun providePermissionChecker(permissionChecker: PermissionCheckerImpl): PermissionChecker
 }

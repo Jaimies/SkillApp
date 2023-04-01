@@ -7,10 +7,12 @@ import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
-import com.maxpoliakov.skillapp.ui.skills.EditingModeManager
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.permissions.PermissionRequester
+import com.maxpoliakov.skillapp.ui.skills.EditingModeManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +24,7 @@ import javax.inject.Inject
 class SkillViewModel @Inject constructor(
     private val stopwatch: Stopwatch,
     manager: EditingModeManager,
+    private val permissionRequester: PermissionRequester,
     @ApplicationScope
     private val scope: CoroutineScope,
 ) {
@@ -58,6 +61,10 @@ class SkillViewModel @Inject constructor(
         scope.launch {
             val stateChange = stopwatch.toggle(skill.value!!.id)
             _showRecordsAdded.value = stateChange.addedRecords
+
+            if (stateChange is StateChange.Start) {
+                permissionRequester.requestNotificationPermissionIfNotGranted()
+            }
         }
         logEvent("start_timer_from_home_screen")
     }

@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.shared.DetailsFragment
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.dialog.showDialog
 import com.maxpoliakov.skillapp.shared.fragment.observe
+import com.maxpoliakov.skillapp.shared.permissions.PermissionRequester
 import com.maxpoliakov.skillapp.shared.tracking.RecordUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,6 +31,9 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
     @Inject
     lateinit var recordUtil: RecordUtil
 
+    @Inject
+    lateinit var permissionRequester: PermissionRequester
+
     override fun onBindingCreated(binding: SkilldetailFragBinding, savedInstanceState: Bundle?) {
         super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
@@ -38,8 +42,15 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observe(viewModel.showRecordDialog) { showRecordDialog() }
         observe(viewModel.showRecordAdded, recordUtil::notifyRecordsAdded)
+
+        observe(viewModel.showRecordDialog) {
+            showRecordDialog()
+        }
+
+        observe(viewModel.stopwatchStarted) {
+            permissionRequester.requestNotificationPermissionIfNotGranted()
+        }
     }
 
     override fun onSwitchToEditMode() = logEvent("edit_skill")

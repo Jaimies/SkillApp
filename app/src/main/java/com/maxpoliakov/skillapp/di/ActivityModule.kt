@@ -3,6 +3,8 @@ package com.maxpoliakov.skillapp.di
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import com.maxpoliakov.skillapp.shared.permissions.PermissionRequester
+import com.maxpoliakov.skillapp.shared.permissions.PermissionRequesterImpl
 import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShower
 import com.maxpoliakov.skillapp.shared.snackbar.SnackbarShowerImpl
 import com.maxpoliakov.skillapp.shared.tracking.EditRecordTimeDialogShower
@@ -31,6 +33,9 @@ interface ActivityModule {
 
     @Binds
     fun provideEditRecordTimeDialogShower(editRecordTimeDialogShower: EditRecordTimeDialogShowerImpl): EditRecordTimeDialogShower
+
+    @Binds
+    fun providePermissionRequester(permissionRequester: PermissionRequesterImpl): PermissionRequester
 
     companion object {
         @Provides

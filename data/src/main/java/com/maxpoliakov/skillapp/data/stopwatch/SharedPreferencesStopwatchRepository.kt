@@ -3,10 +3,10 @@ package com.maxpoliakov.skillapp.data.stopwatch
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.maxpoliakov.skillapp.data.persistence.getStringPreference
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.shared.util.toZonedDateTimeOrNull
 import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class SharedPreferencesStopwatchRepository @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : StopwatchRepository {
-    override fun getState(): StopwatchState {
+    override fun getState(): Stopwatch.State {
         val skillId = sharedPreferences.getInt(SKILL_ID, -1)
         val groupId = sharedPreferences.getInt(GROUP_ID, -1)
         val startTimeString = sharedPreferences.getStringPreference(START_TIME, "")
@@ -25,7 +25,7 @@ class SharedPreferencesStopwatchRepository @Inject constructor(
         return Running(startTime, skillId, groupId)
     }
 
-    override fun saveState(state: StopwatchState) = sharedPreferences.edit {
+    override fun saveState(state: Stopwatch.State) = sharedPreferences.edit {
         if (state is Running) {
             putInt(SKILL_ID, state.skillId)
             putInt(GROUP_ID, state.groupId)

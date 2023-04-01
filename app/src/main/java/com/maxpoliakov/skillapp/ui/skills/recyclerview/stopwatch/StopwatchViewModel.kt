@@ -5,7 +5,6 @@ import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
@@ -29,15 +28,15 @@ class StopwatchViewModel @Inject constructor(
     val showRecordAdded: LiveData<List<Record>> get() = _showRecordAdded
 
     val trackingSkill = stopwatch.state.flatMapLatest { state ->
-        if (state is StopwatchState.Running) getSkill.run(state.skillId)
+        if (state is Stopwatch.State.Running) getSkill.run(state.skillId)
         else flowOf(null)
     }.asLiveData()
 
     val stopwatchStartTime = stopwatch.state.map { state ->
-        if (state is StopwatchState.Running) state.startTime else getZonedDateTime()
+        if (state is Stopwatch.State.Running) state.startTime else getZonedDateTime()
     }.asLiveData()
 
-    val isActive = stopwatch.state.map { it is StopwatchState.Running }.asLiveData()
+    val isActive = stopwatch.state.map { it is Stopwatch.State.Running }.asLiveData()
 
     fun stopTimer() = scope.launch {
         val records = stopwatch.stop()

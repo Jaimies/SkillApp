@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase

@@ -6,8 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
@@ -72,7 +71,7 @@ class SkillDetailViewModel @Inject constructor(
         skill.combine(lastWeekTime, ProductivitySummary.Companion::from).asLiveData()
     }
 
-    override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
+    override fun isStopwatchTracking(state: Stopwatch.State.Running): Boolean {
         return state.skillId == skillId
     }
 

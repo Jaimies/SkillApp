@@ -1,8 +1,8 @@
 package com.maxpoliakov.skillapp.domain.repository
 
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 
 interface StopwatchRepository {
-    fun getState(): StopwatchState
-    fun saveState(state: StopwatchState)
+    fun getState(): Stopwatch.State
+    fun saveState(state: Stopwatch.State)
 }

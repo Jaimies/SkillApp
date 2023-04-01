@@ -3,8 +3,8 @@ package com.maxpoliakov.skillapp.data.stopwatch
 import com.maxpoliakov.skillapp.test.clockOfEpochSecond
 import com.maxpoliakov.skillapp.data.StubSharedPreferences
 import com.maxpoliakov.skillapp.shared.util.setClock
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -22,29 +22,29 @@ class StopwatchPersistenceImplTest : StringSpec({
         persistence.getState() shouldBe Running(date, skillId, groupId)
     }
 
-    "getState() returns StopwatchState.Paused if the skill id is not defined" {
+    "getState() returns Stopwatch.State.Paused if the skill id is not defined" {
         val persistence = createPersistence(-1, date.toString(), groupId)
         persistence.getState() shouldBe Paused
     }
 
-    "getState() returns StopwatchState.Paused if the start time is not defined" {
+    "getState() returns Stopwatch.State.Paused if the start time is not defined" {
         val persistence = createPersistence(skillId, "", groupId)
         persistence.getState() shouldBe Paused
     }
 
-    "getState() returns StopwatchState.Paused if the start time is not a valid date" {
+    "getState() returns Stopwatch.State.Paused if the start time is not a valid date" {
         val persistence = createPersistence(skillId, "malformed", groupId)
         persistence.getState() shouldBe Paused
     }
 
-    "saveState() saves StopwatchState.Running" {
+    "saveState() saves Stopwatch.State.Running" {
         val persistence = createPersistence(-1, "", groupId)
         val state = Running(date, skillId, groupId)
         persistence.saveState(state)
         persistence.getState() shouldBe state
     }
 
-    "saveState() saves StopwatchState.Paused" {
+    "saveState() saves Stopwatch.State.Paused" {
         val persistence = createPersistence(-1, "", groupId)
         persistence.saveState(Paused)
         persistence.getState() shouldBe Paused

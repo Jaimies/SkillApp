@@ -6,7 +6,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
@@ -90,7 +89,7 @@ abstract class DetailsViewModel(
     }
 
     private val timeOnStopwatch = stopwatch.state.combine(tick) { state, _ ->
-        if (state !is StopwatchState.Running || !isStopwatchTracking(state))
+        if (state !is Stopwatch.State.Running || !isStopwatchTracking(state))
             return@combine Duration.ZERO
 
         state.startTime.until(ZonedDateTime.now())
@@ -119,7 +118,7 @@ abstract class DetailsViewModel(
         }
     }
 
-    protected abstract fun isStopwatchTracking(state: StopwatchState.Running): Boolean
+    protected abstract fun isStopwatchTracking(state: Stopwatch.State.Running): Boolean
 
     fun switchToEditMode() {
         _mode.value = Mode.Edit

@@ -18,7 +18,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.StopTimerBroadcastReceiver
 import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.bindingadapters.chronometerBase
@@ -44,7 +44,7 @@ class NotificationUtilImpl @Inject constructor(
             createChannels()
     }
 
-    override fun showStopwatchNotification(state: StopwatchState.Running) {
+    override fun showStopwatchNotification(state: Stopwatch.State.Running) {
         scope.launch {
             getSkill.run(state.skillId).first().let { skill ->
                 showNotification(skill, state)
@@ -56,7 +56,7 @@ class NotificationUtilImpl @Inject constructor(
         notificationManager.cancel(STOPWATCH_NOTIFICATION_ID)
     }
 
-    private fun showNotification(skill: Skill, state: StopwatchState.Running) {
+    private fun showNotification(skill: Skill, state: Stopwatch.State.Running) {
         val remoteViews = RemoteViews(context.packageName, R.layout.notification)
         remoteViews.setTextViewText(R.id.title, skill.name)
         remoteViews.setChronometer(R.id.chronometer, state.startTime.chronometerBase, null, true)

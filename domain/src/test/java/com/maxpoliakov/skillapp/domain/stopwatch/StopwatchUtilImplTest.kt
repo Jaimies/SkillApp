@@ -6,9 +6,8 @@ import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
@@ -81,7 +80,7 @@ class StopwatchUtilImplTest : StringSpec({
 
     fun getRunningState() = Running(ZonedDateTime.now(clock), skillId, groupId)
 
-    fun createStopwatch(state: StopwatchState = Paused): StopwatchImpl {
+    fun createStopwatch(state: Stopwatch.State = Paused): StopwatchImpl {
         val persistence = StubStopwatchRepository(state)
         return StopwatchImpl(persistence, addRecord, skillRepository, notificationUtil, clock)
     }

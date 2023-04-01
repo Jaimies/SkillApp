@@ -2,9 +2,8 @@ package com.maxpoliakov.skillapp.domain.stopwatch
 
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Paused
-import com.maxpoliakov.skillapp.domain.model.StopwatchState.Running
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
@@ -26,7 +25,7 @@ class StopwatchImpl @Inject constructor(
     private val notificationUtil: NotificationUtil,
     private val clock: Clock,
 ) : Stopwatch {
-    override val state: StateFlow<StopwatchState> get() = _state
+    override val state: StateFlow<Stopwatch.State> get() = _state
     private val _state = MutableStateFlow(persistence.getState())
 
     init {
@@ -37,7 +36,7 @@ class StopwatchImpl @Inject constructor(
         updateNotification(_state.value)
     }
 
-    private fun updateNotification(state: StopwatchState) {
+    private fun updateNotification(state: Stopwatch.State) {
         if (state is Running) notificationUtil.showStopwatchNotification(state)
         else notificationUtil.removeStopwatchNotification()
     }
@@ -75,7 +74,7 @@ class StopwatchImpl @Inject constructor(
         return records
     }
 
-    private suspend fun addRecordsIfNeeded(state: StopwatchState): List<Record> {
+    private suspend fun addRecordsIfNeeded(state: Stopwatch.State): List<Record> {
         if (state is Running)
             return addRecords(state)
 
@@ -87,7 +86,7 @@ class StopwatchImpl @Inject constructor(
         return state !is Running || state.skillId != skillId
     }
 
-    private fun setState(state: StopwatchState) {
+    private fun setState(state: Stopwatch.State) {
         _state.value = state
         persistence.saveState(state)
         updateNotification(state)

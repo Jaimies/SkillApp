@@ -1,8 +1,8 @@
 package com.maxpoliakov.skillapp.domain.repository
 
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 
 interface NotificationUtil {
-    fun showStopwatchNotification(state: StopwatchState.Running)
+    fun showStopwatchNotification(state: Stopwatch.State.Running)
     fun removeStopwatchNotification()
 }

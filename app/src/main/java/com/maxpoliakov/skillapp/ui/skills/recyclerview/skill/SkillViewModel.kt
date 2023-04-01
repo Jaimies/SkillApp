@@ -6,7 +6,6 @@ import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.ui.skills.EditingModeManager
@@ -47,7 +46,7 @@ class SkillViewModel @Inject constructor(
     val groupId get() = skill.value?.groupId ?: -1
 
     val isStopwatchActive = stopwatch.state.combine(_skill) { state, skill ->
-        state is StopwatchState.Running && state.skillId == skill?.id
+        state is Stopwatch.State.Running && state.skillId == skill?.id
     }.asLiveData()
 
     fun setSkill(value: Skill) {

@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
-import com.maxpoliakov.skillapp.domain.model.StopwatchState
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
@@ -37,7 +36,7 @@ class SkillGroupViewModel @Inject constructor(
         _group.combine(lastWeekTime, ProductivitySummary.Companion::from).asLiveData()
     }
 
-    override fun isStopwatchTracking(state: StopwatchState.Running): Boolean {
+    override fun isStopwatchTracking(state: Stopwatch.State.Running): Boolean {
         return state.groupId == groupId
     }
 

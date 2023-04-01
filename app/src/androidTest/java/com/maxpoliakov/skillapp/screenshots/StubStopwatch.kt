@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.screenshots
 
-import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.ZonedDateTime
@@ -14,15 +14,15 @@ class StubStopwatch @Inject constructor() : Stopwatch {
 
     override val state = _state.asStateFlow()
 
-    override suspend fun start(skillId: Int) = listOf<Record>()
+    override suspend fun start(skillId: Int) = StateChange.Start()
 
-    override suspend fun stop(): List<Record> {
+    override suspend fun stop(): StateChange.Stop {
         _state.value = Stopwatch.State.Paused
-        return listOf()
+        return StateChange.Stop()
     }
 
     override fun cancel() {}
-    override suspend fun toggle(skillId: Int) = listOf<Record>()
+    override suspend fun toggle(skillId: Int) = StateChange.Start()
 
     private fun getStartTime() = ZonedDateTime.now().minusHours(1).minusMinutes(2)
     private fun getRunningState() = Stopwatch.State.Running(getStartTime(), 3, -1)

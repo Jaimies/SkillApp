@@ -24,8 +24,8 @@ class StopwatchViewModel @Inject constructor(
 ) {
     private val _navigateToSkill = SingleLiveEvent<Skill>()
     val navigateToSkill: LiveData<Skill> get() = _navigateToSkill
-    private val _showRecordAdded = SingleLiveEvent<List<Record>>()
-    val showRecordAdded: LiveData<List<Record>> get() = _showRecordAdded
+    private val _showRecordsAdded = SingleLiveEvent<List<Record>>()
+    val showRecordsAdded: LiveData<List<Record>> get() = _showRecordsAdded
 
     val trackingSkill = stopwatch.state.flatMapLatest { state ->
         if (state is Stopwatch.State.Running) getSkill.run(state.skillId)
@@ -39,8 +39,8 @@ class StopwatchViewModel @Inject constructor(
     val isActive = stopwatch.state.map { it is Stopwatch.State.Running }.asLiveData()
 
     fun stopTimer() = scope.launch {
-        val records = stopwatch.stop()
-        _showRecordAdded.value = records
+        val stateChange = stopwatch.stop()
+        _showRecordsAdded.value = stateChange.addedRecords
     }
 
     fun navigateToCurrentlyTrackedSkill() {

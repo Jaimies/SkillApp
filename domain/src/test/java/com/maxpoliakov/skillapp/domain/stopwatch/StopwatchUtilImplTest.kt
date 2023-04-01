@@ -6,16 +6,19 @@ import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.test.dateOfEpochSecond
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.time.MutableClock
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beInstanceOf
 import io.mockk.clearAllMocks
 import io.mockk.mockk
 import io.mockk.verify
@@ -103,10 +106,10 @@ class StopwatchUtilImplTest : StringSpec({
     "add the record properly" {
         val stopwatch = createStopwatch()
         stopwatch.state.value shouldBe Paused
-        stopwatch.toggle(skillId)
+        stopwatch.toggle(skillId) shouldBe beInstanceOf<StateChange.Start>()
         stopwatch.state.value shouldBe getRunningState()
         clock.withInstant(Instant.ofEpochSecond(1))
-        stopwatch.toggle(skillId)
+        stopwatch.toggle(skillId) should beInstanceOf<StateChange.Stop>()
 
         addRecord.addedRecords shouldBe listOf(createRecord())
     }
@@ -185,12 +188,12 @@ class StopwatchUtilImplTest : StringSpec({
         verify { notificationUtil.removeStopwatchNotification() }
     }
 
-    "adds the record with the date of stopwatch start" {
+    "stop() adds records correctly" {
         val stopwatchUtil = createStopwatch()
         clock.withInstant(EPOCH.plus(10, HOURS))
         stopwatchUtil.start(skillId)
         clock.withInstant(EPOCH.plus(2, DAYS).plus(10, HOURS))
-        val records = stopwatchUtil.stop()
+        val stateChange = stopwatchUtil.stop()
 
         addRecord.addedRecords shouldBe listOf(
             createRecord(
@@ -210,7 +213,7 @@ class StopwatchUtilImplTest : StringSpec({
             ),
         )
 
-        records shouldBe listOf(
+        stateChange.addedRecords shouldBe listOf(
             createRecord(
                 id = 1,
                 date = LocalDate.ofEpochDay(0),

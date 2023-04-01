@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
+import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.range.split
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,33 +46,34 @@ class StopwatchImpl @Inject constructor(
         _state.value = persistence.getState()
     }
 
-    override suspend fun toggle(skillId: Int): List<Record> {
+    override suspend fun toggle(skillId: Int): StateChange {
         val state = _state.value
         if (state is Running && state.skillId == skillId) return stop()
 
         return start(skillId)
     }
 
-    override suspend fun stop(): List<Record> {
+    override suspend fun stop(): StateChange.Stop {
         val state = _state.value
 
-        if (state !is Running) return listOf()
+        if (state !is Running) return StateChange.Stop()
         setState(Paused)
-        return addRecords(state)
+        val addedRecords = addRecords(state)
+        return StateChange.Stop(addedRecords)
     }
 
     override fun cancel() {
         setState(Paused)
     }
 
-    override suspend fun start(skillId: Int): List<Record> {
-        if (!shouldStartTimer(skillId)) return listOf()
+    override suspend fun start(skillId: Int): StateChange.Start {
+        if (!shouldStartTimer(skillId)) return StateChange.Start()
         val records = addRecordsIfNeeded(_state.value)
-        val skill = skillRepository.getSkillById(skillId) ?: return listOf()
+        val skill = skillRepository.getSkillById(skillId) ?: return StateChange.Start()
         val state = Running(ZonedDateTime.now(clock), skillId, skill.groupId)
         setState(state)
 
-        return records
+        return StateChange.Start(records)
     }
 
     private suspend fun addRecordsIfNeeded(state: Stopwatch.State): List<Record> {

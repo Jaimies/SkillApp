@@ -86,8 +86,8 @@ class SkillDetailViewModel @Inject constructor(
     }
 
     fun toggleTimer() = scope.launch {
-        val record = stopwatch.toggle(skillId)
-        _showRecordAdded.value = record
+        val stateChange = stopwatch.toggle(skillId)
+        _showRecordAdded.value = stateChange.addedRecords
         logEvent("toggle_timer")
     }
 

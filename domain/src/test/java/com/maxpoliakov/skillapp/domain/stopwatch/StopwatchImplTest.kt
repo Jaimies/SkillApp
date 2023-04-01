@@ -39,8 +39,8 @@ class StubSkillRepository : SkillRepository {
     override fun getSkillFlowById(id: Id) = flowOf<Skill>()
 
     override suspend fun getSkillById(id: Id): Skill? {
-        if (id == StopwatchUtilImplTest.skillId || id == StopwatchUtilImplTest.otherSkillId)
-            return Skill("", MeasurementUnit.Millis, 0, 0, groupId = StopwatchUtilImplTest.groupId)
+        if (id == StopwatchImplTest.skillId || id == StopwatchImplTest.otherSkillId)
+            return Skill("", MeasurementUnit.Millis, 0, 0, groupId = StopwatchImplTest.groupId)
 
         return null
     }
@@ -72,7 +72,7 @@ class SpyAddRecordUseCase : AddRecordUseCase {
     }
 }
 
-class StopwatchUtilImplTest : StringSpec({
+class StopwatchImplTest : StringSpec({
     val addRecord = SpyAddRecordUseCase()
     val notificationUtil = mockk<NotificationUtil>(relaxed = true)
     val skillRepository = StubSkillRepository()

@@ -50,7 +50,7 @@ class SkillDetailViewModel @Inject constructor(
 
     val showRecordDialog = SingleLiveEvent<Any>()
     private val _showRecordAdded = SingleLiveEvent<List<Record>>()
-    val showRecordAdded: LiveData<List<Record>?> get() = _showRecordAdded
+    val showRecordAdded: LiveData<List<Record>> get() = _showRecordAdded
 
     val latestRecord = recordsRepository
         .getLatestRecordForSkillWithId(skillId)

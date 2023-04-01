@@ -27,9 +27,7 @@ class StopwatchViewHolder @AssistedInject constructor(
             navigateToSkillDetail(binding.root, skill)
         }
 
-        viewModel.showRecordAdded.observe(lifecycleOwner) { record ->
-            record?.let(recordUtil::notifyRecordsAdded)
-        }
+        viewModel.showRecordAdded.observe(lifecycleOwner, recordUtil::notifyRecordsAdded)
     }
 
     private fun navigateToSkillDetail(view: View, skill: Skill) {

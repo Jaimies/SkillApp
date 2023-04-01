@@ -39,9 +39,7 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
         super.onViewCreated(view, savedInstanceState)
 
         observe(viewModel.showRecordDialog) { showRecordDialog() }
-        observe(viewModel.showRecordAdded) { record ->
-            record?.let(recordUtil::notifyRecordsAdded)
-        }
+        observe(viewModel.showRecordAdded, recordUtil::notifyRecordsAdded)
     }
 
     override fun onSwitchToEditMode() = logEvent("edit_skill")

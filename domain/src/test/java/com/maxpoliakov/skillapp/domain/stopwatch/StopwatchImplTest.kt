@@ -59,16 +59,13 @@ class SpyAddRecordUseCase : AddRecordUseCase {
     private val _addedRecords = mutableListOf<Record>()
     val addedRecords: List<Record> get() = _addedRecords
 
-    private var highestRecordId = 1L
-
     override suspend fun run(record: Record): Long {
         _addedRecords.add(record)
-        return highestRecordId++
+        return _addedRecords.size.toLong()
     }
 
     fun clear() {
         _addedRecords.clear()
-        highestRecordId = 1L
     }
 }
 

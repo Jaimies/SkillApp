@@ -7,7 +7,7 @@ import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequest.MIN_BACKOFF_MILLIS
+import androidx.work.WorkRequest.Companion.DEFAULT_BACKOFF_DELAY_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.maxpoliakov.skillapp.data.backup.BackupWorker
@@ -40,7 +40,7 @@ open class TheApplication : Application(), Configuration.Provider {
 
         val backupWorkRequest = PeriodicWorkRequestBuilder<BackupWorker>(Duration.ofDays(1))
             .setConstraints(constraints)
-            .setBackoffCriteria(BackoffPolicy.LINEAR, MIN_BACKOFF_MILLIS, MILLISECONDS)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, DEFAULT_BACKOFF_DELAY_MILLIS, MILLISECONDS)
             .build()
 
         WorkManager.getInstance(this)

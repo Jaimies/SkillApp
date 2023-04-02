@@ -2,28 +2,31 @@ package com.maxpoliakov.skillapp.shared.permissions
 
 import android.Manifest
 import android.app.Activity
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 @ActivityScoped
 class PermissionRequesterImpl @Inject constructor(
     private val activity: Activity,
-    private val permissionChecker: PermissionChecker,
 ) : PermissionRequester {
 
     override fun requestNotificationPermissionIfNotGranted() {
-        if (!permissionChecker.hasNotificationPermission()) {
-            requestNotificationPermissionIfApiLevelAtLeastTiramisu()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !isNotificationPermissionGranted()) {
+            requestNotificationPermission()
         }
     }
 
-    private fun requestNotificationPermissionIfApiLevelAtLeastTiramisu() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestNotificationPermission()
-        }
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun isNotificationPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            activity,
+            Manifest.permission.POST_NOTIFICATIONS,
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

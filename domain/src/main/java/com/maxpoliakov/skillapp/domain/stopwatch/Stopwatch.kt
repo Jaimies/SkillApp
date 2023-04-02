@@ -7,8 +7,8 @@ import java.time.ZonedDateTime
 interface Stopwatch {
     val state: StateFlow<State>
 
-    suspend fun start(skillId: Int): StateChange.Start
-    suspend fun stop(): StateChange.Stop
+    suspend fun start(skillId: Int): StateChange
+    suspend fun stop(): StateChange
     fun cancel()
     suspend fun toggle(skillId: Int): StateChange
     fun updateNotification()
@@ -19,6 +19,10 @@ interface Stopwatch {
 
         data class Start(override val addedRecords: List<Record> = listOf()) : StateChange()
         data class Stop(override val addedRecords: List<Record> = listOf()) : StateChange()
+
+        object None : StateChange() {
+            override val addedRecords = listOf<Record>()
+        }
     }
 
     sealed class State {

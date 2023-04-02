@@ -130,7 +130,7 @@ class StopwatchImplTest : DescribeSpec({
             val state = getRunningState()
             val stopwatch = createStopwatch(state = state)
             clock.withInstant(Instant.ofEpochSecond(1))
-            stopwatch.start(skillId) shouldBe StateChange.Start(addedRecords = listOf())
+            stopwatch.start(skillId) shouldBe StateChange.None
             addRecord.addedRecords shouldBe listOf()
             stopwatch.state.value shouldBe state
         }
@@ -170,7 +170,7 @@ class StopwatchImplTest : DescribeSpec({
 
         it("if Paused, does nothing") {
             val stopwatch = createStopwatch(state = Paused)
-            stopwatch.stop() shouldBe StateChange.Stop(addedRecords = listOf())
+            stopwatch.stop() shouldBe StateChange.None
             stopwatch.state.value shouldBe Paused
             addRecord.addedRecords shouldBe listOf()
         }

@@ -53,10 +53,10 @@ class StopwatchImpl @Inject constructor(
         return start(skillId)
     }
 
-    override suspend fun stop(): StateChange.Stop {
+    override suspend fun stop(): StateChange {
         val state = _state.value
 
-        if (state !is Running) return StateChange.Stop()
+        if (state !is Running) return StateChange.None
         setState(Paused)
         val addedRecords = addRecords(state)
         return StateChange.Stop(addedRecords)
@@ -66,8 +66,8 @@ class StopwatchImpl @Inject constructor(
         setState(Paused)
     }
 
-    override suspend fun start(skillId: Int): StateChange.Start {
-        if (!shouldStartTimer(skillId)) return StateChange.Start()
+    override suspend fun start(skillId: Int): StateChange {
+        if (alreadyRunningForSkillWithId(skillId)) return StateChange.None
         val records = addRecordsIfNeeded(_state.value)
         val skill = skillRepository.getSkillById(skillId) ?: return StateChange.Start()
         val state = Running(ZonedDateTime.now(clock), skillId, skill.groupId)
@@ -83,9 +83,9 @@ class StopwatchImpl @Inject constructor(
         return listOf()
     }
 
-    private fun shouldStartTimer(skillId: Int): Boolean {
+    private fun alreadyRunningForSkillWithId(skillId: Int): Boolean {
         val state = this.state.value
-        return state !is Running || state.skillId != skillId
+        return state is Running && state.skillId == skillId
     }
 
     private fun setState(state: Stopwatch.State) {

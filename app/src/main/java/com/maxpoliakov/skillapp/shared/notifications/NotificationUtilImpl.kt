@@ -57,22 +57,25 @@ class NotificationUtilImpl @Inject constructor(
     }
 
     private fun showNotification(skill: Skill, state: Stopwatch.State.Running) {
-        val remoteViews = RemoteViews(context.packageName, R.layout.notification)
-        remoteViews.setTextViewText(R.id.title, skill.name)
-        remoteViews.setChronometer(R.id.chronometer, state.startTime.chronometerBase, null, true)
-
         val notification = NotificationCompat.Builder(context, TRACKING)
             .setOngoing(true)
             .setSmallIcon(R.drawable.notification_icon)
             .setShowWhen(false)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-            .setCustomContentView(remoteViews)
+            .setCustomContentView(getStopwatchContentView(skill, state))
             .setContentIntent(getContentIntent(skill.id))
             .setSilent(true)
             .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent())
             .build()
 
         notificationManager.notify(STOPWATCH_NOTIFICATION_ID, notification)
+    }
+
+    private fun getStopwatchContentView(skill: Skill, state: Stopwatch.State.Running): RemoteViews {
+        return RemoteViews(context.packageName, R.layout.notification).apply {
+            setTextViewText(R.id.title, skill.name)
+            setChronometer(R.id.chronometer, state.startTime.chronometerBase, null, true)
+        }
     }
 
     private fun getContentIntent(skillId: Int): PendingIntent {

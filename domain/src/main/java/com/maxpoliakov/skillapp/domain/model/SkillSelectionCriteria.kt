@@ -18,6 +18,10 @@ sealed class SkillSelectionCriteria {
         override fun isValid(skill: Skill) = skill.groupId == this.groupId
     }
 
+    object NotInAGroup: SkillSelectionCriteria() {
+        override fun isValid(skill: Skill) = skill.groupId == -1
+    }
+
     class WithUnit(private val unit: MeasurementUnit<*>) : SkillSelectionCriteria() {
         override fun isValid(skill: Skill) = skill.unit == unit
     }

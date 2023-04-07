@@ -7,7 +7,6 @@ import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase.SkillsAndGroups
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetSkillsAndSkillGroupsUseCaseImpl @Inject constructor(
@@ -24,9 +23,7 @@ class GetSkillsAndSkillGroupsUseCaseImpl @Inject constructor(
 
     override fun getSkillsAndGroups(): Flow<SkillsAndGroups> {
         val groups = skillGroupRepository.getSkillGroups()
-        val skills = skillRepository.getSkills().map {
-            it.filter { skill -> skill.groupId == -1 }
-        }
+        val skills = skillRepository.getSkills(SkillSelectionCriteria.NotInAGroup)
 
         return skills.combine(groups) { skills, groups ->
             SkillsAndGroups(skills, groups)

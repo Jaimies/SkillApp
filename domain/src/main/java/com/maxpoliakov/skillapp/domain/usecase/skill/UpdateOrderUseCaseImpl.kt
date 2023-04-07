@@ -13,7 +13,7 @@ class UpdateOrderUseCaseImpl @Inject constructor(
 ): UpdateOrderUseCase {
     override suspend fun run(items: List<Orderable>) {
         items
-            .filter { it !is Skill || it.groupId == -1 }
+            .filter { it !is Skill || it.isNotInAGroup }
             .forEachIndexed { index, item ->
                 if (item is Skill) skillRepository.updateOrder(item.id, index)
                 if (item is SkillGroup) {

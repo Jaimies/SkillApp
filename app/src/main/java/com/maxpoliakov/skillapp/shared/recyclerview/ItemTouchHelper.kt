@@ -57,7 +57,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
             viewHolder.isSmall = insideGroup && areOfTheSameUnit
 
-            if (skill.groupId != -1 && !insideGroup) {
+            if (skill.isInAGroup && !insideGroup) {
                 callback.onLeaveGroup(skill)
                 return true
             }
@@ -187,7 +187,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
             if (closestViewHolder is SkillViewHolder) {
                 val secondSkill = closestViewHolder.viewModel.skill.value!!
 
-                if (secondSkill.groupId == -1 && closeEnough(dropCoordinates, closestViewHolder)
+                if (secondSkill.isNotInAGroup && closeEnough(dropCoordinates, closestViewHolder)
                     && skill.unit == secondSkill.unit
                 ) {
                     val position = min(viewHolder.absoluteAdapterPosition, closestViewHolder.absoluteAdapterPosition) - 1
@@ -215,7 +215,7 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
 
             val prevItem = adapter.getItem(position - 1)
 
-            if (prevItem is Skill && prevItem.groupId != -1 && skill.unit == prevItem.unit) {
+            if (prevItem is Skill && prevItem.isInAGroup && skill.unit == prevItem.unit) {
                 return Change.AddToGroup(skill, prevItem.groupId)
             } else if (prevItem is SkillGroup && skill.unit == prevItem.unit) {
                 return Change.AddToGroup(skill, prevItem.id)

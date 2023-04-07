@@ -138,7 +138,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun updateOldGroupIfNeeded(skill: Skill) {
-            if (skill.groupId == -1) return
+            if (skill.isNotInAGroup) return
 
             val groupViewHolder = findGroupViewHolderById(skill.groupId)
 

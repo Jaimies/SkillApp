@@ -19,7 +19,7 @@ sealed class SkillSelectionCriteria {
     }
 
     object NotInAGroup: SkillSelectionCriteria() {
-        override fun isSatisfiedBy(skill: Skill) = skill.groupId == -1
+        override fun isSatisfiedBy(skill: Skill) = skill.isNotInAGroup
     }
 
     class WithUnit(private val unit: MeasurementUnit<*>) : SkillSelectionCriteria() {

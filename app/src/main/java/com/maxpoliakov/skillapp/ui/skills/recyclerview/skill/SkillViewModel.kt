@@ -53,9 +53,9 @@ class SkillViewModel @Inject constructor(
         state is Stopwatch.State.Running && state.skillId == skill?.id
     }.asLiveData()
 
-    fun setSkill(value: Skill) {
-        _skill.value = value
-        _isSmall.value = value.groupId != -1
+    fun setSkill(skill: Skill) {
+        _skill.value = skill
+        _isSmall.value = skill.isInAGroup
     }
 
     fun toggleTimer() {

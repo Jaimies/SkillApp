@@ -13,4 +13,7 @@ data class Skill(
     val groupId: Int = -1,
     override val goal: Goal? = null,
     override val order: Int = -1,
-) : Trackable, Orderable
+) : Trackable, Orderable {
+    val isInAGroup get() = this.groupId != -1
+    val isNotInAGroup get() = this.groupId == -1
+}

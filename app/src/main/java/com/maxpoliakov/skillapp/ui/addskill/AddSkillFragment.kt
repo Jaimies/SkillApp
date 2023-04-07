@@ -39,7 +39,7 @@ class AddSkillFragment : DataBindingFragment<AddskillFragBinding>() {
             viewModel.setGoal(null)
         }
 
-        observe(viewModel.goToSkillDetail) {
+        observe(viewModel.navigateUp) {
             findNavController().navigateUp()
         }
 

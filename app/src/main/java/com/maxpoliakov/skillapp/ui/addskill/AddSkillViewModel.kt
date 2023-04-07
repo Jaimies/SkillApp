@@ -29,8 +29,8 @@ class AddSkillViewModel @Inject constructor(
     private val _chooseGoal = SingleLiveEventWithoutData()
     val chooseGoal: LiveData<Unit> get() = _chooseGoal
 
-    private val _goToSkillDetail = SingleLiveEventWithoutData()
-    val goToSkillDetail: LiveData<Unit> get() = _goToSkillDetail
+    private val _navigateUp = SingleLiveEventWithoutData()
+    val navigateUp: LiveData<Unit> get() = _navigateUp
 
     private val _unit = MutableStateFlow(UiMeasurementUnit.Millis)
     val unit = _unit.asLiveData()
@@ -57,7 +57,7 @@ class AddSkillViewModel @Inject constructor(
                 )
             )
 
-            _goToSkillDetail.call()
+            _navigateUp.call()
         }
     }
 

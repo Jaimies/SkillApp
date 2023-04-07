@@ -11,7 +11,7 @@ import com.maxpoliakov.skillapp.domain.model.RangeChange
 import com.maxpoliakov.skillapp.domain.model.RecordChange
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
-import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -24,7 +24,7 @@ class RecordViewModel @Inject constructor(
     @ApplicationScope
     private val scope: CoroutineScope
 ) {
-    val showMenu = SingleLiveEvent<Any>()
+    val showMenu = SingleLiveEventWithoutData()
     val record: LiveData<HistoryUiModel.Record> get() = _record
     private val _record = MutableLiveData<HistoryUiModel.Record>()
 

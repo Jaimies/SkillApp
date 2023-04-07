@@ -8,18 +8,16 @@ import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * A lifecycle-aware observable that sends only new updates after subscription, used for events like
- * navigation and Snackbar messages.
+ * A MutableLiveData, that makes sure that the observer is only notified about the new value
+ * once (i.e. resubscribing won't trigger the observer).
  *
+ * In case there are multiple observers, only one is going to be notified of changes,
+ * and it is not certain which one.
  *
- * This avoids a common problem with events: on configuration change (like rotation) an update
- * can be emitted if the observer is active. This LiveData only calls the observable if there's an
- * explicit call to setValue() or call().
- *
- *
- * Note that only one observer is going to be notified of changes.
+ * If null is passed to setValue, the call will be ignored. This is done in
+ * an effort to compensate for lack of null-safety in LiveData.
  */
-class SingleLiveEvent<T> : MutableLiveData<T>() {
+open class SingleLiveEvent<T : Any> : MutableLiveData<T>() {
     private val pending = AtomicBoolean(false)
 
     @MainThread
@@ -28,29 +26,18 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
             Log.w(TAG, "Multiple observers registered but only one will be notified of changes.")
         }
 
-        super.observe(owner, Observer { t ->
+        super.observe(owner) { value ->
             if (pending.compareAndSet(true, false)) {
-                observer.onChanged(t)
+                observer.onChanged(value)
             }
-        })
+        }
     }
 
     @MainThread
     override fun setValue(value: T?) {
+        if (value == null) return
         pending.set(true)
         super.setValue(value)
-    }
-
-    /**
-     * Used for cases where T is Unit, to make calls cleaner.
-     */
-    @MainThread
-    fun call() {
-        value = null
-    }
-
-    fun postCall() {
-        postValue(null)
     }
 
     companion object {

@@ -15,7 +15,7 @@ import com.maxpoliakov.skillapp.model.mapToUI
 import com.maxpoliakov.skillapp.shared.util.until
 import com.maxpoliakov.skillapp.shared.history.ViewModelWithHistory
 import com.maxpoliakov.skillapp.shared.chart.ChartDataImpl
-import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,8 +49,8 @@ abstract class DetailsViewModel(
     private val _mode = MutableStateFlow(Mode.View)
     val mode get() = _mode.asStateFlow()
 
-    private val _onSave = SingleLiveEvent<Nothing>()
-    val onSave: LiveData<Nothing> get() = _onSave
+    private val _onSave = SingleLiveEventWithoutData()
+    val onSave: LiveData<Unit> get() = _onSave
 
     val name = MutableLiveData("")
     val inputIsValid = name.map { it?.isBlank() == false }
@@ -58,11 +58,11 @@ abstract class DetailsViewModel(
     private val _goal = MutableStateFlow<Goal?>(null)
     val goal by lazy { _goal.mapToUI(unitFlow).asLiveData() }
 
-    private val _chooseGoal = SingleLiveEvent<Any>()
-    val chooseGoal: LiveData<Any> get() = _chooseGoal
+    private val _chooseGoal = SingleLiveEventWithoutData()
+    val chooseGoal: LiveData<Unit> get() = _chooseGoal
 
-    private val _navigateUp = SingleLiveEvent<Any>()
-    val navigateUp: LiveData<Any> get() = _navigateUp
+    private val _navigateUp = SingleLiveEventWithoutData()
+    val navigateUp: LiveData<Unit> get() = _navigateUp
 
     val lastWeekTime by lazy {
         getStatsUseCase.getLast7DayCount(selectionCriteria)

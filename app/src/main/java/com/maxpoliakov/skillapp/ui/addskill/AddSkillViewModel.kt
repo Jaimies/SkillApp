@@ -11,7 +11,7 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.model.mapToUI
-import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -26,11 +26,11 @@ class AddSkillViewModel @Inject constructor(
 
     val inputIsValid = name.map { it?.isBlank() == false }
 
-    private val _chooseGoal = SingleLiveEvent<Any>()
-    val chooseGoal: LiveData<Any> get() = _chooseGoal
+    private val _chooseGoal = SingleLiveEventWithoutData()
+    val chooseGoal: LiveData<Unit> get() = _chooseGoal
 
-    val goToSkillDetail: LiveData<Int> get() = _goToSkillDetail
-    private val _goToSkillDetail = SingleLiveEvent<Int>()
+    private val _goToSkillDetail = SingleLiveEventWithoutData()
+    val goToSkillDetail: LiveData<Unit> get() = _goToSkillDetail
 
     private val _unit = MutableStateFlow(UiMeasurementUnit.Millis)
     val unit = _unit.asLiveData()
@@ -47,7 +47,7 @@ class AddSkillViewModel @Inject constructor(
             val name = name.value.orEmpty().trim()
             val count = _unit.value.getInitialCount(totalTime.value?.toLongOrNull() ?: 0L)
 
-            val skillId = manageSkill.addSkill(
+            manageSkill.addSkill(
                 Skill(
                     name = name,
                     totalCount = count,
@@ -57,7 +57,7 @@ class AddSkillViewModel @Inject constructor(
                 )
             )
 
-            _goToSkillDetail.value = skillId.toInt()
+            _goToSkillDetail.call()
         }
     }
 

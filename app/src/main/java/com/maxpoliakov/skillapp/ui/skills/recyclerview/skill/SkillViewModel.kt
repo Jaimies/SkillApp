@@ -11,6 +11,7 @@ import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import com.maxpoliakov.skillapp.shared.permissions.PermissionRequester
 import com.maxpoliakov.skillapp.ui.skills.EditingModeManager
 import kotlinx.coroutines.CoroutineScope
@@ -77,7 +78,7 @@ class SkillViewModel @Inject constructor(
         _isHighlighted.value = isHighlighted
     }
 
-    val startDrag = SingleLiveEvent<Any>()
+    val startDrag = SingleLiveEventWithoutData()
 
     fun navigateToDetails() {
         skill.value?.let { skill ->

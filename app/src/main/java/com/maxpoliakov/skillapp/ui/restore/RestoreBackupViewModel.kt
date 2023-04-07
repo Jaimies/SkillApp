@@ -10,7 +10,7 @@ import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
-import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -30,8 +30,8 @@ class RestoreBackupViewModel @Inject constructor(
         state == RestorationState.Active
     }.asLiveData()
 
-    private val _showError = SingleLiveEvent<Nothing>()
-    val showError: LiveData<Nothing> get() = _showError
+    private val _showError = SingleLiveEventWithoutData()
+    val showError: LiveData<Unit> get() = _showError
 
     init {
         if (authRepository.currentUser != null) getBackups()

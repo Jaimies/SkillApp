@@ -12,7 +12,7 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupU
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
-import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -42,7 +42,7 @@ class SkillsViewModel @Inject constructor(
 
     val isActive = stopwatch.state.map { it is Running }.asLiveData()
 
-    val navigateToAddSkill = SingleLiveEvent<Any>()
+    val navigateToAddSkill = SingleLiveEventWithoutData()
 
     val isInEditingMode get() = editingModeManager.isInEditingMode.value
 

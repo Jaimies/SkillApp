@@ -15,6 +15,7 @@ import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -33,20 +34,20 @@ class BackupViewModel @Inject constructor(
     private val _currentUser = MutableLiveData(authRepository.currentUser)
     val currentUser: LiveData<User?> get() = _currentUser
 
-    private val _signIn = SingleLiveEvent<Nothing>()
-    val signIn: LiveData<Nothing> get() = _signIn
+    private val _signIn = SingleLiveEventWithoutData()
+    val signIn: LiveData<Unit> get() = _signIn
 
-    private val _goToRestore = SingleLiveEvent<Nothing>()
-    val goToRestore: LiveData<Nothing> get() = _goToRestore
+    private val _goToRestore = SingleLiveEventWithoutData()
+    val goToRestore: LiveData<Unit> get() = _goToRestore
 
     private val _backupCreating = MutableLiveData(false)
     val backupCreating: LiveData<Boolean> get() = _backupCreating
 
-    private val _showLogoutDialog = SingleLiveEvent<Nothing>()
-    val showLogoutDialog: LiveData<Nothing> get() = _showLogoutDialog
+    private val _showLogoutDialog = SingleLiveEventWithoutData()
+    val showLogoutDialog: LiveData<Unit> get() = _showLogoutDialog
 
-    private val _showNoNetwork = SingleLiveEvent<Nothing>()
-    val showNoNetwork: LiveData<Nothing> get() = _showNoNetwork
+    private val _showNoNetwork = SingleLiveEventWithoutData()
+    val showNoNetwork: LiveData<Unit> get() = _showNoNetwork
 
     private val _lastBackupDate = MutableLiveData<Any?>(R.string.loading_last_backup)
     val lastBackupDate: LiveData<Any?> get() = _lastBackupDate
@@ -54,8 +55,8 @@ class BackupViewModel @Inject constructor(
     private val _showSnackbar = SingleLiveEvent<Int>()
     val showSnackbar: LiveData<Int> get() = _showSnackbar
 
-    private val _requestAppDataPermission = SingleLiveEvent<Nothing>()
-    val requestAppDataPermission: LiveData<Nothing> get() = _requestAppDataPermission
+    private val _requestAppDataPermission = SingleLiveEventWithoutData()
+    val requestAppDataPermission: LiveData<Unit> get() = _requestAppDataPermission
 
     init {
         updateLastBackupDate()

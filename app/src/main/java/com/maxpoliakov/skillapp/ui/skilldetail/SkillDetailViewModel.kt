@@ -19,6 +19,7 @@ import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.DetailsViewModel
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -48,10 +49,11 @@ class SkillDetailViewModel @Inject constructor(
     private val skillId = args.skillId
     override val selectionCriteria = SkillSelectionCriteria.WithId(skillId)
 
-    private val _stopwatchStarted = SingleLiveEvent<Any>()
-    val stopwatchStarted: LiveData<Any> get() = _stopwatchStarted
+    private val _stopwatchStarted = SingleLiveEventWithoutData()
+    val stopwatchStarted: LiveData<Unit> get() = _stopwatchStarted
 
-    val showRecordDialog = SingleLiveEvent<Any>()
+    val showRecordDialog = SingleLiveEventWithoutData()
+
     private val _showRecordAdded = SingleLiveEvent<List<Record>>()
     val showRecordAdded: LiveData<List<Record>> get() = _showRecordAdded
 

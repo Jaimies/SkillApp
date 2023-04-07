@@ -68,7 +68,11 @@ class NotificationUtilImpl @Inject constructor(
             .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent())
             .build()
 
-        notificationManager.notify(STOPWATCH_NOTIFICATION_ID, notification)
+        // will likely work without the try/catch,
+        // but it's better to be safe than sorry
+        try {
+            notificationManager.notify(STOPWATCH_NOTIFICATION_ID, notification)
+        } catch(e: SecurityException) {}
     }
 
     private fun getStopwatchContentView(skill: Skill, state: Stopwatch.State.Running): RemoteViews {

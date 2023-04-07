@@ -22,7 +22,7 @@ class StubSkillRepository(private vararg val skills: Skill) : SkillRepository {
     override fun getSkills() = flowOf<List<Skill>>()
 
     override fun getSkills(criteria: SkillSelectionCriteria): Flow<List<Skill>> {
-        return flowOf(skills.filter(criteria::isValid))
+        return flowOf(skills.filter(criteria::isSatisfiedBy))
     }
 
     override fun getSkillFlowById(id: Id) = flowOf<Skill>()

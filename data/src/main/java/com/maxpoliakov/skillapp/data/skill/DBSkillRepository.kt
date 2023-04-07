@@ -25,7 +25,7 @@ class DBSkillRepository @Inject constructor(
     override fun getSkills() = _skills
 
     override fun getSkills(criteria: SkillSelectionCriteria): Flow<List<Skill>> {
-        return _skills.filterList { skill -> criteria.isValid(skill) }
+        return _skills.filterList { skill -> criteria.isSatisfiedBy(skill) }
     }
 
     override fun getSkillFlowById(id: Int) = skillDao.getSkillFlow(id)

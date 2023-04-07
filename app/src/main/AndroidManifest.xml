@@ -10,6 +10,10 @@
         android:name="android.permission.READ_PHONE_STATE"
         tools:node="remove" />
 
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" />
+
     <application
         android:name=".TheApplication"
         android:allowBackup="true"
@@ -52,6 +56,10 @@
         <meta-data
             android:name="firebase_crash_collection_enabled"
             android:value="@bool/FIREBASE_CRASH_ENABLED" />
+
+        <meta-data
+            android:name="google_analytics_adid_collection_enabled"
+            android:value="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

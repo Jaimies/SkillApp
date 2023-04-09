@@ -16,7 +16,6 @@ class FakeCardViewDrawer(
     private val canvas: Canvas,
     private val firstViewHolder: RecyclerView.ViewHolder,
     private val lastViewHolder: RecyclerView.ViewHolder,
-    private val cardFooterViewType: Int,
 ) {
     private val context get() = parent.context
     private val size16dp = 16.dp.toPx(context).toFloat()
@@ -64,7 +63,7 @@ class FakeCardViewDrawer(
     }
 
     private fun getBottomOffset(typeOfLastViewHolder: Int): Dimension {
-        if (typeOfLastViewHolder != cardFooterViewType) {
+        if (typeOfLastViewHolder != FakeCardViewDecoration.FOOTER_VIEW_TYPE) {
             // This is necessary to prevent the rounded edges from showing when
             // the last item visible is not the last item in the group
             return 16.dp

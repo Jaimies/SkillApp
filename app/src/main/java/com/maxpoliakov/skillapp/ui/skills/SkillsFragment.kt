@@ -29,7 +29,6 @@ import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupVi
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListCardViewDecoration
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListMarginDecoration
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import com.maxpoliakov.skillapp.shared.fragment.observe
@@ -38,6 +37,7 @@ import com.maxpoliakov.skillapp.shared.recyclerview.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.shared.recyclerview.createReorderAndGroupItemTouchHelper
 import com.maxpoliakov.skillapp.shared.recyclerview.findViewHolder
 import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
+import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
 import com.maxpoliakov.skillapp.shared.recyclerview.smoothScrollToTop
 import dagger.hilt.android.AndroidEntryPoint
@@ -243,7 +243,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         binding.root.doOnPreDraw { startPostponedEnterTransition() }
 
         binding.recyclerView.setupAdapter(listAdapter)
-        binding.recyclerView.addItemDecoration(SkillListCardViewDecoration())
+        binding.recyclerView.addItemDecoration(FakeCardViewDecoration())
         binding.recyclerView.addItemDecoration(SkillListMarginDecoration())
 
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)

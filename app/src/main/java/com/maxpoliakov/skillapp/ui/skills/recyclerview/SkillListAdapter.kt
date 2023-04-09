@@ -7,6 +7,7 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.shared.recyclerview.adapter.DelegateAdapter
 import com.maxpoliakov.skillapp.shared.recyclerview.adapter.ListAdapter
+import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterDelegateAdapter
@@ -117,7 +118,7 @@ class SkillListAdapter @AssistedInject constructor(
     object ItemType {
         const val Skill = 0
         const val SkillGroupHeader = 1
-        const val SkillGroupFooter = 2
+        const val SkillGroupFooter = FakeCardViewDecoration.FOOTER_VIEW_TYPE
         const val Stopwatch = 3
     }
 

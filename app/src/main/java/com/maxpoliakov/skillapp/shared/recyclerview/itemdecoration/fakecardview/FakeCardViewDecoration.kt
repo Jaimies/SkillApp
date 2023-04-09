@@ -4,9 +4,7 @@ import android.graphics.Canvas
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
-abstract class FakeCardViewDecoration : ItemDecoration() {
-    protected abstract val cardFooterViewType: Int
-
+class FakeCardViewDecoration : ItemDecoration() {
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val drawnGroupIds = mutableListOf<Int>()
 
@@ -20,7 +18,7 @@ abstract class FakeCardViewDecoration : ItemDecoration() {
 
             val lastViewHolder = parent.findLastViewHolderInGroup(viewHolder.cardId) ?: continue
 
-            FakeCardViewDrawer(parent, c, viewHolder, lastViewHolder, cardFooterViewType).draw()
+            FakeCardViewDrawer(parent, c, viewHolder, lastViewHolder).draw()
         }
     }
 
@@ -31,5 +29,9 @@ abstract class FakeCardViewDecoration : ItemDecoration() {
         }
 
         return null
+    }
+
+    companion object {
+        const val FOOTER_VIEW_TYPE = 1000
     }
 }

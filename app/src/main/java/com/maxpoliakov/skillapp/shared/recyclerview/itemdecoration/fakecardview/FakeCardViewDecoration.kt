@@ -20,7 +20,7 @@ abstract class FakeCardViewDecoration : ItemDecoration() {
 
             val lastViewHolder = parent.findLastViewHolderInGroup(viewHolder.cardId) ?: continue
 
-            FakeCardViewDrawer(parent.context, c, viewHolder, lastViewHolder, cardFooterViewType).draw()
+            FakeCardViewDrawer(parent, c, viewHolder, lastViewHolder, cardFooterViewType).draw()
         }
     }
 

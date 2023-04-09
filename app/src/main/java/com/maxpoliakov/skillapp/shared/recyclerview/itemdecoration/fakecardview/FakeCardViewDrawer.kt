@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
@@ -13,12 +12,13 @@ import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
 import com.maxpoliakov.skillapp.shared.extensions.getColorAttributeValue
 
 class FakeCardViewDrawer(
-    private val context: Context,
+    private val parent: RecyclerView,
     private val canvas: Canvas,
     private val firstViewHolder: RecyclerView.ViewHolder,
     private val lastViewHolder: RecyclerView.ViewHolder,
     private val cardFooterViewType: Int,
 ) {
+    private val context get() = parent.context
     private val size16dp = 16.dp.toPx(context).toFloat()
 
     private val shadowColor = ContextCompat.getColor(context, R.color.cardview_shadow_start_color)
@@ -41,9 +41,9 @@ class FakeCardViewDrawer(
         val bottomOffset = getBottomOffset(lastViewHolder.itemViewType).toPx(context)
 
         return RectF(
-            size16dp,
+            parent.paddingLeft.toFloat(),
             firstViewHolder.itemView.top.toFloat(),
-            firstViewHolder.itemView.right.toFloat(),
+            (parent.right - parent.paddingRight).toFloat(),
             lastViewHolder.itemView.bottom.toFloat() + bottomOffset,
         )
     }

@@ -63,12 +63,11 @@ class SkillListAdapter @AssistedInject constructor(
         return position < 0 || position >= currentList.size
     }
 
-    @JvmName("submitSkillList")
-    fun submitList(data: List<Any>) {
-        if (stopwatchIsShown())
-            super.submitList(listOf(StopwatchUiModel) + data)
+    override fun submitList(list: List<Any>?) {
+        if (list == null || !stopwatchIsShown())
+            super.submitList(list)
         else
-            super.submitList(data)
+            super.submitList(listOf(StopwatchUiModel) + list)
     }
 
     fun showStopwatch() {

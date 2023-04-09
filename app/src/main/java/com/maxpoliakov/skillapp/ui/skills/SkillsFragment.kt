@@ -102,10 +102,9 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
                 unit = change.skill.unit,
             )
 
-            val createGroupAsync = viewModel.createGroupAsync(change.skill, group)
+            lifecycleScope.launch {
+                val groupId = viewModel.createGroupAsync(change.skill, group).await().toInt()
 
-            createGroupAsync.invokeOnCompletion {
-                val groupId = createGroupAsync.getCompleted().toInt()
                 updateGroupIdOfSkill(change.skill, groupId)
                 updateGroupIdOfSkill(change.otherSkill, groupId)
 

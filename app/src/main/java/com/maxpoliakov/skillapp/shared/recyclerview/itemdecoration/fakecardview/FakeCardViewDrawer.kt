@@ -7,7 +7,6 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.shared.Dimension
 import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
 import com.maxpoliakov.skillapp.shared.extensions.getColorAttributeValue
 
@@ -37,15 +36,34 @@ class FakeCardViewDrawer(
     }
 
     private fun getRect(): RectF {
-        val bottomOffset = getBottomOffset(lastViewHolder.itemViewType).toPx(context)
-
-        return RectF(
-            parent.paddingLeft.toFloat(),
-            firstViewHolder.itemView.top.toFloat(),
-            (parent.right - parent.paddingRight).toFloat(),
-            lastViewHolder.itemView.bottom.toFloat() + bottomOffset,
-        )
+        return getRectThatWrapsTheViewHolders().apply {
+            pushTopEdgeOffScreenIfFirstItemIsNotHeader()
+            pushBottomEdgeOffScreenIfLastItemIsNotFooter()
+        }
     }
+
+    // Prevents rounded corners from being shown on the top
+    // if the first item visible is not the first item in the group
+    private fun RectF.pushTopEdgeOffScreenIfFirstItemIsNotHeader() {
+        if (firstViewHolder.itemViewType != FakeCardViewDecoration.HEADER_VIEW_TYPE) {
+            top -= 16.dp.toPx(context)
+        }
+    }
+
+    // Prevents rounded corners from being shown on the bottom
+    // if the last item visible is not the last item in the group
+    private fun RectF.pushBottomEdgeOffScreenIfLastItemIsNotFooter() {
+        if (lastViewHolder.itemViewType != FakeCardViewDecoration.FOOTER_VIEW_TYPE) {
+            bottom += 16.dp.toPx(context)
+        }
+    }
+
+    private fun getRectThatWrapsTheViewHolders() = RectF(
+        parent.paddingLeft.toFloat(),
+        firstViewHolder.itemView.top.toFloat(),
+        (parent.right - parent.paddingRight).toFloat(),
+        lastViewHolder.itemView.bottom.toFloat(),
+    )
 
     private fun drawFakeShadow(shadowColor: Int, rect: RectF) {
         val shadowPaint = Paint().apply {
@@ -60,15 +78,5 @@ class FakeCardViewDrawer(
         }
 
         canvas.drawRoundRect(shadowRect, 16.dp.toPx(context).toFloat(), 16.dp.toPx(context).toFloat(), shadowPaint)
-    }
-
-    private fun getBottomOffset(typeOfLastViewHolder: Int): Dimension {
-        if (typeOfLastViewHolder != FakeCardViewDecoration.FOOTER_VIEW_TYPE) {
-            // This is necessary to prevent the rounded edges from showing when
-            // the last item visible is not the last item in the group
-            return 16.dp
-        }
-
-        return 0.dp
     }
 }

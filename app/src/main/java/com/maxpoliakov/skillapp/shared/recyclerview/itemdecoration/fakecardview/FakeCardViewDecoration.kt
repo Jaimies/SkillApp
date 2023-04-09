@@ -32,6 +32,7 @@ class FakeCardViewDecoration : ItemDecoration() {
     }
 
     companion object {
-        const val FOOTER_VIEW_TYPE = 1000
+        const val HEADER_VIEW_TYPE = 1000
+        const val FOOTER_VIEW_TYPE = 1001
     }
 }

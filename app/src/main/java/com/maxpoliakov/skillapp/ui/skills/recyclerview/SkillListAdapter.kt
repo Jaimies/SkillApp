@@ -117,9 +117,10 @@ class SkillListAdapter @AssistedInject constructor(
 
     object ItemType {
         const val Skill = 0
-        const val SkillGroupHeader = 1
-        const val SkillGroupFooter = FakeCardViewDecoration.FOOTER_VIEW_TYPE
         const val Stopwatch = 3
+
+        const val SkillGroupHeader = FakeCardViewDecoration.HEADER_VIEW_TYPE
+        const val SkillGroupFooter = FakeCardViewDecoration.FOOTER_VIEW_TYPE
     }
 
     @AssistedFactory

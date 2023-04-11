@@ -68,11 +68,8 @@ abstract class DetailsViewModel(
         getStatsUseCase.getLast7DayCount(selectionCriteria)
     }
 
-    private var lastName = ""
-
     private val goalFlow = flow.map { it.goal }
     private val unitFlow = flow.map { it.unit }
-    private val nameFlow = flow.map { it.name }
 
     val chartData by lazy { chartDataFactory.create(flowOf(selectionCriteria), flowOf(null), unitFlow, goalFlow) }
 
@@ -108,24 +105,17 @@ abstract class DetailsViewModel(
 
     init {
         viewModelScope.launch {
-            nameFlow.first().let { newName ->
-                name.value = newName
-                lastName = newName
-            }
+            val item = flow.first()
 
-            _goal.value = goalFlow.first()
+            name.value = item.name
+            _goal.value = item.goal
         }
     }
 
     protected abstract fun isStopwatchTracking(state: Stopwatch.State.Running): Boolean
 
-    fun switchToEditMode() {
+    private fun switchToEditMode() {
         _mode.value = Mode.Edit
-    }
-
-    fun switchToViewMode() {
-        name.value = lastName
-        _mode.value = Mode.View
     }
 
     fun onEditClicked() {
@@ -134,11 +124,8 @@ abstract class DetailsViewModel(
     }
 
     fun onBackPressed() {
-        if (mode.value == Mode.Edit) {
-            switchToViewMode()
-        } else {
-            _navigateUp.call()
-        }
+        if (mode.value == Mode.Edit) save()
+        else _navigateUp.call()
     }
 
     abstract suspend fun update(name: String)
@@ -146,7 +133,6 @@ abstract class DetailsViewModel(
     fun save() {
         name.value?.trim()?.takeIf(String::isNotEmpty)?.let { name ->
             viewModelScope.launch { update(name) }
-            lastName = name
         }
 
         _mode.value = Mode.View

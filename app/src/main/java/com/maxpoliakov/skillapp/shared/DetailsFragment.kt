@@ -109,10 +109,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
         onSwitchToEditMode()
         this.makeEditable()
 
-        lifecycleScope.launchWhenResumed {
-            delay(100)
-            runCatching { menu?.getItem(0)?.setTitle(R.string.save) }
-        }
+        setMenuActionButtonText(R.string.save)
 
         val duration = transitionDuration
         content.animate()
@@ -147,7 +144,7 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
     private fun T.switchToViewMode() = input.run {
         this.makeNonEditable()
 
-        menu?.getItem(0)?.setTitle(R.string.edit)
+        setMenuActionButtonText(R.string.edit)
         val duration = shortTransitionDuration
 
         content.isGone = false
@@ -170,6 +167,10 @@ abstract class DetailsFragment<T : ViewDataBinding>(@MenuRes menuId: Int) : Frag
         }
 
         goalInput.isVisible = false
+    }
+
+    private fun setMenuActionButtonText(stringResId: Int) {
+        runCatching { menu?.getItem(0)?.setTitle(stringResId) }
     }
 
     private fun EditText.makeEditable() {

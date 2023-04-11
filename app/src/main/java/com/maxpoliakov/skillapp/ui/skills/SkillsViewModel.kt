@@ -34,15 +34,12 @@ class SkillsViewModel @Inject constructor(
     stopwatch: Stopwatch,
 ) : ViewModel() {
 
-    private val stopwatchIsActiveFlow = stopwatch.state.map { it is Running }
-    val stopwatchIsActive = stopwatchIsActiveFlow.asLiveData()
-
-    val list = getSkills.getSkillsAndGroups().combine(stopwatchIsActiveFlow) { skillsAndGroups, stopwatchIsActive ->
+    val list = getSkills.getSkillsAndGroups().combine(stopwatch.state) { skillsAndGroups, stopwatchState ->
         val list = (skillsAndGroups.skills + skillsAndGroups.groups)
             .sortedBy(Orderable::order)
             .flatMap(this::getListItems)
 
-        if (stopwatchIsActive) listOf(StopwatchUiModel) + list
+        if (stopwatchState is Running) listOf(StopwatchUiModel) + list
         else list
     }
 

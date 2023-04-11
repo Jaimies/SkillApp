@@ -262,8 +262,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
             }
         }
 
-        observe(viewModel.stopwatchIsActive, this::setStopwatchActive)
-
         observe(viewModel.navigateToAddSkill) { navigateToAddSkill() }
 
         observe(viewModel.isEmpty) { isEmpty ->
@@ -307,10 +305,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
             setIcon(if (viewModel.isInEditingMode) R.drawable.ic_check else R.drawable.ic_edit)
             setTitle(if (viewModel.isInEditingMode) R.string.done else R.string.reorder_skills)
         }
-    }
-
-    private fun setStopwatchActive(isActive: Boolean) {
-        if (isActive) binding?.recyclerView?.smoothScrollToTop()
     }
 
     override fun startDrag(viewHolder: RecyclerView.ViewHolder) {

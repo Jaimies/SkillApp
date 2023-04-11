@@ -18,7 +18,6 @@ import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFo
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -59,12 +58,7 @@ class SkillsViewModel @Inject constructor(
         return listOf(group) + group.skills.sortedBy(Skill::order) + listOf(SkillGroupFooter(group))
     }
 
-    val isEmptyFlow = list.map { list ->
-        val isEmpty = list.isEmpty()
-        if (isEmpty) delay(50)
-        isEmpty
-    }.distinctUntilChanged()
-
+    val isEmptyFlow = list.map(List<Any>::isEmpty).distinctUntilChanged()
     val isEmpty = isEmptyFlow.asLiveData()
 
     val navigateToAddSkill = SingleLiveEventWithoutData()

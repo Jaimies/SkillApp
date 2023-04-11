@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenResumed
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -257,9 +256,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
                     return@collect
 
                 if (listAdapter.currentList.run { isNotEmpty() && list.size > this.size }) {
-                    whenResumed {
-                        this@SkillsFragment.binding?.recyclerView?.smoothScrollToTop()
-                    }
+                    binding.recyclerView.smoothScrollToTop()
                 }
 
                 listAdapter.submitList(list)

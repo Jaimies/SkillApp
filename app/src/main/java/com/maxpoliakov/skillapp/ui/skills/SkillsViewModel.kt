@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
@@ -13,9 +14,12 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseC
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -30,17 +34,41 @@ class SkillsViewModel @Inject constructor(
     stopwatch: Stopwatch,
 ) : ViewModel() {
 
-    val skillsAndGroups = getSkills.getSkillsAndGroups()
+    private val stopwatchIsActiveFlow = stopwatch.state.map { it is Running }
+    val stopwatchIsActive = stopwatchIsActiveFlow.asLiveData()
 
-    val isEmptyFlow = skillsAndGroups.map {
-        val isEmpty = it.skills.isEmpty() && it.groups.isEmpty()
+    val list = getSkills.getSkillsAndGroups().combine(stopwatchIsActiveFlow) { skillsAndGroups, stopwatchIsActive ->
+        val list = (skillsAndGroups.skills + skillsAndGroups.groups)
+            .sortedBy(Orderable::order)
+            .flatMap(this::getListItems)
+
+        if (stopwatchIsActive) listOf(StopwatchUiModel) + list
+        else list
+    }
+
+    private fun getListItems(item: Trackable): List<Any> {
+        return when (item) {
+            is Skill -> getListItemsForSkill(item)
+            is SkillGroup -> getListItemsForGroup(item)
+            else -> listOf()
+        }
+    }
+
+    private fun getListItemsForSkill(skill: Skill): List<Any> {
+        return listOf(skill)
+    }
+
+    private fun getListItemsForGroup(group: SkillGroup): List<Any> {
+        return listOf(group) + group.skills.sortedBy(Skill::order) + listOf(SkillGroupFooter(group))
+    }
+
+    val isEmptyFlow = list.map { list ->
+        val isEmpty = list.isEmpty()
         if (isEmpty) delay(50)
         isEmpty
     }.distinctUntilChanged()
 
     val isEmpty = isEmptyFlow.asLiveData()
-
-    val isActive = stopwatch.state.map { it is Running }.asLiveData()
 
     val navigateToAddSkill = SingleLiveEventWithoutData()
 

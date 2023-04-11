@@ -251,24 +251,10 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
         lifecycleScope.launch {
             delay(1)
-            viewModel.skillsAndGroups.collect {
+            viewModel.list.collect { list ->
                 // Don't update within 0.5sec after the drag and drop has finished, as those updates cause awful transitions
                 if (System.nanoTime() - lastItemDropTime < 500_000_000)
                     return@collect
-
-                val list = (it.skills + it.groups)
-                    .sortedBy { it.order }
-                    .flatMap { item ->
-                        when (item) {
-                            is Skill -> listOf(item)
-                            is SkillGroup -> listOf(item) + item.skills.sortedBy { it.order } + listOf(
-                                SkillGroupFooter(
-                                    item
-                                )
-                            )
-                            else -> throw IllegalStateException("Orderables cannot be anything other than Skill or SkillGroup objects")
-                        }
-                    }
 
                 if (listAdapter.currentList.run { isNotEmpty() && list.size > this.size }) {
                     whenResumed {
@@ -280,7 +266,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
             }
         }
 
-        observe(viewModel.isActive, this::setStopwatchActive)
+        observe(viewModel.stopwatchIsActive, this::setStopwatchActive)
 
         observe(viewModel.navigateToAddSkill) { navigateToAddSkill() }
 
@@ -328,16 +314,8 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
     }
 
     private fun setStopwatchActive(isActive: Boolean) {
-        if (isActive) showStopwatch()
-        else hideStopwatch()
+        if (isActive) binding?.recyclerView?.smoothScrollToTop()
     }
-
-    private fun showStopwatch() {
-        listAdapter.showStopwatch()
-        binding?.recyclerView?.smoothScrollToTop()
-    }
-
-    private fun hideStopwatch() = listAdapter.hideStopwatch()
 
     override fun startDrag(viewHolder: RecyclerView.ViewHolder) {
         if (!viewModel.isInEditingMode) return

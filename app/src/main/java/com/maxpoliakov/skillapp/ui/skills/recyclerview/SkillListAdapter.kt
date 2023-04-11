@@ -63,23 +63,6 @@ class SkillListAdapter @AssistedInject constructor(
         return position < 0 || position >= currentList.size
     }
 
-    override fun submitList(list: List<Any>?) {
-        if (list == null || !stopwatchIsShown())
-            super.submitList(list)
-        else
-            super.submitList(listOf(StopwatchUiModel) + list)
-    }
-
-    fun showStopwatch() {
-        if (!stopwatchIsShown())
-            super.submitList(listOf(StopwatchUiModel) + currentList)
-    }
-
-    fun hideStopwatch() {
-        if (stopwatchIsShown())
-            super.submitList(currentList.slice(1..currentList.lastIndex))
-    }
-
     fun addItem(position: Int, item: Any) {
         val list = currentList.toMutableList().apply {
             add(position, item)
@@ -90,9 +73,9 @@ class SkillListAdapter @AssistedInject constructor(
     }
 
     fun moveItem(from: Int, to: Int) {
-        if (from < 0 || from > currentList.lastIndex ||
-            stopwatchIsShown() && (to == 0 || from == 0)
-        ) return
+        if (isOutOfBounds(from) || stopwatchIsShown() && (to == 0 || from == 0)) {
+            return
+        }
 
         val list = currentList.toMutableList()
         val item = list[from]

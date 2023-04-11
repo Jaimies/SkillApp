@@ -108,7 +108,6 @@ abstract class DetailsViewModel(
 
     init {
         viewModelScope.launch {
-            delay(1)
             nameFlow.first().let { newName ->
                 name.value = newName
                 lastName = newName

@@ -8,7 +8,6 @@ import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.shared.util.setClock
-import com.maxpoliakov.skillapp.test.await
 import com.maxpoliakov.skillapp.test.awaitData
 import com.maxpoliakov.skillapp.test.clockOfEpochDay
 import io.kotest.core.spec.style.StringSpec
@@ -16,6 +15,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import java.time.Clock
 import java.time.LocalDate
@@ -43,7 +43,7 @@ class HistoryViewModelTest : StringSpec({
         val viewModel = HistoryViewModel()
         viewModel.getHistory = getHistory
 
-        viewModel.records.await().awaitData() shouldBe listOf(
+        viewModel.records.first().awaitData() shouldBe listOf(
             Separator(LocalDate.ofEpochDay(10), Separator.Total(200, UiMeasurementUnit.Millis)),
             createUiRecord(0, LocalDate.ofEpochDay(10)),
             Separator(LocalDate.ofEpochDay(9), Separator.Total(200, UiMeasurementUnit.Millis)),

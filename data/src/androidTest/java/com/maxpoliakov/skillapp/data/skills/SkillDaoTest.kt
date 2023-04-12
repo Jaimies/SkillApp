@@ -11,7 +11,6 @@ import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.shared.util.setClock
-import com.maxpoliakov.skillapp.test.await
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -19,6 +18,7 @@ import org.junit.Before
 import org.junit.Test
 import java.time.Clock
 import java.time.Duration
+import kotlinx.coroutines.flow.first
 import java.time.OffsetDateTime
 import java.time.ZoneId
 
@@ -46,7 +46,7 @@ class SkillDaoTest {
         skillDao.insert(DBSkill(totalTime = Duration.ofHours(1).toMillis()))
         skillDao.insert(DBSkill(totalTime = Duration.ofHours(2).toMillis()))
 
-        skillDao.getSkills().await() shouldBe listOf(
+        skillDao.getSkills().first() shouldBe listOf(
             DBSkill(id = 2, totalTime = Duration.ofHours(2).toMillis()),
             DBSkill(id = 1, totalTime = Duration.ofHours(1).toMillis())
         )

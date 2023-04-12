@@ -10,10 +10,10 @@ import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.usecase.stub.StubSkillStatsRepository
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
-import com.maxpoliakov.skillapp.test.await
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import java.time.Duration
 import java.time.LocalDate
@@ -72,7 +72,8 @@ class GetStatsUseCaseTest : StringSpec({
 
         val criteria = SkillSelectionCriteria.WithIdInList(listOf(1, 2))
 
-        useCase.getGroupedStats(criteria, LocalDate.now()..LocalDate.now(), StatisticInterval.Weekly).await() shouldBe listOf(
+        useCase.getGroupedStats(criteria, LocalDate.now()..LocalDate.now(), StatisticInterval.Weekly)
+            .first() shouldBe listOf(
             Statistic(referenceDate, Duration.ofHours(12).toMillis()),
             Statistic(referenceDate.minusWeeks(1), Duration.ofHours(8).toMillis()),
             Statistic(referenceDate.minusWeeks(3), Duration.ofHours(4).toMillis()),

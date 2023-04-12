@@ -5,7 +5,6 @@ import com.maxpoliakov.skillapp.data.createTestDatabase
 import com.maxpoliakov.skillapp.data.db.AppDatabase
 import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.SkillDao
-import com.maxpoliakov.skillapp.test.await
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -38,7 +37,7 @@ class StatsDaoTest {
         statsDao.addRecord(otherSkillId, date, recordTime.toMillis())
         statsDao.addRecord(yetAnotherSkillId, date, recordTime.toMillis())
 
-        statsDao.getStats(skillId, date, date).await() shouldBe listOf(
+        statsDao.getStats(skillId, date, date).first() shouldBe listOf(
             DBStatistic(date, skillId, recordTime.toMillis()),
         )
     }
@@ -50,7 +49,7 @@ class StatsDaoTest {
         statsDao.addRecord(skillId, date, recordTime.toMillis())
         statsDao.addRecord(skillId, date.plusDays(1), recordTime.toMillis())
 
-        statsDao.getStats(skillId, date.minusDays(1), date).await() shouldBe listOf(
+        statsDao.getStats(skillId, date.minusDays(1), date).first() shouldBe listOf(
             DBStatistic(date.minusDays(1), skillId, recordTime.toMillis()),
             DBStatistic(date, skillId, recordTime.toMillis()),
         )
@@ -61,7 +60,7 @@ class StatsDaoTest {
         statsDao.addRecord(skillId, date, recordTime.toMillis())
         statsDao.addRecord(skillId, date, recordTime.toMillis())
 
-        statsDao.getStats(skillId, date, date).await() shouldBe listOf(
+        statsDao.getStats(skillId, date, date).first() shouldBe listOf(
             DBStatistic(date, skillId, recordTime.multipliedBy(2).toMillis()),
         )
     }
@@ -69,7 +68,7 @@ class StatsDaoTest {
     @Test
     fun getStats_selectsOnlyWithPositiveTime() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime.negated().toMillis())
-        statsDao.getStats(skillId, date, date).await() shouldBe listOf()
+        statsDao.getStats(skillId, date, date).first() shouldBe listOf()
     }
 
     @Test
@@ -77,7 +76,7 @@ class StatsDaoTest {
         statsDao.addRecord(skillId, date, recordTime.toMillis())
         statsDao.addRecord(otherSkillId, date, recordTime.toMillis())
 
-        statsDao.getStats(-1, date, date).await() shouldBe listOf(
+        statsDao.getStats(-1, date, date).first() shouldBe listOf(
             DBStatistic(date, -1, recordTime.multipliedBy(2).toMillis())
         )
     }

@@ -15,7 +15,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.repository.GroupStatsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
-import com.maxpoliakov.skillapp.test.await
+import kotlinx.coroutines.flow.first
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -62,8 +62,8 @@ class DBSkillRepositoryTest {
         skillStatsRepository.addRecord(createRecord(1, Duration.ofHours(4)))
         skillStatsRepository.addRecord(createRecord(2, Duration.ofHours(3)))
 
-        skillStatsRepository.getCount(1, dateRange).await() shouldBe Duration.ofHours(6).toMillis()
-        groupStatsRepository.getCount(1, dateRange).await() shouldBe Duration.ofHours(9).toMillis()
+        skillStatsRepository.getCount(1, dateRange).first() shouldBe Duration.ofHours(6).toMillis()
+        groupStatsRepository.getCount(1, dateRange).first() shouldBe Duration.ofHours(9).toMillis()
     }
 
     private fun createSkill(name: String, totalTime: Duration, id: Int): Skill {

@@ -35,7 +35,6 @@ import com.maxpoliakov.skillapp.shared.recyclerview.Change
 import com.maxpoliakov.skillapp.shared.recyclerview.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.shared.recyclerview.createReorderAndGroupItemTouchHelper
 import com.maxpoliakov.skillapp.shared.recyclerview.findViewHolder
-import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
 import com.maxpoliakov.skillapp.shared.recyclerview.smoothScrollToTop
@@ -326,19 +325,8 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
     private fun navigateToAddSkill() {
         val directions = MainDirections.actionToAddSkillFragment()
-
-        val view = binding?.addSkillFab
-
-        if (view == null) {
-            navigate(directions)
-            return
-        }
-
+        val view = binding?.addSkillFab ?: return
         navigate(view, directions, R.string.add_skill_transition_name)
-    }
-
-    private fun navigate(directions: NavDirections) {
-        findNavController().navigateAnimated(directions)
     }
 
     private fun navigate(view: View, directions: NavDirections, transitionNameResId: Int) {

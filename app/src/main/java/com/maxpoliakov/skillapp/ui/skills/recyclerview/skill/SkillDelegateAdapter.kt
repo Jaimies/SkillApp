@@ -27,7 +27,7 @@ class SkillDelegateAdapter @AssistedInject constructor(
         parent.inflateDataBinding<SkillsItemBinding>(R.layout.skills_item).run {
             this.lifecycleOwner = lifecycleOwner
             this.viewModel = viewModelProvider.get()
-            this.startTimer.increaseTouchAreaBy(15.dp)
+            this.startTimer.increaseTouchAreaBy(30.dp)
             return SkillViewHolder(this, recordUtil, callback)
         }
     }

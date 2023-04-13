@@ -10,6 +10,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.AsyncListDiffer.ListListener
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.Hold
@@ -37,7 +38,8 @@ import com.maxpoliakov.skillapp.shared.recyclerview.createReorderAndGroupItemTou
 import com.maxpoliakov.skillapp.shared.recyclerview.findViewHolder
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
-import com.maxpoliakov.skillapp.shared.recyclerview.smoothScrollToTop
+import com.maxpoliakov.skillapp.shared.recyclerview.scrollToTop
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -52,7 +54,7 @@ interface SkillsFragmentCallback {
 }
 
 @AndroidEntryPoint
-class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_menu), SkillsFragmentCallback {
+class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_menu), SkillsFragmentCallback, ListListener<Any> {
     override val layoutId get() = R.layout.skills_frag
 
     private var lastItemDropTime = 0L
@@ -219,7 +221,11 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
     @Inject
     lateinit var listAdapterFactory: SkillListAdapter.Factory
 
-    private val listAdapter by lazy { listAdapterFactory.create(this) }
+    private val listAdapter by lazy {
+        listAdapterFactory.create(this).also { adapter ->
+            adapter.addListListener(this)
+        }
+    }
 
     @Inject
     lateinit var introUtil: IntroUtil
@@ -252,10 +258,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
                 // Don't update within 0.5sec after the drag and drop has finished, as those updates cause awful transitions
                 if (System.nanoTime() - lastItemDropTime < 500_000_000)
                     return@collect
-
-                if (listAdapter.currentList.run { isNotEmpty() && list.size > this.size }) {
-                    binding.recyclerView.smoothScrollToTop()
-                }
 
                 listAdapter.submitList(list)
             }
@@ -321,6 +323,18 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
     override fun navigateToGroupDetail(view: View, group: SkillGroup) {
         val directions = MainDirections.actionToSkillGroupFragment(group.id)
         navigate(view, directions, R.string.group_transition_name)
+    }
+
+    override fun onCurrentListChanged(previousList: MutableList<Any>, currentList: MutableList<Any>) {
+        if (skillAdded(previousList, currentList)) {
+            binding?.recyclerView?.scrollToTop()
+        }
+    }
+
+    private fun skillAdded(previousList: List<Any>, currentList: List<Any>): Boolean {
+        return previousList.isNotEmpty()
+                && currentList.size > previousList.size
+                && (previousList[0] is StopwatchUiModel || currentList[0] is Skill)
     }
 
     private fun navigateToAddSkill() {

@@ -35,6 +35,10 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerView.Adap
         }
     }
 
+    fun addListListener(listener: ListListener<T>) {
+        mDiffer.addListListener(listener)
+    }
+
     open fun submitList(list: List<T>?) {
         mDiffer.submitList(list)
     }

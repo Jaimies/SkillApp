@@ -7,11 +7,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.maxpoliakov.skillapp.R.id.history_fragment_dest
-import com.maxpoliakov.skillapp.R.id.settings_fragment_dest
-import com.maxpoliakov.skillapp.R.id.skills_fragment_dest
-import com.maxpoliakov.skillapp.R.id.statistics_fragment_dest
-import com.maxpoliakov.skillapp.R.style.Theme_SkillApp
 import com.maxpoliakov.skillapp.databinding.MainActBinding
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.model.Intro
@@ -19,6 +14,8 @@ import com.maxpoliakov.skillapp.ui.intro.FirstRunIntro
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.shared.hardware.hideKeyboard
 import com.maxpoliakov.skillapp.shared.extensions.findNavHostFragment
+import com.maxpoliakov.skillapp.shared.navigation.switchedTabs
+import com.maxpoliakov.skillapp.shared.navigation.topLevelDestinationIds
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -35,14 +32,9 @@ class MainActivity : AppCompatActivity(),
     @Inject
     lateinit var introUtil: IntroUtil
 
-    private val appBarConfiguration = AppBarConfiguration(
-        setOf(
-            skills_fragment_dest,
-            history_fragment_dest,
-            statistics_fragment_dest,
-            settings_fragment_dest,
-        )
-    )
+    private val appBarConfiguration = AppBarConfiguration(topLevelDestinationIds)
+
+    private var previousDestination: NavDestination? = null
 
     val toolbar get() = binding.toolbar
 
@@ -78,5 +70,15 @@ class MainActivity : AppCompatActivity(),
         arguments: Bundle?
     ) {
         hideKeyboard()
+
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.set(SWITCHED_BOTTOM_NAV_VIEW_TABS, switchedTabs(previousDestination, destination))
+
+        previousDestination = destination
+    }
+
+    companion object {
+        const val SWITCHED_BOTTOM_NAV_VIEW_TABS = "SWITCHED_BOTTOM_NAV_VIEW_TABS"
     }
 }

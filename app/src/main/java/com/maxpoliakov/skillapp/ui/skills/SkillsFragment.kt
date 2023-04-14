@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer.ListListener
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialElevationScale
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
@@ -242,6 +242,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
         binding.viewModel = viewModel
 
+        disableReenterTransitionIfSwitchedBottomNavigationViewTabs()
         postponeEnterTransition()
         binding.root.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -337,6 +338,20 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
                 && (previousList[0] is StopwatchUiModel || currentList[0] is Skill)
     }
 
+    // Navigation component defines its own transitions for BottomNavigationView.
+    // Our reenterTransition would interfere with their transitions, so we need to disable it.
+    private fun disableReenterTransitionIfSwitchedBottomNavigationViewTabs() {
+        if (switchedBottomNavigationViewTabs()) {
+            reenterTransition = null
+        }
+    }
+
+    private fun switchedBottomNavigationViewTabs(): Boolean {
+        return findNavController().currentBackStackEntry
+            ?.savedStateHandle
+            ?.get<Boolean>(MainActivity.SWITCHED_BOTTOM_NAV_VIEW_TABS) ?: false
+    }
+
     private fun navigateToAddSkill() {
         val directions = MainDirections.actionToAddSkillFragment()
         val view = binding?.addSkillFab ?: return
@@ -355,21 +370,17 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
         lifecycleScope.launch {
             delay(resources.getInteger(R.integer.animation_duration).toLong())
-            resetTransitions()
+            exitTransition = null
         }
     }
 
     private fun setupTransitions() {
-        val transition = Hold().apply {
+        exitTransition = MaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.animation_duration).toLong()
         }
 
-        exitTransition = transition
-        reenterTransition = transition
-    }
-
-    private fun resetTransitions() {
-        exitTransition = null
-        reenterTransition = null
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.animation_duration_short).toLong()
+        }
     }
 }

@@ -24,7 +24,7 @@ class SkillListAdapter @AssistedInject constructor(
     @Assisted
     callback: SkillsFragmentCallback,
     private val lifecycleOwnerProvider: Provider<LifecycleOwner>,
-    stopwatchDelegateAdapter: StopwatchDelegateAdapter,
+    stopwatchDelegateAdapterFactory: StopwatchDelegateAdapter.Factory,
     skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
 
@@ -32,7 +32,7 @@ class SkillListAdapter @AssistedInject constructor(
         ItemType.Skill to skillDelegateAdapterFactory.create(callback),
         ItemType.SkillGroupHeader to SkillGroupHeaderDelegateAdapter(callback),
         ItemType.SkillGroupFooter to SkillGroupFooterDelegateAdapter(),
-        ItemType.Stopwatch to stopwatchDelegateAdapter,
+        ItemType.Stopwatch to stopwatchDelegateAdapterFactory.create(callback),
     ) as Map<Int, DelegateAdapter<Any, RecyclerView.ViewHolder>>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

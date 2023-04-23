@@ -99,6 +99,7 @@ footer a {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background: bottom center/100% no-repeat url("/header-background.png");
 }
 
 .first-screen-content {
@@ -106,10 +107,6 @@ footer a {
     flex-grow: 25;
     display: flex;
     align-items: center;
-}
-
-.first-screen-wrapper {
-    background: bottom center/100% no-repeat url("/header-background.png");
 }
 
 .first-screen-text {
@@ -132,6 +129,25 @@ footer a {
 
 .first-screen-btn {
     margin-top: 40px;
+}
+
+.page-not-found {
+    max-width: 650px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-grow: 99999;
+}
+
+.page-not-found-title {
+    font-weight: 600;
+    margin: 0 0 10px;
+}
+
+.page-not-found-text {
+    margin-bottom: 20px;
 }
 
 .btn {

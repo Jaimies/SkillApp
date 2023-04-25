@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:onClick="@{() -> viewModel.navigateToDetail()}"
         android:transitionName="@{@string/group_transition_name(viewModel.skillGroup.id)}"
+        android:paddingTop="20dp"
         android:paddingBottom="10dp"
         android:orientation="vertical">
 
@@ -23,7 +24,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="20dp"
             android:singleLine="true"
             android:text="@{viewModel.skillGroup.name}"
             android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"

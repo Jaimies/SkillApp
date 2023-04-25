@@ -10,44 +10,39 @@
             type="com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{() -> viewModel.navigateToDetail()}"
+        android:transitionName="@{@string/group_transition_name(viewModel.skillGroup.id)}"
         android:paddingBottom="10dp"
-        android:transitionName="@{@string/group_transition_name(viewModel.skillGroup.id)}">
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            android:singleLine="true"
+            android:text="@{viewModel.skillGroup.name}"
+            android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"
+            app:layout_constraintEnd_toStartOf="@id/time_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Programming" />
 
-            <TextView
-                android:id="@+id/name_text_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="16dp"
-                android:singleLine="true"
-                android:text="@{viewModel.skillGroup.name}"
-                android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle.Small"
-                app:layout_constraintEnd_toStartOf="@id/time_text_view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Programming" />
-
-            <TextView
-                android:id="@+id/time_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="36dp"
-                android:text="@{viewModel.unit.toString(viewModel.skillGroup.totalCount, context)}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                app:layout_constraintBottom_toBottomOf="@id/name_text_view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/name_text_view"
-                tools:text="501.2h" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+        <TextView
+            android:id="@+id/time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="36dp"
+            android:text="@{viewModel.unit.toString(viewModel.skillGroup.totalCount, context)}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="@id/name_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/name_text_view"
+            tools:text="501.2h" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -11,10 +11,7 @@ import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
 
 class SkillGroupFooterDelegateAdapter : DelegateAdapter<SkillGroupFooter, SkillGroupFooterViewHolder> {
     override fun onCreateViewHolder(parent: ViewGroup, lifecycleOwner: LifecycleOwner): SkillGroupFooterViewHolder {
-        val view = View(parent.context).apply {
-            layoutParams = ViewGroup.LayoutParams(parent.width, 10)
-        }
-        return SkillGroupFooterViewHolder(view)
+        return SkillGroupFooterViewHolder(View(parent.context))
     }
 
     override fun onBindViewHolder(holder: SkillGroupFooterViewHolder, item: SkillGroupFooter) {

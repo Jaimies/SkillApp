@@ -118,37 +118,31 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun addSkillToGroup(change: Change.AddToGroup) {
-            val groupViewHolder = findGroupViewHolderById(change.groupId)
+            val groupViewHolder = findGroupViewHolderById(change.groupId) ?: return
 
-            if (groupViewHolder != null) {
-                val group = groupViewHolder.viewModel.skillGroup.value!!
-                groupViewHolder.setSkillGroup(group.copy(skills = group.skills + change.skill))
-            }
+            val group = groupViewHolder.viewModel.skillGroup.value!!
+            groupViewHolder.setSkillGroup(group.copy(skills = group.skills + change.skill))
         }
 
         private fun updateGroupIdOfSkill(skill: Skill, newGroupId: Int) {
-            val skillViewHolder = findSkillViewHolderById(skill.id)
+            val skillViewHolder = findSkillViewHolderById(skill.id) ?: return
 
-            if (skillViewHolder != null) {
-                val updatedSkill = skill.copy(groupId = newGroupId)
-                val position = skillViewHolder.absoluteAdapterPosition
+            val updatedSkill = skill.copy(groupId = newGroupId)
+            val position = skillViewHolder.absoluteAdapterPosition
 
-                skillViewHolder.setItem(updatedSkill)
-                listAdapter.updateSilently(position, updatedSkill)
-            }
+            skillViewHolder.setItem(updatedSkill)
+            listAdapter.updateSilently(position, updatedSkill)
         }
 
         private fun updateOldGroupIfNeeded(skill: Skill) {
             if (skill.isNotInAGroup) return
 
-            val group = listAdapter.findItemByItemId(getGroupItemId(skill.groupId)) as? SkillGroup
+            val group = listAdapter.findItemByItemId(getGroupItemId(skill.groupId)) as? SkillGroup ?: return
 
-            if (group != null) {
-                if (group.skills.size <= 1)
-                    deleteGroup(group)
-                else
-                    removeSkillFromGroup(group, skill)
-            }
+            if (group.skills.size <= 1)
+                deleteGroup(group)
+            else
+                removeSkillFromGroup(group, skill)
         }
 
         private fun deleteGroup(group: SkillGroup) {

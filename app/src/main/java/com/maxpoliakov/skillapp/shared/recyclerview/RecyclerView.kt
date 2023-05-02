@@ -15,15 +15,6 @@ fun RecyclerView.setupAdapter(adapter: RecyclerView.Adapter<*>) {
 }
 
 
-inline fun <reified T : RecyclerView.ViewHolder> RecyclerView.findViewHolder(predicate: (T) -> Boolean): T? {
-    for (i in 0 until adapter!!.itemCount) {
-        val viewHolder = findViewHolderForAdapterPosition(i)
-        if (viewHolder is T && predicate(viewHolder)) return viewHolder
-    }
-
-    return null
-}
-
 fun RecyclerView.scrollToTop() {
     post {
         scrollToPosition(0)

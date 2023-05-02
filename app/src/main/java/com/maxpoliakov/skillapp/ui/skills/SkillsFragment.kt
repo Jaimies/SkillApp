@@ -35,11 +35,12 @@ import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.shared.recyclerview.Change
 import com.maxpoliakov.skillapp.shared.recyclerview.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.shared.recyclerview.createReorderAndGroupItemTouchHelper
-import com.maxpoliakov.skillapp.shared.recyclerview.findViewHolder
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
 import com.maxpoliakov.skillapp.shared.recyclerview.scrollToTop
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupFooterItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupItemId
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getSkillItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -175,21 +176,15 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun findGroupViewHolderById(groupId: Int): SkillGroupViewHolder? {
-            return binding?.recyclerView?.findViewHolder { viewHolder ->
-                viewHolder.viewModel.skillGroup.value!!.id == groupId
-            }
+            return binding?.recyclerView?.findViewHolderForItemId(getGroupItemId(groupId)) as? SkillGroupViewHolder
         }
 
         private fun findGroupFooterViewHolderById(groupId: Int): SkillGroupFooterViewHolder? {
-            return binding?.recyclerView?.findViewHolder { viewHolder ->
-                viewHolder.groupId == groupId
-            }
+            return binding?.recyclerView?.findViewHolderForItemId(getGroupFooterItemId(groupId)) as? SkillGroupFooterViewHolder
         }
 
         private fun findSkillViewHolderById(skillId: Int): SkillViewHolder? {
-            return binding?.recyclerView?.findViewHolder { viewHolder ->
-                viewHolder.viewModel.skill.value!!.id == skillId
-            }
+            return binding?.recyclerView?.findViewHolderForItemId(getSkillItemId(skillId)) as? SkillViewHolder
         }
 
         private fun getUpdatedList(list: List<Orderable>, change: Change?): List<Orderable> {

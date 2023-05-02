@@ -35,6 +35,10 @@ class SkillListAdapter @AssistedInject constructor(
         ItemType.Stopwatch to stopwatchDelegateAdapterFactory.create(callback),
     ) as Map<Int, DelegateAdapter<Any, RecyclerView.ViewHolder>>
 
+    init {
+        setHasStableIds(true)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return adapters[viewType]!!
             .onCreateViewHolder(parent, lifecycleOwnerProvider.get())
@@ -56,6 +60,17 @@ class SkillListAdapter @AssistedInject constructor(
             is SkillGroupFooter -> ItemType.SkillGroupFooter
             is StopwatchUiModel -> ItemType.Stopwatch
             else -> throw IllegalStateException("Item of unsupported type ${item::class.simpleName}")
+        }
+    }
+
+    override fun getItemId(position: Int): Long {
+        // will be simplified when a separate model for skill list items is introduced
+        return when (val item = getItem(position)) {
+            is Skill -> getSkillItemId(item.id)
+            is SkillGroup -> getGroupItemId(item.id)
+            is SkillGroupFooter -> getGroupFooterItemId(item.group.id)
+            is StopwatchUiModel -> getStopwatchItemId()
+            else -> RecyclerView.NO_ID
         }
     }
 
@@ -103,6 +118,13 @@ class SkillListAdapter @AssistedInject constructor(
 
         const val SkillGroupHeader = FakeCardViewDecoration.HEADER_VIEW_TYPE
         const val SkillGroupFooter = FakeCardViewDecoration.FOOTER_VIEW_TYPE
+    }
+
+    companion object {
+        fun getSkillItemId(skillId: Int) = skillId.toLong()
+        fun getGroupItemId(groupId: Int) = 1_000_000L + groupId.toLong()
+        fun getGroupFooterItemId(groupId: Int) = -getGroupItemId(groupId)
+        fun getStopwatchItemId() = 0L
     }
 
     @AssistedFactory

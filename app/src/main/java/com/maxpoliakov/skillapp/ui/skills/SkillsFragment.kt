@@ -27,7 +27,6 @@ import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.ui.intro.Intro_3_1_0
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooterViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListMarginDecoration
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
@@ -147,18 +146,16 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
         private fun deleteGroup(group: SkillGroup) {
             val position = listAdapter.getPositionOf(group)
-            val footer = findGroupFooterViewHolderById(group.id)
+            val footerPosition = listAdapter.findItemPositionByItemId(getGroupFooterItemId(group.id))
 
             val updatedList = listAdapter.currentList.toMutableList().apply {
-                if (footer != null) removeAt(footer.absoluteAdapterPosition)
+                if (footerPosition != -1) removeAt(footerPosition)
                 removeAt(position)
             }
 
             listAdapter.setListWithoutDiffing(updatedList)
 
-            if (footer != null)
-                listAdapter.notifyItemRemoved(footer.absoluteAdapterPosition)
-
+            if (footerPosition != -1) listAdapter.notifyItemRemoved(footerPosition)
             listAdapter.notifyItemRemoved(position)
         }
 
@@ -171,10 +168,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
         private fun findGroupViewHolderById(groupId: Int): SkillGroupViewHolder? {
             return binding?.recyclerView?.findViewHolderForItemId(getGroupItemId(groupId)) as? SkillGroupViewHolder
-        }
-
-        private fun findGroupFooterViewHolderById(groupId: Int): SkillGroupFooterViewHolder? {
-            return binding?.recyclerView?.findViewHolderForItemId(getGroupFooterItemId(groupId)) as? SkillGroupFooterViewHolder
         }
 
         private fun findSkillViewHolderById(skillId: Int): SkillViewHolder? {

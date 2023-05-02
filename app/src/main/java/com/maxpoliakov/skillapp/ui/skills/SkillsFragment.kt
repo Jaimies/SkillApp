@@ -39,6 +39,7 @@ import com.maxpoliakov.skillapp.shared.recyclerview.findViewHolder
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
 import com.maxpoliakov.skillapp.shared.recyclerview.scrollToTop
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -139,23 +140,18 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         private fun updateOldGroupIfNeeded(skill: Skill) {
             if (skill.isNotInAGroup) return
 
-            val groupViewHolder = findGroupViewHolderById(skill.groupId)
+            val group = listAdapter.findItemByItemId(getGroupItemId(skill.groupId)) as? SkillGroup
 
-            if (groupViewHolder != null) {
-                val group = groupViewHolder.viewModel.skillGroup.value!!
-
+            if (group != null) {
                 if (group.skills.size <= 1)
-                    deleteGroup(groupViewHolder, group)
+                    deleteGroup(group)
                 else
-                    removeSkillFromGroup(groupViewHolder, group, skill)
+                    removeSkillFromGroup(group, skill)
             }
         }
 
-        private fun deleteGroup(
-            groupViewHolder: SkillGroupViewHolder,
-            group: SkillGroup
-        ) {
-            val position = groupViewHolder.absoluteAdapterPosition
+        private fun deleteGroup(group: SkillGroup) {
+            val position = listAdapter.getPositionOf(group)
             val footer = findGroupFooterViewHolderById(group.id)
 
             val updatedList = listAdapter.currentList.toMutableList().apply {
@@ -171,14 +167,11 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
             listAdapter.notifyItemRemoved(position)
         }
 
-        private fun removeSkillFromGroup(
-            groupViewHolder: SkillGroupViewHolder,
-            group: SkillGroup,
-            skill: Skill
-        ) {
-            groupViewHolder.setSkillGroup(
-                group.copy(skills = group.skills.filter { it.id != skill.id })
-            )
+        private fun removeSkillFromGroup(group: SkillGroup, skill: Skill) {
+            val viewHolder = findGroupViewHolderById(group.id) ?: return
+            val updatedGroup = group.copy(skills = group.skills.filter { it.id != skill.id })
+            viewHolder.setSkillGroup(updatedGroup)
+            listAdapter.updateSilently(viewHolder.absoluteAdapterPosition, updatedGroup)
         }
 
         private fun findGroupViewHolderById(groupId: Int): SkillGroupViewHolder? {

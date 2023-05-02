@@ -51,6 +51,22 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerView.Adap
         return mDiffer.currentList[position]
     }
 
+    fun findItemByItemId(itemId: Long): T? {
+        require(hasStableIds()) { "Must have stable ids to use getItemByItemId()" }
+
+        for (position in 0 until itemCount) {
+            if (getItemId(position) == itemId) {
+                return getItem(position)
+            }
+        }
+
+        return null
+    }
+
+    fun getPositionOf(item: T): Int {
+        return currentList.indexOf(item)
+    }
+
     override fun getItemCount(): Int {
         return mDiffer.currentList.size
     }

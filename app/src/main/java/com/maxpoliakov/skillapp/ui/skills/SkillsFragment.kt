@@ -21,25 +21,24 @@ import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.model.Intro
-import com.maxpoliakov.skillapp.ui.MainActivity
 import com.maxpoliakov.skillapp.shared.ActionBarFragment
-import com.maxpoliakov.skillapp.ui.intro.IntroUtil
-import com.maxpoliakov.skillapp.ui.intro.Intro_3_1_0
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewHolder
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListMarginDecoration
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.shared.recyclerview.Change
 import com.maxpoliakov.skillapp.shared.recyclerview.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.shared.recyclerview.createReorderAndGroupItemTouchHelper
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
-import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
 import com.maxpoliakov.skillapp.shared.recyclerview.scrollToTop
+import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
+import com.maxpoliakov.skillapp.ui.MainActivity
+import com.maxpoliakov.skillapp.ui.intro.IntroUtil
+import com.maxpoliakov.skillapp.ui.intro.Intro_3_1_0
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupFooterItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getSkillItemId
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListMarginDecoration
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -117,10 +116,9 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun addSkillToGroup(change: Change.AddToGroup) {
-            val groupViewHolder = findGroupViewHolderById(change.groupId) ?: return
-
-            val group = groupViewHolder.viewModel.skillGroup.value!!
-            groupViewHolder.setSkillGroup(group.copy(skills = group.skills + change.skill))
+            listAdapter.updateItemWithItemId<SkillGroup>(getGroupItemId(change.groupId)) { group ->
+                group.copy(skills = group.skills + change.skill)
+            }
         }
 
         private fun updateGroupIdOfSkill(skill: Skill, newGroupId: Int) {
@@ -160,14 +158,9 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun removeSkillFromGroup(group: SkillGroup, skill: Skill) {
-            val viewHolder = findGroupViewHolderById(group.id) ?: return
-            val updatedGroup = group.copy(skills = group.skills.filter { it.id != skill.id })
-            viewHolder.setSkillGroup(updatedGroup)
-            listAdapter.updateSilently(viewHolder.absoluteAdapterPosition, updatedGroup)
-        }
-
-        private fun findGroupViewHolderById(groupId: Int): SkillGroupViewHolder? {
-            return binding?.recyclerView?.findViewHolderForItemId(getGroupItemId(groupId)) as? SkillGroupViewHolder
+            listAdapter.updateItemWithItemId<SkillGroup>(getGroupItemId(group.id)) { item ->
+                item.copy(skills = item.skills.filter { it.id != skill.id })
+            }
         }
 
         private fun findSkillViewHolderById(skillId: Int): SkillViewHolder? {

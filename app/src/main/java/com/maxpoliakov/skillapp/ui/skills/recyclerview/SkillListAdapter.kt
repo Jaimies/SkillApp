@@ -100,6 +100,18 @@ class SkillListAdapter @AssistedInject constructor(
         notifyItemMoved(from, to)
     }
 
+    inline fun <reified T : Any> updateItemWithItemId(itemId: Long, transform: (T) -> T) {
+        val position = findItemPositionByItemId(itemId)
+        if (position == -1) return
+
+        val newList = currentList.toMutableList()
+        val item = newList[position] as? T ?: return
+
+        newList[position] = transform(item)
+        setListWithoutDiffing(newList)
+        notifyItemChanged(position)
+    }
+
     fun updateSilently(position: Int, item: Any) {
         val newList = currentList.toMutableList().apply {
             this[position] = item

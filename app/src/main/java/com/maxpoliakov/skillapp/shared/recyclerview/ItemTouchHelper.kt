@@ -161,8 +161,8 @@ fun createReorderAndGroupItemTouchHelper(callback: ItemTouchHelperCallback): Ite
                 val holder = recyclerView.findViewHolderForAdapterPosition(position)
 
                 if (holder == null || holder == viewHolder) continue
-                val topDistance = abs(holder.itemView.top - dropCoordinates.top)
-                val bottomDistance = abs(holder.itemView.bottom - dropCoordinates.bottom)
+                val topDistance = abs(child.top - dropCoordinates.top)
+                val bottomDistance = abs(child.bottom - dropCoordinates.bottom)
 
                 val distance = min(topDistance, bottomDistance)
 

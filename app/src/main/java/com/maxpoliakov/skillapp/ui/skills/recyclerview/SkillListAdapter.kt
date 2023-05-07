@@ -100,24 +100,36 @@ class SkillListAdapter @AssistedInject constructor(
         notifyItemMoved(from, to)
     }
 
-    inline fun <reified T : Any> updateItemWithItemId(itemId: Long, transform: (T) -> T) {
+    inline fun <reified T : Any> updateItemWithItemId(
+        itemId: Long,
+        notificationStrategy: ItemChangeNotificationStrategy = ItemChangeNotificationStrategy.NotifyItemChanged,
+        transform: (T) -> T,
+    ) {
         val position = findItemPositionByItemId(itemId)
         if (position == -1) return
 
         val newList = currentList.toMutableList()
         val item = newList[position] as? T ?: return
-
         newList[position] = transform(item)
         setListWithoutDiffing(newList)
-        notifyItemChanged(position)
+        notificationStrategy.notifyOfItemChange(this, position)
     }
 
-    fun updateSilently(position: Int, item: Any) {
-        val newList = currentList.toMutableList().apply {
-            this[position] = item
+    sealed class ItemChangeNotificationStrategy {
+        abstract fun notifyOfItemChange(listAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>, position: Int)
+
+        object NotifyItemChanged : ItemChangeNotificationStrategy() {
+            override fun notifyOfItemChange(listAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>, position: Int) {
+                listAdapter.notifyItemChanged(position)
+            }
         }
 
-        setListWithoutDiffing(newList)
+        class OnBindViewHolder(private val recyclerView: RecyclerView?) : ItemChangeNotificationStrategy() {
+            override fun notifyOfItemChange(listAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>, position: Int) {
+                val viewHolder = recyclerView?.findViewHolderForAdapterPosition(position) ?: return
+                listAdapter.onBindViewHolder(viewHolder, position)
+            }
+        }
     }
 
     private fun stopwatchIsShown(): Boolean {

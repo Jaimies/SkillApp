@@ -36,9 +36,9 @@ import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupFooterItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getSkillItemId
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.ItemChangeNotificationStrategy
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListMarginDecoration
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -122,13 +122,12 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun updateGroupIdOfSkill(skill: Skill, newGroupId: Int) {
-            val skillViewHolder = findSkillViewHolderById(skill.id) ?: return
-
-            val updatedSkill = skill.copy(groupId = newGroupId)
-            val position = skillViewHolder.absoluteAdapterPosition
-
-            skillViewHolder.setItem(updatedSkill)
-            listAdapter.updateSilently(position, updatedSkill)
+            listAdapter.updateItemWithItemId<Skill>(
+                itemId = getSkillItemId(skill.id),
+                notificationStrategy = ItemChangeNotificationStrategy.OnBindViewHolder(binding?.recyclerView),
+            ) { skill ->
+                skill.copy(groupId = newGroupId)
+            }
         }
 
         private fun updateOldGroupIfNeeded(skill: Skill) {
@@ -161,10 +160,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
             listAdapter.updateItemWithItemId<SkillGroup>(getGroupItemId(group.id)) { item ->
                 item.copy(skills = item.skills.filter { it.id != skill.id })
             }
-        }
-
-        private fun findSkillViewHolderById(skillId: Int): SkillViewHolder? {
-            return binding?.recyclerView?.findViewHolderForItemId(getSkillItemId(skillId)) as? SkillViewHolder
         }
 
         private fun getUpdatedList(list: List<Orderable>, change: Change?): List<Orderable> {

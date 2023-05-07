@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.ui.skills
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -179,19 +180,8 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
     }
 
-
     @Inject
     lateinit var listAdapterFactory: SkillListAdapter.Factory
-
-    private val listAdapter by lazy {
-        listAdapterFactory.create(this).also { adapter ->
-            adapter.addListListener(this)
-        }
-    }
-
-    private val itemTouchHelper by lazy {
-        ItemTouchHelper(SimpleCallbackImpl(itemTouchHelperCallback, listAdapter))
-    }
 
     @Inject
     lateinit var introUtil: IntroUtil
@@ -201,7 +191,20 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
     private val viewModel: SkillsViewModel by viewModels()
 
+    private lateinit var listAdapter: SkillListAdapter
+    private lateinit var itemTouchHelper: ItemTouchHelper
+
     private val toolbar get() = (requireActivity() as MainActivity).toolbar
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        listAdapter = listAdapterFactory.create(this).also { adapter ->
+            adapter.addListListener(this)
+        }
+
+        itemTouchHelper = ItemTouchHelper(SimpleCallbackImpl(itemTouchHelperCallback, listAdapter))
+    }
 
     override fun onBindingCreated(binding: SkillsFragBinding, savedInstanceState: Bundle?) {
         super.onBindingCreated(binding, savedInstanceState)

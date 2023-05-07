@@ -25,6 +25,7 @@ import com.maxpoliakov.skillapp.shared.ActionBarFragment
 import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.shared.recyclerview.Change
 import com.maxpoliakov.skillapp.shared.recyclerview.ItemTouchHelperCallback
+import com.maxpoliakov.skillapp.shared.recyclerview.adapter.ItemChangeNotificationStrategy
 import com.maxpoliakov.skillapp.shared.recyclerview.createReorderAndGroupItemTouchHelper
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.shared.recyclerview.scrollToTop
@@ -36,7 +37,6 @@ import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupFooterItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getSkillItemId
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.ItemChangeNotificationStrategy
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListMarginDecoration
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel

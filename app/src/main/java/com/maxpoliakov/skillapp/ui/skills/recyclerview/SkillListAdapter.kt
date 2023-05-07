@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.shared.recyclerview.adapter.DelegateAdapter
+import com.maxpoliakov.skillapp.shared.recyclerview.adapter.ItemChangeNotificationStrategy
 import com.maxpoliakov.skillapp.shared.recyclerview.adapter.ListAdapter
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
@@ -113,23 +114,6 @@ class SkillListAdapter @AssistedInject constructor(
         newList[position] = transform(item)
         setListWithoutDiffing(newList)
         notificationStrategy.notifyOfItemChange(this, position)
-    }
-
-    sealed class ItemChangeNotificationStrategy {
-        abstract fun notifyOfItemChange(listAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>, position: Int)
-
-        object NotifyItemChanged : ItemChangeNotificationStrategy() {
-            override fun notifyOfItemChange(listAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>, position: Int) {
-                listAdapter.notifyItemChanged(position)
-            }
-        }
-
-        class OnBindViewHolder(private val recyclerView: RecyclerView?) : ItemChangeNotificationStrategy() {
-            override fun notifyOfItemChange(listAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>, position: Int) {
-                val viewHolder = recyclerView?.findViewHolderForAdapterPosition(position) ?: return
-                listAdapter.onBindViewHolder(viewHolder, position)
-            }
-        }
     }
 
     private fun stopwatchIsShown(): Boolean {

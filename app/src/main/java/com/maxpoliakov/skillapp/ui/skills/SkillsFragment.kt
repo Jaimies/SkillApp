@@ -179,7 +179,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
     }
 
-    private var itemTouchHelper = ItemTouchHelper(SimpleCallbackImpl(itemTouchHelperCallback))
 
     @Inject
     lateinit var listAdapterFactory: SkillListAdapter.Factory
@@ -188,6 +187,10 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         listAdapterFactory.create(this).also { adapter ->
             adapter.addListListener(this)
         }
+    }
+
+    private val itemTouchHelper by lazy {
+        ItemTouchHelper(SimpleCallbackImpl(itemTouchHelperCallback, listAdapter))
     }
 
     @Inject

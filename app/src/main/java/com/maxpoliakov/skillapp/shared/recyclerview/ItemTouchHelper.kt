@@ -34,6 +34,7 @@ private data class Coordinates(val top: Float, val bottom: Float)
 
 class SimpleCallbackImpl(
     private val callback: ItemTouchHelperCallback,
+    private val listAdapter: SkillListAdapter,
 ): SimpleCallback(UP or DOWN, 0) {
     private var currentCoordinates: Coordinates? = null
     private var dropCoordinates: Coordinates? = null
@@ -132,11 +133,10 @@ class SimpleCallbackImpl(
         val dropCoordinates = dropCoordinates ?: return
 
         val position = viewHolder.absoluteAdapterPosition
-        val adapter = recyclerView.adapter
 
-        if (adapter !is SkillListAdapter || viewHolder !is SkillViewHolder) return
+        if (viewHolder !is SkillViewHolder) return
 
-        var change = groupIfNecessary(viewHolder.viewModel.skill.value!!, position, adapter)
+        var change = groupIfNecessary(viewHolder.viewModel.skill.value!!, position)
 
         if (change == null) {
             val closestViewHolder = getClosestViewHolder(recyclerView, viewHolder, dropCoordinates)
@@ -211,10 +211,10 @@ class SimpleCallbackImpl(
                 && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 55.dp.toPx(context)
     }
 
-    private fun groupIfNecessary(skill: Skill, position: Int, adapter: SkillListAdapter): Change? {
+    private fun groupIfNecessary(skill: Skill, position: Int): Change? {
         if (position <= 0) return null
 
-        val prevItem = adapter.getItem(position - 1)
+        val prevItem = listAdapter.getItem(position - 1)
 
         if (prevItem is Skill && prevItem.isInAGroup && skill.unit == prevItem.unit) {
             return Change.AddToGroup(skill, prevItem.groupId)

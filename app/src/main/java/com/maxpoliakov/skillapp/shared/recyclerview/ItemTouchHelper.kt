@@ -157,9 +157,7 @@ class SimpleCallbackImpl(
 
         for (i in 0 until recyclerView.childCount) {
             val child = recyclerView.getChildAt(i)
-            val params = child.layoutParams as RecyclerView.LayoutParams
-            val position = params.absoluteAdapterPosition
-            val holder = recyclerView.findViewHolderForAdapterPosition(position)
+            val holder = recyclerView.findContainingViewHolder(child)
 
             if (holder == null || holder == viewHolder) continue
             val topDistance = abs(child.top - dropCoordinates.top)

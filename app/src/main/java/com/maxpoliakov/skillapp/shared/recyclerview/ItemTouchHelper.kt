@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.shared.recyclerview
 
 import android.graphics.Canvas
+import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.DOWN
 import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
@@ -160,10 +161,7 @@ class SimpleCallbackImpl(
             val holder = recyclerView.findContainingViewHolder(child)
 
             if (holder == null || holder == viewHolder) continue
-            val topDistance = abs(child.top - dropCoordinates.top)
-            val bottomDistance = abs(child.bottom - dropCoordinates.bottom)
-
-            val distance = min(topDistance, bottomDistance)
+            val distance = child.getDistanceFrom(dropCoordinates)
 
             if (distance < distanceToViewHolder) {
                 distanceToViewHolder = distance
@@ -172,6 +170,13 @@ class SimpleCallbackImpl(
         }
 
         return closestViewHolder
+    }
+
+    private fun View.getDistanceFrom(coordinates: Coordinates): Float {
+        val topDistance = abs(top - coordinates.top)
+        val bottomDistance = abs(bottom - coordinates.bottom)
+
+        return min(topDistance, bottomDistance)
     }
 
     private fun fireGroupingCallbacks(

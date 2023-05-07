@@ -25,8 +25,8 @@ import com.maxpoliakov.skillapp.shared.ActionBarFragment
 import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.shared.recyclerview.Change
 import com.maxpoliakov.skillapp.shared.recyclerview.ItemTouchHelperCallback
+import com.maxpoliakov.skillapp.shared.recyclerview.SimpleCallbackImpl
 import com.maxpoliakov.skillapp.shared.recyclerview.adapter.ItemChangeNotificationStrategy
-import com.maxpoliakov.skillapp.shared.recyclerview.createReorderAndGroupItemTouchHelper
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.shared.recyclerview.scrollToTop
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
@@ -179,7 +179,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
     }
 
-    private var itemTouchHelper: ItemTouchHelper = createReorderAndGroupItemTouchHelper(itemTouchHelperCallback)
+    private var itemTouchHelper = ItemTouchHelper(SimpleCallbackImpl(itemTouchHelperCallback))
 
     @Inject
     lateinit var listAdapterFactory: SkillListAdapter.Factory

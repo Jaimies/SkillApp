@@ -137,11 +137,11 @@ class SimpleCallbackImpl(
 
         if (viewHolder !is SkillViewHolder) return
 
-        var change = groupIfNecessary(viewHolder.viewModel.skill.value!!, position)
+        var change = addToGroupIfNecessary(viewHolder.viewModel.skill.value!!, position)
 
         if (change == null) {
             val closestViewHolder = getClosestViewHolder(recyclerView, viewHolder, dropCoordinates)
-            val groupingChange = fireGroupingCallbacks(dropCoordinates, viewHolder, closestViewHolder)
+            val groupingChange = createGroupIfNecessary(dropCoordinates, viewHolder, closestViewHolder)
             if (groupingChange != null) change = groupingChange
         }
 
@@ -179,7 +179,7 @@ class SimpleCallbackImpl(
         return min(topDistance, bottomDistance)
     }
 
-    private fun fireGroupingCallbacks(
+    private fun createGroupIfNecessary(
         dropCoordinates: Coordinates,
         viewHolder: SkillViewHolder,
         closestViewHolder: ViewHolder?,
@@ -210,7 +210,7 @@ class SimpleCallbackImpl(
                 && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 55.dp.toPx(context)
     }
 
-    private fun groupIfNecessary(skill: Skill, position: Int): Change? {
+    private fun addToGroupIfNecessary(skill: Skill, position: Int): Change? {
         if (position <= 0) return null
 
         val prevItem = listAdapter.getItem(position - 1)

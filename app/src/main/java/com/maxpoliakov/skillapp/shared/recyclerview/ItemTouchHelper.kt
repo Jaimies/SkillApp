@@ -184,21 +184,17 @@ class SimpleCallbackImpl(
         viewHolder: SkillViewHolder,
         closestViewHolder: ViewHolder?,
     ): Change? {
-        if (closestViewHolder == null) return null
+        if (closestViewHolder !is SkillViewHolder) return null
 
         val skill = viewHolder.viewModel.skill.value!!
 
-        if (closestViewHolder is SkillViewHolder) {
-            val secondSkill = closestViewHolder.viewModel.skill.value!!
+        val secondSkill = closestViewHolder.viewModel.skill.value!!
 
-            if (secondSkill.isNotInAGroup && closeEnough(dropCoordinates, closestViewHolder)
-                && skill.unit == secondSkill.unit
-            ) {
-                val position = min(viewHolder.absoluteAdapterPosition, closestViewHolder.absoluteAdapterPosition) - 1
-                return Change.CreateGroup(skill, secondSkill, position)
-            }
-
-            return null
+        if (secondSkill.isNotInAGroup && closeEnough(dropCoordinates, closestViewHolder)
+            && skill.unit == secondSkill.unit
+        ) {
+            val position = min(viewHolder.absoluteAdapterPosition, closestViewHolder.absoluteAdapterPosition) - 1
+            return Change.CreateGroup(skill, secondSkill, position)
         }
 
         return null

@@ -80,6 +80,8 @@ class SkillListAdapter @AssistedInject constructor(
     }
 
     fun addItem(position: Int, item: Any) {
+        if (isOutOfBounds(position)) return
+
         val list = currentList.toMutableList().apply {
             add(position, item)
         }

@@ -16,4 +16,6 @@ data class Skill(
 ) : Trackable, Orderable {
     val isInAGroup get() = this.groupId != -1
     val isNotInAGroup get() = this.groupId == -1
+
+    fun canBeInGroupWith(other: Skill) = unit == other.unit
 }

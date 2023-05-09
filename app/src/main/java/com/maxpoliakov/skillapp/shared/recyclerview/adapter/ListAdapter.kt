@@ -75,6 +75,10 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerView.Adap
         return currentList.indexOf(item)
     }
 
+    fun getPositionOfFirst(vararg elements: T): Int {
+        return currentList.indexOfFirst { it in elements }
+    }
+
     override fun getItemCount(): Int {
         return mDiffer.currentList.size
     }

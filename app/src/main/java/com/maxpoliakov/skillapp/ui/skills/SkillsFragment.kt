@@ -94,25 +94,28 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun createGroup(change: Change.CreateGroup) {
+            val groupHeaderPosition = listAdapter.getPositionOfFirst(change.skill, change.otherSkill)
+
             val group = SkillGroup(
                 id = 0,
                 name = getString(R.string.new_group),
                 skills = listOf(change.skill, change.otherSkill),
                 goal = null,
-                order = change.position,
+                order = groupHeaderPosition,
                 unit = change.skill.unit,
             )
 
+            val groupFooterPosition = groupHeaderPosition + group.skills.size + 1
+
             lifecycleScope.launch {
                 val groupId = viewModel.createGroupAsync(change.skill, group).await().toInt()
+                val newGroup = group.copy(id = groupId)
 
                 updateGroupIdOfSkill(change.skill, groupId)
                 updateGroupIdOfSkill(change.otherSkill, groupId)
 
-                val newGroup = group.copy(id = groupId)
-
-                listAdapter.addItem(change.position + 1, newGroup)
-                listAdapter.addItem(change.position + group.skills.size + 2, SkillGroupFooter(newGroup))
+                listAdapter.addItem(groupHeaderPosition, newGroup)
+                listAdapter.addItem(groupFooterPosition, SkillGroupFooter(newGroup))
             }
         }
 

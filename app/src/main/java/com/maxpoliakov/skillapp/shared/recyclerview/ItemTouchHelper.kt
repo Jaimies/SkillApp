@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.shared.Dimension
 import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -27,7 +28,7 @@ interface ItemTouchHelperCallback {
 sealed class Change {
     abstract val skill: Skill
 
-    class CreateGroup(override val skill: Skill, val otherSkill: Skill, val position: Int) : Change()
+    class CreateGroup(override val skill: Skill, val otherSkill: Skill) : Change()
     class AddToGroup(override val skill: Skill, val groupId: Int) : Change()
 }
 
@@ -36,7 +37,7 @@ private data class Coordinates(val top: Float, val bottom: Float)
 class SimpleCallbackImpl(
     private val callback: ItemTouchHelperCallback,
     private val listAdapter: SkillListAdapter,
-): SimpleCallback(UP or DOWN, 0) {
+) : SimpleCallback(UP or DOWN, 0) {
     private var currentCoordinates: Coordinates? = null
     private var dropCoordinates: Coordinates? = null
 
@@ -131,30 +132,41 @@ class SimpleCallbackImpl(
         super.clearView(recyclerView, viewHolder)
 
         viewHolder.itemView.translationZ = 0f
-        val dropCoordinates = dropCoordinates ?: return
 
+        callback.onDropped(
+            getChange(recyclerView, viewHolder, dropCoordinates ?: return),
+        )
+    }
+
+    private fun getChange(recyclerView: RecyclerView, viewHolder: ViewHolder, dropCoordinates: Coordinates): Change? {
         val position = viewHolder.absoluteAdapterPosition
+        val skill = listAdapter.getItem(position) as? Skill ?: return null
 
-        if (viewHolder !is SkillViewHolder) return
+        val groupId = getIdOfGroupToBeAddedTo(skill, position)
+        if (groupId != -1) return Change.AddToGroup(skill, groupId)
 
-        var change = addToGroupIfNecessary(viewHolder.viewModel.skill.value!!, position)
+        val secondSkill = getSkillToGroupWith(recyclerView, viewHolder, dropCoordinates) ?: return null
+        if (skill.canBeInGroupWith(secondSkill)) return Change.CreateGroup(skill, secondSkill)
 
-        if (change == null) {
-            val closestViewHolder = getClosestViewHolder(recyclerView, viewHolder, dropCoordinates)
-            val groupingChange = createGroupIfNecessary(dropCoordinates, viewHolder, closestViewHolder)
-            if (groupingChange != null) change = groupingChange
-        }
+        return null
+    }
 
-        callback.onDropped(change)
+    private fun getSkillToGroupWith(recyclerView: RecyclerView, viewHolder: ViewHolder, dropCoordinates: Coordinates): Skill? {
+        return getClosestViewHolder(recyclerView, viewHolder, dropCoordinates)?.let { viewHolder ->
+            listAdapter.getItem(viewHolder.absoluteAdapterPosition) as? Skill
+        }?.takeIf { it.isNotInAGroup }
     }
 
     private fun getClosestViewHolder(
         recyclerView: RecyclerView,
         viewHolder: ViewHolder,
         dropCoordinates: Coordinates,
+        minimumAcceptableDistance: Dimension = 55.dp,
     ): ViewHolder? {
         var closestViewHolder: ViewHolder? = null
         var distanceToViewHolder = Float.POSITIVE_INFINITY
+
+        val minimumAcceptableDistanceInPx = minimumAcceptableDistance.toPx(recyclerView.context)
 
         for (i in 0 until recyclerView.childCount) {
             val child = recyclerView.getChildAt(i)
@@ -163,7 +175,7 @@ class SimpleCallbackImpl(
             if (holder == null || holder == viewHolder) continue
             val distance = child.getDistanceFrom(dropCoordinates)
 
-            if (distance < distanceToViewHolder) {
+            if (distance < distanceToViewHolder && distance < minimumAcceptableDistanceInPx) {
                 distanceToViewHolder = distance
                 closestViewHolder = holder
             }
@@ -179,27 +191,6 @@ class SimpleCallbackImpl(
         return min(topDistance, bottomDistance)
     }
 
-    private fun createGroupIfNecessary(
-        dropCoordinates: Coordinates,
-        viewHolder: SkillViewHolder,
-        closestViewHolder: ViewHolder?,
-    ): Change? {
-        if (closestViewHolder !is SkillViewHolder) return null
-
-        val skill = viewHolder.viewModel.skill.value!!
-
-        val secondSkill = closestViewHolder.viewModel.skill.value!!
-
-        if (secondSkill.isNotInAGroup && closeEnough(dropCoordinates, closestViewHolder)
-            && skill.unit == secondSkill.unit
-        ) {
-            val position = min(viewHolder.absoluteAdapterPosition, closestViewHolder.absoluteAdapterPosition) - 1
-            return Change.CreateGroup(skill, secondSkill, position)
-        }
-
-        return null
-    }
-
     private fun closeEnough(
         dropCoordinates: Coordinates,
         closestViewHolder: ViewHolder
@@ -210,17 +201,15 @@ class SimpleCallbackImpl(
                 && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 55.dp.toPx(context)
     }
 
-    private fun addToGroupIfNecessary(skill: Skill, position: Int): Change? {
-        if (position <= 0) return null
-
-        val prevItem = listAdapter.getItem(position - 1)
+    private fun getIdOfGroupToBeAddedTo(skill: Skill, position: Int): Int {
+        val prevItem = listAdapter.getItemOrNull(position - 1)
 
         if (prevItem is Skill && prevItem.isInAGroup && skill.unit == prevItem.unit) {
-            return Change.AddToGroup(skill, prevItem.groupId)
+            return prevItem.groupId
         } else if (prevItem is SkillGroup && skill.unit == prevItem.unit) {
-            return Change.AddToGroup(skill, prevItem.id)
+            return prevItem.id
         }
 
-        return null
+        return -1
     }
 }

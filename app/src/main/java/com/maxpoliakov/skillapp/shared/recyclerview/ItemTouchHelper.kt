@@ -8,13 +8,15 @@ import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.shared.Dimension
 import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header.SkillGroupViewHolder
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import kotlin.math.abs
 import kotlin.math.min
@@ -53,11 +55,11 @@ class SimpleCallbackImpl(
             return false
         }
 
-        val skill = viewHolder.viewModel.skill.value!!
+        val skill = listAdapter.getItem(viewHolder.absoluteAdapterPosition) as? Skill ?: return false
+        val itemBelow = getItemBelow(viewHolder, target)
 
-        val viewHolderBelow = getViewHolderBelow(recyclerView, viewHolder, target)
-        val insideGroup = isInsideGroup(viewHolderBelow)
-        val areOfTheSameUnit = viewHolder.unit == viewHolderBelow?.unit
+        val insideGroup = isInsideGroup(itemBelow)
+        val areOfTheSameUnit = skill.unit == itemBelow?.unit
 
         viewHolder.isSmall = insideGroup && areOfTheSameUnit
 
@@ -77,12 +79,12 @@ class SimpleCallbackImpl(
         return false
     }
 
-    private fun getViewHolderBelow(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): SkillListViewHolder? {
-        val index = getIndexOfViewHolderBelow(viewHolder, target)
-        return recyclerView.findViewHolderForAdapterPosition(index) as? SkillListViewHolder
+    private fun getItemBelow(viewHolder: ViewHolder, target: ViewHolder): Any? {
+        val index = getPositionOfItemBelow(viewHolder, target)
+        return listAdapter.getItemOrNull(index)
     }
 
-    private fun getIndexOfViewHolderBelow(viewHolder: ViewHolder, target: ViewHolder): Int {
+    private fun getPositionOfItemBelow(viewHolder: ViewHolder, target: ViewHolder): Int {
         return if (isMovingUpRelativeToTarget(viewHolder, target)) target.absoluteAdapterPosition
         else target.absoluteAdapterPosition + 1
     }
@@ -91,9 +93,9 @@ class SimpleCallbackImpl(
         return viewHolder.absoluteAdapterPosition > target.absoluteAdapterPosition
     }
 
-    fun isInsideGroup(viewHolderBelow: SkillListViewHolder?): Boolean {
-        return viewHolderBelow != null && viewHolderBelow.groupId != -1
-                && viewHolderBelow !is SkillGroupViewHolder
+    fun isInsideGroup(itemBelow: Any?): Boolean {
+        return itemBelow is Skill && itemBelow.isInAGroup
+                || itemBelow is SkillGroupFooter
     }
 
     override fun onChildDraw(
@@ -211,5 +213,11 @@ class SimpleCallbackImpl(
         }
 
         return -1
+    }
+
+    private val Any.unit: MeasurementUnit<*>? get() = when(this) {
+        is Trackable -> this.unit
+        is SkillGroupFooter -> this.group.unit
+        else -> null
     }
 }

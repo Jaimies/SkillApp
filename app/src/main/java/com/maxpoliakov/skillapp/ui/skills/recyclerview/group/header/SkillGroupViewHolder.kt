@@ -9,7 +9,7 @@ import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
 class SkillGroupViewHolder(
     binding: SkillGroupHeaderBinding,
     callback: SkillsFragmentCallback,
-    val viewModel: SkillGroupViewModel,
+    private val viewModel: SkillGroupViewModel,
 ) : BaseViewHolder(binding), SkillListViewHolder {
 
     override val groupId get() = viewModel.skillGroup.value!!.id

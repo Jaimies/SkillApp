@@ -19,7 +19,7 @@ class SkillViewHolder(
     private val recordUtil: RecordUtil,
     callback: SkillsFragmentCallback,
 ) : BaseViewHolder(binding), SkillListViewHolder {
-    val viewModel = binding.viewModel!!
+    private val viewModel = binding.viewModel!!
 
     private var shouldAnimateLayoutChanges = false
 

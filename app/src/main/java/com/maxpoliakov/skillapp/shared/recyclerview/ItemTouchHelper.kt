@@ -145,7 +145,7 @@ class SimpleCallbackImpl(
         val skill = listAdapter.getItem(position) as? Skill ?: return null
 
         val groupId = getIdOfGroupToBeAddedTo(skill, position)
-        if (groupId != -1) return Change.AddToGroup(skill, groupId)
+        if (groupId != -1 && groupId != skill.groupId) return Change.AddToGroup(skill, groupId)
 
         val secondSkill = getSkillToGroupWith(recyclerView, viewHolder, dropCoordinates) ?: return null
         if (skill.canBeInGroupWith(secondSkill)) return Change.CreateGroup(skill, secondSkill)

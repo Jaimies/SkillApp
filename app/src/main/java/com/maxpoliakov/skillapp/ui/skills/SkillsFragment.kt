@@ -73,7 +73,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         override fun onDropped(change: Change?) {
-            val list = listAdapter.currentList.filterIsInstance<Orderable>()
             lastItemDropTime = System.nanoTime()
 
             when (change) {
@@ -82,7 +81,8 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
                 null -> {}
             }
 
-            viewModel.updateOrder(getUpdatedList(list, change))
+            val list = listAdapter.currentList.filterIsInstance<Orderable>()
+            viewModel.updateOrder(list)
         }
 
         private fun addToGroup(change: Change.AddToGroup) {
@@ -101,7 +101,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
                 name = getString(R.string.new_group),
                 skills = listOf(change.skill, change.otherSkill),
                 goal = null,
-                order = groupHeaderPosition,
+                order = -1,
                 unit = change.skill.unit,
             )
 
@@ -163,22 +163,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         private fun removeSkillFromGroup(group: SkillGroup, skill: Skill) {
             listAdapter.updateItemWithItemId<SkillGroup>(getGroupItemId(group.id)) { item ->
                 item.copy(skills = item.skills.filter { it.id != skill.id })
-            }
-        }
-
-        private fun getUpdatedList(list: List<Orderable>, change: Change?): List<Orderable> {
-            if (change is Change.AddToGroup)
-                return list.withSkillGroupId(change.skill, change.groupId)
-
-            return list
-        }
-
-        private fun List<Orderable>.withSkillGroupId(skill: Skill, groupId: Int): List<Orderable> {
-            val updatedSkill = skill.copy(groupId = groupId)
-
-            return map { item ->
-                if (item is Skill && item.id == updatedSkill.id) updatedSkill
-                else item
             }
         }
     }

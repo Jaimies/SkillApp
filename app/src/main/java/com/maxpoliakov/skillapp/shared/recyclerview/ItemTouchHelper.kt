@@ -15,7 +15,6 @@ import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.shared.Dimension
 import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewHolder
 import kotlin.math.abs
@@ -51,7 +50,7 @@ class SimpleCallbackImpl(
         target: ViewHolder
     ): Boolean {
 
-        if (viewHolder !is SkillViewHolder || target !is SkillListViewHolder) {
+        if (viewHolder !is SkillViewHolder) {
             return false
         }
 
@@ -77,6 +76,10 @@ class SimpleCallbackImpl(
         }
 
         return false
+    }
+
+    override fun canDropOver(recyclerView: RecyclerView, current: ViewHolder, target: ViewHolder): Boolean {
+        return target.itemViewType != SkillListAdapter.ItemType.Stopwatch
     }
 
     private fun getItemBelow(viewHolder: ViewHolder, target: ViewHolder): Any? {

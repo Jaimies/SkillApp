@@ -91,7 +91,7 @@ class SkillListAdapter @AssistedInject constructor(
     }
 
     fun moveItem(from: Int, to: Int) {
-        if (isOutOfBounds(from) || stopwatchIsShown() && (to == 0 || from == 0)) {
+        if (isOutOfBounds(from) || isOutOfBounds(to)) {
             return
         }
 
@@ -116,10 +116,6 @@ class SkillListAdapter @AssistedInject constructor(
         newList[position] = transform(item)
         setListWithoutDiffing(newList)
         notificationStrategy.notifyOfItemChange(this, position)
-    }
-
-    private fun stopwatchIsShown(): Boolean {
-        return itemCount != 0 && getItemViewType(0) == ItemType.Stopwatch
     }
 
     object ItemType {

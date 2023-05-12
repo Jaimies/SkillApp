@@ -3,17 +3,16 @@ package com.maxpoliakov.skillapp.ui.skills.recyclerview.group.header
 import com.maxpoliakov.skillapp.databinding.SkillGroupHeaderBinding
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.shared.recyclerview.BaseViewHolder
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
+import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.PartOfFakeCardView
 import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
 
 class SkillGroupViewHolder(
     binding: SkillGroupHeaderBinding,
     callback: SkillsFragmentCallback,
     private val viewModel: SkillGroupViewModel,
-) : BaseViewHolder(binding), SkillListViewHolder {
+) : BaseViewHolder(binding), PartOfFakeCardView {
 
-    override val groupId get() = viewModel.skillGroup.value!!.id
-    override val unit get() = viewModel.skillGroup.value!!.unit
+    override val cardId get() = viewModel.skillGroup.value!!.id
 
     init {
         binding.viewModel = viewModel

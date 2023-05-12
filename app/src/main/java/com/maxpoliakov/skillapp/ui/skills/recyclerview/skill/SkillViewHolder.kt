@@ -9,16 +9,16 @@ import androidx.transition.TransitionManager
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.shared.recyclerview.BaseViewHolder
-import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListViewHolder
+import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.PartOfFakeCardView
 import com.maxpoliakov.skillapp.shared.tracking.RecordUtil
+import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
 import kotlinx.coroutines.flow.drop
 
 class SkillViewHolder(
     private val binding: SkillsItemBinding,
     private val recordUtil: RecordUtil,
     callback: SkillsFragmentCallback,
-) : BaseViewHolder(binding), SkillListViewHolder {
+) : BaseViewHolder(binding), PartOfFakeCardView {
     private val viewModel = binding.viewModel!!
 
     private var shouldAnimateLayoutChanges = false
@@ -78,7 +78,5 @@ class SkillViewHolder(
         get() = viewModel.isHighlighted.value!!
         set(value) = viewModel.setIsHighlighted(value)
 
-    override val groupId get() = viewModel.groupId
-    override val unit get() = viewModel.skill.value!!.unit
-    val isInAGroup get() = groupId != -1
+    override val cardId get() = viewModel.groupId
 }

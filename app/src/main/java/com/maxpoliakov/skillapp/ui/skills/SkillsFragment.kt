@@ -27,7 +27,6 @@ import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.shared.recyclerview.Change
 import com.maxpoliakov.skillapp.shared.recyclerview.ItemTouchHelperCallback
 import com.maxpoliakov.skillapp.shared.recyclerview.SimpleCallbackImpl
-import com.maxpoliakov.skillapp.shared.recyclerview.adapter.ItemChangeNotificationStrategy
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.shared.recyclerview.scrollToTop
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
@@ -120,16 +119,13 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun addSkillToGroup(change: Change.AddToGroup) {
-            listAdapter.updateItemWithItemId<SkillGroup>(getGroupItemId(change.groupId)) { group ->
+            listAdapter.bindItemWithItemIdToViewHolder<SkillGroup>(getGroupItemId(change.groupId), binding?.recyclerView) { group ->
                 group.copy(skills = group.skills + change.skill)
             }
         }
 
         private fun updateGroupIdOfSkill(skill: Skill, newGroupId: Int) {
-            listAdapter.updateItemWithItemId<Skill>(
-                itemId = getSkillItemId(skill.id),
-                notificationStrategy = ItemChangeNotificationStrategy.OnBindViewHolder(binding?.recyclerView),
-            ) { skill ->
+            listAdapter.bindItemWithItemIdToViewHolder<Skill>(getSkillItemId(skill.id), binding?.recyclerView) { skill ->
                 skill.copy(groupId = newGroupId)
             }
         }
@@ -161,7 +157,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         }
 
         private fun removeSkillFromGroup(group: SkillGroup, skill: Skill) {
-            listAdapter.updateItemWithItemId<SkillGroup>(getGroupItemId(group.id)) { item ->
+            listAdapter.bindItemWithItemIdToViewHolder<SkillGroup>(getGroupItemId(group.id), binding?.recyclerView) { item ->
                 item.copy(skills = item.skills.filter { it.id != skill.id })
             }
         }

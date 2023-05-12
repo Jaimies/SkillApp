@@ -103,6 +103,10 @@ class SkillListAdapter @AssistedInject constructor(
         notifyItemMoved(from, to)
     }
 
+    inline fun <reified T : Any> bindItemWithItemIdToViewHolder(itemId: Long, recyclerView: RecyclerView?, transform: (T) -> T) {
+        updateItemWithItemId(itemId, ItemChangeNotificationStrategy.OnBindViewHolder(recyclerView), transform)
+    }
+
     inline fun <reified T : Any> updateItemWithItemId(
         itemId: Long,
         notificationStrategy: ItemChangeNotificationStrategy = ItemChangeNotificationStrategy.NotifyItemChanged,

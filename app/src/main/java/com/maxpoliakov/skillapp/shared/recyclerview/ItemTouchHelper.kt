@@ -111,16 +111,15 @@ class SimpleCallbackImpl(
         isCurrentlyActive: Boolean
     ) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-        currentCoordinates = viewHolder.itemView.run { Coordinates(y, y + height) }
 
-        if (viewHolder !is SkillViewHolder) return
+        val currentCoordinates = viewHolder.itemView.run { Coordinates(y, y + height) }
+        this.currentCoordinates = currentCoordinates
+
+        val viewHolderToGroupWith = getViewHolderOfSkillToGroupWith(recyclerView, viewHolder, currentCoordinates)
 
         for (i in 0 until recyclerView.childCount) {
-            val holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i))
-
-            if (holder == viewHolder || holder !is SkillViewHolder || holder.isInAGroup) continue
-
-            holder.isHighlighted = closeEnough(currentCoordinates!!, holder) && holder.unit == viewHolder.unit
+            val holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i)) as? SkillViewHolder ?: continue
+            holder.isHighlighted = holder == viewHolderToGroupWith
         }
     }
 
@@ -150,16 +149,31 @@ class SimpleCallbackImpl(
         val groupId = getIdOfGroupToBeAddedTo(skill, position)
         if (groupId != -1 && groupId != skill.groupId) return Change.AddToGroup(skill, groupId)
 
-        val secondSkill = getSkillToGroupWith(recyclerView, viewHolder, dropCoordinates) ?: return null
-        if (skill.canBeInGroupWith(secondSkill)) return Change.CreateGroup(skill, secondSkill)
+        val secondSkill = getSkillToGroupWith(recyclerView, viewHolder, dropCoordinates)
+        if (secondSkill != null) return Change.CreateGroup(skill, secondSkill)
 
         return null
     }
 
     private fun getSkillToGroupWith(recyclerView: RecyclerView, viewHolder: ViewHolder, dropCoordinates: Coordinates): Skill? {
-        return getClosestViewHolder(recyclerView, viewHolder, dropCoordinates)?.let { viewHolder ->
-            listAdapter.getItem(viewHolder.absoluteAdapterPosition) as? Skill
-        }?.takeIf { it.isNotInAGroup }
+        return getViewHolderOfSkillToGroupWith(recyclerView, viewHolder, dropCoordinates)?.let { closestViewHolder ->
+            listAdapter.getItem(closestViewHolder.absoluteAdapterPosition) as? Skill
+        }
+    }
+
+    private fun getViewHolderOfSkillToGroupWith(recyclerView: RecyclerView, viewHolder: ViewHolder, dropCoordinates: Coordinates): ViewHolder? {
+        return getClosestViewHolder(recyclerView, viewHolder, dropCoordinates)?.takeIf { closestViewHolder ->
+            canCreateGroupFromSkillsAtPositions(viewHolder.absoluteAdapterPosition, closestViewHolder.absoluteAdapterPosition)
+        }
+    }
+
+    private fun canCreateGroupFromSkillsAtPositions(positionOfFirst: Int, positionOfSecond: Int): Boolean {
+        val firstSkill = listAdapter.getItemOrNull(positionOfFirst) as? Skill
+        val secondSkill = listAdapter.getItemOrNull(positionOfSecond) as? Skill
+
+        return firstSkill != null && secondSkill != null
+                && firstSkill.isNotInAGroup && secondSkill.isNotInAGroup
+                && firstSkill.canBeInGroupWith(secondSkill)
     }
 
     private fun getClosestViewHolder(
@@ -194,16 +208,6 @@ class SimpleCallbackImpl(
         val bottomDistance = abs(bottom - coordinates.bottom)
 
         return min(topDistance, bottomDistance)
-    }
-
-    private fun closeEnough(
-        dropCoordinates: Coordinates,
-        closestViewHolder: ViewHolder
-    ): Boolean {
-        val context = closestViewHolder.itemView.context
-
-        return dropCoordinates.top > closestViewHolder.itemView.top - 55.dp.toPx(context)
-                && dropCoordinates.bottom < closestViewHolder.itemView.bottom + 55.dp.toPx(context)
     }
 
     private fun getIdOfGroupToBeAddedTo(skill: Skill, position: Int): Int {

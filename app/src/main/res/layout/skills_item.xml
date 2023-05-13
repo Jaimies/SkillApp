@@ -6,6 +6,14 @@
     <data>
 
         <variable
+            name="isHighlighted"
+            type="boolean" />
+
+        <variable
+            name="isSmall"
+            type="boolean" />
+
+        <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewModel" />
     </data>
@@ -19,9 +27,9 @@
         android:onClick="@{() -> viewModel.navigateToDetails()}"
         android:onLongClick="@{(view) -> viewModel.startDrag()}"
         android:transitionName="@{@string/skill_transition_name(viewModel.skill.id)}"
-        app:layout_sideMargin="@{viewModel.isSmall ? @dimen/padding_default: 0}"
+        app:layout_sideMargin="@{isSmall ? @dimen/padding_default: 0}"
         app:strokeColor="?attr/cardHighlightColor"
-        app:strokeWidth="@{viewModel.isHighlighted ? Math.round(@dimen/highlighted_card_stroke_width) : 0}">
+        app:strokeWidth="@{isHighlighted ? Math.round(@dimen/highlighted_card_stroke_width) : 0}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

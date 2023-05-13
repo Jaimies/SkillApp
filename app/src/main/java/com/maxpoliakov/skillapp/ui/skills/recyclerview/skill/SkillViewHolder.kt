@@ -68,15 +68,18 @@ class SkillViewHolder(
         viewModel.showRecordsAdded.observe(lifecycleOwner, recordUtil::notifyRecordsAdded)
     }
 
-    fun setItem(item: Skill) = viewModel.setSkill(item)
+    fun setItem(item: Skill) {
+        viewModel.setSkill(item)
+        isSmall = item.isInAGroup
+    }
 
     var isSmall: Boolean
-        get() = viewModel.isSmall.value!!
-        set(value) = viewModel.setIsSmall(value)
+        get() = binding.isSmall
+        set(value) = binding.setIsSmall(value)
 
     var isHighlighted: Boolean
-        get() = viewModel.isHighlighted.value!!
-        set(value) = viewModel.setIsHighlighted(value)
+        get() = binding.isHighlighted
+        set(value) = binding.setIsHighlighted(value)
 
     override val cardId get() = viewModel.groupId
 }

@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.skills.recyclerview.skill
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
@@ -34,12 +33,6 @@ class SkillViewModel @Inject constructor(
 
     val unit = _skill.map { skill -> skill?.unit?.mapToUI() }.asLiveData()
 
-    private val _isSmall = MutableLiveData(false)
-    val isSmall: LiveData<Boolean> get() = _isSmall
-
-    private val _isHighlighted = MutableLiveData(false)
-    val isHighlighted: LiveData<Boolean> get() = _isHighlighted
-
     private val _navigateToDetails = SingleLiveEvent<Skill>()
     val navigateToDetails: LiveData<Skill> get() = _navigateToDetails
 
@@ -55,7 +48,6 @@ class SkillViewModel @Inject constructor(
 
     fun setSkill(skill: Skill) {
         _skill.value = skill
-        _isSmall.value = skill.isInAGroup
     }
 
     fun toggleTimer() {
@@ -68,14 +60,6 @@ class SkillViewModel @Inject constructor(
             }
         }
         logEvent("start_timer_from_home_screen")
-    }
-
-    fun setIsSmall(isSmall: Boolean) {
-        _isSmall.value = isSmall
-    }
-
-    fun setIsHighlighted(isHighlighted: Boolean) {
-        _isHighlighted.value = isHighlighted
     }
 
     val startDrag = SingleLiveEventWithoutData()

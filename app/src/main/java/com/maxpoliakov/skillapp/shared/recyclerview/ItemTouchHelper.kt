@@ -33,7 +33,13 @@ sealed class Change {
     class AddToGroup(override val skill: Skill, val groupId: Int) : Change()
 }
 
-private data class Coordinates(val top: Float, val bottom: Float)
+private data class Coordinates(val top: Float, val bottom: Float) {
+    companion object {
+        fun ofView(view: View): Coordinates {
+            return Coordinates(view.y, view.y + view.height)
+        }
+    }
+}
 
 class SimpleCallbackImpl(
     private val callback: ItemTouchHelperCallback,
@@ -112,7 +118,7 @@ class SimpleCallbackImpl(
     ) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 
-        val currentCoordinates = viewHolder.itemView.run { Coordinates(y, y + height) }
+        val currentCoordinates = Coordinates.ofView(viewHolder.itemView)
         this.currentCoordinates = currentCoordinates
 
         val viewHolderToGroupWith = getViewHolderOfSkillToGroupWith(recyclerView, viewHolder, currentCoordinates)

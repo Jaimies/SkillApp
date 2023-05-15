@@ -6,11 +6,22 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.maxpoliakov.skillapp.shared.extensions.getColorAttributeValue
 
 @BindingAdapter("visible")
 fun View.isVisible(value: Boolean) {
     isVisible = value
+}
+
+@BindingAdapter("visible_animated", "transitionRoot", requireAll = true)
+fun View.setIsVisibleWithTransition(isVisible: Boolean, transitionRoot: ViewGroup) {
+    if (isVisible == this.isVisible) return
+
+    withTransition(transitionRoot) {
+        this.isVisible = isVisible
+    }
 }
 
 @BindingAdapter("layout_sideMargin")
@@ -47,4 +58,13 @@ fun View.setConditionalConstraint(
         connect(id, startSide, endId, endSide)
         applyTo(constraintLayout)
     }
+}
+
+private fun withTransition(transitionRoot: ViewGroup, action: () -> Unit) {
+    TransitionManager.beginDelayedTransition(
+        transitionRoot,
+        AutoTransition().apply { duration = 150 },
+    )
+
+    action()
 }

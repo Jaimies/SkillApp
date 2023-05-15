@@ -1,18 +1,12 @@
 package com.maxpoliakov.skillapp.ui.skills.recyclerview.skill
 
 import android.view.MotionEvent
-import android.view.ViewGroup
-import androidx.databinding.OnRebindCallback
-import androidx.lifecycle.asLiveData
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.shared.recyclerview.BaseViewHolder
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.PartOfFakeCardView
 import com.maxpoliakov.skillapp.shared.tracking.RecordUtil
 import com.maxpoliakov.skillapp.ui.skills.SkillsFragmentCallback
-import kotlinx.coroutines.flow.drop
 
 class SkillViewHolder(
     private val binding: SkillsItemBinding,
@@ -20,26 +14,6 @@ class SkillViewHolder(
     callback: SkillsFragmentCallback,
 ) : BaseViewHolder(binding), PartOfFakeCardView {
     private val viewModel = binding.viewModel!!
-
-    private var shouldAnimateLayoutChanges = false
-
-    private val onRebindCallback = object : OnRebindCallback<SkillsItemBinding>() {
-        override fun onPreBind(binding: SkillsItemBinding): Boolean {
-            if (shouldAnimateLayoutChanges) {
-                beginDelayedTransition(binding)
-                shouldAnimateLayoutChanges = false
-            }
-
-            return super.onPreBind(binding)
-        }
-
-        private fun beginDelayedTransition(binding: SkillsItemBinding) {
-            TransitionManager.beginDelayedTransition(
-                binding.root as ViewGroup,
-                AutoTransition().apply { duration = 150 },
-            )
-        }
-    }
 
     init {
         binding.dragHandleWrapper.setOnTouchListener { view, event ->
@@ -49,12 +23,6 @@ class SkillViewHolder(
             }
 
             false
-        }
-
-        binding.addOnRebindCallback(onRebindCallback)
-
-        viewModel.dragHandleShown.drop(1).asLiveData().observe(lifecycleOwner) {
-            shouldAnimateLayoutChanges = true
         }
 
         viewModel.startDrag.observe(lifecycleOwner) {

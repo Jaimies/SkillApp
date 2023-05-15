@@ -32,6 +32,7 @@
         app:strokeWidth="@{isHighlighted ? Math.round(@dimen/highlighted_card_stroke_width) : 0}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="9dp"
@@ -58,7 +59,8 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:src="@drawable/ic_drag_handle"
-                    app:visible="@{viewModel.dragHandleShown}" />
+                    app:transitionRoot="@{constraintLayout}"
+                    app:visible_animated="@{viewModel.dragHandleShown}" />
             </FrameLayout>
 
             <TextView

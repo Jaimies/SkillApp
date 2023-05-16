@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.ui.skills.recyclerview.skill
 
-import android.view.MotionEvent
 import com.maxpoliakov.skillapp.databinding.SkillsItemBinding
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.shared.recyclerview.BaseViewHolder
@@ -16,15 +15,6 @@ class SkillViewHolder(
     private val viewModel = binding.viewModel!!
 
     init {
-        binding.dragHandleWrapper.setOnTouchListener { view, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                view.performClick()
-                return@setOnTouchListener viewModel.startDrag()
-            }
-
-            false
-        }
-
         viewModel.startDrag.observe(lifecycleOwner) {
             callback.startDrag(this)
         }

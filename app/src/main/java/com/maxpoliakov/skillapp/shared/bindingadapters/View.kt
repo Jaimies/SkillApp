@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.shared.bindingadapters
 
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -8,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.maxpoliakov.skillapp.shared.Callback
 import com.maxpoliakov.skillapp.shared.extensions.getColorAttributeValue
 
 @BindingAdapter("visible")
@@ -21,6 +23,17 @@ fun View.setIsVisibleWithTransition(isVisible: Boolean, transitionRoot: ViewGrou
 
     withTransition(transitionRoot) {
         this.isVisible = isVisible
+    }
+}
+
+@BindingAdapter("onTouchDown")
+fun View.setOnTouchDownListener(callback: Callback) {
+    setOnTouchListener { view, event ->
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            callback.invoke()
+        }
+
+        false
     }
 }
 

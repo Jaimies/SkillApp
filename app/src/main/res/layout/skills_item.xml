@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:clickable="true"
+                app:onTouchDown="@{() -> viewModel.startDrag()}"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:paddingHorizontal="10dp"

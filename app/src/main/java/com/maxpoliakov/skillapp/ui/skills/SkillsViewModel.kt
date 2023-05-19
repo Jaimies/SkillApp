@@ -7,7 +7,6 @@ import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
 import com.maxpoliakov.skillapp.domain.model.Trackable
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
@@ -38,8 +37,7 @@ class SkillsViewModel @Inject constructor(
             .sortedBy(Orderable::order)
             .flatMap(this::getListItems)
 
-        if (stopwatchState is Running) listOf(StopwatchUiModel) + list
-        else list
+        stopwatchState.timers.map { StopwatchUiModel } + list
     }
 
     private fun getListItems(item: Trackable): List<Any> {

@@ -6,11 +6,10 @@ import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import io.kotest.core.spec.style.DescribeSpec
@@ -75,12 +74,12 @@ class StopwatchImplTest : DescribeSpec({
     beforeEach { clock = MutableClock(EPOCH, UTC) }
     afterEach { addRecord.clear(); clearAllMocks() }
 
-    fun getRunningState(startTime: ZonedDateTime = ZonedDateTime.now(clock), skillId: Int = StopwatchImplTest.skillId): Running {
-        return Running(startTime, skillId, groupId)
+    fun createTimer(startTime: ZonedDateTime = ZonedDateTime.now(clock), skillId: Int = StopwatchImplTest.skillId): Timer {
+        return Timer(startTime, skillId, groupId)
     }
 
-    fun createStopwatch(state: Stopwatch.State = Paused): StopwatchImpl {
-        val persistence = StubStopwatchRepository(state)
+    fun createStopwatch(timers: List<Timer> = listOf()): StopwatchImpl {
+        val persistence = StubStopwatchRepository(Stopwatch.State(timers))
         return StopwatchImpl(persistence, addRecord, skillRepository, notificationUtil, clock)
     }
 
@@ -100,53 +99,53 @@ class StopwatchImplTest : DescribeSpec({
     )
 
     it("reads the initial state from the repository") {
-        val firstStopwatch = createStopwatch(state = Paused)
-        firstStopwatch.state.value shouldBe Paused
+        val firstStopwatch = createStopwatch(timers = listOf())
+        firstStopwatch.state.value.timers shouldBe listOf()
 
-        val runningState = getRunningState(otherStartDateTime)
-        val secondStopwatch = createStopwatch(state = runningState)
-        secondStopwatch.state.value shouldBe runningState
+        val timer = createTimer(otherStartDateTime)
+        val secondStopwatch = createStopwatch(timers = listOf(timer))
+        secondStopwatch.state.value.timers shouldBe listOf(timer)
     }
 
-    it("if Running, shows the notification on startup") {
-       createStopwatch(state = getRunningState())
-        verify { notificationUtil.showStopwatchNotification(getRunningState()) }
+    it("if has a timer, shows the notification on startup") {
+       createStopwatch(timers = listOf(createTimer()))
+        verify { notificationUtil.showStopwatchNotification(createTimer()) }
     }
 
-    it("if Paused, removes the notification on startup") {
-        createStopwatch(state = Paused)
+    it("if has no timer, removes the notification on startup") {
+        createStopwatch(timers = listOf())
         verify { notificationUtil.removeStopwatchNotification() }
     }
 
     describe("start()") {
-        it("if Paused, changes the state to Running, adds no records, and returns Change.Start with no records") {
-            val stopwatch = createStopwatch(state = Paused)
+        it("if has no timer, adds timer, adds no records, and returns Change.Start with no records") {
+            val stopwatch = createStopwatch(timers = listOf())
             stopwatch.start(skillId) shouldBe StateChange.Start(addedRecords = listOf())
             addRecord.addedRecords shouldBe listOf()
-            stopwatch.state.value shouldBe getRunningState()
+            stopwatch.state.value.timers shouldBe listOf(createTimer())
         }
 
-        it("if Running and state.skillId == skillId, does nothing") {
-            val state = getRunningState()
-            val stopwatch = createStopwatch(state = state)
+        it("if has a timer and timer.skillId == skillId, does nothing, returns StateChange.None") {
+            val timer = createTimer()
+            val stopwatch = createStopwatch(timers = listOf(timer))
             clock.withInstant(Instant.ofEpochSecond(1))
             stopwatch.start(skillId) shouldBe StateChange.None
             addRecord.addedRecords shouldBe listOf()
-            stopwatch.state.value shouldBe state
+            stopwatch.state.value.timers shouldBe listOf(timer)
         }
 
-        it("if Running and state.skillId != skillId, stops the stopwatch, returns StateChange.Start with the records added, and changes the state to Running with the new skillId") {
-            val stopwatch = createStopwatch(state = getRunningState())
+        it("if has a timer and timer.skillId != skillId, removes the timer, returns StateChange.Start with the records added, and adds timer") {
+            val stopwatch = createStopwatch(timers = listOf(createTimer()))
             clock.withInstant(Instant.ofEpochSecond(1))
             stopwatch.start(otherSkillId) shouldBe StateChange.Start(addedRecords = listOf(createRecord(id = 1)))
             addRecord.addedRecords shouldBe listOf(createRecord())
-            stopwatch.state.value shouldBe getRunningState(skillId = otherSkillId)
+            stopwatch.state.value.timers shouldBe listOf(createTimer(skillId = otherSkillId))
         }
 
         it("does not start the timer if the skill with given id does not exist") {
-            val stopwatch = createStopwatch(state = Paused)
+            val stopwatch = createStopwatch(timers = listOf())
             stopwatch.start(nonExistentSkillId) shouldBe StateChange.Start(addedRecords = listOf())
-            stopwatch.state.value shouldBe Paused
+            stopwatch.state.value.timers shouldBe listOf()
         }
 
         it("persists the state and shows the notification") {
@@ -154,29 +153,31 @@ class StopwatchImplTest : DescribeSpec({
             val stopwatch = StopwatchImpl(persistence, addRecord, skillRepository, notificationUtil, clock)
             stopwatch.start(skillId)
 
-            verify { persistence.saveState(state = getRunningState()) }
-            verify { notificationUtil.showStopwatchNotification(state = getRunningState()) }
+            val state = Stopwatch.State(listOf(createTimer()))
+
+            verify { persistence.saveState(state) }
+            verify { notificationUtil.showStopwatchNotification(state.timers.first()) }
         }
     }
 
     describe("stop()") {
-        it("if Running, changes the state to Paused, adds a record, and returns a StateChange.Stop with the record added") {
-            val stopwatch = createStopwatch(state = getRunningState())
+        it("if has a timer, removes the timer, adds a record, and returns a StateChange.Stop with the record added") {
+            val stopwatch = createStopwatch(timers = listOf(createTimer()))
             clock.withInstant(Instant.ofEpochSecond(1))
             stopwatch.stop() shouldBe StateChange.Stop(addedRecords = listOf(createRecord(id = 1)))
-            stopwatch.state.value shouldBe Paused
+            stopwatch.state.value.timers shouldBe listOf()
             addRecord.addedRecords shouldBe listOf(createRecord())
         }
 
-        it("if Paused, does nothing") {
-            val stopwatch = createStopwatch(state = Paused)
+        it("if has no timer, does nothing") {
+            val stopwatch = createStopwatch(timers = listOf())
             stopwatch.stop() shouldBe StateChange.None
-            stopwatch.state.value shouldBe Paused
+            stopwatch.state.value.timers shouldBe listOf()
             addRecord.addedRecords shouldBe listOf()
         }
 
         it("removes the notification") {
-            val stopwatch = createStopwatch(state = getRunningState())
+            val stopwatch = createStopwatch(timers = listOf(createTimer()))
             stopwatch.stop()
             verify { notificationUtil.removeStopwatchNotification() }
         }
@@ -185,9 +186,9 @@ class StopwatchImplTest : DescribeSpec({
             clock.withInstant(EPOCH.plus(2, DAYS).plus(10, HOURS))
 
             val stopwatchUtil = createStopwatch(
-                state = getRunningState(
+                timers = listOf(createTimer(
                     startTime = ZonedDateTime.ofInstant(EPOCH.plus(10, HOURS), UTC),
-                ),
+                )),
             )
 
             val stateChange = stopwatchUtil.stop()
@@ -218,22 +219,22 @@ class StopwatchImplTest : DescribeSpec({
     }
 
     describe("toggle()") {
-        it("if Paused, starts the stopwatch") {
-            val stopwatch = createStopwatch(state = Paused)
+        it("if has no timer, adds a timer") {
+            val stopwatch = createStopwatch(timers = listOf())
             stopwatch.toggle(skillId)
-            stopwatch.state.value shouldBe getRunningState()
+            stopwatch.state.value.timers shouldBe listOf(createTimer())
         }
 
-        it("if Running and state.skillId == skillId, stops the stopwatch") {
-            val stopwatch = createStopwatch(state = getRunningState(skillId = skillId))
+        it("if has a timer and timer.skillId == skillId, stops the stopwatch") {
+            val stopwatch = createStopwatch(timers = listOf(createTimer(skillId = skillId)))
             stopwatch.toggle(skillId)
-            stopwatch.state.value shouldBe Paused
+            stopwatch.state.value.timers shouldBe listOf()
         }
 
-        it("if Running and state.skillId != skillId, starts the stopwatch anew") {
-            val stopwatch = createStopwatch(state = getRunningState(skillId = otherSkillId))
+        it("if has a timer and timer.skillId != skillId, removes old timer and adds a new one") {
+            val stopwatch = createStopwatch(timers = listOf(createTimer(skillId = otherSkillId)))
             stopwatch.toggle(skillId)
-            stopwatch.state.value shouldBe getRunningState(skillId = skillId)
+            stopwatch.state.value.timers shouldBe listOf(createTimer(skillId = skillId))
         }
     }
 }) {

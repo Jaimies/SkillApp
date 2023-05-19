@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
+import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
@@ -62,12 +62,11 @@ class SkillDetailViewModel @Inject constructor(
         .stateIn(viewModelScope, Eagerly, null)
 
     val stopwatchIsRunning = stopwatch.state.map {
-        it is Running && it.skillId == skillId
+        it.hasTimerForSkillId(skillId)
     }.asLiveData()
 
     val stopwatchStartTime = stopwatch.state.map {
-        if (it is Running) it.startTime
-        else getZonedDateTime()
+        it.getTimerForSkillId(skillId)?.startTime ?: getZonedDateTime()
     }.asLiveData()
 
     val skill = getSkillById.run(skillId)
@@ -77,8 +76,8 @@ class SkillDetailViewModel @Inject constructor(
         skill.combine(lastWeekTime, ProductivitySummary.Companion::from).asLiveData()
     }
 
-    override fun isStopwatchTracking(state: Stopwatch.State.Running): Boolean {
-        return state.skillId == skillId
+    override fun getApplicableTimers(state: Stopwatch.State): List<Timer> {
+        return listOfNotNull(state.getTimerForSkillId(skillId))
     }
 
     fun addRecord(count: Long) = skillStateFlow.value?.let { skill ->

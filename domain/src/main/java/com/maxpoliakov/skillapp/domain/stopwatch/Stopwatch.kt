@@ -1,8 +1,8 @@
 package com.maxpoliakov.skillapp.domain.stopwatch
 
 import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.Timer
 import kotlinx.coroutines.flow.StateFlow
-import java.time.ZonedDateTime
 
 interface Stopwatch {
     val state: StateFlow<State>
@@ -25,13 +25,21 @@ interface Stopwatch {
         }
     }
 
-    sealed class State {
-        data class Running(
-            val startTime: ZonedDateTime,
-            val skillId: Int,
-            val groupId: Int,
-        ) : State()
+    data class State(val timers: List<Timer>) {
+        fun hasActiveTimers(): Boolean {
+            return timers.isNotEmpty()
+        }
 
-        object Paused : State()
+        fun hasTimerForSkillId(skillId: Int) : Boolean {
+            return timers.any { it.skillId == skillId }
+        }
+
+        fun getTimerForSkillId(skillId: Int): Timer? {
+            return timers.find { it.skillId == skillId }
+        }
+
+        fun getTimersForGroupId(groupId: Int): List<Timer> {
+            return timers.filter { it.groupId == groupId }
+        }
     }
 }

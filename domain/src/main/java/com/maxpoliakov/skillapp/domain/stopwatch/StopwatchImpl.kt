@@ -2,8 +2,7 @@ package com.maxpoliakov.skillapp.domain.stopwatch
 
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
+import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
@@ -38,7 +37,7 @@ class StopwatchImpl @Inject constructor(
     }
 
     private fun updateNotification(state: Stopwatch.State) {
-        if (state is Running) notificationUtil.showStopwatchNotification(state)
+        if (state.hasActiveTimers()) notificationUtil.showStopwatchNotification(state.timers.first())
         else notificationUtil.removeStopwatchNotification()
     }
 
@@ -48,7 +47,7 @@ class StopwatchImpl @Inject constructor(
 
     override suspend fun toggle(skillId: Int): StateChange {
         val state = _state.value
-        if (state is Running && state.skillId == skillId) return stop()
+        if (state.hasTimerForSkillId(skillId)) return stop()
 
         return start(skillId)
     }
@@ -56,36 +55,31 @@ class StopwatchImpl @Inject constructor(
     override suspend fun stop(): StateChange {
         val state = _state.value
 
-        if (state !is Running) return StateChange.None
-        setState(Paused)
-        val addedRecords = addRecords(state)
+        if (!state.hasActiveTimers()) return StateChange.None
+        setState(Stopwatch.State(timers = listOf()))
+        val addedRecords = addRecords(state.timers.first())
         return StateChange.Stop(addedRecords)
     }
 
     override fun cancel() {
-        setState(Paused)
+        setState(Stopwatch.State(timers = listOf()))
     }
 
     override suspend fun start(skillId: Int): StateChange {
-        if (alreadyRunningForSkillWithId(skillId)) return StateChange.None
+        if (_state.value.hasTimerForSkillId(skillId)) return StateChange.None
         val records = addRecordsIfNeeded(_state.value)
         val skill = skillRepository.getSkillById(skillId) ?: return StateChange.Start()
-        val state = Running(ZonedDateTime.now(clock), skillId, skill.groupId)
-        setState(state)
+        val timer = Timer(ZonedDateTime.now(clock), skillId, skill.groupId)
+        setState(Stopwatch.State(listOf(timer)))
 
         return StateChange.Start(records)
     }
 
     private suspend fun addRecordsIfNeeded(state: Stopwatch.State): List<Record> {
-        if (state is Running)
-            return addRecords(state)
+        if (state.hasActiveTimers())
+            return addRecords(state.timers.first())
 
         return listOf()
-    }
-
-    private fun alreadyRunningForSkillWithId(skillId: Int): Boolean {
-        val state = this.state.value
-        return state is Running && state.skillId == skillId
     }
 
     private fun setState(state: Stopwatch.State) {
@@ -94,15 +88,15 @@ class StopwatchImpl @Inject constructor(
         updateNotification(state)
     }
 
-    private suspend fun addRecords(state: Running): List<Record> {
-        val dateTimeRange = state.startTime.toLocalDateTime()..LocalDateTime.now(clock)
+    private suspend fun addRecords(timer: Timer): List<Record> {
+        val dateTimeRange = timer.startTime.toLocalDateTime()..LocalDateTime.now(clock)
 
         val addedRecords = mutableListOf<Record>()
 
         for (range in dateTimeRange.split()) {
             val record = Record(
                 name = "",
-                skillId = state.skillId,
+                skillId = timer.skillId,
                 count = range.toDuration().toMillis(),
                 date = range.date,
                 unit = MeasurementUnit.Millis,

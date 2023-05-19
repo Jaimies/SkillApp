@@ -3,8 +3,7 @@ package com.maxpoliakov.skillapp.data.stopwatch
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.maxpoliakov.skillapp.data.persistence.getStringPreference
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Paused
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.State.Running
+import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.shared.util.toZonedDateTimeOrNull
@@ -20,16 +19,17 @@ class SharedPreferencesStopwatchRepository @Inject constructor(
         val startTimeString = sharedPreferences.getStringPreference(START_TIME, "")
         val startTime = startTimeString.toZonedDateTimeOrNull()
         if (startTime == null || skillId == -1)
-            return Paused
+            return Stopwatch.State(listOf())
 
-        return Running(startTime, skillId, groupId)
+        return Stopwatch.State(listOf(Timer(startTime, skillId, groupId)))
     }
 
     override fun saveState(state: Stopwatch.State) = sharedPreferences.edit {
-        if (state is Running) {
-            putInt(SKILL_ID, state.skillId)
-            putInt(GROUP_ID, state.groupId)
-            putString(START_TIME, state.startTime.format(ISO_ZONED_DATE_TIME))
+        if (state.hasActiveTimers()) {
+            val timer = state.timers.first()
+            putInt(SKILL_ID, timer.skillId)
+            putInt(GROUP_ID, timer.groupId)
+            putString(START_TIME, timer.startTime.format(ISO_ZONED_DATE_TIME))
         } else {
             putInt(SKILL_ID, -1)
             putInt(GROUP_ID, -1)

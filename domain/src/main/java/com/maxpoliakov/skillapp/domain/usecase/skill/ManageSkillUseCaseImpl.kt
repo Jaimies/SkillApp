@@ -25,7 +25,7 @@ class ManageSkillUseCaseImpl @Inject constructor(
 
         skillRepository.deleteSkill(skill)
 
-        if (state is Stopwatch.State.Running && state.skillId == skill.id) {
+        if (state.hasTimerForSkillId(skill.id)) {
             delay(100)
             stopwatch.cancel()
         }

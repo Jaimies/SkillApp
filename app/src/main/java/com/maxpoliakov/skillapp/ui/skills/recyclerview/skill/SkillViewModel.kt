@@ -43,7 +43,7 @@ class SkillViewModel @Inject constructor(
     val groupId get() = skill.value?.groupId ?: -1
 
     val isStopwatchActive = stopwatch.state.combine(_skill) { state, skill ->
-        state is Stopwatch.State.Running && state.skillId == skill?.id
+        skill?.let { state.hasTimerForSkillId(skill.id)}
     }.asLiveData()
 
     fun setSkill(skill: Skill) {

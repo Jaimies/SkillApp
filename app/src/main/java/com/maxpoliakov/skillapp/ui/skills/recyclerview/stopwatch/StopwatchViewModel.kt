@@ -28,15 +28,16 @@ class StopwatchViewModel @Inject constructor(
     val showRecordsAdded: LiveData<List<Record>> get() = _showRecordsAdded
 
     val trackingSkill = stopwatch.state.flatMapLatest { state ->
-        if (state is Stopwatch.State.Running) getSkill.run(state.skillId)
-        else flowOf(null)
+        state.timers.firstOrNull()?.let { timer ->
+            getSkill.run(timer.skillId)
+        } ?: flowOf(null)
     }.asLiveData()
 
     val stopwatchStartTime = stopwatch.state.map { state ->
-        if (state is Stopwatch.State.Running) state.startTime else getZonedDateTime()
+        state.timers.firstOrNull()?.startTime ?: getZonedDateTime()
     }.asLiveData()
 
-    val isActive = stopwatch.state.map { it is Stopwatch.State.Running }.asLiveData()
+    val isActive = stopwatch.state.map { it.hasActiveTimers() }.asLiveData()
 
     fun stopTimer() = scope.launch {
         val stateChange = stopwatch.stop()

@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.domain.model.Goal
+import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
@@ -27,9 +28,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.time.Duration
 import java.time.ZonedDateTime
 import javax.inject.Inject
+import com.maxpoliakov.skillapp.shared.util.sumByDuration
 
 abstract class DetailsViewModel(
     stopwatch: Stopwatch,
@@ -86,10 +87,8 @@ abstract class DetailsViewModel(
     }
 
     private val timeOnStopwatch = stopwatch.state.combine(tick) { state, _ ->
-        if (state !is Stopwatch.State.Running || !isStopwatchTracking(state))
-            return@combine Duration.ZERO
-
-        state.startTime.until(ZonedDateTime.now())
+        getApplicableTimers(state)
+            .sumByDuration { it.startTime.until(ZonedDateTime.now()) }
     }
 
     private val _timeToday = recordedCountFlow.combine(timeOnStopwatch) { recordedCount, timeOnStopwatch ->
@@ -112,7 +111,7 @@ abstract class DetailsViewModel(
         }
     }
 
-    protected abstract fun isStopwatchTracking(state: Stopwatch.State.Running): Boolean
+    protected abstract fun getApplicableTimers(state: Stopwatch.State): List<Timer>
 
     private fun switchToEditMode() {
         _mode.value = Mode.Edit

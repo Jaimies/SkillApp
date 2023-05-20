@@ -1,24 +1,35 @@
 package com.maxpoliakov.skillapp.ui.skills
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Orderable
+import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
+import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
+import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
 import com.maxpoliakov.skillapp.shared.analytics.logEvent
+import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
+import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getStopwatchItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,18 +37,48 @@ import javax.inject.Inject
 @HiltViewModel
 class SkillsViewModel @Inject constructor(
     getSkills: GetSkillsAndSkillGroupsUseCase,
+    private val getSkill: GetSkillByIdUseCase,
     private val manageGroup: AddOrRemoveSkillToGroupUseCase,
     private val updateOrder: UpdateOrderUseCase,
     private val editingModeManager: EditingModeManager,
-    stopwatch: Stopwatch,
+    @ApplicationScope
+    private val scope: CoroutineScope,
+    private val stopwatch: Stopwatch,
 ) : ViewModel() {
 
-    val list = getSkills.getSkillsAndGroups().combine(stopwatch.state) { skillsAndGroups, stopwatchState ->
+    private val stopwatches = stopwatch.state.flatMapLatest { state -> state.timers.mapToUI() }
+
+    val list = getSkills.getSkillsAndGroups().combine(stopwatches) { skillsAndGroups, stopwatches ->
         val list = (skillsAndGroups.skills + skillsAndGroups.groups)
             .sortedBy(Orderable::order)
             .flatMap(this::getListItems)
 
-        stopwatchState.timers.map { StopwatchUiModel } + list
+        stopwatches + list
+    }
+
+    private fun List<Timer>.mapToUI(): Flow<List<StopwatchUiModel>> {
+        if (this.isEmpty()) return flowOf(listOf())
+        return combine(this.map { it.mapToUI() }) { it.toList() }
+    }
+
+    private fun Timer.mapToUI(): Flow<StopwatchUiModel> {
+        return getSkill.run(skillId).map { skill -> this.mapToUI(skill) }
+    }
+
+    private fun Timer.mapToUI(skill: Skill) = StopwatchUiModel(
+        skill,
+        startTime,
+        { stopTimer() },
+        { navigateToDetailFromTimer(skill) },
+    )
+
+    private fun stopTimer() = scope.launch {
+        val change = stopwatch.stop()
+        _showRecordsAdded.value = change.addedRecords
+    }
+
+    private fun navigateToDetailFromTimer(skill: Skill) {
+        _navigateToSkillDetail.value = skill to getStopwatchItemId(skill.id)
     }
 
     private fun getListItems(item: Trackable): List<Any> {
@@ -60,6 +101,12 @@ class SkillsViewModel @Inject constructor(
     val isEmpty = isEmptyFlow.asLiveData()
 
     val navigateToAddSkill = SingleLiveEventWithoutData()
+
+    private val _navigateToSkillDetail = SingleLiveEvent<Pair<Skill, Long>>()
+    val navigateToSkillDetail: LiveData<Pair<Skill, Long>> get() = _navigateToSkillDetail
+
+    private val _showRecordsAdded = SingleLiveEvent<List<Record>>()
+    val showRecordsAdded: LiveData<List<Record>> get() = _showRecordsAdded
 
     val isInEditingMode get() = editingModeManager.isInEditingMode.value
 

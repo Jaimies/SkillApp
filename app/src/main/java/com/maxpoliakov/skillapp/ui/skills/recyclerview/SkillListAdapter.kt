@@ -25,7 +25,6 @@ class SkillListAdapter @AssistedInject constructor(
     @Assisted
     callback: SkillsFragmentCallback,
     private val lifecycleOwnerProvider: Provider<LifecycleOwner>,
-    stopwatchDelegateAdapterFactory: StopwatchDelegateAdapter.Factory,
     skillDelegateAdapterFactory: SkillDelegateAdapter.Factory,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(SkillDiffCallback()) {
 
@@ -33,7 +32,7 @@ class SkillListAdapter @AssistedInject constructor(
         ItemType.Skill to skillDelegateAdapterFactory.create(callback),
         ItemType.SkillGroupHeader to SkillGroupHeaderDelegateAdapter(callback),
         ItemType.SkillGroupFooter to SkillGroupFooterDelegateAdapter(),
-        ItemType.Stopwatch to stopwatchDelegateAdapterFactory.create(callback),
+        ItemType.Stopwatch to StopwatchDelegateAdapter(),
     ) as Map<Int, DelegateAdapter<Any, RecyclerView.ViewHolder>>
 
     init {
@@ -70,7 +69,7 @@ class SkillListAdapter @AssistedInject constructor(
             is Skill -> getSkillItemId(item.id)
             is SkillGroup -> getGroupItemId(item.id)
             is SkillGroupFooter -> getGroupFooterItemId(item.group.id)
-            is StopwatchUiModel -> getStopwatchItemId()
+            is StopwatchUiModel -> getStopwatchItemId(item.skill.id)
             else -> RecyclerView.NO_ID
         }
     }
@@ -103,7 +102,11 @@ class SkillListAdapter @AssistedInject constructor(
         notifyItemMoved(from, to)
     }
 
-    inline fun <reified T : Any> bindItemWithItemIdToViewHolder(itemId: Long, recyclerView: RecyclerView?, transform: (T) -> T) {
+    inline fun <reified T : Any> bindItemWithItemIdToViewHolder(
+        itemId: Long,
+        recyclerView: RecyclerView?,
+        transform: (T) -> T
+    ) {
         updateItemWithItemId(itemId, ItemChangeNotificationStrategy.OnBindViewHolder(recyclerView), transform)
     }
 
@@ -134,7 +137,7 @@ class SkillListAdapter @AssistedInject constructor(
         fun getSkillItemId(skillId: Int) = skillId.toLong()
         fun getGroupItemId(groupId: Int) = 1_000_000L + groupId.toLong()
         fun getGroupFooterItemId(groupId: Int) = -getGroupItemId(groupId)
-        fun getStopwatchItemId() = 0L
+        fun getStopwatchItemId(skillId: Int) = -getSkillItemId(skillId)
     }
 
     @AssistedFactory

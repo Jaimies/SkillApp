@@ -6,14 +6,14 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchViewModel" />
+            name="stopwatch"
+            type="com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> viewModel.navigateToCurrentlyTrackedSkill()}"
+        android:onClick="@{() -> stopwatch.navigateToDetail.invoke()}"
         android:paddingBottom="4dp"
         android:transitionName="@{@string/skill_transition_name(0)}">
 
@@ -35,7 +35,7 @@
                 android:maxLines="1"
                 android:paddingEnd="20dp"
                 android:screenReaderFocusable="false"
-                android:text="@{viewModel.trackingSkill.name}"
+                android:text="@{stopwatch.skill.name}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintBottom_toBottomOf="@+id/stopwatch"
                 app:layout_constraintEnd_toStartOf="@+id/stopwatch"
@@ -49,17 +49,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                app:isActive="@{viewModel.isActive}"
+                app:isActive="@{true}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:startTime="@{viewModel.stopwatchStartTime}" />
+                app:startTime="@{stopwatch.startTime}" />
 
             <Button
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:onClick="@{() -> viewModel.stopTimer()}"
+                android:onClick="@{() -> stopwatch.stop.invoke()}"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
                 android:text="@string/stop"

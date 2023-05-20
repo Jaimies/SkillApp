@@ -30,6 +30,7 @@ import com.maxpoliakov.skillapp.shared.recyclerview.SimpleCallbackImpl
 import com.maxpoliakov.skillapp.shared.recyclerview.itemdecoration.fakecardview.FakeCardViewDecoration
 import com.maxpoliakov.skillapp.shared.recyclerview.scrollToTop
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
+import com.maxpoliakov.skillapp.shared.tracking.RecordUtil
 import com.maxpoliakov.skillapp.ui.MainActivity
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.ui.intro.Intro_3_1_0
@@ -172,6 +173,9 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
     @Inject
     lateinit var intro: Intro_3_1_0
 
+    @Inject
+    lateinit var recordUtil: RecordUtil
+
     private val viewModel: SkillsViewModel by viewModels()
 
     private lateinit var listAdapter: SkillListAdapter
@@ -223,6 +227,12 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
                 if (item.isVisible != !isEmpty) requireActivity().invalidateOptionsMenu()
             }
         }
+
+        observe(viewModel.navigateToSkillDetail) { skillAndItemId ->
+            navigateToSkillDetail(skillAndItemId.first, skillAndItemId.second)
+        }
+
+        observe(viewModel.showRecordsAdded, recordUtil::notifyRecordsAdded)
     }
 
     override fun onPreDestroyBinding(binding: SkillsFragBinding) {
@@ -266,6 +276,11 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
         viewHolder.itemView.translationZ = 10f
         itemTouchHelper.startDrag(viewHolder)
+    }
+
+    private fun navigateToSkillDetail(skill: Skill, itemId: Long) {
+        val view = binding?.recyclerView?.findViewHolderForItemId(itemId)?.itemView ?: return
+        navigateToSkillDetail(view, skill)
     }
 
     override fun navigateToSkillDetail(view: View, skill: Skill) {

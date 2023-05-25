@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.shared.tracking
 
 import androidx.fragment.app.FragmentManager
-import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.RecordChange
 import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase

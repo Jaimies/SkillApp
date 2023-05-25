@@ -1,8 +1,8 @@
 package com.maxpoliakov.skillapp.screenshots
 
 import com.maxpoliakov.skillapp.data.di.StopwatchModule
-import com.maxpoliakov.skillapp.domain.repository.StopwatchRepository
-import com.maxpoliakov.skillapp.data.stopwatch.SharedPreferencesStopwatchRepository
+import com.maxpoliakov.skillapp.domain.repository.LegacyTimerRepository
+import com.maxpoliakov.skillapp.data.stopwatch.SharedPreferencesLegacyTimerRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import dagger.Binds
 import dagger.Module
@@ -19,5 +19,5 @@ interface TestStopwatchModule {
     fun provideStopwatch(stopwatchUtil: StubStopwatch): Stopwatch
 
     @Binds
-    fun provideStopwatchRepository(persistence: SharedPreferencesStopwatchRepository): StopwatchRepository
+    fun provideStopwatchRepository(persistence: SharedPreferencesLegacyTimerRepository): LegacyTimerRepository
 }

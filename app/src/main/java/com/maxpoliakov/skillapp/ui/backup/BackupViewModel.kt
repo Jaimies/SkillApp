@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository

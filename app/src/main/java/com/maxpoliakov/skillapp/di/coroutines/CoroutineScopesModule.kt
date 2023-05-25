@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.di.coroutines
 
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

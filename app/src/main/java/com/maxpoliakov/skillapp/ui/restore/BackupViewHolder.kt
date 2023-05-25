@@ -7,7 +7,7 @@ import androidx.lifecycle.map
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.di.SnackbarRoot
 import com.maxpoliakov.skillapp.domain.model.Backup

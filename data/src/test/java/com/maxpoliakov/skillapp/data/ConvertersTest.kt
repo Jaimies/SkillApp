@@ -28,6 +28,15 @@ class ConvertersTest : StringSpec({
         Converters.toLocalTime(null) shouldBe null
     }
 
+    "toZonedDateTime() and fromZonedDateTime()" {
+        listOf(
+            "2011-12-03T10:15:30+01:00[Europe/Paris]",
+            "2045-05-15T17:15:21+09:00[Asia/Tokyo]",
+        ).forEach { dateString ->
+            Converters.fromZonedDateTime(Converters.toZonedDateTime(dateString)) shouldBe dateString
+        }
+    }
+
     "toGoalType() and fromGoalType()" {
         listOf(Goal.Type.Daily, Goal.Type.Weekly).forEach { interval ->
             Converters.toGoalType(Converters.fromGoalType(interval)) shouldBe interval

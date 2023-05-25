@@ -14,15 +14,21 @@ import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.data.stats.DBStatistic
 import com.maxpoliakov.skillapp.data.stats.StatsDao
+import com.maxpoliakov.skillapp.data.timer.DBTimer
+import com.maxpoliakov.skillapp.data.timer.TimerDao
 
 @Database(
-    entities = [DBSkill::class, DBRecord::class, DBStatistic::class, DBGroup::class],
-    version = 7,
+    entities = [DBSkill::class, DBRecord::class, DBStatistic::class, DBGroup::class, DBTimer::class],
+    version = 8,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(
             from = 6,
             to = 7
+        ),
+        AutoMigration(
+            from = 7,
+            to = 8,
         ),
     ],
 )
@@ -32,6 +38,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun recordsDao(): RecordsDao
     abstract fun statsDao(): StatsDao
     abstract fun skillGroupDao(): GroupDao
+    abstract fun timerDao(): TimerDao
 
     companion object {
         fun create(context: Context) = Room

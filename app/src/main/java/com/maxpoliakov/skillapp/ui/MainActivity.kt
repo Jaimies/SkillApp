@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun onResume() {
         super.onResume()
-        stopwatch.updateState()
-        stopwatch.updateNotification()
+//        stopwatch.updateState()
+//        stopwatch.updateNotification()
     }
 
     private fun setupNavController() {

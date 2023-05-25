@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,9 +26,9 @@ class StopTimerBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         scope.launch {
-            stopwatch.stop()
-            delay(100)
-            notificationUtil.removeStopwatchNotification()
+//            stopwatch.stop()
+//            delay(100)
+//            notificationUtil.removeStopwatchNotification()
         }
     }
 }

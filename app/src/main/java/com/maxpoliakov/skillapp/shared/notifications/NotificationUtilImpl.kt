@@ -16,7 +16,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.StopTimerBroadcastReceiver
-import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
@@ -44,7 +44,12 @@ class NotificationUtilImpl @Inject constructor(
             createChannels()
     }
 
-    override fun showStopwatchNotification(timer: Timer) {
+    override fun updateTimerNotifications(timers: List<Timer>) {
+        if (timers.isEmpty()) removeTimerNotification()
+        else showTimerNotification(timers.first())
+    }
+
+    private fun showTimerNotification(timer: Timer) {
         scope.launch {
             getSkill.run(timer.skillId).first().let { skill ->
                 showNotification(skill, timer)
@@ -52,7 +57,7 @@ class NotificationUtilImpl @Inject constructor(
         }
     }
 
-    override fun removeStopwatchNotification() {
+    private fun removeTimerNotification() {
         notificationManager.cancel(STOPWATCH_NOTIFICATION_ID)
     }
 

@@ -20,4 +20,7 @@ class DaoModule {
 
     @Provides
     fun provideSkillGroupDao(db: AppDatabase) = db.skillGroupDao()
+
+    @Provides
+    fun provideTimerDao(db: AppDatabase) = db.timerDao()
 }

@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.di.coroutines
+package com.maxpoliakov.skillapp.domain.di
 
 import javax.inject.Qualifier
 

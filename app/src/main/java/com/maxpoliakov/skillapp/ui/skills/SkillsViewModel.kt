@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
@@ -68,12 +68,12 @@ class SkillsViewModel @Inject constructor(
     private fun Timer.mapToUI(skill: Skill) = StopwatchUiModel(
         skill,
         startTime,
-        { stopTimer() },
+        { stop() },
         { navigateToDetailFromTimer(skill) },
     )
 
-    private fun stopTimer() = scope.launch {
-        val change = stopwatch.stop()
+    private fun Timer.stop() = scope.launch {
+        val change = stopwatch.stop(skillId)
         _showRecordsAdded.value = change.addedRecords
     }
 

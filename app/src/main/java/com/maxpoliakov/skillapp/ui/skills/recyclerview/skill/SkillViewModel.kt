@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.ui.skills.recyclerview.skill
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch

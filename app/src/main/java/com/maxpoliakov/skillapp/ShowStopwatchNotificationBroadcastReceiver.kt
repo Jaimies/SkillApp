@@ -14,7 +14,7 @@ class ShowStopwatchNotificationBroadcastReceiver : BroadcastReceiver() {
     lateinit var stopwatch: Stopwatch
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent?.action == ACTION_BOOT_COMPLETED)
-            stopwatch.updateNotification()
+//        if (intent?.action == ACTION_BOOT_COMPLETED)
+//            stopwatch.updateNotification()
     }
 }

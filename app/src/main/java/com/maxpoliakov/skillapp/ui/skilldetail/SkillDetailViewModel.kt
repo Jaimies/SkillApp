@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.ui.skilldetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Timer

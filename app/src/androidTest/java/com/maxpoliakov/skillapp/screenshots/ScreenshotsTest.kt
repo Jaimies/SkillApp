@@ -54,7 +54,7 @@ class ScreenshotsTest {
     lateinit var db: AppDatabase
 
     @Inject
-    lateinit var stopwatch: Stopwatch
+    lateinit var stopwatch: StubStopwatch
 
     @Inject
     lateinit var addRecordUseCase: AddRecordUseCase
@@ -157,7 +157,7 @@ class ScreenshotsTest {
         setupNavController()
         val directions = MainDirections.actionToSkillDetailFragment(4)
         navigate(directions)
-        stopwatch.stop()
+        stopwatch.stop(stopwatch.timer.skillId)
         makeScreenshot("skilldetail")
 
         val groupDirections = MainDirections.actionToSkillGroupFragment(1)

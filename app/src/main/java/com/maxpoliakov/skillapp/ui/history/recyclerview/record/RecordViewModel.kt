@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.ui.history.recyclerview.record
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.maxpoliakov.skillapp.di.coroutines.ApplicationScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Change
 import com.maxpoliakov.skillapp.domain.usecase.records.DeleteRecordUseCase

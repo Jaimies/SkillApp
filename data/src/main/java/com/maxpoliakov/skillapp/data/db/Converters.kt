@@ -4,11 +4,13 @@ import androidx.room.TypeConverter
 import com.maxpoliakov.skillapp.domain.model.Goal
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 object Converters {
     private val dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE
     private val timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME
+    private val zonedDateTimeFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
 
     @TypeConverter
     fun toLocalDate(value: String): LocalDate = dateFormatter.parse(value, LocalDate::from)
@@ -30,4 +32,10 @@ object Converters {
 
     @TypeConverter
     fun fromGoalType(type: Goal.Type): String = type.name
+
+    @TypeConverter
+    fun fromZonedDateTime(dateTime: ZonedDateTime): String = zonedDateTimeFormatter.format(dateTime)
+
+    @TypeConverter
+    fun toZonedDateTime(value: String): ZonedDateTime = zonedDateTimeFormatter.parse(value, ZonedDateTime::from)
 }

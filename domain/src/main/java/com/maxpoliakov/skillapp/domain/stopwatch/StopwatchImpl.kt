@@ -5,7 +5,6 @@ import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
-import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.TimerRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
@@ -24,7 +23,6 @@ import javax.inject.Singleton
 class StopwatchImpl @Inject constructor(
     private val timerRepository: TimerRepository,
     private val addRecord: AddRecordUseCase,
-    private val skillRepository: SkillRepository,
     private val notificationUtil: NotificationUtil,
     @ApplicationScope
     private val scope: CoroutineScope,
@@ -62,8 +60,7 @@ class StopwatchImpl @Inject constructor(
 
     override suspend fun start(skillId: Int): StateChange {
         if (state.first().hasTimerForSkillId(skillId)) return StateChange.None
-        val skill = skillRepository.getSkillById(skillId) ?: return StateChange.Start
-        timerRepository.add(Timer(skillId, skill.groupId, ZonedDateTime.now(clock)))
+        timerRepository.add(Timer(skillId, ZonedDateTime.now(clock)))
         return StateChange.Start
     }
 

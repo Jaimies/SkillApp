@@ -36,8 +36,8 @@ interface Stopwatch {
             return timers.find { it.skillId == skillId }
         }
 
-        fun getTimersForGroupId(groupId: Int): List<Timer> {
-            return timers.filter { it.groupId == groupId }
+        fun getTimersForSkillIds(skillIds: List<Int>): List<Timer> {
+            return skillIds.mapNotNull(this::getTimerForSkillId)
         }
     }
 }

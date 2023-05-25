@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class StubStopwatch @Inject constructor() : Stopwatch {
     private val startTime = ZonedDateTime.now().minusHours(1).minusMinutes(2)
-    val timer = Timer(-1, 3, startTime)
+    val timer = Timer(-1, startTime)
     private val runningState = Stopwatch.State(timers = listOf(timer))
 
     private val _state = MutableStateFlow(runningState)

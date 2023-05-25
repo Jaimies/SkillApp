@@ -1,14 +1,9 @@
 package com.maxpoliakov.skillapp.domain.stopwatch
 
-import com.maxpoliakov.skillapp.domain.model.Goal
-import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
-import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import io.kotest.core.spec.style.DescribeSpec
@@ -17,7 +12,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import java.time.Duration
 import java.time.Instant
@@ -28,28 +22,6 @@ import java.time.ZoneOffset.UTC
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit.DAYS
 import java.time.temporal.ChronoUnit.HOURS
-
-class StubSkillRepository : SkillRepository {
-    override fun getSkills() = flowOf<List<Skill>>()
-    override fun getSkills(criteria: SkillSelectionCriteria) = getSkills()
-    override fun getSkillFlowById(id: Id) = flowOf<Skill>()
-
-    override suspend fun getSkillById(id: Id): Skill? {
-        if (id == StopwatchImplTest.skillId || id == StopwatchImplTest.otherSkillId)
-            return Skill("", MeasurementUnit.Millis, 0, 0, groupId = StopwatchImplTest.groupId)
-
-        return null
-    }
-
-    override suspend fun addSkill(skill: Skill) = 1L
-
-    override suspend fun updateName(skillId: Int, newName: String) {}
-    override suspend fun updateGoal(skillId: Int, newGoal: Goal?) {}
-    override suspend fun deleteSkill(skill: Skill) {}
-    override suspend fun updateOrder(skillId: Int, newOrder: Int) {}
-    override suspend fun increaseCount(id: Id, count: Long) {}
-    override suspend fun decreaseCount(id: Id, count: Long) {}
-}
 
 class SpyAddRecordUseCase : AddRecordUseCase {
     private val _addedRecords = mutableListOf<Record>()
@@ -68,19 +40,18 @@ class SpyAddRecordUseCase : AddRecordUseCase {
 class StopwatchImplTest : DescribeSpec({
     val addRecord = SpyAddRecordUseCase()
     val notificationUtil = mockk<NotificationUtil>(relaxed = true)
-    val skillRepository = StubSkillRepository()
     var clock = MutableClock(EPOCH, UTC)
 
     beforeEach { clock = MutableClock(EPOCH, UTC) }
     afterEach { addRecord.clear(); clearAllMocks() }
 
     fun createTimer(startTime: ZonedDateTime = ZonedDateTime.now(clock), skillId: Int = StopwatchImplTest.skillId): Timer {
-        return Timer(skillId, groupId, startTime)
+        return Timer(skillId, startTime)
     }
 
     fun createStopwatch(timers: List<Timer> = listOf()): StopwatchImpl {
         val repository = StubTimerRepository(timers)
-        return StopwatchImpl(repository, addRecord, skillRepository, notificationUtil, TestScope(), clock)
+        return StopwatchImpl(repository, addRecord, notificationUtil, TestScope(), clock)
     }
 
     fun createRecord(
@@ -139,15 +110,9 @@ class StopwatchImplTest : DescribeSpec({
             stopwatch.state.first().timers shouldBe listOf(timer, createTimer(skillId = otherSkillId))
         }
 
-        it("does not start the timer if the skill with given id does not exist") {
-            val stopwatch = createStopwatch(timers = listOf())
-            stopwatch.start(nonExistentSkillId) shouldBe StateChange.Start
-            stopwatch.state.first().timers shouldBe listOf()
-        }
-
         it("shows the notification") {
             val repository = StubTimerRepository(listOf())
-            val stopwatch = StopwatchImpl(repository, addRecord, skillRepository, notificationUtil, TestScope(), clock)
+            val stopwatch = StopwatchImpl(repository, addRecord, notificationUtil, TestScope(), clock)
             stopwatch.start(skillId)
 //            verify { notificationUtil.updateTimerNotifications(listOf(createTimer())) }
         }
@@ -245,7 +210,6 @@ class StopwatchImplTest : DescribeSpec({
         const val skillId = 12
         const val otherSkillId = 13
         const val nonExistentSkillId = 259
-        const val groupId = 5
 
         private val otherStartDateTime = ZonedDateTime.parse("2007-12-03T10:15:30+01:00[Europe/Paris]")
     }

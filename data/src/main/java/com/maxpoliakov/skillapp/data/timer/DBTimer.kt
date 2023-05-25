@@ -21,9 +21,8 @@ import java.time.ZonedDateTime
 data class DBTimer(
     @PrimaryKey
     val skillId: Int,
-    val groupId: Int,
     val startTime: ZonedDateTime,
 )
 
-fun Timer.mapToDB() = DBTimer(skillId, groupId, startTime)
-fun DBTimer.mapToDomain() = Timer(skillId, groupId, startTime)
+fun Timer.mapToDB() = DBTimer(skillId, startTime)
+fun DBTimer.mapToDomain() = Timer(skillId, startTime)

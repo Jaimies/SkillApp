@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.ui.skillgroup
 
 import androidx.lifecycle.asLiveData
+import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
@@ -38,7 +39,7 @@ class SkillGroupViewModel @Inject constructor(
     }
 
     override fun getApplicableTimers(state: Stopwatch.State): List<Timer> {
-        return state.getTimersForGroupId(groupId)
+        return state.getTimersForSkillIds(group.value?.skills?.map(Skill::id) ?: listOf())
     }
 
     override suspend fun update(name: String) {

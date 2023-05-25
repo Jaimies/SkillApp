@@ -18,7 +18,7 @@ class SharedPreferencesLegacyTimerRepositoryImpl : StringSpec({
 
     "getState() returns state with a timer if data present" {
         val persistence = createPersistence(skillId, date.toString(), groupId)
-        persistence.getTimer() shouldBe Timer(skillId, groupId, date)
+        persistence.getTimer() shouldBe Timer(skillId, date)
     }
 
     "getState() returns state without timers, if skill id is not defined" {

@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.shared.notifications
 
 import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
@@ -11,7 +12,6 @@ import android.os.Build
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import com.maxpoliakov.skillapp.R
@@ -33,7 +33,7 @@ import javax.inject.Singleton
 class NotificationUtilImpl @Inject constructor(
     @ApplicationContext
     private val context: Context,
-    private val notificationManager: NotificationManagerCompat,
+    private val notificationManager: NotificationManager,
     private val getSkill: GetSkillByIdUseCase,
     @ApplicationScope
     private val scope: CoroutineScope
@@ -45,8 +45,16 @@ class NotificationUtilImpl @Inject constructor(
     }
 
     override fun updateTimerNotifications(timers: List<Timer>) {
-        if (timers.isEmpty()) removeTimerNotification()
-        else showTimerNotification(timers.first())
+        cancelNotificationsForStoppedTimers(timers)
+        timers.forEach(::showTimerNotification)
+    }
+
+    private fun cancelNotificationsForStoppedTimers(activeTimers: List<Timer>) {
+        val activeTimerNotificationIds = activeTimers.map(::getNotificationId)
+
+        notificationManager.activeNotifications
+            .filterNot { it.id in activeTimerNotificationIds }
+            .forEach { notificationManager.cancel(it.id) }
     }
 
     private fun showTimerNotification(timer: Timer) {
@@ -55,10 +63,6 @@ class NotificationUtilImpl @Inject constructor(
                 showNotification(skill, timer)
             }
         }
-    }
-
-    private fun removeTimerNotification() {
-        notificationManager.cancel(STOPWATCH_NOTIFICATION_ID)
     }
 
     private fun showNotification(skill: Skill, timer: Timer) {
@@ -76,7 +80,7 @@ class NotificationUtilImpl @Inject constructor(
         // will likely work without the try/catch,
         // but it's better to be safe than sorry
         try {
-            notificationManager.notify(STOPWATCH_NOTIFICATION_ID, notification)
+            notificationManager.notify(getNotificationId(timer), notification)
         } catch(e: SecurityException) {}
     }
 
@@ -101,6 +105,10 @@ class NotificationUtilImpl @Inject constructor(
         }
 
         return PendingIntent.getBroadcast(context, STOP_INTENT_REQUEST_CODE, intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
+    }
+
+    private fun getNotificationId(timer: Timer): Int {
+        return timer.skillId
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

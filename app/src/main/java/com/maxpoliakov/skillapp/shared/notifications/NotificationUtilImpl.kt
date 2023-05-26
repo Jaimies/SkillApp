@@ -70,7 +70,7 @@ class NotificationUtilImpl @Inject constructor(
             .setCustomContentView(getStopwatchContentView(skill, timer))
             .setContentIntent(getContentIntent(skill.id))
             .setSilent(true)
-            .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent())
+            .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent(skill.id))
             .build()
 
         // will likely work without the try/catch,
@@ -95,8 +95,11 @@ class NotificationUtilImpl @Inject constructor(
             .createPendingIntent()
     }
 
-    private fun getStopTimerIntent(): PendingIntent {
-        val intent = Intent(context, StopTimerBroadcastReceiver::class.java)
+    private fun getStopTimerIntent(skillId: Int): PendingIntent {
+        val intent = Intent(context, StopTimerBroadcastReceiver::class.java).apply {
+            putExtra("skillId", skillId)
+        }
+
         return PendingIntent.getBroadcast(context, STOP_INTENT_REQUEST_CODE, intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
     }
 

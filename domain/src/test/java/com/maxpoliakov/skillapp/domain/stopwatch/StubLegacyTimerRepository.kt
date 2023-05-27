@@ -4,7 +4,8 @@ import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.LegacyTimerRepository
 
 class StubLegacyTimerRepository(
-    private val state: Timer?,
+    private val timer: Timer?,
 ) : LegacyTimerRepository {
-    override fun getTimer() = state
+    override fun getTimer() = timer
+    override fun deleteTimer() {}
 }

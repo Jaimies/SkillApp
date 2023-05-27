@@ -13,7 +13,6 @@ interface Stopwatch {
     suspend fun cancel(skillId: Int)
     suspend fun toggle(skillId: Int): StateChange
 //    fun updateNotification()
-//    fun updateState()
 
     sealed class StateChange {
         open val addedRecords: List<Record> = listOf()

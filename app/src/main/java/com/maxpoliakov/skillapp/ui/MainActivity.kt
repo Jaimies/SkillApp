@@ -47,12 +47,6 @@ class MainActivity : AppCompatActivity(),
         setupNavController()
     }
 
-    override fun onResume() {
-        super.onResume()
-//        stopwatch.updateState()
-//        stopwatch.updateNotification()
-    }
-
     private fun setupNavController() {
         navController = findNavHostFragment().navController
         binding.bottomAppBar.setupWithNavController(navController)

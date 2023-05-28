@@ -11,8 +11,11 @@ import io.kotest.extensions.time.MutableClock
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.mockk
+import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.TestCoroutineScope
 import java.time.Duration
 import java.time.Instant
 import java.time.Instant.EPOCH
@@ -51,7 +54,7 @@ class StopwatchImplTest : DescribeSpec({
 
     fun createStopwatch(timers: List<Timer> = listOf()): StopwatchImpl {
         val repository = StubTimerRepository(timers)
-        return StopwatchImpl(repository, addRecord, notificationUtil, TestScope(), clock)
+        return StopwatchImpl(repository, addRecord, notificationUtil, CoroutineScope(Dispatchers.IO), clock)
     }
 
     fun createRecord(
@@ -81,7 +84,7 @@ class StopwatchImplTest : DescribeSpec({
 
     it("updates notification on startup") {
         createStopwatch(timers = listOf(createTimer()))
-//        verify { notificationUtil.updateTimerNotifications(listOf(createTimer())) }
+        verify { notificationUtil.updateTimerNotifications(listOf(createTimer())) }
     }
 
     describe("start()") {
@@ -112,9 +115,9 @@ class StopwatchImplTest : DescribeSpec({
 
         it("shows the notification") {
             val repository = StubTimerRepository(listOf())
-            val stopwatch = StopwatchImpl(repository, addRecord, notificationUtil, TestScope(), clock)
+            val stopwatch = StopwatchImpl(repository, addRecord, notificationUtil, TestCoroutineScope(), clock)
             stopwatch.start(skillId)
-//            verify { notificationUtil.updateTimerNotifications(listOf(createTimer())) }
+            verify { notificationUtil.updateTimerNotifications(listOf(createTimer())) }
         }
     }
 
@@ -146,7 +149,7 @@ class StopwatchImplTest : DescribeSpec({
         it("updates the notification") {
             val stopwatch = createStopwatch(timers = listOf(createTimer()))
             stopwatch.stop(skillId)
-//            verify { notificationUtil.updateTimerNotifications(listOf()) }
+            verify { notificationUtil.updateTimerNotifications(listOf()) }
         }
 
         it("adds multi-day records correctly") {

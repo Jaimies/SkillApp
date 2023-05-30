@@ -21,16 +21,11 @@ class StopTimerBroadcastReceiver : BroadcastReceiver() {
     @ApplicationScope
     lateinit var scope: CoroutineScope
 
-    @Inject
-    lateinit var notificationUtil: NotificationUtil
-
     override fun onReceive(context: Context?, intent: Intent?) {
         val skillId = intent?.getIntExtra("skillId", -1).takeIf { it != -1 } ?: return
 
         scope.launch {
             stopwatch.stop(skillId)
-//            delay(100)
-//            notificationUtil.removeStopwatchNotification()
         }
     }
 }

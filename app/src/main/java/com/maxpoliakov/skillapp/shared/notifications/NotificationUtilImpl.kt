@@ -16,16 +16,13 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.StopTimerBroadcastReceiver
-import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.shared.bindingadapters.chronometerBase
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,8 +32,6 @@ class NotificationUtilImpl @Inject constructor(
     private val context: Context,
     private val notificationManager: NotificationManager,
     private val getSkill: GetSkillByIdUseCase,
-    @ApplicationScope
-    private val scope: CoroutineScope,
 ) : NotificationUtil {
 
     init {
@@ -44,7 +39,7 @@ class NotificationUtilImpl @Inject constructor(
             createChannels()
     }
 
-    override fun updateTimerNotifications(timers: List<Timer>) {
+    override suspend fun updateTimerNotifications(timers: List<Timer>) {
         cancelNotificationsForStoppedTimers(timers)
         timers.forEach { it.showNotification() }
     }
@@ -57,7 +52,7 @@ class NotificationUtilImpl @Inject constructor(
             .forEach { notificationManager.cancel(it.id) }
     }
 
-    private fun Timer.showNotification() = scope.launch {
+    private suspend fun Timer.showNotification() {
         showNotification(getSkill.run(skillId).first())
     }
 

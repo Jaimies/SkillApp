@@ -72,9 +72,9 @@ class NotificationUtilImpl @Inject constructor(
             .setShowWhen(false)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(getStopwatchContentView(skill, timer))
-            .setContentIntent(getContentIntent(skill.id))
+            .setContentIntent(getContentIntent(timer))
             .setSilent(true)
-            .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent(skill.id))
+            .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent(timer))
             .build()
 
         // will likely work without the try/catch,
@@ -91,20 +91,20 @@ class NotificationUtilImpl @Inject constructor(
         }
     }
 
-    private fun getContentIntent(skillId: Int): PendingIntent {
+    private fun getContentIntent(timer: Timer): PendingIntent {
         return NavDeepLinkBuilder(context)
             .setGraph(R.navigation.main)
             .setDestination(R.id.skill_detail_fragment_dest)
-            .setArguments(bundleOf("skillId" to skillId))
+            .setArguments(bundleOf("skillId" to timer.skillId))
             .createPendingIntent()
     }
 
-    private fun getStopTimerIntent(skillId: Int): PendingIntent {
+    private fun getStopTimerIntent(timer: Timer): PendingIntent {
         val intent = Intent(context, StopTimerBroadcastReceiver::class.java).apply {
-            putExtra("skillId", skillId)
+            putExtra("skillId", timer.skillId)
         }
 
-        return PendingIntent.getBroadcast(context, STOP_INTENT_REQUEST_CODE, intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
+        return PendingIntent.getBroadcast(context, getNotificationId(timer), intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
     }
 
     private fun getNotificationId(timer: Timer): Int {
@@ -120,7 +120,5 @@ class NotificationUtilImpl @Inject constructor(
 
     companion object {
         const val TRACKING = "com.maxpoliakov.skillapp.TRACKING"
-        const val STOPWATCH_NOTIFICATION_ID = 1
-        const val STOP_INTENT_REQUEST_CODE = 1
     }
 }

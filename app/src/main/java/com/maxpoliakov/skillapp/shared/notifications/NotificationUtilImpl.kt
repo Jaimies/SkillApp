@@ -36,7 +36,7 @@ class NotificationUtilImpl @Inject constructor(
     private val notificationManager: NotificationManager,
     private val getSkill: GetSkillByIdUseCase,
     @ApplicationScope
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
 ) : NotificationUtil {
 
     init {
@@ -46,70 +46,64 @@ class NotificationUtilImpl @Inject constructor(
 
     override fun updateTimerNotifications(timers: List<Timer>) {
         cancelNotificationsForStoppedTimers(timers)
-        timers.forEach(::showTimerNotification)
+        timers.forEach { it.showNotification() }
     }
 
     private fun cancelNotificationsForStoppedTimers(activeTimers: List<Timer>) {
-        val activeTimerNotificationIds = activeTimers.map(::getNotificationId)
+        val activeTimerNotificationIds = activeTimers.map { it.getNotificationId() }
 
         notificationManager.activeNotifications
             .filterNot { it.id in activeTimerNotificationIds }
             .forEach { notificationManager.cancel(it.id) }
     }
 
-    private fun showTimerNotification(timer: Timer) {
-        scope.launch {
-            getSkill.run(timer.skillId).first().let { skill ->
-                showNotification(skill, timer)
-            }
-        }
+    private fun Timer.showNotification() = scope.launch {
+        showNotification(getSkill.run(skillId).first())
     }
 
-    private fun showNotification(skill: Skill, timer: Timer) {
+    private fun Timer.showNotification(skill: Skill) {
         val notification = NotificationCompat.Builder(context, TRACKING)
             .setOngoing(true)
             .setSmallIcon(R.drawable.notification_icon)
             .setShowWhen(false)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-            .setCustomContentView(getStopwatchContentView(skill, timer))
-            .setContentIntent(getContentIntent(timer))
+            .setCustomContentView(getContentView(skill))
+            .setContentIntent(getContentIntent())
             .setSilent(true)
-            .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent(timer))
+            .addAction(R.drawable.ic_check, context.getString(R.string.stop), getStopTimerIntent())
             .build()
 
         // will likely work without the try/catch,
         // but it's better to be safe than sorry
         try {
-            notificationManager.notify(getNotificationId(timer), notification)
+            notificationManager.notify(getNotificationId(), notification)
         } catch(e: SecurityException) {}
     }
 
-    private fun getStopwatchContentView(skill: Skill, timer: Timer): RemoteViews {
+    private fun Timer.getContentView(skill: Skill): RemoteViews {
         return RemoteViews(context.packageName, R.layout.notification).apply {
             setTextViewText(R.id.title, skill.name)
-            setChronometer(R.id.chronometer, timer.startTime.chronometerBase, null, true)
+            setChronometer(R.id.chronometer, startTime.chronometerBase, null, true)
         }
     }
 
-    private fun getContentIntent(timer: Timer): PendingIntent {
+    private fun Timer.getContentIntent(): PendingIntent {
         return NavDeepLinkBuilder(context)
             .setGraph(R.navigation.main)
             .setDestination(R.id.skill_detail_fragment_dest)
-            .setArguments(bundleOf("skillId" to timer.skillId))
+            .setArguments(bundleOf("skillId" to skillId))
             .createPendingIntent()
     }
 
-    private fun getStopTimerIntent(timer: Timer): PendingIntent {
+    private fun Timer.getStopTimerIntent(): PendingIntent {
         val intent = Intent(context, StopTimerBroadcastReceiver::class.java).apply {
-            putExtra("skillId", timer.skillId)
+            putExtra("skillId", skillId)
         }
 
-        return PendingIntent.getBroadcast(context, getNotificationId(timer), intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
+        return PendingIntent.getBroadcast(context, getNotificationId(), intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
     }
 
-    private fun getNotificationId(timer: Timer): Int {
-        return timer.skillId
-    }
+    private fun Timer.getNotificationId() = skillId
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createChannels() {

@@ -37,14 +37,14 @@
                 android:screenReaderFocusable="false"
                 android:text="@{stopwatch.skill.name}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                app:layout_constraintBottom_toBottomOf="@+id/stopwatch"
-                app:layout_constraintEnd_toStartOf="@+id/stopwatch"
+                app:layout_constraintBottom_toBottomOf="@id/chronometer"
+                app:layout_constraintEnd_toStartOf="@id/chronometer"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/stopwatch"
+                app:layout_constraintTop_toTopOf="@id/chronometer"
                 tools:text="Programming" />
 
             <Chronometer
-                android:id="@+id/stopwatch"
+                android:id="@+id/chronometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
@@ -65,7 +65,7 @@
                 android:text="@string/stop"
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stopwatch" />
+                app:layout_constraintTop_toBottomOf="@id/chronometer" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

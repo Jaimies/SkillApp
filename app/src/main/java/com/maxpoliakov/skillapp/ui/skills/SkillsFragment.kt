@@ -285,12 +285,12 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
     override fun navigateToSkillDetail(view: View, skill: Skill) {
         val directions = MainDirections.actionToSkillDetailFragment(skill.id)
-        navigate(view, directions, R.string.skill_transition_name)
+        navigate(view, directions, R.string.skill_detail_root_transition_name)
     }
 
     override fun navigateToGroupDetail(view: View, group: SkillGroup) {
         val directions = MainDirections.actionToSkillGroupFragment(group.id)
-        navigate(view, directions, R.string.group_transition_name)
+        navigate(view, directions, R.string.group_detail_root_transition_name)
     }
 
     override fun onCurrentListChanged(previousList: MutableList<Any>, currentList: MutableList<Any>) {

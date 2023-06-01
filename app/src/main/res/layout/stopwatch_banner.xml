@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:onClick="@{() -> stopwatch.navigateToDetail.invoke()}"
         android:paddingBottom="4dp"
-        android:transitionName="@{@string/skill_transition_name(0)}">
+        android:transitionName="@{@string/timer_transition_name(stopwatch.skill.id)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

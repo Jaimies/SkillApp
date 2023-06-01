@@ -90,9 +90,6 @@
     <string name="confirm_logout">Do you want to log out?</string>
     <string name="no_internet">No Internet connection</string>
     <string name="something_went_wrong">Something went wrong, please try again</string>
-    <string name="skill_transition_name" translatable="false">skill_to_skill_detail_%d</string>
-    <string name="group_transition_name" translatable="false">group_to_group_detail_%d</string>
-    <string name="add_skill_transition_name" translatable="false">skills_fab_to_add_skill</string>
     <string name="record_added">Added %1$d sec</string>
     <string name="record_added_with_minutes">Added %1$d min</string>
     <string name="record_added_with_hours">Added %1$d h %2$d min</string>
@@ -151,4 +148,13 @@
     <string name="no_data_for_given_interval">No data for this interval</string>
     <string name="all_time">All time</string>
     <string name="date_range" translatable="false">%1$s - %2$s</string>
+
+    <string name="skill_transition_name" translatable="false">skill_transition_%d</string>
+    <string name="timer_transition_name" translatable="false">timer_transition_%d</string>
+    <string name="group_transition_name" translatable="false">group_transition_%d</string>
+
+    <string name="skill_detail_root_transition_name" translatable="false">skill_detail_root_transition</string>
+    <string name="group_detail_root_transition_name" translatable="false">group_detail_root_transition</string>
+
+    <string name="add_skill_transition_name" translatable="false">skills_fab_to_add_skill</string>
 </resources>

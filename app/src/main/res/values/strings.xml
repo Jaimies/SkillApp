@@ -68,7 +68,7 @@
     <string name="no_stats">No recent data</string>
     <string name="start_the_timer">Start timer</string>
     <string name="stop_the_timer">Stop timer</string>
-    <string name="tracking">Tracking</string>
+    <string name="tracking">Time tracking</string>
     <string name="stop">Stop</string>
     <string name="timers">Timers</string>
     <string name="drag_handle_label">Drag to reorder</string>

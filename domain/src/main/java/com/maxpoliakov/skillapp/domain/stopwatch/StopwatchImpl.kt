@@ -85,4 +85,8 @@ class StopwatchImpl @Inject constructor(
 
         return addedRecords
     }
+
+    override suspend fun updateNotification() {
+        notificationUtil.updateTimerNotifications(state.first().timers)
+    }
 }

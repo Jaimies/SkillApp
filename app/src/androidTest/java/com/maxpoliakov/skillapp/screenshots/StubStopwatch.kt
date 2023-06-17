@@ -28,5 +28,5 @@ class StubStopwatch @Inject constructor() : Stopwatch {
     override suspend fun cancel(skillId: Int) {}
     override suspend fun toggle(skillId: Int) = StateChange.Start
 
-//    override fun updateNotification() {}
+    override suspend fun updateNotification() {}
 }

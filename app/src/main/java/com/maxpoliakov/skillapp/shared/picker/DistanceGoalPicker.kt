@@ -10,7 +10,6 @@ class DistanceGoalPicker : GoalPicker<Distance>(MeasurementUnit.Meters, goalValu
 
     companion object {
         private val goalValues = arrayOf(
-            arrayOf(Distance.ZERO),
             Array(2_000, Distance::ofKilometers),
             Array(10_000, Distance::ofKilometers)
         )

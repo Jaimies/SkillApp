@@ -46,8 +46,8 @@ abstract class GoalPicker<T>(
         super.onAttach(context)
         goalStringValues = arrayOf(
             arrayOf(context.getString(R.string.plan_no_time)),
-            goalValues[1].map(this::getPickerValue).toTypedArray(),
-            goalValues[2].map(this::getWeeklyPickerValue).toTypedArray(),
+            goalValues[0].map(this::getPickerValue).toTypedArray(),
+            goalValues[1].map(this::getWeeklyPickerValue).toTypedArray(),
         )
     }
 

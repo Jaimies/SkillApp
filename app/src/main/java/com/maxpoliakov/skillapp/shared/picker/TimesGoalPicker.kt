@@ -10,7 +10,6 @@ class TimesGoalPicker : GoalPicker<Count>(MeasurementUnit.Times, goalValues) {
 
     companion object {
         private val goalValues = arrayOf(
-            arrayOf(Count.ZERO),
             Array(2_000, Count::ofTimes),
             Array(10_000, Count::ofTimes),
         )

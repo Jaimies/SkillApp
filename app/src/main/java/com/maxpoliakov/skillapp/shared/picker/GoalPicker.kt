@@ -24,8 +24,6 @@ abstract class GoalPicker<T>(
         return uiUnit.toLongString(unit.toLong(value), requireContext())
     }
 
-    open fun getWeeklyPickerValue(value: T): String = getPickerValue(value)
-
     override fun getFirstPickerValues() = goalTypes.map { type ->
         requireContext().getString(type?.goalResId ?: R.string.no_plan)
     }.toTypedArray()
@@ -47,7 +45,7 @@ abstract class GoalPicker<T>(
         goalStringValues = arrayOf(
             arrayOf(context.getString(R.string.plan_no_time)),
             goalValues[0].map(this::getPickerValue).toTypedArray(),
-            goalValues[1].map(this::getWeeklyPickerValue).toTypedArray(),
+            goalValues[1].map(this::getPickerValue).toTypedArray(),
         )
     }
 

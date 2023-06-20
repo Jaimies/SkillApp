@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.data.stopwatch
+package com.maxpoliakov.skillapp.data.timer.legacy
 
 import com.maxpoliakov.skillapp.data.StubSharedPreferences
 import com.maxpoliakov.skillapp.domain.model.Timer

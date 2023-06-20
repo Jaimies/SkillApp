@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.data.stopwatch
+package com.maxpoliakov.skillapp.data.timer.legacy
 
 import android.content.SharedPreferences
 import androidx.core.content.edit

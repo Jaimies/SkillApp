@@ -10,12 +10,15 @@ class DistancePicker : ValuePicker<Distance>(MeasurementUnit.Meters) {
             .ofKilometers(firstPicker.value.toLong())
             .plusMeters(secondPicker.value * 100L)
 
-    override fun getFirstPickerValues() = Array(1000) { index ->
-        requireContext().getString(R.string.distance_kilometers, index.toString())
+    override val numberOfFirstPickerValues get() = 1000
+    override val numberOfSecondPickerValues get() = 10
+
+    override fun formatFirstPickerValue(value: Int): String {
+        return requireContext().getString(R.string.distance_kilometers, value.toString())
     }
 
-    override fun getSecondPickerValues() = Array(10) { index ->
-        requireContext().getString(R.string.distance_meters, index * 100)
+    override fun formatSecondPickerValue(value: Int): String {
+        return requireContext().getString(R.string.distance_meters, value * 100)
     }
 
     class Builder : ValuePicker.Builder<Distance>(MeasurementUnit.Meters) {

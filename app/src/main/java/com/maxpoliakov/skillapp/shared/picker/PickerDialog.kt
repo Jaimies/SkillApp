@@ -42,8 +42,11 @@ abstract class PickerDialog : DialogFragment() {
 
     private var binding: PickerDialogBinding? = null
 
-    abstract fun getFirstPickerValues(): Array<String>
-    abstract fun getSecondPickerValues(): Array<String>
+    abstract val numberOfFirstPickerValues: Int
+    abstract val numberOfSecondPickerValues: Int
+
+    abstract fun formatFirstPickerValue(value: Int): String
+    abstract fun formatSecondPickerValue(value: Int): String
 
     override fun onCreateDialog(bundle: Bundle?): Dialog {
         val dialog = Dialog(requireContext(), themeResId)
@@ -125,10 +128,10 @@ abstract class PickerDialog : DialogFragment() {
     }
 
     private fun onBindingCreated(binding: PickerDialogBinding, savedInstanceState: Bundle?) {
-        binding.firstPicker.setup(getFirstPickerValues())
+        binding.firstPicker.setup(numberOfFirstPickerValues, this::formatFirstPickerValue)
 
         if (secondPickerEnabled) {
-            binding.secondPicker.setup(getSecondPickerValues())
+            binding.secondPicker.setup(numberOfSecondPickerValues, this::formatSecondPickerValue)
         } else {
             binding.secondPicker.isGone = true
         }

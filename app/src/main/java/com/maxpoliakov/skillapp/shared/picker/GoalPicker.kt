@@ -1,6 +1,5 @@
 package com.maxpoliakov.skillapp.shared.picker
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.maxpoliakov.skillapp.R
@@ -10,60 +9,35 @@ import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.extensions.disableKeyboardInput
-import com.maxpoliakov.skillapp.shared.extensions.setValues
 
 abstract class GoalPicker<T>(
     private val unit: MeasurementUnit<T>,
-    private val goalValues: Array<Array<T>>,
 ) : PickerDialog() {
-    private lateinit var goalStringValues: Array<Array<String>>
-
     private val uiUnit get() = unit.mapToUI()
 
-    open fun getPickerValue(value: T): String {
-        return uiUnit.toLongString(unit.toLong(value), requireContext())
+    override val numberOfFirstPickerValues get() = goalTypes.size
+    override val numberOfSecondPickerValues get() = 5_000
+
+    override fun formatFirstPickerValue(value: Int): String {
+        return requireContext().getString(goalTypes[value]?.goalResId ?: R.string.no_plan)
     }
 
-    override fun getFirstPickerValues() = goalTypes.map { type ->
-        requireContext().getString(type?.goalResId ?: R.string.no_plan)
-    }.toTypedArray()
-
-    override fun getSecondPickerValues(): Array<String> {
-        return goalStringValues[firstPicker.value]
+    override fun formatSecondPickerValue(value: Int): String {
+        return uiUnit.toLongString(unit.toLong(getValue(value)), requireContext())
     }
+
+    abstract fun getValue(pickerValue: Int): T
 
     val goal: Goal?
         get() {
             val type = goalTypes[firstPicker.value] ?: return null
-            val values = goalValues[firstPicker.value]
-
-            return Goal(unit.toLong(values[secondPicker.value]), type.toDomain())
+            val value = getValue(secondPicker.value)
+            return Goal(unit.toLong(value), type.toDomain())
         }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        goalStringValues = arrayOf(
-            arrayOf(context.getString(R.string.plan_no_time)),
-            goalValues[0].map(this::getPickerValue).toTypedArray(),
-            goalValues[1].map(this::getPickerValue).toTypedArray(),
-        )
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         firstPicker.disableKeyboardInput()
-
-        firstPicker.setOnValueChangedListener { _, _, newValue ->
-            secondPicker.setValues(goalStringValues[newValue])
-        }
-    }
-
-    override fun restoreStateOfPickers(bundle: Bundle) {
-        val firstPickerValue = bundle.getInt(FIRST_PICKER_VALUE, 0)
-        firstPicker.value = firstPickerValue
-        secondPicker.setValues(goalStringValues[firstPickerValue])
-        secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
     }
 
     fun addOnConfirmedListener(callback: (goal: Goal?) -> Unit) {
@@ -74,7 +48,6 @@ abstract class GoalPicker<T>(
 
     abstract class Builder<T>(
         private val unit: MeasurementUnit<T>,
-        private val goalValues: Array<Array<T>>,
     ) : PickerDialog.Builder<Builder<T>, GoalPicker<T>>() {
         override var titleTextResId = R.string.select_goal
 
@@ -85,18 +58,12 @@ abstract class GoalPicker<T>(
             }
 
             runCatching {
-                val goalValue = goalTypes.indexOf(goal.type.mapToUI()).coerceAtLeast(0)
-                setFirstPickerValue(goalValue)
-
-                val durationValue = getSecondPickerValue(goalValue, goal.count).coerceAtLeast(0)
-                setSecondPickerValue(durationValue)
+                setFirstPickerValue(
+                    goalTypes.indexOf(goal.type.mapToUI()).coerceAtLeast(0),
+                )
             }
 
             return this
-        }
-
-        private fun getSecondPickerValue(firstPickerValue: Int, value: Long): Int {
-            return goalValues[firstPickerValue].indexOf(unit.toType(value))
         }
     }
 

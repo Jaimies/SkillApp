@@ -3,15 +3,12 @@ package com.maxpoliakov.skillapp.shared.picker
 import com.maxpoliakov.skillapp.domain.model.Count
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 
-class TimesGoalPicker : GoalPicker<Count>(MeasurementUnit.Times, goalValues) {
-    class Builder : GoalPicker.Builder<Count>(MeasurementUnit.Times, goalValues) {
-        override fun createDialog() = TimesGoalPicker()
+class TimesGoalPicker : GoalPicker<Count>(MeasurementUnit.Times) {
+    override fun getValue(pickerValue: Int): Count {
+        return Count.ofTimes(pickerValue.toLong())
     }
 
-    companion object {
-        private val goalValues = arrayOf(
-            Array(2_000, Count::ofTimes),
-            Array(10_000, Count::ofTimes),
-        )
+    class Builder : GoalPicker.Builder<Count>(MeasurementUnit.Times) {
+        override fun createDialog() = TimesGoalPicker()
     }
 }

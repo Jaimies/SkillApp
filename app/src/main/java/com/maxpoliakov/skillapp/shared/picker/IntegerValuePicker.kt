@@ -13,15 +13,14 @@ abstract class IntegerValuePicker<T>(
 
     override val secondPickerEnabled = false
 
-    override fun getFirstPickerValues() = Array(getNumberOfValues()) { index ->
-        uiUnit.toLongString(index.toLong(), requireContext())
+    override val numberOfFirstPickerValues get() = requireArguments().getInt(MAXIMUM_VALUE, 5_000)
+    override val numberOfSecondPickerValues get() = 0
+
+    override fun formatFirstPickerValue(value: Int): String {
+        return uiUnit.toLongString(value.toLong(), requireContext())
     }
 
-    private fun getNumberOfValues(): Int {
-        return requireArguments().getInt(MAXIMUM_VALUE, 5_000)
-    }
-
-    override fun getSecondPickerValues() = arrayOf<String>()
+    override fun formatSecondPickerValue(value: Int) = ""
 
     abstract class Builder<T : Comparable<T>>(private val unit: MeasurementUnit<T>) : ValuePicker.Builder<T>(unit) {
         override fun setValue(value: T) {

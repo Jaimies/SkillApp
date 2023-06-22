@@ -13,12 +13,15 @@ class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
             .plusHours(firstPicker.value.toLong())
             .plusMinutes(secondPicker.value.toLong())
 
-    override fun getFirstPickerValues() = Array(24) { index ->
-        requireContext().getString(R.string.time_hours, index.toString())
+    override val numberOfFirstPickerValues get() = 24
+    override val numberOfSecondPickerValues get() = 60
+
+    override fun formatFirstPickerValue(value: Int): String {
+        return requireContext().getString(R.string.time_hours, value.toString())
     }
 
-    override fun getSecondPickerValues() = Array(60) { index ->
-        requireContext().getString(R.string.time_minutes, index.toString())
+    override fun formatSecondPickerValue(value: Int): String {
+        return requireContext().getString(R.string.time_minutes, value.toString())
     }
 
     class Builder : ValuePicker.Builder<Duration>(MeasurementUnit.Millis) {

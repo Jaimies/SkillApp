@@ -1,47 +1,73 @@
 package com.maxpoliakov.skillapp.shared.extensions
 
+import android.graphics.Paint
+import android.graphics.Rect
 import android.os.Build
 import android.text.InputType
 import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.NumberPicker
+import androidx.core.view.children
+import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import java.lang.reflect.Field
 
-fun NumberPicker.setup(displayedValues: Array<String>) {
+private typealias Formatter = (value: Int) -> String
+
+fun NumberPicker.setup(numberOfValues: Int, formatter: Formatter) {
     setupScrollSpeed()
-    setValues(displayedValues)
+    setValues(numberOfValues, formatter)
 }
 
-fun NumberPicker.setValues(displayedValues: Array<String>) {
-    // prevents ArrayIndexOutOfBoundsException when changing values
-    this.displayedValues = null
+fun NumberPicker.setValues(numberOfValues: Int, formatter: Formatter) {
+    setFormatter(formatter)
     minValue = 0
-    maxValue = displayedValues.size - 1
-    this.displayedValues = displayedValues
-    // it is important to make this call every time new values are set, otherwise it doesn't work.
-    setRawInputType(InputType.TYPE_CLASS_NUMBER)
+    maxValue = numberOfValues - 1
+
+    adjustWidthToPreventValuesFromBeingClipped(numberOfValues, formatter)
+
+    findEditText()?.run {
+        filters = arrayOf()
+        // it is important to make this call every time new values are set, otherwise it doesn't work.
+        setRawInputType(InputType.TYPE_CLASS_NUMBER)
+    }
+}
+
+private fun NumberPicker.adjustWidthToPreventValuesFromBeingClipped(numberOfValues: Int, formatter: Formatter) {
+    layoutParams.width = getWidthOfLongestString(numberOfValues, formatter) + 10.dp.toPx(context)
+    requestLayout()
+}
+
+private fun NumberPicker.getWidthOfLongestString(numberOfValues: Int, formatter: Formatter): Int {
+    return getWidthOfString(formatter(numberOfValues - 1))
+}
+
+private fun NumberPicker.getWidthOfString(string: String): Int {
+    val paint = Paint().also {
+        // todo polyfill
+        it.textSize = textSize
+    }
+
+    Rect().run {
+        paint.getTextBounds(string, 0, string.length, this)
+        return width()
+    }
 }
 
 fun NumberPicker.disableKeyboardInput() {
     descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
 }
 
-fun NumberPicker.setRawInputType(type: Int) {
-    findEditText()?.setRawInputType(type)
-}
-
 private fun ViewGroup.findEditText(): EditText? {
-    val count = childCount
-    for (i in 0 until count) {
-        val child = getChildAt(i)
+    for (child in children) {
         if (child is ViewGroup) {
             return child.findEditText()
         } else if (child is EditText) {
             return child
         }
     }
+
     return null
 }
 

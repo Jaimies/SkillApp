@@ -3,15 +3,12 @@ package com.maxpoliakov.skillapp.shared.picker
 import com.maxpoliakov.skillapp.domain.model.Count
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 
-class PageCountGoalPicker : GoalPicker<Count>(MeasurementUnit.Pages, goalValues) {
-    class Builder : GoalPicker.Builder<Count>(MeasurementUnit.Pages, goalValues) {
-        override fun createDialog() = PageCountGoalPicker()
+class PageCountGoalPicker : GoalPicker<Count>(MeasurementUnit.Pages) {
+    override fun getValue(pickerValue: Int): Count {
+        return Count.ofTimes(pickerValue.toLong())
     }
 
-    companion object {
-        private val goalValues = arrayOf(
-            Array(2_000, Count::ofTimes),
-            Array(10_000, Count::ofTimes),
-        )
+    class Builder : GoalPicker.Builder<Count>(MeasurementUnit.Pages) {
+        override fun createDialog() = PageCountGoalPicker()
     }
 }

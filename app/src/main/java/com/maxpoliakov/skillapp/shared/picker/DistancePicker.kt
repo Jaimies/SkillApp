@@ -22,8 +22,6 @@ open class DistancePicker : ValuePicker<Distance>(MeasurementUnit.Meters) {
     }
 
     open class Builder : ValuePicker.Builder<Distance>(MeasurementUnit.Meters) {
-        override var titleTextResId = R.string.add_kilometers_record
-        override val titleTextInEditModeResId = R.string.change_distance
         override val maxValue get() = Distance.ofKilometers(999).plusMeters(900)
 
         override fun createDialog() = DistancePicker()

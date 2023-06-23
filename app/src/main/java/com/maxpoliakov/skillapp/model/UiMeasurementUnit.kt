@@ -7,22 +7,18 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.shared.MappableEnum
-import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import com.maxpoliakov.skillapp.shared.chart.valueformatter.CountFormatter
 import com.maxpoliakov.skillapp.shared.chart.valueformatter.DistanceFormatter
 import com.maxpoliakov.skillapp.shared.chart.valueformatter.PageCountFormatter
 import com.maxpoliakov.skillapp.shared.chart.valueformatter.TimeFormatter
-import com.maxpoliakov.skillapp.shared.picker.DistanceGoalPicker
+import com.maxpoliakov.skillapp.shared.extensions.format
 import com.maxpoliakov.skillapp.shared.picker.DistancePicker
-import com.maxpoliakov.skillapp.shared.picker.DurationGoalPicker
 import com.maxpoliakov.skillapp.shared.picker.DurationPicker
-import com.maxpoliakov.skillapp.shared.picker.PageCountGoalPicker
 import com.maxpoliakov.skillapp.shared.picker.PageCountPicker
-import com.maxpoliakov.skillapp.shared.picker.TimesGoalPicker
 import com.maxpoliakov.skillapp.shared.picker.TimesPicker
 import com.maxpoliakov.skillapp.shared.picker.ValuePicker
 import com.maxpoliakov.skillapp.shared.time.toReadableFloat
-import com.maxpoliakov.skillapp.shared.extensions.format
+import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
 
 enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*>> {
@@ -31,6 +27,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         override val initialTimeResId = R.string.initial_time
         override val changeCountResId = R.string.change_time
         override val addRecordBtnResId = R.string.add_hours_record
+        override val addRecordDialogTitleResId = R.string.add_time
         override val nameResId = R.string.hours
         override val isStopwatchEnabled = true
 
@@ -62,8 +59,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
 
         override fun getValueFormatter(context: Context) = TimeFormatter(context)
         override fun toDomain() = MeasurementUnit.Millis
-        override fun getValuePickerBuilder() = DurationPicker.Builder()
-        override fun getGoalPickerBuilder() = DurationGoalPicker.Builder()
+        override fun getPickerBuilder() = DurationPicker.Builder()
         override fun getInitialCount(countEnteredByUser: Long): Long {
             return Duration.ofHours(countEnteredByUser).toMillis()
         }
@@ -83,8 +79,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         }
 
         override fun getValueFormatter(context: Context) = DistanceFormatter(context)
-        override fun getValuePickerBuilder() = DistancePicker.Builder()
-        override fun getGoalPickerBuilder() = DistanceGoalPicker.Builder()
+        override fun getPickerBuilder() = DistancePicker.Builder()
         override fun toDomain() = MeasurementUnit.Meters
         override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser * 1000
     },
@@ -104,8 +99,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         }
 
         override fun getValueFormatter(context: Context) = CountFormatter()
-        override fun getValuePickerBuilder() = TimesPicker.Builder()
-        override fun getGoalPickerBuilder() = TimesGoalPicker.Builder()
+        override fun getPickerBuilder() = TimesPicker.Builder()
         override fun toDomain() = MeasurementUnit.Times
         override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser
     },
@@ -126,8 +120,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
 
         override fun getValueFormatter(context: Context) = PageCountFormatter()
         override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser
-        override fun getValuePickerBuilder() = PageCountPicker.Builder()
-        override fun getGoalPickerBuilder() = PageCountGoalPicker.Builder()
+        override fun getPickerBuilder() = PageCountPicker.Builder()
         override fun toDomain() = MeasurementUnit.Pages
     };
 
@@ -136,6 +129,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
     abstract val changeCountResId: Int
     abstract val nameResId: Int
     abstract val addRecordBtnResId: Int
+    open val addRecordDialogTitleResId get() = addRecordBtnResId
     abstract val isStopwatchEnabled: Boolean
 
     abstract fun toString(count: Long, context: Context): String
@@ -143,8 +137,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
     abstract fun getValueFormatter(context: Context): ValueFormatter
     abstract fun getInitialCount(countEnteredByUser: Long): Long
 
-    abstract fun getValuePickerBuilder(): ValuePicker.Builder<*>
-    abstract fun getGoalPickerBuilder(): ValuePicker.Builder<*>
+    abstract fun getPickerBuilder(): ValuePicker.Builder<*>
 
     open fun toLongString(count: Long, context: Context): String {
         return toString(count, context)
@@ -160,9 +153,10 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         editMode: Boolean = false,
         onTimeSet: (count: Long) -> Unit
     ) {
-        val picker = getValuePickerBuilder()
-            .setCount(initialCount)
+        val picker = getPickerBuilder()
+            .setMode(ValuePicker.Mode.ValuePicker)
             .setEditModeEnabled(editMode)
+            .setCount(initialCount)
             .build()
 
         picker.addOnPositiveButtonClickListener {
@@ -178,7 +172,8 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         goal: Goal?,
         onGoalSet: (goal: Goal?) -> Unit
     ) {
-        val dialog = getGoalPickerBuilder()
+        val dialog = getPickerBuilder()
+            .setMode(ValuePicker.Mode.GoalPicker)
             .setGoal(goal)
             .build()
 

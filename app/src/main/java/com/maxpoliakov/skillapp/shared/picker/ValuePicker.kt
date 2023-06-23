@@ -7,6 +7,8 @@ import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit
+import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.extensions.disableKeyboardInput
 
 abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDialog() {
@@ -34,18 +36,25 @@ abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDial
     abstract class Builder<T : Comparable<T>>(
         private val unit: MeasurementUnit<T>,
     ) : PickerDialog.Builder<Builder<T>, ValuePicker<T>>() {
-        abstract val titleTextInEditModeResId: Int
         abstract val maxValue: T
+
+        private var mode = Mode.ValuePicker
+        private var isInEditMode = false
 
         protected abstract fun setValue(value: T)
 
         fun setEditModeEnabled(isInEditMode: Boolean): Builder<T> {
-            setTitleText(if (isInEditMode) titleTextInEditModeResId else titleTextResId)
+            this.isInEditMode = isInEditMode
             return this
         }
 
         fun setCount(count: Long): Builder<T> {
             setValue(unit.toType(count).coerceAtMost(maxValue))
+            return this
+        }
+
+        fun setMode(mode: Mode): Builder<T> {
+            this.mode = mode
             return this
         }
 
@@ -60,6 +69,34 @@ abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDial
 
             return this
         }
+
+        override fun build(): ValuePicker<T> {
+            setTitleText(
+                if (isInEditMode) mode.getEditModeTitleTextResId(unit.mapToUI())
+                else mode.getTitleTextResId(unit.mapToUI())
+            )
+
+            setEnableFirstPicker(mode.goalPickerEnabled)
+
+            return super.build()
+        }
+    }
+
+    enum class Mode {
+        ValuePicker {
+            override fun getTitleTextResId(unit: UiMeasurementUnit) = unit.addRecordDialogTitleResId
+            override fun getEditModeTitleTextResId(unit: UiMeasurementUnit) = unit.changeCountResId
+            override val goalPickerEnabled = false
+        },
+        GoalPicker {
+            override fun getTitleTextResId(unit: UiMeasurementUnit) = R.string.select_goal
+            override val goalPickerEnabled = true
+        };
+
+        abstract val goalPickerEnabled: Boolean
+
+        abstract fun getTitleTextResId(unit: UiMeasurementUnit): Int
+        open fun getEditModeTitleTextResId(unit: UiMeasurementUnit) = getTitleTextResId(unit)
     }
 
     companion object {

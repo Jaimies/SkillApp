@@ -33,7 +33,8 @@ abstract class PickerDialog : DialogFragment() {
     private var titleResId = 0
     private var titleText: String? = null
 
-    open val firstPickerEnabled = false
+    var firstPickerEnabled = false
+
     open val secondPickerEnabled = true
     open val thirdPickerEnabled = true
 
@@ -106,6 +107,7 @@ abstract class PickerDialog : DialogFragment() {
         titleResId = bundle.getInt(TITLE_RES_EXTRA, 0)
         titleText = bundle.getString(TITLE_TEXT_EXTRA)
         overrideThemeResId = bundle.getInt(OVERRIDE_THEME_RES_ID, 0)
+        firstPickerEnabled = bundle.getBoolean(ENABLE_FIRST_PICKER, false)
 
         lifecycleScope.launchWhenStarted {
             tryRestoreStateOfPickers(bundle)
@@ -304,6 +306,8 @@ abstract class PickerDialog : DialogFragment() {
         var firstPickerValue = 0
         var secondPickerValue = 0
         var thirdPickerValue = 0
+        var enableFirstPicker = false
+            private set
 
         abstract fun createDialog(): DialogType
 
@@ -319,6 +323,11 @@ abstract class PickerDialog : DialogFragment() {
 
         fun setThirdPickerValue(value: Int): BuilderType {
             thirdPickerValue = value
+            return this as BuilderType
+        }
+
+        fun setEnableFirstPicker(enable: Boolean) : BuilderType {
+            enableFirstPicker = enable
             return this as BuilderType
         }
 
@@ -355,6 +364,7 @@ abstract class PickerDialog : DialogFragment() {
             putInt(FIRST_PICKER_VALUE, firstPickerValue)
             putInt(SECOND_PICKER_VALUE, secondPickerValue)
             putInt(THIRD_PICKER_VALUE, thirdPickerValue)
+            putBoolean(ENABLE_FIRST_PICKER, enableFirstPicker)
             putInt(TITLE_RES_EXTRA, titleTextResId)
             putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
             if (titleText != null)
@@ -375,6 +385,7 @@ abstract class PickerDialog : DialogFragment() {
         const val FIRST_PICKER_VALUE = "FIRST_PICKER_VALUE"
         const val SECOND_PICKER_VALUE = "SECOND_PICKER_VALUE"
         const val THIRD_PICKER_VALUE = "THIRD_PICKER_VALUE"
+        const val ENABLE_FIRST_PICKER = "ENABLE_FIRST_PICKER"
 
         fun resolveOrThrow(
             context: Context,

@@ -16,7 +16,6 @@ import com.maxpoliakov.skillapp.shared.picker.DistanceGoalPicker
 import com.maxpoliakov.skillapp.shared.picker.DistancePicker
 import com.maxpoliakov.skillapp.shared.picker.DurationGoalPicker
 import com.maxpoliakov.skillapp.shared.picker.DurationPicker
-import com.maxpoliakov.skillapp.shared.picker.GoalPicker
 import com.maxpoliakov.skillapp.shared.picker.PageCountGoalPicker
 import com.maxpoliakov.skillapp.shared.picker.PageCountPicker
 import com.maxpoliakov.skillapp.shared.picker.TimesGoalPicker
@@ -145,7 +144,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
     abstract fun getInitialCount(countEnteredByUser: Long): Long
 
     abstract fun getValuePickerBuilder(): ValuePicker.Builder<*>
-    abstract fun getGoalPickerBuilder(): GoalPicker.Builder<*>
+    abstract fun getGoalPickerBuilder(): ValuePicker.Builder<*>
 
     open fun toLongString(count: Long, context: Context): String {
         return toString(count, context)
@@ -166,7 +165,8 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
             .setEditModeEnabled(editMode)
             .build()
 
-        picker.addOnConfirmedListener { count ->
+        picker.addOnPositiveButtonClickListener {
+            val count = picker.count
             if (count > 0) onTimeSet(count)
         }
 
@@ -182,7 +182,10 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
             .setGoal(goal)
             .build()
 
-        dialog.addOnConfirmedListener(onGoalSet)
+        dialog.addOnPositiveButtonClickListener {
+            onGoalSet(dialog.goal)
+        }
+
         dialog.show(fragmentManager, null)
     }
 

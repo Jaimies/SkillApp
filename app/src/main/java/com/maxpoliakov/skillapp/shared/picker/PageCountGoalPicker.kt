@@ -1,14 +1,14 @@
 package com.maxpoliakov.skillapp.shared.picker
 
-import com.maxpoliakov.skillapp.domain.model.Count
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
+import com.maxpoliakov.skillapp.R
 
-class PageCountGoalPicker : GoalPicker<Count>(MeasurementUnit.Pages) {
-    override fun getValue(pickerValue: Int): Count {
-        return Count.ofTimes(pickerValue.toLong())
-    }
+class PageCountGoalPicker : PageCountPicker() {
+    override val firstPickerEnabled = true
 
-    class Builder : GoalPicker.Builder<Count>(MeasurementUnit.Pages) {
+    class Builder : PageCountPicker.Builder() {
+        override var titleTextResId = R.string.select_goal
+        override val titleTextInEditModeResId = R.string.select_goal
+
         override fun createDialog() = PageCountGoalPicker()
     }
 }

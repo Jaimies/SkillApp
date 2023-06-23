@@ -1,14 +1,14 @@
 package com.maxpoliakov.skillapp.shared.picker
 
-import com.maxpoliakov.skillapp.domain.model.Count
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
+import com.maxpoliakov.skillapp.R
 
-class TimesGoalPicker : GoalPicker<Count>(MeasurementUnit.Times) {
-    override fun getValue(pickerValue: Int): Count {
-        return Count.ofTimes(pickerValue.toLong())
-    }
+class TimesGoalPicker : TimesPicker() {
+    override val firstPickerEnabled = true
 
-    class Builder : GoalPicker.Builder<Count>(MeasurementUnit.Times) {
+    class Builder : TimesPicker.Builder() {
+        override var titleTextResId = R.string.select_goal
+        override val titleTextInEditModeResId = R.string.select_goal
+
         override fun createDialog() = TimesGoalPicker()
     }
 }

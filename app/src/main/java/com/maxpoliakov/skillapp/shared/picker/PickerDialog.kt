@@ -33,10 +33,13 @@ abstract class PickerDialog : DialogFragment() {
     private var titleResId = 0
     private var titleText: String? = null
 
+    open val firstPickerEnabled = false
     open val secondPickerEnabled = true
+    open val thirdPickerEnabled = true
 
     protected val firstPicker get() = requireNotNull(binding).firstPicker
     protected val secondPicker get() = requireNotNull(binding).secondPicker
+    protected val thirdPicker get() = requireNotNull(binding).thirdPicker
 
     private var overrideThemeResId = 0
 
@@ -44,9 +47,11 @@ abstract class PickerDialog : DialogFragment() {
 
     abstract val numberOfFirstPickerValues: Int
     abstract val numberOfSecondPickerValues: Int
+    abstract val numberOfThirdPickerValues: Int
 
     abstract fun formatFirstPickerValue(value: Int): String
     abstract fun formatSecondPickerValue(value: Int): String
+    abstract fun formatThirdPickerValue(value: Int): String
 
     override fun onCreateDialog(bundle: Bundle?): Dialog {
         val dialog = Dialog(requireContext(), themeResId)
@@ -92,6 +97,7 @@ abstract class PickerDialog : DialogFragment() {
         binding?.run {
             bundle.putInt(FIRST_PICKER_VALUE, firstPicker.value)
             bundle.putInt(SECOND_PICKER_VALUE, secondPicker.value)
+            bundle.putInt(THIRD_PICKER_VALUE, thirdPicker.value)
         }
     }
 
@@ -118,6 +124,7 @@ abstract class PickerDialog : DialogFragment() {
     protected open fun restoreStateOfPickers(bundle: Bundle) {
         firstPicker.value = bundle.getInt(FIRST_PICKER_VALUE, 0)
         secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
+        thirdPicker.value = bundle.getInt(THIRD_PICKER_VALUE, 0)
     }
 
     override fun onCreateView(layoutInflater: LayoutInflater, viewGroup: ViewGroup?, bundle: Bundle?): View {
@@ -128,12 +135,23 @@ abstract class PickerDialog : DialogFragment() {
     }
 
     private fun onBindingCreated(binding: PickerDialogBinding, savedInstanceState: Bundle?) {
-        binding.firstPicker.setup(numberOfFirstPickerValues, this::formatFirstPickerValue)
+        // todo too much duplication
+        if (firstPickerEnabled) {
+            binding.firstPicker.setup(numberOfFirstPickerValues, this::formatFirstPickerValue)
+        } else {
+            binding.firstPicker.isGone = true
+        }
 
         if (secondPickerEnabled) {
             binding.secondPicker.setup(numberOfSecondPickerValues, this::formatSecondPickerValue)
         } else {
             binding.secondPicker.isGone = true
+        }
+
+        if (thirdPickerEnabled) {
+            binding.thirdPicker.setup(numberOfThirdPickerValues, this::formatThirdPickerValue)
+        } else {
+            binding.thirdPicker.isGone = true
         }
 
         if (!TextUtils.isEmpty(titleText)) {
@@ -148,6 +166,7 @@ abstract class PickerDialog : DialogFragment() {
             // update their `value` if they are receiving keyboard input
             firstPicker.clearFocus()
             secondPicker.clearFocus()
+            thirdPicker.clearFocus()
 
             for (listener in positiveButtonListeners) {
                 listener.onClick(v)
@@ -284,6 +303,7 @@ abstract class PickerDialog : DialogFragment() {
         var overrideThemeResId = 0
         var firstPickerValue = 0
         var secondPickerValue = 0
+        var thirdPickerValue = 0
 
         abstract fun createDialog(): DialogType
 
@@ -294,6 +314,11 @@ abstract class PickerDialog : DialogFragment() {
 
         fun setSecondPickerValue(value: Int): BuilderType {
             secondPickerValue = value
+            return this as BuilderType
+        }
+
+        fun setThirdPickerValue(value: Int): BuilderType {
+            thirdPickerValue = value
             return this as BuilderType
         }
 
@@ -329,6 +354,7 @@ abstract class PickerDialog : DialogFragment() {
         open fun saveArguments(bundle: Bundle) = bundle.run {
             putInt(FIRST_PICKER_VALUE, firstPickerValue)
             putInt(SECOND_PICKER_VALUE, secondPickerValue)
+            putInt(THIRD_PICKER_VALUE, thirdPickerValue)
             putInt(TITLE_RES_EXTRA, titleTextResId)
             putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
             if (titleText != null)
@@ -348,6 +374,7 @@ abstract class PickerDialog : DialogFragment() {
         const val OVERRIDE_THEME_RES_ID = "TIME_PICKER_OVERRIDE_THEME_RES_ID"
         const val FIRST_PICKER_VALUE = "FIRST_PICKER_VALUE"
         const val SECOND_PICKER_VALUE = "SECOND_PICKER_VALUE"
+        const val THIRD_PICKER_VALUE = "THIRD_PICKER_VALUE"
 
         fun resolveOrThrow(
             context: Context,

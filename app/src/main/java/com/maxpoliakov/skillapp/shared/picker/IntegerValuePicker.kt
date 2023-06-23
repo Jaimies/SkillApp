@@ -8,23 +8,23 @@ abstract class IntegerValuePicker<T>(
     private val unit: MeasurementUnit<T>,
 ) : ValuePicker<T>(unit) {
 
-    override val value get() = unit.toType(firstPicker.value.toLong())
+    override val value get() = unit.toType(secondPicker.value.toLong())
     private val uiUnit = unit.mapToUI()
 
-    override val secondPickerEnabled = false
+    override val thirdPickerEnabled = false
 
-    override val numberOfFirstPickerValues get() = requireArguments().getInt(MAXIMUM_VALUE, 5_000)
-    override val numberOfSecondPickerValues get() = 0
+    override val numberOfSecondPickerValues get() = requireArguments().getInt(MAXIMUM_VALUE, 5_000)
+    override val numberOfThirdPickerValues get() = 0
 
-    override fun formatFirstPickerValue(value: Int): String {
+    override fun formatSecondPickerValue(value: Int): String {
         return uiUnit.toLongString(value.toLong(), requireContext())
     }
 
-    override fun formatSecondPickerValue(value: Int) = ""
+    override fun formatThirdPickerValue(value: Int) = ""
 
     abstract class Builder<T : Comparable<T>>(private val unit: MeasurementUnit<T>) : ValuePicker.Builder<T>(unit) {
         override fun setValue(value: T) {
-            setFirstPickerValue(unit.toLong(value).toInt())
+            setSecondPickerValue(unit.toLong(value).toInt())
         }
 
         override fun saveArguments(bundle: Bundle) {

@@ -1,14 +1,14 @@
 package com.maxpoliakov.skillapp.shared.picker
 
-import com.maxpoliakov.skillapp.domain.model.Distance
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
+import com.maxpoliakov.skillapp.R
 
-class DistanceGoalPicker : GoalPicker<Distance>(MeasurementUnit.Meters) {
-    override fun getValue(pickerValue: Int): Distance {
-       return Distance.ofKilometers(pickerValue.toLong())
-    }
+class DistanceGoalPicker : DistancePicker() {
+    override val firstPickerEnabled get() = true
 
-    class Builder : GoalPicker.Builder<Distance>(MeasurementUnit.Meters) {
+    class Builder : DistancePicker.Builder() {
+        override var titleTextResId = R.string.select_goal
+        override val titleTextInEditModeResId = R.string.select_goal
+
         override fun createDialog() = DistanceGoalPicker()
     }
 }

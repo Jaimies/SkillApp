@@ -1,14 +1,14 @@
 package com.maxpoliakov.skillapp.shared.picker
 
-import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
-import java.time.Duration
+import com.maxpoliakov.skillapp.R
 
-class DurationGoalPicker : GoalPicker<Duration>(MeasurementUnit.Millis) {
-    override fun getValue(pickerValue: Int): Duration {
-        return Duration.ofHours(pickerValue.toLong())
-    }
+class DurationGoalPicker : DurationPicker() {
+    override val firstPickerEnabled = true
 
-    class Builder : GoalPicker.Builder<Duration>(MeasurementUnit.Millis) {
+    class Builder : DurationPicker.Builder() {
+        override var titleTextResId = R.string.select_goal
+        override val titleTextInEditModeResId = R.string.select_goal
+
         override fun createDialog() = DurationGoalPicker()
     }
 }

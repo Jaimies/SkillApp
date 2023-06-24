@@ -22,6 +22,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.log
 import com.maxpoliakov.skillapp.databinding.PickerDialogBinding
+import com.maxpoliakov.skillapp.shared.extensions.setValues
 import com.maxpoliakov.skillapp.shared.extensions.setup
 
 abstract class PickerDialog : DialogFragment() {
@@ -139,19 +140,22 @@ abstract class PickerDialog : DialogFragment() {
     private fun onBindingCreated(binding: PickerDialogBinding, savedInstanceState: Bundle?) {
         // todo too much duplication
         if (firstPickerEnabled) {
-            binding.firstPicker.setup(numberOfFirstPickerValues, this::formatFirstPickerValue)
+            firstPicker.setup()
+            configureFirstPickerValues()
         } else {
             binding.firstPicker.isGone = true
         }
 
         if (secondPickerEnabled) {
-            binding.secondPicker.setup(numberOfSecondPickerValues, this::formatSecondPickerValue)
+            secondPicker.setup()
+            configureSecondPickerValues()
         } else {
             binding.secondPicker.isGone = true
         }
 
         if (thirdPickerEnabled) {
-            binding.thirdPicker.setup(numberOfThirdPickerValues, this::formatThirdPickerValue)
+            thirdPicker.setup()
+            configureThirdPickerValues()
         } else {
             binding.thirdPicker.isGone = true
         }
@@ -182,6 +186,18 @@ abstract class PickerDialog : DialogFragment() {
             }
             dismiss()
         }
+    }
+
+    protected fun configureFirstPickerValues() {
+        binding!!.firstPicker.setValues(numberOfFirstPickerValues, ::formatFirstPickerValue)
+    }
+
+    protected fun configureSecondPickerValues() {
+        binding!!.secondPicker.setValues(numberOfSecondPickerValues, ::formatSecondPickerValue)
+    }
+
+    protected fun configureThirdPickerValues() {
+        binding!!.thirdPicker.setValues(numberOfThirdPickerValues, ::formatThirdPickerValue)
     }
 
     override fun onDestroyView() {

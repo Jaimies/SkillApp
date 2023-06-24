@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.shared.picker
 
 import android.os.Bundle
 import android.view.View
+import android.widget.NumberPicker
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
@@ -10,6 +11,9 @@ import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.extensions.disableKeyboardInput
+import com.maxpoliakov.skillapp.shared.extensions.enableKeyboardInput
+import com.maxpoliakov.skillapp.shared.extensions.setValues
+import com.maxpoliakov.skillapp.shared.hardware.hideKeyboard
 
 abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDialog() {
     abstract val value: T
@@ -30,7 +34,33 @@ abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDial
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (firstPickerEnabled) setupFirstPicker()
+    }
+
+    private fun setupFirstPicker() {
         firstPicker.disableKeyboardInput()
+
+        firstPicker.setOnValueChangedListener { _, _, newVal ->
+            configureGoalValuePickers(goalTypeValues[newVal])
+        }
+    }
+
+    private fun configureGoalValuePickers(goalType: UiGoal.Type?) {
+        if (goalType == null) {
+            secondPicker.setBlankValues()
+            thirdPicker.setBlankValues()
+        } else {
+            secondPicker.enableKeyboardInput()
+            thirdPicker.enableKeyboardInput()
+            configureSecondPickerValues()
+            configureThirdPickerValues()
+        }
+    }
+
+    private fun NumberPicker.setBlankValues() {
+        setValues(1) { context.getString(R.string.plan_no_time) }
+        disableKeyboardInput()
+        hideKeyboard()
     }
 
     abstract class Builder<T : Comparable<T>>(

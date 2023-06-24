@@ -15,9 +15,9 @@ import java.lang.reflect.Field
 
 private typealias Formatter = (value: Int) -> String
 
-fun NumberPicker.setup(numberOfValues: Int, formatter: Formatter) {
+fun NumberPicker.setup() {
     setupScrollSpeed()
-    setValues(numberOfValues, formatter)
+    findEditText()?.setRawInputType(InputType.TYPE_CLASS_NUMBER)
 }
 
 fun NumberPicker.setValues(numberOfValues: Int, formatter: Formatter) {
@@ -30,7 +30,6 @@ fun NumberPicker.setValues(numberOfValues: Int, formatter: Formatter) {
     findEditText()?.run {
         filters = arrayOf()
         // it is important to make this call every time new values are set, otherwise it doesn't work.
-        setRawInputType(InputType.TYPE_CLASS_NUMBER)
     }
 }
 
@@ -57,6 +56,10 @@ private fun NumberPicker.getWidthOfString(string: String): Int {
 
 fun NumberPicker.disableKeyboardInput() {
     descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+}
+
+fun NumberPicker.enableKeyboardInput() {
+    descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
 }
 
 private fun ViewGroup.findEditText(): EditText? {

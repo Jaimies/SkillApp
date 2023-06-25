@@ -13,8 +13,11 @@ open class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
             .plusHours(secondPicker.value.toLong())
             .plusMinutes(thirdPicker.value.toLong())
 
-    override val numberOfSecondPickerValues get() = 24
-    override val numberOfThirdPickerValues get() = 60
+    override val maxValue get() = Duration.ofHours(23).plusMinutes(59)
+
+    override fun getPickerValuesForValue(value: Duration): Pair<Int, Int> {
+        return value.toHours().toInt() to value.toMinutesPartCompat().toInt()
+    }
 
     override fun formatSecondPickerValue(value: Int): String {
         return requireContext().getString(R.string.time_hours, value.toString())

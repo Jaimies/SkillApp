@@ -17,12 +17,18 @@ import com.maxpoliakov.skillapp.shared.hardware.hideKeyboard
 
 abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDialog() {
     abstract val value: T
+    abstract val maxValue: T
+
+    abstract fun getPickerValuesForValue(value: T): Pair<Int, Int>
+
     val count get() = unit.toLong(value)
 
     val goalType get() = goalTypeValues[firstPicker.value]?.toDomain()
     val goal get() = goalType?.let { goalType -> Goal(unit.toLong(value), goalType) }
 
     override val numberOfFirstPickerValues get() = goalTypeValues.size
+    final override val numberOfSecondPickerValues get() = getPickerValuesForValue(maxValue).first + 1
+    final override val numberOfThirdPickerValues get() = getPickerValuesForValue(maxValue).second + 1
 
     override fun formatFirstPickerValue(value: Int): String {
         return requireContext().getString(goalTypeValues[value]?.goalResId ?: R.string.no_plan)

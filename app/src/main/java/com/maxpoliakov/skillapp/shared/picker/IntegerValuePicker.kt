@@ -9,12 +9,14 @@ abstract class IntegerValuePicker<T>(
 ) : ValuePicker<T>(unit) {
 
     override val value get() = unit.toType(secondPicker.value.toLong())
+    override val maxValue get() = unit.toType(requireArguments().getInt(MAXIMUM_VALUE, 5000).toLong())
     private val uiUnit = unit.mapToUI()
 
     override val thirdPickerEnabled = false
 
-    override val numberOfSecondPickerValues get() = requireArguments().getInt(MAXIMUM_VALUE, 5_000)
-    override val numberOfThirdPickerValues get() = 0
+    override fun getPickerValuesForValue(value: T): Pair<Int, Int> {
+        return unit.toLong(value).toInt() to 0
+    }
 
     override fun formatSecondPickerValue(value: Int): String {
         return uiUnit.toLongString(value.toLong(), requireContext())

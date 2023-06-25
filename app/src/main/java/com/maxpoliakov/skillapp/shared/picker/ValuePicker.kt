@@ -34,10 +34,6 @@ abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDial
         return requireContext().getString(goalTypeValues[value]?.goalResId ?: R.string.no_plan)
     }
 
-    fun addOnConfirmedListener(listener: (count: Long) -> Unit) {
-        addOnPositiveButtonClickListener { listener(unit.toLong(value)) }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (firstPickerEnabled) setupFirstPicker()

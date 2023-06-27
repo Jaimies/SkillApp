@@ -26,12 +26,16 @@ fun NumberPicker.setValues(numberOfValues: Int, formatter: Formatter) {
     maxValue = numberOfValues - 1
 
     adjustWidthToPreventValuesFromBeingClipped(numberOfValues, formatter)
-    findEditText()?.filters = arrayOf()
+    ensureInitialValuesAreFormatted()
 }
 
 private fun NumberPicker.adjustWidthToPreventValuesFromBeingClipped(numberOfValues: Int, formatter: Formatter) {
     layoutParams.width = getWidthOfLongestString(numberOfValues, formatter) + 10.dp.toPx(context)
     requestLayout()
+}
+
+private fun NumberPicker.ensureInitialValuesAreFormatted() {
+    findEditText()?.filters = arrayOf()
 }
 
 private fun NumberPicker.getWidthOfLongestString(numberOfValues: Int, formatter: Formatter): Int {

@@ -26,11 +26,7 @@ fun NumberPicker.setValues(numberOfValues: Int, formatter: Formatter) {
     maxValue = numberOfValues - 1
 
     adjustWidthToPreventValuesFromBeingClipped(numberOfValues, formatter)
-
-    findEditText()?.run {
-        filters = arrayOf()
-        // it is important to make this call every time new values are set, otherwise it doesn't work.
-    }
+    findEditText()?.filters = arrayOf()
 }
 
 private fun NumberPicker.adjustWidthToPreventValuesFromBeingClipped(numberOfValues: Int, formatter: Formatter) {

@@ -15,16 +15,16 @@ import com.maxpoliakov.skillapp.shared.extensions.enableKeyboardInput
 import com.maxpoliakov.skillapp.shared.extensions.setValues
 import com.maxpoliakov.skillapp.shared.hardware.hideKeyboard
 
-abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDialog() {
+abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDialog(), NumberPicker.OnValueChangeListener {
     abstract val value: T
-    abstract val maxValue: T
+    val maxValue get() = unit.toType((goalType ?: UiGoal.Type.Daily).getMaximumCount(unit))
 
     abstract fun getPickerValuesForValue(value: T): Pair<Int, Int>
 
     val count get() = unit.toLong(value)
 
-    val goalType get() = goalTypeValues[firstPicker.value]?.toDomain()
-    val goal get() = goalType?.let { goalType -> Goal(unit.toLong(value), goalType) }
+    val goalType get() = goalTypeValues[firstPicker.value]
+    val goal get() = goalType?.let { goalType -> Goal(unit.toLong(value), goalType.toDomain()) }
 
     override val numberOfFirstPickerValues get() = goalTypeValues.size
     final override val numberOfSecondPickerValues get() = getPickerValuesForValue(maxValue).first + 1
@@ -41,13 +41,11 @@ abstract class ValuePicker<T>(private val unit: MeasurementUnit<T>) : PickerDial
 
     private fun setupFirstPicker() {
         firstPicker.disableKeyboardInput()
-
-        firstPicker.setOnValueChangedListener { _, _, newVal ->
-            configureGoalValuePickers(goalTypeValues[newVal])
-        }
+        firstPicker.setOnValueChangedListener(this)
+        this.onValueChange(firstPicker, 0, firstPicker.value)
     }
 
-    private fun configureGoalValuePickers(goalType: UiGoal.Type?) {
+    override fun onValueChange(picker: NumberPicker?, oldVal: Int, newVal: Int) {
         if (goalType == null) {
             secondPicker.setBlankValues()
             thirdPicker.setBlankValues()

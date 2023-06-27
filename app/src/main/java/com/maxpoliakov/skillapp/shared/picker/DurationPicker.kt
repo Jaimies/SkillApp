@@ -13,8 +13,6 @@ open class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
             .plusHours(secondPicker.value.toLong())
             .plusMinutes(thirdPicker.value.toLong())
 
-    override val maxValue get() = Duration.ofHours(23).plusMinutes(59)
-
     override fun getPickerValuesForValue(value: Duration): Pair<Int, Int> {
         return value.toHours().toInt() to value.toMinutesPartCompat().toInt()
     }

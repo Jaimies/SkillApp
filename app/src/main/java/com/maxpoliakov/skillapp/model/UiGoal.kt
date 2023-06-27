@@ -2,6 +2,8 @@ package com.maxpoliakov.skillapp.model
 
 import android.content.Context
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.domain.model.Count
+import com.maxpoliakov.skillapp.domain.model.Distance
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
@@ -11,6 +13,7 @@ import com.maxpoliakov.skillapp.shared.MappableEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import java.time.Duration
 
 data class UiGoal(
     val count: Long,
@@ -40,6 +43,13 @@ data class UiGoal(
             override val goalWithValueAndProgressResId get() = R.string.daily_goal
             override val goalWithValueResId get() = R.string.daily_goal_without_progress
 
+            override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
+                is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(23).plusMinutes(59))
+                is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(1999).plusMeters(900))
+                is MeasurementUnit.Times -> 1999
+                is MeasurementUnit.Pages -> 1999
+            }
+
             override fun toDomain() = Goal.Type.Daily
         },
         Weekly {
@@ -47,12 +57,21 @@ data class UiGoal(
             override val goalWithValueAndProgressResId get() = R.string.weekly_goal
             override val goalWithValueResId get() = R.string.weekly_goal_without_progress
 
+            override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
+                is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(167).plusMinutes(59))
+                is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(9999).plusMeters(900))
+                is MeasurementUnit.Times -> 9999
+                is MeasurementUnit.Pages -> 9999
+            }
+
             override fun toDomain() = Goal.Type.Weekly
         };
 
         abstract val goalResId: Int
         abstract val goalWithValueAndProgressResId: Int
         abstract val goalWithValueResId: Int
+
+        abstract fun <T> getMaximumCount(unit: MeasurementUnit<T>): Long
 
         companion object : MappableEnum.Companion<Type, Goal.Type>(values())
     }

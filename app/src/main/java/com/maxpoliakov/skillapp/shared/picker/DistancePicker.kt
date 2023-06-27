@@ -10,8 +10,6 @@ open class DistancePicker : ValuePicker<Distance>(MeasurementUnit.Meters) {
             .ofKilometers(secondPicker.value.toLong())
             .plusMeters(thirdPicker.value * 100L)
 
-    override val maxValue = Distance.ofKilometers(999).plusMeters(900)
-
     override fun getPickerValuesForValue(value: Distance): Pair<Int, Int> {
         return value.toKilometers().toInt() to (value.toMetersPart() / 100).toInt()
     }

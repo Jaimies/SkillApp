@@ -109,10 +109,6 @@ abstract class PickerDialog : DialogFragment() {
         titleText = bundle.getString(TITLE_TEXT_EXTRA)
         overrideThemeResId = bundle.getInt(OVERRIDE_THEME_RES_ID, 0)
         firstPickerEnabled = bundle.getBoolean(ENABLE_FIRST_PICKER, false)
-
-        lifecycleScope.launchWhenStarted {
-            tryRestoreStateOfPickers(bundle)
-        }
     }
 
     private fun tryRestoreStateOfPickers(bundle: Bundle) {
@@ -159,6 +155,8 @@ abstract class PickerDialog : DialogFragment() {
         } else {
             binding.thirdPicker.isGone = true
         }
+
+        tryRestoreStateOfPickers(savedInstanceState ?: requireArguments())
 
         if (!TextUtils.isEmpty(titleText)) {
             binding.headerTitle.text = titleText

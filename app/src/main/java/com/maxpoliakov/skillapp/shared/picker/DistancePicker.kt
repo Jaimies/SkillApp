@@ -24,10 +24,5 @@ open class DistancePicker : ValuePicker<Distance>(MeasurementUnit.Meters) {
 
     open class Builder : ValuePicker.Builder<Distance>(MeasurementUnit.Meters) {
         override fun createDialog() = DistancePicker()
-
-        override fun setValue(value: Distance) {
-            setSecondPickerValue(value.toKilometers().toInt())
-            setThirdPickerValue((value.toMetersPart() / 100).toInt())
-        }
     }
 }

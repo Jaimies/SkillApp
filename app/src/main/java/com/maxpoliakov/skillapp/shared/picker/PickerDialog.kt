@@ -112,13 +112,13 @@ abstract class PickerDialog : DialogFragment() {
     }
 
     private fun onBindingCreated(binding: PickerDialogBinding, savedInstanceState: Bundle?) {
-        val pickerStateBundle = savedInstanceState ?: requireArguments()
+        val pickerValues = getPickerValues(savedInstanceState ?: requireArguments())
 
         // todo too much duplication
         if (firstPickerEnabled) {
             firstPicker.setup()
             configureFirstPickerValues()
-            firstPicker.value = pickerStateBundle.getInt(FIRST_PICKER_VALUE, 0)
+            firstPicker.value = pickerValues.first
         } else {
             binding.firstPicker.isGone = true
         }
@@ -126,7 +126,7 @@ abstract class PickerDialog : DialogFragment() {
         if (secondPickerEnabled) {
             secondPicker.setup()
             configureSecondPickerValues()
-            secondPicker.value = pickerStateBundle.getInt(SECOND_PICKER_VALUE, 0)
+            secondPicker.value = pickerValues.second
         } else {
             binding.secondPicker.isGone = true
         }
@@ -134,7 +134,7 @@ abstract class PickerDialog : DialogFragment() {
         if (thirdPickerEnabled) {
             thirdPicker.setup()
             configureThirdPickerValues()
-            thirdPicker.value = pickerStateBundle.getInt(THIRD_PICKER_VALUE, 0)
+            thirdPicker.value = pickerValues.third
         } else {
             binding.thirdPicker.isGone = true
         }
@@ -165,6 +165,14 @@ abstract class PickerDialog : DialogFragment() {
             }
             dismiss()
         }
+    }
+
+    protected open fun getPickerValues(bundle: Bundle): Triple<Int, Int, Int> {
+        return Triple(
+            first = bundle.getInt(FIRST_PICKER_VALUE, 0),
+            second = bundle.getInt(SECOND_PICKER_VALUE, 0),
+            third = bundle.getInt(THIRD_PICKER_VALUE, 0),
+        )
     }
 
     protected fun configureFirstPickerValues() {

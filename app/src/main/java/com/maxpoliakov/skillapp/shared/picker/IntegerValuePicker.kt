@@ -18,10 +18,4 @@ abstract class IntegerValuePicker<T>(unit: MeasurementUnit<T>) : ValuePicker<T>(
     }
 
     override fun formatThirdPickerValue(value: Int) = ""
-
-    abstract class Builder<T : Comparable<T>>(private val unit: MeasurementUnit<T>) : ValuePicker.Builder<T>(unit) {
-        override fun setValue(value: T) {
-            setSecondPickerValue(unit.toLong(value).toInt())
-        }
-    }
 }

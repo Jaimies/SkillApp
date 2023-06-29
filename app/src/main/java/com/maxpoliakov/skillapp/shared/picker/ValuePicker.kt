@@ -45,6 +45,22 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
         firstPicker.setOnValueChangedListener(this)
     }
 
+    override fun onSaveInstanceState(bundle: Bundle) {
+        bundle.putInt(FIRST_PICKER_VALUE, firstPicker.value)
+        bundle.putLong(COUNT, count)
+    }
+
+    override fun getPickerValues(bundle: Bundle): Triple<Int, Int, Int> {
+        val count = bundle.getLong(COUNT, 0)
+        val pickerValues = getPickerValuesForValue(unit.toType(count))
+
+        return Triple(
+            first = bundle.getInt(FIRST_PICKER_VALUE, 0),
+            second = pickerValues.first,
+            third = pickerValues.second,
+        )
+    }
+
     override fun onValueChange(picker: NumberPicker?, oldVal: Int, newVal: Int) {
         if (goalType == null) {
             secondPicker.setBlankValues()
@@ -66,10 +82,9 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
     abstract class Builder<T : Comparable<T>>(
         private val unit: MeasurementUnit<T>,
     ) : PickerDialog.Builder<Builder<T>, ValuePicker<T>>() {
+        private var count = 0L
         private var mode = Mode.ValuePicker
         private var isInEditMode = false
-
-        protected abstract fun setValue(value: T)
 
         fun setEditModeEnabled(isInEditMode: Boolean): Builder<T> {
             this.isInEditMode = isInEditMode
@@ -77,7 +92,7 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
         }
 
         fun setCount(count: Long): Builder<T> {
-            setValue(unit.toType(count))
+            this.count = count
             return this
         }
 
@@ -108,6 +123,11 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
 
             return super.build()
         }
+
+        override fun saveArguments(bundle: Bundle) {
+            super.saveArguments(bundle)
+            bundle.putLong(COUNT, count)
+        }
     }
 
     enum class Mode {
@@ -128,6 +148,8 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
     }
 
     companion object {
+        const val COUNT = "COUNT"
+
         val goalTypeValues = arrayOf(null, *UiGoal.Type.values())
     }
 }

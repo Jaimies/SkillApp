@@ -27,10 +27,5 @@ open class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
 
     open class Builder : ValuePicker.Builder<Duration>(MeasurementUnit.Millis) {
         override fun createDialog() = DurationPicker()
-
-        override fun setValue(value: Duration) {
-            setSecondPickerValue(value.toHours().toInt())
-            setThirdPickerValue(value.toMinutesPartCompat().toInt())
-        }
     }
 }

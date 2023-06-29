@@ -4,7 +4,7 @@ import com.maxpoliakov.skillapp.domain.model.Count
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 
 open class PageCountPicker : IntegerValuePicker<Count>(MeasurementUnit.Pages) {
-    open class Builder : IntegerValuePicker.Builder<Count>(MeasurementUnit.Pages) {
+    open class Builder : ValuePicker.Builder<Count>(MeasurementUnit.Pages) {
         override fun createDialog() = PageCountPicker()
     }
 }

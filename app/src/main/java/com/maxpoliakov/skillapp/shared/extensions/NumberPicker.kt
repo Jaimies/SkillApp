@@ -30,7 +30,7 @@ fun NumberPicker.setValues(numberOfValues: Int, formatter: Formatter) {
 }
 
 private fun NumberPicker.adjustWidthToPreventValuesFromBeingClipped(numberOfValues: Int, formatter: Formatter) {
-    layoutParams.width = getWidthOfLongestString(numberOfValues, formatter) + 10.dp.toPx(context)
+    layoutParams.width = getWidthOfLongestValue(numberOfValues, formatter) + 10.dp.toPx(context)
     requestLayout()
 }
 
@@ -38,8 +38,18 @@ private fun NumberPicker.ensureInitialValuesAreFormatted() {
     findEditText()?.filters = arrayOf()
 }
 
-private fun NumberPicker.getWidthOfLongestString(numberOfValues: Int, formatter: Formatter): Int {
-    return getWidthOfString(formatter(numberOfValues - 1))
+private fun NumberPicker.getWidthOfLongestValue(numberOfValues: Int, formatter: Formatter): Int {
+    return getWidthOfString(getLongestValue(numberOfValues, formatter))
+}
+
+private fun getLongestValue(numberOfValues: Int, formatter: Formatter): String{
+    // we can afford to search through 10 values,
+    if (numberOfValues <= 10) {
+        return List(numberOfValues, formatter).maxBy(String::length)
+    }
+
+    // but if there's more, we have to assume the last value is the longest
+    return formatter(numberOfValues - 1)
 }
 
 private fun NumberPicker.getWidthOfString(string: String): Int {

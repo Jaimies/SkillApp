@@ -17,7 +17,6 @@ import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.log
@@ -86,15 +85,11 @@ abstract class PickerDialog : DialogFragment() {
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
-        restoreState(bundle ?: arguments)
+        readValuesFromArguments(requireArguments())
     }
 
     override fun onSaveInstanceState(bundle: Bundle) {
         super.onSaveInstanceState(bundle)
-
-        bundle.putInt(TITLE_RES_EXTRA, titleResId)
-        bundle.putString(TITLE_TEXT_EXTRA, titleText)
-        bundle.putInt(OVERRIDE_THEME_RES_ID, overrideThemeResId)
 
         binding?.run {
             bundle.putInt(FIRST_PICKER_VALUE, firstPicker.value)
@@ -103,27 +98,22 @@ abstract class PickerDialog : DialogFragment() {
         }
     }
 
-    fun restoreState(bundle: Bundle?) {
-        if (bundle == null) return
+    private fun readValuesFromArguments(bundle: Bundle) {
         titleResId = bundle.getInt(TITLE_RES_EXTRA, 0)
         titleText = bundle.getString(TITLE_TEXT_EXTRA)
         overrideThemeResId = bundle.getInt(OVERRIDE_THEME_RES_ID, 0)
         firstPickerEnabled = bundle.getBoolean(ENABLE_FIRST_PICKER, false)
     }
 
-    private fun tryRestoreStateOfPickers(bundle: Bundle) {
+    private fun restoreState(bundle: Bundle) {
         try {
-            restoreStateOfPickers(bundle)
+            firstPicker.value = bundle.getInt(FIRST_PICKER_VALUE, 0)
+            secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
+            thirdPicker.value = bundle.getInt(THIRD_PICKER_VALUE, 0)
         } catch (e: Throwable) {
             e.log()
             e.printStackTrace()
         }
-    }
-
-    protected open fun restoreStateOfPickers(bundle: Bundle) {
-        firstPicker.value = bundle.getInt(FIRST_PICKER_VALUE, 0)
-        secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
-        thirdPicker.value = bundle.getInt(THIRD_PICKER_VALUE, 0)
     }
 
     override fun onCreateView(layoutInflater: LayoutInflater, viewGroup: ViewGroup?, bundle: Bundle?): View {
@@ -156,7 +146,7 @@ abstract class PickerDialog : DialogFragment() {
             binding.thirdPicker.isGone = true
         }
 
-        tryRestoreStateOfPickers(savedInstanceState ?: requireArguments())
+        restoreState(savedInstanceState ?: requireArguments())
 
         if (!TextUtils.isEmpty(titleText)) {
             binding.headerTitle.text = titleText

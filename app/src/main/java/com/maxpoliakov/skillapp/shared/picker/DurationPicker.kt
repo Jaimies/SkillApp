@@ -24,8 +24,4 @@ open class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
     override fun formatThirdPickerValue(value: Int): String {
         return requireContext().getString(R.string.time_minutes, value.toString())
     }
-
-    open class Builder : ValuePicker.Builder<Duration>(MeasurementUnit.Millis) {
-        override fun createDialog() = DurationPicker()
-    }
 }

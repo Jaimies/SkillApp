@@ -21,8 +21,4 @@ open class DistancePicker : ValuePicker<Distance>(MeasurementUnit.Meters) {
     override fun formatThirdPickerValue(value: Int): String {
         return requireContext().getString(R.string.distance_meters, value * 100)
     }
-
-    open class Builder : ValuePicker.Builder<Distance>(MeasurementUnit.Meters) {
-        override fun createDialog() = DistancePicker()
-    }
 }

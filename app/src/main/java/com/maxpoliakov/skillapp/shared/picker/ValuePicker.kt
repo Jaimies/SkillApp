@@ -79,72 +79,64 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
         hideKeyboard()
     }
 
-    abstract class Builder<T : Comparable<T>>(
-        private val unit: MeasurementUnit<T>,
-    ) : PickerDialog.Builder<Builder<T>, ValuePicker<T>>() {
-        private var count = 0L
-        private var mode = Mode.ValuePicker
-        private var isInEditMode = false
-
-        fun setEditModeEnabled(isInEditMode: Boolean): Builder<T> {
-            this.isInEditMode = isInEditMode
-            return this
-        }
-
-        fun setCount(count: Long): Builder<T> {
-            this.count = count
-            return this
-        }
-
-        fun setMode(mode: Mode): Builder<T> {
-            this.mode = mode
-            return this
-        }
-
-        fun setGoalType(type: Goal.Type?): Builder<T> {
-            setFirstPickerValue(goalTypeValues.indexOf(type?.mapToUI()).coerceAtLeast(0))
-            return this
-        }
-
-        fun setGoal(goal: Goal?): Builder<T> {
-            setCount(goal?.count ?: 0)
-            setGoalType(goal?.type ?: Goal.Type.Daily)
-
-            return this
-        }
-
-        override fun build(): ValuePicker<T> {
-            setTitleText(
-                if (isInEditMode) mode.getEditModeTitleTextResId(unit.mapToUI())
-                else mode.getTitleTextResId(unit.mapToUI())
-            )
-
-            setEnableFirstPicker(mode.goalPickerEnabled)
-
-            return super.build()
-        }
-
-        override fun saveArguments(bundle: Bundle) {
-            super.saveArguments(bundle)
-            bundle.putLong(COUNT, count)
+    data class Configuration(
+        val value: Value,
+        val isInEditMode: Boolean = false,
+        val overrideThemeResId: Int = 0,
+    ) {
+        fun getArguments() = Bundle().apply {
+            putLong(COUNT, value.count)
+            putInt(FIRST_PICKER_VALUE, goalTypeValues.indexOf((value.goalType ?: Goal.Type.Daily).mapToUI()))
+            putBoolean(ENABLE_FIRST_PICKER, value.mode.goalPickerEnabled)
+            putInt(TITLE_RES_EXTRA, value.mode.getTitleTextResId(value.unit.mapToUI(), isInEditMode))
         }
     }
 
-    enum class Mode {
-        ValuePicker {
-            override fun getTitleTextResId(unit: UiMeasurementUnit) = unit.addRecordDialogTitleResId
+    sealed class Value {
+        abstract val count: Long
+        abstract val goalType: Goal.Type?
+        abstract val unit: MeasurementUnit<*>
+        abstract val mode: Mode
+
+        data class RegularValue(
+            override val count: Long,
+            override val unit: MeasurementUnit<*>,
+        ) : Value() {
+            override val goalType get() = null
+            override val mode get() = Mode.ValuePicker
+        }
+
+        data class GoalValue(
+            val goal: Goal?,
+            override val unit: MeasurementUnit<*>,
+        ): Value() {
+            override val count get() = goal?.count ?: 0
+            override val goalType get() = goal?.type
+            override val mode get() = Mode.GoalPicker
+        }
+    }
+
+    sealed class Mode {
+        object ValuePicker: Mode() {
+            override fun getViewModeTitleTextResId(unit: UiMeasurementUnit) = unit.addRecordDialogTitleResId
             override fun getEditModeTitleTextResId(unit: UiMeasurementUnit) = unit.changeCountResId
             override val goalPickerEnabled = false
-        },
-        GoalPicker {
-            override fun getTitleTextResId(unit: UiMeasurementUnit) = R.string.select_goal
+        }
+
+        object GoalPicker: Mode() {
+            override fun getViewModeTitleTextResId(unit: UiMeasurementUnit) = R.string.select_goal
             override val goalPickerEnabled = true
-        };
+        }
 
         abstract val goalPickerEnabled: Boolean
 
-        abstract fun getTitleTextResId(unit: UiMeasurementUnit): Int
-        open fun getEditModeTitleTextResId(unit: UiMeasurementUnit) = getTitleTextResId(unit)
+        abstract fun getViewModeTitleTextResId(unit: UiMeasurementUnit): Int
+        open fun getEditModeTitleTextResId(unit: UiMeasurementUnit) = getViewModeTitleTextResId(unit)
+
+        fun getTitleTextResId(unit: UiMeasurementUnit, isInEditMode: Boolean): Int {
+            if (isInEditMode) return getViewModeTitleTextResId(unit)
+            else return getEditModeTitleTextResId(unit)
+        }
     }
 
     companion object {

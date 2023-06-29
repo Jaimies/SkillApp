@@ -64,12 +64,17 @@ private fun NumberPicker.getWidthOfString(string: String): Int {
     }
 }
 
-fun NumberPicker.disableKeyboardInput() {
-    descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+fun NumberPicker.setKeyboardInputEnabled(enabled: Boolean) {
+    if (enabled) enableKeyboardInput()
+    else disableKeyboardInput()
 }
 
 fun NumberPicker.enableKeyboardInput() {
     descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
+}
+
+fun NumberPicker.disableKeyboardInput() {
+    descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
 }
 
 private fun ViewGroup.findEditText(): EditText? {

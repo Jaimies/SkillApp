@@ -175,15 +175,15 @@ abstract class PickerDialog : DialogFragment() {
         )
     }
 
-    protected fun configureFirstPickerValues() {
+    protected open fun configureFirstPickerValues() {
         binding!!.firstPicker.setValues(numberOfFirstPickerValues, ::formatFirstPickerValue)
     }
 
-    protected fun configureSecondPickerValues() {
+    protected open fun configureSecondPickerValues() {
         binding!!.secondPicker.setValues(numberOfSecondPickerValues, ::formatSecondPickerValue)
     }
 
-    protected fun configureThirdPickerValues() {
+    protected open fun configureThirdPickerValues() {
         binding!!.thirdPicker.setValues(numberOfThirdPickerValues, ::formatThirdPickerValue)
     }
 

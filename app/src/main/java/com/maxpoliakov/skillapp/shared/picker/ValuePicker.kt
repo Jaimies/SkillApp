@@ -11,17 +11,23 @@ import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.extensions.disableKeyboardInput
-import com.maxpoliakov.skillapp.shared.extensions.enableKeyboardInput
+import com.maxpoliakov.skillapp.shared.extensions.setKeyboardInputEnabled
 import com.maxpoliakov.skillapp.shared.extensions.setValues
 import com.maxpoliakov.skillapp.shared.hardware.hideKeyboard
 
 abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDialog(), NumberPicker.OnValueChangeListener {
     abstract val value: T
-    val maxValue get() = unit.toType((goalType ?: UiGoal.Type.Daily).getMaximumCount(unit))
+    val count get() = unit.toLong(value)
+
+    val maxCount: Long
+        get() {
+            val goalType = if (firstPickerEnabled) goalType else UiGoal.Type.Daily
+            return goalType?.getMaximumCount(unit) ?: 0
+        }
+
+    val maxValue: T get() = unit.toType(maxCount)
 
     abstract fun getPickerValuesForValue(value: T): Pair<Int, Int>
-
-    val count get() = unit.toLong(value)
 
     val goalType get() = goalTypeValues[firstPicker.value]
     val goal get() = goalType?.let { goalType -> Goal(unit.toLong(value), goalType.toDomain()) }
@@ -29,6 +35,8 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
     override val numberOfFirstPickerValues get() = goalTypeValues.size
     final override val numberOfSecondPickerValues get() = getPickerValuesForValue(maxValue).first + 1
     final override val numberOfThirdPickerValues get() = getPickerValuesForValue(maxValue).second + 1
+
+    private val noValueFormatter = NumberPicker.Formatter { requireContext().getString(R.string.plan_no_time) }
 
     override fun formatFirstPickerValue(value: Int): String {
         return requireContext().getString(goalTypeValues[value]?.goalResId ?: R.string.no_plan)
@@ -61,22 +69,30 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
         )
     }
 
-    override fun onValueChange(picker: NumberPicker?, oldVal: Int, newVal: Int) {
-        if (goalType == null) {
-            secondPicker.setBlankValues()
-            thirdPicker.setBlankValues()
-        } else {
-            secondPicker.enableKeyboardInput()
-            thirdPicker.enableKeyboardInput()
-            configureSecondPickerValues()
-            configureThirdPickerValues()
-        }
+    override fun configureSecondPickerValues() {
+        secondPicker.configureValues(numberOfSecondPickerValues, this::formatSecondPickerValue)
     }
 
-    private fun NumberPicker.setBlankValues() {
-        setValues(1) { context.getString(R.string.plan_no_time) }
-        disableKeyboardInput()
-        hideKeyboard()
+    override fun configureThirdPickerValues() {
+        thirdPicker.configureValues(numberOfThirdPickerValues, this::formatThirdPickerValue)
+    }
+
+    private fun NumberPicker.configureValues(numberOfValues: Int, formatter: NumberPicker.Formatter) {
+        setValues(
+            numberOfValues,
+            if (numberOfValues == 1) noValueFormatter else formatter,
+        )
+
+        setKeyboardInputEnabled(numberOfValues == 1)
+    }
+
+    override fun onValueChange(picker: NumberPicker, oldVal: Int, newVal: Int) {
+        configureSecondPickerValues()
+        configureThirdPickerValues()
+
+        if (maxCount == 0L) {
+            picker.hideKeyboard()
+        }
     }
 
     data class Configuration(

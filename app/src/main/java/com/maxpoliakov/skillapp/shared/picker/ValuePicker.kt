@@ -43,7 +43,6 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
         firstPicker.disableKeyboardInput()
         firstPicker.wrapSelectorWheel = false
         firstPicker.setOnValueChangedListener(this)
-        this.onValueChange(firstPicker, 0, firstPicker.value)
     }
 
     override fun onValueChange(picker: NumberPicker?, oldVal: Int, newVal: Int) {

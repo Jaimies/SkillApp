@@ -19,7 +19,6 @@ import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.data.log
 import com.maxpoliakov.skillapp.databinding.PickerDialogBinding
 import com.maxpoliakov.skillapp.shared.extensions.setValues
 import com.maxpoliakov.skillapp.shared.extensions.setup
@@ -105,17 +104,6 @@ abstract class PickerDialog : DialogFragment() {
         firstPickerEnabled = bundle.getBoolean(ENABLE_FIRST_PICKER, false)
     }
 
-    private fun restoreState(bundle: Bundle) {
-        try {
-            firstPicker.value = bundle.getInt(FIRST_PICKER_VALUE, 0)
-            secondPicker.value = bundle.getInt(SECOND_PICKER_VALUE, 0)
-            thirdPicker.value = bundle.getInt(THIRD_PICKER_VALUE, 0)
-        } catch (e: Throwable) {
-            e.log()
-            e.printStackTrace()
-        }
-    }
-
     override fun onCreateView(layoutInflater: LayoutInflater, viewGroup: ViewGroup?, bundle: Bundle?): View {
         val binding = PickerDialogBinding.inflate(layoutInflater, viewGroup, false)
         this.binding = binding
@@ -124,10 +112,13 @@ abstract class PickerDialog : DialogFragment() {
     }
 
     private fun onBindingCreated(binding: PickerDialogBinding, savedInstanceState: Bundle?) {
+        val pickerStateBundle = savedInstanceState ?: requireArguments()
+
         // todo too much duplication
         if (firstPickerEnabled) {
             firstPicker.setup()
             configureFirstPickerValues()
+            firstPicker.value = pickerStateBundle.getInt(FIRST_PICKER_VALUE, 0)
         } else {
             binding.firstPicker.isGone = true
         }
@@ -135,6 +126,7 @@ abstract class PickerDialog : DialogFragment() {
         if (secondPickerEnabled) {
             secondPicker.setup()
             configureSecondPickerValues()
+            secondPicker.value = pickerStateBundle.getInt(SECOND_PICKER_VALUE, 0)
         } else {
             binding.secondPicker.isGone = true
         }
@@ -142,11 +134,10 @@ abstract class PickerDialog : DialogFragment() {
         if (thirdPickerEnabled) {
             thirdPicker.setup()
             configureThirdPickerValues()
+            thirdPicker.value = pickerStateBundle.getInt(THIRD_PICKER_VALUE, 0)
         } else {
             binding.thirdPicker.isGone = true
         }
-
-        restoreState(savedInstanceState ?: requireArguments())
 
         if (!TextUtils.isEmpty(titleText)) {
             binding.headerTitle.text = titleText

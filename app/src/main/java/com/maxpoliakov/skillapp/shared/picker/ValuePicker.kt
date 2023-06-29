@@ -66,8 +66,6 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
     abstract class Builder<T : Comparable<T>>(
         private val unit: MeasurementUnit<T>,
     ) : PickerDialog.Builder<Builder<T>, ValuePicker<T>>() {
-        abstract val maxValue: T
-
         private var mode = Mode.ValuePicker
         private var isInEditMode = false
 
@@ -79,7 +77,7 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
         }
 
         fun setCount(count: Long): Builder<T> {
-            setValue(unit.toType(count).coerceAtMost(maxValue))
+            setValue(unit.toType(count))
             return this
         }
 

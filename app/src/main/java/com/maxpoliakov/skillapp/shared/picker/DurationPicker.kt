@@ -26,8 +26,6 @@ open class DurationPicker : ValuePicker<Duration>(MeasurementUnit.Millis) {
     }
 
     open class Builder : ValuePicker.Builder<Duration>(MeasurementUnit.Millis) {
-        override val maxValue get() = Duration.ofHours(23).plusMinutes(59)
-
         override fun createDialog() = DurationPicker()
 
         override fun setValue(value: Duration) {

@@ -1,16 +1,16 @@
 <resources>
-    <string name="no_plan">Без плана</string>
-    <string name="plan_daily">В день</string>
-    <string name="plan_weekly">В неделю</string>
-    <string name="plan_lifetime">Общая</string>
+    <string name="goal_type_none">Без плана</string>
+    <string name="goal_type_daily">В день</string>
+    <string name="goal_type_weekly">В неделю</string>
+    <string name="goal_type_lifetime">Общая</string>
 
-    <string name="daily_goal">Цель на день: %1$s\u00A0/\u00A0%2$s</string>
-    <string name="weekly_goal">Цель на неделю: %1$s\u00A0/\u00A0%2$s</string>
-    <string name="lifetime_goal">Цель: %1$s\u00A0/\u00A0%2$s</string>
+    <string name="daily_goal_progress">Цель на день: %1$s\u00A0/\u00A0%2$s</string>
+    <string name="weekly_goal_progress">Цель на неделю: %1$s\u00A0/\u00A0%2$s</string>
+    <string name="lifetime_goal_progress">Цель: %1$s\u00A0/\u00A0%2$s</string>
 
-    <string name="daily_goal_without_progress">Цель на день: %s</string>
-    <string name="weekly_goal_without_progress">Цель на неделю: %s</string>
-    <string name="lifetime_goal_without_progress">Общая цель: %s</string>
+    <string name="daily_goal_value">Цель на день: %s</string>
+    <string name="weekly_goal_value">Цель на неделю: %s</string>
+    <string name="lifetime_goal_value">Общая цель: %s</string>
 
     <string name="select_goal">Выбор цели</string>
     <string name="goal_not_set">Цель не установлена</string>

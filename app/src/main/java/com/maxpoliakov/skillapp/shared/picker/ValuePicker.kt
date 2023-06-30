@@ -39,7 +39,7 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
     private val noValueFormatter = NumberPicker.Formatter { requireContext().getString(R.string.plan_no_time) }
 
     override fun formatFirstPickerValue(value: Int): String {
-        return requireContext().getString(goalTypeValues[value]?.goalResId ?: R.string.no_plan)
+        return requireContext().getString(goalTypeValues[value]?.goalResId ?: R.string.goal_type_none)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

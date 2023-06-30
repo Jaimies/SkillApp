@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.model
 
 import android.content.Context
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.domain.model.Count
 import com.maxpoliakov.skillapp.domain.model.Distance
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
@@ -39,9 +38,9 @@ data class UiGoal(
 
     enum class Type : MappableEnum<Type, Goal.Type> {
         Daily {
-            override val goalResId get() = R.string.plan_daily
-            override val goalWithValueAndProgressResId get() = R.string.daily_goal
-            override val goalWithValueResId get() = R.string.daily_goal_without_progress
+            override val goalResId get() = R.string.goal_type_daily
+            override val goalWithValueAndProgressResId get() = R.string.daily_goal_progress
+            override val goalWithValueResId get() = R.string.daily_goal_value
 
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(23).plusMinutes(59))
@@ -53,9 +52,9 @@ data class UiGoal(
             override fun toDomain() = Goal.Type.Daily
         },
         Weekly {
-            override val goalResId get() = R.string.plan_weekly
-            override val goalWithValueAndProgressResId get() = R.string.weekly_goal
-            override val goalWithValueResId get() = R.string.weekly_goal_without_progress
+            override val goalResId get() = R.string.goal_type_weekly
+            override val goalWithValueAndProgressResId get() = R.string.weekly_goal_progress
+            override val goalWithValueResId get() = R.string.weekly_goal_value
 
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(167).plusMinutes(59))
@@ -68,9 +67,9 @@ data class UiGoal(
         },
 
         Lifetime {
-            override val goalResId get() = R.string.plan_lifetime
-            override val goalWithValueAndProgressResId get() = R.string.lifetime_goal
-            override val goalWithValueResId get() = R.string.lifetime_goal_without_progress
+            override val goalResId get() = R.string.goal_type_lifetime
+            override val goalWithValueAndProgressResId get() = R.string.lifetime_goal_progress
+            override val goalWithValueResId get() = R.string.lifetime_goal_value
 
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(1_000_000).plusMinutes(59))

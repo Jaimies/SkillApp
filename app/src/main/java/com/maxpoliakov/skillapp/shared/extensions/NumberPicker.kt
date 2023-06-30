@@ -54,8 +54,7 @@ private fun getLongestValue(numberOfValues: Int, formatter: Formatter): String{
 
 private fun NumberPicker.getWidthOfString(string: String): Int {
     val paint = Paint().also {
-        // todo polyfill
-        it.textSize = textSize
+        it.textSize = getTextSizeCompat().toFloat()
     }
 
     Rect().run {
@@ -87,6 +86,11 @@ private fun ViewGroup.findEditText(): EditText? {
     }
 
     return null
+}
+
+// NumberPicker.getTextSize() only available in API 29+
+private fun NumberPicker.getTextSizeCompat(): Int {
+    return context.getDimensionAttribute(android.R.attr.textSize)
 }
 
 private const val NUMBER_PICKER_MAX_FLING_VELOCITY_FIELD = "mMaximumFlingVelocity"

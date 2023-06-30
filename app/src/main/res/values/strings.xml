@@ -99,19 +99,6 @@
     <string name="one_year">years</string>
     <string name="backup_sign_in_title">Sign\u00A0in to back\u00A0up your\u00A0data</string>
     <string name="google_sign_in_btn_text">Continue with Google</string>
-    <string name="daily_goal">Daily goal: %1$s\u00A0/\u00A0%2$s</string>
-    <string name="weekly_goal">Weekly goal: %1$s\u00A0/\u00A0%2$s</string>
-    <string name="lifetime_goal">Total goal: %1$s\u00A0/\u00A0%2$s</string>
-    <string name="no_plan">No plan</string>
-    <string name="plan_daily">Daily</string>
-    <string name="plan_weekly">Weekly</string>
-    <string name="plan_lifetime">Total</string>
-    <string name="plan_no_time" translatable="false">--</string>
-    <string name="goal_not_set">Goal not set</string>
-    <string name="daily_goal_without_progress">Daily goal: %s</string>
-    <string name="weekly_goal_without_progress">Weekly goal: %s</string>
-    <string name="lifetime_goal_without_progress">Total goal: %s</string>
-    <string name="select_goal">Select goal</string>
     <string name="add_time">Add time</string>
     <string name="measurement_unit">Measurement unit</string>
     <string name="mail_app_not_found">Email application not found</string>

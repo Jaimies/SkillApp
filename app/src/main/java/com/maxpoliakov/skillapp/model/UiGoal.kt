@@ -65,6 +65,21 @@ data class UiGoal(
             }
 
             override fun toDomain() = Goal.Type.Weekly
+        },
+
+        Lifetime {
+            override val goalResId get() = R.string.plan_lifetime
+            override val goalWithValueAndProgressResId get() = R.string.lifetime_goal
+            override val goalWithValueResId get() = R.string.lifetime_goal_without_progress
+
+            override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
+                is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(1_000_000).plusMinutes(59))
+                is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(1_000_000).plusMeters(900))
+                is MeasurementUnit.Times -> 1_000_000
+                is MeasurementUnit.Pages -> 1_000_000
+            }
+
+            override fun toDomain() = Goal.Type.Lifetime
         };
 
         abstract val goalResId: Int

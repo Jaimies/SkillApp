@@ -31,7 +31,14 @@ enum class StatisticInterval {
         override val numberOfValues get() = 10
 
         override fun atStartOfInterval(date: LocalDate) = date.withDayOfYear(1)
-    }
+    },
+
+    Lifetime {
+        override val unit: ChronoUnit get() = ChronoUnit.FOREVER
+        override val numberOfValues get() = 0
+
+        override fun atStartOfInterval(date: LocalDate) = LocalDate.of(0, 1, 1)
+    },
     ;
 
     abstract val unit: ChronoUnit

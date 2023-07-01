@@ -44,9 +44,9 @@ data class UiGoal(
 
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(23).plusMinutes(59))
-                is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(1999).plusMeters(900))
-                is MeasurementUnit.Times -> 1999
-                is MeasurementUnit.Pages -> 1999
+                is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(500).plusMeters(900))
+                is MeasurementUnit.Times -> 2_000
+                is MeasurementUnit.Pages -> 2_000
             }
 
             override fun toDomain() = Goal.Type.Daily
@@ -58,9 +58,9 @@ data class UiGoal(
 
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(167).plusMinutes(59))
-                is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(9999).plusMeters(900))
-                is MeasurementUnit.Times -> 9999
-                is MeasurementUnit.Pages -> 9999
+                is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(2_000).plusMeters(900))
+                is MeasurementUnit.Times -> 10_000
+                is MeasurementUnit.Pages -> 10_000
             }
 
             override fun toDomain() = Goal.Type.Weekly
@@ -72,10 +72,10 @@ data class UiGoal(
             override val goalValueResId get() = R.string.lifetime_goal_value
 
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
-                is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(1_000_000).plusMinutes(59))
-                is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(1_000_000).plusMeters(900))
-                is MeasurementUnit.Times -> 1_000_000
-                is MeasurementUnit.Pages -> 1_000_000
+                is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(50_000).plusMinutes(59))
+                is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(80_000).plusMeters(900))
+                is MeasurementUnit.Times -> 500_000
+                is MeasurementUnit.Pages -> 500_000
             }
 
             override fun toDomain() = Goal.Type.Lifetime

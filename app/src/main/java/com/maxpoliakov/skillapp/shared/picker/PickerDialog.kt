@@ -12,9 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.annotation.AttrRes
-import androidx.annotation.CallSuper
-import androidx.annotation.StringRes
-import androidx.annotation.StyleRes
+import androidx.core.view.ViewCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -144,6 +142,7 @@ abstract class PickerDialog : DialogFragment() {
         }
         if (titleResId != 0) {
             binding.headerTitle.setText(titleResId)
+            ViewCompat.setAccessibilityPaneTitle(binding.root, requireContext().getString(titleResId))
         }
 
         binding.okButton.setOnClickListener { v ->

@@ -1,6 +1,7 @@
 plugins {
     id 'kotlin'
     id 'kotlin-kapt'
+    id 'java-test-fixtures'
 
     id 'io.gitlab.arturbosch.detekt' version '1.21.0'
 }
@@ -32,4 +33,6 @@ dependencies {
     testImplementation project(":sharedTest")
     testImplementation "io.mockk:mockk:$Versions.mockk"
     testImplementation "io.kotest:kotest-runner-junit5:$Versions.kotestJUnit5"
+
+    testFixturesImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$Versions.coroutines"
 }

@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.NumberPicker.Formatter
 import androidx.core.view.children
-import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import java.lang.reflect.Field
 
@@ -29,7 +28,7 @@ fun NumberPicker.setValues(numberOfValues: Int, formatter: Formatter) {
 }
 
 private fun NumberPicker.adjustWidthToPreventValuesFromBeingClipped(numberOfValues: Int, formatter: Formatter) {
-    layoutParams.width = getWidthOfLongestValue(numberOfValues, formatter) + 10.dp.toPx(context)
+    layoutParams.width = getWidthOfLongestValue(numberOfValues, formatter).toInt()
     requestLayout()
 }
 
@@ -37,7 +36,7 @@ private fun NumberPicker.ensureInitialValuesAreFormatted() {
     findEditText()?.filters = arrayOf()
 }
 
-private fun NumberPicker.getWidthOfLongestValue(numberOfValues: Int, formatter: Formatter): Int {
+private fun NumberPicker.getWidthOfLongestValue(numberOfValues: Int, formatter: Formatter): Float {
     // we can afford to search through 10 values,
     if (numberOfValues <= 10) {
         return List(numberOfValues, formatter::format).maxOf(::getWidthOfString)
@@ -47,15 +46,12 @@ private fun NumberPicker.getWidthOfLongestValue(numberOfValues: Int, formatter: 
     return getWidthOfString(formatter.format(numberOfValues - 1))
 }
 
-private fun NumberPicker.getWidthOfString(string: String): Int {
-    val paint = Paint().also {
+private fun NumberPicker.getWidthOfString(string: String): Float {
+    val paint = TextPaint().also {
         it.textSize = getTextSizeCompat().toFloat()
     }
 
-    Rect().run {
-        paint.getTextBounds(string, 0, string.length, this)
-        return width()
-    }
+    return paint.measureText(string)
 }
 
 fun NumberPicker.setKeyboardInputEnabled(enabled: Boolean) {

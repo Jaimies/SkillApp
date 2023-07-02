@@ -38,17 +38,13 @@ private fun NumberPicker.ensureInitialValuesAreFormatted() {
 }
 
 private fun NumberPicker.getWidthOfLongestValue(numberOfValues: Int, formatter: Formatter): Int {
-    return getWidthOfString(getLongestValue(numberOfValues, formatter))
-}
-
-private fun getLongestValue(numberOfValues: Int, formatter: Formatter): String{
     // we can afford to search through 10 values,
     if (numberOfValues <= 10) {
-        return List(numberOfValues, formatter::format).maxBy(String::length)
+        return List(numberOfValues, formatter::format).maxOf(::getWidthOfString)
     }
 
     // but if there's more, we have to assume the last value is the longest
-    return formatter.format(numberOfValues - 1)
+    return getWidthOfString(formatter.format(numberOfValues - 1))
 }
 
 private fun NumberPicker.getWidthOfString(string: String): Int {

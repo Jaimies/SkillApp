@@ -83,7 +83,7 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
             if (numberOfValues == 1) noValueFormatter else formatter,
         )
 
-        setKeyboardInputEnabled(numberOfValues == 1)
+        setKeyboardInputEnabled(numberOfValues != 1)
     }
 
     override fun onValueChange(picker: NumberPicker, oldVal: Int, newVal: Int) {

@@ -86,6 +86,8 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
     }
 
     override fun onValueChange(picker: NumberPicker, oldVal: Int, newVal: Int) {
+        secondPicker.clearFocus()
+        thirdPicker.clearFocus()
         configureSecondPickerValues()
         configureThirdPickerValues()
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="skills_item_name_padding_left_without_handle">20dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="padding_default">16dp</dimen>
     <dimen name="margin_xsmall">4dp</dimen>
@@ -8,7 +7,5 @@
     <dimen name="productivity_summary_spacing_start">44dp</dimen>
     <dimen name="small_card_height">70dp</dimen>
     <dimen name="highlighted_card_stroke_width">4dp</dimen>
-    <dimen name="picker_dialog_text_input_width">95dp</dimen>
-    <dimen name="picker_dialog_text_input_height">80dp</dimen>
     <dimen name="number_picker_height">240dp</dimen>
 </resources>

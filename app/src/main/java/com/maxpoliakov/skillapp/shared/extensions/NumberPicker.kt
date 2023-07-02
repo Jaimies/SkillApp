@@ -1,9 +1,8 @@
 package com.maxpoliakov.skillapp.shared.extensions
 
-import android.graphics.Paint
-import android.graphics.Rect
 import android.os.Build
 import android.text.InputType
+import android.text.TextPaint
 import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.EditText
@@ -15,7 +14,11 @@ import java.lang.reflect.Field
 
 fun NumberPicker.setup() {
     setupScrollSpeed()
-    findEditText()?.setRawInputType(InputType.TYPE_CLASS_NUMBER)
+
+    findEditText()?.also {
+        it.setRawInputType(InputType.TYPE_CLASS_NUMBER)
+        preventTypingOfValuesGreaterThanMaxValue(it)
+    }
 }
 
 fun NumberPicker.setValues(numberOfValues: Int, formatter: Formatter) {
@@ -24,16 +27,15 @@ fun NumberPicker.setValues(numberOfValues: Int, formatter: Formatter) {
     maxValue = numberOfValues - 1
 
     adjustWidthToPreventValuesFromBeingClipped(numberOfValues, formatter)
-    ensureInitialValuesAreFormatted()
+}
+
+private fun NumberPicker.preventTypingOfValuesGreaterThanMaxValue(editText: EditText) {
+    editText.filters = arrayOf(MaxValueInputFilter { maxValue })
 }
 
 private fun NumberPicker.adjustWidthToPreventValuesFromBeingClipped(numberOfValues: Int, formatter: Formatter) {
     layoutParams.width = getWidthOfLongestValue(numberOfValues, formatter).toInt()
     requestLayout()
-}
-
-private fun NumberPicker.ensureInitialValuesAreFormatted() {
-    findEditText()?.filters = arrayOf()
 }
 
 private fun NumberPicker.getWidthOfLongestValue(numberOfValues: Int, formatter: Formatter): Float {

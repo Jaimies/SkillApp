@@ -8,12 +8,11 @@ import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.NumberPicker
+import android.widget.NumberPicker.Formatter
 import androidx.core.view.children
 import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import java.lang.reflect.Field
-
-private typealias Formatter = (value: Int) -> String
 
 fun NumberPicker.setup() {
     setupScrollSpeed()
@@ -45,11 +44,11 @@ private fun NumberPicker.getWidthOfLongestValue(numberOfValues: Int, formatter: 
 private fun getLongestValue(numberOfValues: Int, formatter: Formatter): String{
     // we can afford to search through 10 values,
     if (numberOfValues <= 10) {
-        return List(numberOfValues, formatter).maxBy(String::length)
+        return List(numberOfValues, formatter::format).maxBy(String::length)
     }
 
     // but if there's more, we have to assume the last value is the longest
-    return formatter(numberOfValues - 1)
+    return formatter.format(numberOfValues - 1)
 }
 
 private fun NumberPicker.getWidthOfString(string: String): Int {

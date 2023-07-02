@@ -11,7 +11,6 @@ import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.extensions.disableKeyboardInput
-import com.maxpoliakov.skillapp.shared.extensions.setKeyboardInputEnabled
 import com.maxpoliakov.skillapp.shared.extensions.setValues
 import com.maxpoliakov.skillapp.shared.hardware.hideKeyboard
 
@@ -80,10 +79,10 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
     private fun NumberPicker.configureValues(numberOfValues: Int, formatter: NumberPicker.Formatter) {
         setValues(
             numberOfValues,
-            if (numberOfValues == 1) noValueFormatter else formatter,
+            if (numberOfValues > 1) formatter else noValueFormatter,
         )
 
-        setKeyboardInputEnabled(numberOfValues != 1)
+        isEnabled = numberOfValues > 1
     }
 
     override fun onValueChange(picker: NumberPicker, oldVal: Int, newVal: Int) {

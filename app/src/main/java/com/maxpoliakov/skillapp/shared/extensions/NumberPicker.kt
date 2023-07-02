@@ -54,15 +54,6 @@ private fun NumberPicker.getWidthOfString(string: String): Float {
     return paint.measureText(string)
 }
 
-fun NumberPicker.setKeyboardInputEnabled(enabled: Boolean) {
-    if (enabled) enableKeyboardInput()
-    else disableKeyboardInput()
-}
-
-fun NumberPicker.enableKeyboardInput() {
-    descendantFocusability = ViewGroup.FOCUS_BEFORE_DESCENDANTS
-}
-
 fun NumberPicker.disableKeyboardInput() {
     descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
 }

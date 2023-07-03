@@ -114,8 +114,14 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
                 updateGroupIdOfSkill(change.skill, groupId)
                 updateGroupIdOfSkill(change.otherSkill, groupId)
 
-                listAdapter.addItem(groupHeaderPosition, newGroup)
-                listAdapter.addItem(groupFooterPosition, SkillGroupFooter(newGroup))
+                val updatedList = listAdapter.currentList.toMutableList().apply {
+                    add(groupHeaderPosition, newGroup)
+                    add(groupFooterPosition, SkillGroupFooter(newGroup))
+                }
+
+                listAdapter.setListWithoutDiffing(updatedList)
+                listAdapter.notifyItemInserted(groupHeaderPosition)
+                listAdapter.notifyItemInserted(groupFooterPosition)
             }
         }
 

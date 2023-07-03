@@ -78,17 +78,6 @@ class SkillListAdapter @AssistedInject constructor(
         return position < 0 || position >= currentList.size
     }
 
-    fun addItem(position: Int, item: Any) {
-        if (isOutOfBounds(position)) return
-
-        val list = currentList.toMutableList().apply {
-            add(position, item)
-        }
-
-        setListWithoutDiffing(list)
-        notifyItemInserted(position)
-    }
-
     fun moveItem(from: Int, to: Int) {
         if (isOutOfBounds(from) || isOutOfBounds(to)) {
             return

@@ -39,8 +39,6 @@ class ChartDataImpl @AssistedInject constructor(
     @Assisted
     private val criteria: Flow<Criteria>,
     @Assisted
-    private val dateRange: Flow<ClosedRange<LocalDate>?>,
-    @Assisted
     private val unit: Flow<MeasurementUnit<*>>,
     @Assisted
     private val goal: Flow<Goal?>,
@@ -61,7 +59,7 @@ class ChartDataImpl @AssistedInject constructor(
 
     override val selectedDateRange = _selectedDateRange.asLiveData()
 
-    private val state = combine(criteria, dateRange, unit, _interval, goal, ::State)
+    private val state = combine(criteria, unit, _interval, goal, ::State)
 
     override val pieChartData = state
         .combine(_selectedDateRange, this::getPieEntries)
@@ -82,7 +80,7 @@ class ChartDataImpl @AssistedInject constructor(
     private fun makeBarChartData(state: State, stats: List<Statistic>): BarChartData? {
         return BarChartData.from(
             state.interval, stats, state.unit, state.goal,
-            state.dateRange ?: LocalDate.now()
+            LocalDate.now()
                 .minus(state.interval.numberOfValues.toLong() - 1, state.interval.unit)
                 .rangeTo(LocalDate.now()),
         )
@@ -98,7 +96,7 @@ class ChartDataImpl @AssistedInject constructor(
         return state.map { state ->
             getStats.getGroupedStats(
                 state.criteria,
-                state.dateRange ?: LocalDate.now()
+                LocalDate.now()
                     .minus(interval.numberOfValues.toLong() - 1, interval.unit)
                     .rangeTo(LocalDate.now()),
                 interval,
@@ -149,7 +147,6 @@ class ChartDataImpl @AssistedInject constructor(
 
     data class State(
         val criteria: Criteria,
-        val dateRange: ClosedRange<LocalDate>?,
         val unit: MeasurementUnit<*>,
         val interval: StatisticInterval,
         val goal: Goal?,
@@ -159,7 +156,6 @@ class ChartDataImpl @AssistedInject constructor(
     interface Factory {
         fun create(
             criteria: Flow<Criteria>,
-            dateRange: Flow<ClosedRange<LocalDate>?>,
             unit: Flow<MeasurementUnit<*>>,
             goal: Flow<Goal?>,
         ): ChartDataImpl

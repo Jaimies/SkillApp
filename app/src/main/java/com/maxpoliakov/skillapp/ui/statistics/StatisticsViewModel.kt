@@ -27,8 +27,7 @@ class StatisticsViewModel @Inject constructor(
 
     private val criteria = SkillSelectionCriteria.WithUnit(Millis)
 
-    // todo too long
-    val chartData = chartDataFactory.create(flowOf(criteria), flowOf(null), flowOf(Millis), flowOf(null))
+    val chartData = chartDataFactory.create(flowOf(criteria), flowOf(Millis), flowOf(null))
 
     val summary = getSkills.getSkills(criteria)
         .combine(getStats.getLast7DayCount(criteria), ::calculateSummary)

@@ -72,7 +72,7 @@ abstract class DetailsViewModel(
     private val goalFlow = flow.map { it.goal }
     private val unitFlow = flow.map { it.unit }
 
-    val chartData by lazy { chartDataFactory.create(flowOf(selectionCriteria), flowOf(null), unitFlow, goalFlow) }
+    val chartData by lazy { chartDataFactory.create(flowOf(selectionCriteria), unitFlow, goalFlow) }
 
     private val recordedCountFlow = flow.flatMapLatest { trackable ->
         val goal = trackable.goal ?: return@flatMapLatest flowOf(0L)

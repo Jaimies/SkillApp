@@ -78,12 +78,7 @@ class ChartDataImpl @AssistedInject constructor(
     }.asLiveData()
 
     private fun makeBarChartData(state: State, stats: List<Statistic>): BarChartData? {
-        return BarChartData.from(
-            state.interval, stats, state.unit, state.goal,
-            LocalDate.now()
-                .minus(state.interval.numberOfValues.toLong() - 1, state.interval.unit)
-                .rangeTo(LocalDate.now()),
-        )
+        return BarChartData.from(state.interval, stats, state.unit, state.goal)
     }
 
     override fun setInterval(interval: UiStatisticInterval) {
@@ -94,13 +89,7 @@ class ChartDataImpl @AssistedInject constructor(
 
     private fun getStatistics(interval: StatisticInterval): Flow<List<Statistic>> {
         return state.map { state ->
-            getStats.getGroupedStats(
-                state.criteria,
-                LocalDate.now()
-                    .minus(interval.numberOfValues.toLong() - 1, interval.unit)
-                    .rangeTo(LocalDate.now()),
-                interval,
-            )
+            getStats.getGroupedStats(state.criteria, interval)
         }.flatMapLatest { it }
     }
 

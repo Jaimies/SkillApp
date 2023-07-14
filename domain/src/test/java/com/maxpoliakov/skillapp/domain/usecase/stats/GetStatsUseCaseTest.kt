@@ -72,7 +72,7 @@ class GetStatsUseCaseTest : StringSpec({
 
         val criteria = SkillSelectionCriteria.WithIdInList(listOf(1, 2))
 
-        useCase.getGroupedStats(criteria, LocalDate.now()..LocalDate.now(), StatisticInterval.Weekly)
+        useCase.getGroupedStats(criteria, StatisticInterval.Weekly, LocalDate.now()..LocalDate.now())
             .first() shouldBe listOf(
             Statistic(referenceDate, Duration.ofHours(12).toMillis()),
             Statistic(referenceDate.minusWeeks(1), Duration.ofHours(8).toMillis()),

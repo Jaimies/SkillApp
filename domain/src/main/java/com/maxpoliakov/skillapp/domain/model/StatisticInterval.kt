@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.domain.model
 
 import com.maxpoliakov.skillapp.shared.util.EPOCH
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
+import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -46,12 +47,20 @@ enum class StatisticInterval {
 
     abstract fun atStartOfInterval(date: LocalDate): LocalDate
 
+    fun atEndOfInterval(date: LocalDate): LocalDate {
+        return atStartOfInterval(date).plus(1, unit).minusDays(1)
+    }
+
     fun toNumber(date: LocalDate): Long {
         return unit.between(atStartOfInterval(EPOCH), atStartOfInterval(date))
     }
 
     fun getCurrentDateRange(): ClosedRange<LocalDate> {
-        return getDateRangeContaining(LocalDate.now())
+        return getDateRangeContaining(getCurrentDate())
+    }
+
+    fun getDateRangeContainingLastNPeriods(n: Long): ClosedRange<LocalDate> {
+        return atStartOfInterval(getCurrentDate().minus(n - 1, unit))..atEndOfInterval(getCurrentDate())
     }
 
     fun toDateRange(number: Long): ClosedRange<LocalDate> {
@@ -63,8 +72,6 @@ enum class StatisticInterval {
     }
 
     fun getDateRangeContaining(date: LocalDate): ClosedRange<LocalDate> {
-        val start = atStartOfInterval(date)
-        val end = start.plus(1, unit).minusDays(1)
-        return start..end
+        return atStartOfInterval(date)..atEndOfInterval(date)
     }
 }

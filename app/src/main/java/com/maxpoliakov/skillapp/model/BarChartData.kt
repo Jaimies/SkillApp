@@ -33,8 +33,9 @@ data class BarChartData(
             entries: List<Statistic>,
             unit: MeasurementUnit<*>,
             goal: Goal?,
-            dates: ClosedRange<LocalDate>,
         ): BarChartData? {
+            val dates = interval.getDateRangeContainingLastNPeriods(interval.numberOfValues.toLong())
+
             val mappedEntries = entries
                 .withMissingStats(interval, dates)
                 .toEntries(interval)

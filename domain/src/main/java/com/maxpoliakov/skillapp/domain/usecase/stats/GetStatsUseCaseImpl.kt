@@ -27,7 +27,7 @@ class GetStatsUseCaseImpl @Inject constructor(
         }
     }
 
-    override fun getGroupedStats(criteria: SkillSelectionCriteria, dates: ClosedRange<LocalDate>, interval: StatisticInterval): Flow<List<Statistic>> {
+    override fun getGroupedStats(criteria: SkillSelectionCriteria, interval: StatisticInterval, dates: ClosedRange<LocalDate>): Flow<List<Statistic>> {
         return getStats(criteria, dates).map { stats ->
             stats
                 .groupBy { interval.toNumber(it.date) }

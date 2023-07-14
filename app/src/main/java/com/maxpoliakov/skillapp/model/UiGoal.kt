@@ -30,16 +30,18 @@ data class UiGoal(
         if (completedCount == null) return ""
 
         return context.getString(
-            type.goalProgressResId,
-            unit.toString(completedCount, context),
-            unit.toString(count, context),
+            type.goalValueResId,
+            context.getString(
+                R.string.goal_progress,
+                unit.toString(completedCount, context),
+                unit.toString(count, context),
+            )
         )
     }
 
     enum class Type : MappableEnum<Type, Goal.Type> {
         Daily {
             override val goalResId get() = R.string.goal_type_daily
-            override val goalProgressResId get() = R.string.daily_goal_progress
             override val goalValueResId get() = R.string.daily_goal_value
 
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
@@ -53,7 +55,6 @@ data class UiGoal(
         },
         Weekly {
             override val goalResId get() = R.string.goal_type_weekly
-            override val goalProgressResId get() = R.string.weekly_goal_progress
             override val goalValueResId get() = R.string.weekly_goal_value
 
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
@@ -65,10 +66,8 @@ data class UiGoal(
 
             override fun toDomain() = Goal.Type.Weekly
         },
-
         Lifetime {
             override val goalResId get() = R.string.goal_type_lifetime
-            override val goalProgressResId get() = R.string.lifetime_goal_progress
             override val goalValueResId get() = R.string.lifetime_goal_value
 
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
@@ -82,7 +81,6 @@ data class UiGoal(
         };
 
         abstract val goalResId: Int
-        abstract val goalProgressResId: Int
         abstract val goalValueResId: Int
 
         abstract fun <T> getMaximumCount(unit: MeasurementUnit<T>): Long

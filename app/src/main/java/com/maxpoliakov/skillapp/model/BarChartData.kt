@@ -20,7 +20,7 @@ data class BarChartData(
 ) {
     val shouldDisplayGoal: Boolean
         get() {
-            return goal != null && goal.type.toDomain().interval == interval.toDomain()
+            return goal != null && goal.type.interval == interval
         }
 
     fun getHighestYValue(): Float {

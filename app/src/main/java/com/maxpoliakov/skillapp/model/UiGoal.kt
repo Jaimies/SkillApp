@@ -8,6 +8,7 @@ import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
+import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.MappableEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -84,6 +85,8 @@ data class UiGoal(
         abstract val goalValueResId: Int
 
         abstract fun <T> getMaximumCount(unit: MeasurementUnit<T>): Long
+
+        val interval = this.toDomain().interval.mapToUI()
 
         companion object : MappableEnum.Companion<Type, Goal.Type>(values())
     }

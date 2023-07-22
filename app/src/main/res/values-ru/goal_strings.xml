@@ -2,10 +2,14 @@
     <string name="goal_type_none">Без цели</string>
     <string name="goal_type_daily">В день</string>
     <string name="goal_type_weekly">В неделю</string>
+    <string name="goal_type_monthly">В месяц</string>
+    <string name="goal_type_yearly">В год</string>
     <string name="goal_type_lifetime">Общая</string>
 
     <string name="daily_goal_value">Цель на день: %s</string>
     <string name="weekly_goal_value">Цель на неделю: %s</string>
+    <string name="monthly_goal_value">Цель на месяц: %s</string>
+    <string name="yearly_goal_value">Цель на год: %s</string>
     <string name="lifetime_goal_value">Общая цель: %s</string>
 
     <string name="select_goal">Выбор цели</string>

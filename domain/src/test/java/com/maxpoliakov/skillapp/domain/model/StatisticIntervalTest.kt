@@ -65,16 +65,16 @@ class StatisticIntervalTest : StringSpec({
         val clock = MutableClock(Instant.EPOCH, ZoneId.systemDefault())
         setClock(clock)
 
-        StatisticInterval.Daily.getDateRangeContainingLastNPeriods(5) shouldBe LocalDate.parse("1969-12-28")..LocalDate.parse("1970-01-01")
-        StatisticInterval.Daily.getDateRangeContainingLastNPeriods(10) shouldBe LocalDate.parse("1969-12-23")..LocalDate.parse("1970-01-01")
+        StatisticInterval.Daily.getDateRangeContainingLastNIntervals(5) shouldBe LocalDate.parse("1969-12-28")..LocalDate.parse("1970-01-01")
+        StatisticInterval.Daily.getDateRangeContainingLastNIntervals(10) shouldBe LocalDate.parse("1969-12-23")..LocalDate.parse("1970-01-01")
 
-        StatisticInterval.Weekly.getDateRangeContainingLastNPeriods(2) shouldBe LocalDate.parse("1969-12-22")..LocalDate.parse("1970-01-04")
-        StatisticInterval.Weekly.getDateRangeContainingLastNPeriods(5) shouldBe LocalDate.parse("1969-12-01")..LocalDate.parse("1970-01-04")
+        StatisticInterval.Weekly.getDateRangeContainingLastNIntervals(2) shouldBe LocalDate.parse("1969-12-22")..LocalDate.parse("1970-01-04")
+        StatisticInterval.Weekly.getDateRangeContainingLastNIntervals(5) shouldBe LocalDate.parse("1969-12-01")..LocalDate.parse("1970-01-04")
 
-        StatisticInterval.Monthly.getDateRangeContainingLastNPeriods(2) shouldBe LocalDate.parse("1969-12-01")..LocalDate.parse("1970-01-31")
-        StatisticInterval.Monthly.getDateRangeContainingLastNPeriods(5) shouldBe LocalDate.parse("1969-09-01")..LocalDate.parse("1970-01-31")
+        StatisticInterval.Monthly.getDateRangeContainingLastNIntervals(2) shouldBe LocalDate.parse("1969-12-01")..LocalDate.parse("1970-01-31")
+        StatisticInterval.Monthly.getDateRangeContainingLastNIntervals(5) shouldBe LocalDate.parse("1969-09-01")..LocalDate.parse("1970-01-31")
 
-        StatisticInterval.Yearly.getDateRangeContainingLastNPeriods(2) shouldBe LocalDate.parse("1969-01-01")..LocalDate.parse("1970-12-31")
-        StatisticInterval.Yearly.getDateRangeContainingLastNPeriods(5) shouldBe LocalDate.parse("1966-01-01")..LocalDate.parse("1970-12-31")
+        StatisticInterval.Yearly.getDateRangeContainingLastNIntervals(2) shouldBe LocalDate.parse("1969-01-01")..LocalDate.parse("1970-12-31")
+        StatisticInterval.Yearly.getDateRangeContainingLastNIntervals(5) shouldBe LocalDate.parse("1966-01-01")..LocalDate.parse("1970-12-31")
     }
 })

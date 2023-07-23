@@ -12,7 +12,7 @@ interface GetStatsUseCase {
     fun getGroupedStats(
         criteria: SkillSelectionCriteria,
         interval: StatisticInterval,
-        dates: ClosedRange<LocalDate> = interval.getDateRangeContainingLastNPeriods(interval.numberOfValues.toLong()),
+        dates: ClosedRange<LocalDate> = interval.getDateRangeContainingLastNIntervals(interval.numberOfValues.toLong()),
     ): Flow<List<Statistic>>
 
     fun getLast7DayCount(criteria: SkillSelectionCriteria): Flow<Long>

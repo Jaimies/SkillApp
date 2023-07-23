@@ -112,7 +112,7 @@ data class UiGoal(
 
         abstract fun <T> getMaximumCount(unit: MeasurementUnit<T>): Long
 
-        val interval = this.toDomain().interval.mapToUI()
+        val interval = this.toDomain().interval
 
         companion object : MappableEnum.Companion<Type, Goal.Type>(values())
     }

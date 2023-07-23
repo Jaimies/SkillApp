@@ -70,7 +70,7 @@
                     <include
                         android:id="@+id/progress_goal_indicator"
                         layout="@layout/progress_goal_indicator"
-                        app:countToday="@{viewModel.timeToday}"
+                        app:countToday="@{viewModel.countThisInterval}"
                         app:goal="@{viewModel.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
                         app:unit="@{viewModel.unit}" />

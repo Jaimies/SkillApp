@@ -74,7 +74,7 @@ abstract class DetailsViewModel(
 
     val chartData by lazy { chartDataFactory.create(flowOf(selectionCriteria), unitFlow, goalFlow) }
 
-    private val recordedCountFlow = flow.flatMapLatest { trackable ->
+    private val recordedCountThisInterval = flow.flatMapLatest { trackable ->
         val goal = trackable.goal ?: return@flatMapLatest flowOf(0L)
         if (goal.type == Goal.Type.Lifetime) flowOf(trackable.totalCount)
         else getRecentTime.getCountSinceStartOfInterval(trackable.id, goal.type.interval)
@@ -92,13 +92,13 @@ abstract class DetailsViewModel(
             .sumByDuration { it.startTime.until(ZonedDateTime.now()) }
     }
 
-    private val _timeToday = recordedCountFlow.combine(timeOnStopwatch) { recordedCount, timeOnStopwatch ->
+    private val _countThisInterval = recordedCountThisInterval.combine(timeOnStopwatch) { recordedCount, timeOnStopwatch ->
         recordedCount + timeOnStopwatch.toMillis()
     }
 
-    val timeToday = _timeToday.asLiveData()
+    val countThisInterval = _countThisInterval.asLiveData()
 
-    val goalPercentage = combine(goalFlow, _timeToday) { goal, timeToday ->
+    val goalPercentage = combine(goalFlow, _countThisInterval) { goal, timeToday ->
         val goalCount = goal?.count ?: return@combine 0
         (timeToday * 100_000 / goalCount).toInt()
     }.asLiveData()

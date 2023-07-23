@@ -86,7 +86,7 @@
                         layout="@layout/progress_goal_indicator"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:countToday="@{viewModel.timeToday}"
+                        app:countToday="@{viewModel.countThisInterval}"
                         app:goal="@{viewModel.goal}"
                         app:goalPercentage="@{viewModel.goalPercentage}"
                         app:unit="@{viewModel.unit}" />

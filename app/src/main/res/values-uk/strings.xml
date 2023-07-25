@@ -130,4 +130,6 @@
     <string name="this_week">Цей тиждень</string>
     <string name="this_month">Цей місяць</string>
     <string name="this_year">Цей рік</string>
+    <string name="day_start_time">Час початку дня</string>
+    <string name="select_day_start_time">Обрати час початку дня</string>
 </resources>

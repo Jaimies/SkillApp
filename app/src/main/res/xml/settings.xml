@@ -19,6 +19,12 @@
             android:key="backups"
             android:title="@string/backups" />
 
+        <com.maxpoliakov.skillapp.shared.settings.TimePickerPreference
+            android:icon="@drawable/ic_clock"
+            android:title="@string/day_start_time"
+            android:defaultValue="00:00"
+            android:key="day_start_time"/>
+
         <Preference
             android:icon="@drawable/ic_heart"
             android:key="support_app"

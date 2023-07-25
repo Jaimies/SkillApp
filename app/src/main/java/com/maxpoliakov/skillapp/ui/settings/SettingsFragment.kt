@@ -11,11 +11,13 @@ import androidx.preference.PreferenceFragmentCompat
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.analytics.logCurrentScreenToAnalytics
+import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
 import com.maxpoliakov.skillapp.shared.extensions.setTheme
+import com.maxpoliakov.skillapp.shared.fragment.showTimePicker
+import com.maxpoliakov.skillapp.shared.settings.TimePickerPreference
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,6 +52,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         setOnPreferenceClickedListener("contact_developer") {
             openUri(Intent.ACTION_SENDTO, R.string.mail_dev_uri, R.string.mail_app_not_found)
+        }
+    }
+
+    override fun onDisplayPreferenceDialog(preference: Preference) {
+        if (preference !is TimePickerPreference) {
+            return super.onDisplayPreferenceDialog(preference)
+        }
+
+        childFragmentManager.showTimePicker(
+            requireContext(),
+            R.string.select_day_start_time,
+            preference.value,
+        ) { time ->
+            preference.value = time
         }
     }
 

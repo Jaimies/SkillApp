@@ -138,6 +138,9 @@
     <string name="all_time">All time</string>
     <string name="date_range" translatable="false">%1$s - %2$s</string>
 
+    <string name="day_start_time">Time when day starts</string>
+    <string name="select_day_start_time">Select time when day starts</string>
+
     <string name="skill_transition_name" translatable="false">skill_transition_%d</string>
     <string name="timer_transition_name" translatable="false">timer_transition_%d</string>
     <string name="group_transition_name" translatable="false">group_transition_%d</string>

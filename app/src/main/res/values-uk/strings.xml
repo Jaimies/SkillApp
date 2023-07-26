@@ -114,7 +114,6 @@
     <string name="intro_3_1_0_title">Щоб упорядкувати навички, натисніть кнопку \"Впорядкувати\"</string>
     <string name="intro_3_1_0_text">Тоді ви зможете впорядковувати та групувати навички як зазвичай</string>
     <string name="pie_chart_legend_entry">%1$s: %2$s</string>
-    <string name="detailed_stats">Детальна статистика</string>
     <string name="drive_out_of_space">Недостатньо вільного місця на вашому Google Диску</string>
     <string name="failed_to_reach_google_drive">Не вдалося з\'єднатися з Google Диском</string>
     <string name="add_pages">Додати сторінки</string>

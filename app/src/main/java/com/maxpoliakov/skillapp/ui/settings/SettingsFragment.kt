@@ -17,6 +17,7 @@ import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
 import com.maxpoliakov.skillapp.shared.extensions.setTheme
 import com.maxpoliakov.skillapp.shared.fragment.showTimePicker
+import com.maxpoliakov.skillapp.shared.settings.DayStartTimeSummaryProvider
 import com.maxpoliakov.skillapp.shared.settings.TimePickerPreference
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +38,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findNavController().navigateAnimated(R.id.backup_fragment_dest)
             true
         }
+
+        findPreference<Preference>("day_start_time")!!.summaryProvider = DayStartTimeSummaryProvider()
 
         setOnPreferenceClickedListener("support_app") {
             openUri(Intent.ACTION_VIEW, R.string.support_app_uri, R.string.browser_not_found)

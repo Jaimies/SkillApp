@@ -18,13 +18,11 @@ class TimePickerPreference : DialogPreference {
             notifyChanged()
         }
 
+    val formattedValue get() = value.format(formatter)
+
     private val formatter = DateTimeFormatter.ofPattern("HH:mm")
 
     override fun getSummary(): CharSequence? {
-        if (summaryProvider != null) {
-            return summaryProvider!!.provideSummary(this)
-        }
-
-        return value.format(formatter)
+        return summaryProvider?.provideSummary(this) ?: formattedValue
     }
 }

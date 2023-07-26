@@ -132,4 +132,6 @@
     <string name="this_year">Цей рік</string>
     <string name="day_start_time">Час початку дня</string>
     <string name="select_day_start_time">Обрати час початку дня</string>
+    <string name="day_start_time_summary">Записи, додані до %s, будуть зараховані за попередній день.</string>
+    <string name="day_start_time_default_summary">Ви можете змінити цей параметр, якщо хочете, щоб записи, додані до певного часу, зараховувалися за попередній день.</string>
 </resources>

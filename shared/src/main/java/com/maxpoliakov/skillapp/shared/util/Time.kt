@@ -12,7 +12,7 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
-import java.time.temporal.ChronoUnit.MILLIS
+import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
 import java.time.temporal.WeekFields
 import java.util.Date
@@ -58,8 +58,8 @@ fun dateOfEpochMillis(millis: Long): LocalDate {
 }
 
 fun Temporal.until(other: Temporal): Duration {
-    val millis = this.until(other, MILLIS)
-    return Duration.ofMillis(millis)
+    val nanos = this.until(other, ChronoUnit.NANOS)
+    return Duration.ofNanos(nanos)
 }
 
 fun <T> ClosedRange<T>.toDuration(): Duration where T : Comparable<T>, T : Temporal {

@@ -18,10 +18,14 @@ class PartOfDateTimeRangeTest : DescribeSpec({
             ).toDuration() shouldBe Duration.ofHours(5).plusMinutes(30)
         }
 
-        it("returns the correct duration when the end value of the range is LocalTime.MAX") {
+        it("rounds up if the end time is 1 nanosecond short from a round number of seconds") {
             PartOfDateTimeRange(
-                LocalDate.ofEpochDay(0), LocalTime.of(20, 0)..LocalTime.MAX,
+                LocalDate.ofEpochDay(0), LocalTime.of(20, 0)..LocalTime.of(23, 59, 59, 999999999),
             ).toDuration() shouldBe Duration.ofHours(4)
+
+            PartOfDateTimeRange(
+                LocalDate.ofEpochDay(0), LocalTime.of(20, 0)..LocalTime.of(20, 59, 59, 999999999),
+            ).toDuration() shouldBe Duration.ofHours(1)
         }
     }
 })

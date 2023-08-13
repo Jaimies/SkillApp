@@ -6,6 +6,7 @@ import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.domain.repository.TimerRepository
+import com.maxpoliakov.skillapp.domain.repository.UserPreferenceRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.shared.range.split
@@ -22,6 +23,7 @@ import javax.inject.Singleton
 @Singleton
 class StopwatchImpl @Inject constructor(
     private val timerRepository: TimerRepository,
+    private val preferenceRepository: UserPreferenceRepository,
     private val addRecord: AddRecordUseCase,
     private val notificationUtil: NotificationUtil,
     @ApplicationScope
@@ -69,7 +71,7 @@ class StopwatchImpl @Inject constructor(
 
         val addedRecords = mutableListOf<Record>()
 
-        for (range in dateTimeRange.split()) {
+        for (range in dateTimeRange.split(preferenceRepository.getDayStartTime())) {
             val record = Record(
                 name = "",
                 skillId = timer.skillId,

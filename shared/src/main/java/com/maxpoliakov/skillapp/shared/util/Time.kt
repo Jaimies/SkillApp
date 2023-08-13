@@ -7,6 +7,7 @@ import java.time.DateTimeException
 import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.Month
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
@@ -62,8 +63,10 @@ fun Temporal.until(other: Temporal): Duration {
     return Duration.ofNanos(nanos)
 }
 
-fun <T> ClosedRange<T>.toDuration(): Duration where T : Comparable<T>, T : Temporal {
-    return start.until(endInclusive)
+fun ClosedRange<LocalTime>.toDuration(): Duration {
+    val duration = start.until(endInclusive)
+    if (duration.isNegative) return duration.plusDays(1)
+    return duration
 }
 
 fun String.toZonedDateTimeOrNull(): ZonedDateTime? {

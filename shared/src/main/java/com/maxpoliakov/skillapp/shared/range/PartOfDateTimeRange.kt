@@ -6,7 +6,7 @@ import java.time.LocalTime
 
 data class PartOfDateTimeRange(val date: LocalDate, val range: ClosedRange<LocalTime>) {
     fun toDuration() = range.toDuration().let { duration ->
-        if (range.endInclusive == LocalTime.MAX) duration.plusMillis(1)
+        if (duration.nano == 999_999_999) duration.plusNanos(1)
         else duration
     }
 }

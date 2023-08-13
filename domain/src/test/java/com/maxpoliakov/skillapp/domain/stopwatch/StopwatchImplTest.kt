@@ -43,6 +43,8 @@ class SpyAddRecordUseCase : AddRecordUseCase {
 class StopwatchImplTest : DescribeSpec({
     val addRecord = SpyAddRecordUseCase()
     val notificationUtil = mockk<NotificationUtil>(relaxed = true)
+    val preferenceRepository = StubUserPreferenceRepository()
+
     var clock = MutableClock(EPOCH, UTC)
 
     beforeEach { clock = MutableClock(EPOCH, UTC) }
@@ -54,7 +56,7 @@ class StopwatchImplTest : DescribeSpec({
 
     fun createStopwatch(timers: List<Timer> = listOf()): StopwatchImpl {
         val repository = StubTimerRepository(timers)
-        return StopwatchImpl(repository, addRecord, notificationUtil, CoroutineScope(Dispatchers.IO), clock)
+        return StopwatchImpl(repository, preferenceRepository, addRecord, notificationUtil, CoroutineScope(Dispatchers.IO), clock)
     }
 
     fun createRecord(
@@ -115,7 +117,7 @@ class StopwatchImplTest : DescribeSpec({
 
         it("shows the notification") {
             val repository = StubTimerRepository(listOf())
-            val stopwatch = StopwatchImpl(repository, addRecord, notificationUtil, TestCoroutineScope(), clock)
+            val stopwatch = StopwatchImpl(repository, preferenceRepository, addRecord, notificationUtil, TestCoroutineScope(), clock)
             stopwatch.start(skillId)
             coVerify { notificationUtil.updateTimerNotifications(listOf(createTimer())) }
         }

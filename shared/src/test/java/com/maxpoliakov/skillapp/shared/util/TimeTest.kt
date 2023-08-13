@@ -6,6 +6,7 @@ import java.time.DayOfWeek
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.util.Locale
 
@@ -48,6 +49,12 @@ class TimeTest : StringSpec({
         Instant.ofEpochSecond(0).until(Instant.ofEpochSecond(2)) shouldBe Duration.ofSeconds(2)
         Instant.ofEpochMilli(0).until(Instant.ofEpochMilli(5)) shouldBe Duration.ofMillis(5)
         Instant.ofEpochSecond(0).until(Instant.ofEpochSecond(0, 1)) shouldBe Duration.ofNanos(1)
+    }
+
+    "toDuration()" {
+        (LocalTime.of(10, 0)..LocalTime.of(12, 0)).toDuration() shouldBe Duration.ofHours(2)
+        (LocalTime.of(12, 0)..LocalTime.of(15, 0)).toDuration() shouldBe Duration.ofHours(3)
+        (LocalTime.of(20, 0)..LocalTime.of(10, 0)).toDuration() shouldBe Duration.ofHours(14)
     }
 
     "toMinutesPartCompat()" {

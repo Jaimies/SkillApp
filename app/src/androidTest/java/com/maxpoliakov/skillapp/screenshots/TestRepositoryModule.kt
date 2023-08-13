@@ -2,6 +2,7 @@ package com.maxpoliakov.skillapp.screenshots
 
 import com.maxpoliakov.skillapp.data.di.RepositoryModule
 import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
+import com.maxpoliakov.skillapp.data.preference.SharedPreferencesUserPreferenceRepository
 import com.maxpoliakov.skillapp.data.records.DBRecordsRepository
 import com.maxpoliakov.skillapp.data.skill.DBSkillRepository
 import com.maxpoliakov.skillapp.data.stats.DBGroupStatsRepository
@@ -13,6 +14,7 @@ import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
+import com.maxpoliakov.skillapp.domain.repository.UserPreferenceRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
@@ -44,4 +46,7 @@ interface TestRepositoryModule {
 
     @Binds
     fun provideDriveRepository(repository: StubBackupRepository): BackupRepository
+
+    @Binds
+    fun provideUserPreferenceRepository(repository: SharedPreferencesUserPreferenceRepository): UserPreferenceRepository
 }

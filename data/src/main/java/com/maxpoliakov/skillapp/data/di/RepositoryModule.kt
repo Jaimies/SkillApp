@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.data.di
 import com.maxpoliakov.skillapp.data.auth.GoogleAuthRepository
 import com.maxpoliakov.skillapp.data.drive.GoogleDriveBackupRepository
 import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
+import com.maxpoliakov.skillapp.data.preference.SharedPreferencesUserPreferenceRepository
 import com.maxpoliakov.skillapp.data.records.DBRecordsRepository
 import com.maxpoliakov.skillapp.data.skill.DBSkillRepository
 import com.maxpoliakov.skillapp.data.stats.DBGroupStatsRepository
@@ -16,6 +17,7 @@ import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
 import com.maxpoliakov.skillapp.domain.repository.TimerRepository
+import com.maxpoliakov.skillapp.domain.repository.UserPreferenceRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -47,4 +49,7 @@ interface RepositoryModule {
 
     @Binds
     fun provideTimerRepository(repository: DBTimerRepository): TimerRepository
+
+    @Binds
+    fun provideUserPreferenceRepository(repository: SharedPreferencesUserPreferenceRepository): UserPreferenceRepository
 }

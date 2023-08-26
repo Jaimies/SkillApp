@@ -7,7 +7,6 @@ import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.grouping.GetGroupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.grouping.UpdateGroupUseCase
-import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentGroupCountUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.DetailsViewModel
@@ -20,11 +19,9 @@ class SkillGroupViewModel @Inject constructor(
     args: SkillGroupFragmentArgs,
     getGroup: GetGroupUseCase,
     stopwatch: Stopwatch,
-    getRecentCount: GetRecentGroupCountUseCase,
     private val updateGroup: UpdateGroupUseCase,
 ) : DetailsViewModel(
     stopwatch,
-    getRecentCount,
     getGroup.getById(args.groupId),
 ) {
     private val groupId = args.groupId

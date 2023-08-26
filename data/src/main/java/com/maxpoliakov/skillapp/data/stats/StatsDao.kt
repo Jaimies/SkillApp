@@ -28,8 +28,8 @@ interface StatsDao : BaseDao<DBStatistic> {
     )
     fun getStats(skillId: Int, dateStart: LocalDate, dateEnd: LocalDate): Flow<List<DBStatistic>>
 
-    @Query("SELECT SUM(time) from stats WHERE skillId = :skillId AND date(date) BETWEEN date(:startDate) AND date(:endDate)")
-    fun getCountInDateRange(skillId: Int, startDate: LocalDate, endDate: LocalDate): Flow<Long?>
+    @Query("SELECT SUM(time) FROM stats WHERE skillId IN (:skillIds) AND date(date) BETWEEN date(:startDate) AND date(:endDate)")
+    fun getCountInDateRange(skillIds: List<Int>, startDate: LocalDate, endDate: LocalDate): Flow<Long?>
 
     @Query("SELECT * FROM stats")
     suspend fun getAllStats(): List<DBStatistic>

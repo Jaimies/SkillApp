@@ -2,13 +2,13 @@ package com.maxpoliakov.skillapp.domain.usecase.records
 
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
+import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import javax.inject.Inject
 
 class DeleteRecordUseCaseImpl @Inject constructor(
     private val recordsRepository: RecordsRepository,
     private val skillRepository: SkillRepository,
-    private val statsRepository: SkillStatsRepository,
+    private val statsRepository: StatsRepository,
 ): DeleteRecordUseCase {
     override suspend fun run(id: Int) {
         val record = recordsRepository.getRecord(id) ?: return

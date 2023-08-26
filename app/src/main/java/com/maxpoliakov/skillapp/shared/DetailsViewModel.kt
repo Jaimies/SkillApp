@@ -13,10 +13,11 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToUI
-import com.maxpoliakov.skillapp.shared.util.until
-import com.maxpoliakov.skillapp.shared.history.ViewModelWithHistory
 import com.maxpoliakov.skillapp.shared.chart.ChartDataImpl
+import com.maxpoliakov.skillapp.shared.history.ViewModelWithHistory
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
+import com.maxpoliakov.skillapp.shared.util.sumByDuration
+import com.maxpoliakov.skillapp.shared.util.until
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,11 +31,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
 import javax.inject.Inject
-import com.maxpoliakov.skillapp.shared.util.sumByDuration
 
 abstract class DetailsViewModel(
     stopwatch: Stopwatch,
-    getRecentTime: GetRecentCountUseCase,
     flow: Flow<Trackable>,
 ) : ViewModelWithHistory() {
     @Inject
@@ -42,6 +41,9 @@ abstract class DetailsViewModel(
 
     @Inject
     lateinit var getStatsUseCase: GetStatsUseCase
+
+    @Inject
+    lateinit var getRecentCount: GetRecentCountUseCase
 
     override val unitForDailyTotals get() = unitFlow
 
@@ -77,7 +79,7 @@ abstract class DetailsViewModel(
     private val recordedCountThisInterval = flow.flatMapLatest { trackable ->
         val goal = trackable.goal ?: return@flatMapLatest flowOf(0L)
         if (goal.type == Goal.Type.Lifetime) flowOf(trackable.totalCount)
-        else getRecentTime.getCountSinceStartOfInterval(trackable.id, goal.type.interval)
+        else getRecentCount.getCountSinceStartOfInterval(selectionCriteria, goal.type.interval)
     }
 
     private val tick = flow {

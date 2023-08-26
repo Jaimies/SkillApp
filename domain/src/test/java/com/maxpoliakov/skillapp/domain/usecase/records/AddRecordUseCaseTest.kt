@@ -5,7 +5,7 @@ import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
+import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.StubDateProvider
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.Called
@@ -23,7 +23,7 @@ class AddRecordUseCaseTest : StringSpec({
     "adds record if skill exists" {
         val skillRepository = mockk<SkillRepository>(relaxed = true)
         val recordRepository = mockk<RecordsRepository>(relaxed = true)
-        val statsRepository = mockk<SkillStatsRepository>(relaxed = true)
+        val statsRepository = mockk<StatsRepository>(relaxed = true)
         val dateProvider = StubDateProvider(LocalDate.EPOCH)
 
         coEvery { skillRepository.getSkillById(any()) } returns skill
@@ -39,7 +39,7 @@ class AddRecordUseCaseTest : StringSpec({
     "does not add record if skill does not exist" {
         val skillRepository = mockk<SkillRepository>(relaxed = true)
         val recordRepository = mockk<RecordsRepository>(relaxed = true)
-        val statsRepository = mockk<SkillStatsRepository>(relaxed = true)
+        val statsRepository = mockk<StatsRepository>(relaxed = true)
         val dateProvider = StubDateProvider(LocalDate.EPOCH)
 
         coEvery { skillRepository.getSkillById(any()) } returns null
@@ -54,7 +54,7 @@ class AddRecordUseCaseTest : StringSpec({
     "adds record with date returned from DateProvider.getCurrentDateWithRespectToDayStartTime()" {
         val skillRepository = mockk<SkillRepository>(relaxed = true)
         val recordRepository = mockk<RecordsRepository>(relaxed = true)
-        val statsRepository = mockk<SkillStatsRepository>(relaxed = true)
+        val statsRepository = mockk<StatsRepository>(relaxed = true)
         val dateProvider = StubDateProvider(LocalDate.EPOCH.plusDays(5))
 
         coEvery { skillRepository.getSkillById(any()) } returns skill

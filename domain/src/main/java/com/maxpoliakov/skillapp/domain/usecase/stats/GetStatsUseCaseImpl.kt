@@ -4,7 +4,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
+import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import com.maxpoliakov.skillapp.domain.time.DateProvider
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class GetStatsUseCaseImpl @Inject constructor(
     private val skillRepository: SkillRepository,
-    private val statsRepository: SkillStatsRepository,
+    private val statsRepository: StatsRepository,
     private val dateProvider: DateProvider,
 ) : GetStatsUseCase {
 

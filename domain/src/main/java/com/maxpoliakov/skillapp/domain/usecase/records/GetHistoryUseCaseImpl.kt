@@ -6,7 +6,7 @@ import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
+import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class GetHistoryUseCaseImpl @Inject constructor(
     private val recordsRepository: RecordsRepository,
     private val skillRepository: SkillRepository,
-    private val statsRepository: SkillStatsRepository,
+    private val statsRepository: StatsRepository,
 ) : GetHistoryUseCase {
     override fun getRecords(criteria: SkillSelectionCriteria): Flow<PagingData<Record>> {
         return getSkillIds(criteria).flatMapLatest(recordsRepository::getRecordsBySkillIds)

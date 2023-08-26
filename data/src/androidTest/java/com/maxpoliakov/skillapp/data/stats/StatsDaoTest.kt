@@ -87,9 +87,14 @@ class StatsDaoTest {
         statsDao.addRecord(skillId, date.minusDays(1), recordTime.toMillis())
         statsDao.addRecord(skillId, date, recordTime.toMillis())
         statsDao.addRecord(otherSkillId, date, recordTime.toMillis())
+        statsDao.addRecord(yetAnotherSkillId, date, recordTime.toMillis())
         statsDao.addRecord(skillId, date.plusDays(1), recordTime.toMillis())
 
-        statsDao.getCountInDateRange(skillId, date.minusDays(1), date).first() shouldBe recordTime.toMillis() * 2
+        statsDao.getCountInDateRange(
+            listOf(skillId, otherSkillId),
+            date.minusDays(1),
+            date,
+        ).first() shouldBe recordTime.toMillis() * 3
     }
 
     @After

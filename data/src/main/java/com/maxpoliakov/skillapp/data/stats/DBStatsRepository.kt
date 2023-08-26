@@ -3,16 +3,16 @@ package com.maxpoliakov.skillapp.data.stats
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Statistic
-import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
+import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import com.maxpoliakov.skillapp.shared.util.mapList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 
-class DBSkillStatsRepository @Inject constructor(
+class DBStatsRepository @Inject constructor(
     private val statsDao: StatsDao,
-) : SkillStatsRepository {
+) : StatsRepository {
 
     override fun getStats(skillId: Id, dateRange: ClosedRange<LocalDate>): Flow<List<Statistic>> {
         return statsDao.getStats(
@@ -27,6 +27,10 @@ class DBSkillStatsRepository @Inject constructor(
     }
 
     override fun getCount(id: Id, range: ClosedRange<LocalDate>): Flow<Long> {
-        return statsDao.getCountInDateRange(id, range.start, range.endInclusive).map { time -> time ?: 0 }
+        return this.getCount(listOf(id), range)
+    }
+
+    override fun getCount(ids: List<Id>, range: ClosedRange<LocalDate>): Flow<Long> {
+        return statsDao.getCountInDateRange(ids, range.start, range.endInclusive).map { time -> time ?: 0 }
     }
 }

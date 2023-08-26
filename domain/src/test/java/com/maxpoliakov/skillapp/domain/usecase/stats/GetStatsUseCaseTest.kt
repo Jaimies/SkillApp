@@ -9,7 +9,7 @@ import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.StubDateProvider
-import com.maxpoliakov.skillapp.domain.usecase.stub.StubSkillStatsRepository
+import com.maxpoliakov.skillapp.domain.usecase.stub.StubStatsRepository
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -55,7 +55,7 @@ class GetStatsUseCaseTest : StringSpec({
             Statistic(referenceDate.minusDays(5), Duration.ofHours(2).toMillis()),
             Statistic(referenceDate.minusDays(15), Duration.ofHours(2).toMillis()),
         )
-        val statsRepository = StubSkillStatsRepository(
+        val statsRepository = StubStatsRepository(
             mapOf(
                 1 to skillStats,
                 2 to skillStats,

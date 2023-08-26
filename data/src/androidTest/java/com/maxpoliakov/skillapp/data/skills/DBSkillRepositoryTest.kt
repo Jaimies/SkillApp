@@ -6,17 +6,15 @@ import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
 import com.maxpoliakov.skillapp.data.records.RecordsDao
 import com.maxpoliakov.skillapp.data.skill.SkillDao
 import com.maxpoliakov.skillapp.data.skill.mapToDB
-import com.maxpoliakov.skillapp.data.stats.DBGroupStatsRepository
-import com.maxpoliakov.skillapp.data.stats.DBSkillStatsRepository
+import com.maxpoliakov.skillapp.data.stats.DBStatsRepository
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.domain.repository.GroupStatsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillGroupRepository
-import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
-import kotlinx.coroutines.flow.first
+import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -29,8 +27,7 @@ class DBSkillRepositoryTest {
     private lateinit var skillDao: SkillDao
     private lateinit var recordsDao: RecordsDao
     private lateinit var groupRepository: SkillGroupRepository
-    private lateinit var skillStatsRepository: SkillStatsRepository
-    private lateinit var groupStatsRepository: GroupStatsRepository
+    private lateinit var skillStatsRepository: StatsRepository
 
     @Before
     fun setup() {
@@ -38,8 +35,7 @@ class DBSkillRepositoryTest {
         skillDao = db.skillDao()
         recordsDao = db.recordsDao()
         groupRepository = DBSkillGroupRepository(db.skillGroupDao())
-        skillStatsRepository = DBSkillStatsRepository(db.statsDao())
-        groupStatsRepository = DBGroupStatsRepository(db.skillGroupDao(), skillStatsRepository)
+        skillStatsRepository = DBStatsRepository(db.statsDao())
     }
 
     @After
@@ -63,7 +59,6 @@ class DBSkillRepositoryTest {
         skillStatsRepository.addRecord(createRecord(2, Duration.ofHours(3)))
 
         skillStatsRepository.getCount(1, dateRange).first() shouldBe Duration.ofHours(6).toMillis()
-        groupStatsRepository.getCount(1, dateRange).first() shouldBe Duration.ofHours(9).toMillis()
     }
 
     private fun createSkill(name: String, totalTime: Duration, id: Int): Skill {

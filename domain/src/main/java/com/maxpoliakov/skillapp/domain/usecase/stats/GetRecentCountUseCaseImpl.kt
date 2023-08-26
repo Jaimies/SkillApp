@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import java.time.LocalDate
 import javax.inject.Inject
 
-open class GetRecentCountUseCaseImpl @Inject constructor(
+class GetRecentCountUseCaseImpl @Inject constructor(
     private val skillRepository: SkillRepository,
     private val statsRepository: StatsRepository,
     private val dateProvider: DateProvider,

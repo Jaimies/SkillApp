@@ -3,9 +3,9 @@ package com.maxpoliakov.skillapp.domain.usecase.stats
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
-import com.maxpoliakov.skillapp.domain.model.StatisticInterval.*
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillStatsRepository
+import com.maxpoliakov.skillapp.domain.time.DateProvider
 import com.maxpoliakov.skillapp.shared.util.sumByLong
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 class GetStatsUseCaseImpl @Inject constructor(
     private val skillRepository: SkillRepository,
-    private val statsRepository: SkillStatsRepository
+    private val statsRepository: SkillStatsRepository,
+    private val dateProvider: DateProvider,
 ) : GetStatsUseCase {
 
     override fun getStats(criteria: SkillSelectionCriteria, dates: ClosedRange<LocalDate>): Flow<List<Statistic>> {
@@ -41,7 +42,9 @@ class GetStatsUseCaseImpl @Inject constructor(
     }
 
     override fun getLast7DayCount(criteria: SkillSelectionCriteria): Flow<Long> {
-        return getStats(criteria, LocalDate.now().minusDays(6)..LocalDate.now()).map { stats ->
+        val currentDate = dateProvider.getCurrentDateWithRespectToDayStartTime()
+
+        return getStats(criteria, currentDate.minusDays(6)..currentDate).map { stats ->
             stats.sumByLong(Statistic::count)
         }
     }

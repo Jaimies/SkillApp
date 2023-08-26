@@ -15,8 +15,12 @@ class DBStatsRepository @Inject constructor(
 ) : StatsRepository {
 
     override fun getStats(skillId: Id, dateRange: ClosedRange<LocalDate>): Flow<List<Statistic>> {
-        return statsDao.getStats(
-            skillId,
+        return getStats(listOf(skillId), dateRange)
+    }
+
+    override fun getStats(skillIds: List<Id>, dateRange: ClosedRange<LocalDate>): Flow<List<Statistic>> {
+        return statsDao.getStatsGroupedByDate(
+            skillIds,
             dateRange.start,
             dateRange.endInclusive,
         ).mapList(DBStatistic::mapToDomain)

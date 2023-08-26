@@ -32,53 +32,56 @@ class StatsDaoTest {
     }
 
     @Test
-    fun getStats_selectsOnlyStatsForGivenSkillId() = runBlocking {
+    fun getStatsGroupedByDate_selectsOnlyStatsForGivenSkillId() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime.toMillis())
         statsDao.addRecord(otherSkillId, date, recordTime.toMillis())
         statsDao.addRecord(yetAnotherSkillId, date, recordTime.toMillis())
 
-        statsDao.getStats(skillId, date, date).first() shouldBe listOf(
-            DBStatistic(date, skillId, recordTime.toMillis()),
+        statsDao.getStatsGroupedByDate(listOf(skillId), date, date).first() shouldBe listOf(
+            DBStatistic(date, 0, recordTime.toMillis()),
         )
     }
 
     @Test
-    fun getStats_selectsOnlyStatsInGivenRange() = runBlocking {
+    fun getStatsGroupedByDate_selectsOnlyStatsInGivenRange() = runBlocking {
         statsDao.addRecord(skillId, date.minusDays(2), recordTime.toMillis())
         statsDao.addRecord(skillId, date.minusDays(1), recordTime.toMillis())
         statsDao.addRecord(skillId, date, recordTime.toMillis())
         statsDao.addRecord(skillId, date.plusDays(1), recordTime.toMillis())
 
-        statsDao.getStats(skillId, date.minusDays(1), date).first() shouldBe listOf(
-            DBStatistic(date.minusDays(1), skillId, recordTime.toMillis()),
-            DBStatistic(date, skillId, recordTime.toMillis()),
+        statsDao.getStatsGroupedByDate(listOf(skillId), date.minusDays(1), date).first() shouldBe listOf(
+            DBStatistic(date.minusDays(1), 0, recordTime.toMillis()),
+            DBStatistic(date, 0, recordTime.toMillis()),
         )
     }
 
     @Test
-    fun getStats_sumsTime() = runBlocking {
+    fun getStatsGroupedByDate_groupsStatsByDate() = runBlocking {
+        statsDao.addRecord(skillId, date.minusDays(1), recordTime.toMillis())
+        statsDao.addRecord(otherSkillId, date.minusDays(1), recordTime.toMillis())
         statsDao.addRecord(skillId, date, recordTime.toMillis())
         statsDao.addRecord(skillId, date, recordTime.toMillis())
 
-        statsDao.getStats(skillId, date, date).first() shouldBe listOf(
+        statsDao.getStatsGroupedByDate(listOf(skillId, otherSkillId), date.minusDays(1), date).first() shouldBe listOf(
+            DBStatistic(date.minusDays(1), 0, recordTime.toMillis() * 2),
+            DBStatistic(date, 0, recordTime.toMillis() * 2),
+        )
+    }
+
+    @Test
+    fun addRecord_addsTimeRatherThanAddingNewRecord_ifRecordForThatDateAlreadyExists() = runBlocking {
+        statsDao.addRecord(skillId, date, recordTime.toMillis())
+        statsDao.addRecord(skillId, date, recordTime.toMillis())
+
+        statsDao.getAllStats() shouldBe listOf(
             DBStatistic(date, skillId, recordTime.multipliedBy(2).toMillis()),
         )
     }
 
     @Test
-    fun getStats_selectsOnlyWithPositiveTime() = runBlocking {
+    fun getStatsGroupedByDate_selectsOnlyWithPositiveTime() = runBlocking {
         statsDao.addRecord(skillId, date, recordTime.negated().toMillis())
-        statsDao.getStats(skillId, date, date).first() shouldBe listOf()
-    }
-
-    @Test
-    fun getStats_getsStatsForAllSkillsWhenNegativeOnePassedAsId() = runBlocking {
-        statsDao.addRecord(skillId, date, recordTime.toMillis())
-        statsDao.addRecord(otherSkillId, date, recordTime.toMillis())
-
-        statsDao.getStats(-1, date, date).first() shouldBe listOf(
-            DBStatistic(date, -1, recordTime.multipliedBy(2).toMillis())
-        )
+        statsDao.getStatsGroupedByDate(listOf(skillId), date, date).first() shouldBe listOf()
     }
 
     @Test

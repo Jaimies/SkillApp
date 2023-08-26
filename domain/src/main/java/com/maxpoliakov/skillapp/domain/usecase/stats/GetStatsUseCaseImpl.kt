@@ -20,9 +20,7 @@ class GetStatsUseCaseImpl @Inject constructor(
 
     override fun getStats(criteria: SkillSelectionCriteria, dates: ClosedRange<LocalDate>): Flow<List<Statistic>> {
         return skillRepository.getSkills(criteria).flatMapLatest { skills ->
-            combine(skills.map { statsRepository.getStats(it.id, dates) }) {
-                it.toList().flatten()
-            }
+            statsRepository.getStats(skills.map { it.id }, dates)
         }
     }
 

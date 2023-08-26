@@ -16,6 +16,10 @@ class StubStatsRepository(
         return flowOf(stats[skillId]!!)
     }
 
+    override fun getStats(skillIds: List<Id>, dateRange: ClosedRange<LocalDate>): Flow<List<Statistic>> {
+        return flowOf(stats.filterKeys { skillIds.contains(it) }.flatMap { it.value })
+    }
+
     override fun getCount(id: Id, range: ClosedRange<LocalDate>) = flowOf(2L)
     override fun getCount(ids: List<Id>, range: ClosedRange<LocalDate>) = flowOf(2L)
 

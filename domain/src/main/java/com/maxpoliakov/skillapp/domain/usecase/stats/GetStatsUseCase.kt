@@ -14,6 +14,4 @@ interface GetStatsUseCase {
         interval: StatisticInterval,
         dates: ClosedRange<LocalDate> = interval.getDateRangeContainingLastNIntervals(interval.numberOfValues.toLong()),
     ): Flow<List<Statistic>>
-
-    fun getLast7DayCount(criteria: SkillSelectionCriteria): Flow<Long>
 }

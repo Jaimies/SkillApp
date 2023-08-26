@@ -19,7 +19,7 @@ class GetRecentCountUseCaseImpl @Inject constructor(
     override fun getCountSinceStartOfInterval(criteria: SkillSelectionCriteria, interval: StatisticInterval): Flow<Long> {
         val currentDate = dateProvider.getCurrentDateWithRespectToDayStartTime()
         val startOfInterval = interval.atStartOfInterval(currentDate)
-        return this.getCount(criteria, startOfInterval..currentDate)
+        return getCount(criteria, startOfInterval..currentDate)
     }
 
     override fun getCount(criteria: SkillSelectionCriteria, range: ClosedRange<LocalDate>): Flow<Long> {
@@ -30,5 +30,10 @@ class GetRecentCountUseCaseImpl @Inject constructor(
 
     override fun getCount(criteria: SkillSelectionCriteria, date: LocalDate): Flow<Long> {
         return getCount(criteria, date..date)
+    }
+
+    override fun getLast7DayCount(criteria: SkillSelectionCriteria): Flow<Long> {
+        val currentDate = dateProvider.getCurrentDateWithRespectToDayStartTime()
+        return getCount(criteria, currentDate.minusDays(6)..currentDate)
     }
 }

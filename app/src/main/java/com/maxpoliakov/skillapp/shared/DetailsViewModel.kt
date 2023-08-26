@@ -64,7 +64,7 @@ abstract class DetailsViewModel(
     val navigateUp: LiveData<Unit> get() = _navigateUp
 
     val lastWeekTime by lazy {
-        getStatsUseCase.getLast7DayCount(selectionCriteria)
+        getRecentCount.getLast7DayCount(selectionCriteria)
     }
 
     private val goalFlow = flow.map { it.goal }

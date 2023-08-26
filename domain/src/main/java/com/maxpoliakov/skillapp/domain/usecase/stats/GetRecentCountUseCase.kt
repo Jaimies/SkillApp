@@ -9,4 +9,5 @@ interface GetRecentCountUseCase {
     fun getCountSinceStartOfInterval(criteria: SkillSelectionCriteria, interval: StatisticInterval): Flow<Long>
     fun getCount(criteria: SkillSelectionCriteria, range: ClosedRange<LocalDate>): Flow<Long>
     fun getCount(criteria: SkillSelectionCriteria, date: LocalDate): Flow<Long>
+    fun getLast7DayCount(criteria: SkillSelectionCriteria): Flow<Long>
 }

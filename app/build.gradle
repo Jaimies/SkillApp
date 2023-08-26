@@ -153,6 +153,7 @@ dependencies {
     testImplementation "io.kotest:kotest-framework-datatest:$Versions.kotestJUnit5"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$Versions.coroutines"
     testImplementation project(":sharedTest")
+    testImplementation testFixtures(project(":domain"))
 
     androidTestImplementation project(":sharedTest")
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'

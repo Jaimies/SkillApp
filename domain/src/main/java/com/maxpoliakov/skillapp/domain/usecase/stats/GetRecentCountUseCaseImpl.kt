@@ -22,9 +22,13 @@ open class GetRecentCountUseCaseImpl @Inject constructor(
         return this.getCount(criteria, startOfInterval..currentDate)
     }
 
-    private fun getCount(criteria: SkillSelectionCriteria, range: ClosedRange<LocalDate>): Flow<Long> {
+    override fun getCount(criteria: SkillSelectionCriteria, range: ClosedRange<LocalDate>): Flow<Long> {
         return skillRepository.getSkills(criteria).flatMapLatest {
             statsRepository.getCount(it.map { skill -> skill.id }, range)
         }
+    }
+
+    override fun getCount(criteria: SkillSelectionCriteria, date: LocalDate): Flow<Long> {
+        return getCount(criteria, date..date)
     }
 }

@@ -9,7 +9,6 @@ import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.model.Trackable
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
-import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.mapToUI
@@ -41,9 +40,6 @@ abstract class DetailsViewModel(
 
     @Inject
     lateinit var getStatsUseCase: GetStatsUseCase
-
-    @Inject
-    lateinit var getRecentCount: GetRecentCountUseCase
 
     override val unitForDailyTotals get() = unitFlow
 

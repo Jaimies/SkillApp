@@ -7,6 +7,7 @@ import androidx.paging.map
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.usecase.records.GetHistoryUseCase
+import com.maxpoliakov.skillapp.domain.usecase.stats.GetRecentCountUseCase
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
@@ -21,6 +22,9 @@ import javax.inject.Inject
 abstract class ViewModelWithHistory : ViewModel() {
     @Inject
     lateinit var getHistory: GetHistoryUseCase
+
+    @Inject
+    lateinit var getRecentCount: GetRecentCountUseCase
 
     protected abstract val selectionCriteria: SkillSelectionCriteria
     protected abstract val unitForDailyTotals: Flow<MeasurementUnit<*>>
@@ -58,6 +62,6 @@ abstract class ViewModelWithHistory : ViewModel() {
     }
 
     private fun getCountAtDate(unit: MeasurementUnit<*>, date: LocalDate): Flow<Long> {
-        return getHistory.getCount(selectionCriteria.withUnit(unit), date)
+        return getRecentCount.getCount(selectionCriteria.withUnit(unit), date)
     }
 }

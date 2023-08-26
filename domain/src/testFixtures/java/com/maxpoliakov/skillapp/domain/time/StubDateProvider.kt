@@ -1,6 +1,5 @@
-package com.maxpoliakov.skillapp.domain.stopwatch
+package com.maxpoliakov.skillapp.domain.time
 
-import com.maxpoliakov.skillapp.domain.time.DateProvider
 import java.time.LocalDate
 
 class StubDateProvider(private val date: LocalDate = LocalDate.EPOCH) : DateProvider {

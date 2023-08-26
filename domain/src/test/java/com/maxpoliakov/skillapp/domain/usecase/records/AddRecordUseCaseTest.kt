@@ -6,7 +6,7 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StatsRepository
-import com.maxpoliakov.skillapp.domain.stopwatch.StubDateProvider
+import com.maxpoliakov.skillapp.domain.time.StubDateProvider
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.Called
 import io.mockk.coEvery

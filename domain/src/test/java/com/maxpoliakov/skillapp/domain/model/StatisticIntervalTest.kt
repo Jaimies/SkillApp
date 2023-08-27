@@ -1,22 +1,13 @@
 package com.maxpoliakov.skillapp.domain.model
 
-import com.maxpoliakov.skillapp.shared.util.setClock
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.extensions.time.MutableClock
 import io.kotest.matchers.shouldBe
-import java.time.Clock
-import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import java.util.Locale
 
 class StatisticIntervalTest : StringSpec({
     beforeSpec {
         Locale.setDefault(Locale.UK)
-    }
-
-    afterSpec {
-        setClock(Clock.systemDefaultZone())
     }
 
     "atEndOfInterval()" {
@@ -58,20 +49,19 @@ class StatisticIntervalTest : StringSpec({
         StatisticInterval.Monthly.getDateRangeContaining(LocalDate.parse("1970-03-01")) shouldBe LocalDate.parse("1970-03-01")..LocalDate.parse("1970-03-31")
     }
 
-    "getDateRangeContainingLastNIntervals()" {
-        val clock = MutableClock(Instant.EPOCH, ZoneId.systemDefault())
-        setClock(clock)
+    "getDateRangeOfNIntervalsUpUntilIntervalContaining()" {
+        val date = LocalDate.EPOCH
 
-        StatisticInterval.Daily.getDateRangeContainingLastNIntervals(5) shouldBe LocalDate.parse("1969-12-28")..LocalDate.parse("1970-01-01")
-        StatisticInterval.Daily.getDateRangeContainingLastNIntervals(10) shouldBe LocalDate.parse("1969-12-23")..LocalDate.parse("1970-01-01")
+        StatisticInterval.Daily.getDateRangeOfNIntervalsUpUntilIntervalContaining(date, 5) shouldBe LocalDate.parse("1969-12-28")..LocalDate.parse("1970-01-01")
+        StatisticInterval.Daily.getDateRangeOfNIntervalsUpUntilIntervalContaining(date, 10) shouldBe LocalDate.parse("1969-12-23")..LocalDate.parse("1970-01-01")
 
-        StatisticInterval.Weekly.getDateRangeContainingLastNIntervals(2) shouldBe LocalDate.parse("1969-12-22")..LocalDate.parse("1970-01-04")
-        StatisticInterval.Weekly.getDateRangeContainingLastNIntervals(5) shouldBe LocalDate.parse("1969-12-01")..LocalDate.parse("1970-01-04")
+        StatisticInterval.Weekly.getDateRangeOfNIntervalsUpUntilIntervalContaining(date, 2) shouldBe LocalDate.parse("1969-12-22")..LocalDate.parse("1970-01-04")
+        StatisticInterval.Weekly.getDateRangeOfNIntervalsUpUntilIntervalContaining(date, 5) shouldBe LocalDate.parse("1969-12-01")..LocalDate.parse("1970-01-04")
 
-        StatisticInterval.Monthly.getDateRangeContainingLastNIntervals(2) shouldBe LocalDate.parse("1969-12-01")..LocalDate.parse("1970-01-31")
-        StatisticInterval.Monthly.getDateRangeContainingLastNIntervals(5) shouldBe LocalDate.parse("1969-09-01")..LocalDate.parse("1970-01-31")
+        StatisticInterval.Monthly.getDateRangeOfNIntervalsUpUntilIntervalContaining(date, 2) shouldBe LocalDate.parse("1969-12-01")..LocalDate.parse("1970-01-31")
+        StatisticInterval.Monthly.getDateRangeOfNIntervalsUpUntilIntervalContaining(date, 5) shouldBe LocalDate.parse("1969-09-01")..LocalDate.parse("1970-01-31")
 
-        StatisticInterval.Yearly.getDateRangeContainingLastNIntervals(2) shouldBe LocalDate.parse("1969-01-01")..LocalDate.parse("1970-12-31")
-        StatisticInterval.Yearly.getDateRangeContainingLastNIntervals(5) shouldBe LocalDate.parse("1966-01-01")..LocalDate.parse("1970-12-31")
+        StatisticInterval.Yearly.getDateRangeOfNIntervalsUpUntilIntervalContaining(date, 2) shouldBe LocalDate.parse("1969-01-01")..LocalDate.parse("1970-12-31")
+        StatisticInterval.Yearly.getDateRangeOfNIntervalsUpUntilIntervalContaining(date, 5) shouldBe LocalDate.parse("1966-01-01")..LocalDate.parse("1970-12-31")
     }
 })

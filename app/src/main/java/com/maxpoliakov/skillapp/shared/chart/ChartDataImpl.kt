@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria.*
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
+import com.maxpoliakov.skillapp.domain.time.DateProvider
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.stats.GetStatsUseCase
 import com.maxpoliakov.skillapp.model.BarChartData
@@ -34,6 +35,7 @@ class ChartDataImpl @AssistedInject constructor(
     private val getStats: GetStatsUseCase,
     private val skillRepository: SkillRepository,
     private val getSkillsAndSkillGroups: GetSkillsAndSkillGroupsUseCase,
+    private val dateProvider: DateProvider,
     @ApplicationContext
     private val context: Context,
     @Assisted
@@ -59,7 +61,9 @@ class ChartDataImpl @AssistedInject constructor(
 
     override val selectedDateRange = _selectedDateRange.asLiveData()
 
-    private val state = combine(criteria, unit, _interval, goal, ::State)
+    private val state = combine(criteria, unit, _interval, goal) { criteria, unit, interval, goal ->
+        State(criteria, unit, interval, goal, interval.getDateRangeForStatistics())
+    }
 
     override val pieChartData = state
         .combine(_selectedDateRange, this::getPieEntries)
@@ -78,7 +82,7 @@ class ChartDataImpl @AssistedInject constructor(
     }.asLiveData()
 
     private fun makeBarChartData(state: State, stats: List<Statistic>): BarChartData? {
-        return BarChartData.from(state.interval, stats, state.unit, state.goal)
+        return BarChartData.from(state.interval, stats, state.unit, state.goal, state.dateRangeForStatistics)
     }
 
     override fun setInterval(interval: UiStatisticInterval) {
@@ -89,7 +93,7 @@ class ChartDataImpl @AssistedInject constructor(
 
     private fun getStatistics(interval: StatisticInterval): Flow<List<Statistic>> {
         return state.map { state ->
-            getStats.getGroupedStats(state.criteria, interval)
+            getStats.getGroupedStats(state.criteria, interval, state.dateRangeForStatistics)
         }.flatMapLatest { it }
     }
 
@@ -134,11 +138,17 @@ class ChartDataImpl @AssistedInject constructor(
             }
     }
 
+    private fun StatisticInterval.getDateRangeForStatistics(): ClosedRange<LocalDate> {
+        val currentDate = dateProvider.getCurrentDateWithRespectToDayStartTime()
+        return getDateRangeOfNIntervalsUpUntilIntervalContaining(currentDate, numberOfValues.toLong())
+    }
+
     data class State(
         val criteria: Criteria,
         val unit: MeasurementUnit<*>,
         val interval: StatisticInterval,
         val goal: Goal?,
+        val dateRangeForStatistics: ClosedRange<LocalDate>,
     )
 
     @AssistedFactory

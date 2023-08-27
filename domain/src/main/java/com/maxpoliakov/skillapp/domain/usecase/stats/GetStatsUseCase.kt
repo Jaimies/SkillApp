@@ -12,6 +12,6 @@ interface GetStatsUseCase {
     fun getGroupedStats(
         criteria: SkillSelectionCriteria,
         interval: StatisticInterval,
-        dates: ClosedRange<LocalDate> = interval.getDateRangeContainingLastNIntervals(interval.numberOfValues.toLong()),
+        dates: ClosedRange<LocalDate>,
     ): Flow<List<Statistic>>
 }

@@ -59,8 +59,8 @@ enum class StatisticInterval {
         return getDateRangeContaining(getCurrentDate())
     }
 
-    fun getDateRangeContainingLastNIntervals(n: Long): ClosedRange<LocalDate> {
-        return atStartOfInterval(getCurrentDate().minus(n - 1, unit))..atEndOfInterval(getCurrentDate())
+    fun getDateRangeOfNIntervalsUpUntilIntervalContaining(date: LocalDate, n: Long): ClosedRange<LocalDate> {
+        return atStartOfInterval(date.minus(n - 1, unit))..atEndOfInterval(date)
     }
 
     fun toDateRange(number: Long): ClosedRange<LocalDate> {

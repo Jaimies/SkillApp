@@ -20,9 +20,6 @@ class StatisticIntervalTest : StringSpec({
     }
 
     "atEndOfInterval()" {
-        val clock = MutableClock(Instant.EPOCH, ZoneId.systemDefault())
-        setClock(clock)
-
         StatisticInterval.Daily.atEndOfInterval(LocalDate.parse("1970-01-01")) shouldBe LocalDate.parse("1970-01-01")
         StatisticInterval.Weekly.atEndOfInterval(LocalDate.parse("1970-01-01")) shouldBe LocalDate.parse("1970-01-04")
         StatisticInterval.Monthly.atEndOfInterval(LocalDate.parse("1970-01-01")) shouldBe LocalDate.parse("1970-01-31")

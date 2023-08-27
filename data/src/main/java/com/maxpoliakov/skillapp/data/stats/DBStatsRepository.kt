@@ -26,15 +26,15 @@ class DBStatsRepository @Inject constructor(
         ).mapList(DBStatistic::mapToDomain)
     }
 
-    override suspend fun addRecord(record: Record) {
-        statsDao.addRecord(record.skillId, record.date, record.count)
-    }
-
     override fun getCount(id: Id, range: ClosedRange<LocalDate>): Flow<Long> {
         return this.getCount(listOf(id), range)
     }
 
     override fun getCount(ids: List<Id>, range: ClosedRange<LocalDate>): Flow<Long> {
         return statsDao.getCountInDateRange(ids, range.start, range.endInclusive).map { time -> time ?: 0 }
+    }
+
+    override suspend fun addRecord(record: Record) {
+        statsDao.addRecord(record.skillId, record.date, record.count)
     }
 }

@@ -58,7 +58,7 @@ class StatisticIntervalTest : StringSpec({
         StatisticInterval.Monthly.getDateRangeContaining(LocalDate.parse("1970-03-01")) shouldBe LocalDate.parse("1970-03-01")..LocalDate.parse("1970-03-31")
     }
 
-    "getDateRangeContainingLastNPeriods()" {
+    "getDateRangeContainingLastNIntervals()" {
         val clock = MutableClock(Instant.EPOCH, ZoneId.systemDefault())
         setClock(clock)
 

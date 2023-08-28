@@ -1,19 +1,15 @@
 package com.maxpoliakov.skillapp.ui.statistics
 
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
-import com.maxpoliakov.skillapp.test.clockOfEpochDay
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
-import com.maxpoliakov.skillapp.shared.util.setClock
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import java.time.Duration
 import java.time.LocalDate
 
 class StatisticsViewModelTest : StringSpec({
-    beforeSpec { setClock(clockOfEpochDay(0)) }
-
     "calculateSummary()" {
         val skills = listOf(
             createSkill(Duration.ofHours(5)),

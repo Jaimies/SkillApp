@@ -32,7 +32,6 @@ class SkillDaoTest {
         db = createTestDatabase()
         skillDao = db.skillDao()
         recordsDao = db.recordsDao()
-        OffsetDateTime.now().withHour(22).toInstant()
         setClock(Clock.fixed(OffsetDateTime.now().withHour(22).toInstant(), ZoneId.systemDefault()))
     }
 

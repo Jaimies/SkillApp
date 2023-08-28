@@ -7,20 +7,13 @@ import com.maxpoliakov.skillapp.domain.usecase.stats.StubGetRecentCountUseCase
 import com.maxpoliakov.skillapp.model.HistoryUiModel
 import com.maxpoliakov.skillapp.model.HistoryUiModel.Separator
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit
-import com.maxpoliakov.skillapp.shared.util.setClock
 import com.maxpoliakov.skillapp.test.awaitData
-import com.maxpoliakov.skillapp.test.clockOfEpochDay
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
-import java.time.Clock
 import java.time.LocalDate
 
 class HistoryViewModelTest : StringSpec({
-    beforeSpec {
-        setClock(clockOfEpochDay(10))
-    }
-
     val records = listOf(
         Record("", 4, 0, MeasurementUnit.Millis, 0, LocalDate.ofEpochDay(10)),
         Record("", 3, 0, MeasurementUnit.Millis, 1, LocalDate.ofEpochDay(9)),
@@ -42,10 +35,6 @@ class HistoryViewModelTest : StringSpec({
             createUiRecord(2, LocalDate.ofEpochDay(7)),
             createUiRecord(3, LocalDate.ofEpochDay(7)),
         )
-    }
-
-    afterSpec {
-        setClock(Clock.systemDefaultZone())
     }
 })
 

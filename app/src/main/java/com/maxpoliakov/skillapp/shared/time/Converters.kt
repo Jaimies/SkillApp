@@ -4,10 +4,7 @@ import android.content.Context
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.shared.util.getCurrentDate
 import com.maxpoliakov.skillapp.shared.util.shortName
-import java.time.Duration
 import java.time.LocalDate
-
-fun Duration.toReadableHours() = getHours(toMinutes()).toReadableFloat()
 
 fun Float.toReadableFloat(): String {
     val string = "%.1f".format(this)
@@ -25,6 +22,3 @@ fun Context.toReadableDate(date: LocalDate?): String {
 fun Context.toShortReadableDate(date: LocalDate): String {
     return getString(R.string.date_month_and_day, date.month.shortName, date.dayOfMonth)
 }
-
-private const val HOUR_MINUTES = 60
-private fun getHours(minutes: Long) = minutes / HOUR_MINUTES.toFloat()

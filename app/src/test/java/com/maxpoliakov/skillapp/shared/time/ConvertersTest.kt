@@ -19,13 +19,6 @@ class ConvertersTest : StringSpec({
         0.5f.toReadableFloat() shouldBe "0.5"
     }
 
-    "get friendly hours" {
-        Duration.ofMinutes(120).toReadableHours() shouldBe "2"
-        Duration.ZERO.toReadableHours() shouldBe "0"
-        Duration.ofMinutes(102).toReadableHours() shouldBe "1.7"
-        Duration.ofMinutes(101).toReadableHours() shouldBe "1.7"
-    }
-
     "toReadableDate()" {
         setClock(clockOfEpochDay(9))
         val context = Mockito.mock(Context::class.java)

@@ -3,19 +3,13 @@ package com.maxpoliakov.skillapp.data.timer.legacy
 import com.maxpoliakov.skillapp.data.StubSharedPreferences
 import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.LegacyTimerRepository
-import com.maxpoliakov.skillapp.shared.util.setClock
-import com.maxpoliakov.skillapp.test.clockOfEpochSecond
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import java.time.Clock
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class SharedPreferencesLegacyTimerRepositoryImpl : StringSpec({
-    beforeEach { setClock(clockOfEpochSecond(0)) }
-    afterSpec { setClock(Clock.systemDefaultZone()) }
-
     "getState() returns state with a timer if data present" {
         val persistence = createPersistence(skillId, date.toString(), groupId)
         persistence.getTimer() shouldBe Timer(skillId, date)

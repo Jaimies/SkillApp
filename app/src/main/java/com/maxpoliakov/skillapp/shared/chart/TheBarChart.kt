@@ -15,6 +15,7 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.BarChartData
 import com.maxpoliakov.skillapp.model.UiGoal
 import com.maxpoliakov.skillapp.shared.Dimension.Companion.sp
+import com.maxpoliakov.skillapp.shared.chart.valueformatter.DateRangeValueFormatter
 import com.maxpoliakov.skillapp.shared.extensions.primaryColor
 import com.maxpoliakov.skillapp.shared.extensions.textColor
 import kotlinx.parcelize.Parcelize
@@ -209,7 +210,7 @@ class TheBarChart : BarChart, TheChart<BarChartData> {
     }
 
     private fun updateInterval(data: BarChartData) {
-        xAxis.valueFormatter = data.interval.formatter.valueFormatter
+        xAxis.valueFormatter = DateRangeValueFormatter(data.interval)
         // todo too concrete
         viewPortHandler.setScaleXRange(
             if (data.entries.size < 7) 1f..1f

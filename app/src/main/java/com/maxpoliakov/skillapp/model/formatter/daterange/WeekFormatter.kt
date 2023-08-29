@@ -7,7 +7,7 @@ import com.maxpoliakov.skillapp.shared.time.DateFormatter
 import com.maxpoliakov.skillapp.shared.util.shortName
 import java.time.LocalDate
 
-class WeekFormatter : DateRangeFormatter() {
+object WeekFormatter : DateRangeFormatter() {
     override val interval = StatisticInterval.Weekly
     override val currentDateRangeStringResId = R.string.this_week
 

@@ -7,7 +7,7 @@ import com.maxpoliakov.skillapp.shared.time.DateFormatter
 import com.maxpoliakov.skillapp.shared.util.shortName
 import java.time.LocalDate
 
-class DayFormatter : DateRangeFormatter() {
+object DayFormatter : DateRangeFormatter() {
     override val interval = StatisticInterval.Daily
     override val currentDateRangeStringResId = R.string.today
 

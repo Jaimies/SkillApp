@@ -10,24 +10,24 @@ import com.maxpoliakov.skillapp.shared.MappableEnum
 
 enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInterval> {
     Daily {
-        override val formatter get() = DayFormatter()
+        override val formatter get() = DayFormatter
         override val numberOfValuesVisibleAtOnce get() = 7..14
 
         override fun toDomain() = StatisticInterval.Daily
     },
 
     Weekly {
-        override val formatter get() = WeekFormatter()
+        override val formatter get() = WeekFormatter
         override fun toDomain() = StatisticInterval.Weekly
     },
 
     Monthly {
-        override val formatter get() = MonthFormatter()
+        override val formatter get() = MonthFormatter
         override fun toDomain() = StatisticInterval.Monthly
     },
 
     Yearly {
-        override val formatter get() = YearFormatter()
+        override val formatter get() = YearFormatter
         override fun toDomain() = StatisticInterval.Yearly
     },
     ;

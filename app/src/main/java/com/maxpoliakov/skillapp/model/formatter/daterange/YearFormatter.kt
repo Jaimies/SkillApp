@@ -6,7 +6,7 @@ import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.shared.time.DateFormatter
 import java.time.LocalDate
 
-class YearFormatter : DateRangeFormatter() {
+object YearFormatter : DateRangeFormatter() {
     override val interval = StatisticInterval.Yearly
     override val currentDateRangeStringResId = R.string.this_year
 

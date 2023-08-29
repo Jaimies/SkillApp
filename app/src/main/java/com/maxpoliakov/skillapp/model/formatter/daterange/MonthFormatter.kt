@@ -8,7 +8,7 @@ import com.maxpoliakov.skillapp.shared.util.fullLocalizedName
 import com.maxpoliakov.skillapp.shared.util.shortName
 import java.time.LocalDate
 
-class MonthFormatter : DateRangeFormatter() {
+object MonthFormatter : DateRangeFormatter() {
     override val interval = StatisticInterval.Monthly
     override val currentDateRangeStringResId = R.string.this_month
 

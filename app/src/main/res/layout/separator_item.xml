@@ -12,8 +12,10 @@
         <import
             alias="Converters"
             type="com.maxpoliakov.skillapp.shared.time.ConvertersKt" />
-        
-        <import type="com.maxpoliakov.skillapp.shared.extensions.FormattingKt"/>
+
+        <import type="com.maxpoliakov.skillapp.shared.extensions.FormattingKt" />
+
+        <import type="com.maxpoliakov.skillapp.shared.util.TimeKt" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.SkillApp.Headline"
-            android:text="@{Converters.toReadableDate(context, separator.date)}"
+            android:text="@{Converters.toReadableDate(context, separator.date, TimeKt.getCurrentDate())}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

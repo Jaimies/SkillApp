@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.model.formatter.daterange
 import android.content.Context
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
-import com.maxpoliakov.skillapp.shared.time.toShortReadableDate
+import com.maxpoliakov.skillapp.shared.time.DateFormatter
 import com.maxpoliakov.skillapp.shared.util.shortName
 import java.time.LocalDate
 
@@ -15,11 +15,11 @@ class WeekFormatter : DateRangeFormatter() {
         return "${date.dayOfMonth}\n${date.month.shortName}"
     }
 
-    override fun _format(range: ClosedRange<LocalDate>, context: Context): String {
+    override fun _format(range: ClosedRange<LocalDate>, dateFormatter: DateFormatter, context: Context): String {
         return context.getString(
             R.string.date_range,
-            context.toShortReadableDate(range.start),
-            context.toShortReadableDate(range.endInclusive),
+            dateFormatter.shortFormat(range.start),
+            dateFormatter.shortFormat(range.endInclusive),
         )
     }
 }

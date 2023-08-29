@@ -14,12 +14,13 @@ import javax.inject.Provider
 
 class HistoryPagingAdapter @Inject constructor(
     private val lifecycleOwnerProvider: Provider<LifecycleOwner>,
-    recordDelegateAdapter: RecordDelegateAdapter
+    recordDelegateAdapter: RecordDelegateAdapter,
+    separatorDelegateAdapter: SeparatorDelegateAdapter,
 ) : PagingDataAdapter<HistoryUiModel, ViewHolder>(HistoryDiffCallback()) {
 
     private val delegateAdapters = mapOf(
         ItemType.Record to recordDelegateAdapter,
-        ItemType.Separator to SeparatorDelegateAdapter()
+        ItemType.Separator to separatorDelegateAdapter,
     ) as Map<Int, DelegateAdapter<HistoryUiModel, ViewHolder>>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -19,7 +19,7 @@ import com.maxpoliakov.skillapp.shared.picker.TimesPicker
 import com.maxpoliakov.skillapp.shared.picker.ValuePicker
 import com.maxpoliakov.skillapp.shared.picker.ValuePicker.Value.GoalValue
 import com.maxpoliakov.skillapp.shared.picker.ValuePicker.Value.RegularValue
-import com.maxpoliakov.skillapp.shared.time.toReadableFloat
+import com.maxpoliakov.skillapp.shared.extensions.toReadableFloat
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
 

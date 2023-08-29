@@ -9,6 +9,10 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.statistics.StatisticsViewModel" />
+
+        <variable
+            name="dateFormatter"
+            type="com.maxpoliakov.skillapp.shared.time.DateFormatter" />
     </data>
 
     <ScrollView
@@ -43,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="74dp"
-                app:data="@{viewModel.chartData}" />
+                app:data="@{viewModel.chartData}"
+                app:dateFormatter="@{dateFormatter}" />
         </LinearLayout>
     </ScrollView>
 </layout>

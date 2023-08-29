@@ -9,13 +9,9 @@
             name="separator"
             type="com.maxpoliakov.skillapp.model.HistoryUiModel.Separator" />
 
-        <import
-            alias="Converters"
-            type="com.maxpoliakov.skillapp.shared.time.ConvertersKt" />
-
-        <import type="com.maxpoliakov.skillapp.shared.extensions.FormattingKt" />
-
-        <import type="com.maxpoliakov.skillapp.shared.util.TimeKt" />
+        <variable
+            name="dateFormatter"
+            type="com.maxpoliakov.skillapp.shared.time.DateFormatter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.SkillApp.Headline"
-            android:text="@{Converters.toReadableDate(context, separator.date, TimeKt.getCurrentDate())}"
+            android:text="@{dateFormatter.format(separator.date)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

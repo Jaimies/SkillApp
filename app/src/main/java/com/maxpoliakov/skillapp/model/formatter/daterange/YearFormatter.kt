@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.model.formatter.daterange
 import android.content.Context
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
+import com.maxpoliakov.skillapp.shared.time.DateFormatter
 import java.time.LocalDate
 
 class YearFormatter : DateRangeFormatter() {
@@ -13,7 +14,7 @@ class YearFormatter : DateRangeFormatter() {
         return date.year.toString()
     }
 
-    override fun _format(range: ClosedRange<LocalDate>, context: Context): String {
+    override fun _format(range: ClosedRange<LocalDate>, dateFormatter: DateFormatter, context: Context): String {
         return context.getString(R.string.date_year_only, range.start.year)
     }
 }

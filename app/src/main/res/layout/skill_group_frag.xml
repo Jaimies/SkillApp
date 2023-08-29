@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="com.maxpoliakov.skillapp.ui.skillgroup.SkillGroupViewModel" />
+
+        <variable
+            name="dateFormatter"
+            type="com.maxpoliakov.skillapp.shared.time.DateFormatter" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -90,7 +94,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        app:data="@{viewModel.chartData}" />
+                        app:data="@{viewModel.chartData}"
+                        app:dateFormatter="@{dateFormatter}" />
 
                     <include
                         android:id="@+id/history"

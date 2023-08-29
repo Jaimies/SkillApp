@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.shared.chart.valueformatter
 import android.content.Context
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.shared.time.toReadableFloat
+import com.maxpoliakov.skillapp.shared.extensions.toReadableFloat
 import java.time.Duration
 
 class TimeFormatter(private val context: Context) : ValueFormatter() {

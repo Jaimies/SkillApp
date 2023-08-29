@@ -8,6 +8,10 @@
             name="data"
             type="com.maxpoliakov.skillapp.shared.chart.ChartData" />
 
+        <variable
+            name="dateFormatter"
+            type="com.maxpoliakov.skillapp.shared.time.DateFormatter" />
+
         <import type="com.maxpoliakov.skillapp.shared.chart.PieChartFormatter" />
     </data>
 
@@ -40,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@{PieChartFormatter.format(context, data.selectedDateRange, data.interval)}"
+                android:text="@{PieChartFormatter.format(context, data.selectedDateRange, data.interval, dateFormatter)}"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.SkillApp.ProductivitySummaryTitle"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -18,3 +18,8 @@ fun Duration?.format(context: Context, timeHoursAndMinutesResId: Int = R.string.
         else -> context.getString(timeHoursAndMinutesResId, hours, minutesPart)
     }
 }
+
+fun Float.toReadableFloat(): String {
+    val string = "%.1f".format(this)
+    return if (string.last() == '0') string.dropLast(2) else string
+}

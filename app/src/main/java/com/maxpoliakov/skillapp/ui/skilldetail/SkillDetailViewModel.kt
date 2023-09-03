@@ -10,6 +10,7 @@ import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
+import com.maxpoliakov.skillapp.domain.time.DateProvider
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
@@ -36,6 +37,7 @@ class SkillDetailViewModel @Inject constructor(
     @ApplicationScope
     private val scope: CoroutineScope,
     private val stopwatch: Stopwatch,
+    private val dateProvider: DateProvider,
     args: SkillDetailFragmentArgs,
     getSkillById: GetSkillByIdUseCase,
     recordsRepository: RecordsRepository,
@@ -78,7 +80,14 @@ class SkillDetailViewModel @Inject constructor(
     }
 
     fun addRecord(count: Long) = skillStateFlow.value?.let { skill ->
-        val record = Record("", skillId, count, skill.unit)
+        val record = Record(
+            name = "",
+            skillId = skillId,
+            count = count,
+            unit = skill.unit,
+            date = dateProvider.getCurrentDateWithRespectToDayStartTime(),
+        )
+
         scope.launch { addRecord.run(record) }
     }
 

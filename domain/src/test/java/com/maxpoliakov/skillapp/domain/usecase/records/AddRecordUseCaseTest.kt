@@ -6,7 +6,6 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
 import com.maxpoliakov.skillapp.domain.repository.StatsRepository
-import com.maxpoliakov.skillapp.domain.time.StubDateProvider
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.Called
 import io.mockk.coEvery
@@ -24,11 +23,10 @@ class AddRecordUseCaseTest : StringSpec({
         val skillRepository = mockk<SkillRepository>(relaxed = true)
         val recordRepository = mockk<RecordsRepository>(relaxed = true)
         val statsRepository = mockk<StatsRepository>(relaxed = true)
-        val dateProvider = StubDateProvider(LocalDate.EPOCH)
 
         coEvery { skillRepository.getSkillById(any()) } returns skill
 
-        val addRecordUseCase = AddRecordUseCaseImpl(recordRepository, skillRepository, statsRepository, dateProvider)
+        val addRecordUseCase = AddRecordUseCaseImpl(recordRepository, skillRepository, statsRepository)
         addRecordUseCase.run(record)
 
         coVerify { recordRepository.addRecord(record) }
@@ -40,30 +38,13 @@ class AddRecordUseCaseTest : StringSpec({
         val skillRepository = mockk<SkillRepository>(relaxed = true)
         val recordRepository = mockk<RecordsRepository>(relaxed = true)
         val statsRepository = mockk<StatsRepository>(relaxed = true)
-        val dateProvider = StubDateProvider(LocalDate.EPOCH)
 
         coEvery { skillRepository.getSkillById(any()) } returns null
 
-        val addRecordUseCase = AddRecordUseCaseImpl(recordRepository, skillRepository, statsRepository, dateProvider)
+        val addRecordUseCase = AddRecordUseCaseImpl(recordRepository, skillRepository, statsRepository)
         addRecordUseCase.run(record)
 
         verify { listOf(recordRepository, statsRepository) wasNot Called }
         coVerify(exactly = 0) { skillRepository.increaseCount(any(), any()) }
-    }
-
-    "adds record with date returned from DateProvider.getCurrentDateWithRespectToDayStartTime()" {
-        val skillRepository = mockk<SkillRepository>(relaxed = true)
-        val recordRepository = mockk<RecordsRepository>(relaxed = true)
-        val statsRepository = mockk<StatsRepository>(relaxed = true)
-        val dateProvider = StubDateProvider(LocalDate.EPOCH.plusDays(5))
-
-        coEvery { skillRepository.getSkillById(any()) } returns skill
-
-        val addRecordUseCase = AddRecordUseCaseImpl(recordRepository, skillRepository, statsRepository, dateProvider)
-        addRecordUseCase.run(record)
-
-        coVerify { recordRepository.addRecord(record.copy(date = LocalDate.EPOCH.plusDays(5))) }
-        coVerify { skillRepository.increaseCount(record.skillId, record.count) }
-        coVerify { statsRepository.addRecord(record.copy(date = LocalDate.EPOCH.plusDays(5))) }
     }
 })

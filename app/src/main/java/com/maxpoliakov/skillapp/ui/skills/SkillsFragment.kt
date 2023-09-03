@@ -40,7 +40,6 @@ import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companio
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getSkillItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListMarginDecoration
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.group.footer.SkillGroupFooter
-import com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -307,8 +306,7 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
     private fun skillAdded(previousList: List<Any>, currentList: List<Any>): Boolean {
         return previousList.isNotEmpty()
-                && currentList.size > previousList.size
-                && (previousList[0] is StopwatchUiModel || currentList[0] is Skill)
+                && currentList.count { it is Skill } > previousList.count { it is Skill }
     }
 
     // Navigation component defines its own transitions for BottomNavigationView.

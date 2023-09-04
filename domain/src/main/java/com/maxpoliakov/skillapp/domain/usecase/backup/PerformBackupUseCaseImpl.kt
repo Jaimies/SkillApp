@@ -21,7 +21,7 @@ class PerformBackupUseCaseImpl @Inject constructor(
     }
 
     private suspend fun uploadBackup(backup: BackupData): Result {
-        val result = backupRepository.upload(backup)
+        val result = backupRepository.save(backup)
 
         return when (result) {
             is BackupRepository.Result.Success -> Result.Success

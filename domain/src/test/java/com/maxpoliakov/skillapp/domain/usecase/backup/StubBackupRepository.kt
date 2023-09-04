@@ -9,7 +9,7 @@ class StubBackupRepository(
     private val uploadResult: BackupRepository.Result<Unit> = backupRepositorySuccess,
     private val getContentsResult: BackupRepository.Result<BackupData> = getContentsSuccess,
 ) : BackupRepository {
-    override suspend fun upload(data: BackupData): BackupRepository.Result<Unit> {
+    override suspend fun save(data: BackupData): BackupRepository.Result<Unit> {
         delay(2)
         return uploadResult
     }

@@ -32,7 +32,7 @@ class GoogleDriveBackupRepository @Inject constructor(
     private val authRepository: AuthRepository,
 ) : BackupRepository {
 
-    override suspend fun upload(data: BackupData): Result<Unit> {
+    override suspend fun save(data: BackupData): Result<Unit> {
         return tryIfAuthorized { doUpload(data) }
     }
 

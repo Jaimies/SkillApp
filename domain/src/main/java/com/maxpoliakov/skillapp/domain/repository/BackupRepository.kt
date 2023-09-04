@@ -5,7 +5,7 @@ import com.maxpoliakov.skillapp.domain.model.BackupData
 import java.io.IOException
 
 interface BackupRepository {
-    suspend fun upload(data: BackupData): Result<Unit>
+    suspend fun save(data: BackupData): Result<Unit>
 
     suspend fun getBackups(): List<Backup>
     suspend fun getLastBackup(): Result<Backup?>

@@ -4,25 +4,12 @@ import com.github.mikephil.charting.data.Entry
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Daily
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval.Yearly
-import com.maxpoliakov.skillapp.shared.util.setClock
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import java.time.Clock
 import java.time.Duration
 import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.ZoneOffset
 
 class StatsEntriesTest : StringSpec({
-    beforeSpec {
-        val instant = LocalDate.ofYearDay(2021, 1)
-            .atTime(LocalTime.of(0, 0))
-            .toInstant(ZoneOffset.UTC)
-
-        setClock(Clock.fixed(instant, ZoneId.systemDefault()))
-    }
-
     "withMissingStats()" {
         val stats = listOf(
             Statistic(LocalDate.ofYearDay(2014, 1), Duration.ofHours(2).toMillis()),
@@ -67,9 +54,5 @@ class StatsEntriesTest : StringSpec({
             1f to Duration.ofMinutes(20).toMillis().toFloat(),
             2f to Duration.ofHours(2).toMillis().toFloat(),
         )
-    }
-
-    afterSpec {
-        setClock(Clock.systemDefaultZone())
     }
 })

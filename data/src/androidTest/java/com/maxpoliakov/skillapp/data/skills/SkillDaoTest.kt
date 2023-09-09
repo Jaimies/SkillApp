@@ -10,17 +10,13 @@ import com.maxpoliakov.skillapp.data.skill.mapToDomain
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
-import com.maxpoliakov.skillapp.shared.util.setClock
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.time.Clock
 import java.time.Duration
-import kotlinx.coroutines.flow.first
-import java.time.OffsetDateTime
-import java.time.ZoneId
 
 class SkillDaoTest {
     private lateinit var db: AppDatabase
@@ -32,7 +28,6 @@ class SkillDaoTest {
         db = createTestDatabase()
         skillDao = db.skillDao()
         recordsDao = db.recordsDao()
-        setClock(Clock.fixed(OffsetDateTime.now().withHour(22).toInstant(), ZoneId.systemDefault()))
     }
 
     @After

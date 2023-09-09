@@ -4,6 +4,7 @@ import com.maxpoliakov.skillapp.domain.model.Change
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class EditRecordUseCaseImpl @Inject constructor(
@@ -13,7 +14,7 @@ class EditRecordUseCaseImpl @Inject constructor(
 ) : EditRecordUseCase {
 
     override suspend fun change(recordId: Id, change: Change<Record>) {
-        val oldRecord = recordsRepository.getRecord(recordId) ?: return
+        val oldRecord = recordsRepository.getRecord(recordId).first() ?: return
 
         deleteRecord.run(recordId)
         addRecord.run(change.apply(oldRecord))

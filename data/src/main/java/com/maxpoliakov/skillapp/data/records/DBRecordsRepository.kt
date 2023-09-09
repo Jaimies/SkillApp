@@ -9,6 +9,7 @@ import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.repository.RecordsRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,8 +47,8 @@ class DBRecordsRepository @Inject constructor(
         }
     }
 
-    override suspend fun getRecord(id: Int): Record? {
-        return recordsDao.getRecordById(id)?.mapToDomain()
+    override fun getRecord(id: Int): Flow<Record?> {
+        return recordsDao.getRecordById(id).map { it?.mapToDomain() }
     }
 
     override suspend fun addRecord(record: Record): Long {

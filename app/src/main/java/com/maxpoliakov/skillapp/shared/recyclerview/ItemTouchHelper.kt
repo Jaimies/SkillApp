@@ -1,6 +1,7 @@
 package com.maxpoliakov.skillapp.shared.recyclerview
 
 import android.graphics.Canvas
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.DOWN
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
@@ -141,6 +143,12 @@ class SimpleCallbackImpl(
     override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
         super.clearView(recyclerView, viewHolder)
 
+        if (viewHolder.absoluteAdapterPosition == -1) {
+            logToCrashlytics(
+                Exception("ItemTouchHelper::clearView(): viewHolder.absoluteAdapterPosition = 0; viewHolder = $viewHolder"),
+            )
+        }
+
         viewHolder.itemView.translationZ = 0f
 
         callback.onDropped(
@@ -150,7 +158,7 @@ class SimpleCallbackImpl(
 
     private fun getChange(recyclerView: RecyclerView, viewHolder: ViewHolder, dropCoordinates: Coordinates): Change? {
         val position = viewHolder.absoluteAdapterPosition
-        val skill = listAdapter.getItem(position) as? Skill ?: return null
+        val skill = listAdapter.getItemOrNull(position) as? Skill ?: return null
 
         val groupId = getIdOfGroupToBeAddedTo(skill, position)
         if (groupId != -1 && groupId != skill.groupId) return Change.AddToGroup(skill, groupId)

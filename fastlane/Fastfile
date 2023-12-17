@@ -31,12 +31,5 @@ platform :android do
             skip_upload_screenshots: true,
             skip_upload_images: true,
         )
-
-        firebase_app_distribution(
-            app: "1:463290445741:android:16ad584ba4f502adff3b24",
-            android_artifact_type: 'AAB',
-            android_artifact_path: "./app/build/outputs/bundle/release/app-release.aab",
-            groups: 'me',
-        )
     end
 end

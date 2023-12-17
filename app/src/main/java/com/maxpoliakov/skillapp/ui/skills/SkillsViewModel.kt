@@ -16,7 +16,6 @@ import com.maxpoliakov.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupU
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillByIdUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
 import com.maxpoliakov.skillapp.domain.usecase.skill.UpdateOrderUseCase
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getStopwatchItemId
@@ -115,7 +114,6 @@ class SkillsViewModel @Inject constructor(
     }
 
     fun createGroupAsync(originalSkill: Skill, group: SkillGroup) = viewModelScope.async {
-        logEvent("create_group")
         manageGroup.createGroup(originalSkill, group)
     }
 

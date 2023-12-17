@@ -3,14 +3,13 @@ package com.maxpoliakov.skillapp.ui.history.recyclerview.record
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.maxpoliakov.skillapp.domain.di.ApplicationScope
-import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Change
+import com.maxpoliakov.skillapp.domain.model.RangeChange
+import com.maxpoliakov.skillapp.domain.model.Record
+import com.maxpoliakov.skillapp.domain.model.RecordChange
 import com.maxpoliakov.skillapp.domain.usecase.records.DeleteRecordUseCase
 import com.maxpoliakov.skillapp.domain.usecase.records.EditRecordUseCase
-import com.maxpoliakov.skillapp.domain.model.RangeChange
-import com.maxpoliakov.skillapp.domain.model.RecordChange
 import com.maxpoliakov.skillapp.model.HistoryUiModel
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -36,17 +35,14 @@ class RecordViewModel @Inject constructor(
         scope.launch {
             deleteRecord.run(record.value!!.id)
         }
-        logEvent("delete_record")
     }
 
     fun changeRecordDate(newDate: LocalDate) {
         change(RecordChange.Date(newDate))
-        logEvent("change_record_date")
     }
 
     fun changeRecordTime(newCount: Long) {
         change(RecordChange.Count(newCount))
-        logEvent("change_record_time")
     }
 
     fun changeStartTime(newTime: LocalTime) {

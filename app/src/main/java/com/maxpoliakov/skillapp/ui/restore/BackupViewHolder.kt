@@ -7,18 +7,17 @@ import androidx.lifecycle.map
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.di.SnackbarRoot
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
-import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.dialog.showDialog
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.dialog.showToast
+import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -63,7 +62,6 @@ class BackupViewHolder @AssistedInject constructor(
     }
 
     private fun restoreBackup() {
-        logEvent("restore_backup")
         val backup = backup.value ?: return
 
         scope.launch {

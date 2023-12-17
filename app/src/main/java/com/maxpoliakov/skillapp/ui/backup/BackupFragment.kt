@@ -16,12 +16,11 @@ import com.google.api.services.drive.DriveScopes
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
 import com.maxpoliakov.skillapp.shared.DataBindingFragment
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.dialog.showDialog
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.dialog.showToast
-import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
+import com.maxpoliakov.skillapp.shared.fragment.observe
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -83,7 +82,6 @@ class BackupFragment : DataBindingFragment<BackupFragBinding>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_APPDATA_CODE && resultCode == Activity.RESULT_OK) {
             viewModel.updateLastBackupDate()
-            logEvent("grant_appdata_permission")
         }
     }
 

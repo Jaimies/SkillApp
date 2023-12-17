@@ -17,7 +17,6 @@ import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
 import com.maxpoliakov.skillapp.model.ProductivitySummary
 import com.maxpoliakov.skillapp.model.mapToDomain
 import com.maxpoliakov.skillapp.shared.DetailsViewModel
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import com.maxpoliakov.skillapp.shared.util.getZonedDateTime
@@ -93,7 +92,6 @@ class SkillDetailViewModel @Inject constructor(
 
     fun deleteSkill() = skillStateFlow.value?.let { skill ->
         scope.launch { manageSkill.deleteSkill(skill) }
-        logEvent("delete_skill")
     }
 
     fun toggleTimer() = scope.launch {
@@ -102,12 +100,10 @@ class SkillDetailViewModel @Inject constructor(
         if (stateChange is StateChange.Start) {
             _stopwatchStarted.call()
         }
-        logEvent("toggle_timer")
     }
 
     fun showRecordDialog() {
         showRecordDialog.call()
-        logEvent("add_time_manually")
     }
 
     override suspend fun update(name: String) {

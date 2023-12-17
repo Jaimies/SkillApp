@@ -11,8 +11,6 @@ import androidx.preference.PreferenceFragmentCompat
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
-import com.maxpoliakov.skillapp.shared.analytics.logCurrentScreenToAnalytics
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
 import com.maxpoliakov.skillapp.shared.extensions.setTheme
@@ -28,7 +26,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<ListPreference>("theme")!!.setOnPreferenceChangeListener { _, newValue ->
             setTheme(Theme.valueOf(newValue as String))
-            logEvent("change_theme")
             true
         }
 
@@ -94,10 +91,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listView.setPadding(12.dp.toPx(requireContext()), 0, 0, 0)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        logCurrentScreenToAnalytics(this)
     }
 }

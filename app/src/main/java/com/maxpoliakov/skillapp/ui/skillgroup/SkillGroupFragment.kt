@@ -5,7 +5,6 @@ import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkillGroupFragBinding
 import com.maxpoliakov.skillapp.shared.DetailsFragment
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.time.DateFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,6 +30,4 @@ class SkillGroupFragment : DetailsFragment<SkillGroupFragBinding>(R.menu.skillgr
         binding.viewModel = viewModel
         binding.dateFormatter = dateFormatter
     }
-
-    override fun onSwitchToEditMode() = logEvent("edit_skill_group")
 }

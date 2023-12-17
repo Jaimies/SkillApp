@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.SkilldetailFragBinding
 import com.maxpoliakov.skillapp.shared.DetailsFragment
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.dialog.showDialog
 import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.shared.permissions.PermissionRequester
@@ -52,8 +51,6 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
             permissionRequester.requestNotificationPermissionIfNotGranted()
         }
     }
-
-    override fun onSwitchToEditMode() = logEvent("edit_skill")
 
     override fun onDeleteSelected() {
         requireContext().showDialog(R.string.delete_skill_title, R.string.delete_skill_message, R.string.delete) {

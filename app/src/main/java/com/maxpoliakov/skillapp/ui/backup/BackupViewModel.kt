@@ -12,10 +12,9 @@ import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
-import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
+import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -93,8 +92,6 @@ class BackupViewModel @Inject constructor(
             _requestAppDataPermission.call()
         else
             createBackupInBackground()
-
-        logEvent("sign_in")
     }
 
     private fun createBackupInBackground() = scope.launch {
@@ -111,7 +108,6 @@ class BackupViewModel @Inject constructor(
         authRepository.signOut()
         _currentUser.value = null
         _lastBackupDate.value = R.string.loading_last_backup
-        logEvent("sign_out")
     }
 
     fun signIn() {
@@ -119,7 +115,6 @@ class BackupViewModel @Inject constructor(
     }
 
     fun createBackup() = scope.launch {
-        logEvent("create_backup")
         _backupCreating.value = true
         val result = performBackupUseCase.performBackup()
         handleResult(result)

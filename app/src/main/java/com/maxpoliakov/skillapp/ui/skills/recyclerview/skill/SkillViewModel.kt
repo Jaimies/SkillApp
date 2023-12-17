@@ -8,7 +8,6 @@ import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
-import com.maxpoliakov.skillapp.shared.analytics.logEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import com.maxpoliakov.skillapp.shared.permissions.PermissionRequester
@@ -59,7 +58,6 @@ class SkillViewModel @Inject constructor(
                 permissionRequester.requestNotificationPermissionIfNotGranted()
             }
         }
-        logEvent("start_timer_from_home_screen")
     }
 
     val startDrag = SingleLiveEventWithoutData()

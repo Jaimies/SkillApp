@@ -6,7 +6,6 @@ object Versions {
     const val androidxCore = "1.9.0"
     const val appcompat = "1.6.1"
     const val constraintLayout = "2.1.4"
-    const val legacy = "1.0.0"
     const val androidxAnnotation = "1.3.0"
 
     const val room = "2.5.1"

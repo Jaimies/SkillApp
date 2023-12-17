@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.maxpoliakov.skillapp.data.logToCrashlytics
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
@@ -142,12 +141,6 @@ class SimpleCallbackImpl(
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-
-        if (viewHolder.absoluteAdapterPosition == -1) {
-            logToCrashlytics(
-                Exception("ItemTouchHelper::clearView(): viewHolder.absoluteAdapterPosition = 0; viewHolder = $viewHolder"),
-            )
-        }
 
         viewHolder.itemView.translationZ = 0f
 

@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.data.backup
 
 import com.maxpoliakov.skillapp.data.db.AppDatabase
-import com.maxpoliakov.skillapp.data.log
 import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import kotlinx.coroutines.async
@@ -19,7 +18,7 @@ class DBBackupCreator @Inject constructor(
             val data = createBackup()
             return BackupCreator.Result.Success(data)
         } catch (e: Exception) {
-            e.log()
+            e.printStackTrace()
             return BackupCreator.Result.Failure(e)
         }
     }

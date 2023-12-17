@@ -27,8 +27,6 @@ object Versions {
 
     const val hilt = "2.45"
 
-    const val firebase = "31.0.3"
-
     const val gradle = "7.4.0"
 
     const val mockito = "3.12.1"

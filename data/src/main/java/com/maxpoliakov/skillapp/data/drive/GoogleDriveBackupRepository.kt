@@ -4,7 +4,6 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
-import com.maxpoliakov.skillapp.data.log
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
@@ -105,10 +104,10 @@ class GoogleDriveBackupRepository @Inject constructor(
             return Result.Success(result)
         } catch (e: GoogleJsonResponseException) {
             if (quotaExceeded(e)) return Result.Failure.QuotaExceeded
-            e.log()
+            e.printStackTrace()
             return Result.Failure.Error(e)
         } catch (e: IOException) {
-            e.log()
+            e.printStackTrace()
             return Result.Failure.IOFailure(e)
         }
     }

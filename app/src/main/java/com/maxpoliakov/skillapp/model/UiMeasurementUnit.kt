@@ -73,7 +73,6 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         override val changeCountResId = R.string.change_distance
         override val addRecordBtnResId = R.string.add_kilometers_record
         override val nameResId = R.string.kilometers
-        override val isStopwatchEnabled = false
 
         override fun toString(count: Long, context: Context): String {
             val kilometers = (count / 1000f).toReadableFloat()
@@ -92,7 +91,6 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         override val changeCountResId = R.string.change_count
         override val addRecordBtnResId = R.string.add_times_record
         override val nameResId = R.string.times
-        override val isStopwatchEnabled = false
 
         override fun toString(count: Long, context: Context): String {
             return context.resources
@@ -112,7 +110,6 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         override val changeCountResId = R.string.change_number_of_pages
         override val nameResId = R.string.pages
         override val addRecordBtnResId = R.string.add_pages
-        override val isStopwatchEnabled = false
 
         override fun toString(count: Long, context: Context): String {
             return context.resources
@@ -132,7 +129,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
     abstract val nameResId: Int
     abstract val addRecordBtnResId: Int
     open val addRecordDialogTitleResId get() = addRecordBtnResId
-    abstract val isStopwatchEnabled: Boolean
+    open val isStopwatchEnabled get() = false
 
     abstract fun toString(count: Long, context: Context): String
 

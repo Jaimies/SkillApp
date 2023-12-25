@@ -94,8 +94,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
 
         override fun toString(count: Long, context: Context): String {
             return context.resources
-                .getQuantityString(R.plurals.times_count, count.toInt())
-                .format(count)
+                .getQuantityString(R.plurals.times_count, count.toInt(), count.toInt())
         }
 
         override fun getValueFormatter(context: Context) = CountFormatter()
@@ -113,8 +112,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
 
         override fun toString(count: Long, context: Context): String {
             return context.resources
-                .getQuantityString(R.plurals.pages, count.toInt())
-                .format(count)
+                .getQuantityString(R.plurals.pages, count.toInt(), count.toInt())
         }
 
         override fun getValueFormatter(context: Context) = PageCountFormatter()

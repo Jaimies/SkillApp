@@ -53,7 +53,7 @@ class AddSkillViewModel @Inject constructor(
                     totalCount = count,
                     initialCount = count,
                     goal = _goal.value,
-                    unit = _unit.value.toDomain(),
+                    unit = _unit.value.domainCounterpart,
                 )
             )
 

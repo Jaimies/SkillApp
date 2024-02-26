@@ -8,27 +8,22 @@ import com.maxpoliakov.skillapp.model.formatter.daterange.WeekFormatter
 import com.maxpoliakov.skillapp.model.formatter.daterange.YearFormatter
 import com.maxpoliakov.skillapp.shared.MappableEnum
 
-enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInterval> {
-    Daily {
+enum class UiStatisticInterval(override val domainCounterpart: StatisticInterval) : MappableEnum<UiStatisticInterval, StatisticInterval> {
+    Daily(StatisticInterval.Daily) {
         override val formatter get() = DayFormatter
         override val numberOfValuesVisibleAtOnce get() = 7..14
-
-        override fun toDomain() = StatisticInterval.Daily
     },
 
-    Weekly {
+    Weekly(StatisticInterval.Weekly) {
         override val formatter get() = WeekFormatter
-        override fun toDomain() = StatisticInterval.Weekly
     },
 
-    Monthly {
+    Monthly(StatisticInterval.Monthly) {
         override val formatter get() = MonthFormatter
-        override fun toDomain() = StatisticInterval.Monthly
     },
 
-    Yearly {
+    Yearly(StatisticInterval.Yearly) {
         override val formatter get() = YearFormatter
-        override fun toDomain() = StatisticInterval.Yearly
     },
     ;
 
@@ -40,7 +35,7 @@ enum class UiStatisticInterval : MappableEnum<UiStatisticInterval, StatisticInte
     val scaleEnabled get() = scale.start != scale.endInclusive
 
     private fun scaleToDisplayNValues(n: Int): Float {
-        return toDomain().numberOfValues / n.toFloat()
+        return domainCounterpart.numberOfValues / n.toFloat()
     }
 
     private fun scaleToDisplayNValues(n: IntRange): ClosedFloatingPointRange<Float> {

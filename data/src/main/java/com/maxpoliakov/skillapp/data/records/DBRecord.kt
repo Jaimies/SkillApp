@@ -50,7 +50,7 @@ fun DBRecord.mapToDomain() = Record(
     recordName,
     skillId,
     time,
-    unit.toDomain(),
+    unit.domainCounterpart,
     id,
     date,
     if (startTime != null && endTime != null) startTime..endTime else null,

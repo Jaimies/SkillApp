@@ -37,7 +37,7 @@ data class DBSkill(
 fun DBSkill.mapToDomain(): Skill {
     return Skill(
         name,
-        unit.toDomain(),
+        unit.domainCounterpart,
         totalTime,
         initialTime,
         id,

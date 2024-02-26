@@ -29,7 +29,7 @@ abstract class ValuePicker<T>(protected val unit: MeasurementUnit<T>) : PickerDi
     abstract fun getPickerValuesForValue(value: T): Pair<Int, Int>
 
     val goalType get() = goalTypeValues[firstPicker.value]
-    val goal get() = goalType?.let { goalType -> Goal(unit.toLong(value), goalType.toDomain()) }
+    val goal get() = goalType?.let { goalType -> Goal(unit.toLong(value), goalType.domainCounterpart) }
 
     override val numberOfFirstPickerValues get() = goalTypeValues.size
     final override val numberOfSecondPickerValues get() = getPickerValuesForValue(maxValue).first + 1

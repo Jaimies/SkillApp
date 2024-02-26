@@ -5,7 +5,7 @@ import com.maxpoliakov.skillapp.model.UiStatisticInterval
 
 class DateRangeValueFormatter(private val interval: UiStatisticInterval): ValueFormatter() {
     override fun getFormattedValue(value: Float): String {
-        val dateRange = interval.toDomain().toDateRange(value.toLong())
+        val dateRange = interval.domainCounterpart.toDateRange(value.toLong())
         return interval.formatter.format(dateRange.start)
     }
 }

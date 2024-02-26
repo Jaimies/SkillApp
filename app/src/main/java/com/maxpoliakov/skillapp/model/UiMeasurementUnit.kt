@@ -21,8 +21,8 @@ import com.maxpoliakov.skillapp.shared.picker.IntegerValuePicker
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
 
-enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*>> {
-    Millis {
+enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>): MappableEnum<UiMeasurementUnit, MeasurementUnit<*>> {
+    Millis(MeasurementUnit.Millis) {
         override val totalCountStringResId = R.string.total_hours
         override val initialTimeResId = R.string.initial_time
         override val changeCountResId = R.string.change_time
@@ -58,14 +58,13 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         }
 
         override fun getValueFormatter(context: Context) = TimeFormatter(context)
-        override fun toDomain() = MeasurementUnit.Millis
         override fun createPicker() = DurationPicker()
         override fun getInitialCount(countEnteredByUser: Long): Long {
             return Duration.ofHours(countEnteredByUser).toMillis()
         }
     },
 
-    Meters {
+    Meters(MeasurementUnit.Meters) {
         override val totalCountStringResId = R.string.total_kilometers
         override val initialTimeResId = R.string.initial_distance
         override val changeCountResId = R.string.change_distance
@@ -79,11 +78,10 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
 
         override fun getValueFormatter(context: Context) = DistanceFormatter(context)
         override fun createPicker() = DistancePicker()
-        override fun toDomain() = MeasurementUnit.Meters
         override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser * 1000
     },
 
-    Times {
+    Times(MeasurementUnit.Times) {
         override val totalCountStringResId = R.string.total_times
         override val initialTimeResId = R.string.initial_count
         override val changeCountResId = R.string.change_count
@@ -94,11 +92,9 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
             return context.resources
                 .getQuantityString(R.plurals.times_count, count.toInt(), count.toInt())
         }
-
-        override fun toDomain() = MeasurementUnit.Times
     },
 
-    Pages {
+    Pages(MeasurementUnit.Pages) {
         override val totalCountStringResId = R.string.total_pages
         override val initialTimeResId = R.string.pages_already_read
         override val changeCountResId = R.string.change_number_of_pages
@@ -109,8 +105,6 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
             return context.resources
                 .getQuantityString(R.plurals.pages, count.toInt(), count.toInt())
         }
-
-        override fun toDomain() = MeasurementUnit.Pages
     };
 
     abstract val totalCountStringResId: Int
@@ -125,7 +119,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
 
     open fun getInitialCount(countEnteredByUser: Long): Long = countEnteredByUser
     open fun getValueFormatter(context: Context): ValueFormatter = IntegerFormatter()
-    open fun createPicker(): ValuePicker<*> = IntegerValuePicker(this.toDomain())
+    open fun createPicker(): ValuePicker<*> = IntegerValuePicker(this.domainCounterpart)
 
     open fun toLongString(count: Long, context: Context): String {
         return toString(count, context)
@@ -144,7 +138,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         val picker = createPicker()
 
         picker.arguments = ValuePicker.Configuration(
-            value = RegularValue(initialCount, this.toDomain()),
+            value = RegularValue(initialCount, this.domainCounterpart),
             isInEditMode = editMode,
         ).getArguments()
 
@@ -164,7 +158,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
         val dialog = createPicker()
 
         dialog.arguments = ValuePicker.Configuration(
-            value = GoalValue(goal, this.toDomain()),
+            value = GoalValue(goal, this.domainCounterpart),
         ).getArguments()
 
         dialog.addOnPositiveButtonClickListener {

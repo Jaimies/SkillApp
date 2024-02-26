@@ -8,7 +8,6 @@ import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiGoal.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiGoal.Type.Companion.mapToUI
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
-import com.maxpoliakov.skillapp.model.UiStatisticInterval.Companion.mapToUI
 import com.maxpoliakov.skillapp.shared.MappableEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -40,8 +39,8 @@ data class UiGoal(
         )
     }
 
-    enum class Type : MappableEnum<Type, Goal.Type> {
-        Daily {
+    enum class Type(override val domainCounterpart: Goal.Type) : MappableEnum<Type, Goal.Type> {
+        Daily(Goal.Type.Daily) {
             override val goalResId get() = R.string.goal_type_daily
             override val goalValueResId get() = R.string.daily_goal_value
 
@@ -51,10 +50,8 @@ data class UiGoal(
                 is MeasurementUnit.Times -> 2_000
                 is MeasurementUnit.Pages -> 2_000
             }
-
-            override fun toDomain() = Goal.Type.Daily
         },
-        Weekly {
+        Weekly(Goal.Type.Weekly) {
             override val goalResId get() = R.string.goal_type_weekly
             override val goalValueResId get() = R.string.weekly_goal_value
 
@@ -64,10 +61,8 @@ data class UiGoal(
                 is MeasurementUnit.Times -> 10_000
                 is MeasurementUnit.Pages -> 10_000
             }
-
-            override fun toDomain() = Goal.Type.Weekly
         },
-        Monthly {
+        Monthly(Goal.Type.Monthly) {
             override val goalResId get() = R.string.goal_type_monthly
             override val goalValueResId get() = R.string.monthly_goal_value
 
@@ -77,10 +72,8 @@ data class UiGoal(
                 is MeasurementUnit.Times -> 50_000
                 is MeasurementUnit.Pages -> 50_000
             }
-
-            override fun toDomain() = Goal.Type.Monthly
         },
-        Yearly {
+        Yearly(Goal.Type.Yearly) {
             override val goalResId get() = R.string.goal_type_yearly
             override val goalValueResId get() = R.string.yearly_goal_value
 
@@ -90,10 +83,8 @@ data class UiGoal(
                 is MeasurementUnit.Times -> 500_000
                 is MeasurementUnit.Pages -> 500_000
             }
-
-            override fun toDomain() = Goal.Type.Yearly
         },
-        Lifetime {
+        Lifetime(Goal.Type.Lifetime) {
             override val goalResId get() = R.string.goal_type_lifetime
             override val goalValueResId get() = R.string.lifetime_goal_value
 
@@ -103,8 +94,6 @@ data class UiGoal(
                 is MeasurementUnit.Times -> 500_000
                 is MeasurementUnit.Pages -> 500_000
             }
-
-            override fun toDomain() = Goal.Type.Lifetime
         };
 
         abstract val goalResId: Int
@@ -112,7 +101,7 @@ data class UiGoal(
 
         abstract fun <T> getMaximumCount(unit: MeasurementUnit<T>): Long
 
-        val interval = this.toDomain().interval
+        val interval = this.domainCounterpart.interval
 
         companion object : MappableEnum.Companion<Type, Goal.Type>(values())
     }
@@ -130,11 +119,11 @@ data class UiGoal(
     }
 }
 
-fun UiGoal.mapToDomain() = Goal(count, type.toDomain())
+fun UiGoal.mapToDomain() = Goal(count, type.domainCounterpart)
 
 @JvmName("mapToUI_withUIMeasurementUnit")
 fun Flow<Goal?>.mapToUI(unit: Flow<UiMeasurementUnit>): Flow<UiGoal?> {
-    return mapToUI(unit.map(UiMeasurementUnit::toDomain))
+    return mapToUI(unit.map { it.domainCounterpart })
 }
 
 fun Flow<Goal?>.mapToUI(unit: Flow<MeasurementUnit<*>>): Flow<UiGoal?> {

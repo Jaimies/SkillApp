@@ -36,7 +36,7 @@ fun GroupWithSkills.mapToDomain() = SkillGroup(
     group.id,
     group.name,
     skills.map(DBSkill::mapToDomain),
-    skills.firstOrNull()?.unit?.toDomain() ?: MeasurementUnit.Millis,
+    skills.firstOrNull()?.unit?.domainCounterpart ?: MeasurementUnit.Millis,
     parseGoal(group.goalTime, group.goalType),
     group.order,
 )

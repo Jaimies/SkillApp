@@ -86,7 +86,7 @@ class ChartDataImpl @AssistedInject constructor(
     }
 
     override fun setInterval(interval: UiStatisticInterval) {
-        _interval.value = interval.toDomain()
+        _interval.value = interval.domainCounterpart
         barChartHighlight.value = null
         pieChartHighlight.value = null
     }

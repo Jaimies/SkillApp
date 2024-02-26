@@ -10,13 +10,9 @@ private enum class DomainTestEnum {
     C,
 }
 
-private enum class TestEnum : MappableEnum<TestEnum, DomainTestEnum> {
-    A {
-        override fun toDomain() = DomainTestEnum.A
-    },
-    B {
-        override fun toDomain() = DomainTestEnum.B
-    };
+private enum class TestEnum(override val domainCounterpart: DomainTestEnum) : MappableEnum<TestEnum, DomainTestEnum> {
+    A(DomainTestEnum.A),
+    B(DomainTestEnum.B);
 
     companion object : MappableEnum.Companion<TestEnum, DomainTestEnum>(values())
 }

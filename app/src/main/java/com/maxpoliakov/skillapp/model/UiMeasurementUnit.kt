@@ -7,19 +7,17 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.shared.MappableEnum
-import com.maxpoliakov.skillapp.shared.chart.valueformatter.CountFormatter
 import com.maxpoliakov.skillapp.shared.chart.valueformatter.DistanceFormatter
-import com.maxpoliakov.skillapp.shared.chart.valueformatter.PageCountFormatter
+import com.maxpoliakov.skillapp.shared.chart.valueformatter.IntegerFormatter
 import com.maxpoliakov.skillapp.shared.chart.valueformatter.TimeFormatter
 import com.maxpoliakov.skillapp.shared.extensions.format
 import com.maxpoliakov.skillapp.shared.picker.DistancePicker
 import com.maxpoliakov.skillapp.shared.picker.DurationPicker
-import com.maxpoliakov.skillapp.shared.picker.PageCountPicker
-import com.maxpoliakov.skillapp.shared.picker.TimesPicker
 import com.maxpoliakov.skillapp.shared.picker.ValuePicker
 import com.maxpoliakov.skillapp.shared.picker.ValuePicker.Value.GoalValue
 import com.maxpoliakov.skillapp.shared.picker.ValuePicker.Value.RegularValue
 import com.maxpoliakov.skillapp.shared.extensions.toReadableFloat
+import com.maxpoliakov.skillapp.shared.picker.IntegerValuePicker
 import com.maxpoliakov.skillapp.shared.util.toMinutesPartCompat
 import java.time.Duration
 
@@ -97,10 +95,7 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
                 .getQuantityString(R.plurals.times_count, count.toInt(), count.toInt())
         }
 
-        override fun getValueFormatter(context: Context) = CountFormatter()
-        override fun createPicker() = TimesPicker()
         override fun toDomain() = MeasurementUnit.Times
-        override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser
     },
 
     Pages {
@@ -115,9 +110,6 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
                 .getQuantityString(R.plurals.pages, count.toInt(), count.toInt())
         }
 
-        override fun getValueFormatter(context: Context) = PageCountFormatter()
-        override fun getInitialCount(countEnteredByUser: Long) = countEnteredByUser
-        override fun createPicker() = PageCountPicker()
         override fun toDomain() = MeasurementUnit.Pages
     };
 
@@ -131,10 +123,9 @@ enum class UiMeasurementUnit : MappableEnum<UiMeasurementUnit, MeasurementUnit<*
 
     abstract fun toString(count: Long, context: Context): String
 
-    abstract fun getValueFormatter(context: Context): ValueFormatter
-    abstract fun getInitialCount(countEnteredByUser: Long): Long
-
-    abstract fun createPicker(): ValuePicker<*>
+    open fun getInitialCount(countEnteredByUser: Long): Long = countEnteredByUser
+    open fun getValueFormatter(context: Context): ValueFormatter = IntegerFormatter()
+    open fun createPicker(): ValuePicker<*> = IntegerValuePicker(this.toDomain())
 
     open fun toLongString(count: Long, context: Context): String {
         return toString(count, context)

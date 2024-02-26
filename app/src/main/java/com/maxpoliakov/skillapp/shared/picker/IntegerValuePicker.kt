@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.shared.picker
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.model.UiMeasurementUnit.Companion.mapToUI
 
-abstract class IntegerValuePicker<T>(unit: MeasurementUnit<T>) : ValuePicker<T>(unit) {
+open class IntegerValuePicker<T>(unit: MeasurementUnit<T>) : ValuePicker<T>(unit) {
     override val value get() = unit.toType(secondPicker.value.toLong())
     private val uiUnit = unit.mapToUI()
 

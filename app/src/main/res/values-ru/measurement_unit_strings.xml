@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="measurement_unit">Единица измерения</string>
+
+    <!-- Time -->
+    <string name="hours">Часы</string>
+    <string name="initial_time">Имеющееся количество часов практики</string>
+    <string name="total_hours">Общее время</string>
+    <string name="add_time">Добавление времени</string>
+    <string name="add_hours_record">Добавить время вручную</string>
+    <string name="change_time">Изменить время</string>
+
+    <string name="record_added">Добавлено %d сек</string>
+    <string name="record_added_with_minutes">Добавлено %d\u00A0мин</string>
+    <string name="record_added_with_hours">Добавлено %1$d\u00A0ч\u00A0%2$d\u00A0мин</string>
+
+    <string name="time_hours">%s\u00A0ч</string>
+    <string name="time_minutes">%s\u00A0мин</string>
+    <string name="time_hours_and_minutes">%1$d\u00A0ч %2$d\u00A0мин</string>
+    <string name="time_hours_and_minutes_nbsp">%1$d\u00A0ч\u00A0%2$d\u00A0мин</string>
+
+    <!-- Distance -->
+    <string name="kilometers">Километры</string>
+    <string name="initial_distance">Имеющееся количество километров</string>
+    <string name="total_kilometers">Общее расстояние</string>
+    <string name="add_kilometers_record">Добавить расстояние</string>
+    <string name="change_distance">Изменить расстояние</string>
+
+    <string name="distance_kilometers">%s\u00A0км</string>
+    <string name="distance_meters">%d\u00A0м</string>
+
+    <!-- Count -->
+    <string name="times">Разы</string>
+    <string name="initial_count">Имеющееся количество</string>
+    <string name="total_times">Общее количество</string>
+    <string name="add_times_record">Добавить запись</string>
+    <string name="change_count">Изменить колличество</string>
+
+    <plurals name="times_count">
+        <item quantity="one">%d\u00A0раз</item>
+        <item quantity="few">%d\u00A0раза</item>
+        <item quantity="many">%d\u00A0раз</item>
+    </plurals>
+
+    <!-- Number of pages -->
+    <string name="pages">Страницы</string>
+    <string name="pages_already_read">Количество уже прочитанных страниц</string>
+    <string name="total_pages">Всего страниц</string>
+    <string name="add_pages">Добавить страницы</string>
+    <string name="change_number_of_pages">Изменить кол-во страниц</string>
+
+    <plurals name="pages">
+        <item quantity="one">%d\u00A0страница</item>
+        <item quantity="few">%d\u00A0страницы</item>
+        <item quantity="many">%d\u00A0страниц</item>
+    </plurals>
+</resources>

@@ -47,8 +47,7 @@ data class UiGoal(
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(23).plusMinutes(59))
                 is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(500).plusMeters(900))
-                is MeasurementUnit.Times -> 2_000
-                is MeasurementUnit.Pages -> 2_000
+                is MeasurementUnit.IntegerUnit -> 2_000
             }
         },
         Weekly(Goal.Type.Weekly) {
@@ -58,8 +57,7 @@ data class UiGoal(
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(167).plusMinutes(59))
                 is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(2_000).plusMeters(900))
-                is MeasurementUnit.Times -> 10_000
-                is MeasurementUnit.Pages -> 10_000
+                is MeasurementUnit.IntegerUnit -> 10_000
             }
         },
         Monthly(Goal.Type.Monthly) {
@@ -69,8 +67,7 @@ data class UiGoal(
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(743).plusMinutes(59))
                 is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(10_000).plusMeters(900))
-                is MeasurementUnit.Times -> 50_000
-                is MeasurementUnit.Pages -> 50_000
+                is MeasurementUnit.IntegerUnit -> 50_000
             }
         },
         Yearly(Goal.Type.Yearly) {
@@ -80,8 +77,7 @@ data class UiGoal(
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(8783).plusMinutes(59))
                 is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(30_000).plusMeters(900))
-                is MeasurementUnit.Times -> 500_000
-                is MeasurementUnit.Pages -> 500_000
+                is MeasurementUnit.IntegerUnit -> 500_000
             }
         },
         Lifetime(Goal.Type.Lifetime) {
@@ -91,8 +87,7 @@ data class UiGoal(
             override fun <T> getMaximumCount(unit: MeasurementUnit<T>) = when (unit) {
                 is MeasurementUnit.Millis -> unit.toLong(Duration.ofHours(50_000).plusMinutes(59))
                 is MeasurementUnit.Meters -> unit.toLong(Distance.ofKilometers(80_000).plusMeters(900))
-                is MeasurementUnit.Times -> 500_000
-                is MeasurementUnit.Pages -> 500_000
+                is MeasurementUnit.IntegerUnit -> 500_000
             }
         };
 

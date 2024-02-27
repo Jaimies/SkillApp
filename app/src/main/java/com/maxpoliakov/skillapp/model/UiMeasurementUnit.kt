@@ -105,6 +105,44 @@ enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>)
             return context.resources
                 .getQuantityString(R.plurals.pages, count.toInt(), count.toInt())
         }
+    },
+
+    Steps(MeasurementUnit.Steps) {
+        override val totalCountStringResId = R.string.total_steps
+        override val initialTimeResId = R.string.initial_steps
+        override val changeCountResId = R.string.change_steps
+        override val nameResId = R.string.steps
+        override val addRecordBtnResId = R.string.add_steps
+
+        override fun toString(count: Long, context: Context): String {
+            return context.resources
+                .getQuantityString(R.plurals.steps, count.toInt(), count.toInt())
+        }
+    },
+
+    Reps(MeasurementUnit.Reps) {
+        override val totalCountStringResId = R.string.total_reps
+        override val initialTimeResId = R.string.initial_reps
+        override val changeCountResId = R.string.change_reps
+        override val nameResId = R.string.reps
+        override val addRecordBtnResId = R.string.add_reps
+
+        override fun toString(count: Long, context: Context): String {
+            return context.resources
+                .getQuantityString(R.plurals.reps, count.toInt(), count.toInt())
+        }
+    },
+
+    Kilograms(MeasurementUnit.Kilograms) {
+        override val totalCountStringResId = R.string.total_weight
+        override val initialTimeResId = R.string.initial_weight
+        override val changeCountResId = R.string.change_weight
+        override val nameResId = R.string.kilograms
+        override val addRecordBtnResId = R.string.add_weight
+
+        override fun toString(count: Long, context: Context): String {
+            return context.getString(R.string.weight_kilograms, count)
+        }
     };
 
     abstract val totalCountStringResId: Int

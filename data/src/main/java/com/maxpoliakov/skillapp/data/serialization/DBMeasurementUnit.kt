@@ -7,7 +7,10 @@ enum class DBMeasurementUnit (override val domainCounterpart: MeasurementUnit<*>
     Millis(MeasurementUnit.Millis),
     Meters(MeasurementUnit.Meters),
     Times(MeasurementUnit.Times),
-    Pages(MeasurementUnit.Pages);
+    Pages(MeasurementUnit.Pages),
+    Steps(MeasurementUnit.Steps),
+    Reps(MeasurementUnit.Reps),
+    Kilograms(MeasurementUnit.Kilograms);
 
     companion object : MappableEnum.Companion<DBMeasurementUnit, MeasurementUnit<*>>(values())
 }

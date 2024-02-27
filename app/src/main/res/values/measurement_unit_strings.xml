@@ -38,7 +38,6 @@
 
     <plurals name="times_count">
         <item quantity="one">%d\u00A0time</item>
-        <item quantity="many">%d\u00A0times</item>
         <item quantity="other">%d\u00A0times</item>
     </plurals>
 
@@ -47,11 +46,42 @@
     <string name="pages_already_read">Number of pages already read</string>
     <string name="total_pages">Total pages</string>
     <string name="add_pages">Add pages</string>
-    <string name="change_number_of_pages">Change page count</string>
+    <string name="change_number_of_pages">Change number of pages</string>
 
     <plurals name="pages">
         <item quantity="one">%d\u00A0page</item>
-        <item quantity="many">%d\u00A0pages</item>
         <item quantity="other">%d\u00A0pages</item>
     </plurals>
+
+    <!-- Steps -->
+    <string name="steps">Steps</string>
+    <string name="initial_steps">Total number of steps</string>
+    <string name="total_steps">Total steps</string>
+    <string name="add_steps">Add steps</string>
+    <string name="change_steps">Change number of steps</string>
+
+    <plurals name="steps">
+        <item quantity="one">%d\u00A0step</item>
+        <item quantity="other">%d\u00A0steps</item>
+    </plurals>
+
+    <!-- Reps -->
+    <string name="reps">Reps</string>
+    <string name="initial_reps">Total number of reps</string>
+    <string name="total_reps">Total reps</string>
+    <string name="add_reps">Add reps</string>
+    <string name="change_reps">Change number of reps</string>
+
+    <plurals name="reps">
+        <item quantity="one">%d\u00A0rep</item>
+        <item quantity="other">%d\u00A0reps</item>
+    </plurals>
+
+    <!-- Kilograms -->
+    <string name="kilograms">Kilograms</string>
+    <string name="initial_weight">Total weight</string>
+    <string name="total_weight">Total weight</string>
+    <string name="add_weight">Add weight</string>
+    <string name="change_weight">Change weight</string>
+    <string name="weight_kilograms">%d\u00A0kg</string>
 </resources>

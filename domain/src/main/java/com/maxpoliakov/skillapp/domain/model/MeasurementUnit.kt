@@ -16,13 +16,14 @@ sealed class MeasurementUnit<T> {
         override fun toLong(value: Distance) = value.toMeters()
     }
 
-    object Times : MeasurementUnit<Count>() {
+    sealed class IntegerUnit : MeasurementUnit<Count>() {
         override fun toType(value: Long) = Count.ofTimes(value)
         override fun toLong(value: Count) = value.toTimes()
     }
 
-    object Pages : MeasurementUnit<Count>() {
-        override fun toType(value: Long) = Count.ofTimes(value)
-        override fun toLong(value: Count) = value.toTimes()
-    }
+    object Times : IntegerUnit()
+    object Pages : IntegerUnit()
+    object Steps: IntegerUnit()
+    object Reps : IntegerUnit()
+    object Kilograms: IntegerUnit()
 }

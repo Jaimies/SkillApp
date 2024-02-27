@@ -54,4 +54,40 @@
         <item quantity="few">%d\u00A0сторінки</item>
         <item quantity="many">%d\u00A0сторінок</item>
     </plurals>
+
+    <!-- Steps -->
+    <string name="steps">Кроки</string>
+    <string name="initial_steps">Загальна кількість кроків</string>
+    <string name="total_steps">Загальна кількість кроків</string>
+    <string name="add_steps">Додати кроки</string>
+    <string name="change_steps">Змінити кількість кроків</string>
+
+    <plurals name="steps">
+        <item quantity="one">%d\u00A0крок</item>
+        <item quantity="few">%d\u00A0кроки</item>
+        <item quantity="many">%d\u00A0кроків</item>
+        <item quantity="other">%d\u00A0кроків</item>
+    </plurals>
+
+    <!-- Reps -->
+    <string name="reps">Підходи</string>
+    <string name="initial_reps">Загальна кількість підходів</string>
+    <string name="total_reps">Загальна кількість підходів</string>
+    <string name="add_reps">Додати підходи</string>
+    <string name="change_reps">Змінити кількість підходів</string>
+
+    <plurals name="reps">
+        <item quantity="one">%d\u00A0підхід</item>
+        <item quantity="few">%d\u00A0підходи</item>
+        <item quantity="many">%d\u00A0підходів</item>
+        <item quantity="other">%d\u00A0підходів</item>
+    </plurals>
+
+    <!-- Weight -->
+    <string name="kilograms">Кілограми</string>
+    <string name="initial_weight">Загальна вага</string>
+    <string name="total_weight">Загальна вага</string>
+    <string name="add_weight">Додати вагу</string>
+    <string name="change_weight">Змінити вагу</string>
+    <string name="weight_kilograms">%d\u00A0кг</string>
 </resources>

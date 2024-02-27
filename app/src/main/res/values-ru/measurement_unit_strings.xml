@@ -54,4 +54,40 @@
         <item quantity="few">%d\u00A0страницы</item>
         <item quantity="many">%d\u00A0страниц</item>
     </plurals>
+
+    <!-- Steps -->
+    <string name="steps">Шаги</string>
+    <string name="initial_steps">Общее количество шагов</string>
+    <string name="total_steps">Общее количество шагов</string>
+    <string name="add_steps">Добавить шаги</string>
+    <string name="change_steps">Изменить количество шагов</string>
+
+    <plurals name="steps">
+        <item quantity="one">%d\u00A0шаг</item>
+        <item quantity="few">%d\u00A0шага</item>
+        <item quantity="many">%d\u00A0шагов</item>
+        <item quantity="other">%d\u00A0шагов</item>
+    </plurals>
+
+    <!-- Reps -->
+    <string name="reps">Подходы</string>
+    <string name="initial_reps">Общее количество подходов</string>
+    <string name="total_reps">Общее количество подходов</string>
+    <string name="add_reps">Добавить подходы</string>
+    <string name="change_reps">Изменить количество подходов</string>
+
+    <plurals name="reps">
+        <item quantity="one">%d\u00A0подход</item>
+        <item quantity="few">%d\u00A0подхода</item>
+        <item quantity="many">%d\u00A0подходов</item>
+        <item quantity="other">%d\u00A0подходов</item>
+    </plurals>
+
+    <!-- Weight -->
+    <string name="kilograms">Килограммы</string>
+    <string name="initial_weight">Общий вес</string>
+    <string name="total_weight">Общий вес</string>
+    <string name="add_weight">Добавить вес</string>
+    <string name="change_weight">Изменить вес</string>
+    <string name="weight_kilograms">%d\u00A0кг</string>
 </resources>

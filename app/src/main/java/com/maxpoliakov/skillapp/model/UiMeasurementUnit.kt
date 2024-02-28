@@ -23,7 +23,6 @@ import java.time.Duration
 
 enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>): MappableEnum<UiMeasurementUnit, MeasurementUnit<*>> {
     Millis(MeasurementUnit.Millis) {
-        override val totalCountStringResId = R.string.total_hours
         override val initialTimeResId = R.string.initial_time
         override val changeCountResId = R.string.change_time
         override val addRecordBtnResId = R.string.add_hours_record
@@ -65,7 +64,6 @@ enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>)
     },
 
     Meters(MeasurementUnit.Meters) {
-        override val totalCountStringResId = R.string.total_kilometers
         override val initialTimeResId = R.string.initial_distance
         override val changeCountResId = R.string.change_distance
         override val addRecordBtnResId = R.string.add_kilometers_record
@@ -82,7 +80,6 @@ enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>)
     },
 
     Times(MeasurementUnit.Times) {
-        override val totalCountStringResId = R.string.total_times
         override val initialTimeResId = R.string.initial_count
         override val changeCountResId = R.string.change_count
         override val addRecordBtnResId = R.string.add_times_record
@@ -95,7 +92,6 @@ enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>)
     },
 
     Pages(MeasurementUnit.Pages) {
-        override val totalCountStringResId = R.string.total_pages
         override val initialTimeResId = R.string.pages_already_read
         override val changeCountResId = R.string.change_number_of_pages
         override val nameResId = R.string.pages
@@ -108,7 +104,6 @@ enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>)
     },
 
     Steps(MeasurementUnit.Steps) {
-        override val totalCountStringResId = R.string.total_steps
         override val initialTimeResId = R.string.initial_steps
         override val changeCountResId = R.string.change_steps
         override val nameResId = R.string.steps
@@ -121,7 +116,6 @@ enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>)
     },
 
     Reps(MeasurementUnit.Reps) {
-        override val totalCountStringResId = R.string.total_reps
         override val initialTimeResId = R.string.initial_reps
         override val changeCountResId = R.string.change_reps
         override val nameResId = R.string.reps
@@ -134,7 +128,6 @@ enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>)
     },
 
     Kilograms(MeasurementUnit.Kilograms) {
-        override val totalCountStringResId = R.string.total_weight
         override val initialTimeResId = R.string.initial_weight
         override val changeCountResId = R.string.change_weight
         override val nameResId = R.string.kilograms
@@ -145,7 +138,6 @@ enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>)
         }
     };
 
-    abstract val totalCountStringResId: Int
     abstract val initialTimeResId: Int
     abstract val changeCountResId: Int
     abstract val nameResId: Int

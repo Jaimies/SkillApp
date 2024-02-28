@@ -5,7 +5,6 @@
     <!-- Time -->
     <string name="hours">Часы</string>
     <string name="initial_time">Имеющееся количество часов практики</string>
-    <string name="total_hours">Общее время</string>
     <string name="add_time">Добавление времени</string>
     <string name="add_hours_record">Добавить время вручную</string>
     <string name="change_time">Изменить время</string>
@@ -22,7 +21,6 @@
     <!-- Distance -->
     <string name="kilometers">Километры</string>
     <string name="initial_distance">Имеющееся количество километров</string>
-    <string name="total_kilometers">Общее расстояние</string>
     <string name="add_kilometers_record">Добавить расстояние</string>
     <string name="change_distance">Изменить расстояние</string>
 
@@ -32,7 +30,6 @@
     <!-- Count -->
     <string name="times">Разы</string>
     <string name="initial_count">Имеющееся количество</string>
-    <string name="total_times">Общее количество</string>
     <string name="add_times_record">Добавить запись</string>
     <string name="change_count">Изменить колличество</string>
 
@@ -45,7 +42,6 @@
     <!-- Number of pages -->
     <string name="pages">Страницы</string>
     <string name="pages_already_read">Количество уже прочитанных страниц</string>
-    <string name="total_pages">Всего страниц</string>
     <string name="add_pages">Добавить страницы</string>
     <string name="change_number_of_pages">Изменить кол-во страниц</string>
 
@@ -58,7 +54,6 @@
     <!-- Steps -->
     <string name="steps">Шаги</string>
     <string name="initial_steps">Общее количество шагов</string>
-    <string name="total_steps">Общее количество шагов</string>
     <string name="add_steps">Добавить шаги</string>
     <string name="change_steps">Изменить количество шагов</string>
 
@@ -72,7 +67,6 @@
     <!-- Reps -->
     <string name="reps">Подходы</string>
     <string name="initial_reps">Общее количество подходов</string>
-    <string name="total_reps">Общее количество подходов</string>
     <string name="add_reps">Добавить подходы</string>
     <string name="change_reps">Изменить количество подходов</string>
 
@@ -86,7 +80,6 @@
     <!-- Weight -->
     <string name="kilograms">Килограммы</string>
     <string name="initial_weight">Общий вес</string>
-    <string name="total_weight">Общий вес</string>
     <string name="add_weight">Добавить вес</string>
     <string name="change_weight">Изменить вес</string>
     <string name="weight_kilograms">%d\u00A0кг</string>

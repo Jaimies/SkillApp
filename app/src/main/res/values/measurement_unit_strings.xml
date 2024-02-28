@@ -77,4 +77,15 @@
     <string name="add_weight">Add weight</string>
     <string name="change_weight">Change weight</string>
     <string name="weight_kilograms">%d\u00A0kg</string>
+
+    <!-- Calories -->
+    <string name="calories">Calories</string>
+    <string name="initial_calories">Number of calories already burnt</string>
+    <string name="add_calories">Add calories</string>
+    <string name="change_calories">Change number of calories</string>
+
+    <plurals name="calories">
+        <item quantity="one">%d\u00A0calorie</item>
+        <item quantity="other">%d\u00A0calories</item>
+    </plurals>
 </resources>

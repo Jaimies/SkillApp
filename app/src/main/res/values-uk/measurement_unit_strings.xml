@@ -61,7 +61,6 @@
         <item quantity="one">%d\u00A0крок</item>
         <item quantity="few">%d\u00A0кроки</item>
         <item quantity="many">%d\u00A0кроків</item>
-        <item quantity="other">%d\u00A0кроків</item>
     </plurals>
 
     <!-- Reps -->
@@ -74,7 +73,6 @@
         <item quantity="one">%d\u00A0підхід</item>
         <item quantity="few">%d\u00A0підходи</item>
         <item quantity="many">%d\u00A0підходів</item>
-        <item quantity="other">%d\u00A0підходів</item>
     </plurals>
 
     <!-- Weight -->
@@ -83,4 +81,16 @@
     <string name="add_weight">Додати вагу</string>
     <string name="change_weight">Змінити вагу</string>
     <string name="weight_kilograms">%d\u00A0кг</string>
+
+    <!-- Calories -->
+    <string name="calories">Калорії</string>
+    <string name="initial_calories">Кількість вже спалених калорій</string>
+    <string name="add_calories">Додати калорії</string>
+    <string name="change_calories">Змінити кількість калорій</string>
+
+    <plurals name="calories">
+        <item quantity="one">%d\u00A0калорія</item>
+        <item quantity="few">%d\u00A0калорії</item>
+        <item quantity="many">%d\u00A0калорій</item>
+    </plurals>
 </resources>

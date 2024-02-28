@@ -61,7 +61,6 @@
         <item quantity="one">%d\u00A0шаг</item>
         <item quantity="few">%d\u00A0шага</item>
         <item quantity="many">%d\u00A0шагов</item>
-        <item quantity="other">%d\u00A0шагов</item>
     </plurals>
 
     <!-- Reps -->
@@ -74,7 +73,6 @@
         <item quantity="one">%d\u00A0подход</item>
         <item quantity="few">%d\u00A0подхода</item>
         <item quantity="many">%d\u00A0подходов</item>
-        <item quantity="other">%d\u00A0подходов</item>
     </plurals>
 
     <!-- Weight -->
@@ -83,4 +81,16 @@
     <string name="add_weight">Добавить вес</string>
     <string name="change_weight">Изменить вес</string>
     <string name="weight_kilograms">%d\u00A0кг</string>
+
+    <!-- Calories -->
+    <string name="calories">Калории</string>
+    <string name="initial_calories">Количество уже сожженных калорий</string>
+    <string name="add_calories">Добавить калории</string>
+    <string name="change_calories">Изменить количество калорий</string>
+
+    <plurals name="calories">
+        <item quantity="one">%d\u00A0калория</item>
+        <item quantity="few">%d\u00A0калории</item>
+        <item quantity="many">%d\u00A0калорий</item>
+    </plurals>
 </resources>

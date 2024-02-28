@@ -26,4 +26,5 @@ sealed class MeasurementUnit<T> {
     object Steps: IntegerUnit()
     object Reps : IntegerUnit()
     object Kilograms: IntegerUnit()
+    object Calories: IntegerUnit()
 }

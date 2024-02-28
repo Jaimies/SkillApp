@@ -136,6 +136,18 @@ enum class UiMeasurementUnit(override val domainCounterpart: MeasurementUnit<*>)
         override fun toString(count: Long, context: Context): String {
             return context.getString(R.string.weight_kilograms, count)
         }
+    },
+
+    Calories(MeasurementUnit.Calories) {
+        override val initialTimeResId = R.string.initial_calories
+        override val changeCountResId = R.string.change_calories
+        override val nameResId = R.string.calories
+        override val addRecordBtnResId = R.string.add_calories
+
+        override fun toString(count: Long, context: Context): String {
+            return context.resources
+                .getQuantityString(R.plurals.calories, count.toInt(), count.toInt())
+        }
     };
 
     abstract val initialTimeResId: Int

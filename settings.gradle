@@ -1,2 +1,2 @@
 include ':app', ':domain', ':data', ':shared', ':sharedTest'
-rootProject.name = 'Timeo'
+rootProject.name = 'SkillApp'

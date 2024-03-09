@@ -14,11 +14,12 @@ import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
-import com.maxpoliakov.skillapp.shared.util.dateTimeFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,8 +49,13 @@ class BackupViewModel @Inject constructor(
     private val _showNoNetwork = SingleLiveEventWithoutData()
     val showNoNetwork: LiveData<Unit> get() = _showNoNetwork
 
-    private val _lastBackupDate = MutableLiveData<Any?>(R.string.loading_last_backup)
-    val lastBackupDate: LiveData<Any?> get() = _lastBackupDate
+    val lastBackupState = backupRepository
+        .getLastBackupFlow()
+        .map {
+            if (it is BackupRepository.Result.Success) LoadingState.Success(it.value)
+            LoadingState.Error
+        }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, LoadingState.Loading)
 
     private val _showSnackbar = SingleLiveEvent<Int>()
     val showSnackbar: LiveData<Int> get() = _showSnackbar
@@ -58,35 +64,13 @@ class BackupViewModel @Inject constructor(
     val requestAppDataPermission: LiveData<Unit> get() = _requestAppDataPermission
 
     init {
-        updateLastBackupDate()
-
         if (!networkUtil.isConnected) _showNoNetwork.call()
         else if (authRepository.currentUser != null && !authRepository.hasAppDataPermission)
             _requestAppDataPermission.call()
     }
 
-    fun updateLastBackupDate() = viewModelScope.launch {
-        val result = backupRepository.getLastBackup()
-        _lastBackupDate.value = getLastBackupDateValue(result)
-    }
-
-    private fun getLastBackupDateValue(result: BackupRepository.Result<Backup?>): Any? {
-        if (result is BackupRepository.Result.Success) {
-            return getLastBackupDateValue(result)
-        } else {
-            return R.string.failed_to_load_last_backup_date
-        }
-    }
-
-    private fun getLastBackupDateValue(result: BackupRepository.Result.Success<Backup?>): Any {
-        return result.value?.creationDate?.let(dateTimeFormatter::format)
-            ?: R.string.no_backup_found
-    }
-
     fun notifySignedIn() {
         _currentUser.value = authRepository.currentUser
-        _lastBackupDate.value = R.string.loading_last_backup
-        updateLastBackupDate()
 
         if (!authRepository.hasAppDataPermission)
             _requestAppDataPermission.call()
@@ -95,11 +79,7 @@ class BackupViewModel @Inject constructor(
     }
 
     private fun createBackupInBackground() = scope.launch {
-        val result = performBackupUseCase.performBackup()
-
-        if (result is PerformBackupUseCase.Result.Success) {
-            _lastBackupDate.postValue(dateTimeFormatter.format(LocalDateTime.now()))
-        }
+        performBackupUseCase.performBackup()
     }
 
     fun showLogoutDialog() = _showLogoutDialog.call()
@@ -107,7 +87,6 @@ class BackupViewModel @Inject constructor(
     fun signOut() {
         authRepository.signOut()
         _currentUser.value = null
-        _lastBackupDate.value = R.string.loading_last_backup
     }
 
     fun signIn() {
@@ -124,7 +103,6 @@ class BackupViewModel @Inject constructor(
     private fun handleResult(result: PerformBackupUseCase.Result) {
         when (result) {
             is PerformBackupUseCase.Result.Success -> {
-                _lastBackupDate.value = dateTimeFormatter.format(LocalDateTime.now())
                 _showSnackbar.value = R.string.backup_successful
             }
 
@@ -166,5 +144,12 @@ class BackupViewModel @Inject constructor(
         if (!authRepository.hasAppDataPermission) _requestAppDataPermission.call()
         else if (!networkUtil.isConnected) _showNoNetwork.call()
         else _goToRestore.call()
+    }
+
+    sealed class LoadingState {
+        object Loading : LoadingState()
+        object Error : LoadingState()
+
+        data class Success(val backup: Backup?) : LoadingState()
     }
 }

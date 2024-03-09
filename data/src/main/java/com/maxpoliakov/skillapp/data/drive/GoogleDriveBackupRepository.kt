@@ -4,6 +4,7 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
+import com.maxpoliakov.skillapp.data.drive.GoogleDriveBackupRepository.OnBackupAddedListener
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
@@ -11,6 +12,9 @@ import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -20,16 +24,46 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Provider
+import javax.inject.Singleton
 
 fun BackupData.toByteArrayContent(mimeType: String = "text/plain"): ByteArrayContent {
     return ByteArrayContent.fromString(mimeType, contents)
 }
 
+@Singleton
 class GoogleDriveBackupRepository @Inject constructor(
     private val driveProvider: Provider<Drive>,
     private val networkUtil: NetworkUtil,
     private val authRepository: AuthRepository,
 ) : BackupRepository {
+
+    private val lastBackupFlow = callbackFlow {
+        val onBackupAddedListener = OnBackupAddedListener { backup ->
+            launch { send(Result.Success(backup)) }
+        }
+
+        val signInListener = AuthRepository.SignInListener {
+            launch { send(getLastBackup()) }
+        }
+
+        val signOutListener = AuthRepository.SignOutListener {
+            launch { send(Result.Success(null)) }
+        }
+
+        addOnBackupAddedListener(onBackupAddedListener)
+        authRepository.addSignInListener(signInListener)
+        authRepository.addSignOutListener(signOutListener)
+
+        send(getLastBackup())
+
+        awaitClose {
+            removeOnBackupAddedListener(onBackupAddedListener)
+            authRepository.removeSignInListener(signInListener)
+            authRepository.removeSignOutListener(signOutListener)
+        }
+    }
+
+    private var onBackupAddedListeners = mutableListOf<OnBackupAddedListener>()
 
     override suspend fun save(data: BackupData): Result<Unit> {
         return tryIfAuthorized { doUpload(data) }
@@ -40,6 +74,10 @@ class GoogleDriveBackupRepository @Inject constructor(
             .files()
             .create(createFile(), data.toByteArrayContent())
             .execute()
+
+        onBackupAddedListeners.forEach { listener ->
+            listener.onBackupAdded(Backup("backup-id", LocalDateTime.now()))
+        }
     }
 
     private fun createFile(): File {
@@ -70,6 +108,8 @@ class GoogleDriveBackupRepository @Inject constructor(
     override suspend fun getLastBackup(): Result<Backup?> = tryIfAuthorized {
         _getBackups(2).firstOrNull()
     }
+
+    override fun getLastBackupFlow() = lastBackupFlow
 
     override suspend fun getContents(backup: Backup): Result<BackupData> {
         return tryIfAuthorized { doGetContents(backup) }
@@ -110,5 +150,17 @@ class GoogleDriveBackupRepository @Inject constructor(
             e.printStackTrace()
             return Result.Failure.IOFailure(e)
         }
+    }
+
+    private fun addOnBackupAddedListener(listener: OnBackupAddedListener) {
+        onBackupAddedListeners.add(listener)
+    }
+
+    private fun removeOnBackupAddedListener(listener: OnBackupAddedListener) {
+        onBackupAddedListeners.remove(listener)
+    }
+
+    private fun interface OnBackupAddedListener {
+        fun onBackupAdded(backup: Backup)
     }
 }

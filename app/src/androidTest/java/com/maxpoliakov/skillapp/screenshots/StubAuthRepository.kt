@@ -9,4 +9,9 @@ class StubAuthRepository @Inject constructor(): AuthRepository {
     override val hasAppDataPermission get() = true
 
     override fun signOut() {}
+
+    override fun addSignInListener(listener: AuthRepository.SignInListener) {}
+    override fun addSignOutListener(listener: AuthRepository.SignOutListener) {}
+    override fun removeSignInListener(listener: AuthRepository.SignInListener) {}
+    override fun removeSignOutListener(listener: AuthRepository.SignOutListener) {}
 }

@@ -4,6 +4,7 @@ import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flowOf
 
 class StubBackupRepository(
     private val uploadResult: BackupRepository.Result<Unit> = backupRepositorySuccess,
@@ -21,4 +22,5 @@ class StubBackupRepository(
 
     override suspend fun getBackups(): List<Backup> = listOf()
     override suspend fun getLastBackup() = BackupRepository.Result.Success(null)
+    override fun getLastBackupFlow() = flowOf<BackupRepository.Result<Backup?>>()
 }

@@ -29,11 +29,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val backupsPref = findPreference<Preference>("backups")!!
-
-        backupsPref.setOnPreferenceClickListener {
+        setOnPreferenceClickedListener("backups", failIfPreferenceNotFound = true) {
             findNavController().navigateAnimated(R.id.backup_fragment_dest)
-            true
         }
 
         findPreference<Preference>("day_start_time")!!.summaryProvider = DayStartTimeSummaryProvider()
@@ -81,7 +78,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun setOnPreferenceClickedListener(preferenceName: String, onClicked: () -> Unit) {
+    private fun setOnPreferenceClickedListener(
+        preferenceName: String,
+        failIfPreferenceNotFound: Boolean = false,
+        onClicked: () -> Unit,
+    ) {
+        val preference = findPreference<Preference>(preferenceName)
+
+        if (failIfPreferenceNotFound) require(preference != null)
+
         findPreference<Preference>(preferenceName)?.setOnPreferenceClickListener {
             onClicked()
             true

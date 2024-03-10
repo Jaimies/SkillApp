@@ -8,6 +8,7 @@ import javax.inject.Inject
 class StubAuthRepository @Inject constructor(): AuthRepository {
     override val currentUser get() = flowOf(User("someuser@gmail.com", true))
 
+    override fun reportSignIn() {}
     override fun signOut() {}
 
     override fun addSignInListener(listener: AuthRepository.SignInListener) {}

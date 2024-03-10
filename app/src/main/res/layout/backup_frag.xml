@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.backup.BackupViewModel" />
+            type="com.maxpoliakov.skillapp.ui.backup.GoogleDriveBackupViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -34,7 +34,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="30dp"
-                    android:enabled="@{!viewModel.backupCreating}"
+                    android:enabled="@{!viewModel.isCreatingBackup}"
                     android:onClick="@{() -> viewModel.createBackup()}"
                     android:paddingStart="20dp"
                     android:paddingEnd="24dp"
@@ -110,6 +110,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            app:visible="@{viewModel.backupCreating}" />
+            app:visible="@{viewModel.isCreatingBackup}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

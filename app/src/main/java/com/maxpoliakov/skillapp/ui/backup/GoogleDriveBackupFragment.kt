@@ -1,7 +1,6 @@
 package com.maxpoliakov.skillapp.ui.backup
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
@@ -25,10 +24,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BackupFragment : DataBindingFragment<BackupFragBinding>() {
+class GoogleDriveBackupFragment : DataBindingFragment<BackupFragBinding>() {
     override val layoutId get() = R.layout.backup_frag
 
-    private val viewModel: BackupViewModel by viewModels()
+    private val viewModel: GoogleDriveBackupViewModel by viewModels()
 
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
@@ -57,7 +56,7 @@ class BackupFragment : DataBindingFragment<BackupFragBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.signIn) { signIn() }
-        observe(viewModel.goToRestore) {
+        observe(viewModel.goToRestoreBackupScreen) {
             findNavController().navigateAnimated(R.id.restore_backup_fragment_dest)
         }
 

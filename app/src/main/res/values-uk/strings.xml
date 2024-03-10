@@ -51,7 +51,7 @@
     <string name="drag_handle_label">Перетягніть, щоб змінити порядок</string>
     <string name="rate_the_app">Оцінити додаток</string>
     <string name="contact_developer">Зв\'язатися з розробником</string>
-    <string name="backups">Резервне копіювання</string>
+    <string name="google_drive_backup">Резервне копіювання на Google Диск</string>
     <string name="logout">Вийти</string>
     <string name="backup_to_google_drive">Створити резервну копію</string>
     <string name="auto_backup_message">Резервне копіювання ваших даних буде автоматично виконуватись раз на день</string>

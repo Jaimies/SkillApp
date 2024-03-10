@@ -70,10 +70,10 @@
         app:destination="@id/skill_group_fragment_dest" />
 
     <fragment
-        android:id="@+id/backup_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.backup.BackupFragment"
-        android:label="@string/backups"
-        tools:layout="@layout/backup_frag" />
+        android:id="@+id/google_drive_backup_fragment_dest"
+        android:name="com.maxpoliakov.skillapp.ui.backup.GoogleDriveBackupFragment"
+        android:label="@string/google_drive_backup"
+        tools:layout="@layout/google_drive_backup_frag" />
 
     <fragment
         android:id="@+id/restore_backup_fragment_dest"

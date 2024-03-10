@@ -29,8 +29,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        setOnPreferenceClickedListener("backups", failIfPreferenceNotFound = true) {
-            findNavController().navigateAnimated(R.id.backup_fragment_dest)
+        setOnPreferenceClickedListener("google_drive_backup", failIfPreferenceNotFound = true) {
+            findNavController().navigateAnimated(R.id.google_drive_backup_fragment_dest)
         }
 
         findPreference<Preference>("day_start_time")!!.summaryProvider = DayStartTimeSummaryProvider()

@@ -14,7 +14,6 @@ import com.maxpoliakov.skillapp.data.skill.DBSkill
 import com.maxpoliakov.skillapp.domain.model.Goal
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Record
-import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
 import com.maxpoliakov.skillapp.domain.usecase.records.AddRecordUseCase
 import com.maxpoliakov.skillapp.model.Theme
 import com.maxpoliakov.skillapp.test.R
@@ -147,7 +146,7 @@ class ScreenshotsTest {
 
         makeScreenshot("skilllist")
 
-        navigate(com.maxpoliakov.skillapp.R.id.backup_fragment_dest)
+        navigate(com.maxpoliakov.skillapp.R.id.google_drive_backup_fragment_dest)
         makeScreenshot("backup")
 
         navigate(com.maxpoliakov.skillapp.R.id.statistics_fragment_dest)

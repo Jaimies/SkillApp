@@ -13,7 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.Scope
 import com.google.api.services.drive.DriveScopes
 import com.maxpoliakov.skillapp.R
-import com.maxpoliakov.skillapp.databinding.BackupFragBinding
+import com.maxpoliakov.skillapp.databinding.GoogleDriveBackupFragBinding
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.DataBindingFragment
@@ -26,8 +26,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class GoogleDriveBackupFragment : DataBindingFragment<BackupFragBinding>() {
-    override val layoutId get() = R.layout.backup_frag
+class GoogleDriveBackupFragment : DataBindingFragment<GoogleDriveBackupFragBinding>() {
+    override val layoutId get() = R.layout.google_drive_backup_frag
 
     private val viewModel: GoogleDriveBackupViewModel by viewModels()
 
@@ -50,7 +50,7 @@ class GoogleDriveBackupFragment : DataBindingFragment<BackupFragBinding>() {
         }
     }
 
-    override fun onBindingCreated(binding: BackupFragBinding, savedInstanceState: Bundle?) {
+    override fun onBindingCreated(binding: GoogleDriveBackupFragBinding, savedInstanceState: Bundle?) {
         super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
     }

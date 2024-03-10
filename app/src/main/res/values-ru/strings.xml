@@ -91,6 +91,7 @@
     <string name="pie_chart_legend_entry">%1$s: %2$s</string>
     <string name="drive_out_of_space">Недостаточно свободного места на вашем Google Диске</string>
     <string name="failed_to_reach_google_drive">Не удалось соединиться с Google Диском</string>
+    <string name="failed_to_save_backup">Не удалось сохранить резервную копию</string>
     <string name="backup_creation_failed">Не удалось создать резервную копию</string>
     <string name="backup_upload_failed">Не удалось загрузить резервную копию на Google Диск</string>
     <string name="failed_to_load_last_backup_date">Не удалось загрузить последнюю резервную копию</string>

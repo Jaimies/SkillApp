@@ -16,7 +16,6 @@ import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.GoogleDriveBackupFragBinding
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
-import com.maxpoliakov.skillapp.shared.DataBindingFragment
 import com.maxpoliakov.skillapp.shared.dialog.showDialog
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.dialog.showToast
@@ -26,10 +25,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class GoogleDriveBackupFragment : DataBindingFragment<GoogleDriveBackupFragBinding>() {
+class GoogleDriveBackupFragment : BackupFragment<GoogleDriveBackupFragBinding, GoogleDriveBackupViewModel>() {
     override val layoutId get() = R.layout.google_drive_backup_frag
 
-    private val viewModel: GoogleDriveBackupViewModel by viewModels()
+    override val viewModel: GoogleDriveBackupViewModel by viewModels()
 
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
@@ -58,12 +57,8 @@ class GoogleDriveBackupFragment : DataBindingFragment<GoogleDriveBackupFragBindi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.signIn) { signIn() }
-        observe(viewModel.goToRestoreBackupScreen) {
-            findNavController().navigateAnimated(R.id.restore_backup_fragment_dest)
-        }
 
         observe(viewModel.showNoNetwork) { showToast(R.string.no_internet) }
-        observe(viewModel.backupResult, this::handleBackupResult)
 
         observe(viewModel.showLogoutDialog) {
             requireContext().showDialog(R.string.confirm_logout, R.string.logout) {
@@ -80,21 +75,11 @@ class GoogleDriveBackupFragment : DataBindingFragment<GoogleDriveBackupFragBindi
         }
     }
 
-    private fun handleBackupResult(result: PerformBackupUseCase.Result) {
-        when (result) {
-            is PerformBackupUseCase.Result.Success -> {
-                showSnackbar(R.string.backup_successful)
-            }
-
-            is PerformBackupUseCase.Result.CreationFailure -> {
-                showSnackbar(R.string.backup_creation_failed)
-            }
-
-            is PerformBackupUseCase.Result.UploadFailure -> handleUploadFailure(result)
-        }
+    override fun navigateToRestoreBackupScreen() {
+        findNavController().navigateAnimated(R.id.restore_backup_fragment_dest)
     }
 
-    private fun handleUploadFailure(result: PerformBackupUseCase.Result.UploadFailure) {
+    override fun handleUploadFailure(result: PerformBackupUseCase.Result.UploadFailure) {
         when (result.uploadResult) {
             is BackupRepository.Result.Failure.NoInternetConnection -> {
                 showToast(R.string.no_internet)

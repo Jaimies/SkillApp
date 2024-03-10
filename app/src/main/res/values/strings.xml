@@ -102,6 +102,7 @@
     <string name="backup_creation_failed">Failed to create a back up</string>
     <string name="backup_upload_failed">Failed to upload the back up to Google Drive</string>
     <string name="failed_to_load_last_backup_date">Couldn\'t load the most recent backup</string>
+    <string name="failed_to_save_backup">Failed to save backup</string>
     <string name="change_start_time">Change start time</string>
     <string name="change_end_time">Change end time</string>
     <string name="no_data_for_given_interval">No data for this interval</string>

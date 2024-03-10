@@ -11,7 +11,7 @@ import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOC
 import com.google.android.material.timepicker.TimeFormat
 import com.google.android.material.timepicker.TimeFormat.CLOCK_12H
 import com.google.android.material.timepicker.TimeFormat.CLOCK_24H
-import com.maxpoliakov.skillapp.data.persistence.sharedPrefs
+import com.maxpoliakov.skillapp.data.extensions.sharedPrefs
 import java.time.LocalTime
 
 fun FragmentManager.showTimePicker(

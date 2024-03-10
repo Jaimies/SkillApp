@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.data.timer.legacy
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.maxpoliakov.skillapp.data.persistence.getStringPreference
+import com.maxpoliakov.skillapp.data.extensions.getStringPreference
 import com.maxpoliakov.skillapp.domain.model.Timer
 import com.maxpoliakov.skillapp.domain.repository.LegacyTimerRepository
 import com.maxpoliakov.skillapp.shared.util.toZonedDateTimeOrNull

@@ -1,8 +1,7 @@
-package com.maxpoliakov.skillapp.data.persistence
+package com.maxpoliakov.skillapp.data.extensions
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 
 val Context.sharedPrefs: SharedPreferences

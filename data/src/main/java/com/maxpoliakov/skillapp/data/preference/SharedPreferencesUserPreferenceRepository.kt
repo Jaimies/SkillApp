@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.data.preference
 
 import android.content.SharedPreferences
-import com.maxpoliakov.skillapp.data.persistence.getStringPreference
+import com.maxpoliakov.skillapp.data.extensions.getStringPreference
 import com.maxpoliakov.skillapp.domain.repository.UserPreferenceRepository
 import java.time.LocalTime
 import javax.inject.Inject

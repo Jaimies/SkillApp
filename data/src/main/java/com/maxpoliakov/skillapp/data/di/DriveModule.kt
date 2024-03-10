@@ -8,7 +8,7 @@ import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
-import com.maxpoliakov.skillapp.data.persistence.getStringPreference
+import com.maxpoliakov.skillapp.data.extensions.getStringPreference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

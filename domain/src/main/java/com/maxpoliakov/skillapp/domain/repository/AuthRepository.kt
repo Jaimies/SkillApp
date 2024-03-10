@@ -12,6 +12,7 @@ interface AuthRepository {
     fun removeSignInListener(listener: SignInListener)
     fun removeSignOutListener(listener: SignOutListener)
 
+    fun reportSignIn()
     fun signOut()
 
     fun interface SignInListener {

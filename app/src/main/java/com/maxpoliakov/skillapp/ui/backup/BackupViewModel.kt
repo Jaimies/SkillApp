@@ -70,6 +70,7 @@ class BackupViewModel @Inject constructor(
     }
 
     fun notifySignedIn() {
+        authRepository.reportSignIn()
         _currentUser.value = authRepository.currentUser
 
         if (!authRepository.hasAppDataPermission)

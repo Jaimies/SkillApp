@@ -32,7 +32,6 @@ class GoogleAuthRepository @Inject constructor(
             return GoogleSignIn.hasPermissions(account, scope)
         }
 
-    // TODO: callback is never invoked
     override fun addSignInListener(listener: AuthRepository.SignInListener) {
         signInListeners.add(listener)
     }
@@ -47,6 +46,10 @@ class GoogleAuthRepository @Inject constructor(
 
     override fun removeSignOutListener(listener: AuthRepository.SignOutListener) {
         signOutListeners.remove(listener)
+    }
+
+    override fun reportSignIn() {
+        signInListeners.forEach(AuthRepository.SignInListener::onSignedIn)
     }
 
     override fun signOut() {

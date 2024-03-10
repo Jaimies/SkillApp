@@ -1,10 +1,10 @@
 package com.maxpoliakov.skillapp.data.backup.google_drive
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
-import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import com.maxpoliakov.skillapp.data.backup.google_drive.GoogleDriveBackupRepository.OnBackupAddedListener
+import com.maxpoliakov.skillapp.data.extensions.toByteArrayContent
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
@@ -26,10 +26,6 @@ import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
-
-fun BackupData.toByteArrayContent(mimeType: String = "text/plain"): ByteArrayContent {
-    return ByteArrayContent.fromString(mimeType, contents)
-}
 
 @Singleton
 class GoogleDriveBackupRepository @Inject constructor(

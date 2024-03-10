@@ -3,7 +3,6 @@ package com.maxpoliakov.skillapp.ui.backup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
@@ -39,8 +38,8 @@ abstract class BackupViewModel(
     private val _goToRestoreBackupScreen = SingleLiveEventWithoutData()
     val goToRestoreBackupScreen: LiveData<Unit> get() = _goToRestoreBackupScreen
 
-    private val _showSnackbar = SingleLiveEvent<Int>()
-    val showSnackbar: LiveData<Int> get() = _showSnackbar
+    val backupResult: LiveData<PerformBackupUseCase.Result> get() = _backupResult
+    private val _backupResult = SingleLiveEvent<PerformBackupUseCase.Result>()
 
     abstract val isConfigured: Flow<Boolean>
 
@@ -51,35 +50,16 @@ abstract class BackupViewModel(
 
         _isCreatingBackup.value = true
         val result = performBackupUseCase.performBackup()
-        handleBackupCreationResult(result)
+        _backupResult.value = result
+        onBackupAttempted(result)
         _isCreatingBackup.value = false
     }
 
-    open fun handleBackupCreationResult(result: PerformBackupUseCase.Result) {
-        when (result) {
-            is PerformBackupUseCase.Result.Success -> {
-                showSnackbar(R.string.backup_successful)
-            }
-
-            is PerformBackupUseCase.Result.CreationFailure -> {
-                showSnackbar(R.string.backup_creation_failed)
-            }
-
-            is PerformBackupUseCase.Result.UploadFailure -> handleUploadFailure(result)
-        }
-    }
-
-    open fun handleUploadFailure(result: PerformBackupUseCase.Result.UploadFailure) {
-        showSnackbar(R.string.backup_upload_failed)
-    }
+    open fun onBackupAttempted(result: PerformBackupUseCase.Result) {}
 
     fun goToRestore() = viewModelScope.launch {
         if (!isConfigured.first()) onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
         else _goToRestoreBackupScreen.call()
-    }
-
-    protected fun showSnackbar(messageStringResId: Int) {
-        _showSnackbar.value = messageStringResId
     }
 
     sealed class LoadingState {

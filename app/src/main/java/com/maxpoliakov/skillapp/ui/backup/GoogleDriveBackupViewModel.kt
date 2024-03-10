@@ -3,7 +3,6 @@ package com.maxpoliakov.skillapp.ui.backup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
@@ -76,29 +75,11 @@ class GoogleDriveBackupViewModel @Inject constructor(
     fun signIn() = _signIn.call()
     fun signOut() = authRepository.signOut()
 
-    override fun handleUploadFailure(result: PerformBackupUseCase.Result.UploadFailure) {
-        when (result.uploadResult) {
-            is BackupRepository.Result.Failure.NoInternetConnection -> {
-                _showNoNetwork.call()
-            }
-
-            is BackupRepository.Result.Failure.IOFailure -> {
-                showSnackbar(R.string.failed_to_reach_google_drive)
-            }
-
-            is BackupRepository.Result.Failure.QuotaExceeded -> {
-                showSnackbar(R.string.drive_out_of_space)
-            }
-
-            is BackupRepository.Result.Failure.PermissionDenied -> {
-                _requestAppDataPermission.call()
-            }
-
-            is BackupRepository.Result.Failure.Error -> {
-                showSnackbar(R.string.backup_upload_failed)
-            }
-
-            else -> {}
+    override fun onBackupAttempted(result: PerformBackupUseCase.Result) {
+        if (result is PerformBackupUseCase.Result.UploadFailure
+            && result.uploadResult is BackupRepository.Result.Failure.PermissionDenied
+        ) {
+            _requestAppDataPermission.call()
         }
     }
 }

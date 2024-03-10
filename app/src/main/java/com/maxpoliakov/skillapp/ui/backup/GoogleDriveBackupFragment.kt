@@ -14,6 +14,8 @@ import com.google.android.gms.common.api.Scope
 import com.google.api.services.drive.DriveScopes
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupFragBinding
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.DataBindingFragment
 import com.maxpoliakov.skillapp.shared.dialog.showDialog
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
@@ -61,7 +63,7 @@ class GoogleDriveBackupFragment : DataBindingFragment<BackupFragBinding>() {
         }
 
         observe(viewModel.showNoNetwork) { showToast(R.string.no_internet) }
-        observe(viewModel.showSnackbar, this::showSnackbar)
+        observe(viewModel.backupResult, this::handleBackupResult)
 
         observe(viewModel.showLogoutDialog) {
             requireContext().showDialog(R.string.confirm_logout, R.string.logout) {
@@ -75,6 +77,42 @@ class GoogleDriveBackupFragment : DataBindingFragment<BackupFragBinding>() {
                 GoogleSignIn.getLastSignedInAccount(requireContext()),
                 Scope(DriveScopes.DRIVE_APPDATA),
             )
+        }
+    }
+
+    private fun handleBackupResult(result: PerformBackupUseCase.Result) {
+        when (result) {
+            is PerformBackupUseCase.Result.Success -> {
+                showSnackbar(R.string.backup_successful)
+            }
+
+            is PerformBackupUseCase.Result.CreationFailure -> {
+                showSnackbar(R.string.backup_creation_failed)
+            }
+
+            is PerformBackupUseCase.Result.UploadFailure -> handleUploadFailure(result)
+        }
+    }
+
+    private fun handleUploadFailure(result: PerformBackupUseCase.Result.UploadFailure) {
+        when (result.uploadResult) {
+            is BackupRepository.Result.Failure.NoInternetConnection -> {
+                showToast(R.string.no_internet)
+            }
+
+            is BackupRepository.Result.Failure.IOFailure -> {
+                showSnackbar(R.string.failed_to_reach_google_drive)
+            }
+
+            is BackupRepository.Result.Failure.QuotaExceeded -> {
+                showSnackbar(R.string.drive_out_of_space)
+            }
+
+            is BackupRepository.Result.Failure.Error -> {
+                showSnackbar(R.string.backup_upload_failed)
+            }
+
+            else -> {}
         }
     }
 

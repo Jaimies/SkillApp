@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.data.di
 
 import com.maxpoliakov.skillapp.data.auth.GoogleAuthRepository
-import com.maxpoliakov.skillapp.data.drive.GoogleDriveBackupRepository
+import com.maxpoliakov.skillapp.data.backup.google_drive.GoogleDriveBackupRepository
 import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
 import com.maxpoliakov.skillapp.data.preference.SharedPreferencesUserPreferenceRepository
 import com.maxpoliakov.skillapp.data.records.DBRecordsRepository

@@ -71,7 +71,7 @@
 
     <fragment
         android:id="@+id/google_drive_backup_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.backup.GoogleDriveBackupFragment"
+        android:name="com.maxpoliakov.skillapp.ui.backup.google_drive.GoogleDriveBackupFragment"
         android:label="@string/google_drive_backup"
         tools:layout="@layout/google_drive_backup_frag" />
 

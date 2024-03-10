@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.ui.backup
+package com.maxpoliakov.skillapp.ui.backup.google_drive
 
 import android.app.Activity
 import android.os.Bundle
@@ -21,6 +21,7 @@ import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.dialog.showToast
 import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
 import com.maxpoliakov.skillapp.shared.fragment.observe
+import com.maxpoliakov.skillapp.ui.backup.BackupFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

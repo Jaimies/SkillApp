@@ -36,22 +36,22 @@ class GoogleDriveBackupRepository @Inject constructor(
 
     private val lastBackupFlow = callbackFlow {
         val onBackupAddedListener = OnBackupAddedListener { backup ->
-            launch { send(Result.Success(backup)) }
+            trySend(Result.Success(backup))
         }
 
         val signInListener = AuthRepository.SignInListener {
-            launch { send(getLastBackup()) }
+            launch { trySend(getLastBackup()) }
         }
 
         val signOutListener = AuthRepository.SignOutListener {
-            launch { send(Result.Success(null)) }
+            trySend(Result.Success(null))
         }
 
         addOnBackupAddedListener(onBackupAddedListener)
         authRepository.addSignInListener(signInListener)
         authRepository.addSignOutListener(signOutListener)
 
-        send(getLastBackup())
+        trySend(getLastBackup())
 
         awaitClose {
             removeOnBackupAddedListener(onBackupAddedListener)

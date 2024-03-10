@@ -11,7 +11,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,17 +25,17 @@ class GoogleAuthRepository @Inject constructor(
     override val currentUser: Flow<User?>
         get() = callbackFlow {
             val signInListener = AuthRepository.SignInListener {
-                launch { send(getCurrentUser()) }
+                trySend(getCurrentUser())
             }
 
             val signOutListener = AuthRepository.SignOutListener {
-                launch { send(null) }
+                trySend(null)
             }
 
             addSignInListener(signInListener)
             addSignOutListener(signOutListener)
 
-            send(getCurrentUser())
+            trySend(getCurrentUser())
 
             awaitClose {
                 removeSignInListener(signInListener)

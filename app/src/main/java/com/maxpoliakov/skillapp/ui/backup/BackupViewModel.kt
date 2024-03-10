@@ -65,7 +65,7 @@ class BackupViewModel @Inject constructor(
 
     init {
         if (!networkUtil.isConnected) _showNoNetwork.call()
-        else if (authRepository.currentUser != null && !authRepository.hasAppDataPermission)
+        else if (authRepository.currentUser.let { user -> user != null && !user.hasAppDataPermission })
             _requestAppDataPermission.call()
     }
 
@@ -73,7 +73,7 @@ class BackupViewModel @Inject constructor(
         authRepository.reportSignIn()
         _currentUser.value = authRepository.currentUser
 
-        if (!authRepository.hasAppDataPermission)
+        if (authRepository.currentUser.let { user -> user != null && !user.hasAppDataPermission })
             _requestAppDataPermission.call()
         else
             createBackupInBackground()
@@ -142,7 +142,8 @@ class BackupViewModel @Inject constructor(
     }
 
     fun goToRestore() {
-        if (!authRepository.hasAppDataPermission) _requestAppDataPermission.call()
+        val user = authRepository.currentUser ?: return
+        if (!user.hasAppDataPermission) _requestAppDataPermission.call()
         else if (!networkUtil.isConnected) _showNoNetwork.call()
         else _goToRestore.call()
     }

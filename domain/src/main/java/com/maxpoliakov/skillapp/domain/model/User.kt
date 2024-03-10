@@ -1,3 +1,6 @@
 package com.maxpoliakov.skillapp.domain.model
 
-data class User(val email: String)
+data class User(
+    val email: String,
+    val hasAppDataPermission: Boolean,
+)

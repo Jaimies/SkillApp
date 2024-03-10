@@ -4,7 +4,6 @@ import com.maxpoliakov.skillapp.domain.model.User
 
 interface AuthRepository {
     val currentUser: User?
-    val hasAppDataPermission: Boolean
 
     fun addSignInListener(listener: SignInListener)
     fun addSignOutListener(listener: SignOutListener)

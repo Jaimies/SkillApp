@@ -126,10 +126,12 @@ class GoogleDriveBackupRepository @Inject constructor(
     }
 
     private suspend fun <T> doIfAuthorized(operation: suspend () -> Result<T>): Result<T> {
+        val user = authRepository.currentUser
+
         return when {
+            user == null -> Result.Failure.Unauthorized
+            !user.hasAppDataPermission -> Result.Failure.PermissionDenied
             !networkUtil.isConnected -> Result.Failure.NoInternetConnection
-            authRepository.currentUser == null -> Result.Failure.Unauthorized
-            !authRepository.hasAppDataPermission -> Result.Failure.PermissionDenied
             else -> withContext(Dispatchers.IO) { operation() }
         }
     }

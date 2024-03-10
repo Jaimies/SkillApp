@@ -22,14 +22,12 @@ class GoogleAuthRepository @Inject constructor(
     override val currentUser: User?
         get() {
             val googleAccount = GoogleSignIn.getLastSignedInAccount(context) ?: return null
-            return User(googleAccount.email.orEmpty())
-        }
+            val appDataScope = Scope(DriveScopes.DRIVE_APPDATA)
 
-    override val hasAppDataPermission: Boolean
-        get() {
-            val account = GoogleSignIn.getLastSignedInAccount(context) ?: return false
-            val scope = Scope(DriveScopes.DRIVE_APPDATA)
-            return GoogleSignIn.hasPermissions(account, scope)
+            return User(
+                email = googleAccount.email.orEmpty(),
+                hasAppDataPermission = GoogleSignIn.hasPermissions(googleAccount, appDataScope),
+            )
         }
 
     override fun addSignInListener(listener: AuthRepository.SignInListener) {

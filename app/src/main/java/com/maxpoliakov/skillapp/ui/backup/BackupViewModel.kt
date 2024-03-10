@@ -3,11 +3,11 @@ package com.maxpoliakov.skillapp.ui.backup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Backup
-import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
@@ -17,6 +17,7 @@ import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -31,8 +32,7 @@ class BackupViewModel @Inject constructor(
     @ApplicationScope
     private val scope: CoroutineScope,
 ) : ViewModel() {
-    private val _currentUser = MutableLiveData(authRepository.currentUser)
-    val currentUser: LiveData<User?> get() = _currentUser
+    val currentUser = authRepository.currentUser.asLiveData()
 
     private val _signIn = SingleLiveEventWithoutData()
     val signIn: LiveData<Unit> get() = _signIn
@@ -64,19 +64,26 @@ class BackupViewModel @Inject constructor(
     val requestAppDataPermission: LiveData<Unit> get() = _requestAppDataPermission
 
     init {
-        if (!networkUtil.isConnected) _showNoNetwork.call()
-        else if (authRepository.currentUser.let { user -> user != null && !user.hasAppDataPermission })
-            _requestAppDataPermission.call()
+        viewModelScope.launch { init() }
     }
 
-    fun notifySignedIn() {
-        authRepository.reportSignIn()
-        _currentUser.value = authRepository.currentUser
+    private suspend fun init() {
+        if (!networkUtil.isConnected) _showNoNetwork.call()
+        else if (userAuthenticatedButPermissionNotGranted()) _requestAppDataPermission.call()
+    }
 
-        if (authRepository.currentUser.let { user -> user != null && !user.hasAppDataPermission })
+    fun notifySignedIn() = viewModelScope.launch {
+        authRepository.reportSignIn()
+
+        if (userAuthenticatedButPermissionNotGranted())
             _requestAppDataPermission.call()
         else
             createBackupInBackground()
+    }
+
+    private suspend fun userAuthenticatedButPermissionNotGranted() : Boolean {
+        val user = authRepository.currentUser.first()
+        return user != null && !user.hasAppDataPermission
     }
 
     private fun createBackupInBackground() = scope.launch {
@@ -87,7 +94,6 @@ class BackupViewModel @Inject constructor(
 
     fun signOut() {
         authRepository.signOut()
-        _currentUser.value = null
     }
 
     fun signIn() {
@@ -142,7 +148,7 @@ class BackupViewModel @Inject constructor(
     }
 
     fun goToRestore() {
-        val user = authRepository.currentUser ?: return
+        val user = currentUser.value ?: return
         if (!user.hasAppDataPermission) _requestAppDataPermission.call()
         else if (!networkUtil.isConnected) _showNoNetwork.call()
         else _goToRestore.call()

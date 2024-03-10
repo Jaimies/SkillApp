@@ -14,6 +14,7 @@ import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
@@ -126,7 +127,7 @@ class GoogleDriveBackupRepository @Inject constructor(
     }
 
     private suspend fun <T> doIfAuthorized(operation: suspend () -> Result<T>): Result<T> {
-        val user = authRepository.currentUser
+        val user = authRepository.currentUser.first()
 
         return when {
             user == null -> Result.Failure.Unauthorized

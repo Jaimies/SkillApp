@@ -12,15 +12,16 @@ import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RestoreBackupViewModel @Inject constructor(
-    private val backupRepository: BackupRepository,
     restoreBackupUseCase: RestoreBackupUseCase,
-    authRepository: AuthRepository,
+    private val backupRepository: BackupRepository,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
     private val _backups = MutableLiveData<List<Backup>>()
@@ -34,10 +35,12 @@ class RestoreBackupViewModel @Inject constructor(
     val showError: LiveData<Unit> get() = _showError
 
     init {
-        if (authRepository.currentUser != null) getBackups()
+        getBackupsIfAuthenticated()
     }
 
-    private fun getBackups() = viewModelScope.launch {
+    private fun getBackupsIfAuthenticated() = viewModelScope.launch {
+        if (authRepository.currentUser.first() == null) return@launch
+
         try {
             val backups = backupRepository.getBackups()
             _backups.value = backups

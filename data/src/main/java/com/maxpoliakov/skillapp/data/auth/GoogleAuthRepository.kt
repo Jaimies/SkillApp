@@ -8,6 +8,10 @@ import com.google.api.services.drive.DriveScopes
 import com.maxpoliakov.skillapp.domain.model.User
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,16 +23,36 @@ class GoogleAuthRepository @Inject constructor(
     private val signInListeners = mutableListOf<AuthRepository.SignInListener>()
     private val signOutListeners = mutableListOf<AuthRepository.SignOutListener>()
 
-    override val currentUser: User?
-        get() {
-            val googleAccount = GoogleSignIn.getLastSignedInAccount(context) ?: return null
-            val appDataScope = Scope(DriveScopes.DRIVE_APPDATA)
+    override val currentUser: Flow<User?>
+        get() = callbackFlow {
+            val signInListener = AuthRepository.SignInListener {
+                launch { send(getCurrentUser()) }
+            }
 
-            return User(
-                email = googleAccount.email.orEmpty(),
-                hasAppDataPermission = GoogleSignIn.hasPermissions(googleAccount, appDataScope),
-            )
+            val signOutListener = AuthRepository.SignOutListener {
+                launch { send(null) }
+            }
+
+            addSignInListener(signInListener)
+            addSignOutListener(signOutListener)
+
+            send(getCurrentUser())
+
+            awaitClose {
+                removeSignInListener(signInListener)
+                removeSignOutListener(signOutListener)
+            }
         }
+
+    private fun getCurrentUser() : User? {
+        val googleAccount = GoogleSignIn.getLastSignedInAccount(context) ?: return null
+        val appDataScope = Scope(DriveScopes.DRIVE_APPDATA)
+
+        return User(
+            email = googleAccount.email.orEmpty(),
+            hasAppDataPermission = GoogleSignIn.hasPermissions(googleAccount, appDataScope),
+        )
+    }
 
     override fun addSignInListener(listener: AuthRepository.SignInListener) {
         signInListeners.add(listener)

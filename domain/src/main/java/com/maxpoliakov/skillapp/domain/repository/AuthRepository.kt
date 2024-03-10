@@ -1,9 +1,10 @@
 package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.User
+import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    val currentUser: User?
+    val currentUser: Flow<User?>
 
     fun addSignInListener(listener: SignInListener)
     fun addSignOutListener(listener: SignOutListener)

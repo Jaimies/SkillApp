@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 
 class StubSharedPreferences(data: Map<String, Any>) : SharedPreferences {
     private val data = data.toMutableMap()
+    private val listeners = mutableSetOf<SharedPreferences.OnSharedPreferenceChangeListener>()
 
     override fun getAll() = data
 
@@ -22,25 +23,32 @@ class StubSharedPreferences(data: Map<String, Any>) : SharedPreferences {
 
     override fun edit(): SharedPreferences.Editor = Editor()
 
-    override fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {}
-    override fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener?) {}
+    override fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        listeners.add(listener)
+    }
+
+    override fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        listeners.remove(listener)
+    }
 
     inner class Editor : SharedPreferences.Editor {
-        override fun putString(key: String?, value: String?) = putValue(key, value)
-
-        override fun putStringSet(key: String?, values: MutableSet<String>?) = putValue(key, values)
-        override fun putInt(key: String?, value: Int) = putValue(key, value)
-        override fun putLong(key: String?, value: Long) = putValue(key, value)
-        override fun putFloat(key: String?, value: Float) = putValue(key, value)
-        override fun putBoolean(key: String?, value: Boolean) = putValue(key, value)
-        override fun remove(key: String?) = data.remove(key).let { this }
+        override fun putString(key: String, value: String?) = putValue(key, value)
+        override fun putStringSet(key: String, values: MutableSet<String>?) = putValue(key, values)
+        override fun putInt(key: String, value: Int) = putValue(key, value)
+        override fun putLong(key: String, value: Long) = putValue(key, value)
+        override fun putFloat(key: String, value: Float) = putValue(key, value)
+        override fun putBoolean(key: String, value: Boolean) = putValue(key, value)
+        override fun remove(key: String) = putValue(key, null)
         override fun clear() = data.clear().let { this }
         override fun commit() = true
         override fun apply() {}
 
-        private inline fun <reified T> putValue(key: String?, value: T): SharedPreferences.Editor {
+        private inline fun <reified T: Any> putValue(key: String, value: T?): SharedPreferences.Editor {
             if (value == null) data.remove(key)
-            else data[key!!] = value as Any
+            else data[key] = value
+
+            listeners.forEach { it.onSharedPreferenceChanged(this@StubSharedPreferences, key) }
+
             return this
         }
     }

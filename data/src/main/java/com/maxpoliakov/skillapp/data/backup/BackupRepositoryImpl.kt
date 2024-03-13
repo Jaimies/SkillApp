@@ -2,7 +2,7 @@ package com.maxpoliakov.skillapp.data.backup
 
 import com.maxpoliakov.skillapp.data.backup.BackupRepositoryImpl.OnBackupAddedListener
 import com.maxpoliakov.skillapp.data.extensions.toBackup
-import com.maxpoliakov.skillapp.data.file_system.FileSystemManager
+import com.maxpoliakov.skillapp.data.file_system.FileSystem
 import com.maxpoliakov.skillapp.data.file_system.GenericFile
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 @Singleton
 class BackupRepositoryImpl @Inject constructor(
-    private val fileSystemManager: FileSystemManager,
+    private val fileSystem: FileSystem,
     private val configurationManager: BackupConfigurationManager,
 ) : BackupRepository {
 
@@ -44,7 +44,7 @@ class BackupRepositoryImpl @Inject constructor(
     }
 
     private suspend fun doUpload(data: BackupData) {
-        val file = fileSystemManager.createFile(
+        val file = fileSystem.createFile(
             parentUri = configurationManager.directoryUri.first(),
             name = "",
             mimeType = "application/json",
@@ -59,7 +59,7 @@ class BackupRepositoryImpl @Inject constructor(
     override suspend fun getBackups() = _getBackups(30)
 
     private suspend fun _getBackups(limit: Int) = withContext(Dispatchers.IO) {
-        fileSystemManager
+        fileSystem
             .getChildren(configurationManager.directoryUri.first())
             .map(GenericFile::toBackup)
     }
@@ -75,7 +75,7 @@ class BackupRepositoryImpl @Inject constructor(
     }
 
     private fun doGetContents(backup: Backup): BackupData {
-        return fileSystemManager
+        return fileSystem
             .readFile(backup.uri)
             .let(::BackupData)
     }

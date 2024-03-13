@@ -9,9 +9,9 @@ import java.io.ByteArrayOutputStream
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
-class GoogleDriveFileSystemManager @Inject constructor(
+class GoogleDriveFileSystem @Inject constructor(
     private val drive: Drive,
-): FileSystemManager {
+): FileSystem {
 
     // TODO: fetch the appropriate number of files, not just 30
     override fun getChildren(uri: GenericUri): List<GenericFile> {

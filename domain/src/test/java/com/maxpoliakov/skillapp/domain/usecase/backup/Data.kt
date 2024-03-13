@@ -2,13 +2,14 @@ package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
+import com.maxpoliakov.skillapp.domain.model.GenericUri
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
 import java.time.LocalDateTime
 
-const val backupId = "id123"
-val backup = Backup(backupId, LocalDateTime.now())
+val backupUri = GenericUri("id123")
+val backup = Backup(backupUri, LocalDateTime.now())
 
 val backupData = BackupData("some backup contents")
 

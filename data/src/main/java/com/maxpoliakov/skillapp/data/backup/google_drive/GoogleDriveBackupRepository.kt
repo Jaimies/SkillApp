@@ -1,12 +1,13 @@
 package com.maxpoliakov.skillapp.data.backup.google_drive
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
-import com.google.api.services.drive.Drive
-import com.google.api.services.drive.model.File
 import com.maxpoliakov.skillapp.data.backup.google_drive.GoogleDriveBackupRepository.OnBackupAddedListener
-import com.maxpoliakov.skillapp.data.extensions.toByteArrayContent
+import com.maxpoliakov.skillapp.data.extensions.toBackup
+import com.maxpoliakov.skillapp.data.file_system.FileSystemManager
+import com.maxpoliakov.skillapp.data.file_system.GenericFile
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
+import com.maxpoliakov.skillapp.domain.model.GenericUri
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result
@@ -17,21 +18,15 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.nio.charset.StandardCharsets
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 import javax.inject.Inject
-import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class GoogleDriveBackupRepository @Inject constructor(
-    private val driveProvider: Provider<Drive>,
     private val networkUtil: NetworkUtil,
     private val authRepository: AuthRepository,
+    private val fileSystemManager: FileSystemManager,
 ) : BackupRepository {
 
     private val lastBackupFlow = callbackFlow {
@@ -62,25 +57,18 @@ class GoogleDriveBackupRepository @Inject constructor(
 
     private var onBackupAddedListeners = mutableListOf<OnBackupAddedListener>()
 
+    private val appDataFolderUri = GenericUri("appDataFolder")
+
     override suspend fun save(data: BackupData): Result<Unit> {
         return tryIfAuthorized { doUpload(data) }
     }
 
     private fun doUpload(data: BackupData) {
-        driveProvider.get()
-            .files()
-            .create(createFile(), data.toByteArrayContent())
-            .execute()
+        val file = fileSystemManager.createFile(appDataFolderUri, "", "application/json", data.contents)
 
         onBackupAddedListeners.forEach { listener ->
-            listener.onBackupAdded(Backup("backup-id", LocalDateTime.now()))
+            listener.onBackupAdded(file.toBackup())
         }
-    }
-
-    private fun createFile(): File {
-        return File()
-            .setParents(listOf("appDataFolder"))
-            .setMimeType("text/plain")
     }
 
     private fun quotaExceeded(e: GoogleJsonResponseException): Boolean {
@@ -90,16 +78,9 @@ class GoogleDriveBackupRepository @Inject constructor(
     override suspend fun getBackups() = _getBackups(30)
 
     private suspend fun _getBackups(limit: Int) = withContext(Dispatchers.IO) {
-        val theList = driveProvider.get().files().list()
-            .setPageSize(limit)
-            .setOrderBy("createdTime desc")
-            .setSpaces("appDataFolder")
-            .setFields("files(id, createdTime)")
-
-        theList.execute().files.map { file ->
-            val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.createdTime.value), ZoneId.systemDefault())
-            Backup(file.id, date)
-        }
+        fileSystemManager
+            .getChildren(appDataFolderUri)
+            .map(GenericFile::toBackup)
     }
 
     override suspend fun getLastBackup(): Result<Backup?> = tryIfAuthorized {
@@ -113,12 +94,8 @@ class GoogleDriveBackupRepository @Inject constructor(
     }
 
     private fun doGetContents(backup: Backup): BackupData {
-        val stream = ByteArrayOutputStream()
-        driveProvider.get().files().get(backup.id).executeMediaAndDownloadTo(stream)
-
-        return stream
-            .toByteArray()
-            .toString(StandardCharsets.UTF_8)
+        return fileSystemManager
+            .readFile(backup.uri)
             .let(::BackupData)
     }
 

@@ -14,7 +14,7 @@ class RestoreBackupUseCaseTest : StringSpec({
 
         val useCase = RestoreBackupUseCaseImpl(backupRepository, backupRestorer)
 
-        useCase.restoreBackup(Backup(backupId, LocalDateTime.now()))
+        useCase.restoreBackup(Backup(backupUri, LocalDateTime.now()))
 
         backupRestorer.restorationCount shouldBe 1
     }

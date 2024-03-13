@@ -1,7 +1,7 @@
 package com.maxpoliakov.skillapp.data.di
 
 import com.maxpoliakov.skillapp.data.auth.GoogleAuthRepository
-import com.maxpoliakov.skillapp.data.backup.google_drive.GoogleDriveBackupRepository
+import com.maxpoliakov.skillapp.data.backup.BackupRepositoryImpl
 import com.maxpoliakov.skillapp.data.group.DBSkillGroupRepository
 import com.maxpoliakov.skillapp.data.preference.SharedPreferencesUserPreferenceRepository
 import com.maxpoliakov.skillapp.data.records.DBRecordsRepository
@@ -40,7 +40,7 @@ interface RepositoryModule {
     fun provideAuthRepository(authRepository: GoogleAuthRepository): AuthRepository
 
     @Binds
-    fun provideDriveRepository(repository: GoogleDriveBackupRepository): BackupRepository
+    fun provideDriveRepository(repository: BackupRepositoryImpl): BackupRepository
 
     @Binds
     fun provideTimerRepository(repository: DBTimerRepository): TimerRepository

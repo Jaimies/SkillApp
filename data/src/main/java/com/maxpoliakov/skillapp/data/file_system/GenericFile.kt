@@ -6,6 +6,5 @@ import java.time.LocalDateTime
 data class GenericFile(
     val uri: GenericUri,
     val name: String,
-    val createdAt: LocalDateTime,
-    val lastModified: LocalDateTime,
+    val lastModificationDate: LocalDateTime,
 )

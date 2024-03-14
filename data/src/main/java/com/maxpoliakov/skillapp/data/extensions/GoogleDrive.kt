@@ -23,6 +23,5 @@ fun DateTime.toLocalDateTime(): LocalDateTime {
 fun File.toGenericFile() = GenericFile(
     GenericUri(this.id),
     this.name,
-    this.createdTime.toLocalDateTime(),
     this.modifiedTime.toLocalDateTime(),
 )

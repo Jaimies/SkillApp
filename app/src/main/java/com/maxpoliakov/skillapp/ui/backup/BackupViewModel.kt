@@ -3,9 +3,9 @@ package com.maxpoliakov.skillapp.ui.backup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
+import com.maxpoliakov.skillapp.model.LoadingState
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEvent
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import kotlinx.coroutines.CoroutineScope
@@ -60,12 +60,5 @@ abstract class BackupViewModel(
     fun goToRestore() = viewModelScope.launch {
         if (!isConfigured.first()) onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
         else _goToRestoreBackupScreen.call()
-    }
-
-    sealed class LoadingState {
-        object Loading : LoadingState()
-        object Error : LoadingState()
-
-        data class Success(val backup: Backup?) : LoadingState()
     }
 }

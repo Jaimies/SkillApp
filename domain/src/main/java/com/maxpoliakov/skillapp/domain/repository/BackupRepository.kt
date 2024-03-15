@@ -8,7 +8,7 @@ import java.io.IOException
 interface BackupRepository {
     suspend fun save(data: BackupData): Result<Unit>
 
-    suspend fun getBackups(): List<Backup>
+    suspend fun getBackups(): Result<List<Backup>>
     suspend fun getLastBackup(): Result<Backup?>
     suspend fun getContents(backup: Backup): Result<BackupData>
 

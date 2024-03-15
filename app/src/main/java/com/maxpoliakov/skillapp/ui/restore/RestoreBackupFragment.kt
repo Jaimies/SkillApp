@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.RestoreBackupFragBinding
+import com.maxpoliakov.skillapp.model.LoadingState
 import com.maxpoliakov.skillapp.shared.DataBindingFragment
-import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.shared.recyclerview.addDividers
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
@@ -27,9 +27,10 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
 
         binding.backupsList.setupAdapter(adapter)
         binding.backupsList.addDividers()
-        observe(viewModel.backups, adapter::submitList)
-        observe(viewModel.showError) {
-            showSnackbar(R.string.something_went_wrong)
+
+        observe(viewModel.backups) { state ->
+            if (state is LoadingState.Success)
+                adapter.submitList(state.value)
         }
     }
 

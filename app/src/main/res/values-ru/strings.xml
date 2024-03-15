@@ -95,6 +95,7 @@
     <string name="backup_creation_failed">Не удалось создать резервную копию</string>
     <string name="backup_upload_failed">Не удалось загрузить резервную копию на Google Диск</string>
     <string name="failed_to_load_last_backup_date">Не удалось загрузить последнюю резервную копию</string>
+    <string name="failed_to_load_backups">Не удалось загрузить резервные копии</string>
     <string name="change_start_time">Изменить время начала</string>
     <string name="change_end_time">Изменить время окончания</string>
     <string name="this_week">Эта неделя</string>

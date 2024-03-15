@@ -20,7 +20,7 @@ class StubBackupRepository(
         return getContentsResult
     }
 
-    override suspend fun getBackups(): List<Backup> = listOf()
+    override suspend fun getBackups() = BackupRepository.Result.Success(listOf<Backup>())
     override suspend fun getLastBackup() = BackupRepository.Result.Success(null)
     override fun getLastBackupFlow() = flowOf<BackupRepository.Result<Backup?>>()
 }

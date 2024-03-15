@@ -56,7 +56,9 @@ class BackupRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getBackups() = _getBackups(30)
+    override suspend fun getBackups() = tryIfConfigured {
+        _getBackups(30)
+    }
 
     private suspend fun _getBackups(limit: Int) = withContext(Dispatchers.IO) {
         fileSystem

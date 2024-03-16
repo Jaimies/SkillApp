@@ -2,11 +2,11 @@ package com.maxpoliakov.skillapp.data.backup.google_drive
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager.Configuration
 import com.maxpoliakov.skillapp.domain.model.GenericUri
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
@@ -15,18 +15,16 @@ class GoogleDriveBackupConfigurationManager @Inject constructor(
     authRepository: AuthRepository,
     private val networkUtil: NetworkUtil,
 ) : BackupConfigurationManager {
-    override val directoryUri = flowOf(GenericUri("appDataFolder"))
+    private val directoryUri = GenericUri("appDataFolder")
 
-    override val configurationFailureIfAny = authRepository.currentUser.map { user ->
+    override val configuration = authRepository.currentUser.map { user ->
         when {
-            user == null -> Result.Failure.Unauthorized
-            !user.hasAppDataPermission -> Result.Failure.PermissionDenied
-            !networkUtil.isConnected -> Result.Failure.NoInternetConnection
-            else -> null
+            user == null -> Configuration.Failure(Result.Failure.Unauthorized)
+            !user.hasAppDataPermission -> Configuration.Failure(Result.Failure.PermissionDenied)
+            !networkUtil.isConnected -> Configuration.Failure(Result.Failure.NoInternetConnection)
+            else -> Configuration.Success(directoryUri)
         }
     }
-
-    override val isConfigured = configurationFailureIfAny.map { it == null }
 
     override fun handleException(throwable: Throwable): Result.Failure {
         return if (quotaExceeded(throwable)) {

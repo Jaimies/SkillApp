@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.data.backup
 
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager.Configuration
 import com.maxpoliakov.skillapp.data.backup.BackupRepositoryImpl.OnBackupAddedListener
 import com.maxpoliakov.skillapp.data.extensions.toBackup
 import com.maxpoliakov.skillapp.data.file_system.FileSystem
@@ -32,20 +33,20 @@ class BackupRepositoryImpl @Inject constructor(
         awaitClose { removeOnBackupAddedListener(onBackupAddedListener) }
     }
 
-    private val lastBackupFlow = configurationManager.isConfigured.combine(backupUpdateFlow) { isConfigured, _ ->
-        if (isConfigured) getLastBackup()
+    private val lastBackupFlow = configurationManager.configuration.combine(backupUpdateFlow) { configuration, _ ->
+        if (configuration is Configuration.Success) getLastBackup()
         else Result.Success(null)
     }
 
     private var onBackupAddedListeners = mutableListOf<OnBackupAddedListener>()
 
     override suspend fun save(data: BackupData): Result<Unit> {
-        return tryIfConfigured { doUpload(data) }
+        return tryIfConfigured { configuration -> doUpload(data, configuration) }
     }
 
-    private suspend fun doUpload(data: BackupData) {
+    private fun doUpload(data: BackupData, configuration: Configuration.Success) {
         val file = fileSystem.createFile(
-            parentUri = configurationManager.directoryUri.first(),
+            parentUri = configuration.directoryUri,
             name = "",
             mimeType = "application/json",
             contents = data.contents,
@@ -56,18 +57,18 @@ class BackupRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getBackups() = tryIfConfigured {
-        _getBackups(30)
+    override suspend fun getBackups() = tryIfConfigured { configuration ->
+        _getBackups(configuration, 30)
     }
 
-    private suspend fun _getBackups(limit: Int) = withContext(Dispatchers.IO) {
+    private suspend fun _getBackups(configuration: Configuration.Success, limit: Int) = withContext(Dispatchers.IO) {
         fileSystem
-            .getChildren(configurationManager.directoryUri.first())
+            .getChildren(configuration.directoryUri)
             .map(GenericFile::toBackup)
     }
 
-    override suspend fun getLastBackup(): Result<Backup?> = tryIfConfigured {
-        _getBackups(2).firstOrNull()
+    override suspend fun getLastBackup(): Result<Backup?> = tryIfConfigured { configuration ->
+        _getBackups(configuration, 2).firstOrNull()
     }
 
     override fun getLastBackupFlow() = lastBackupFlow
@@ -82,15 +83,19 @@ class BackupRepositoryImpl @Inject constructor(
             .let(::BackupData)
     }
 
-    private suspend fun <T> doIfConfigured(operation: suspend () -> Result<T>): Result<T> {
-        val failure = configurationManager.configurationFailureIfAny.first()
+    private suspend fun <T> doIfConfigured(operation: suspend (Configuration.Success) -> Result<T>): Result<T> {
+        val configuration = configurationManager.configuration.first()
 
-        if (failure != null) return failure
-        return withContext(Dispatchers.IO) { operation() }
+        return when (configuration) {
+            is Configuration.Success -> withContext(Dispatchers.IO) { operation(configuration) }
+            is Configuration.Failure -> configuration.failure
+        }
     }
 
-    private suspend fun <T> tryIfConfigured(operation: suspend () -> T): Result<T> {
-        return doIfConfigured { tryOperation(operation) }
+    private suspend fun <T> tryIfConfigured(operation: suspend (Configuration.Success) -> T): Result<T> {
+        return doIfConfigured { configuration ->
+            tryOperation { operation(configuration) }
+        }
     }
 
     private suspend fun <T> tryOperation(operation: suspend () -> T): Result<T> {

@@ -22,6 +22,7 @@ interface BackupRepository {
             object Unauthorized : Failure()
             object PermissionDenied : Failure()
             object QuotaExceeded : Failure()
+            object NotConfigured: Failure()
 
             data class IOFailure(val exception: IOException) : Failure()
             data class Error(val exception: Throwable) : Failure()

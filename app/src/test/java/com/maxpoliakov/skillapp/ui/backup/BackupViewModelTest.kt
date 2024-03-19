@@ -23,8 +23,9 @@ class TestBackupViewModel(
     performBackupUseCase: PerformBackupUseCase,
     backupRepository: BackupRepository,
     scope: CoroutineScope,
+    isConfigured: Boolean = true,
 ) : BackupViewModel(performBackupUseCase, backupRepository, scope) {
-    override val isConfigured = flowOf(true)
+    override val isConfigured = flowOf(isConfigured)
 
     override fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured() {}
 }
@@ -73,10 +74,10 @@ class BackupViewModelTest : FunSpec({
     }
 
     context("createBackup()") {
-        test("createBackup() / isCreatingBackup") {
+        test("isCreatingBackup becomes true for the duration of backup creation if this.isConfigured is true") {
             val useCase = StubPerformBackupUseCase(delay = 2)
             val repository = StubBackupRepository()
-            val viewModel = TestBackupViewModel(useCase, repository, this)
+            val viewModel = TestBackupViewModel(useCase, repository, this, isConfigured = true)
 
             viewModel.isCreatingBackup.value shouldBe false
             val job = viewModel.createBackup()
@@ -86,7 +87,16 @@ class BackupViewModelTest : FunSpec({
             viewModel.isCreatingBackup.value shouldBe false
         }
 
-        context("backupResult") {
+        test("does nothing if not configured - this.isConfigured is false; isCreatingBackup stays false") {
+            val useCase = StubPerformBackupUseCase(delay = 2)
+            val repository = StubBackupRepository()
+            val viewModel = TestBackupViewModel(useCase, repository, this, isConfigured = false)
+            viewModel.createBackup()
+            delay(1)
+            viewModel.isCreatingBackup.value shouldBe false
+        }
+
+        context("backupResult becomes the value returned by PerformBackupUseCase::performBackup()") {
             withData(
                 PerformBackupUseCase.Result.Success,
                 PerformBackupUseCase.Result.CreationFailure(BackupCreator.Result.Failure(Throwable())),

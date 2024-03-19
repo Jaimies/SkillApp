@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 
 fun setupThreads() {
@@ -12,5 +13,10 @@ fun setupThreads() {
         override fun isMainThread() = true
     })
 
-    Dispatchers.setMain(Dispatchers.Unconfined)
+    Dispatchers.setMain(Dispatchers.Default)
+}
+
+fun resetThreads() {
+    ArchTaskExecutor.getInstance().setDelegate(null)
+    Dispatchers.resetMain()
 }

@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.addskill
 import com.maxpoliakov.skillapp.domain.model.MeasurementUnit
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.usecase.skill.ManageSkillUseCase
+import com.maxpoliakov.skillapp.resetThreads
 import com.maxpoliakov.skillapp.setupThreads
 import com.maxpoliakov.skillapp.test.any
 import io.kotest.core.spec.style.StringSpec
@@ -16,6 +17,7 @@ class AddSkillViewModelTest : StringSpec({
     lateinit var useCase: ManageSkillUseCase
 
     beforeSpec { setupThreads() }
+    afterSpec { resetThreads() }
 
     beforeEach {
         useCase = mock(ManageSkillUseCase::class.java)

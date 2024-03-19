@@ -27,7 +27,7 @@ abstract class BackupViewModel(
     val lastBackupState = backupRepository
         .getLastBackupFlow()
         .map { result ->
-            if (result is BackupRepository.Result.Success) LoadingState.Success(null)
+            if (result is BackupRepository.Result.Success) LoadingState.Success(result.value)
             else LoadingState.Error
         }
         .stateIn(viewModelScope, SharingStarted.Eagerly, LoadingState.Loading)
@@ -46,7 +46,7 @@ abstract class BackupViewModel(
     abstract fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
 
     fun createBackup() = scope.launch {
-        if (isConfigured.first()) return@launch
+        if (!isConfigured.first()) return@launch
 
         _isCreatingBackup.value = true
         val result = performBackupUseCase.performBackup()

@@ -3,7 +3,6 @@ package com.maxpoliakov.skillapp.ui.backup.google_drive
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
@@ -11,7 +10,6 @@ import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import com.maxpoliakov.skillapp.ui.backup.BackupViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -20,12 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class GoogleDriveBackupViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val performBackupUseCase: PerformBackupUseCase,
     backupRepository: BackupRepository,
     private val networkUtil: NetworkUtil,
-    @ApplicationScope
-    private val scope: CoroutineScope,
-) : BackupViewModel(performBackupUseCase, backupRepository, scope) {
+) : BackupViewModel(backupRepository) {
     val currentUser = authRepository.currentUser.asLiveData()
 
     private val _signIn = SingleLiveEventWithoutData()

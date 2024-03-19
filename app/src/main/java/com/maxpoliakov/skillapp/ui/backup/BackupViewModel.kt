@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.backup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.model.LoadingState
@@ -17,12 +18,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-abstract class BackupViewModel(
-    private val performBackupUseCase: PerformBackupUseCase,
-    backupRepository: BackupRepository,
-    private val scope: CoroutineScope,
-) : ViewModel() {
+abstract class BackupViewModel(backupRepository: BackupRepository) : ViewModel() {
+    @Inject
+    @ApplicationScope
+    lateinit var scope: CoroutineScope
+
+    @Inject
+    lateinit var performBackupUseCase: PerformBackupUseCase
 
     val lastBackupState = backupRepository
         .getLastBackupFlow()

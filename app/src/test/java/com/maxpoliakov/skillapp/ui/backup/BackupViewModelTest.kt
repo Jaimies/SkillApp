@@ -24,7 +24,13 @@ class TestBackupViewModel(
     backupRepository: BackupRepository,
     scope: CoroutineScope,
     isConfigured: Boolean = true,
-) : BackupViewModel(performBackupUseCase, backupRepository, scope) {
+) : BackupViewModel(backupRepository) {
+
+    init {
+        this.performBackupUseCase = performBackupUseCase
+        this.scope = scope
+    }
+
     override val isConfigured = flowOf(isConfigured)
 
     override fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured() {}

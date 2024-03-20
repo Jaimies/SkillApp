@@ -22,16 +22,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-abstract class BackupViewModel(backupRepository: BackupRepository) : ViewModel() {
+abstract class BackupViewModel(
+    backupRepository: BackupRepository,
+    configurationManager: BackupConfigurationManager,
+) : ViewModel() {
     @Inject
     @ApplicationScope
     lateinit var scope: CoroutineScope
 
     @Inject
     lateinit var performBackupUseCase: PerformBackupUseCase
-
-    @Inject
-    lateinit var configurationManager: BackupConfigurationManager
 
     val lastBackupState = backupRepository
         .getLastBackupFlow()
@@ -50,10 +50,12 @@ abstract class BackupViewModel(backupRepository: BackupRepository) : ViewModel()
     val backupResult: LiveData<PerformBackupUseCase.Result> get() = _backupResult
     private val _backupResult = SingleLiveEvent<PerformBackupUseCase.Result>()
 
+    protected val configuration = configurationManager.configuration
+
     abstract fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
 
     fun createBackup() = scope.launch {
-        val configuration = configurationManager.configuration.first()
+        val configuration = configuration.first()
         if (configuration is Configuration.Failure) return@launch
 
         _isCreatingBackup.value = true
@@ -66,7 +68,7 @@ abstract class BackupViewModel(backupRepository: BackupRepository) : ViewModel()
     open fun onBackupAttempted(result: PerformBackupUseCase.Result) {}
 
     fun goToRestore() = viewModelScope.launch {
-        val configuration = configurationManager.configuration.first()
+        val configuration = configuration.first()
         if (configuration is Configuration.Failure) onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
         else _goToRestoreBackupScreen.call()
     }

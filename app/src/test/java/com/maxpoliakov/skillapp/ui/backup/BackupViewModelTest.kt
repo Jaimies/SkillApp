@@ -28,12 +28,11 @@ class TestBackupViewModel(
     backupRepository: BackupRepository,
     configurationManager: BackupConfigurationManager,
     scope: CoroutineScope,
-) : BackupViewModel(backupRepository) {
+) : BackupViewModel(backupRepository, configurationManager) {
 
     init {
         this.performBackupUseCase = performBackupUseCase
         this.scope = scope
-        this.configurationManager = configurationManager
     }
 
     override fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured() {}

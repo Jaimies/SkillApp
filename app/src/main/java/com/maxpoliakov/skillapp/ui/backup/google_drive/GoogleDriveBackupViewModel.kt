@@ -3,9 +3,11 @@ package com.maxpoliakov.skillapp.ui.backup.google_drive
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager.Configuration
 import com.maxpoliakov.skillapp.domain.repository.AuthRepository
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
-import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import com.maxpoliakov.skillapp.ui.backup.BackupViewModel
@@ -19,8 +21,8 @@ import javax.inject.Inject
 class GoogleDriveBackupViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     backupRepository: BackupRepository,
-    private val networkUtil: NetworkUtil,
-) : BackupViewModel(backupRepository) {
+    configurationManager: BackupConfigurationManager
+) : BackupViewModel(backupRepository, configurationManager) {
     val currentUser = authRepository.currentUser.asLiveData()
 
     private val _signIn = SingleLiveEventWithoutData()
@@ -35,17 +37,19 @@ class GoogleDriveBackupViewModel @Inject constructor(
     private val _requestAppDataPermission = SingleLiveEventWithoutData()
     val requestAppDataPermission: LiveData<Unit> get() = _requestAppDataPermission
 
-    private val isAuthenticatedButPermissionNotGranted = authRepository.currentUser.map { user ->
-        user != null && !user.hasAppDataPermission
-    }
-
     init {
         viewModelScope.launch { init() }
     }
 
     private suspend fun init() {
-        if (!networkUtil.isConnected) _showNoNetwork.call()
-        else if (isAuthenticatedButPermissionNotGranted.first()) _requestAppDataPermission.call()
+        val configuration = configuration.first()
+        if (configuration !is Configuration.Failure) return
+
+        when (configuration.failure) {
+            is Result.Failure.NoInternetConnection -> _showNoNetwork.call()
+            is Result.Failure.PermissionDenied -> _requestAppDataPermission.call()
+            else -> {}
+        }
     }
 
     override fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured() {
@@ -55,8 +59,10 @@ class GoogleDriveBackupViewModel @Inject constructor(
     fun notifySignedIn() = viewModelScope.launch {
         authRepository.reportSignIn()
 
-        if (isAuthenticatedButPermissionNotGranted.first()) _requestAppDataPermission.call()
-        else createBackupInBackground()
+        val configuration = configuration.first()
+
+        if (configuration is Configuration.Success) createBackupInBackground()
+        else if (configuration is Configuration.Failure && configuration.failure is Result.Failure.PermissionDenied) _requestAppDataPermission.call()
     }
 
     private fun createBackupInBackground() = scope.launch {

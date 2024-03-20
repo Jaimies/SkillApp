@@ -3,6 +3,8 @@ package com.maxpoliakov.skillapp.ui.backup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager.Configuration
 import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
@@ -28,6 +30,9 @@ abstract class BackupViewModel(backupRepository: BackupRepository) : ViewModel()
     @Inject
     lateinit var performBackupUseCase: PerformBackupUseCase
 
+    @Inject
+    lateinit var configurationManager: BackupConfigurationManager
+
     val lastBackupState = backupRepository
         .getLastBackupFlow()
         .map { result ->
@@ -45,12 +50,11 @@ abstract class BackupViewModel(backupRepository: BackupRepository) : ViewModel()
     val backupResult: LiveData<PerformBackupUseCase.Result> get() = _backupResult
     private val _backupResult = SingleLiveEvent<PerformBackupUseCase.Result>()
 
-    abstract val isConfigured: Flow<Boolean>
-
     abstract fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
 
     fun createBackup() = scope.launch {
-        if (!isConfigured.first()) return@launch
+        val configuration = configurationManager.configuration.first()
+        if (configuration is Configuration.Failure) return@launch
 
         _isCreatingBackup.value = true
         val result = performBackupUseCase.performBackup()
@@ -62,7 +66,8 @@ abstract class BackupViewModel(backupRepository: BackupRepository) : ViewModel()
     open fun onBackupAttempted(result: PerformBackupUseCase.Result) {}
 
     fun goToRestore() = viewModelScope.launch {
-        if (!isConfigured.first()) onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
+        val configuration = configurationManager.configuration.first()
+        if (configuration is Configuration.Failure) onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
         else _goToRestoreBackupScreen.call()
     }
 }

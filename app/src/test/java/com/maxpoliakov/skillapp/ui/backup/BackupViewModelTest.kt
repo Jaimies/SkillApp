@@ -1,11 +1,15 @@
 package com.maxpoliakov.skillapp.ui.backup
 
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager.Configuration
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.GenericUri
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
+import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.domain.repository.StubBackupRepository
+import com.maxpoliakov.skillapp.domain.usecase.backup.StubPerformBackupUseCase
 import com.maxpoliakov.skillapp.model.LoadingState
 import com.maxpoliakov.skillapp.resetThreads
 import com.maxpoliakov.skillapp.setupThreads
@@ -22,28 +26,24 @@ import java.time.LocalDate
 class TestBackupViewModel(
     performBackupUseCase: PerformBackupUseCase,
     backupRepository: BackupRepository,
+    configurationManager: BackupConfigurationManager,
     scope: CoroutineScope,
-    isConfigured: Boolean = true,
 ) : BackupViewModel(backupRepository) {
 
     init {
         this.performBackupUseCase = performBackupUseCase
         this.scope = scope
+        this.configurationManager = configurationManager
     }
-
-    override val isConfigured = flowOf(isConfigured)
 
     override fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured() {}
 }
 
-class StubPerformBackupUseCase(
-    private val result: PerformBackupUseCase.Result = PerformBackupUseCase.Result.Success,
-    private val delay: Long = 0L,
-) : PerformBackupUseCase {
-    override suspend fun performBackup(): PerformBackupUseCase.Result {
-        delay(delay)
-        return result
-    }
+class StubConfigurationManager(
+    configuration: Configuration = Configuration.Success(GenericUri("uri")),
+): BackupConfigurationManager {
+    override val configuration = flowOf(configuration)
+    override fun handleException(throwable: Throwable) = Result.Failure.Error(throwable)
 }
 
 class BackupViewModelTest : FunSpec({
@@ -55,9 +55,10 @@ class BackupViewModelTest : FunSpec({
             val useCase = StubPerformBackupUseCase()
             val backup = Backup(GenericUri("uri"), LocalDate.ofEpochDay(0).atStartOfDay())
             val repository = StubBackupRepository(
-                getLastBackupResult = BackupRepository.Result.Success(backup)
+                getLastBackupResult = Result.Success(backup)
             )
-            val viewModel = TestBackupViewModel(useCase, repository, this)
+            val configurationManager = StubConfigurationManager()
+            val viewModel = TestBackupViewModel(useCase, repository, configurationManager, this)
 
             viewModel.lastBackupState.take(2).toList() shouldBe listOf(
                 LoadingState.Loading,
@@ -68,9 +69,10 @@ class BackupViewModelTest : FunSpec({
         test("becomes LoadingState.Error if an error occurs") {
             val useCase = StubPerformBackupUseCase()
             val repository = StubBackupRepository(
-                getLastBackupResult = BackupRepository.Result.Failure.PermissionDenied
+                getLastBackupResult = Result.Failure.PermissionDenied
             )
-            val viewModel = TestBackupViewModel(useCase, repository, this)
+            val configurationManager = StubConfigurationManager()
+            val viewModel = TestBackupViewModel(useCase, repository, configurationManager, this)
 
             viewModel.lastBackupState.take(2).toList() shouldBe listOf(
                 LoadingState.Loading,
@@ -80,10 +82,11 @@ class BackupViewModelTest : FunSpec({
     }
 
     context("createBackup()") {
-        test("isCreatingBackup becomes true for the duration of backup creation if this.isConfigured is true") {
+        test("backup is performed and isBackupCreating becomes true for the duration of the process if BackupConfigurationManager::configuration is Configuration.Success") {
             val useCase = StubPerformBackupUseCase(delay = 2)
             val repository = StubBackupRepository()
-            val viewModel = TestBackupViewModel(useCase, repository, this, isConfigured = true)
+            val configurationManager = StubConfigurationManager(Configuration.Success(GenericUri("uri")))
+            val viewModel = TestBackupViewModel(useCase, repository, configurationManager, this)
 
             viewModel.isCreatingBackup.value shouldBe false
             val job = viewModel.createBackup()
@@ -93,10 +96,11 @@ class BackupViewModelTest : FunSpec({
             viewModel.isCreatingBackup.value shouldBe false
         }
 
-        test("does nothing if not configured - this.isConfigured is false; isCreatingBackup stays false") {
+        test("does nothing and isCreatingBackup stays false if BackupConfiguration::configuration is Configuration.Failure") {
             val useCase = StubPerformBackupUseCase(delay = 2)
             val repository = StubBackupRepository()
-            val viewModel = TestBackupViewModel(useCase, repository, this, isConfigured = false)
+            val configurationManager = StubConfigurationManager(Configuration.Failure(Result.Failure.NotConfigured))
+            val viewModel = TestBackupViewModel(useCase, repository, configurationManager, this)
             viewModel.createBackup()
             delay(1)
             viewModel.isCreatingBackup.value shouldBe false
@@ -106,11 +110,12 @@ class BackupViewModelTest : FunSpec({
             withData(
                 PerformBackupUseCase.Result.Success,
                 PerformBackupUseCase.Result.CreationFailure(BackupCreator.Result.Failure(Throwable())),
-                PerformBackupUseCase.Result.UploadFailure(BackupRepository.Result.Failure.PermissionDenied),
+                PerformBackupUseCase.Result.UploadFailure(Result.Failure.PermissionDenied),
             ) { performBackupResult ->
                 val useCase = StubPerformBackupUseCase(result = performBackupResult)
                 val repository = StubBackupRepository()
-                val viewModel = TestBackupViewModel(useCase, repository, this)
+                val configurationManager = StubConfigurationManager()
+                val viewModel = TestBackupViewModel(useCase, repository, configurationManager, this)
 
                 viewModel.backupResult.value shouldBe null
                 viewModel.createBackup().join()

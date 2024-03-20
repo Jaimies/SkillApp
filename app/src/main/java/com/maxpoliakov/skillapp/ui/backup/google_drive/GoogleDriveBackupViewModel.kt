@@ -35,10 +35,6 @@ class GoogleDriveBackupViewModel @Inject constructor(
     private val _requestAppDataPermission = SingleLiveEventWithoutData()
     val requestAppDataPermission: LiveData<Unit> get() = _requestAppDataPermission
 
-    override val isConfigured = authRepository.currentUser.map { user ->
-        user != null && user.hasAppDataPermission
-    }
-
     private val isAuthenticatedButPermissionNotGranted = authRepository.currentUser.map { user ->
         user != null && !user.hasAppDataPermission
     }

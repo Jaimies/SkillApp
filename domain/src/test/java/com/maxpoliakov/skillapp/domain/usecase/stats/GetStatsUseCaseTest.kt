@@ -8,7 +8,7 @@ import com.maxpoliakov.skillapp.domain.model.SkillSelectionCriteria
 import com.maxpoliakov.skillapp.domain.model.Statistic
 import com.maxpoliakov.skillapp.domain.model.StatisticInterval
 import com.maxpoliakov.skillapp.domain.repository.SkillRepository
-import com.maxpoliakov.skillapp.domain.usecase.stub.StubStatsRepository
+import com.maxpoliakov.skillapp.domain.repository.StubStatsRepository
 import com.maxpoliakov.skillapp.shared.util.atStartOfWeek
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

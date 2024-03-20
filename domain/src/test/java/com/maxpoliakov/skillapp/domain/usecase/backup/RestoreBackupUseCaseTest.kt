@@ -1,6 +1,12 @@
 package com.maxpoliakov.skillapp.domain.usecase.backup
 
 import com.maxpoliakov.skillapp.domain.model.Backup
+import com.maxpoliakov.skillapp.domain.repository.StubBackupRepository
+import com.maxpoliakov.skillapp.domain.repository.StubBackupRestorer
+import com.maxpoliakov.skillapp.domain.repository.backup
+import com.maxpoliakov.skillapp.domain.repository.backupRepositoryFailure
+import com.maxpoliakov.skillapp.domain.repository.backupRestorationFailure
+import com.maxpoliakov.skillapp.domain.repository.backupUri
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.async

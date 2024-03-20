@@ -1,8 +1,7 @@
-package com.maxpoliakov.skillapp.domain.usecase.backup
+package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
-import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 

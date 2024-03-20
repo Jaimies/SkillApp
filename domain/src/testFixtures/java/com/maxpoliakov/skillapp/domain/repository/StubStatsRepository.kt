@@ -1,9 +1,8 @@
-package com.maxpoliakov.skillapp.domain.usecase.stub
+package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.Id
 import com.maxpoliakov.skillapp.domain.model.Record
 import com.maxpoliakov.skillapp.domain.model.Statistic
-import com.maxpoliakov.skillapp.domain.repository.StatsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDate

@@ -1,6 +1,4 @@
-package com.maxpoliakov.skillapp.domain.usecase.backup
-
-import com.maxpoliakov.skillapp.domain.repository.BackupCreator
+package com.maxpoliakov.skillapp.domain.repository
 
 class StubBackupCreator(
     private val result: BackupCreator.Result = BackupCreator.Result.Success(backupData),

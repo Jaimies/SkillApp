@@ -5,7 +5,7 @@ import com.maxpoliakov.skillapp.domain.model.GenericUri
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
-import com.maxpoliakov.skillapp.domain.usecase.backup.StubBackupRepository
+import com.maxpoliakov.skillapp.domain.repository.StubBackupRepository
 import com.maxpoliakov.skillapp.model.LoadingState
 import com.maxpoliakov.skillapp.resetThreads
 import com.maxpoliakov.skillapp.setupThreads

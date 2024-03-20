@@ -1,7 +1,6 @@
-package com.maxpoliakov.skillapp.domain.usecase.backup
+package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.BackupData
-import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
 
 class StubBackupRestorer(
     private val result: BackupRestorer.Result = BackupRestorer.Result.Success,

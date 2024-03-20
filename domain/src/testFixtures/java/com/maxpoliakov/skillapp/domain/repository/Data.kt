@@ -1,11 +1,8 @@
-package com.maxpoliakov.skillapp.domain.usecase.backup
+package com.maxpoliakov.skillapp.domain.repository
 
 import com.maxpoliakov.skillapp.domain.model.Backup
 import com.maxpoliakov.skillapp.domain.model.BackupData
 import com.maxpoliakov.skillapp.domain.model.GenericUri
-import com.maxpoliakov.skillapp.domain.repository.BackupCreator
-import com.maxpoliakov.skillapp.domain.repository.BackupRepository
-import com.maxpoliakov.skillapp.domain.repository.BackupRestorer
 import java.time.LocalDateTime
 
 val backupUri = GenericUri("id123")

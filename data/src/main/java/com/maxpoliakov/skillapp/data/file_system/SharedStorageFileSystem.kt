@@ -20,7 +20,7 @@ class SharedStorageFileSystem @Inject constructor(
         return getDocumentTreeFile(uri)
             .listFiles()
             .map(DocumentFile::toGenericFile)
-            .toList()
+            .sortedByDescending(GenericFile::lastModificationDate)
     }
 
     override fun getLastChild(uri: GenericUri): GenericFile? {

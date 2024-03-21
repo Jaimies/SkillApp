@@ -13,16 +13,25 @@ class GoogleDriveFileSystem @Inject constructor(
     private val drive: Drive,
 ): FileSystem {
 
-    // TODO: fetch the appropriate number of files, not just 30
     override fun getChildren(uri: GenericUri): List<GenericFile> {
+        return getChildrenOrderedByModifiedTimeDesc(numberOfChildrenToFetch)
+    }
+
+    private fun getChildrenOrderedByModifiedTimeDesc(pageSize: Int): List<GenericFile> {
         return drive.files().list()
-            .setPageSize(30)
-            .setOrderBy("createdTime desc")
+            .setPageSize(pageSize)
+            .setOrderBy("modifiedTime desc")
             .setSpaces("appDataFolder")
             .setFields("files(id, createdTime)")
             .execute()
             .files
             .map(File::toGenericFile)
+    }
+
+    override fun getLastChild(uri: GenericUri): GenericFile? {
+        // attempting to fetch just one last file might yield an empty list,
+        // thus we fetch two
+        return getChildrenOrderedByModifiedTimeDesc(2).firstOrNull()
     }
 
     override fun createFile(parentUri: GenericUri, name: String, mimeType: String, contents: String): GenericFile {
@@ -46,5 +55,9 @@ class GoogleDriveFileSystem @Inject constructor(
             }
             .toByteArray()
             .toString(StandardCharsets.UTF_8)
+    }
+
+    companion object {
+        private const val numberOfChildrenToFetch = 30
     }
 }

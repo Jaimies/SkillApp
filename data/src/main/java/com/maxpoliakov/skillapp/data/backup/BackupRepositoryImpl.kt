@@ -58,17 +58,15 @@ class BackupRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getBackups() = tryIfConfigured { configuration ->
-        _getBackups(configuration, 30)
-    }
-
-    private suspend fun _getBackups(configuration: Configuration.Success, limit: Int) = withContext(Dispatchers.IO) {
         fileSystem
             .getChildren(configuration.directoryUri)
             .map(GenericFile::toBackup)
     }
 
     override suspend fun getLastBackup(): Result<Backup?> = tryIfConfigured { configuration ->
-        _getBackups(configuration, 2).firstOrNull()
+        fileSystem
+            .getLastChild(configuration.directoryUri)
+            ?.toBackup()
     }
 
     override fun getLastBackupFlow() = lastBackupFlow

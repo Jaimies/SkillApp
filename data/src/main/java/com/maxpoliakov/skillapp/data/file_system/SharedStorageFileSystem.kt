@@ -23,6 +23,10 @@ class SharedStorageFileSystem @Inject constructor(
             .toList()
     }
 
+    override fun getLastChild(uri: GenericUri): GenericFile? {
+        return getChildren(uri).maxByOrNull(GenericFile::lastModificationDate)
+    }
+
     override fun createFile(parentUri: GenericUri, name: String, mimeType: String, contents: String): GenericFile {
         return getDocumentTreeFile(parentUri)
             .createFile(mimeType, name)!!

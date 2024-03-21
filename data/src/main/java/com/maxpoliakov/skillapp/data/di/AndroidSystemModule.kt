@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.data.di
 
+import android.content.ContentResolver
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.core.content.getSystemService
@@ -11,9 +12,14 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-class ManagerModule {
+class AndroidSystemModule {
     @Provides
     fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityManager {
         return context.getSystemService<ConnectivityManager>()!!
+    }
+
+    @Provides
+    fun provideContentResolver(@ApplicationContext context: Context): ContentResolver {
+        return context.contentResolver
     }
 }

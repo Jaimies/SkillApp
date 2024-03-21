@@ -53,14 +53,14 @@
     <string name="contact_developer">Зв\'язатися з розробником</string>
     <string name="google_drive_backup">Резервне копіювання на Google Диск</string>
     <string name="logout">Вийти</string>
-    <string name="backup_to_google_drive">Створити резервну копію</string>
+    <string name="create_backup">Створити резервну копію</string>
     <string name="auto_backup_message">Резервне копіювання ваших даних буде автоматично виконуватись раз на день</string>
     <string name="loading_last_backup">Завантаження останньої резервної копії…</string>
     <string name="no_backup_found">Резервна копія не знайдена</string>
     <string name="restore">Відновити</string>
     <string name="confirm_restore_backup">Відновлення резервної копії замінить ваші поточні дані. Ви хочете продовжити?</string>
     <string name="account">Обліковий запис</string>
-    <string name="backup_successful">Резервна копія успішно завантажена на Google Диск</string>
+    <string name="backup_successful">Резервна копія успішно створена</string>
     <string name="backup_restore_successful">Дані успішно відновлені з резервної копії</string>
     <string name="confirm_logout">Ви хочете вийти?</string>
     <string name="no_internet">Немає підключення до Інтернету</string>
@@ -69,6 +69,10 @@
     <string name="one_week">тижні</string>
     <string name="one_month">місяці</string>
     <string name="backup_sign_in_title">Резерне копіювання Ваших даних</string>
+    <string name="backup_export_directory">Папка для експорту резервних копій</string>.
+    <string name="backup_export_directory_not_set">Не задана - натисніть, щоб задати</string>
+    <string name="reset_backup_export_directory">Скидання папки експорту резервних копій</string>
+    <string name="reset_backup_export_directory_explanation">Скидає папку експорту і знімає дозвіл програми на доступ до каталогу.</string>
     <string name="google_sign_in_btn_text">Увійти через Google</string>
     <string name="mail_app_not_found">Додаток Email не знайдено</string>
     <string name="cant_open_google_play">Не вдається відкрити Google Play</string>

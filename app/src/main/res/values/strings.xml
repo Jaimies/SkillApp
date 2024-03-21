@@ -62,10 +62,10 @@
     <string name="restore">Restore</string>
     <string name="loading_last_backup">Loading the last backup…</string>
     <string name="no_backup_found">No backup found</string>
-    <string name="backup_to_google_drive">Backup to Google Drive</string>
+    <string name="create_backup">Create a backup</string>
     <string name="auto_backup_message">Your data will be automatically backed up once a day</string>
     <string name="account">Account</string>
-    <string name="backup_successful">Successfully uploaded backup to Google Drive</string>
+    <string name="backup_successful">Successfully created a backup</string>
     <string name="backup_restore_successful">Successfully restored data from backup</string>
     <string name="confirm_logout">Do you want to log out?</string>
     <string name="no_internet">No Internet connection</string>
@@ -75,6 +75,10 @@
     <string name="one_month">months</string>
     <string name="one_year">years</string>
     <string name="backup_sign_in_title">Sign\u00A0in to back\u00A0up your\u00A0data</string>
+    <string name="backup_export_directory">Backup export directory</string>
+    <string name="backup_export_directory_not_set">Not set — click to set</string>
+    <string name="reset_backup_export_directory">Reset backup export directory</string>
+    <string name="reset_backup_export_directory_explanation">Resets export directory and releases the app\'s permission to access the directory.</string>
     <string name="google_sign_in_btn_text">Continue with Google</string>
     <string name="mail_app_not_found">Email application not found</string>
     <string name="cant_open_google_play">Unable to open Google Play</string>

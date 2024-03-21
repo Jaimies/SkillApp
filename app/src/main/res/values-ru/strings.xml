@@ -53,14 +53,14 @@
     <string name="contact_developer">Связаться с разработчиком</string>
     <string name="google_drive_backup">Резервное копирование на Google Диск</string>
     <string name="logout">Выйти</string>
-    <string name="backup_to_google_drive">Создать резервную копию</string>
+    <string name="create_backup">Создать резервную копию</string>
     <string name="auto_backup_message">Резервное копирование ваших данных будет автоматически выполняться один раз в день</string>
     <string name="loading_last_backup">Загрузка последней резервной копии…</string>
     <string name="no_backup_found">Резервная копия не найдена</string>
     <string name="restore">Восстановить</string>
     <string name="confirm_restore_backup">Восстановление резервной копии заменит ваши текущие данные. Вы хотите продолжить?</string>
     <string name="account">Учетная запись</string>
-    <string name="backup_successful">Резервная копия успешно загружена на Google Диск</string>
+    <string name="backup_successful">Резервная копия успешно создана</string>
     <string name="backup_restore_successful">Данные успешно восстановлены из резервной копии</string>
     <string name="confirm_logout">Вы хотите выйти?</string>
     <string name="no_internet">Нет подключения к Интернету</string>
@@ -69,6 +69,10 @@
     <string name="one_week">недели</string>
     <string name="one_month">месяцы</string>
     <string name="backup_sign_in_title">Резерное копирование Ваших данных</string>
+    <string name="backup_export_directory">Папка для экспорта резервных копий</string>
+    <string name="backup_export_directory_not_set">Не задана - нажмите, чтобы задать</string>
+    <string name="reset_backup_export_directory">Сброс папки экспорта резервных копий</string>
+    <string name="reset_backup_export_directory_explanation">Сбрасывает папку экспорта и снимает разрешение приложения на доступ к каталогу.</string>
     <string name="google_sign_in_btn_text">Войти через Google</string>
     <string name="mail_app_not_found">" Приложение Email не найдено"</string>
     <string name="cant_open_google_play">Не удается открыть Google Play</string>

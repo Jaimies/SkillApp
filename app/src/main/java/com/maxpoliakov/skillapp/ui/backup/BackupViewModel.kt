@@ -50,7 +50,9 @@ abstract class BackupViewModel(
     val backupResult: LiveData<PerformBackupUseCase.Result> get() = _backupResult
     private val _backupResult = SingleLiveEvent<PerformBackupUseCase.Result>()
 
-    protected val configuration = configurationManager.configuration
+    val configuration = configurationManager
+        .configuration
+        .stateIn(viewModelScope, SharingStarted.Eagerly, Configuration.Failure(BackupRepository.Result.Failure.NotConfigured))
 
     fun createBackup() = scope.launch {
         val configuration = configuration.first()

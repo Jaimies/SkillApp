@@ -52,8 +52,10 @@ class GoogleDriveBackupViewModel @Inject constructor(
         }
     }
 
-    override fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured() {
-        _requestAppDataPermission.call()
+    override fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured(configuration: Configuration.Failure) {
+        if (configuration.failure is Result.Failure.PermissionDenied) {
+            _requestAppDataPermission.call()
+        }
     }
 
     fun notifySignedIn() = viewModelScope.launch {

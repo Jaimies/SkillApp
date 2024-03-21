@@ -52,8 +52,6 @@ abstract class BackupViewModel(
 
     protected val configuration = configurationManager.configuration
 
-    abstract fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
-
     fun createBackup() = scope.launch {
         val configuration = configuration.first()
         if (configuration is Configuration.Failure) return@launch
@@ -66,10 +64,12 @@ abstract class BackupViewModel(
     }
 
     open fun onBackupAttempted(result: PerformBackupUseCase.Result) {}
+    open fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured(configuration: Configuration.Failure) {}
 
     fun goToRestore() = viewModelScope.launch {
-        val configuration = configuration.first()
-        if (configuration is Configuration.Failure) onAttemptedToGoToRestoreBackupScreenWhenNotConfigured()
-        else _goToRestoreBackupScreen.call()
+        when (val configuration = configuration.first()) {
+            is Configuration.Failure -> onAttemptedToGoToRestoreBackupScreenWhenNotConfigured(configuration)
+            is Configuration.Success -> _goToRestoreBackupScreen.call()
+        }
     }
 }

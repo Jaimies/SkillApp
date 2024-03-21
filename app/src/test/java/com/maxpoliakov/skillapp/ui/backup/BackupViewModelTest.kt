@@ -35,7 +35,7 @@ class TestBackupViewModel(
         this.scope = scope
     }
 
-    override fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured() {}
+    override fun onAttemptedToGoToRestoreBackupScreenWhenNotConfigured(configuration: Configuration.Failure) {}
 }
 
 class StubConfigurationManager(

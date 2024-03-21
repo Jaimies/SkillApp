@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.DataBindingFragment
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
+import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
 
 abstract class BackupFragment <BindingType: ViewDataBinding, ViewModelType: BackupViewModel>: DataBindingFragment<BindingType>() {
     abstract val viewModel: ViewModelType
@@ -20,7 +22,9 @@ abstract class BackupFragment <BindingType: ViewDataBinding, ViewModelType: Back
         viewModel.goToRestoreBackupScreen.observe(viewLifecycleOwner) { navigateToRestoreBackupScreen() }
     }
 
-    abstract fun navigateToRestoreBackupScreen()
+    private fun navigateToRestoreBackupScreen() {
+        findNavController().navigateAnimated(R.id.restore_backup_fragment_dest)
+    }
 
     protected open fun handleBackupResult(result: PerformBackupUseCase.Result) {
         when (result) {

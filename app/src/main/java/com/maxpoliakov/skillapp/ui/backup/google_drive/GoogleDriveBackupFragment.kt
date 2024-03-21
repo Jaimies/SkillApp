@@ -76,10 +76,6 @@ class GoogleDriveBackupFragment : BackupFragment<GoogleDriveBackupFragBinding, G
         }
     }
 
-    override fun navigateToRestoreBackupScreen() {
-        findNavController().navigateAnimated(R.id.restore_backup_fragment_dest)
-    }
-
     override fun handleUploadFailure(result: PerformBackupUseCase.Result.UploadFailure) {
         when (result.uploadResult) {
             is BackupRepository.Result.Failure.NoInternetConnection -> {

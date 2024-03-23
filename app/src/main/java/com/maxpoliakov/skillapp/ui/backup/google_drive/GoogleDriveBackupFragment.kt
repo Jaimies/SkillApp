@@ -36,17 +36,9 @@ class GoogleDriveBackupFragment : BackupFragment<GoogleDriveBackupFragBinding, G
 
     private val signInLauncher = registerForActivityResult(StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                .addOnSuccessListener { googleAccount ->
-                    val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
-                    val account = googleAccount.account!!
-                    prefs.edit {
-                        putString("account.name", account.name)
-                        putString("account.type", account.type)
-                    }
-
-                    viewModel.notifySignedIn()
-                }
+            GoogleSignIn
+                .getSignedInAccountFromIntent(result.data)
+                .addOnSuccessListener { viewModel.notifySignedIn() }
         }
     }
 

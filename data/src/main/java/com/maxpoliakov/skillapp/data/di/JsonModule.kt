@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 
 @Module
 @InstallIn(SingletonComponent::class)
-class JsonModule {
+object JsonModule {
     @Provides
     @Reusable
     fun provideJson(): Json {

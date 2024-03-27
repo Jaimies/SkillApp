@@ -12,7 +12,7 @@ import java.time.Clock
 
 @Module
 @InstallIn(SingletonComponent::class)
-class BaseModule {
+object BaseModule {
     @Provides
     fun provideClock(): Clock = Clock.systemDefaultZone()
 

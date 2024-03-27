@@ -9,7 +9,7 @@ import dagger.hilt.android.components.FragmentComponent
 
 @Module
 @InstallIn(FragmentComponent::class)
-class LifecycleModule {
+object LifecycleModule {
     @Provides
     fun provideLifecycleOwner(fragment: Fragment): LifecycleOwner {
         return fragment.viewLifecycleOwner

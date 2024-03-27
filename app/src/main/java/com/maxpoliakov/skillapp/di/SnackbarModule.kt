@@ -10,7 +10,7 @@ import dagger.hilt.android.components.ActivityComponent
 
 @Module
 @InstallIn(ActivityComponent::class)
-class SnackbarModule {
+object SnackbarModule {
     @Provides
     @SnackbarRoot
     fun provideSnackbarRoot(activity: Activity): View? {

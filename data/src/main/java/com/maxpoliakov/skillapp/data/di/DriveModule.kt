@@ -17,7 +17,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DriveModule {
+object DriveModule {
     @Provides
     fun provideDriveService(
         @ApplicationContext context: Context,

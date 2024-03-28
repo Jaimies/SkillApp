@@ -16,7 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.maxpoliakov.skillapp.R
+import com.google.android.material.R
 import com.maxpoliakov.skillapp.databinding.PickerDialogBinding
 import com.maxpoliakov.skillapp.shared.extensions.setValues
 import com.maxpoliakov.skillapp.shared.extensions.setup

@@ -10,8 +10,6 @@ plugins {
 }
 
 android {
-    kotlinOptions.jvmTarget = '11'
-
     testOptions {
         unitTests.all {
             useJUnitPlatform()
@@ -27,13 +25,11 @@ android {
         }
     }
 
-    compileSdkVersion App.compileSdk
-    buildToolsVersion App.buildTools
-
     defaultConfig {
         applicationId App.applicationId
-        minSdkVersion App.minSdk
-        targetSdkVersion App.targetSdk
+        minSdk App.minSdk
+        compileSdk App.compileSdk
+        targetSdk App.targetSdk
         versionCode App.versionCode
         versionName App.versionName
         testInstrumentationRunner "com.maxpoliakov.skillapp.screenshots.CustomTestRunner"
@@ -53,8 +49,6 @@ android {
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
     }
 
     buildFeatures {
@@ -88,6 +82,10 @@ configurations {
         exclude module: 'httpclient'
         exclude module: 'commons-logging'
     }
+}
+
+kotlin {
+    jvmToolchain 17
 }
 
 dependencies {

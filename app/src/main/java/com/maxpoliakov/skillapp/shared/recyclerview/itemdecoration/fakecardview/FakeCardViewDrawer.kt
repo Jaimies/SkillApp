@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.maxpoliakov.skillapp.R
+import com.google.android.material.R as MaterialR
 import com.maxpoliakov.skillapp.shared.Dimension.Companion.dp
 import com.maxpoliakov.skillapp.shared.extensions.getColorAttributeValue
 
@@ -19,7 +20,7 @@ class FakeCardViewDrawer(
     private val context get() = parent.context
     private val size16dp = 16.dp.toPx(context).toFloat()
 
-    private val shadowColor = ContextCompat.getColor(context, R.color.cardview_shadow_start_color)
+    private val shadowColor = ContextCompat.getColor(context, MaterialR.color.cardview_shadow_start_color)
 
     private val fillPaint = Paint().also {
         it.color = context.getColorAttributeValue(R.attr.cardViewBackground)

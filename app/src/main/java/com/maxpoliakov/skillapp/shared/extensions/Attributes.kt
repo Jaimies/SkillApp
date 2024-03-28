@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import androidx.annotation.AttrRes
 import androidx.core.graphics.ColorUtils
-import com.maxpoliakov.skillapp.R
+import com.google.android.material.R
 
 val Context.textColor get() = getColorAttributeValue(android.R.attr.textColorPrimary)
 val Context.primaryColor get() = getColorAttributeValue(R.attr.colorPrimary)

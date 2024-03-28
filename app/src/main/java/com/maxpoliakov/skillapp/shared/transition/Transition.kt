@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.maxpoliakov.skillapp.R
+import com.google.android.material.R as MaterialR
 import com.maxpoliakov.skillapp.shared.extensions.getColorAttributeValue
 
 fun createMaterialContainerTransform(
@@ -18,7 +19,7 @@ fun createMaterialContainerTransform(
         setPathMotion(MaterialArcMotion())
         scrimColor = Color.TRANSPARENT
         duration = context.resources.getInteger(durationResId).toLong()
-        setAllContainerColors(context.getColorAttributeValue(R.attr.colorSurface))
+        setAllContainerColors(context.getColorAttributeValue(MaterialR.attr.colorSurface))
     }
 }
 

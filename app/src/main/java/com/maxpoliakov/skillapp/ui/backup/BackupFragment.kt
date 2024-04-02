@@ -10,11 +10,11 @@ import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.di.BackupBackend
 import com.maxpoliakov.skillapp.di.BackupComponent
-import com.maxpoliakov.skillapp.di.DaggerBackupComponent
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.DataBindingFragment
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
+import javax.inject.Inject
 
 abstract class BackupFragment <BindingType: ViewDataBinding, ViewModelType: BackupViewModel>: DataBindingFragment<BindingType>() {
     protected abstract val viewModel: ViewModelType
@@ -22,10 +22,13 @@ abstract class BackupFragment <BindingType: ViewDataBinding, ViewModelType: Back
 
     protected lateinit var backupComponent: BackupComponent
 
+    @Inject
+    lateinit var backupComponentFactory : BackupComponent.Factory
+
     @CallSuper
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        backupComponent = DaggerBackupComponent.factory().create(context.applicationContext, backend)
+        backupComponent = backupComponentFactory.create(backend)
     }
 
     @CallSuper

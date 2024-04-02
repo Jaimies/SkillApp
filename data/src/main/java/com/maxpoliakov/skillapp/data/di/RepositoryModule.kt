@@ -40,9 +40,6 @@ interface RepositoryModule {
     fun provideAuthRepository(authRepository: GoogleAuthRepository): AuthRepository
 
     @Binds
-    fun provideDriveRepository(repository: BackupRepositoryImpl): BackupRepository
-
-    @Binds
     fun provideTimerRepository(repository: DBTimerRepository): TimerRepository
 
     @Binds

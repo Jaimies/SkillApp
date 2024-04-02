@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
+// TODO: manage lifetime correctly
+//@Singleton
 class RestoreBackupUseCaseImpl @Inject constructor(
     private val backupRepository: BackupRepository,
     private val backupRestorer: BackupRestorer,

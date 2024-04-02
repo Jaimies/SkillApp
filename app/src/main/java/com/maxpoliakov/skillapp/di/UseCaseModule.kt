@@ -47,12 +47,6 @@ interface UseCaseModule {
     fun provideGetStatsUseCase(useCase: GetStatsUseCaseImpl): GetStatsUseCase
 
     @Binds
-    fun provideCreateBackupUseCase(useCase: PerformBackupUseCaseImpl): PerformBackupUseCase
-
-    @Binds
-    fun provideRestoreBackupUseCase(useCase: RestoreBackupUseCaseImpl): RestoreBackupUseCase
-
-    @Binds
     fun provideGetGroupUseCase(useCase: GetGroupUseCaseImpl): GetGroupUseCase
 
     @Binds

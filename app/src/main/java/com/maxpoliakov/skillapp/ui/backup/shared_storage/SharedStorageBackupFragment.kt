@@ -6,18 +6,27 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.data.di.BackupBackend
 import com.maxpoliakov.skillapp.data.extensions.toGenericUri
 import com.maxpoliakov.skillapp.databinding.SharedStorageBackupFragBinding
+import com.maxpoliakov.skillapp.shared.extensions.viewModelFromAssistedFactory
 import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.ui.backup.BackupFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SharedStorageBackupFragment: BackupFragment<SharedStorageBackupFragBinding, SharedStorageBackupViewModel>() {
-    override val viewModel: SharedStorageBackupViewModel by viewModels()
     override val layoutId = R.layout.shared_storage_backup_frag
+    override val backend = BackupBackend.Local
+
+    override val viewModel by viewModelFromAssistedFactory<SharedStorageBackupViewModel.Factory, SharedStorageBackupViewModel> { factory ->
+        factory.create(
+            backupComponent.backupRepository(),
+            backupComponent.configuration(),
+            backupComponent.performBackupUseCase()
+        )
+    }
 
     private val directoryPickerLauncher = registerForActivityResult(
         StartActivityForResult(),

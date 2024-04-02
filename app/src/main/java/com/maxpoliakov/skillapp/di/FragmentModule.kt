@@ -1,5 +1,6 @@
 package com.maxpoliakov.skillapp.di
 
+import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -34,6 +35,11 @@ interface FragmentModule {
         @Provides
         fun provideContext(fragment: Fragment): Context {
             return fragment.requireContext()
+        }
+
+        @Provides
+        fun provideActivity(fragment: Fragment): Activity {
+            return fragment.requireActivity()
         }
     }
 }

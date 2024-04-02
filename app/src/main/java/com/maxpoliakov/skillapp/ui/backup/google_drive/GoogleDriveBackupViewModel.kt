@@ -11,18 +11,20 @@ import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.lifecycle.SingleLiveEventWithoutData
 import com.maxpoliakov.skillapp.ui.backup.BackupViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class GoogleDriveBackupViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = GoogleDriveBackupViewModel.Factory::class)
+class GoogleDriveBackupViewModel @AssistedInject constructor(
     private val authRepository: AuthRepository,
-    backupRepository: BackupRepository,
-    configurationManager: BackupConfigurationManager
-) : BackupViewModel(backupRepository, configurationManager) {
+    @Assisted backupRepository: BackupRepository,
+    @Assisted configurationManager: BackupConfigurationManager,
+    @Assisted performBackupUseCase: PerformBackupUseCase,
+) : BackupViewModel(backupRepository, configurationManager, performBackupUseCase) {
     val currentUser = authRepository.currentUser.asLiveData()
 
     private val _signIn = SingleLiveEventWithoutData()
@@ -81,5 +83,14 @@ class GoogleDriveBackupViewModel @Inject constructor(
         ) {
             _requestAppDataPermission.call()
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            backupRepository: BackupRepository,
+            configurationManager: BackupConfigurationManager,
+            performBackupUseCase: PerformBackupUseCase,
+        ): GoogleDriveBackupViewModel
     }
 }

@@ -2,6 +2,7 @@
 object Versions {
     const val kotlin = "1.9.23"
     const val coroutines = "1.8.0"
+    const val serialization = "1.3.3"
 
     const val androidxCore = "1.9.0"
     const val appcompat = "1.6.1"

@@ -25,13 +25,11 @@ import javax.inject.Inject
 abstract class BackupViewModel(
     backupRepository: BackupRepository,
     configurationManager: BackupConfigurationManager,
+    protected val performBackupUseCase: PerformBackupUseCase,
 ) : ViewModel() {
     @Inject
     @ApplicationScope
     lateinit var scope: CoroutineScope
-
-    @Inject
-    lateinit var performBackupUseCase: PerformBackupUseCase
 
     val lastBackupState = backupRepository
         .getLastBackupFlow()

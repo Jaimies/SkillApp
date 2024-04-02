@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.data.backup
+package com.maxpoliakov.skillapp.backup
 
 import android.content.Context
 import androidx.work.ListenableWorker
@@ -14,12 +14,13 @@ import io.mockk.mockk
 
 class BackupWorkerTest : StringSpec({
     fun createWorker(performBackupResult: PerformBackupUseCase.Result): BackupWorker {
-        val context = mockk<Context>(relaxed = true)
-        val workerParameters = mockk<WorkerParameters>(relaxed = true)
-        val useCase = object : PerformBackupUseCase {
-            override suspend fun performBackup() = performBackupResult
-        }
-        return BackupWorker(context, workerParameters, useCase)
+//        val context = mockk<Context>(relaxed = true)
+//        val workerParameters = mockk<WorkerParameters>(relaxed = true)
+//        val useCase = object : PerformBackupUseCase {
+//            override suspend fun performBackup() = performBackupResult
+//        }
+//        return BackupWorker(context, workerParameters)
+        return TODO("Inject dependencies into BackupWorker")
     }
 
     "returns Result.success if use case returns Result.Success" {

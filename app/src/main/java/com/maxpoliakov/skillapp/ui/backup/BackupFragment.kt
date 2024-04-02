@@ -1,18 +1,32 @@
 package com.maxpoliakov.skillapp.ui.backup
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.fragment.findNavController
+import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.data.di.BackupBackend
+import com.maxpoliakov.skillapp.di.BackupComponent
+import com.maxpoliakov.skillapp.di.DaggerBackupComponent
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.DataBindingFragment
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar
 import com.maxpoliakov.skillapp.shared.extensions.navigateAnimated
 
 abstract class BackupFragment <BindingType: ViewDataBinding, ViewModelType: BackupViewModel>: DataBindingFragment<BindingType>() {
-    abstract val viewModel: ViewModelType
+    protected abstract val viewModel: ViewModelType
+    protected abstract val backend: BackupBackend
+
+    protected lateinit var backupComponent: BackupComponent
+
+    @CallSuper
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        backupComponent = DaggerBackupComponent.factory().create(context.applicationContext, backend)
+    }
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -23,7 +37,8 @@ abstract class BackupFragment <BindingType: ViewDataBinding, ViewModelType: Back
     }
 
     private fun navigateToRestoreBackupScreen() {
-        findNavController().navigateAnimated(R.id.restore_backup_fragment_dest)
+        val directions = MainDirections.actionToRestoreBackupFragment(backend)
+        findNavController().navigateAnimated(directions)
     }
 
     protected open fun handleBackupResult(result: PerformBackupUseCase.Result) {

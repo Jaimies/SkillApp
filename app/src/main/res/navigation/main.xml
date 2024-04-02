@@ -76,8 +76,23 @@
         tools:layout="@layout/google_drive_backup_frag" />
 
     <fragment
+        android:id="@+id/shared_storage_backup_fragment_dest"
+        android:name="com.maxpoliakov.skillapp.ui.backup.shared_storage.SharedStorageBackupFragment"
+        android:label="@string/local_backup"
+        tools:layout="@layout/shared_storage_backup_frag" />
+
+    <action
+        android:id="@+id/action_to_restoreBackupFragment"
+        app:destination="@id/restore_backup_fragment_dest" />
+
+    <fragment
         android:id="@+id/restore_backup_fragment_dest"
         android:name="com.maxpoliakov.skillapp.ui.restore.RestoreBackupFragment"
         android:label="@string/restore"
-        tools:layout="@layout/restore_backup_frag" />
+        tools:layout="@layout/restore_backup_frag">
+
+        <argument
+            android:name="backupBackend"
+            app:argType="com.maxpoliakov.skillapp.data.di.BackupBackend" />
+    </fragment>
 </navigation>

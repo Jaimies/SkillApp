@@ -52,6 +52,7 @@
     <string name="rate_the_app">Оценить приложение</string>
     <string name="contact_developer">Связаться с разработчиком</string>
     <string name="google_drive_backup">Резервное копирование на Google Диск</string>
+    <string name="local_backup">Локальное резервное копирование</string>
     <string name="logout">Выйти</string>
     <string name="create_backup">Создать резервную копию</string>
     <string name="auto_backup_message">Резервное копирование ваших данных будет автоматически выполняться один раз в день</string>

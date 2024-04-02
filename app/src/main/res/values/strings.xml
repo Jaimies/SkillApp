@@ -57,6 +57,7 @@
     <string name="mail_dev_uri" translatable="false">mailto:theskillapp@gmail.com</string>
     <string name="market_uri" translatable="false">https://play.google.com/store/apps/details?id=com.maxpoliakov.skillapp</string>
     <string name="google_drive_backup">Google Drive backup</string>
+    <string name="local_backup">File System Backup</string>
     <string name="logout">Log out</string>
     <string name="confirm_restore_backup">Restoring a backup will replace your current tracked data. Do you want to continue?</string>
     <string name="restore">Restore</string>

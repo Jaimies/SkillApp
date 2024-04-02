@@ -10,7 +10,7 @@ import androidx.work.NetworkType
 import androidx.work.WorkRequest.Companion.DEFAULT_BACKOFF_DELAY_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.maxpoliakov.skillapp.data.backup.BackupWorker
+import com.maxpoliakov.skillapp.backup.BackupWorker
 import com.maxpoliakov.skillapp.shared.extensions.setupTheme
 import dagger.hilt.android.HiltAndroidApp
 import java.time.Duration

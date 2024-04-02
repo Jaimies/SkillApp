@@ -19,6 +19,11 @@
             android:key="google_drive_backup"
             android:title="@string/google_drive_backup" />
 
+        <Preference
+            android:icon="@drawable/ic_backup"
+            android:key="local_backup"
+            android:title="@string/local_backup" />
+
         <com.maxpoliakov.skillapp.shared.settings.TimePickerPreference
             android:icon="@drawable/ic_clock"
             android:title="@string/day_start_time"

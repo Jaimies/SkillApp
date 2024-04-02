@@ -28,10 +28,9 @@ class TestBackupViewModel(
     backupRepository: BackupRepository,
     configurationManager: BackupConfigurationManager,
     scope: CoroutineScope,
-) : BackupViewModel(backupRepository, configurationManager) {
+) : BackupViewModel(backupRepository, configurationManager, performBackupUseCase) {
 
     init {
-        this.performBackupUseCase = performBackupUseCase
         this.scope = scope
     }
 

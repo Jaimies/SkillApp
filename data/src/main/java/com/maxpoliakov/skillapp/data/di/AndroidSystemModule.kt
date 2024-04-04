@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.core.content.getSystemService
+import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +17,11 @@ object AndroidSystemModule {
     @Provides
     fun provideConnectivityManager(@ApplicationContext context: Context): ConnectivityManager {
         return context.getSystemService<ConnectivityManager>()!!
+    }
+
+    @Provides
+    fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
+        return WorkManager.getInstance(context)
     }
 
     @Provides

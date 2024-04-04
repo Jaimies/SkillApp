@@ -8,19 +8,17 @@ import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase.Result.CreationFailure
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase.Result.UploadFailure
+import com.maxpoliakov.skillapp.domain.usecase.backup.StubPerformBackupUseCase
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 
 class BackupWorkerTest : StringSpec({
     fun createWorker(performBackupResult: PerformBackupUseCase.Result): BackupWorker {
-//        val context = mockk<Context>(relaxed = true)
-//        val workerParameters = mockk<WorkerParameters>(relaxed = true)
-//        val useCase = object : PerformBackupUseCase {
-//            override suspend fun performBackup() = performBackupResult
-//        }
-//        return BackupWorker(context, workerParameters)
-        return TODO("Inject dependencies into BackupWorker")
+        val context = mockk<Context>(relaxed = true)
+        val workerParameters = mockk<WorkerParameters>(relaxed = true)
+        val useCase = StubPerformBackupUseCase(performBackupResult)
+        return BackupWorker(context, workerParameters, useCase)
     }
 
     "returns Result.success if use case returns Result.Success" {

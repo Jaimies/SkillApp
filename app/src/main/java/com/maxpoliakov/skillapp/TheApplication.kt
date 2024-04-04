@@ -6,11 +6,13 @@ import androidx.work.BackoffPolicy
 import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ListenableWorker
 import androidx.work.NetworkType
 import androidx.work.WorkRequest.Companion.DEFAULT_BACKOFF_DELAY_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.maxpoliakov.skillapp.backup.BackupWorker
+import com.maxpoliakov.skillapp.backup.GoogleDriveBackupWorker
+import com.maxpoliakov.skillapp.backup.LocalBackupWorker
 import com.maxpoliakov.skillapp.shared.extensions.setupTheme
 import dagger.hilt.android.HiltAndroidApp
 import java.time.Duration
@@ -22,6 +24,9 @@ open class TheApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var workManager: WorkManager
+
     override fun onCreate() {
         super.onCreate()
         setupTheme()
@@ -32,18 +37,31 @@ open class TheApplication : Application(), Configuration.Provider {
         .setWorkerFactory(workerFactory)
         .build()
 
+    // TODO: make sure the existing "createBackup" worker is updated correctly
+    // when the app is updated
     private fun setupBackupWorker() {
+        setupWorker<GoogleDriveBackupWorker>("createBackup") {
+            setRequiredNetworkType(NetworkType.UNMETERED)
+        }
+
+        setupWorker<LocalBackupWorker>("createLocalBackup")
+    }
+
+    private inline fun <reified W: ListenableWorker> setupWorker(
+        name: String,
+        constraintBuilderAction: Constraints.Builder.() -> Unit = {},
+    ) {
         val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)
             .setRequiresBatteryNotLow(true)
+            .apply(constraintBuilderAction)
             .build()
 
-        val backupWorkRequest = PeriodicWorkRequestBuilder<BackupWorker>(Duration.ofDays(1))
+        val backupWorkRequest = PeriodicWorkRequestBuilder<W>(Duration.ofDays(1))
             .setConstraints(constraints)
             .setBackoffCriteria(BackoffPolicy.LINEAR, DEFAULT_BACKOFF_DELAY_MILLIS, MILLISECONDS)
             .build()
 
-        WorkManager.getInstance(this)
-            .enqueueUniquePeriodicWork("createBackup", ExistingPeriodicWorkPolicy.KEEP, backupWorkRequest)
+        workManager
+            .enqueueUniquePeriodicWork(name, ExistingPeriodicWorkPolicy.KEEP, backupWorkRequest)
     }
 }

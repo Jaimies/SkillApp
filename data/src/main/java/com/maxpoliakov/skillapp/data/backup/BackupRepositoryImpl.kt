@@ -16,10 +16,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-// TODO: manage lifetime correctly
-//@Singleton
 class BackupRepositoryImpl @Inject constructor(
     private val fileSystem: FileSystem,
     private val configurationManager: BackupConfigurationManager,

@@ -13,8 +13,18 @@ import dagger.Subcomponent
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
+import javax.inject.Scope
 import javax.inject.Singleton
 
+/***
+ * Since instances of BackupComponent are provided as @Singleton,
+ * this scope is essentially the same as the @Singleton scope,
+ * but for dependencies, provided by BackupComponent.
+ * */
+@Scope
+annotation class BackupComponentScoped
+
+@BackupComponentScoped
 @Subcomponent(modules = [BackupModule::class])
 interface BackupComponent {
     fun configuration(): BackupConfigurationManager

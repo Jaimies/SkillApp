@@ -48,12 +48,14 @@ interface BackupModule {
     fun bindLocalFileSystem(fileSystem: SharedStorageFileSystem): FileSystem
 
     @Binds
+    @BackupComponentScoped
     fun bindBackupRepository(repository: BackupRepositoryImpl): BackupRepository
 
     @Binds
     fun bindCreateBackupUseCase(useCase: PerformBackupUseCaseImpl): PerformBackupUseCase
 
     @Binds
+    @BackupComponentScoped
     fun bindRestoreBackupUseCase(useCase: RestoreBackupUseCaseImpl): RestoreBackupUseCase
 
     companion object {

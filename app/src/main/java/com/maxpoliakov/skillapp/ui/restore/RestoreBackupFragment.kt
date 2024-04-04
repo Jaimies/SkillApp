@@ -4,8 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.maxpoliakov.skillapp.R
+import com.maxpoliakov.skillapp.data.di.BackupBackend
+import com.maxpoliakov.skillapp.data.di.BackupComponent
 import com.maxpoliakov.skillapp.databinding.RestoreBackupFragBinding
-import com.maxpoliakov.skillapp.di.FragmentBackupComponent
 import com.maxpoliakov.skillapp.model.LoadingState
 import com.maxpoliakov.skillapp.shared.DataBindingFragment
 import com.maxpoliakov.skillapp.shared.fragment.observe
@@ -23,15 +24,17 @@ class RestoreBackupFragment : DataBindingFragment<RestoreBackupFragBinding>() {
     lateinit var adapter: BackupListAdapter
 
     @Inject
-    lateinit var backupComponentFactory: FragmentBackupComponent.Factory
+    lateinit var backupComponentsByBackend: Map<BackupBackend, @JvmSuppressWildcards BackupComponent>
+
+    @Inject
+    lateinit var adapterFactory: BackupListAdapter.Factory
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         val args = RestoreBackupFragmentArgs.fromBundle(requireArguments())
-        adapter = backupComponentFactory
-            .create(args.backupBackend)
-            .backupListAdapter()
+        val useCase = backupComponentsByBackend[args.backupBackend]!!.restoreBackupUseCase()
+        adapter = adapterFactory.create(useCase)
     }
 
     override fun onBindingCreated(binding: RestoreBackupFragBinding, savedInstanceState: Bundle?) {

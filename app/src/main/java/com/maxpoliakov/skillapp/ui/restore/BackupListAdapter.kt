@@ -6,11 +6,16 @@ import androidx.recyclerview.widget.ListAdapter
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.domain.model.Backup
+import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.shared.extensions.inflateDataBinding
-import javax.inject.Inject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import javax.inject.Provider
 
-class BackupListAdapter @Inject constructor(
+class BackupListAdapter @AssistedInject constructor(
+    @Assisted
+    private val restoreBackupUseCase: RestoreBackupUseCase,
     private val viewHolderFactory: BackupViewHolder.Factory,
     private val lifecycleOwnerProvider: Provider<LifecycleOwner>,
 ) : ListAdapter<Backup, BackupViewHolder>(BackupDiffCallback) {
@@ -19,10 +24,15 @@ class BackupListAdapter @Inject constructor(
         val binding = parent.inflateDataBinding<BackupListItemBinding>(R.layout.backup_list_item).apply {
             lifecycleOwner = lifecycleOwnerProvider.get()
         }
-        return viewHolderFactory.create(binding)
+        return viewHolderFactory.create(binding, restoreBackupUseCase)
     }
 
     override fun onBindViewHolder(holder: BackupViewHolder, position: Int) {
         holder.setBackup(getItem(position))
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(restoreBackupUseCase: RestoreBackupUseCase): BackupListAdapter
     }
 }

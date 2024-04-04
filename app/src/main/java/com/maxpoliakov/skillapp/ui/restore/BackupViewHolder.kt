@@ -28,6 +28,7 @@ import javax.inject.Provider
 class BackupViewHolder @AssistedInject constructor(
     @Assisted
     binding: BackupListItemBinding,
+    @Assisted
     private val restoreBackupUseCase: RestoreBackupUseCase,
     @ApplicationScope
     private val scope: CoroutineScope,
@@ -88,6 +89,6 @@ class BackupViewHolder @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(binding: BackupListItemBinding): BackupViewHolder
+        fun create(binding: BackupListItemBinding, restoreBackupUseCase: RestoreBackupUseCase): BackupViewHolder
     }
 }

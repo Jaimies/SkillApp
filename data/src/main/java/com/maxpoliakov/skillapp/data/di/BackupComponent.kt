@@ -4,12 +4,16 @@ import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
+import dagger.Binds
 import dagger.BindsInstance
+import dagger.MapKey
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
+import javax.inject.Singleton
 
 @Subcomponent(modules = [BackupModule::class])
 interface BackupComponent {
@@ -24,18 +28,35 @@ interface BackupComponent {
     }
 }
 
+@MapKey
+annotation class BackupBackendKey(val value: BackupBackend)
+
 @Module(subcomponents = [BackupComponent::class])
 @InstallIn(SingletonComponent::class)
-object BackupSubcomponentModule {
-    @Provides
-    @Local
-    fun provideLocalBackupSubcomponent(factory: BackupComponent.Factory): BackupComponent {
-        return factory.create(BackupBackend.Local)
-    }
+interface BackupSubcomponentModule {
+    @Binds
+    @IntoMap
+    @BackupBackendKey(BackupBackend.Local)
+    fun bindLocalBackupSubcomponentIntoMap(@Local backupComponent: BackupComponent): BackupComponent
 
-    @Provides
-    @GoogleDrive
-    fun provideGoogleDriveBackupSubcomponent(factory: BackupComponent.Factory): BackupComponent {
-        return factory.create(BackupBackend.GoogleDrive)
+    @Binds
+    @IntoMap
+    @BackupBackendKey(BackupBackend.GoogleDrive)
+    fun bindGoogleDriveBackupSubcomponentIntoMap(@GoogleDrive backupComponent: BackupComponent): BackupComponent
+
+    companion object {
+        @Provides
+        @Local
+        @Singleton
+        fun provideLocalBackupSubcomponent(factory: BackupComponent.Factory): BackupComponent {
+            return factory.create(BackupBackend.Local)
+        }
+
+        @Provides
+        @GoogleDrive
+        @Singleton
+        fun provideGoogleDriveBackupSubcomponent(factory: BackupComponent.Factory): BackupComponent {
+            return factory.create(BackupBackend.GoogleDrive)
+        }
     }
 }

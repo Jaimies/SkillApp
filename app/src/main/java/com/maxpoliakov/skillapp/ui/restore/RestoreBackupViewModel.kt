@@ -3,6 +3,7 @@ package com.maxpoliakov.skillapp.ui.restore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.maxpoliakov.skillapp.data.di.BackupBackend
 import com.maxpoliakov.skillapp.data.di.BackupComponent
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
@@ -16,10 +17,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RestoreBackupViewModel @Inject constructor(
-    backupComponentFactory: BackupComponent.Factory,
+    backupComponentsByBackend: Map<BackupBackend, @JvmSuppressWildcards BackupComponent>,
     args: RestoreBackupFragmentArgs,
 ) : ViewModel() {
-    private val component = backupComponentFactory.create(args.backupBackend)
+    private val component = backupComponentsByBackend[args.backupBackend]!!
     private val backupRepository = component.backupRepository()
     private val restoreBackupUseCase = component.restoreBackupUseCase()
 

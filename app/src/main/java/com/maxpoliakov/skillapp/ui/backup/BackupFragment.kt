@@ -23,12 +23,12 @@ abstract class BackupFragment <BindingType: ViewDataBinding, ViewModelType: Back
     protected lateinit var backupComponent: BackupComponent
 
     @Inject
-    lateinit var backupComponentFactory : BackupComponent.Factory
+    lateinit var backupComponentsByBackend : Map<BackupBackend, @JvmSuppressWildcards BackupComponent>
 
     @CallSuper
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        backupComponent = backupComponentFactory.create(backend)
+        backupComponent = backupComponentsByBackend[backend]!!
     }
 
     @CallSuper

@@ -15,11 +15,14 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import java.time.Clock
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class BackupRepositoryImpl @Inject constructor(
     private val fileSystem: FileSystem,
     private val configurationManager: BackupConfigurationManager,
+    private val clock: Clock,
 ) : BackupRepository {
 
     private val backupUpdateFlow = callbackFlow {
@@ -45,7 +48,7 @@ class BackupRepositoryImpl @Inject constructor(
     private fun doUpload(data: BackupData, configuration: Configuration.Success) {
         val file = fileSystem.createFile(
             parentUri = configuration.directoryUri,
-            name = "",
+            name = "backup-${LocalDateTime.now(clock)}",
             mimeType = "application/json",
             contents = data.contents,
         )

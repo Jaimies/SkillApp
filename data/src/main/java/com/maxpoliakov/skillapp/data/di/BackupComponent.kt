@@ -1,10 +1,6 @@
-package com.maxpoliakov.skillapp.di
+package com.maxpoliakov.skillapp.data.di
 
 import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager
-import com.maxpoliakov.skillapp.data.di.BackupBackend
-import com.maxpoliakov.skillapp.data.di.BackupModule
-import com.maxpoliakov.skillapp.data.di.GoogleDrive
-import com.maxpoliakov.skillapp.data.di.Local
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase

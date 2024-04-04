@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.maxpoliakov.skillapp.MainDirections
 import com.maxpoliakov.skillapp.R
 import com.maxpoliakov.skillapp.data.di.BackupBackend
-import com.maxpoliakov.skillapp.di.BackupComponent
+import com.maxpoliakov.skillapp.data.di.BackupComponent
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.shared.DataBindingFragment
 import com.maxpoliakov.skillapp.shared.dialog.showSnackbar

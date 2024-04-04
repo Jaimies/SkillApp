@@ -3,7 +3,7 @@ package com.maxpoliakov.skillapp.ui.restore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.maxpoliakov.skillapp.di.BackupComponent
+import com.maxpoliakov.skillapp.data.di.BackupComponent
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository.Result
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.model.LoadingState

@@ -3,8 +3,8 @@ package com.maxpoliakov.skillapp.screenshots
 import com.maxpoliakov.skillapp.data.di.BackupBackend
 import com.maxpoliakov.skillapp.data.di.GoogleDrive
 import com.maxpoliakov.skillapp.data.di.Local
-import com.maxpoliakov.skillapp.di.BackupComponent
-import com.maxpoliakov.skillapp.di.BackupSubcomponentModule
+import com.maxpoliakov.skillapp.data.di.BackupComponent
+import com.maxpoliakov.skillapp.data.di.BackupSubcomponentModule
 import com.maxpoliakov.skillapp.domain.usecase.backup.StubPerformBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.StubRestoreBackupUseCase
 import dagger.Module

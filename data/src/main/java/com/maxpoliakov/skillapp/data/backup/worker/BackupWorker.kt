@@ -1,4 +1,4 @@
-package com.maxpoliakov.skillapp.backup
+package com.maxpoliakov.skillapp.data.backup.worker
 
 import android.content.Context
 import androidx.work.CoroutineWorker

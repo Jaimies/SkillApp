@@ -11,8 +11,8 @@ import androidx.work.NetworkType
 import androidx.work.WorkRequest.Companion.DEFAULT_BACKOFF_DELAY_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.maxpoliakov.skillapp.backup.GoogleDriveBackupWorker
-import com.maxpoliakov.skillapp.backup.LocalBackupWorker
+import com.maxpoliakov.skillapp.data.backup.worker.GoogleDriveBackupWorker
+import com.maxpoliakov.skillapp.data.backup.worker.LocalBackupWorker
 import com.maxpoliakov.skillapp.shared.extensions.setupTheme
 import dagger.hilt.android.HiltAndroidApp
 import java.time.Duration

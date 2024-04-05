@@ -37,14 +37,12 @@ open class TheApplication : Application(), Configuration.Provider {
         .setWorkerFactory(workerFactory)
         .build()
 
-    // TODO: make sure the existing "createBackup" worker is updated correctly
-    // when the app is updated
     private fun setupBackupWorker() {
-        setupWorker<GoogleDriveBackupWorker>("createBackup") {
+        setupWorker<GoogleDriveBackupWorker>(GOOGLE_DRIVE_BACKUP_WORKER_TAG) {
             setRequiredNetworkType(NetworkType.UNMETERED)
         }
 
-        setupWorker<LocalBackupWorker>("createLocalBackup")
+        setupWorker<LocalBackupWorker>(SHARED_STORAGE_BACKUP_WORKER_TAG)
     }
 
     private inline fun <reified W: ListenableWorker> setupWorker(
@@ -63,5 +61,10 @@ open class TheApplication : Application(), Configuration.Provider {
 
         workManager
             .enqueueUniquePeriodicWork(name, ExistingPeriodicWorkPolicy.KEEP, backupWorkRequest)
+    }
+
+    companion object {
+        private const val SHARED_STORAGE_BACKUP_WORKER_TAG = "com.maxpoliakov.skillapp.SHARED_STORAGE_BACKUP_WORKER_TAG"
+        private const val GOOGLE_DRIVE_BACKUP_WORKER_TAG = "com.maxpoliakov.skillapp.GOOGLE_DRIVE_BACKUP_WORKER_TAG"
     }
 }

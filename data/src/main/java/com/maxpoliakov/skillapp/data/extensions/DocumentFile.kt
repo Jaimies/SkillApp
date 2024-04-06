@@ -9,7 +9,7 @@ import java.time.ZoneOffset
 val DocumentFile.lastModifiedDate
     get() = localDateTimeOfEpochMilli(lastModified())
 
-private fun localDateTimeOfEpochMilli(epochMilli: Long): LocalDateTime {
+fun localDateTimeOfEpochMilli(epochMilli: Long): LocalDateTime {
     return Instant.ofEpochMilli(epochMilli)
         .atZone(ZoneOffset.UTC)
         .toLocalDateTime()

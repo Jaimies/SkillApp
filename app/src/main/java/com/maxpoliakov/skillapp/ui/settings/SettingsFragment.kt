@@ -39,6 +39,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<Preference>("day_start_time")!!.summaryProvider = DayStartTimeSummaryProvider()
 
+        setOnPreferenceClickedListener("source_code") {
+            openUri(Intent.ACTION_VIEW, R.string.source_code_url, R.string.browser_not_found)
+        }
+
         setOnPreferenceClickedListener("support_app") {
             openUri(Intent.ACTION_VIEW, R.string.support_app_uri, R.string.browser_not_found)
         }

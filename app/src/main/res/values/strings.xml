@@ -39,6 +39,8 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_url" translatable="false">https://theskillapp.com/privacy</string>
     <string name="about">About</string>
+    <string name="source_code">Source code</string>
+    <string name="source_code_url" translatable="false">https://github.com/Jaimies/SkillApp</string>
     <string name="open_source_licences">Open Source licences</string>
     <string name="theme">Theme</string>
     <string name="general">General</string>

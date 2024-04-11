@@ -41,6 +41,11 @@
         app:iconSpaceReserved="false">
 
         <Preference
+            android:key="source_code"
+            android:icon="@drawable/ic_code"
+            android:title="@string/source_code" />
+
+        <Preference
             android:key="privacy_policy"
             android:icon="@drawable/ic_lock"
             android:title="@string/privacy_policy" />

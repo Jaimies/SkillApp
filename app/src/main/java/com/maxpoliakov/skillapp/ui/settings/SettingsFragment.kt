@@ -29,10 +29,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        setOnPreferenceClickedListener("google_drive_backup", failIfPreferenceNotFound = true) {
-            findNavController().navigateAnimated(R.id.google_drive_backup_fragment_dest)
-        }
-
         setOnPreferenceClickedListener("local_backup", failIfPreferenceNotFound = true) {
             findNavController().navigateAnimated(R.id.shared_storage_backup_fragment_dest)
         }

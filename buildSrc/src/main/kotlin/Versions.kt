@@ -17,11 +17,6 @@ object Versions {
     const val workManager = "2.8.1"
     const val documentFile = "1.0.1"
 
-    const val googleHttpClient = "1.40.0"
-    const val googleApiClient = "1.32.1"
-    const val googleApiServices = "v3-rev197-1.25.0"
-    const val playServicesAuth = "20.4.1"
-
     const val material = "1.8.0"
     const val preference = "1.2.0"
     const val MPAndroidChart = "3.1.0"

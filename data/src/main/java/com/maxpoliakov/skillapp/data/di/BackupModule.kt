@@ -4,10 +4,8 @@ import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager
 import com.maxpoliakov.skillapp.data.backup.BackupRepositoryImpl
 import com.maxpoliakov.skillapp.data.backup.DBBackupCreator
 import com.maxpoliakov.skillapp.data.backup.DBBackupRestorer
-import com.maxpoliakov.skillapp.data.backup.google_drive.GoogleDriveBackupConfigurationManager
 import com.maxpoliakov.skillapp.data.backup.shared_storage.SharedStorageBackupConfigurationManager
 import com.maxpoliakov.skillapp.data.file_system.FileSystem
-import com.maxpoliakov.skillapp.data.file_system.GoogleDriveFileSystem
 import com.maxpoliakov.skillapp.data.file_system.SharedStorageFileSystem
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
@@ -32,14 +30,6 @@ interface BackupModule {
     fun bindBackupRestorer(backupUtil: DBBackupRestorer): BackupRestorer
 
     @Binds
-    @GoogleDrive
-    fun bindGoogleDriveBackupConfigurationManager(configurationManager: GoogleDriveBackupConfigurationManager): BackupConfigurationManager
-
-    @Binds
-    @GoogleDrive
-    fun bindGoogleDriveFileSystem(fileSystem: GoogleDriveFileSystem): FileSystem
-
-    @Binds
     @Local
     fun bindLocalBackupConfigurationManager(configurationManager: SharedStorageBackupConfigurationManager): BackupConfigurationManager
 
@@ -62,25 +52,17 @@ interface BackupModule {
         @Provides
         fun provideBackupConfigurationManager(
             @Local localProvider: Provider<BackupConfigurationManager>,
-            @GoogleDrive googleDriveProvider: Provider<BackupConfigurationManager>,
             backend: BackupBackend,
         ): BackupConfigurationManager {
-            return when(backend) {
-                BackupBackend.Local -> localProvider.get()
-                BackupBackend.GoogleDrive -> googleDriveProvider.get()
-            }
+            return localProvider.get();
         }
 
         @Provides
         fun provideBackupFileSystem(
             @Local localProvider: Provider<FileSystem>,
-            @GoogleDrive googleDriveProvider: Provider<FileSystem>,
             backend: BackupBackend,
         ): FileSystem {
-            return when(backend) {
-                BackupBackend.Local -> localProvider.get()
-                BackupBackend.GoogleDrive -> googleDriveProvider.get()
-            }
+            return localProvider.get();
         }
     }
 }

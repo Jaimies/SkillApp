@@ -20,7 +20,7 @@ val destinationIdsGroupedByTab = setOf(
 
     setOf(
         R.id.settings_fragment_dest,
-        R.id.google_drive_backup_fragment_dest,
+        R.id.shared_storage_backup_fragment_dest,
         R.id.restore_backup_fragment_dest,
     ),
 )

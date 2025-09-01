@@ -11,7 +11,6 @@ import androidx.work.NetworkType
 import androidx.work.WorkRequest.Companion.DEFAULT_BACKOFF_DELAY_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.maxpoliakov.skillapp.data.backup.worker.GoogleDriveBackupWorker
 import com.maxpoliakov.skillapp.data.backup.worker.LocalBackupWorker
 import com.maxpoliakov.skillapp.shared.extensions.setupTheme
 import dagger.hilt.android.HiltAndroidApp
@@ -38,10 +37,6 @@ open class TheApplication : Application(), Configuration.Provider {
         .build()
 
     private fun setupBackupWorker() {
-        setupWorker<GoogleDriveBackupWorker>(GOOGLE_DRIVE_BACKUP_WORKER_TAG) {
-            setRequiredNetworkType(NetworkType.UNMETERED)
-        }
-
         setupWorker<LocalBackupWorker>(SHARED_STORAGE_BACKUP_WORKER_TAG)
     }
 
@@ -65,6 +60,5 @@ open class TheApplication : Application(), Configuration.Provider {
 
     companion object {
         private const val SHARED_STORAGE_BACKUP_WORKER_TAG = "com.maxpoliakov.skillapp.SHARED_STORAGE_BACKUP_WORKER_TAG"
-        private const val GOOGLE_DRIVE_BACKUP_WORKER_TAG = "com.maxpoliakov.skillapp.GOOGLE_DRIVE_BACKUP_WORKER_TAG"
     }
 }

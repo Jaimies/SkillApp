@@ -6,5 +6,4 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 enum class BackupBackend: Parcelable {
     Local,
-    GoogleDrive,
 }

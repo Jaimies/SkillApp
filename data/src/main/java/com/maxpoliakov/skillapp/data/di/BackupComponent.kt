@@ -49,24 +49,12 @@ interface BackupSubcomponentModule {
     @BackupBackendKey(BackupBackend.Local)
     fun bindLocalBackupSubcomponentIntoMap(@Local backupComponent: BackupComponent): BackupComponent
 
-    @Binds
-    @IntoMap
-    @BackupBackendKey(BackupBackend.GoogleDrive)
-    fun bindGoogleDriveBackupSubcomponentIntoMap(@GoogleDrive backupComponent: BackupComponent): BackupComponent
-
     companion object {
         @Provides
         @Local
         @Singleton
         fun provideLocalBackupSubcomponent(factory: BackupComponent.Factory): BackupComponent {
             return factory.create(BackupBackend.Local)
-        }
-
-        @Provides
-        @GoogleDrive
-        @Singleton
-        fun provideGoogleDriveBackupSubcomponent(factory: BackupComponent.Factory): BackupComponent {
-            return factory.create(BackupBackend.GoogleDrive)
         }
     }
 }

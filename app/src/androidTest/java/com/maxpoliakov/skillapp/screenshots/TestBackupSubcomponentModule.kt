@@ -23,11 +23,6 @@ interface TestBackupSubcomponentModule {
     @BackupBackendKey(BackupBackend.Local)
     fun bindLocalBackupSubcomponentIntoMap(@Local backupComponent: BackupComponent): BackupComponent
 
-    @Binds
-    @IntoMap
-    @BackupBackendKey(BackupBackend.GoogleDrive)
-    fun bindGoogleDriveBackupSubcomponentIntoMap(@GoogleDrive backupComponent: BackupComponent): BackupComponent
-
     companion object {
         @Provides
         fun provideBackupSubcomponentFactory(): BackupComponent.Factory = TestBackupComponent.Factory
@@ -35,10 +30,6 @@ interface TestBackupSubcomponentModule {
         @Provides
         @Local
         fun provideLocalBackupComponent(): BackupComponent = TestBackupComponent()
-
-        @Provides
-        @GoogleDrive
-        fun provideGoogleDriveBackupSubcomponent(): BackupComponent = TestBackupComponent()
     }
 }
 

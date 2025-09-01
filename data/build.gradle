@@ -103,12 +103,6 @@ dependencies {
 
     implementation "androidx.documentfile:documentfile:$Versions.documentFile"
 
-    implementation "com.google.android.gms:play-services-auth:$Versions.playServicesAuth"
-
-    implementation "com.google.http-client:google-http-client-gson:$Versions.googleHttpClient"
-    implementation("com.google.api-client:google-api-client-android:$Versions.googleApiClient")
-    implementation("com.google.apis:google-api-services-drive:$Versions.googleApiServices")
-
     testImplementation project(":sharedTest")
     testImplementation testFixtures(project(":domain"))
 

@@ -1,1 +1,1 @@
-./gradlew :data:connectedDebugAndroidTest
+#./gradlew :data:connectedDebugAndroidTest

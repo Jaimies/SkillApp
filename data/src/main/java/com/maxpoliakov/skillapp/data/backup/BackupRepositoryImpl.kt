@@ -98,8 +98,11 @@ class BackupRepositoryImpl @Inject constructor(
     }
 
     private suspend fun <T> tryOperation(operation: suspend () -> T): Result<T> {
-        return runCatching { operation() }
-            .fold({ Result.Success(it) }) { configurationManager.handleException(it) }
+        try {
+            return Result.Success(operation())
+        } catch (e: Exception) {
+            return configurationManager.handleException(e)
+        }
     }
 
     private fun addOnBackupAddedListener(listener: OnBackupAddedListener) {

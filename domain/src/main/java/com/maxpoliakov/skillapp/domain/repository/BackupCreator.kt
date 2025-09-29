@@ -7,6 +7,6 @@ interface BackupCreator {
 
     sealed class Result {
         data class Success(val data: BackupData) : Result()
-        data class Failure(val exception: Throwable) : Result()
+        data class Failure(val exception: Exception) : Result()
     }
 }

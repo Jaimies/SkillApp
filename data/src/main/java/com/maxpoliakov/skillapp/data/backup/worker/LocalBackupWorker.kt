@@ -14,4 +14,4 @@ class LocalBackupWorker @AssistedInject constructor(
     @Assisted workerParameters: WorkerParameters,
     @Local
     private val backupComponent: BackupComponent,
-): BackupWorker(context, workerParameters, backupComponent.performBackupUseCase())
+): BackupWorker(context, workerParameters, backupComponent.performBackupUseCase(), backupComponent.configuration())

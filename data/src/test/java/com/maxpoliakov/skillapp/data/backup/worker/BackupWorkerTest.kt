@@ -3,26 +3,55 @@ package com.maxpoliakov.skillapp.data.backup.worker
 import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
+import com.maxpoliakov.skillapp.domain.model.GenericUri
 import com.maxpoliakov.skillapp.domain.repository.BackupCreator
 import com.maxpoliakov.skillapp.domain.repository.BackupRepository
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase.Result.CreationFailure
 import com.maxpoliakov.skillapp.domain.usecase.backup.PerformBackupUseCase.Result.UploadFailure
 import com.maxpoliakov.skillapp.domain.usecase.backup.StubPerformBackupUseCase
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager
+import com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager.Configuration
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
+
+class StubConfigurationManager(
+    configuration: Configuration = Configuration.Success(GenericUri("uri")),
+): BackupConfigurationManager {
+    override val configuration = flowOf(configuration)
+    override fun handleException(throwable: Throwable) = BackupRepository.Result.Failure.Error(throwable)
+}
 
 class BackupWorkerTest : StringSpec({
-    fun createWorker(performBackupResult: PerformBackupUseCase.Result): BackupWorker {
+    fun createWorker(
+        performBackupResult: PerformBackupUseCase.Result,
+        configuration: Configuration = Configuration.Success(GenericUri("abc")),
+    ): BackupWorker {
         val context = mockk<Context>(relaxed = true)
         val workerParameters = mockk<WorkerParameters>(relaxed = true)
         val useCase = StubPerformBackupUseCase(performBackupResult)
-        return BackupWorker(context, workerParameters, useCase)
+        val configurationManager = StubConfigurationManager(configuration)
+        return BackupWorker(context, workerParameters, useCase, configurationManager)
     }
 
-    "returns Result.success if use case returns Result.Success" {
-        val worker = createWorker(performBackupResult = PerformBackupUseCase.Result.Success)
+    // not configured -> no need to back up -> no problem
+
+    "returns Result.success and does nothing if not configured" {
+        val worker = createWorker(
+            PerformBackupUseCase.Result.Success,
+            Configuration.Failure(BackupRepository.Result.Failure.NotConfigured),
+        )
+
+        worker.doWork() shouldBe ListenableWorker.Result.success()
+    }
+
+    "return Result.success if backup failed because of repository not being configured" {
+        val worker = createWorker(
+            PerformBackupUseCase.Result.UploadFailure(BackupRepository.Result.Failure.NotConfigured)
+        )
+
         worker.doWork() shouldBe ListenableWorker.Result.success()
     }
 
@@ -36,9 +65,14 @@ class BackupWorkerTest : StringSpec({
 
     "returns Result.Retry if use case returns Result.UploadFailure" {
         val worker = createWorker(
-            performBackupResult = UploadFailure(BackupRepository.Result.Failure.NoInternetConnection),
+            performBackupResult = UploadFailure(BackupRepository.Result.Failure.Error(Exception())),
         )
 
         worker.doWork() shouldBe ListenableWorker.Result.retry()
+    }
+
+    "returns Result.success if use case returns Result.Success" {
+        val worker = createWorker(performBackupResult = PerformBackupUseCase.Result.Success)
+        worker.doWork() shouldBe ListenableWorker.Result.success()
     }
 })

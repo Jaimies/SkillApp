@@ -18,13 +18,8 @@ interface BackupRepository {
         data class Success<T>(val value: T) : Result<T>()
 
         sealed class Failure : Result<Nothing>() {
-            object NoInternetConnection : Failure()
-            object Unauthorized : Failure()
-            object PermissionDenied : Failure()
-            object QuotaExceeded : Failure()
             object NotConfigured: Failure()
 
-            data class IOFailure(val exception: IOException) : Failure()
             data class Error(val exception: Throwable) : Failure()
         }
     }

@@ -21,7 +21,6 @@ import com.maxpoliakov.skillapp.databinding.SkillsFragBinding
 import com.maxpoliakov.skillapp.domain.model.Orderable
 import com.maxpoliakov.skillapp.domain.model.Skill
 import com.maxpoliakov.skillapp.domain.model.SkillGroup
-import com.maxpoliakov.skillapp.model.Intro
 import com.maxpoliakov.skillapp.shared.ActionBarFragment
 import com.maxpoliakov.skillapp.shared.fragment.observe
 import com.maxpoliakov.skillapp.shared.recyclerview.Change
@@ -32,8 +31,6 @@ import com.maxpoliakov.skillapp.shared.recyclerview.scrollToTop
 import com.maxpoliakov.skillapp.shared.recyclerview.setupAdapter
 import com.maxpoliakov.skillapp.shared.tracking.RecordUtil
 import com.maxpoliakov.skillapp.ui.MainActivity
-import com.maxpoliakov.skillapp.ui.intro.IntroUtil
-import com.maxpoliakov.skillapp.ui.intro.Intro_3_1_0
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupFooterItemId
 import com.maxpoliakov.skillapp.ui.skills.recyclerview.SkillListAdapter.Companion.getGroupItemId
@@ -173,12 +170,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
     lateinit var listAdapterFactory: SkillListAdapter.Factory
 
     @Inject
-    lateinit var introUtil: IntroUtil
-
-    @Inject
-    lateinit var intro: Intro_3_1_0
-
-    @Inject
     lateinit var recordUtil: RecordUtil
 
     private val viewModel: SkillsViewModel by viewModels()
@@ -213,8 +204,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
 
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
-        introUtil.showIfNecessary(Intro.Intro_3_1_0) { showIntro() }
-
         lifecycleScope.launch {
             viewModel.list.collect { list ->
                 // Don't update within 0.5sec after the drag and drop has finished, as those updates cause awful transitions
@@ -244,10 +233,6 @@ class SkillsFragment : ActionBarFragment<SkillsFragBinding>(R.menu.skills_frag_m
         super.onPreDestroyBinding(binding)
         binding.recyclerView.adapter = null
         itemTouchHelper.attachToRecyclerView(null)
-    }
-
-    private fun showIntro() = lifecycleScope.launch {
-        intro.show(toolbar)
     }
 
     override fun onMenuCreated(menu: Menu) {

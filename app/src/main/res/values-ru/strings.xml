@@ -92,8 +92,6 @@
     <string name="got_it">Понятно</string>
     <string name="reorder_skills">Упорядочить</string>
     <string name="done">Готово</string>
-    <string name="intro_3_1_0_title">Чтобы упорядочить навыки, нажмите кнопку \"Упорядочить\"</string>
-    <string name="intro_3_1_0_text">После этого вы сможете изменять порядок навыков и группировать их как обычно</string>
     <string name="pie_chart_legend_entry">%1$s: %2$s</string>
     <string name="drive_out_of_space">Недостаточно свободного места на вашем Google Диске</string>
     <string name="failed_to_reach_google_drive">Не удалось соединиться с Google Диском</string>

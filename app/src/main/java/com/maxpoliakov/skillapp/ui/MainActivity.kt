@@ -9,7 +9,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.maxpoliakov.skillapp.databinding.MainActBinding
 import com.maxpoliakov.skillapp.domain.stopwatch.Stopwatch
-import com.maxpoliakov.skillapp.model.Intro
 import com.maxpoliakov.skillapp.ui.intro.FirstRunIntro
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
 import com.maxpoliakov.skillapp.shared.hardware.hideKeyboard
@@ -40,7 +39,12 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        introUtil.showIfNecessary(Intro.FirstRunIntro) { FirstRunIntro.show(this) }
+
+        if (!introUtil.hasFirstRunIntroBeenShown()) {
+            FirstRunIntro.show(this)
+            introUtil.markFirstRunIntroAsShown();
+        }
+
         binding = MainActBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)

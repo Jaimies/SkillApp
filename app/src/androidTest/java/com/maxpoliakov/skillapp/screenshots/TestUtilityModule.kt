@@ -1,8 +1,6 @@
 package com.maxpoliakov.skillapp.screenshots
 
-import com.maxpoliakov.skillapp.data.AndroidNetworkUtil
 import com.maxpoliakov.skillapp.di.UtilityModule
-import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.repository.NotificationUtil
 import com.maxpoliakov.skillapp.shared.notifications.NotificationUtilImpl
 import com.maxpoliakov.skillapp.ui.intro.IntroUtil
@@ -19,9 +17,6 @@ import dagger.hilt.testing.TestInstallIn
 interface TestUtilityModule {
     @Binds
     fun provideNotificationUtil(notificationUtil: NotificationUtilImpl): NotificationUtil
-
-    @Binds
-    fun provideNetworkUtil(networkUtil: AndroidNetworkUtil): NetworkUtil
 
     @Binds
     fun provideIntroUtil(introUtil: StubIntroUtil): IntroUtil

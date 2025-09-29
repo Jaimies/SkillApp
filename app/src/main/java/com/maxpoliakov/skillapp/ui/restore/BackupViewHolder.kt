@@ -11,7 +11,6 @@ import com.maxpoliakov.skillapp.databinding.BackupListItemBinding
 import com.maxpoliakov.skillapp.di.SnackbarRoot
 import com.maxpoliakov.skillapp.domain.di.ApplicationScope
 import com.maxpoliakov.skillapp.domain.model.Backup
-import com.maxpoliakov.skillapp.domain.repository.NetworkUtil
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase
 import com.maxpoliakov.skillapp.domain.usecase.backup.RestoreBackupUseCase.RestorationState
 import com.maxpoliakov.skillapp.shared.dialog.showDialog
@@ -32,7 +31,6 @@ class BackupViewHolder @AssistedInject constructor(
     private val restoreBackupUseCase: RestoreBackupUseCase,
     @ApplicationScope
     private val scope: CoroutineScope,
-    private val networkUtil: NetworkUtil,
     private val navController: NavController,
     @SnackbarRoot
     private val snackbarRootProvider: Provider<View?>,
@@ -55,10 +53,7 @@ class BackupViewHolder @AssistedInject constructor(
         if (restoreBackupUseCase.state.value == RestorationState.Active) return
 
         itemView.context.showDialog(R.string.confirm_restore_backup, R.string.restore) {
-            if (!networkUtil.isConnected)
-                itemView.context.showToast(R.string.no_internet)
-            else
-                restoreBackup()
+            restoreBackup()
         }
     }
 

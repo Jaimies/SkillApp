@@ -18,6 +18,7 @@ import com.maxpoliakov.skillapp.shared.fragment.showTimePicker
 import com.maxpoliakov.skillapp.shared.settings.DayStartTimeSummaryProvider
 import com.maxpoliakov.skillapp.shared.settings.TimePickerPreference
 import dagger.hilt.android.AndroidEntryPoint
+import com.mikepenz.aboutlibraries.LibsBuilder
 
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -53,6 +54,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         setOnPreferenceClickedListener("contact_developer") {
             openUri(Intent.ACTION_SENDTO, R.string.mail_dev_uri, R.string.mail_app_not_found)
+        }
+
+        setOnPreferenceClickedListener("oss_licences") { 
+            LibsBuilder().start(requireContext())
         }
     }
 

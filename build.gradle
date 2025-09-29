@@ -2,6 +2,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+         gradlePluginPortal()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$Versions.gradle"
@@ -9,7 +10,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-serialization:$Versions.kotlin"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$Versions.navigation"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$Versions.hilt"
-        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.6'
+        classpath "com.mikepenz.aboutlibraries.plugin:com.mikepenz.aboutlibraries.plugin.gradle.plugin:$Versions.aboutLibraries"
     }
 }
 

@@ -21,6 +21,9 @@ object Versions {
     const val preference = "1.2.0"
     const val MPAndroidChart = "3.1.0"
 
+    // later major versions require newer gradle plugin version
+    const val aboutLibraries = "10.10.0"
+
     const val hilt = "2.51"
 
     const val gradle = "8.2.0"

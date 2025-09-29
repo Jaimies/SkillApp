@@ -5,8 +5,8 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
-    id 'com.google.android.gms.oss-licenses-plugin'
     id 'io.gitlab.arturbosch.detekt' version '1.23.6'
+    id 'com.mikepenz.aboutlibraries.plugin'
 }
 
 android {
@@ -126,6 +126,8 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:$Versions.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$Versions.hilt"
+
+    implementation "com.mikepenz:aboutlibraries:$Versions.aboutLibraries"
 
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "io.mockk:mockk:$Versions.mockk"

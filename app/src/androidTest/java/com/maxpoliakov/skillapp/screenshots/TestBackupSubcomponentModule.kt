@@ -2,7 +2,6 @@ package com.maxpoliakov.skillapp.screenshots
 
 import com.maxpoliakov.skillapp.data.di.BackupBackend
 import com.maxpoliakov.skillapp.data.di.BackupBackendKey
-import com.maxpoliakov.skillapp.data.di.GoogleDrive
 import com.maxpoliakov.skillapp.data.di.Local
 import com.maxpoliakov.skillapp.data.di.BackupComponent
 import com.maxpoliakov.skillapp.data.di.BackupSubcomponentModule

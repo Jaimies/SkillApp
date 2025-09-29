@@ -146,7 +146,7 @@ class ScreenshotsTest {
 
         makeScreenshot("skilllist")
 
-        navigate(com.maxpoliakov.skillapp.R.id.google_drive_backup_fragment_dest)
+        navigate(com.maxpoliakov.skillapp.R.id.shared_storage_backup_fragment_dest)
         makeScreenshot("backup")
 
         navigate(com.maxpoliakov.skillapp.R.id.statistics_fragment_dest)

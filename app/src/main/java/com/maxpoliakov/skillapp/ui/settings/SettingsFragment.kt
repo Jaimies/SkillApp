@@ -48,10 +48,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             openUri(Intent.ACTION_VIEW, R.string.support_app_uri, R.string.browser_not_found)
         }
 
-        setOnPreferenceClickedListener("rate_the_app") {
-            openUri(Intent.ACTION_VIEW, R.string.market_uri, R.string.cant_open_google_play)
-        }
-
         setOnPreferenceClickedListener("privacy_policy") {
             openUri(Intent.ACTION_VIEW, R.string.privacy_policy_url, R.string.browser_not_found)
         }

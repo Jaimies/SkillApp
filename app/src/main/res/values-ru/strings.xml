@@ -51,7 +51,6 @@
     <string name="stop">Остановить</string>
     <string name="tracking">Таймер</string>
     <string name="drag_handle_label">Перетащите, чтобы изменить порядок</string>
-    <string name="rate_the_app">Оценить приложение</string>
     <string name="contact_developer">Связаться с разработчиком</string>
     <string name="local_backup">Резервное копирование</string>
     <string name="create_backup">Создать резервную копию</string>
@@ -72,7 +71,6 @@
     <string name="reset_backup_export_directory">Сброс папки экспорта резервных копий</string>
     <string name="reset_backup_export_directory_explanation">Сбрасывает папку экспорта и снимает разрешение приложения на доступ к каталогу.</string>
     <string name="mail_app_not_found">" Приложение Email не найдено"</string>
-    <string name="cant_open_google_play">Не удается открыть Google Play</string>
     <string name="intro_slide1_title">Изменяйте порядок навыков</string>
     <string name="intro_slide1_description">Нажмите кнопку \"редактировать\" и перетащите навык</string>
     <string name="intro_slide2_title">Организовывайте навыки в группы</string>

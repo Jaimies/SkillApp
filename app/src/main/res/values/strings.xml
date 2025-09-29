@@ -56,10 +56,8 @@
     <string name="stop">Stop</string>
     <string name="timers">Timers</string>
     <string name="drag_handle_label">Drag to reorder</string>
-    <string name="rate_the_app">Rate the app</string>
     <string name="contact_developer">Contact the developer</string>
     <string name="mail_dev_uri" translatable="false">mailto:theskillapp@gmail.com</string>
-    <string name="market_uri" translatable="false">https://play.google.com/store/apps/details?id=com.maxpoliakov.skillapp</string>
     <string name="local_backup">Backup &amp; Restore</string>
     <string name="confirm_restore_backup">Restoring a backup will replace your current tracked data. Do you want to continue?</string>
     <string name="restore">Restore</string>
@@ -80,7 +78,6 @@
     <string name="reset_backup_export_directory">Reset backup export directory</string>
     <string name="reset_backup_export_directory_explanation">Resets export directory and releases the app\'s permission to access the directory.</string>
     <string name="mail_app_not_found">Email application not found</string>
-    <string name="cant_open_google_play">Unable to open Google Play</string>
     <string name="intro_slide1_title">Reorder skills</string>
     <string name="intro_slide1_description">Click the "edit" button and drag the skill you want to move</string>
     <string name="intro_slide2_title">Organize skills into groups</string>

@@ -51,7 +51,6 @@
     <string name="stop">Зупинити</string>
     <string name="tracking">Таймер</string>
     <string name="drag_handle_label">Перетягніть, щоб змінити порядок</string>
-    <string name="rate_the_app">Оцінити додаток</string>
     <string name="contact_developer">Зв\'язатися з розробником</string>
     <string name="local_backup">Резервне копіювання</string>
     <string name="create_backup">Створити резервну копію</string>
@@ -72,7 +71,6 @@
     <string name="reset_backup_export_directory">Скидання папки експорту резервних копій</string>
     <string name="reset_backup_export_directory_explanation">Скидає папку експорту і знімає дозвіл програми на доступ до каталогу.</string>
     <string name="mail_app_not_found">Додаток Email не знайдено</string>
-    <string name="cant_open_google_play">Не вдається відкрити Google Play</string>
     <string name="intro_slide1_title">Змінюйте порядок навичок</string>
     <string name="intro_slide1_description">Натисніть кнопку \"редагувати\" та перетягніть навичку</string>
     <string name="intro_slide2_title">Організовуйте навички у групи</string>

@@ -53,7 +53,7 @@
     <string name="rate_the_app">Оцінити додаток</string>
     <string name="contact_developer">Зв\'язатися з розробником</string>
     <string name="google_drive_backup">Резервне копіювання на Google Диск</string>
-    <string name="local_backup">Локальне резервне копіювання</string>
+    <string name="local_backup">Резервне копіювання</string>
     <string name="logout">Вийти</string>
     <string name="create_backup">Створити резервну копію</string>
     <string name="auto_backup_message">Резервне копіювання ваших даних буде автоматично виконуватись раз на день</string>
@@ -85,7 +85,7 @@
     <string name="intro_slide3_title">Одиниці вимірювання</string>
     <string name="intro_slide3_description">При створенні навички, ви можете обрати, у яких одиницях вимірюватиметься ваш прогрес</string>
     <string name="intro_slide4_title">Резервне копіювання даних</string>
-    <string name="intro_slide4_description">Зайдіть у Налаштування\u00A0>\u00A0«Резервне копіювання» та увійдіть у свій Google\u00A0Акаунт</string>
+    <string name="intro_slide4_description">Зайдіть у Налаштування\u00A0>\u00A0«Резервне копіювання» та оберіть папку, в якій зберігатимуться резервні копії</string>
     <string name="support_app">Підтримати SkillApp</string>
     <string name="browser_not_found">Додаток браузера не знайдено</string>
     <string name="one_year">роки</string>

@@ -59,7 +59,7 @@
     <string name="mail_dev_uri" translatable="false">mailto:theskillapp@gmail.com</string>
     <string name="market_uri" translatable="false">https://play.google.com/store/apps/details?id=com.maxpoliakov.skillapp</string>
     <string name="google_drive_backup">Google Drive backup</string>
-    <string name="local_backup">File system backup</string>
+    <string name="local_backup">Backup &amp; Restore</string>
     <string name="logout">Log out</string>
     <string name="confirm_restore_backup">Restoring a backup will replace your current tracked data. Do you want to continue?</string>
     <string name="restore">Restore</string>
@@ -92,7 +92,7 @@
     <string name="intro_slide3_title">Measurement units</string>
     <string name="intro_slide3_description">When creating a skill, you can choose the unit your progress will be measured in</string>
     <string name="intro_slide4_title">Backup your data</string>
-    <string name="intro_slide4_description">Go to Settings\u00A0>\u00A0Backup &amp; Restore and sign in to your Google Account</string>
+    <string name="intro_slide4_description">Go to Settings\u00A0>\u00A0Backup &amp; Restore and choose which folder to store backups in</string>
     <string name="browser_not_found">No browser app found</string>
     <string name="support_app_uri" translatable="false">https://www.buymeacoffee.com/skillapp</string>
     <string name="support_app">Support SkillApp</string>

@@ -41,6 +41,8 @@
     <string name="about">About</string>
     <string name="source_code">Source code</string>
     <string name="source_code_url" translatable="false">https://github.com/Jaimies/SkillApp</string>
+    <string name="report_bug">Report a bug</string>
+    <string name="report_bug_url" translatable="false">https://github.com/Jaimies/SkillApp/issues/new</string>
     <string name="open_source_licences">Open Source licences</string>
     <string name="theme">Theme</string>
     <string name="general">General</string>

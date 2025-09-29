@@ -40,6 +40,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             openUri(Intent.ACTION_VIEW, R.string.source_code_url, R.string.browser_not_found)
         }
 
+        setOnPreferenceClickedListener("report_bug") {
+            openUri(Intent.ACTION_VIEW, R.string.report_bug_url, R.string.browser_not_found)
+        }
+
         setOnPreferenceClickedListener("support_app") {
             openUri(Intent.ACTION_VIEW, R.string.support_app_uri, R.string.browser_not_found)
         }

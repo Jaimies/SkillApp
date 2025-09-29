@@ -41,6 +41,11 @@
             android:title="@string/source_code" />
 
         <Preference
+            android:key="report_bug"
+            android:icon="@drawable/ic_bug"
+            android:title="@string/report_bug" />
+
+        <Preference
             android:key="privacy_policy"
             android:icon="@drawable/ic_lock"
             android:title="@string/privacy_policy" />

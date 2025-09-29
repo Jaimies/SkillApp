@@ -1,3 +1,4 @@
+#!/bin/sh
 ./gradlew :shared:test &&
 	./gradlew :domain:test &&
 	./gradlew testDebugUnitTest &&

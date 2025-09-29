@@ -67,7 +67,7 @@ class BackupViewModelTest : FunSpec({
         test("becomes LoadingState.Error if an error occurs") {
             val useCase = StubPerformBackupUseCase()
             val repository = StubBackupRepository(
-                getLastBackupResult = Result.Failure.PermissionDenied
+                getLastBackupResult = Result.Failure.Error(Exception())
             )
             val configurationManager = StubConfigurationManager()
             val viewModel = TestBackupViewModel(useCase, repository, configurationManager, this)
@@ -107,8 +107,8 @@ class BackupViewModelTest : FunSpec({
         context("backupResult becomes the value returned by PerformBackupUseCase::performBackup()") {
             withData(
                 PerformBackupUseCase.Result.Success,
-                PerformBackupUseCase.Result.CreationFailure(BackupCreator.Result.Failure(Throwable())),
-                PerformBackupUseCase.Result.UploadFailure(Result.Failure.PermissionDenied),
+                PerformBackupUseCase.Result.CreationFailure(BackupCreator.Result.Failure(Exception())),
+                PerformBackupUseCase.Result.UploadFailure(Result.Failure.Error(Exception())),
             ) { performBackupResult ->
                 val useCase = StubPerformBackupUseCase(result = performBackupResult)
                 val repository = StubBackupRepository()

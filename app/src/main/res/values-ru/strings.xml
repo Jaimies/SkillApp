@@ -70,7 +70,7 @@
     <string name="backup_export_directory_not_set">Не задана - нажмите, чтобы задать</string>
     <string name="reset_backup_export_directory">Сброс папки экспорта резервных копий</string>
     <string name="reset_backup_export_directory_explanation">Сбрасывает папку экспорта и снимает разрешение приложения на доступ к каталогу.</string>
-    <string name="mail_app_not_found">" Приложение Email не найдено"</string>
+    <string name="mail_app_not_found">Приложение Email не найдено</string>
     <string name="intro_slide1_title">Изменяйте порядок навыков</string>
     <string name="intro_slide1_description">Нажмите кнопку \"редактировать\" и перетащите навык</string>
     <string name="intro_slide2_title">Организовывайте навыки в группы</string>

@@ -73,8 +73,8 @@
     <string name="one_week">weeks</string>
     <string name="one_month">months</string>
     <string name="one_year">years</string>
-    <string name="backup_export_directory">Backup export directory</string>
-    <string name="backup_export_directory_not_set">Not set — click to set</string>
+    <string name="backup_export_directory">Folder in which to save the backups</string>
+    <string name="backup_export_directory_not_set">Not selected — click to select</string>
     <string name="reset_backup_export_directory">Reset backup export directory</string>
     <string name="reset_backup_export_directory_explanation">Resets export directory and releases the app\'s permission to access the directory.</string>
     <string name="mail_app_not_found">Email application not found</string>

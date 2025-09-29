@@ -66,8 +66,8 @@
     <string name="one_day">дни</string>
     <string name="one_week">недели</string>
     <string name="one_month">месяцы</string>
-    <string name="backup_export_directory">Папка для экспорта резервных копий</string>
-    <string name="backup_export_directory_not_set">Не задана - нажмите, чтобы задать</string>
+    <string name="backup_export_directory">Папка, в которую сохранять резервные копии</string>
+    <string name="backup_export_directory_not_set">Не выбрана - нажмите, чтобы выбрать</string>
     <string name="reset_backup_export_directory">Сброс папки экспорта резервных копий</string>
     <string name="reset_backup_export_directory_explanation">Сбрасывает папку экспорта и снимает разрешение приложения на доступ к каталогу.</string>
     <string name="mail_app_not_found">Приложение Email не найдено</string>

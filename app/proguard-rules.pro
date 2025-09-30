@@ -34,4 +34,5 @@
 
 -keepattributes Signature,RuntimeVisibleAnnotations,AnnotationDefault
 
+-printmapping obfuscation/mapping.txt
 

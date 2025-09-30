@@ -17,6 +17,7 @@ gen/
 out/
 release/
 !app/src/release/
+app/obfuscation/
 
 # Gradle files
 .gradle/

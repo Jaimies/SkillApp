@@ -61,7 +61,6 @@
     <string name="confirm_restore_backup">Відновлення резервної копії замінить ваші поточні дані. Ви хочете продовжити?</string>
     <string name="backup_successful">Резервна копія успішно створена</string>
     <string name="backup_restore_successful">Дані успішно відновлені з резервної копії</string>
-    <string name="no_internet">Немає підключення до Інтернету</string>
     <string name="something_went_wrong">Щось пішло не так, спробуйте знову</string>
     <string name="one_day">дні</string>
     <string name="one_week">тижні</string>
@@ -87,7 +86,6 @@
     <string name="done">Готово</string>
     <string name="pie_chart_legend_entry">%1$s: %2$s</string>
     <string name="failed_to_save_backup">Не вдалося зберегти резервну копію</string>
-    <string name="backup_upload_failed">Не вдалося завантажити резервну копію на Google Диск</string>
     <string name="backup_creation_failed">Не вдалося створити резервну копію</string>
     <string name="failed_to_load_last_backup_date">Не вдалося завантажити останню резервну копію</string>
     <string name="failed_to_load_backups">Не вдалося завантажити резервні копії</string>

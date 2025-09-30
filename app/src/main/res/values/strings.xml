@@ -67,7 +67,6 @@
     <string name="auto_backup_message">Your data will be automatically backed up once a day</string>
     <string name="backup_successful">Successfully created a backup</string>
     <string name="backup_restore_successful">Successfully restored data from backup</string>
-    <string name="no_internet">No Internet connection</string>
     <string name="something_went_wrong">Something went wrong, please try again</string>
     <string name="one_day">days</string>
     <string name="one_week">weeks</string>
@@ -96,7 +95,6 @@
     <string name="duration_format" translatable="false">%1$s:%2$s:%3$s</string>
     <string name="duration_format_without_hours" translatable="false">%1$s:%2$s</string>
     <string name="backup_creation_failed">Failed to create a back up</string>
-    <string name="backup_upload_failed">Failed to upload the back up to Google Drive</string>
     <string name="failed_to_load_last_backup_date">Couldn\'t load the most recent backup</string>
     <string name="failed_to_save_backup">Failed to save backup</string>
     <string name="failed_to_load_backups">Failed to load backups</string>

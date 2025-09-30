@@ -37,13 +37,15 @@
         <activity
             android:name=".ui.intro.FirstRunIntro"
             android:theme="@style/Theme.FirstRunIntro"
-            android:exported="true" />
+            android:exported="false" />
 
-        <receiver android:name=".StopTimerBroadcastReceiver" />
+        <receiver 
+            android:name=".StopTimerBroadcastReceiver"
+            android:exported="false" />
 
         <receiver
             android:name=".ShowStopwatchNotificationBroadcastReceiver"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

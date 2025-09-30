@@ -33,4 +33,8 @@
     </style>
 
     <style name="Theme.SkillApp" parent="Theme.SkillApp.Base" />
+
+    <style name="Theme.FirstRunIntro" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@color/black</item>
+    </style>
 </resources>

@@ -21,16 +21,6 @@ import com.theskillapp.skillapp.data.timer.TimerDao
     entities = [DBSkill::class, DBRecord::class, DBStatistic::class, DBGroup::class, DBTimer::class],
     version = 8,
     exportSchema = true,
-    autoMigrations = [
-        AutoMigration(
-            from = 6,
-            to = 7
-        ),
-        AutoMigration(
-            from = 7,
-            to = 8,
-        ),
-    ],
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -43,7 +33,6 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         fun create(context: Context) = Room
             .databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
             .build()
 
         const val DATABASE_NAME = "main"

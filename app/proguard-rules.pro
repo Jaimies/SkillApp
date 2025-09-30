@@ -1,3 +1,5 @@
+-keep public class com.maxpoliakov.skillapp.data.di.BackupBackend
+
 -keep public class com.github.mikephil.charting.animation.ChartAnimator {
     public protected *;
 }

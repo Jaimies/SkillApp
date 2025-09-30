@@ -26,7 +26,7 @@ object Versions {
 
     const val hilt = "2.51"
 
-    const val gradle = "8.6.0"
+    const val gradle = "8.8.0"
 
     const val mockito = "3.12.1"
     const val mockk = "1.12.0"

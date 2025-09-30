@@ -32,7 +32,7 @@ android {
         targetSdk App.targetSdk
         versionCode App.versionCode
         versionName App.versionName
-        testInstrumentationRunner "com.maxpoliakov.skillapp.screenshots.CustomTestRunner"
+        testInstrumentationRunner "com.theskillapp.skillapp.screenshots.CustomTestRunner"
     }
 
     buildTypes {
@@ -64,7 +64,7 @@ android {
     lint {
         abortOnError false
     }
-    namespace 'com.maxpoliakov.skillapp'
+    namespace 'com.theskillapp.skillapp'
 }
 
 detekt {

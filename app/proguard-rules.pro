@@ -1,4 +1,4 @@
--keep public class com.maxpoliakov.skillapp.data.di.BackupBackend
+-keep public class com.theskillapp.skillapp.data.di.BackupBackend
 
 -keep public class com.github.mikephil.charting.animation.ChartAnimator {
     public protected *;
@@ -20,11 +20,11 @@
 }
 
 # Change here com.yourcompany.yourpackage
--keep,includedescriptorclasses class com.maxpoliakov.skillapp.data.**$$serializer { *; } # <-- change package name to your app's
--keepclassmembers class com.maxpoliakov.skillapp.data.** { # <-- change package name to your app's
+-keep,includedescriptorclasses class com.theskillapp.skillapp.data.**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class com.theskillapp.skillapp.data.** { # <-- change package name to your app's
     *** Companion;
 }
--keepclasseswithmembers class com.maxpoliakov.skillapp.data.** { # <-- change package name to your app's
+-keepclasseswithmembers class com.theskillapp.skillapp.data.** { # <-- change package name to your app's
     kotlinx.serialization.KSerializer serializer(...);
 }
 

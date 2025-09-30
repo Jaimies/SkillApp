@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.history.recyclerview.record.RecordViewModel" />
+            type="com.theskillapp.skillapp.ui.history.recyclerview.record.RecordViewModel" />
 
-        <import type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
+        <import type="com.theskillapp.skillapp.model.UiMeasurementUnit" />
 
-        <import type="com.maxpoliakov.skillapp.shared.history.RecordFormatter" />
+        <import type="com.theskillapp.skillapp.shared.history.RecordFormatter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

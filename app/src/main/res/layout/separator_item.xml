@@ -7,11 +7,11 @@
 
         <variable
             name="separator"
-            type="com.maxpoliakov.skillapp.model.HistoryUiModel.Separator" />
+            type="com.theskillapp.skillapp.model.HistoryUiModel.Separator" />
 
         <variable
             name="dateFormatter"
-            type="com.maxpoliakov.skillapp.shared.time.DateFormatter" />
+            type="com.theskillapp.skillapp.shared.time.DateFormatter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

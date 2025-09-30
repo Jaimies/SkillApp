@@ -1,2 +1,2 @@
 #!/bin/sh
-adb uninstall com.maxpoliakov.skillapp
+adb uninstall com.theskillapp.skillapp

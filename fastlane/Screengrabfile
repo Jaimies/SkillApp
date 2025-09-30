@@ -1,11 +1,11 @@
-app_package_name('com.maxpoliakov.skillapp')
-tests_package_name('com.maxpoliakov.skillapp.test')
-use_tests_in_packages(['com.maxpoliakov.skillapp.screenshots'])
+app_package_name('com.theskillapp.skillapp')
+tests_package_name('com.theskillapp.skillapp.test')
+use_tests_in_packages(['com.theskillapp.skillapp.screenshots'])
 
 app_apk_path('./app/build/outputs/apk/debug/app-debug.apk')
 tests_apk_path('./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk')
 
 locales(['en-US', 'ru-RU', 'uk'])
-test_instrumentation_runner('com.maxpoliakov.skillapp.screenshots.CustomTestRunner')
+test_instrumentation_runner('com.theskillapp.skillapp.screenshots.CustomTestRunner')
 
 clear_previous_screenshots(true)

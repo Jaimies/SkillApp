@@ -6,7 +6,7 @@
 
         <variable
             name="summary"
-            type="com.maxpoliakov.skillapp.model.ProductivitySummary" />
+            type="com.theskillapp.skillapp.model.ProductivitySummary" />
     </data>
 
     <LinearLayout

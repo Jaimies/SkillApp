@@ -6,9 +6,9 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.restore.RestoreBackupViewModel" />
+            type="com.theskillapp.skillapp.ui.restore.RestoreBackupViewModel" />
 
-        <import type="com.maxpoliakov.skillapp.model.LoadingState" />
+        <import type="com.theskillapp.skillapp.model.LoadingState" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

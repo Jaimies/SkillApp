@@ -10,7 +10,7 @@ SkillApp is a native time-tracking application for Android that focuses on simpl
 
 ## Download
 
-The app is available for download on [Google Play](https://play.google.com/store/apps/details?id=com.maxpoliakov.skillapp).
+The app is available for download on [Google Play](https://play.google.com/store/apps/details?id=com.theskillapp.skillapp).
 
 The app is also planned to be released on F-Droid in the near future.
 

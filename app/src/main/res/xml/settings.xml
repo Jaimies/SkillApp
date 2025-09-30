@@ -19,7 +19,7 @@
             android:key="local_backup"
             android:title="@string/local_backup" />
 
-        <com.maxpoliakov.skillapp.shared.settings.TimePickerPreference
+        <com.theskillapp.skillapp.shared.settings.TimePickerPreference
             android:icon="@drawable/ic_clock"
             android:title="@string/day_start_time"
             android:defaultValue="00:00"

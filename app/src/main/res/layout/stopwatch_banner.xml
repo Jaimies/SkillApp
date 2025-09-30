@@ -7,7 +7,7 @@
 
         <variable
             name="stopwatch"
-            type="com.maxpoliakov.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel" />
+            type="com.theskillapp.skillapp.ui.skills.recyclerview.stopwatch.StopwatchUiModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

@@ -11,7 +11,7 @@
 
         <variable
             name="measurementUnit"
-            type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
+            type="com.theskillapp.skillapp.model.UiMeasurementUnit" />
 
         <variable
             name="label"

@@ -6,10 +6,10 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.backup.shared_storage.SharedStorageBackupViewModel" />
+            type="com.theskillapp.skillapp.ui.backup.shared_storage.SharedStorageBackupViewModel" />
 
-        <import type="com.maxpoliakov.skillapp.data.backup.BackupConfigurationManager.Configuration"/>
-        <import type="com.maxpoliakov.skillapp.shared.extensions.FormattingKt" />
+        <import type="com.theskillapp.skillapp.data.backup.BackupConfigurationManager.Configuration"/>
+        <import type="com.theskillapp.skillapp.shared.extensions.FormattingKt" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

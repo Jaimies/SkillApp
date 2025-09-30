@@ -15,7 +15,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.skills.recyclerview.skill.SkillViewModel" />
+            type="com.theskillapp.skillapp.ui.skills.recyclerview.skill.SkillViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

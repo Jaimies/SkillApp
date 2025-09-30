@@ -19,7 +19,7 @@ android {
         compileSdk App.compileSdk
         targetSdk App.targetSdk
 
-        testInstrumentationRunner "com.maxpoliakov.skillapp.data.CustomTestRunner"
+        testInstrumentationRunner "com.theskillapp.skillapp.data.CustomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -44,7 +44,7 @@ android {
     lint {
         abortOnError false
     }
-    namespace 'com.maxpoliakov.skillapp.data'
+    namespace 'com.theskillapp.skillapp.data'
 }
 
 kotlin {

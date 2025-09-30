@@ -5,5 +5,5 @@ object App {
     const val minSdk = 23
     const val versionCode = 216
     const val versionName = "3.1.0"
-    const val applicationId = "com.maxpoliakov.skillapp"
+    const val applicationId = "com.theskillapp.skillapp"
 }

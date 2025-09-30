@@ -8,11 +8,11 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.statistics.StatisticsViewModel" />
+            type="com.theskillapp.skillapp.ui.statistics.StatisticsViewModel" />
 
         <variable
             name="dateFormatter"
-            type="com.maxpoliakov.skillapp.shared.time.DateFormatter" />
+            type="com.theskillapp.skillapp.shared.time.DateFormatter" />
     </data>
 
     <ScrollView

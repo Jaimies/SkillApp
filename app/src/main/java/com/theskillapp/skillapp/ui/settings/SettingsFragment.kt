@@ -19,6 +19,7 @@ import com.theskillapp.skillapp.shared.settings.DayStartTimeSummaryProvider
 import com.theskillapp.skillapp.shared.settings.TimePickerPreference
 import dagger.hilt.android.AndroidEntryPoint
 import com.mikepenz.aboutlibraries.LibsBuilder
+import com.theskillapp.skillapp.BuildConfig
 
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -29,6 +30,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             setTheme(Theme.valueOf(newValue as String))
             true
         }
+
+        findPreference<Preference>("version")!!.summary = BuildConfig.VERSION_NAME
 
         setOnPreferenceClickedListener("local_backup", failIfPreferenceNotFound = true) {
             findNavController().navigateAnimated(R.id.shared_storage_backup_fragment_dest)

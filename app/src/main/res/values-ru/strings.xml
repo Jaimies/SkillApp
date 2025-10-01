@@ -31,6 +31,7 @@
     <string name="date_with_year">%1$s, %3$d %2$s, %4$d</string>
     <string name="change_date">Изменить дату</string>
     <string name="settings">Настройки</string>
+    <string name="version">Версия</string>
     <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="about">О приложении</string>
     <string name="source_code">Исходный код</string>

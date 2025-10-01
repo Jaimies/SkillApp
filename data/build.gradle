@@ -15,11 +15,11 @@ android {
     }
 
     defaultConfig {
-        minSdk App.minSdk
-        compileSdk App.compileSdk
-        targetSdk App.targetSdk
+        minSdk = App.minSdk
+        compileSdk = App.compileSdk
+        targetSdk = App.targetSdk
 
-        testInstrumentationRunner "com.theskillapp.skillapp.data.CustomTestRunner"
+        testInstrumentationRunner = "com.theskillapp.skillapp.data.CustomTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -42,9 +42,9 @@ android {
     }
 
     lint {
-        abortOnError false
+        abortOnError = false
     }
-    namespace 'com.theskillapp.skillapp.data'
+    namespace = 'com.theskillapp.skillapp.data'
 }
 
 kotlin {

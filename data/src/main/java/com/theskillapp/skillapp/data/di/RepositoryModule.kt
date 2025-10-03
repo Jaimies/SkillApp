@@ -7,7 +7,6 @@ import com.theskillapp.skillapp.data.records.DBRecordsRepository
 import com.theskillapp.skillapp.data.skill.DBSkillRepository
 import com.theskillapp.skillapp.data.stats.DBStatsRepository
 import com.theskillapp.skillapp.data.timer.DBTimerRepository
-import com.theskillapp.skillapp.domain.repository.AuthRepository
 import com.theskillapp.skillapp.domain.repository.BackupRepository
 import com.theskillapp.skillapp.domain.repository.RecordsRepository
 import com.theskillapp.skillapp.domain.repository.SkillGroupRepository

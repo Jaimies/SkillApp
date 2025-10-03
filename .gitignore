@@ -79,6 +79,12 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+fastlane/metadata/android/screenshots.html
+backup.png
+skilldetail.png
+skillgroup.png
+skilllist.png
+stats.png
 
 # Version control
 vcs.xml

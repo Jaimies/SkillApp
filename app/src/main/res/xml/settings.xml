@@ -15,7 +15,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <Preference
-            android:icon="@drawable/ic_backup"
+            android:icon="@drawable/ic_backup_translucent"
             android:key="local_backup"
             android:title="@string/local_backup" />
 

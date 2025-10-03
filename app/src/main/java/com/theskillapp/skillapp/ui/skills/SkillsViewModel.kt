@@ -45,6 +45,9 @@ class SkillsViewModel @Inject constructor(
     private val stopwatch: Stopwatch,
 ) : ViewModel() {
 
+    // TODO This flatMapLatest + combine mess is an ugly way to not do a join 
+    // in a query for timers (but we really should). 
+    // Might fix it at some point in the future but have no time now.
     private val stopwatches = stopwatch.state.flatMapLatest { state -> state.timers.mapToUI() }
 
     val list = getSkills.getSkillsAndGroups().combine(stopwatches) { skillsAndGroups, stopwatches ->

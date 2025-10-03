@@ -123,7 +123,6 @@ class ScreenshotsTest {
 
         val groupDirections = MainDirections.actionToSkillGroupFragment(1)
         navigate(groupDirections)
-        delay(5_000)
         makeScreenshot("skillgroup")
     }
 
@@ -147,7 +146,7 @@ class ScreenshotsTest {
 
     private suspend fun makeScreenshot(name: String) {
         getInstrumentation().waitForIdleSync()
-        delay(500)
+        delay(300)
         Screengrab.screenshot(name)
     }
 }

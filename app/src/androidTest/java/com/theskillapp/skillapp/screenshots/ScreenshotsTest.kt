@@ -14,6 +14,8 @@ import com.theskillapp.skillapp.data.skill.DBSkill
 import com.theskillapp.skillapp.domain.model.Goal
 import com.theskillapp.skillapp.domain.model.MeasurementUnit
 import com.theskillapp.skillapp.domain.model.Record
+import com.theskillapp.skillapp.domain.model.Timer
+import com.theskillapp.skillapp.domain.stopwatch.Stopwatch
 import com.theskillapp.skillapp.domain.usecase.records.AddRecordUseCase
 import com.theskillapp.skillapp.model.Theme
 import com.theskillapp.skillapp.test.R
@@ -35,6 +37,7 @@ import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
 import tools.fastlane.screengrab.locale.LocaleTestRule
 import java.time.Duration
 import java.time.LocalDate
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -86,54 +89,6 @@ class ScreenshotsTest {
 
     @Test
     fun makeScreenshots() = runBlocking {
-
-        val skillData = listOf(
-            SkillData(R.string.pull_ups, 2500, -1, MeasurementUnit.Times),
-            SkillData(R.string.jogging, 350_000, -1, MeasurementUnit.Meters),
-            SkillData(R.string.web_design, Duration.ofHours(479).toMillis(), 1, MeasurementUnit.Millis),
-            SkillData(R.string.app_design, Duration.ofHours(677).toMillis(), 1, MeasurementUnit.Millis, Duration.ofHours(3).toMillis()),
-        )
-
-        val skills = skillData.map(::createSkill)
-
-        val recordsData = listOf(
-            Triple(2, 0, Duration.ofHours(1)),
-            Triple(3, 0, Duration.ofMinutes(90)),
-            Triple(2, 0, Duration.ofHours(1)),
-            Triple(2, 0, Duration.ofHours(1)),
-            Triple(3, 0, Duration.ofHours(2)),
-
-            Triple(3, 1, Duration.ofHours(1)),
-            Triple(2, 1, Duration.ofMinutes(90)),
-            Triple(3, 1, Duration.ofHours(2)),
-            Triple(2, 1, Duration.ofHours(2)),
-
-            Triple(2, 2, Duration.ofHours(3)),
-            Triple(3, 2, Duration.ofHours(3)),
-
-            Triple(2, 3, Duration.ofHours(3)),
-            Triple(3, 3, Duration.ofHours(4)),
-
-            Triple(2, 4, Duration.ofHours(3)),
-            Triple(3, 4, Duration.ofMinutes(150)),
-
-            Triple(2, 5, Duration.ofHours(3)),
-            Triple(3, 5, Duration.ofHours(4)),
-
-            Triple(2, 6, Duration.ofHours(3)),
-            Triple(3, 6, Duration.ofHours(3)),
-        )
-
-        val records = recordsData.map { triple ->
-            Record(
-                skillId = triple.first + 1,
-                name = skills[triple.first].name,
-                date = LocalDate.now().minusDays(triple.second.toLong()),
-                count = triple.third.toMillis(),
-                unit = MeasurementUnit.Millis,
-            )
-        }
-
         skills.forEach { skill ->
             db.skillDao().insert(skill)
         }
@@ -143,6 +98,13 @@ class ScreenshotsTest {
         }
 
         db.skillGroupDao().insert(DBGroup(id = 1, name = context.getString(R.string.ux_design), order = -1))
+
+        stopwatch.setState(Stopwatch.State(
+            timers = listOf(Timer(
+                skillId = skill_webDesign.id,
+                startTime = ZonedDateTime.now().minusHours(1).minusMinutes(3).minusSeconds(15)
+            ))
+        ))
 
         makeScreenshot("skilllist")
 
@@ -156,26 +118,13 @@ class ScreenshotsTest {
         setupNavController()
         val directions = MainDirections.actionToSkillDetailFragment(4)
         navigate(directions)
-        stopwatch.stop(stopwatch.timer.skillId)
+        stopwatch.setState(Stopwatch.State(timers = listOf()))
         makeScreenshot("skilldetail")
 
         val groupDirections = MainDirections.actionToSkillGroupFragment(1)
         navigate(groupDirections)
         delay(5_000)
         makeScreenshot("skillgroup")
-    }
-
-    private fun createSkill(data: SkillData): DBSkill {
-        val name: String = context.getString(data.nameResId)
-
-        return DBSkill(
-            name = name,
-            totalTime = data.totalCount,
-            groupId = data.groupId,
-            unit = data.unit.mapToUI(),
-            goalType = Goal.Type.Daily,
-            goalTime = data.goalCount,
-        )
     }
 
     private suspend fun navigate(@IdRes destinationId: Int) {
@@ -201,12 +150,4 @@ class ScreenshotsTest {
         delay(500)
         Screengrab.screenshot(name)
     }
-
-    data class SkillData(
-        @StringRes val nameResId: Int,
-        val totalCount: Long,
-        val groupId: Int,
-        val unit: MeasurementUnit<*>,
-        val goalCount: Long = 0,
-    )
 }

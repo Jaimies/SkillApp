@@ -1,22 +1,20 @@
 package com.theskillapp.skillapp.screenshots
 
-import com.theskillapp.skillapp.domain.model.Timer
 import com.theskillapp.skillapp.domain.stopwatch.Stopwatch
 import com.theskillapp.skillapp.domain.stopwatch.Stopwatch.StateChange
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class StubStopwatch @Inject constructor() : Stopwatch {
-    private val startTime = ZonedDateTime.now().minusHours(1).minusMinutes(2)
-    val timer = Timer(-1, startTime)
-    private val runningState = Stopwatch.State(timers = listOf(timer))
-
-    private val _state = MutableStateFlow(runningState)
+    private val _state = MutableStateFlow(Stopwatch.State(timers = listOf()))
     override val state = _state.asStateFlow()
+
+    fun setState(state: Stopwatch.State) {
+        _state.value = state
+    }
 
     override suspend fun start(skillId: Int) = StateChange.Start
 

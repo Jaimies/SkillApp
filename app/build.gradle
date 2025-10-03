@@ -78,6 +78,11 @@ detekt {
     }
 }
 
+aboutLibraries {
+    // Remove the "generated" timestamp to allow for reproducible builds
+    excludeFields = ["generated"]
+}
+
 configurations {
     all {
         exclude module: 'httpclient'

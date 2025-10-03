@@ -8,4 +8,4 @@ tests_apk_path('./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.
 locales(['en-US', 'ru-RU', 'uk'])
 test_instrumentation_runner('com.theskillapp.skillapp.screenshots.CustomTestRunner')
 
-clear_previous_screenshots(true)
+use_timestamp_suffix(false)

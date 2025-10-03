@@ -1,6 +1,6 @@
 package com.theskillapp.skillapp.domain.time
 
-import com.theskillapp.skillapp.domain.stopwatch.StubUserPreferenceRepository
+import com.theskillapp.skillapp.domain.repository.StubUserPreferenceRepository
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.time.MutableClock
 import io.kotest.matchers.shouldBe

@@ -1,4 +1,4 @@
-package com.theskillapp.skillapp.domain.stopwatch
+package com.theskillapp.skillapp.domain.repository
 
 import com.theskillapp.skillapp.domain.model.GenericUri
 import com.theskillapp.skillapp.domain.repository.UserPreferenceRepository

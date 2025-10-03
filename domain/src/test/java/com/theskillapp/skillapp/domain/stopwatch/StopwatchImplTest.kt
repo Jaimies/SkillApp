@@ -4,6 +4,7 @@ import com.theskillapp.skillapp.domain.model.MeasurementUnit
 import com.theskillapp.skillapp.domain.model.Record
 import com.theskillapp.skillapp.domain.model.Timer
 import com.theskillapp.skillapp.domain.repository.NotificationUtil
+import com.theskillapp.skillapp.domain.repository.StubUserPreferenceRepository
 import com.theskillapp.skillapp.domain.stopwatch.Stopwatch.StateChange
 import com.theskillapp.skillapp.domain.usecase.records.AddRecordUseCase
 import io.kotest.core.spec.style.DescribeSpec

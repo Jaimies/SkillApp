@@ -4,7 +4,7 @@ import com.theskillapp.skillapp.data.backup.BackupConfigurationManager.Configura
 import com.theskillapp.skillapp.data.backup.shared_storage.SharedStorageBackupConfigurationManager
 import com.theskillapp.skillapp.domain.model.GenericUri
 import com.theskillapp.skillapp.domain.repository.BackupRepository.Result
-import com.theskillapp.skillapp.domain.stopwatch.StubUserPreferenceRepository
+import com.theskillapp.skillapp.domain.repository.StubUserPreferenceRepository
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first

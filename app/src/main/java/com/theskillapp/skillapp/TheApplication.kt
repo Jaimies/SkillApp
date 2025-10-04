@@ -32,7 +32,7 @@ open class TheApplication : Application(), Configuration.Provider {
         setupBackupWorker()
     }
 
-    override fun getWorkManagerConfiguration() = Configuration.Builder()
+    override val workManagerConfiguration get() = Configuration.Builder()
         .setWorkerFactory(workerFactory)
         .build()
 

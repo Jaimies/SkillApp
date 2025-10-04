@@ -14,7 +14,7 @@ object Versions {
     const val navigation = "2.5.3"
     const val lifecycle = "2.6.1"
     const val fragment = "1.5.6"
-    const val workManager = "2.8.1"
+    const val workManager = "2.10.5"
     const val documentFile = "1.0.1"
 
     const val material = "1.8.0"

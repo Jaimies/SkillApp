@@ -48,7 +48,7 @@ class BackupRepositoryImpl @Inject constructor(
     private fun doUpload(data: BackupData, configuration: Configuration.Success) {
         val file = fileSystem.createFile(
             parentUri = configuration.directoryUri,
-            name = "backup-${LocalDateTime.now(clock)}.json",
+            name = "com.theskillapp.skillapp_backup_${LocalDateTime.now(clock)}.json",
             mimeType = "application/json",
             contents = data.contents,
         )

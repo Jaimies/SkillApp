@@ -6,7 +6,7 @@ import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.ZoneId
 
 class DocumentFileExtensionsTest : FunSpec({
     context("localDateTimeOfEpochMilli()") {
@@ -16,7 +16,7 @@ class DocumentFileExtensionsTest : FunSpec({
             LocalDate.ofEpochDay(1).atStartOfDay(),
             LocalDate.of(2021, 5, 15).atTime(10, 15)
         ) { date ->
-            localDateTimeOfEpochMilli(date.toEpochSecond(ZoneOffset.UTC) * 1_000) shouldBe date
+            localDateTimeOfEpochMilli(date.atZone(ZoneId.systemDefault()).toEpochSecond() * 1_000) shouldBe date
         }
     }
 })

@@ -5,13 +5,14 @@ import com.theskillapp.skillapp.data.file_system.GenericFile
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.time.ZoneId
 
 val DocumentFile.lastModifiedDate
     get() = localDateTimeOfEpochMilli(lastModified())
 
 fun localDateTimeOfEpochMilli(epochMilli: Long): LocalDateTime {
     return Instant.ofEpochMilli(epochMilli)
-        .atZone(ZoneOffset.UTC)
+        .atZone(ZoneId.systemDefault())
         .toLocalDateTime()
 }
 

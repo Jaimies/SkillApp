@@ -54,7 +54,7 @@ class SharedStorageFileSystem @Inject constructor(
                 val uri = DocumentsContract.buildDocumentUriUsingTree(this.uri, documentId).toGenericUri()
                 val lastModified = localDateTimeOfEpochMilli(cursor.getLong(2))
 
-                result.add(GenericFile(uri, name, lastModified))
+                result.add(GenericFile(uri, lastModified))
             }
 
             result

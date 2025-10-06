@@ -18,6 +18,5 @@ fun localDateTimeOfEpochMilli(epochMilli: Long): LocalDateTime {
 
 fun DocumentFile.toGenericFile() = GenericFile(
     uri.toGenericUri(),
-    name.orEmpty(),
     lastModifiedDate,
 )

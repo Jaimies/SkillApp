@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="measurement_unit">Measurement unit</string>
+
+    <!-- Time -->
+    <string name="hours">Hours</string>
+    <string name="initial_time">Total number of hours of practice</string>
+    <string name="add_time">Add time</string>
+    <string name="add_hours_record">Add time manually</string>
+    <string name="change_time">Change time</string>
+
+    <string name="record_added">Added %1$d sec</string>
+    <string name="record_added_with_minutes">Added %1$d min</string>
+    <string name="record_added_with_hours">Added %1$d h %2$d min</string>
+
+    <string name="time_hours">%sh</string>
+    <string name="time_minutes">%sm</string>
+    <string name="time_hours_and_minutes_nbsp">%1$dh\u00A0%2$dm</string>
+    <string name="time_hours_and_minutes">%1$dh %2$dm</string>
+
+    <!-- Distance -->
+    <string name="kilometers">Kilometers</string>
+    <string name="initial_distance">Total number of kilometers</string>
+    <string name="add_kilometers_record">Add distance</string>
+    <string name="change_distance">Change distance</string>
+
+    <string name="distance_kilometers">%s\u00A0km</string>
+    <string name="distance_meters">%d\u00A0m</string>
+
+    <!-- Count -->
+    <string name="times">Times</string>
+    <string name="initial_count">Total number of times</string>
+    <string name="add_times_record">Add a record</string>
+    <string name="change_count">Change count</string>
+
+    <plurals name="times_count">
+        <item quantity="one">%d\u00A0time</item>
+        <item quantity="other">%d\u00A0times</item>
+    </plurals>
+
+    <!-- Number of pages -->
+    <string name="pages">Pages</string>
+    <string name="pages_already_read">Number of pages already read</string>
+    <string name="add_pages">Add pages</string>
+    <string name="change_number_of_pages">Change number of pages</string>
+
+    <plurals name="pages">
+        <item quantity="one">%d\u00A0page</item>
+        <item quantity="other">%d\u00A0pages</item>
+    </plurals>
+
+    <!-- Steps -->
+    <string name="steps">Steps</string>
+    <string name="initial_steps">Total number of steps</string>
+    <string name="add_steps">Add steps</string>
+    <string name="change_steps">Change number of steps</string>
+
+    <plurals name="steps">
+        <item quantity="one">%d\u00A0step</item>
+        <item quantity="other">%d\u00A0steps</item>
+    </plurals>
+
+    <!-- Reps -->
+    <string name="reps">Reps</string>
+    <string name="initial_reps">Total number of reps</string>
+    <string name="add_reps">Add reps</string>
+    <string name="change_reps">Change number of reps</string>
+
+    <plurals name="reps">
+        <item quantity="one">%d\u00A0rep</item>
+        <item quantity="other">%d\u00A0reps</item>
+    </plurals>
+
+    <!-- Kilograms -->
+    <string name="kilograms">Kilograms</string>
+    <string name="initial_weight">Total weight</string>
+    <string name="add_weight">Add weight</string>
+    <string name="change_weight">Change weight</string>
+    <string name="weight_kilograms">%d\u00A0kg</string>
+
+    <!-- Calories -->
+    <string name="calories">Calories</string>
+    <string name="initial_calories">Number of calories already burnt</string>
+    <string name="add_calories">Add calories</string>
+    <string name="change_calories">Change number of calories</string>
+
+    <plurals name="calories">
+        <item quantity="one">%d\u00A0calorie</item>
+        <item quantity="other">%d\u00A0calories</item>
+    </plurals>
+</resources>

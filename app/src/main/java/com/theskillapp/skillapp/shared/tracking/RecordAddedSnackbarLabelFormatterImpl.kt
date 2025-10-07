@@ -1,0 +1,29 @@
+package com.theskillapp.skillapp.shared.tracking
+
+import android.content.Context
+import com.theskillapp.skillapp.R
+import com.theskillapp.skillapp.shared.util.toMinutesPartCompat
+import dagger.hilt.android.qualifiers.ActivityContext
+import java.time.Duration
+import javax.inject.Inject
+
+class RecordAddedSnackbarLabelFormatterImpl @Inject constructor(
+    @ActivityContext
+    private val context: Context,
+): RecordAddedSnackbarLabelFormatter {
+    override fun getLabel(time: Duration): String {
+        if (time.toHours() == 0L) {
+            if (time.toMinutes() == 0L) {
+                return context.getString(R.string.record_added, time.seconds)
+            }
+
+            return context.getString(R.string.record_added_with_minutes, time.toMinutes())
+        }
+
+        return context.getString(
+            R.string.record_added_with_hours,
+            time.toHours(),
+            time.toMinutesPartCompat()
+        )
+    }
+}

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="measurement_unit">Одиниця вимірювання</string>
+
+    <!-- Time -->
+    <string name="hours">Години</string>
+    <string name="initial_time">Наявна кількість годин практики</string>
+    <string name="add_time">Додавання часу</string>
+    <string name="add_hours_record">Додати час вручну</string>
+    <string name="change_time">Змінити час</string>
+
+    <string name="record_added">Додано %d сек</string>
+    <string name="record_added_with_minutes">Додано %d\u00A0хв</string>
+    <string name="record_added_with_hours">Додано %1$d\u00A0год\u00A0%2$d\u00A0хв</string>
+
+    <string name="time_hours">%s\u00A0год</string>
+    <string name="time_minutes">%s\u00A0хв</string>
+    <string name="time_hours_and_minutes">%1$d\u00A0год %2$d\u00A0хв</string>
+    <string name="time_hours_and_minutes_nbsp">%1$d\u00A0год\u00A0%2$d\u00A0хв</string>
+
+    <!-- Distance -->
+    <string name="kilometers">Кілометри</string>
+    <string name="initial_distance">Наявна кількість кілометрів</string>
+    <string name="add_kilometers_record">Додати відстань</string>
+    <string name="change_distance">Змінити відстань</string>
+
+    <string name="distance_kilometers">%s\u00A0км</string>
+    <string name="distance_meters">%d\u00A0м</string>
+
+    <!-- Count -->
+    <string name="times">Рази</string>
+    <string name="initial_count">Наявна кількість</string>
+    <string name="add_times_record">Додати запис</string>
+    <string name="change_count">Змінити кількість</string>
+
+    <plurals name="times_count">
+        <item quantity="one">%d\u00A0раз</item>
+        <item quantity="few">%d\u00A0рази</item>
+        <item quantity="many">%d\u00A0разів</item>
+    </plurals>
+
+    <!-- Number of pages -->
+    <string name="pages">Сторінки</string>
+    <string name="pages_already_read">Кількість вже прочитаних сторінок</string>
+    <string name="add_pages">Додати сторінки</string>
+    <string name="change_number_of_pages">Змінити к-ть сторінок</string>
+
+    <plurals name="pages">
+        <item quantity="one">%d\u00A0сторінка</item>
+        <item quantity="few">%d\u00A0сторінки</item>
+        <item quantity="many">%d\u00A0сторінок</item>
+    </plurals>
+
+    <!-- Steps -->
+    <string name="steps">Кроки</string>
+    <string name="initial_steps">Загальна кількість кроків</string>
+    <string name="add_steps">Додати кроки</string>
+    <string name="change_steps">Змінити кількість кроків</string>
+
+    <plurals name="steps">
+        <item quantity="one">%d\u00A0крок</item>
+        <item quantity="few">%d\u00A0кроки</item>
+        <item quantity="many">%d\u00A0кроків</item>
+    </plurals>
+
+    <!-- Reps -->
+    <string name="reps">Підходи</string>
+    <string name="initial_reps">Загальна кількість підходів</string>
+    <string name="add_reps">Додати підходи</string>
+    <string name="change_reps">Змінити кількість підходів</string>
+
+    <plurals name="reps">
+        <item quantity="one">%d\u00A0підхід</item>
+        <item quantity="few">%d\u00A0підходи</item>
+        <item quantity="many">%d\u00A0підходів</item>
+    </plurals>
+
+    <!-- Weight -->
+    <string name="kilograms">Кілограми</string>
+    <string name="initial_weight">Загальна вага</string>
+    <string name="add_weight">Додати вагу</string>
+    <string name="change_weight">Змінити вагу</string>
+    <string name="weight_kilograms">%d\u00A0кг</string>
+
+    <!-- Calories -->
+    <string name="calories">Калорії</string>
+    <string name="initial_calories">Кількість вже спалених калорій</string>
+    <string name="add_calories">Додати калорії</string>
+    <string name="change_calories">Змінити кількість калорій</string>
+
+    <plurals name="calories">
+        <item quantity="one">%d\u00A0калорія</item>
+        <item quantity="few">%d\u00A0калорії</item>
+        <item quantity="many">%d\u00A0калорій</item>
+    </plurals>
+</resources>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
-    <style name="Theme.SkillApp.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.SkillApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/blue</item>
         <item name="colorOnPrimary">@android:color/white</item>
@@ -26,11 +25,10 @@
         <item name="cardHighlightColor">#40000000</item>
         <item name="snackbarActionTextColor">@color/yellow</item>
         <item name="android:dropDownItemStyle">@style/Widget.SkillApp.DropdownItem</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="Theme.SkillApp.V23" parent="Theme.SkillApp.Base">
-        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+    <style name="Theme.FirstRunIntro" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@color/black</item>
     </style>
-
-    <style name="Theme.SkillApp" parent="Theme.SkillApp.Base" />
 </resources>

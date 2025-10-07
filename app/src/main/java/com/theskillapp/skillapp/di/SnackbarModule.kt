@@ -1,0 +1,19 @@
+package com.theskillapp.skillapp.di
+
+import android.app.Activity
+import android.view.View
+import com.theskillapp.skillapp.R
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+
+@Module
+@InstallIn(ActivityComponent::class)
+object SnackbarModule {
+    @Provides
+    @SnackbarRoot
+    fun provideSnackbarRoot(activity: Activity): View? {
+        return activity.findViewById(R.id.snackbar_root)
+    }
+}

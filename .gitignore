@@ -17,6 +17,11 @@ gen/
 out/
 release/
 !app/src/release/
+app/obfuscation/
+
+kls_database.db
+*.jks
+.kotlin/
 
 # Gradle files
 .gradle/
@@ -74,6 +79,12 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+fastlane/metadata/android/screenshots.html
+backup.png
+skilldetail.png
+skillgroup.png
+skilllist.png
+stats.png
 
 # Version control
 vcs.xml
@@ -172,14 +183,10 @@ atlassian-ide-plugin.xml
 # Mongo Explorer plugin
 .idea/mongoSettings.xml
 
-# Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
-
 ### AndroidStudio Patch ###
 !/gradle/wrapper/gradle-wrapper.jar
 
 keys/
 vendor/
+
+todo.txt

@@ -15,11 +15,11 @@
             app:useSimpleSummaryProvider="true" />
 
         <Preference
-            android:icon="@drawable/ic_drive_translucent"
-            android:key="backups"
-            android:title="@string/backups" />
+            android:icon="@drawable/ic_backup_translucent"
+            android:key="local_backup"
+            android:title="@string/local_backup" />
 
-        <com.maxpoliakov.skillapp.shared.settings.TimePickerPreference
+        <com.theskillapp.skillapp.shared.settings.TimePickerPreference
             android:icon="@drawable/ic_clock"
             android:title="@string/day_start_time"
             android:defaultValue="00:00"
@@ -36,23 +36,29 @@
         app:iconSpaceReserved="false">
 
         <Preference
+            android:key="source_code"
+            android:icon="@drawable/ic_code"
+            android:title="@string/source_code" />
+
+        <Preference
+            android:key="report_bug"
+            android:icon="@drawable/ic_bug"
+            android:title="@string/report_bug" />
+
+        <Preference
+            android:key="version"
+            android:icon="@drawable/ic_commit"
+            android:title="@string/version" />
+
+        <Preference
             android:key="privacy_policy"
             android:icon="@drawable/ic_lock"
             android:title="@string/privacy_policy" />
 
         <Preference
             android:icon="@drawable/ic_flag"
-            android:title="@string/open_source_licences">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetClass="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-                android:targetPackage="com.maxpoliakov.skillapp" />
-        </Preference>
-
-        <Preference
-            android:icon="@drawable/ic_thumb_up"
-            android:key="rate_the_app"
-            android:title="@string/rate_the_app" />
+            android:title="@string/open_source_licences"
+            android:key="oss_licences" />
 
         <Preference
             android:icon="@drawable/ic_message"

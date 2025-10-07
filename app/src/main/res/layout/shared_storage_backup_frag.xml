@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.theskillapp.skillapp.ui.backup.shared_storage.SharedStorageBackupViewModel" />
+
+        <import type="com.theskillapp.skillapp.data.backup.BackupConfigurationManager.Configuration"/>
+        <import type="com.theskillapp.skillapp.shared.extensions.FormattingKt" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    style="@style/Widget.SkillApp.RoundButton.CompletelyRounded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:enabled="@{!viewModel.isCreatingBackup}"
+                    android:onClick="@{() -> viewModel.createBackup()}"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/create_backup"
+                    app:visible="@{viewModel.configuration instanceof Configuration.Success}"
+                    app:icon="@drawable/ic_backup" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/auto_backup_message"
+                    app:visible="@{viewModel.configuration instanceof Configuration.Success}"
+                    android:textAlignment="center" />
+
+                <include
+                    android:id="@+id/restore_account"
+                    layout="@layout/backup_section"
+                    app:onClick="@{() -> viewModel.goToRestore()}"
+                    app:subtitle="@{FormattingKt.format(viewModel.lastBackupState, context)}"
+                    app:visible="@{viewModel.configuration instanceof Configuration.Success}"
+                    app:title="@{@string/restore}" />
+
+                <include
+                    android:id="@+id/export_directory_selection"
+                    layout="@layout/backup_section"
+                    android:onClick="@{() -> viewModel.showExportDirectoryPicker()}"
+                    app:subtitle="@{viewModel.exportDirectory.toString() ?? @string/backup_export_directory_not_set}"
+                    app:title="@{@string/backup_export_directory}" />
+
+                <include
+                    android:id="@+id/reset_export_directory_selection"
+                    layout="@layout/backup_section"
+                    android:onClick="@{() -> viewModel.resetExportDirectory()}"
+                    app:visible="@{viewModel.configuration instanceof Configuration.Success}"
+                    app:title="@{@string/reset_backup_export_directory}"
+                    app:subtitle="@{@string/reset_backup_export_directory_explanation}" />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:visible="@{viewModel.isCreatingBackup}" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

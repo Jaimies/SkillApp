@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/skills_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.skills.SkillsFragment"
+        android:name="com.theskillapp.skillapp.ui.skills.SkillsFragment"
         android:label="@string/skills"
         tools:layout="@layout/skills_frag" />
 
     <fragment
         android:id="@+id/history_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.history.HistoryFragment"
+        android:name="com.theskillapp.skillapp.ui.history.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/history_frag" />
 
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/addskill_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.addskill.AddSkillFragment"
+        android:name="com.theskillapp.skillapp.ui.addskill.AddSkillFragment"
         android:label="@string/add_skill"
         tools:layout="@layout/addskill_frag" />
 
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/skill_detail_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.skilldetail.SkillDetailFragment"
+        android:name="com.theskillapp.skillapp.ui.skilldetail.SkillDetailFragment"
         android:label=""
         tools:layout="@layout/skilldetail_frag">
 
@@ -44,19 +44,19 @@
 
     <fragment
         android:id="@+id/statistics_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.statistics.StatisticsFragment"
+        android:name="com.theskillapp.skillapp.ui.statistics.StatisticsFragment"
         android:label=""
         tools:layout="@layout/statistics_frag" />
 
     <fragment
         android:id="@+id/settings_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.settings.SettingsFragment"
+        android:name="com.theskillapp.skillapp.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@xml/settings" />
 
     <fragment
         android:id="@+id/skill_group_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.skillgroup.SkillGroupFragment"
+        android:name="com.theskillapp.skillapp.ui.skillgroup.SkillGroupFragment"
         android:label=""
         tools:layout="@layout/skill_group_frag">
 
@@ -70,14 +70,23 @@
         app:destination="@id/skill_group_fragment_dest" />
 
     <fragment
-        android:id="@+id/backup_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.backup.BackupFragment"
-        android:label="@string/backups"
-        tools:layout="@layout/backup_frag" />
+        android:id="@+id/shared_storage_backup_fragment_dest"
+        android:name="com.theskillapp.skillapp.ui.backup.shared_storage.SharedStorageBackupFragment"
+        android:label="@string/local_backup"
+        tools:layout="@layout/shared_storage_backup_frag" />
+
+    <action
+        android:id="@+id/action_to_restoreBackupFragment"
+        app:destination="@id/restore_backup_fragment_dest" />
 
     <fragment
         android:id="@+id/restore_backup_fragment_dest"
-        android:name="com.maxpoliakov.skillapp.ui.restore.RestoreBackupFragment"
+        android:name="com.theskillapp.skillapp.ui.restore.RestoreBackupFragment"
         android:label="@string/restore"
-        tools:layout="@layout/restore_backup_frag" />
+        tools:layout="@layout/restore_backup_frag">
+
+        <argument
+            android:name="backupBackend"
+            app:argType="com.theskillapp.skillapp.data.di.BackupBackend" />
+    </fragment>
 </navigation>

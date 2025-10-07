@@ -1,0 +1,35 @@
+package com.theskillapp.skillapp.model
+
+import android.content.Context
+import com.theskillapp.skillapp.domain.model.Record
+import com.theskillapp.skillapp.model.UiMeasurementUnit.Companion.mapToUI
+import java.time.LocalDate
+import java.time.LocalTime
+
+sealed class HistoryUiModel {
+    data class Record(
+        val id: Int,
+        val name: String,
+        val count: Long,
+        val unit: UiMeasurementUnit,
+        val date: LocalDate,
+        val dateTimeRange: ClosedRange<LocalTime>?,
+    ) : HistoryUiModel()
+
+    data class Separator(
+        val date: LocalDate,
+        val total: Total,
+    ) : HistoryUiModel() {
+
+        data class Total(val count: Long, val unit: UiMeasurementUnit) {
+            fun format(context: Context): String {
+                if (count == 0L) return ""
+                return unit.toString(count, context)
+            }
+        }
+    }
+}
+
+fun Record.mapToPresentation(): HistoryUiModel.Record {
+    return HistoryUiModel.Record(id, name, count, unit.mapToUI(), date, timeRange)
+}

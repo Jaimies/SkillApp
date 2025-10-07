@@ -1,7 +1,8 @@
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$Versions.gradle"
@@ -9,17 +10,15 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-serialization:$Versions.kotlin"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$Versions.navigation"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$Versions.hilt"
-        classpath 'com.google.gms:google-services:4.3.10'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
-        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.6'
+        classpath "com.mikepenz.aboutlibraries.plugin:com.mikepenz.aboutlibraries.plugin.gradle.plugin:$Versions.aboutLibraries"
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
+        mavenCentral()
+        maven { url = 'https://jitpack.io' }
     }
 }
 

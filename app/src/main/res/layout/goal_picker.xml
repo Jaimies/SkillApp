@@ -6,11 +6,11 @@
 
         <variable
             name="chooseGoal"
-            type="com.maxpoliakov.skillapp.shared.Callback" />
+            type="com.theskillapp.skillapp.shared.Callback" />
 
         <variable
             name="goal"
-            type="com.maxpoliakov.skillapp.model.UiGoal" />
+            type="com.theskillapp.skillapp.model.UiGoal" />
     </data>
 
     <com.google.android.material.textfield.TextInputLayout

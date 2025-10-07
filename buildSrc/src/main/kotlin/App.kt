@@ -1,10 +1,9 @@
 @Suppress("unused")
 object App {
-    const val compileSdk = 33
-    const val targetSdk = 33
-    const val minSdk = 21
-    const val buildTools = "30.0.3"
-    const val versionCode = 149
-    const val versionName = "3.1.0"
-    const val applicationId = "com.maxpoliakov.skillapp"
+    const val compileSdk = 35
+    const val targetSdk = 36
+    const val minSdk = 23
+    const val versionCode = 354
+    const val versionName = "4.0.2"
+    const val applicationId = "com.theskillapp.skillapp"
 }

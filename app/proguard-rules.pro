@@ -1,3 +1,5 @@
+-keep public class com.theskillapp.skillapp.data.di.BackupBackend
+
 -keep public class com.github.mikephil.charting.animation.ChartAnimator {
     public protected *;
 }
@@ -5,8 +7,6 @@
 -keep public class androidx.recyclerview.widget.AsyncListDiffer {
      private *;
 }
-
--keep class com.google.android.gms.internal.consent_sdk.** { <fields>; }
 
 -keepattributes *Annotation*, InnerClasses
 -dontnote kotlinx.serialization.AnnotationsKt # core serialization annotations
@@ -20,11 +20,11 @@
 }
 
 # Change here com.yourcompany.yourpackage
--keep,includedescriptorclasses class com.maxpoliakov.skillapp.data.**$$serializer { *; } # <-- change package name to your app's
--keepclassmembers class com.maxpoliakov.skillapp.data.** { # <-- change package name to your app's
+-keep,includedescriptorclasses class com.theskillapp.skillapp.data.**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class com.theskillapp.skillapp.data.** { # <-- change package name to your app's
     *** Companion;
 }
--keepclasseswithmembers class com.maxpoliakov.skillapp.data.** { # <-- change package name to your app's
+-keepclasseswithmembers class com.theskillapp.skillapp.data.** { # <-- change package name to your app's
     kotlinx.serialization.KSerializer serializer(...);
 }
 
@@ -36,18 +36,5 @@
 
 -keepattributes Signature,RuntimeVisibleAnnotations,AnnotationDefault
 
--keepclassmembers class * {
-  @com.google.api.client.util.Key <fields>;
-}
+-printmapping obfuscation/mapping.txt
 
-# Needed by google-http-client-android when linking against an older platform version
-
--dontwarn com.google.api.client.extensions.android.**
-
-# Needed by google-api-client-android when linking against an older platform version
-
--dontwarn com.google.api.client.googleapis.extensions.android.**
-
-# Needed by google-play-services when linking against an older platform version
-
--dontwarn com.google.android.gms.**

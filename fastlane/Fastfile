@@ -16,27 +16,4 @@ platform :android do
 
         screengrab()
     end
-
-    lane :release_to_internal_testing do
-        gradle(
-            task: 'Bundle',
-            build_type: 'Release',
-        )
-
-        upload_to_play_store(
-            track: 'internal',
-            aab: './app/build/outputs/bundle/release/app-release.aab',
-            skip_upload_apk: true,
-            skip_upload_metadata: true,
-            skip_upload_screenshots: true,
-            skip_upload_images: true,
-        )
-
-        firebase_app_distribution(
-            app: "1:463290445741:android:16ad584ba4f502adff3b24",
-            android_artifact_type: 'AAB',
-            android_artifact_path: "./app/build/outputs/bundle/release/app-release.aab",
-            groups: 'me',
-        )
-    end
 end

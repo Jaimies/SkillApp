@@ -6,7 +6,7 @@
 
         <variable
             name="goal"
-            type="com.maxpoliakov.skillapp.model.UiGoal" />
+            type="com.theskillapp.skillapp.model.UiGoal" />
 
         <variable
             name="countToday"
@@ -14,13 +14,13 @@
 
         <variable
             name="unit"
-            type="com.maxpoliakov.skillapp.model.UiMeasurementUnit" />
+            type="com.theskillapp.skillapp.model.UiMeasurementUnit" />
 
         <variable
             name="goalPercentage"
             type="int" />
 
-        <import type="com.maxpoliakov.skillapp.shared.extensions.FormattingKt" />
+        <import type="com.theskillapp.skillapp.shared.extensions.FormattingKt" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

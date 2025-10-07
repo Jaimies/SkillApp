@@ -8,8 +8,13 @@
     ],
     "redirects": [
       {
-        "source": "/:path*",
-        "destination": "https://the-skillapp.web.app/:path",
+        "source": "/",
+        "destination": "https://theskillapp.com/",
+        "type": 301
+      },
+      {
+        "source": "/:path",
+        "destination": "https://theskillapp.com/:path",
         "type": 301
       }
     ]

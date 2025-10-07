@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.skilldetail.SkillDetailViewModel" />
+            type="com.theskillapp.skillapp.ui.skilldetail.SkillDetailViewModel" />
     </data>
 
     <FrameLayout

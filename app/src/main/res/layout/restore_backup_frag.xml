@@ -6,7 +6,9 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.restore.RestoreBackupViewModel" />
+            type="com.theskillapp.skillapp.ui.restore.RestoreBackupViewModel" />
+
+        <import type="com.theskillapp.skillapp.model.LoadingState" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -20,19 +22,27 @@
             android:clipToPadding="false"
             android:paddingBottom="30dp"
             android:scrollbars="vertical"
-            app:visible="@{viewModel.backups != null}" />
+            app:visible="@{viewModel.backups instanceof LoadingState.Success}" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            app:visible="@{viewModel.isRestorationInProgress &amp;&amp; viewModel.backups != null}" />
+            app:visible="@{viewModel.isRestorationInProgress}" />
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:indeterminateTint="?android:attr/textColorPrimary"
-            app:visible="@{viewModel.backups == null}" />
+            app:visible="@{viewModel.backups instanceof LoadingState.Loading}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/failed_to_load_backups"
+            android:textAppearance="@style/TextAppearance.SkillApp.Headline"
+            app:visible="@{viewModel.backups instanceof LoadingState.Error}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

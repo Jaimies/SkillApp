@@ -7,13 +7,14 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.skilldetail.SkillDetailViewModel" />
+            type="com.theskillapp.skillapp.ui.skilldetail.SkillDetailViewModel" />
         
         <variable
             name="isStopwatchButtonEnabled"
             type="boolean" />
 
-        <import type="com.maxpoliakov.skillapp.R" />
+        <import type="com.theskillapp.skillapp.R" />
+        <import type="com.google.android.material.R" alias="MaterialR" />
     </data>
 
     <merge>
@@ -26,8 +27,8 @@
             app:visible="@{viewModel.unit.stopwatchEnabled}"
             android:onClick="@{() -> viewModel.toggleTimer()}"
             android:text="@{!viewModel.stopwatchIsRunning ? @string/start_the_timer: @string/stop_the_timer}"
-            app:backgroundTintAttr="@{!viewModel.stopwatchIsRunning ? R.attr.colorPrimary : R.attr.colorError}"
-            app:textColorAttr="@{!viewModel.stopwatchIsRunning ? R.attr.colorOnPrimary : R.attr.colorOnError}"
+            app:backgroundTintAttr="@{!viewModel.stopwatchIsRunning ? MaterialR.attr.colorPrimary : MaterialR.attr.colorError}"
+            app:textColorAttr="@{!viewModel.stopwatchIsRunning ? MaterialR.attr.colorOnPrimary : MaterialR.attr.colorOnError}"
             tools:text="@string/start_the_timer" />
 
         <com.google.android.material.button.MaterialButton
@@ -36,8 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginBottom="16dp"
-            app:backgroundTintAttr="@{viewModel.unit.stopwatchEnabled ? R.attr.colorButtonSecondary : R.attr.colorPrimary}"
-            app:textColorAttr="@{viewModel.unit.stopwatchEnabled ? R.attr.textColorButtonSecondary : R.attr.colorOnPrimary}"
+            app:backgroundTintAttr="@{viewModel.unit.stopwatchEnabled ? R.attr.colorButtonSecondary : MaterialR.attr.colorPrimary}"
+            app:textColorAttr="@{viewModel.unit.stopwatchEnabled ? R.attr.textColorButtonSecondary : MaterialR.attr.colorOnPrimary}"
             android:onClick="@{() -> viewModel.showRecordDialog()}"
             android:text="@{viewModel.unit.addRecordBtnResId > 0 ? context.getString(viewModel.unit.addRecordBtnResId) : ``}" />
     </merge>

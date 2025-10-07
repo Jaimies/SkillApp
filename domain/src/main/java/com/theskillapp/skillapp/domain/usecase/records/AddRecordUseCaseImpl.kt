@@ -1,0 +1,28 @@
+package com.theskillapp.skillapp.domain.usecase.records
+
+import com.theskillapp.skillapp.domain.model.Record
+import com.theskillapp.skillapp.domain.repository.RecordsRepository
+import com.theskillapp.skillapp.domain.repository.SkillRepository
+import com.theskillapp.skillapp.domain.repository.StatsRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+class AddRecordUseCaseImpl @Inject constructor(
+    private val recordsRepository: RecordsRepository,
+    private val skillRepository: SkillRepository,
+    private val statsRepository: StatsRepository,
+) : AddRecordUseCase {
+
+    override suspend fun run(record: Record): Long {
+        if (skillRepository.getSkillById(record.skillId) == null) return -1
+
+        return coroutineScope {
+            val recordIdAsync = async { recordsRepository.addRecord(record) }
+            launch { skillRepository.increaseCount(record.skillId, record.count) }
+            launch { statsRepository.addRecord(record) }
+            recordIdAsync.await()
+        }
+    }
+}

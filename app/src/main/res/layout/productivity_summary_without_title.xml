@@ -6,7 +6,7 @@
 
         <variable
             name="summary"
-            type="com.maxpoliakov.skillapp.model.ProductivitySummary" />
+            type="com.theskillapp.skillapp.model.ProductivitySummary" />
     </data>
 
     <LinearLayout
@@ -26,7 +26,7 @@
         <include
             android:id="@+id/total"
             layout="@layout/time_with_label"
-            app:label="@{summary.unit.totalCountStringResId > 0 ? context.getString(summary.unit.totalCountStringResId) : ``}"
+            app:label="@{@string/total}"
             app:measurementUnit="@{summary.unit}"
             app:count="@{summary.totalCount}" />
     </LinearLayout>

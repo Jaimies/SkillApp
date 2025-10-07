@@ -19,26 +19,9 @@
     <string name="new_group">New group</string>
     <string name="history">History</string>
     <string name="skills">Skills</string>
-    <string name="distance_kilometers">%s\u00A0km</string>
-    <string name="distance_meters">%d\u00A0m</string>
-    <string name="total_hours">Total time</string>
-    <string name="total_kilometers">Total distance</string>
-    <string name="total_times">Total times</string>
     <string name="last_week">Last 7\u00A0days</string>
-    <string name="hours">Hours</string>
-    <string name="kilometers">Kilometers</string>
-    <string name="times">Times</string>
-    <string name="time_hours">%sh</string>
-    <string name="time_minutes">%sm</string>
-    <string name="time_hours_and_minutes_nbsp">%1$dh\u00A0%2$dm</string>
-    <string name="time_hours_and_minutes">%1$dh %2$dm</string>
-    <string name="initial_time">Total number of hours of practice</string>
-    <string name="initial_distance">Total number of kilometers</string>
-    <string name="initial_count">Total number of times</string>
+    <string name="total">Total</string>
     <string name="save">Save</string>
-    <string name="add_hours_record">Add time manually</string>
-    <string name="add_kilometers_record">Add distance</string>
-    <string name="add_times_record">Add a record</string>
     <string name="edit">Edit</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
@@ -52,13 +35,15 @@
     <string name="this_year">This year</string>
     <string name="more">More</string>
     <string name="change_date">Change date</string>
-    <string name="change_time">Change time</string>
-    <string name="change_distance">Change distance</string>
-    <string name="change_count">Change count</string>
     <string name="settings">Settings</string>
+    <string name="version">Version</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_url" translatable="false">https://theskillapp.com/privacy</string>
     <string name="about">About</string>
+    <string name="source_code">Source code</string>
+    <string name="source_code_url" translatable="false">https://github.com/Jaimies/SkillApp</string>
+    <string name="report_bug">Report a bug</string>
+    <string name="report_bug_url" translatable="false">https://github.com/Jaimies/SkillApp/issues/new</string>
     <string name="open_source_licences">Open Source licences</string>
     <string name="theme">Theme</string>
     <string name="general">General</string>
@@ -72,37 +57,27 @@
     <string name="stop">Stop</string>
     <string name="timers">Timers</string>
     <string name="drag_handle_label">Drag to reorder</string>
-    <string name="rate_the_app">Rate the app</string>
     <string name="contact_developer">Contact the developer</string>
     <string name="mail_dev_uri" translatable="false">mailto:theskillapp@gmail.com</string>
-    <string name="market_uri" translatable="false">https://play.google.com/store/apps/details?id=com.maxpoliakov.skillapp</string>
-    <string name="backups">Backup &amp; Restore</string>
-    <string name="logout">Log out</string>
+    <string name="local_backup">Backup &amp; Restore</string>
     <string name="confirm_restore_backup">Restoring a backup will replace your current tracked data. Do you want to continue?</string>
     <string name="restore">Restore</string>
     <string name="loading_last_backup">Loading the last backup…</string>
     <string name="no_backup_found">No backup found</string>
-    <string name="backup_to_google_drive">Backup to Google Drive</string>
+    <string name="create_backup">Create a backup</string>
     <string name="auto_backup_message">Your data will be automatically backed up once a day</string>
-    <string name="account">Account</string>
-    <string name="backup_successful">Successfully uploaded backup to Google Drive</string>
+    <string name="backup_successful">Successfully created a backup</string>
     <string name="backup_restore_successful">Successfully restored data from backup</string>
-    <string name="confirm_logout">Do you want to log out?</string>
-    <string name="no_internet">No Internet connection</string>
     <string name="something_went_wrong">Something went wrong, please try again</string>
-    <string name="record_added">Added %1$d sec</string>
-    <string name="record_added_with_minutes">Added %1$d min</string>
-    <string name="record_added_with_hours">Added %1$d h %2$d min</string>
     <string name="one_day">days</string>
     <string name="one_week">weeks</string>
     <string name="one_month">months</string>
     <string name="one_year">years</string>
-    <string name="backup_sign_in_title">Sign\u00A0in to back\u00A0up your\u00A0data</string>
-    <string name="google_sign_in_btn_text">Continue with Google</string>
-    <string name="add_time">Add time</string>
-    <string name="measurement_unit">Measurement unit</string>
+    <string name="backup_export_directory">Folder in which to save the backups</string>
+    <string name="backup_export_directory_not_set">Not selected — click to select</string>
+    <string name="reset_backup_export_directory">Reset backup export directory</string>
+    <string name="reset_backup_export_directory_explanation">Resets export directory and releases the app\'s permission to access the directory.</string>
     <string name="mail_app_not_found">Email application not found</string>
-    <string name="cant_open_google_play">Unable to open Google Play</string>
     <string name="intro_slide1_title">Reorder skills</string>
     <string name="intro_slide1_description">Click the "edit" button and drag the skill you want to move</string>
     <string name="intro_slide2_title">Organize skills into groups</string>
@@ -110,28 +85,20 @@
     <string name="intro_slide3_title">Measurement units</string>
     <string name="intro_slide3_description">When creating a skill, you can choose the unit your progress will be measured in</string>
     <string name="intro_slide4_title">Backup your data</string>
-    <string name="intro_slide4_description">Go to Settings\u00A0>\u00A0Backup &amp; Restore and sign in to your Google Account</string>
+    <string name="intro_slide4_description">Go to Settings\u00A0>\u00A0Backup &amp; Restore and choose which folder to store backups in</string>
     <string name="browser_not_found">No browser app found</string>
     <string name="support_app_uri" translatable="false">https://www.buymeacoffee.com/skillapp</string>
     <string name="support_app">Support SkillApp</string>
     <string name="got_it">Got it</string>
     <string name="reorder_skills">Reorder skills</string>
     <string name="done">Done</string>
-    <string name="intro_3_1_0_title">To reorder skills, click the "edit" button</string>
-    <string name="intro_3_1_0_text">You will then be able to reorder and group your skills as normal</string>
     <string name="pie_chart_legend_entry">%1$s: %2$s</string>
     <string name="duration_format" translatable="false">%1$s:%2$s:%3$s</string>
     <string name="duration_format_without_hours" translatable="false">%1$s:%2$s</string>
-    <string name="drive_out_of_space">Not enough free space on your Google Drive</string>
-    <string name="failed_to_reach_google_drive">Failed to reach Google Drive</string>
     <string name="backup_creation_failed">Failed to create a back up</string>
-    <string name="backup_upload_failed">Failed to upload the back up to Google Drive</string>
-    <string name="change_number_of_pages">Change page count</string>
-    <string name="total_pages">Total pages</string>
-    <string name="pages_already_read">Number of pages already read</string>
-    <string name="pages">Pages</string>
-    <string name="add_pages">Add pages</string>
     <string name="failed_to_load_last_backup_date">Couldn\'t load the most recent backup</string>
+    <string name="failed_to_save_backup">Failed to save backup</string>
+    <string name="failed_to_load_backups">Failed to load backups</string>
     <string name="change_start_time">Change start time</string>
     <string name="change_end_time">Change end time</string>
     <string name="no_data_for_given_interval">No data for this interval</string>

@@ -1,0 +1,84 @@
+package com.theskillapp.skillapp.di
+
+import com.theskillapp.skillapp.domain.usecase.backup.PerformBackupUseCase
+import com.theskillapp.skillapp.domain.usecase.backup.PerformBackupUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.backup.RestoreBackupUseCase
+import com.theskillapp.skillapp.domain.usecase.backup.RestoreBackupUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCase
+import com.theskillapp.skillapp.domain.usecase.grouping.AddOrRemoveSkillToGroupUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.grouping.DeleteGroupIfEmptyUseCase
+import com.theskillapp.skillapp.domain.usecase.grouping.DeleteGroupIfEmptyUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.grouping.GetGroupUseCase
+import com.theskillapp.skillapp.domain.usecase.grouping.GetGroupUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.grouping.UpdateGroupUseCase
+import com.theskillapp.skillapp.domain.usecase.grouping.UpdateGroupUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.records.AddRecordUseCase
+import com.theskillapp.skillapp.domain.usecase.records.AddRecordUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.records.DeleteRecordUseCase
+import com.theskillapp.skillapp.domain.usecase.records.DeleteRecordUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.records.EditRecordUseCase
+import com.theskillapp.skillapp.domain.usecase.records.EditRecordUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.records.GetHistoryUseCase
+import com.theskillapp.skillapp.domain.usecase.records.GetHistoryUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.skill.GetSkillByIdUseCase
+import com.theskillapp.skillapp.domain.usecase.skill.GetSkillByIdUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCase
+import com.theskillapp.skillapp.domain.usecase.skill.GetSkillsAndSkillGroupsUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.skill.ManageSkillUseCase
+import com.theskillapp.skillapp.domain.usecase.skill.ManageSkillUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.skill.UpdateOrderUseCase
+import com.theskillapp.skillapp.domain.usecase.skill.UpdateOrderUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.stats.GetRecentCountUseCase
+import com.theskillapp.skillapp.domain.usecase.stats.GetRecentCountUseCaseImpl
+import com.theskillapp.skillapp.domain.usecase.stats.GetStatsUseCase
+import com.theskillapp.skillapp.domain.usecase.stats.GetStatsUseCaseImpl
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+interface UseCaseModule {
+    @Binds
+    fun provideGetRecentCountUseCase(useCase: GetRecentCountUseCaseImpl): GetRecentCountUseCase
+
+    @Binds
+    fun provideGetStatsUseCase(useCase: GetStatsUseCaseImpl): GetStatsUseCase
+
+    @Binds
+    fun provideGetGroupUseCase(useCase: GetGroupUseCaseImpl): GetGroupUseCase
+
+    @Binds
+    fun provideUpdateGroupUseCase(useCase: UpdateGroupUseCaseImpl): UpdateGroupUseCase
+
+    @Binds
+    fun provideDeleteGroupIfEmptyUseCase(useCase: DeleteGroupIfEmptyUseCaseImpl): DeleteGroupIfEmptyUseCase
+
+    @Binds
+    fun provideAddOrRemoveSkillToGroupUseCase(useCase: AddOrRemoveSkillToGroupUseCaseImpl): AddOrRemoveSkillToGroupUseCase
+
+    @Binds
+    fun provideManageSkillUseCase(useCase: ManageSkillUseCaseImpl): ManageSkillUseCase
+
+    @Binds
+    fun provideGetSkillsAndSkillGroupsUseCase(useCase: GetSkillsAndSkillGroupsUseCaseImpl): GetSkillsAndSkillGroupsUseCase
+
+    @Binds
+    fun provideGetSkillByIdUseCase(useCase: GetSkillByIdUseCaseImpl): GetSkillByIdUseCase
+
+    @Binds
+    fun provideUpdateOrderUseCase(useCase: UpdateOrderUseCaseImpl): UpdateOrderUseCase
+
+    @Binds
+    fun provideEditRecordUseCase(useCase: EditRecordUseCaseImpl): EditRecordUseCase
+
+    @Binds
+    fun provideDeleteRecordUseCase(useCase: DeleteRecordUseCaseImpl): DeleteRecordUseCase
+
+    @Binds
+    fun provideGetHistoryUseCase(useCase: GetHistoryUseCaseImpl): GetHistoryUseCase
+
+    @Binds
+    fun provideAddRecordUseCase(useCase: AddRecordUseCaseImpl): AddRecordUseCase
+}

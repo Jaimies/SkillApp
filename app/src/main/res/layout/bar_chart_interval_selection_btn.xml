@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.maxpoliakov.skillapp.shared.chart.ChartData" />
+            type="com.theskillapp.skillapp.shared.chart.ChartData" />
 
         <variable
             name="interval"
@@ -16,7 +16,7 @@
             name="label"
             type="String" />
 
-        <import type="com.maxpoliakov.skillapp.model.UiStatisticInterval" />
+        <import type="com.theskillapp.skillapp.model.UiStatisticInterval" />
     </data>
 
     <FrameLayout

@@ -1,6 +1,6 @@
 plugins {
     id 'kotlin'
-    id 'io.gitlab.arturbosch.detekt' version '1.21.0'
+    id 'io.gitlab.arturbosch.detekt' version '1.23.6'
 }
 
 detekt {
@@ -15,6 +15,10 @@ detekt {
 
 test {
     useJUnitPlatform()
+}
+
+kotlin {
+    jvmToolchain 17
 }
 
 dependencies {

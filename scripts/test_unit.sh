@@ -1,0 +1,6 @@
+#!/bin/sh
+./gradlew :shared:test &&
+	./gradlew :domain:test &&
+	./gradlew testDebugUnitTest &&
+	./gradlew :data:assembleDebugAndroidTest &&
+    ./gradlew :app:assembleDebugAndroidTest

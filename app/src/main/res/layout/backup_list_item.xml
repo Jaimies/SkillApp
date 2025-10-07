@@ -5,7 +5,7 @@
 
         <variable
             name="viewHolder"
-            type="com.maxpoliakov.skillapp.ui.restore.BackupViewHolder" />
+            type="com.theskillapp.skillapp.ui.restore.BackupViewHolder" />
     </data>
 
     <TextView

@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.maxpoliakov.skillapp.ui.skillgroup.SkillGroupViewModel" />
+            type="com.theskillapp.skillapp.ui.skillgroup.SkillGroupViewModel" />
 
         <variable
             name="dateFormatter"
-            type="com.maxpoliakov.skillapp.shared.time.DateFormatter" />
+            type="com.theskillapp.skillapp.shared.time.DateFormatter" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

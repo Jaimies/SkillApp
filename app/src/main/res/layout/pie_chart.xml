@@ -6,13 +6,13 @@
 
         <variable
             name="data"
-            type="com.maxpoliakov.skillapp.shared.chart.ChartData" />
+            type="com.theskillapp.skillapp.shared.chart.ChartData" />
 
         <variable
             name="dateFormatter"
-            type="com.maxpoliakov.skillapp.shared.time.DateFormatter" />
+            type="com.theskillapp.skillapp.shared.time.DateFormatter" />
 
-        <import type="com.maxpoliakov.skillapp.shared.chart.PieChartFormatter" />
+        <import type="com.theskillapp.skillapp.shared.chart.PieChartFormatter" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.maxpoliakov.skillapp.shared.chart.ThePieChart
+            <com.theskillapp.skillapp.shared.chart.ThePieChart
                 android:id="@+id/chart"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

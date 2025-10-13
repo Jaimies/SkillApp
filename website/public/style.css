@@ -215,21 +215,19 @@ footer a {
     .first-screen {
         height: auto;
     }
-}
 
-@media (max-width: 670px) {
-    .nav-btn {
-        margin-left: 20px;
-    }
-}
-
-@media (max-width: 630px) {
     .nav-link {
         display: none;
     }
 
     .nav-btn {
         margin-left: auto;
+    }
+}
+
+@media (max-width: 670px) {
+    .nav-btn {
+        margin-left: 20px;
     }
 }
 

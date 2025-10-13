@@ -1,0 +1,1 @@
+Fixed crash on Android version 16 and on some devices on Android version 12 and above when adding or editing a record or setting a goal.

@@ -1,18 +1,21 @@
 # SkillApp
 
-SkillApp is a native time-tracking application for Android that focuses on simplicty. 
+SkillApp is a native time-tracking application for Android that focuses on simplicity that doesn't collect any of your personal data.
 
 ## Features
 
-* Different measurement units - hours, kilometers, times, pages (with reps, steps, calories, and kilograms coming soon)
-* Skills can be organized into groups
-* Dark theme
+* Completely offline: the app doesn't even have the INTERNET permission
+* Organize related skills into groups
+* Various measurement units: Hours, Kilometers, Times, Pages, Reps, Steps, Calories
+* Set your goals and achieve them
+* See your productivity at a glance with statistics
+* Local backup into a folder of your choosing
+* Stay productive at any time of day with the Dark mode
 
 ## Download
 
-The app is available for download on [Google Play](https://play.google.com/store/apps/details?id=com.maxpoliakov.skillapp).
-
-The app is also planned to be released on F-Droid in the near future.
+* The app is available for download on [F-Droid](https://f-droid.org/en/packages/com.theskillapp.skillapp/).
+* You can also download get the latest version under [releases](https://github.com/Jaimies/SkillApp/releases).
 
 ## Build
 

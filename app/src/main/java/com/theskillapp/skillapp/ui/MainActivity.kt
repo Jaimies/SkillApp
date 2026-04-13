@@ -2,6 +2,7 @@ package com.theskillapp.skillapp.ui
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -10,6 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.core.graphics.Insets
 import androidx.activity.enableEdgeToEdge
 import com.theskillapp.skillapp.databinding.MainActBinding
@@ -59,13 +61,27 @@ class MainActivity : AppCompatActivity(),
     
     private fun dealWithEdgeToEdge(binding: MainActBinding) {
         enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            binding.root.setPadding(0, insets.top, 0, 0)
 
-            WindowInsetsCompat.Builder(windowInsets)
-                .setInsets(WindowInsetsCompat.Type.systemBars(), Insets.of(insets.left, 0, insets.right, insets.bottom))
-                .build()
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, windowInsets ->
+            val insets = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+
+            v.updateLayoutParams<MarginLayoutParams> {
+                leftMargin = insets.left
+                topMargin = insets.top
+                rightMargin = insets.right
+            }
+
+            WindowInsetsCompat.CONSUMED
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.snackbarRoot) { v, windowInsets ->
+            val insets = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+
+            v.setPadding(insets.left, 0, insets.right, 0)
+
+            WindowInsetsCompat.CONSUMED
         }
     }
 

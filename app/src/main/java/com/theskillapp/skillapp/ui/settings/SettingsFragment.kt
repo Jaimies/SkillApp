@@ -20,6 +20,7 @@ import com.theskillapp.skillapp.shared.settings.TimePickerPreference
 import dagger.hilt.android.AndroidEntryPoint
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.theskillapp.skillapp.BuildConfig
+import com.theskillapp.skillapp.ui.intro.FirstRunIntro
 
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -38,6 +39,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         findPreference<Preference>("day_start_time")!!.summaryProvider = DayStartTimeSummaryProvider()
+
+        setOnPreferenceClickedListener("introduction") {
+            FirstRunIntro.show(requireActivity())
+        }
 
         setOnPreferenceClickedListener("source_code") {
             openUri(Intent.ACTION_VIEW, R.string.source_code_url, R.string.browser_not_found)

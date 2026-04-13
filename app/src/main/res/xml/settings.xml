@@ -36,6 +36,11 @@
         app:iconSpaceReserved="false">
 
         <Preference
+            android:key="introduction"
+            android:icon="@drawable/ic_intro"
+            android:title="@string/introduction"/>
+
+        <Preference
             android:key="source_code"
             android:icon="@drawable/ic_code"
             android:title="@string/source_code" />

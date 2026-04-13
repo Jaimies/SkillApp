@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.graphics.Insets
 import androidx.activity.enableEdgeToEdge
 import com.theskillapp.skillapp.databinding.MainActBinding
 import com.theskillapp.skillapp.domain.stopwatch.Stopwatch
@@ -61,8 +62,10 @@ class MainActivity : AppCompatActivity(),
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             binding.root.setPadding(0, insets.top, 0, 0)
-            binding.bottomAppBar.setPadding(0, 0, 0, insets.bottom)
-            WindowInsetsCompat.CONSUMED
+
+            WindowInsetsCompat.Builder(windowInsets)
+                .setInsets(WindowInsetsCompat.Type.systemBars(), Insets.of(insets.left, 0, insets.right, insets.bottom))
+                .build()
         }
     }
 

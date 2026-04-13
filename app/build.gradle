@@ -129,6 +129,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$Versions.room"
 
     implementation "androidx.fragment:fragment-ktx:$Versions.fragment"
+    implementation "androidx.activity:activity-ktx:$Versions.activity"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$Versions.lifecycle"
 
     implementation "androidx.navigation:navigation-fragment-ktx:$Versions.navigation"

@@ -1,12 +1,16 @@
 package com.theskillapp.skillapp.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.activity.enableEdgeToEdge
 import com.theskillapp.skillapp.databinding.MainActBinding
 import com.theskillapp.skillapp.domain.stopwatch.Stopwatch
 import com.theskillapp.skillapp.ui.intro.FirstRunIntro
@@ -46,9 +50,20 @@ class MainActivity : AppCompatActivity(),
         }
 
         binding = MainActBinding.inflate(layoutInflater)
+        dealWithEdgeToEdge(binding)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         setupNavController()
+    }
+    
+    private fun dealWithEdgeToEdge(binding: MainActBinding) {
+        enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.root.setPadding(0, insets.top, 0, 0)
+            binding.bottomAppBar.setPadding(0, 0, 0, insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     private fun setupNavController() {

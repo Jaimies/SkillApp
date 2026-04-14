@@ -1,0 +1,2 @@
+- The app is now displayed edge-to-edge. In particular, this fixes overlapping with the status bar on Android 15 and higher
+- Added an option in the settings to view the introduction again

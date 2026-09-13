@@ -67,6 +67,8 @@ class SkillDetailViewModel @Inject constructor(
         it.getTimerForSkillId(skillId)?.startTime ?: getZonedDateTime()
     }.asLiveData()
 
+    val timer = stopwatch.state.map { it.getTimerForSkillId(skillId) }
+
     val skill = getSkillById.run(skillId)
     private val skillStateFlow = skill.stateIn(viewModelScope, Eagerly, null)
 

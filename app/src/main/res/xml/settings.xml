@@ -25,6 +25,11 @@
             android:defaultValue="00:00"
             android:key="day_start_time"/>
 
+        <SwitchPreferenceCompat
+            android:key="keep_screen_on"
+            android:title="Keep screen on"
+            android:summary="When a stopwatch is running in the skill detail screen" />
+
         <Preference
             android:icon="@drawable/ic_heart"
             android:key="support_app"

@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.flowWithLifecycle
+import kotlinx.coroutines.launch
 import com.theskillapp.skillapp.R
 import com.theskillapp.skillapp.databinding.SkilldetailFragBinding
 import com.theskillapp.skillapp.shared.DetailsFragment
@@ -11,6 +15,9 @@ import com.theskillapp.skillapp.shared.dialog.showDialog
 import com.theskillapp.skillapp.shared.fragment.observe
 import com.theskillapp.skillapp.shared.permissions.PermissionRequester
 import com.theskillapp.skillapp.shared.tracking.RecordUtil
+import com.theskillapp.skillapp.shared.fragment.addKeepScreenOnFlag
+import com.theskillapp.skillapp.shared.fragment.removeKeepScreenOnFlag
+import com.theskillapp.skillapp.domain.repository.UserPreferenceRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -33,6 +40,9 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
     @Inject
     lateinit var permissionRequester: PermissionRequester
 
+    @Inject
+    lateinit var userPreferenceRepository: UserPreferenceRepository
+
     override fun onBindingCreated(binding: SkilldetailFragBinding, savedInstanceState: Bundle?) {
         super.onBindingCreated(binding, savedInstanceState)
         binding.viewModel = viewModel
@@ -50,6 +60,26 @@ class SkillDetailFragment : DetailsFragment<SkilldetailFragBinding>(R.menu.skill
         observe(viewModel.stopwatchStarted) {
             permissionRequester.requestNotificationPermissionIfNotGranted()
         }
+
+        if (userPreferenceRepository.keepScreenOn) {
+            keepScreenOnWhenNeeded()
+        }
+    }
+
+    private fun keepScreenOnWhenNeeded() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.timer
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collect { timer ->
+                    if (timer != null) addKeepScreenOnFlag()
+                    else removeKeepScreenOnFlag()
+                }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        removeKeepScreenOnFlag()
     }
 
     override fun onDeleteSelected() {

@@ -18,6 +18,9 @@ class SharedPreferencesUserPreferenceRepository @Inject constructor(
         .getStringFlow(BACKUP_EXPORT_DIRECTORY_KEY)
         .map { it?.let(::GenericUri) }
 
+    override val keepScreenOn 
+        get() = sharedPreferences.getBoolean("keep_screen_on", false)
+
     override fun getDayStartTime(): LocalTime {
         return sharedPreferences
             .getStringPreference("day_start_time", "00:00")

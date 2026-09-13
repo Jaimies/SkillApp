@@ -6,6 +6,7 @@ import java.time.LocalTime
 
 interface UserPreferenceRepository {
     val backupExportDirectory: Flow<GenericUri?>
+    val keepScreenOn: Boolean
 
     fun getDayStartTime(): LocalTime
 

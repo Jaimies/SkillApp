@@ -11,6 +11,7 @@ class StubUserPreferenceRepository(
     exportDirectory : GenericUri? = GenericUri("content://path/to/some/directory")
 ) : UserPreferenceRepository {
     override val backupExportDirectory = flowOf(exportDirectory)
+    override val keepScreenOn = false
 
     override fun getDayStartTime() = dayStartTime
     override fun setBackupExportDirectory(directory: GenericUri?) {}

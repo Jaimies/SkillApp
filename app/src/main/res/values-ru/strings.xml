@@ -100,4 +100,7 @@
     <string name="select_day_start_time">Выбрать время начала дня</string>
     <string name="day_start_time_summary">Записи, добавленные до %s, будут считаться за предыдущий день.</string>
     <string name="day_start_time_default_summary">Вы можете изменить эту настройку, если хотите, чтобы записи, добавленные до определенного времени, засчитывались за предыдущий день.</string>
+
+    <string name="keep_screen_on">Не гасить экран</string>
+    <string name="keep_screen_on_summary">Экран не погаснет в деталях навыка, пока работает таймер.</string>
 </resources>

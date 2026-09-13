@@ -27,8 +27,9 @@
 
         <SwitchPreferenceCompat
             android:key="keep_screen_on"
-            android:title="Keep screen on"
-            android:summary="When a stopwatch is running in the skill detail screen" />
+            android:title="@string/keep_screen_on"
+            android:summary="@string/keep_screen_on_summary"
+            android:icon="@drawable/ic_timer" />
 
         <Preference
             android:icon="@drawable/ic_heart"

@@ -111,6 +111,9 @@
     <string name="day_start_time_summary">Records added before %s will be counted for the previous day.</string>
     <string name="day_start_time_default_summary">You can change this setting if you want records added before a certain time to be counted for the previous day.</string>
 
+    <string name="keep_screen_on">Keep screen on</string>
+    <string name="keep_screen_on_summary">Prevents the screen from fading when in the skill detail screen and a timer is running for that skill.</string>
+
     <string name="skill_transition_name" translatable="false">skill_transition_%d</string>
     <string name="timer_transition_name" translatable="false">timer_transition_%d</string>
     <string name="group_transition_name" translatable="false">group_transition_%d</string>

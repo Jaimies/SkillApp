@@ -29,7 +29,8 @@
             android:key="keep_screen_on"
             android:title="@string/keep_screen_on"
             android:summary="@string/keep_screen_on_summary"
-            android:icon="@drawable/ic_timer" />
+            android:icon="@drawable/ic_timer"
+            android:defaultValue="false" />
 
         <Preference
             android:icon="@drawable/ic_heart"

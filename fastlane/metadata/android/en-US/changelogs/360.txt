@@ -1,0 +1,2 @@
+- Add the option to keep the screen on when in the skill detail screen and a timer is running for that skill
+- Fix the transition back from group detail or skill detail screen to the skill list screen sometimes not taking place correctly
